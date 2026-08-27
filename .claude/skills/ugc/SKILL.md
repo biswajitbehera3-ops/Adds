@@ -1,13 +1,13 @@
 ---
 name: ugc
-description: "PYNK AI UGC Studio — a guided pipeline that turns any product into a realistic 15-second UGC selfie-review ad. The skill only WRITES prompts and assembles the asset list — it never runs a generation. Three steps for the user: (1) Model — describe the model, get headshot + full-body image prompts on a mid-gray studio baseline, (2) Product & Scene — name the product (name + category) and pick a scene, (3) Script — write the spoken script in any format, guided by a four-piece shape; the skill fits it into a locked 4-beat / 15s structure and immediately assembles the full Seedance 2.0 multi-shot master prompt with @image1–3 reference tags, camera switches written as the creator's actions, script lines verbatim, and the UGC realism closing block — delivered prompt-on-top with a concise generation brief below. Use whenever the user runs /ugc, wants a UGC ad, a selfie-review video, an AI creator ad, a TikTok-style product review, or asks to build a UGC character, script, or video prompt."
+description: "PYNK AI UGC Studio — a guided pipeline that turns any product into a realistic 15-second UGC selfie-review ad. The skill writes the prompts, assembles the asset list, and — after quoting the cost and getting an explicit go-ahead — runs the generation on Higgsfield and inspects the result. Three steps for the user: (1) Model — describe the model, get headshot + full-body image prompts on a mid-gray studio baseline, (2) Product & Scene — name the product (name + category) and pick a scene, (3) Script — write the spoken script in any format, guided by a four-piece shape; the skill fits it into a locked 4-beat / 15s structure and immediately assembles the full Seedance 2.0 multi-shot master prompt with @image1–3 reference tags, camera switches written as the creator's actions, script lines verbatim, and the UGC realism closing block — delivered prompt-on-top with a concise generation brief below. Use whenever the user runs /ugc, wants a UGC ad, a selfie-review video, an AI creator ad, a TikTok-style product review, or asks to build a UGC character, script, or video prompt."
 ---
 
 # PYNK AI UGC Studio — the /ugc pipeline
 
-This skill turns a product into a **realistic 15-second UGC selfie-review ad** — by writing every prompt the user needs and telling them exactly what to attach and how to run it. The user pastes the prompts into their own image and video generators; this skill **never generates anything itself**.
+This skill turns a product into a **realistic 15-second UGC selfie-review ad** — writing every prompt, assembling the asset list, then running the generation on Higgsfield and inspecting what comes back.
 
-**Prompts only — hard lock.** This skill writes prompts and assembles asset lists. It NEVER triggers a generation, never calls a generation tool. If a generation tool is available in the session, do not use it — the user runs their own generations.
+**The cost gate — hard lock.** Prompts are written and delivered freely. A generation is NEVER started without two things, in order: (1) a cost quote posted in chat naming the model, duration, resolution, mode, and the estimated credit spend, and (2) the user's explicit go-ahead in reply to that quote. Silence is not consent, and an earlier go-ahead never covers a later generation — every run gets its own quote and its own yes. If no generation tool is available in the session, fall back to prompts-only and tell the user to run it themselves.
 
 **Stateless — no memory.** This is a standalone prompt-writing pipeline. Do NOT create or update any memory files, and do NOT treat prior-session memory as canonical — the model, product, script, and assets live in THIS conversation only. Never pause the workflow to save or reconcile memory; just build the prompts.
 
@@ -49,7 +49,7 @@ This is NOT cinema. No anamorphic lenses, no film grain, no color grade, no craf
 
 ## UNIVERSAL RULES (ALL PHASES)
 
-1. **Prompts only.** Never trigger a generation, never call a generation tool. The output of this skill is text the user pastes elsewhere.
+1. **Quote, then wait, then generate.** Never call a generation tool before posting a cost quote and receiving an explicit go-ahead for that specific run. After the run, always inspect the result and report honestly what came back — including when it is wrong.
 2. **Chat reads like a product UI.** Tables over prose, checkmarks for status, short lines, no text walls. Every recurring element (asset kit, settings, script beats, generation brief) is a table. Confirmations are one line.
 3. **Delivery format, every prompt:** (a) a bolded title line, (b) ONE fenced code block containing the full prompt, (c) the **settings table BELOW the code block** (below it, not above — the prompt is long, so the table stays visible at the bottom with the prompt right above).
 4. **Pre-prompt check before every prompt — short.** Maximum four telegraphic bullets, attachments first, one confirm line ("Sound good?"). The user sees the full prompt anyway — the check is a glance, not a briefing. Skip it for minor iterations on a prompt just delivered.
@@ -278,7 +278,7 @@ Iterate until the user locks it. **Locked lines ship verbatim into the master pr
 | Attachments | 1) headshot · 2) full body · 3) product photo — add them exactly in this order |
 ```
 
-5. One tight closing paragraph: *"Above is your full master prompt. If everything looks right, copy it as one block into Seedance 2.0 and attach the three images exactly in this order. Want anything changed — scene, a beat, a line? Tell me and I'll rewrite it."*
+5. One tight closing paragraph: *"Above is your full master prompt, with the three images attached in this order. Want anything changed — scene, a beat, a line? Tell me and I'll rewrite it. Otherwise I'll quote the credit cost and wait for your go-ahead before generating."*
 6. **Next moves** — clean bullets, nicely formatted:
 
 > **Next moves:**

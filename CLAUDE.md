@@ -41,6 +41,18 @@ Which one gets used depends entirely on the ad angle decided in `ad-strategist` 
 6. **Generate.** If Higgsfield is connected via MCP, Claude can take the finished prompt, stage the reference images (`media_upload`/`media_confirm`), and call `generate_image`/`generate_video` (or the batch variants) directly instead of you pasting into an external tool. Otherwise, copy the delivered prompt into your generator of choice.
 7. **Pitch it** → the outreach playbook inside `ad-strategist` (email template, 4-stage DM flow, LinkedIn approach, follow-up cadence).
 
+## Generation & cost policy (locked)
+
+Claude runs the generations on Higgsfield — it does not stop at delivering prompt text. Three rules govern every run:
+
+1. **Quote before spending.** Before any `generate_image` / `generate_video` / batch call, post a cost line in chat: model, duration, resolution, mode, aspect, number of generations, and the estimated credit spend against the current balance (`balance`). No quote, no generation.
+2. **Wait for an explicit go-ahead.** The user must say to generate, in reply to that quote. An earlier approval never carries over to a later run — each generation gets its own quote and its own yes. This holds even mid-pipeline.
+3. **Inspect and report honestly.** After every run, retrieve the result (`jobs_wait` → `show_generation_by_ids`) and actually look at it. Report what is wrong — drifted face, wrong product, bad lipsync, off-brand lighting — before the user has to spot it. Log the real credits charged (`transactions`) so the next quote is calibrated against real spend, not a guess.
+
+The Higgsfield MCP exposes no per-generation price list, so early quotes are estimates built from the cost levers (duration, resolution, `mode: fast` vs `std`, `bitrate_mode`, batch size). Reconcile each estimate against `transactions` after the run and tighten the next one.
+
+**Meta Ads account `308993292991518` is a test account.** Research (`ads_library_search`, benchmarks, insights) is free to run at any time. Anything that creates, spends, or publishes — campaigns, ad sets, creatives, boosts — needs the same explicit per-action go-ahead as a generation.
+
 ## Routing rules — avoiding overlap between skills
 
 Several of these skills cover similar ground on purpose (different levels of control). Default to the more specific/powerful skill unless the user asks for the lighter one by name:
