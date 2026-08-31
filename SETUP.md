@@ -78,6 +78,36 @@ brew install ffmpeg
 sudo apt install ffmpeg
 ```
 
+## 6b. Session memory (optional but recommended)
+
+Claude Code transcripts expire after about 30 days, and every `/clear` drops the
+conversation. MemPalace indexes past sessions verbatim so a new one can search them.
+
+**Install only from the official sources.** The project warns that impostor sites under
+similar domains distribute malware — use `github.com/MemPalace/mempalace`, the PyPI package
+`mempalace`, or `mempalaceofficial.com`, and nothing found via a search result.
+
+```bash
+brew install uv
+uv tool install mempalace
+mempalace init ~/Projects/Adds
+mempalace mine ~/.claude/projects/ --mode convos   # backfill existing sessions
+```
+
+First run downloads an embedding model (~30 MB for MiniLM, ~300 MB for embeddinggemma).
+No API key is needed and nothing leaves the machine unless explicitly configured otherwise.
+
+Then wire the Claude Code auto-save hooks so future sessions store themselves, following
+the project's own hooks guide. Without hooks, transcripts still expire.
+
+Two things worth knowing before running it:
+
+- It indexes **every** transcript on the machine, across every client. That is fine for a
+  solo operator; think about it before it holds several clients' confidential work.
+- Automatic memory does not replace a written handover. `HEADTRIXX-BRIEF.md` is curated —
+  the decisions and the reasons, not the raw conversation. Keep writing those. Search
+  answers "what did we say about X"; a brief answers "what should the next session do".
+
 ## What changes locally
 
 A cloud session reaches only GitHub, package registries and MCP endpoints. Locally
