@@ -314,6 +314,10 @@ So the film must do two things at once. It must be **complete and satisfying on 
 
 ## 8. Recommended film concept
 
+> **Update, 4 Sep:** the chosen concept is now **RESOLUTION** — a POV film shot from a child's eyes, birth to age five, rendered as the developing brain actually perceives. Full treatment in [FILM-RESOLUTION-TREATMENT.md](FILM-RESOLUTION-TREATMENT.md), including the perceptual science, the five-act structure, the look bible, the sound-design arc and the series engine. The concepts below are kept as the record of the alternatives considered.
+
+
+
 ### "PRESSURE COOKER"
 
 **Logline:** *A grandmother has eleven minutes to finish cooking before the power cuts out. Shot like a submarine thriller.*
