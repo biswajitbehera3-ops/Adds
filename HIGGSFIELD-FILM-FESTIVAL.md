@@ -88,6 +88,36 @@ Grants are actively being awarded right now. Confirmed grant recipients scraped 
 
 Grants were still being handed out yesterday. That door is open.
 
+### How to actually get the free credits
+
+There are three separate routes. Only the first is tied to this festival.
+
+**Route 1 — The festival production grant.** *Fastest, deadline-bound, no application.*
+
+The page states it plainly: **"No separate application is required. Publish your festival project to become eligible. Throughout the creation period, our team may award credits to standout public projects to help them finish their films."** Published projects are "automatically in the running."
+
+So the entire mechanism is: publish, then be worth picking. To publish you need exactly three things — **one scene, a poster, and a logline.** That is the whole gate, and Higgsfield's own step 1 describes it as "One scene, a poster, a logline — your film is live."
+
+The terms: up to 100,000 credits in the pool, **tied to one project, non-transferable, expiring 14 September.**
+
+Award cadence observed on the live feed: 25 Aug, 28 Aug, 31 Aug, then 1, 2 and 3 September. Roughly every two to three days, in small batches. About 15 recipients were visible during research. If the 100,000 pool is spread across 25–30 projects, that implies **very roughly 3,000–4,000 credits per grant** — a meaningful chunk of a film, not a whole one. Treat that as an inference from the observed recipient count, not a published figure.
+
+Two practical consequences. Awards are still being made, so there are likely three or four more rounds before the deadline — **publishing today catches the next one.** And because the credits expire on 14 September, a grant awarded late is worth less than the same grant awarded early.
+
+**Route 2 — The Creator Partnership Program.** *Highest ceiling, best fit for a filmmaker, uncertain timing.*
+
+Apply at [higgsfield.ai/creator-partnership-program](https://higgsfield.ai/creator-partnership-program). Accepted partners get, verbatim from the programme page: **"A full plan renewed every month, plus additional credits for larger projects, films, and series."** Partners also get a direct line to the creator team specifically for "additional credits for a specific project."
+
+The eligibility bar is far lower than it sounds. **"Applications are reviewed individually, not filtered by follower count or platform"** and **"Audience size does not matter."** The programme is free for accepted partners, and every application gets a decision by email. The only ongoing obligation is to tag or mention Higgsfield when the tools are part of your work and engage with launches — no posting quotas, no exclusivity, and **"You keep full ownership of your work and your voice."**
+
+The catch is review time, which depends on application volume and is not guaranteed to land before 14 September. Apply anyway: it costs nothing, the downside is a "no" by email, and if it lands it solves the credit problem permanently rather than for one film.
+
+**Route 3 — Higgsfield Earn.** *Slowest for this deadline, but no barrier to entry.*
+
+[higgsfield.ai/earn](https://higgsfield.ai/earn) runs paid campaigns with **no follower floor or portfolio requirement**. You pick a campaign, make a video with the platform, post it, and get paid on views and verification. Higgsfield has paid out over $1M through this programme. It is a real income route, but it is a treadmill rather than a lump sum, so it will not fund a film in ten days. Worth starting for the long run, not for this entry.
+
+**The order to do them in:** publish the festival project today (Route 1, zero cost, immediate eligibility), submit the CPP application in the same sitting (Route 2, zero cost, high ceiling), and leave Earn until after the festival.
+
 ### Field size
 
 **3,101–3,102 contestants were live on the public feed** during research. Not all of them will finish a 3-minute film. The previous contest drew 8,752 submissions for a shorter format, so expect heavy attrition between "started a project" and "delivered three finished minutes."
@@ -373,6 +403,8 @@ All three are mechanical, all three are fatal, and none of them are about talent
 - [SCRATCH — 3rd place](https://higgsfield.ai/contests/make-your-action-scene/submissions/e142c884-79cc-42ba-961f-04e03ef6f5ab)
 - [PR Newswire — competition results and country-level data](https://www.prnewswire.com/news-releases/the-largest-ai-film-competition-highlights-emerging-trends-in-global-ai-filmmaking-302717810.html)
 - [Advanced Television — analysis of the contest data](https://www.advanced-television.com/2026/03/16/ai-film-contest-data-points-to-industry-living-alongside-hollywood/)
+- [Higgsfield Creator Partnership Program](https://higgsfield.ai/blog/creator-partnership-program)
+- [Higgsfield Earn](https://higgsfield.ai/earn)
 - [Higgsfield Original Series — "from contest winner to Original Series creator"](https://higgsfield.ai/original-series)
 - [Intel Capital — $400M Series B at $5.4B valuation, $700M annualized revenue](https://www.intelcapital.com/higgsfield-raises-400-million-series-b-financing-at-5-4-billion-valuation-with-annualized-revenue-reaching-700-million/)
 - [PR Newswire — Higgsfield Original Series launch and crowdsourced greenlighting](https://www.prnewswire.com/news-releases/higgsfield-launches-industry-first-crowdsourced-ai-tv-pilot-where-influencers-become-ai-film-stars-302739134.html)
