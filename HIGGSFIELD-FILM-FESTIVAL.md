@@ -228,7 +228,61 @@ Almost nothing in that list reads as comedy. Yet comedy won the last contest out
 
 ---
 
-## 7. Recommended film concept
+## 7. Why Higgsfield runs this festival
+
+Understanding their motive tells you what the creative team is actually shortlisting for, and it is not "best short film."
+
+### They said it out loud
+
+On the Higgsfield Original Series page — titled **"Higgsfield Original Series — First AI-Native Streaming Platform"** — the previous contest's top three winners are displayed directly above this text:
+
+> **"From contest winner to Original Series creator. Filmmakers worldwide are using Higgsfield AI to make short films — and the best ones get picked to produce full series with our team. Enter the contest, show what you can make, and we'll help you turn it into something bigger."**
+
+The festival is not a marketing stunt with a prize attached. **It is the slate-acquisition pipeline for their streaming platform.** The prize money buys them a development funnel.
+
+Source: [Higgsfield Original Series](https://higgsfield.ai/original-series)
+
+### The money behind it
+
+| Fact | Value |
+|---|---|
+| Series B, announced 17 Aug 2026 | $400,000,000 |
+| Valuation | $5.4 billion, up 4× from $1.3B six months earlier |
+| Annualized revenue | $700 million |
+| Users | 30 million across 238 countries |
+| Enterprise reach | 390 of the Fortune 500 |
+| Generations per month | 20 million+ |
+| Views across Higgsfield channels | 4 billion+ |
+
+**The festival opened 10 August. The Series B was announced 17 August.** A $1,000,000 prize pool is 0.25% of a $400M round — trivially cheap for the narrative it buys.
+
+Sources: [Intel Capital — Series B announcement](https://www.intelcapital.com/higgsfield-raises-400-million-series-b-financing-at-5-4-billion-valuation-with-annualized-revenue-reaching-700-million/) · [PR Newswire — Original Series launch](https://www.prnewswire.com/news-releases/higgsfield-launches-industry-first-crowdsourced-ai-tv-pilot-where-influencers-become-ai-film-stars-302739134.html)
+
+### The five motives, ranked
+
+1. **Fill the Original Series slate.** They launched an AI-native streaming service in April 2026 with pilots including *Arena Zero*, *Hell Grind*, *Zephyr*, *Mork*, *Vermin Control Unit*, *Dinoforce*, *Viking Courier* and *Buddy*. A streaming platform needs a slate, and a slate needs creators. The contest supplies both.
+2. **Prove the platform makes cinema, not ads.** $700M of revenue comes overwhelmingly from marketing teams and enterprise. To justify $5.4B and CEO Alex Mashrabov's framing of an "end-to-end solution that takes a creator from concept to screen without the traditional gatekeepers," they need artistic proof. Putting Catmull, Papamichael, Anderson and Proyas on the jury **is** that proof — the jury is the press release.
+3. **De-risk greenlighting with crowdsourced demand.** Their own stated model "de-risks greenlighting by building an engaged audience before a single full episode is produced." The Create in Public like-race is a live audience-demand test. They are measuring which concepts pull a crowd before they invest.
+4. **Free distribution.** Every entrant must post publicly on Instagram, YouTube, X or Reddit. That is 3,100+ creators marketing Higgsfield at their own expense, and it is why the public post is a hard rule rather than a nicety.
+5. **Talent identification and complete generation data.** Everything must be generated on-platform, so they receive the full production history of every entry, plus a ranked list of the world's best operators of their own tools.
+
+### What that means for the story you write
+
+**They are not looking for the best three-minute short. They are looking for episode one of something.**
+
+A perfect, closed, self-contained short is worth $10,000 to them. A film that opens a world they could order five more episodes of is worth $500,000, because it solves their actual problem. Every strategic signal points the same way: the previous winners are displayed on the *streaming* page, the pitch is "we'll help you turn it into something bigger," and the greenlighting model runs on audience demand for *concepts*.
+
+So the film must do two things at once. It must be **complete and satisfying on its own** — an unresolved fragment reads as an unfinished film and dies at screening. And it must be visibly **the opening of a returnable format**: a character you would follow again, and an engine that obviously generates more episodes.
+
+### Two more inferences from their taste
+
+**Comedy is the gap in their own slate, not just in the entrant field.** Their published slate is overwhelmingly sci-fi, action, thriller and anime — *Arena Zero*, *Dinoforce*, *Hell Grind*, *Frozen Monster*, *Tails of Steel*. Their single biggest contest winner was a comedy about a wasp. They have proof comedy wins and almost no comedy on the shelf.
+
+**Non-Western cultural specificity is welcome, not a liability.** The founders are Kazakh, the company has a Kazakhstan presence, and the slate already carries *Kok-Boru*, *Adiliada* and *Mork*. *Buzkashi* — named for the Central Asian sport — is in the current festival field and has already been awarded a production grant. A specific, non-Hollywood cultural world is an asset with this particular buyer.
+
+---
+
+## 8. Recommended film concept
 
 ### "PRESSURE COOKER"
 
@@ -240,10 +294,26 @@ That is the whole pitch, and it fits in one breath.
 
 **The turn.** For two minutes it is a beautifully shot comedy about a woman cooking. Then the reason for the urgency arrives. Her grandson's taxi is coming at seven. He is leaving the country. This is the last meal she will cook for him, and she is not going to let him leave without it. The final minute is not funny at all. She plates it, he eats one mouthful standing up because there is no time, and he goes.
 
+**The series engine — this is the part that matters most.**
+
+Section 7 establishes that Higgsfield is shopping for episode one of something, not for a closed short. *Pressure Cooker* is built so that it is both.
+
+The format is **one character, one impossible domestic mission per episode, a different film genre every time.** She is a grandmother whose entire moral universe is the correct running of a household, and the show takes that universe as seriously as she does. This episode is a submarine thriller about a meal. The next is a heist film about retrieving a set of good cutlery a neighbour borrowed and never returned. Then a courtroom drama about a stained tablecloth, a war film about a monsoon and an open window, a Western about a queue at the ration shop.
+
+That structure gives them exactly what their greenlighting model needs:
+
+- **A returnable character** who costs almost nothing in consistency terms, because her face is locked once and reused forever.
+- **An engine that visibly generates unlimited episodes.** A commissioner can see episode seven from watching episode one, which is the whole test.
+- **A genre-hopping premise that doubles as a platform showcase.** Every episode is a demonstration that the same tool can do noir, war, Western and heist. That is a demo reel disguised as a comedy, and it is the single most useful thing a platform trying to prove range could put on its slate.
+- **Cheap repeatability.** One location family, one hero face, macro coverage. The marginal cost of episode two is close to the marginal cost of episode one.
+
+Crucially, this episode still resolves completely. The meal is finished, the boy leaves, the story closes. Nothing is withheld as a hook. The series potential is visible in the *format*, not in an unresolved cliffhanger — an unresolved fragment reads as an unfinished film and dies at screening.
+
 **Why this concept, specifically:**
 
 - **It executes the proven winning formula without copying the winner.** Domestic subject, blockbuster grammar, late emotional turn. Different subject, different genre borrowed, same underlying engine.
-- **It is a comedy in a field that has abandoned comedy.** Section 6 shows the differentiation is real and measurable.
+- **It is a comedy in a field that has abandoned comedy.** Section 6 shows the differentiation is real and measurable — and Section 7 shows comedy is missing from Higgsfield's own slate too, while being the thing that won them their biggest contest.
+- **It answers their actual business problem.** It is a fundable format, not just a good short, which is what separates a $10,000 honorable mention from a $500,000 first place.
 - **It hits all four jury members at once.** Catmull gets the Pixar-shaped emotional structure of a small story about love expressed through work. Papamichael gets a single-source naturalistic lighting scheme — one window, one gas flame — which is precisely his register. Anderson gets a ticking clock and kinetic cutting. Proyas gets a tightly built, textured world.
 - **It matches the four stated shortlist criteria directly.** Storytelling: a clean three-act turn. Visual craft: controlled single-location lighting. Sound and editing: the entire film is built on a rhythmic sound motif, which is the easiest place to look expensive cheaply. Originality: tonal whiplash executed straight.
 - **It is culturally specific without being in the crowded lane.** India was the largest submitting country last time, but the entries competing there are epic action. A small domestic Indian kitchen, played as a thriller, is specific enough to be memorable to a Western jury and universal enough that nobody needs it explained.
@@ -261,7 +331,7 @@ That is the whole pitch, and it fits in one breath.
 
 ---
 
-## 8. The 10-day plan
+## 9. The 10-day plan
 
 | Day | Action |
 |---|---|
@@ -284,9 +354,10 @@ All three are mechanical, all three are fatal, and none of them are about talent
 
 ---
 
-## 9. Open questions
+## 10. Open questions
 
-- **The credit gap is unresolved.** ~7,500 credits are needed against 79.56 available. The plan above front-loads the free actions (publishing, stills, script) so the grant lever has time to work, but if no grant lands within about four days, the film needs a credit purchase or the shot count needs to come down hard.
+- **Credits will be purchased**, so the budget is no longer a blocker. The ~7,500-credit estimate stands as the number to buy against, and the Create in Public grant remains worth chasing because it is free and it also carries the Top 50 shortlist path.
+- **The exact licensing terms were not retrievable.** The "Read full rules" document covering eligibility, licensing and rights sits behind a modal the scraper could not open. Given that Higgsfield's stated intent is to develop winning entries into Original Series, read that clause yourself before submitting and know what rights the entry grants them.
 - Exact per-second Seedance 2.5 pricing is not exposed by the API. The estimates here are extrapolated from four real transactions and should be re-calibrated against `transactions` after the first generation of the actual film.
 
 ---
@@ -302,4 +373,7 @@ All three are mechanical, all three are fatal, and none of them are about talent
 - [SCRATCH — 3rd place](https://higgsfield.ai/contests/make-your-action-scene/submissions/e142c884-79cc-42ba-961f-04e03ef6f5ab)
 - [PR Newswire — competition results and country-level data](https://www.prnewswire.com/news-releases/the-largest-ai-film-competition-highlights-emerging-trends-in-global-ai-filmmaking-302717810.html)
 - [Advanced Television — analysis of the contest data](https://www.advanced-television.com/2026/03/16/ai-film-contest-data-points-to-industry-living-alongside-hollywood/)
+- [Higgsfield Original Series — "from contest winner to Original Series creator"](https://higgsfield.ai/original-series)
+- [Intel Capital — $400M Series B at $5.4B valuation, $700M annualized revenue](https://www.intelcapital.com/higgsfield-raises-400-million-series-b-financing-at-5-4-billion-valuation-with-annualized-revenue-reaching-700-million/)
+- [PR Newswire — Higgsfield Original Series launch and crowdsourced greenlighting](https://www.prnewswire.com/news-releases/higgsfield-launches-industry-first-crowdsourced-ai-tv-pilot-where-influencers-become-ai-film-stars-302739134.html)
 - [GRANDMA vs WASP on YouTube — PROMPTR Studios, 1:57](https://www.youtube.com/watch?v=44YdVQb26CI)
