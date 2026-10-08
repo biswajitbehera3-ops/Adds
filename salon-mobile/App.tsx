@@ -2,7 +2,7 @@ import { Hind_400Regular, Hind_500Medium, Hind_600SemiBold, Hind_700Bold } from 
 import { RozhaOne_400Regular } from "@expo-google-fonts/rozha-one";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Platform, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -43,11 +43,16 @@ function StatusBarForRoute() {
 }
 
 export default function App() {
-  const [fontsLoaded] = useFonts({ RozhaOne_400Regular, Hind_400Regular, Hind_500Medium, Hind_600SemiBold, Hind_700Bold });
+  const [fontsLoaded, fontError] = useFonts({ RozhaOne_400Regular, Hind_400Regular, Hind_500Medium, Hind_600SemiBold, Hind_700Bold });
   const ready = useStoreReady();
+  // Never hold the app hostage to fonts: if they fail or are slow, draw with system fonts.
+  const [fontWaitOver, setFontWaitOver] = useState(false);
   useEffect(() => {
     loadStore();
+    const t = setTimeout(() => setFontWaitOver(true), 2500);
+    return () => clearTimeout(t);
   }, []);
+  const fontsSettled = fontsLoaded || !!fontError || fontWaitOver;
 
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: color.choc950 }}>
@@ -64,7 +69,7 @@ export default function App() {
               ...(Platform.OS === "web" ? { boxShadow: "0 0 60px rgba(0,0,0,0.45)" } : null),
             }}
           >
-            {fontsLoaded && ready ? (
+            {fontsSettled && ready ? (
               <ToastHost>
                 <Navigator
                   render={(route) => (
