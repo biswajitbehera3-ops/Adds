@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "Salon",
+    "slug": "salon-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#2A1710",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "name": "Salon",
+      "shortName": "Salon",
+      "themeColor": "#2A1710",
+      "backgroundColor": "#2A1710"
+    },
+    "plugins": [
+      "expo-font"
+    ],
+    "backgroundColor": "#2A1710",
+    "splash": {
+      "backgroundColor": "#2A1710"
+    }
+  }
+}
