@@ -1,0 +1,90 @@
+// One SQLite database per salon deployment.
+// Money columns are whole rupees (Int). Services, add-ons and staff live in
+// salon.config.ts and are referenced here by their string id.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id            String  @id @default(cuid())
+  /// 10-digit Indian mobile number, no country code.
+  phone         String  @unique
+  name          String
+  referralCode  String  @unique
+  /// Current wallet balance. Always equals the sum of this customer's WalletTransactions.
+  walletBalance Int     @default(0)
+
+  /// DPDP: when the customer agreed to having their details stored and receiving reminders.
+  consentAt DateTime?
+
+  referredById       String?
+  referredBy         Customer?  @relation("Referrals", fields: [referredById], references: [id])
+  referrals          Customer[] @relation("Referrals")
+  /// Set once the referral reward has been paid out (on this customer's first paid visit).
+  referralRewardedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  visits             Visit[]
+  walletTransactions WalletTransaction[]
+  reminders          ReminderLog[]
+}
+
+model Visit {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  serviceId  String
+  staffId    String
+  /// JSON array of add-on ids.
+  addOnIds   String   @default("[]")
+  /// Service + add-ons, before any wallet payment.
+  total      Int
+  walletPaid Int      @default(0)
+  /// Paid at the counter: total - walletPaid.
+  directPaid Int      @default(0)
+  /// CASH | UPI | CARD — how directPaid was settled.
+  paymentMethod String @default("CASH")
+  createdAt  DateTime @default(now())
+
+  walletTransactions WalletTransaction[]
+
+  @@index([customerId, createdAt])
+  @@index([createdAt])
+}
+
+model WalletTransaction {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  /// TOPUP | BONUS | SPEND | REFERRAL_REWARD
+  type       String
+  /// Signed: credits positive, spends negative.
+  amount     Int
+  visitId    String?
+  visit      Visit?   @relation(fields: [visitId], references: [id])
+  note       String?
+  createdAt  DateTime @default(now())
+
+  @@index([customerId, createdAt])
+}
+
+model ReminderLog {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  serviceId  String
+  message    String
+  /// SIMULATED (demo mode) | SENT | FAILED
+  status     String
+  error      String?
+  createdAt  DateTime @default(now())
+
+  @@index([customerId, serviceId, createdAt])
+}
