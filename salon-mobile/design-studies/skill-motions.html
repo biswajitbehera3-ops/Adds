@@ -1,0 +1,317 @@
+<title>Skill Motion Library</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&display=swap">
+<style>
+  /* Layout: a plain specimen sheet — one card per motion, grouped by the skill it comes from. Neutral on purpose, so only the motion is judged. */
+  :root {
+    --bg: #F4F2EE;
+    --card: #FFFFFF;
+    --ink: #1D1B19;
+    --muted: #6B655F;
+    --line: #DAD5CD;
+    --accent: #D9472B;
+    --stage: #ECE8E1;
+    --font: "Archivo", system-ui, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); padding-inline: 16px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-block: 40px 96px; display: grid; gap: 40px; }
+  h1 { font-weight: 850; font-variation-settings: "wdth" 115; font-size: clamp(32px, 5vw, 52px); line-height: 1; margin: 0 0 10px; text-wrap: balance; }
+  h2 { font-weight: 800; font-size: 22px; margin: 0 0 4px; }
+  p { margin: 0; line-height: 1.55; color: var(--muted); max-width: 70ch; }
+  .src { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px; display: grid; gap: 10px; min-width: 0; align-content: start; }
+  .card header { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+  .card h3 { margin: 0; font-size: 15.5px; font-weight: 800; }
+  .id { font-size: 12px; font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .stage { position: relative; height: 180px; border-radius: 10px; background: var(--stage); overflow: hidden; display: grid; place-items: center; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11px; font-weight: 700; border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; color: var(--muted); }
+  .tag.app { border-color: var(--accent); color: var(--accent); }
+  .tag.web { border-style: dashed; }
+  .card p { font-size: 13.5px; }
+  code { display: block; font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 11px; line-height: 1.45; background: #F6F4F0; border: 1px solid var(--line); border-radius: 8px; padding: 8px; white-space: pre-wrap; word-break: break-word; color: #3d3833; max-height: 96px; overflow: auto; }
+  .play { justify-self: start; border: 0; border-radius: 999px; background: var(--ink); color: #fff; font: inherit; font-weight: 700; font-size: 12.5px; padding: 8px 14px; cursor: pointer; }
+  .play:hover { background: var(--accent); }
+  .play:focus-visible, .stage :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  /* demo atoms */
+  .box { width: 84px; height: 56px; border-radius: 10px; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 13px; }
+  .btn { border: 0; border-radius: 10px; background: var(--ink); color: #fff; font: inherit; font-weight: 700; padding: 12px 18px; cursor: pointer; }
+  .row { display: flex; gap: 8px; }
+  .list { width: 78%; display: grid; gap: 6px; }
+  .li { height: 16px; border-radius: 6px; background: #CFC8BD; }
+  .bento { display: grid; grid-template-columns: repeat(3, 44px); gap: 6px; }
+  .bento i { width: 44px; height: 44px; border-radius: 8px; background: var(--ink); display: block; }
+  .chars { font-weight: 900; font-variation-settings: "wdth" 118; font-size: 34px; perspective: 400px; }
+  .chars span { display: inline-block; }
+  .scroller { position: absolute; inset: 0; overflow-y: auto; }
+  .scroller .spacer { height: 150px; }
+  .scroller .section { margin: 0 auto; width: 80%; display: grid; gap: 6px; }
+  .page { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 800; font-size: 20px; }
+  .overlay { position: absolute; inset: 0; background: var(--accent); transform: translateY(100%); }
+  .thumb { width: 64px; height: 64px; border-radius: 12px; background: var(--accent); position: absolute; left: 20px; bottom: 20px; }
+  .thumb.big { left: 0; top: 0; width: 100%; height: 62%; border-radius: 0; bottom: auto; }
+  .layer { position: absolute; left: 0; right: 0; height: 60%; border-radius: 50% 50% 0 0; }
+  .skeleton { width: 78%; height: 14px; border-radius: 6px; background: linear-gradient(90deg, #DDD6CB 25%, #F2EEE8 50%, #DDD6CB 75%); background-size: 200% 100%; margin: 4px 0; }
+  .loader-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--ink); display: inline-block; margin: 0 4px; }
+  .slides { position: relative; width: 80%; height: 110px; }
+  .slide { position: absolute; inset: 0; border-radius: 10px; display: grid; place-items: center; color: #fff; font-weight: 800; opacity: 0; transition: opacity .4s; }
+  .slide.on { opacity: 1; }
+  .ctrls { position: absolute; bottom: 8px; display: flex; gap: 6px; }
+  .ctrls button { border: 1px solid var(--line); background: #fff; border-radius: 999px; font: inherit; font-size: 11px; font-weight: 700; padding: 3px 9px; cursor: pointer; }
+  .toast { background: var(--ink); color: #fff; padding: 10px 14px; border-radius: 10px; font-weight: 700; font-size: 13px; }
+  .icon-btn { width: 56px; height: 56px; border-radius: 14px; border: 1px solid var(--line); background: #fff; display: grid; place-items: center; cursor: pointer; position: relative; }
+  .icon-btn svg { position: absolute; width: 24px; height: 24px; }
+  .photo { width: 70%; height: 120px; border-radius: 10px; background: linear-gradient(135deg, #2b2420, #6b3a1f 45%, #d9472b); }
+  .tabs { width: 84%; }
+  .tabbar { position: relative; display: flex; background: #fff; border-radius: 999px; padding: 4px; border: 1px solid var(--line); }
+  .tabbar button { flex: 1; border: 0; background: none; font: inherit; font-weight: 700; font-size: 13px; padding: 8px 0; cursor: pointer; position: relative; z-index: 1; }
+  .tabbar .ink { position: absolute; inset: 4px; border-radius: 999px; background: var(--ink); clip-path: inset(0 66.6% 0 0 round 999px); }
+  .tabbar .ink span { position: absolute; inset: 0; display: flex; }
+  .tabbar .ink span b { flex: 1; color: #fff; display: grid; place-items: center; font-size: 13px; }
+  .pop-wrap { position: relative; }
+  .pop { position: absolute; top: 48px; left: 0; width: 160px; background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 8px; box-shadow: 0 10px 24px -8px rgba(0,0,0,.25); transform-origin: top left; opacity: 0; transform: scale(.9); pointer-events: none; }
+  .pop div { padding: 6px 8px; font-size: 13px; border-radius: 6px; }
+  .pop div:hover { background: var(--stage); }
+  .sheet { position: absolute; left: 8px; right: 8px; bottom: 0; height: 120px; background: #fff; border-radius: 14px 14px 0 0; box-shadow: 0 -6px 20px rgba(0,0,0,.15); display: grid; place-items: center; touch-action: none; cursor: grab; }
+  .sheet::before { content: ""; position: absolute; top: 8px; width: 36px; height: 4px; border-radius: 2px; background: var(--line); }
+  footer p { font-size: 13px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+</style>
+
+<div class="wrap">
+  <section>
+    <div class="src">Motion straight from the installed skills</div>
+    <h1>Skill motion library</h1>
+    <p>Every card runs a motion exactly as the skill wrote it, on plain grey shapes so you judge only the movement. The red tag says where it could live in the salon app. Dashed “web only” tags mark hover effects, which phones don't have.</p>
+  </section>
+
+  <section>
+    <div class="src">ui-ux-pro-max · 17 GSAP presets</div>
+    <h2>Preset library</h2>
+    <p>The skill's own motion table: three intensity tiers (subtle, standard, complex) for each kind of motion.</p>
+    <div class="grid" id="presets"></div>
+  </section>
+
+  <section>
+    <div class="src">design-motion-principles · cookbook</div>
+    <h2>Designer recipes</h2>
+    <p>Recipes from the motion cookbook, each credited to the designer whose technique it follows (Emil Kowalski, Jakub Krehel, Jhey Tompkins).</p>
+    <div class="grid" id="recipes"></div>
+  </section>
+
+  <section>
+    <div class="src">huashu-design</div>
+    <h2>Not shown here</h2>
+    <p>huashu-design's motion demos are 1920×1080 promotional videos (an animated brand film and a motion-graphics reel), not app-screen motion. They'd suit a promo video for pitching the app to salons. Ask and I'll show them separately.</p>
+  </section>
+
+  <footer><p>GSAP 3.12.5 loaded from cdnjs. Preset 9 uses SplitText in the skill; here the letters are split by hand with the same tween. Everything respects reduce-motion.</p></footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger, Flip);
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced) gsap.globalTimeline.timeScale(1000);
+
+  // card factory
+  function card(host, { id, title, tags, desc, code, stage, run, interactive }) {
+    const el = document.createElement("article");
+    el.className = "card";
+    el.innerHTML = `<header><h3>${title}</h3><span class="id">${id}</span></header>
+      <div class="stage">${stage}</div>
+      <div class="tags">${tags.map(([t, k]) => `<span class="tag ${k || ""}">${t}</span>`).join("")}</div>
+      <p>${desc}</p>
+      <code>${code.replace(/</g, "&lt;")}</code>
+      ${interactive ? "" : '<button class="play" type="button">Replay</button>'}`;
+    host.appendChild(el);
+    const st = el.querySelector(".stage");
+    const go = () => run(st);
+    if (!interactive) el.querySelector(".play").addEventListener("click", go);
+    if (run) requestAnimationFrame(go);
+    return el;
+  }
+
+  const P = document.getElementById("presets");
+  const R = document.getElementById("recipes");
+
+  // ── ui-ux-pro-max presets (snippets verbatim from data/motion.csv) ──
+  card(P, { id: "#1 Subtle", title: "Hover lift", tags: [["Hover · 150ms", "web"], ["web only", "web"]],
+    desc: "Lifts 1px and dims slightly on hover. Hover a box (desktop).", interactive: true,
+    code: "gsap.to(el, { y: -1, opacity: 0.9, duration: 0.15, ease: 'power1.out' });",
+    stage: `<div class="box" tabindex="0">Hover</div>`,
+    run: (s) => { const el = s.querySelector(".box"); el.onmouseenter = () => gsap.to(el, { y: -1, opacity: 0.9, duration: 0.15, ease: "power1.out" }); el.onmouseleave = () => gsap.to(el, { y: 0, opacity: 1, duration: 0.15 }); } });
+
+  card(P, { id: "#2 Standard", title: "Hover card raise", tags: [["Hover · 250ms", "web"], ["web only", "web"]],
+    desc: "Card rises 4px, grows 2% and gains a shadow. Hover it.", interactive: true,
+    code: "gsap.to(el, { y: -4, scale: 1.02, boxShadow: '0 12px 24px rgba(0,0,0,0.12)', duration: 0.25, ease: 'power2.out' });",
+    stage: `<div class="box" style="width:120px;height:80px;background:#fff;color:#1D1B19;border:1px solid #DAD5CD">Card</div>`,
+    run: (s) => { const el = s.querySelector(".box"); el.onmouseenter = () => gsap.to(el, { y: -4, scale: 1.02, boxShadow: "0 12px 24px rgba(0,0,0,0.12)", duration: 0.25, ease: "power2.out" }); el.onmouseleave = () => gsap.to(el, { y: 0, scale: 1, boxShadow: "0 0 0 rgba(0,0,0,0)", duration: 0.25 }); } });
+
+  card(P, { id: "#3 Complex", title: "Magnetic button", tags: [["Pointer · elastic", "web"], ["web only", "web"]],
+    desc: "The button is pulled toward the pointer and springs back. Move over it.", interactive: true,
+    code: "xTo((e.clientX - r.left - r.width / 2) * 0.3); yTo((e.clientY - r.top - r.height / 2) * 0.3);",
+    stage: `<button class="btn">Book now</button>`,
+    run: (s) => { const el = s.querySelector(".btn"); const xTo = gsap.quickTo(el, "x", { duration: 0.5, ease: "elastic.out(1,0.4)" }); const yTo = gsap.quickTo(el, "y", { duration: 0.5, ease: "elastic.out(1,0.4)" });
+      s.onpointermove = (e) => { const r = el.getBoundingClientRect(); xTo((e.clientX - r.left - r.width / 2) * 0.3); yTo((e.clientY - r.top - r.height / 2) * 0.3); }; s.onpointerleave = () => { xTo(0); yTo(0); }; } });
+
+  const scrollStage = (inner) => `<div class="scroller"><div class="spacer"></div>${inner}<div class="spacer"></div></div>`;
+  card(P, { id: "#4 Subtle", title: "Scroll fade-in", tags: [["Long lists", "app"], ["Scroll · 350ms"]],
+    desc: "Rows fade up 12px as they scroll into view. Scroll inside the box.",
+    code: "gsap.from(el, { opacity: 0, y: 12, duration: 0.35, ease: 'power1.out', scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none reverse' } });",
+    stage: scrollStage(`<div class="section">${'<div class="li"></div>'.repeat(10)}</div>`),
+    run: (s) => { const sc = s.querySelector(".scroller"); sc.scrollTop = 0; s.querySelectorAll(".li").forEach((el) => gsap.from(el, { opacity: 0, y: 12, duration: 0.35, ease: "power1.out", scrollTrigger: { scroller: sc, trigger: el, start: "top 90%", toggleActions: "play none none reverse" } })); } });
+
+  card(P, { id: "#5 Standard", title: "Section stagger reveal", tags: [["Dashboard sections", "app"], ["Scroll · 500ms"]],
+    desc: "A whole section's children rise in one after another when it enters. Scroll inside the box.",
+    code: "gsap.from(el.children, { opacity: 0, y: 24, duration: 0.5, stagger: 0.08, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 85%' } });",
+    stage: scrollStage(`<div class="section">${'<div class="li" style="height:26px"></div>'.repeat(4)}</div>`),
+    run: (s) => { const sc = s.querySelector(".scroller"); sc.scrollTop = 0; const el = s.querySelector(".section"); gsap.from(el.children, { opacity: 0, y: 24, duration: 0.5, stagger: 0.08, ease: "power2.out", scrollTrigger: { scroller: sc, trigger: el, start: "top 85%" } }); } });
+
+  card(P, { id: "#6 Complex", title: "Pinned scroll story", tags: [["Onboarding / pitch", ""], ["Scroll scrub"]],
+    desc: "The section pins while you scroll; a headline fades up and the background drifts. Scroll inside the box.",
+    code: "gsap.timeline({ scrollTrigger: { trigger: section, start: 'top top', end: '+=150%', scrub: 1, pin: true } }).from('.headline', { opacity: 0, y: 40 }).to('.bg-layer', { yPercent: -20 }, '<');",
+    stage: `<div class="scroller"><div class="pinsec" style="height:180px;position:relative;overflow:hidden"><div class="bg-layer" style="position:absolute;inset:-20% 0 0;background:linear-gradient(#ECE8E1,#D9472B33)"></div><div class="headline" style="position:absolute;inset:0;display:grid;place-items:center;font-weight:900;font-size:24px">Welcome back</div></div><div style="height:300px"></div></div>`,
+    run: (s) => { const sc = s.querySelector(".scroller"); sc.scrollTop = 0; const sec = s.querySelector(".pinsec"); gsap.timeline({ scrollTrigger: { scroller: sc, trigger: sec, start: "top top", end: "+=150%", scrub: 1, pin: true } }).from(s.querySelector(".headline"), { opacity: 0, y: 40 }).to(s.querySelector(".bg-layer"), { yPercent: -20 }, "<"); } });
+
+  card(P, { id: "#7 Subtle", title: "Quick list stagger", tags: [["Customer list", "app"], ["Load · 300ms"]],
+    desc: "Rows fade up 8px with a 30ms gap between each. Built for long lists.",
+    code: "gsap.from('.list-item', { opacity: 0, y: 8, duration: 0.3, stagger: 0.03 });",
+    stage: `<div class="list">${'<div class="li list-item"></div>'.repeat(7)}</div>`,
+    run: (s) => gsap.from(s.querySelectorAll(".list-item"), { opacity: 0, y: 8, duration: 0.3, stagger: 0.03 }) });
+
+  card(P, { id: "#8 Standard", title: "Grid pop-in", tags: [["Home tiles", "app"], ["Load · 400ms"]],
+    desc: "Tiles scale up from 92% with a small overshoot, in a wave across the grid.",
+    code: "gsap.from('.grid-item', { opacity: 0, scale: 0.92, y: 16, duration: 0.4, stagger: { each: 0.06, from: 'start', grid: 'auto' }, ease: 'back.out(1.4)' });",
+    stage: `<div class="bento">${'<i class="grid-item"></i>'.repeat(9)}</div>`,
+    run: (s) => gsap.from(s.querySelectorAll(".grid-item"), { opacity: 0, scale: 0.92, y: 16, duration: 0.4, stagger: { each: 0.06, from: "start", grid: "auto" }, ease: "back.out(1.4)" }) });
+
+  card(P, { id: "#9 Complex", title: "Letter-by-letter headline", tags: [["Salon name on launch", "app"], ["Load · 600ms"]],
+    desc: "Each letter flips up from below in 3D, one after another.",
+    code: "gsap.from(split.chars, { opacity: 0, y: 20, rotateX: -40, duration: 0.6, stagger: 0.015, ease: 'expo.out' });",
+    stage: `<div class="chars" aria-label="GOOD EVENING">${[..."GOOD EVENING"].map((c) => `<span>${c === " " ? "&nbsp;" : c}</span>`).join("")}</div>`,
+    run: (s) => gsap.from(s.querySelectorAll(".chars span"), { opacity: 0, y: 20, rotateX: -40, duration: 0.6, stagger: 0.015, ease: "expo.out" }) });
+
+  const twoPages = `<div class="page p1" style="background:#ECE8E1">Home</div><div class="page p2" style="background:#1D1B19;color:#fff;opacity:0">Counter</div>`;
+  card(P, { id: "#10 Subtle", title: "Fade page change", tags: [["Page change", "app"], ["200ms + 200ms"]],
+    desc: "The page fades out and the next fades in. Quiet and fast.",
+    code: "gsap.to(main, { opacity: 0, duration: 0.2, onComplete: () => { navigate(); gsap.fromTo(main, { opacity: 0 }, { opacity: 1, duration: 0.2 }); } });",
+    stage: twoPages,
+    run: (s) => { const a = s.querySelector(".p1"), b = s.querySelector(".p2"); gsap.set(a, { opacity: 1 }); gsap.set(b, { opacity: 0 }); gsap.to(a, { opacity: 0, duration: 0.2, onComplete: () => gsap.fromTo(b, { opacity: 0 }, { opacity: 1, duration: 0.2 }) }); } });
+
+  card(P, { id: "#11 Standard", title: "Curtain wipe", tags: [["Page change", "app"], ["400ms + 400ms"]],
+    desc: "A colour panel slides up over the page, the page swaps behind it, then the panel slides away.",
+    code: "tl.to('.transition-overlay', { yPercent: 0, duration: 0.4, ease: 'power2.inOut' }).call(navigate).to('.transition-overlay', { yPercent: -100, duration: 0.4, ease: 'power2.inOut', delay: 0.1 });",
+    stage: twoPages + `<div class="overlay"></div>`,
+    run: (s) => { const a = s.querySelector(".p1"), b = s.querySelector(".p2"), o = s.querySelector(".overlay"); gsap.set(a, { opacity: 1 }); gsap.set(b, { opacity: 0 }); gsap.set(o, { yPercent: 100 });
+      gsap.timeline().to(o, { yPercent: 0, duration: 0.4, ease: "power2.inOut" }).call(() => { gsap.set(a, { opacity: 0 }); gsap.set(b, { opacity: 1 }); }).to(o, { yPercent: -100, duration: 0.4, ease: "power2.inOut", delay: 0.1 }); } });
+
+  card(P, { id: "#12 Complex", title: "Shared-element morph", tags: [["Customer → profile", "app"], ["600ms"]],
+    desc: "The tapped element grows into its place on the next screen (GSAP Flip). This is the kind of motion the first app used.",
+    code: "const state = Flip.getState('.hero-image'); navigate(); Flip.from(state, { duration: 0.6, ease: 'expo.inOut', absolute: true, zIndex: 100 });",
+    stage: `<div class="thumb"></div>`,
+    run: (s) => { const t = s.querySelector(".thumb"); t.classList.remove("big"); gsap.set(t, { clearProps: "all" }); requestAnimationFrame(() => { const state = Flip.getState(t); t.classList.add("big"); Flip.from(state, { duration: 0.6, ease: "expo.inOut", absolute: true, zIndex: 100 }); }); } });
+
+  const layers = `<div class="scroller"><div style="position:relative;height:420px;overflow:hidden">
+      <div class="bg-layer parallax-layer layer" style="bottom:0;background:#D9472B33"></div>
+      <div class="parallax-layer layer" style="bottom:-20px;background:#D9472B77;left:20%"></div>
+      <div class="parallax-layer layer" style="bottom:-40px;background:#1D1B19;right:30%"></div></div></div>`;
+  card(P, { id: "#13 Subtle", title: "Gentle parallax", tags: [["Header image", ""], ["Scroll scrub"]],
+    desc: "The background drifts slightly slower than the page. Scroll inside the box.",
+    code: "gsap.to('.bg-layer', { yPercent: 10, ease: 'none', scrollTrigger: { trigger: section, scrub: true } });",
+    stage: layers,
+    run: (s) => { const sc = s.querySelector(".scroller"); gsap.to(s.querySelector(".bg-layer"), { yPercent: 10, ease: "none", scrollTrigger: { scroller: sc, trigger: sc.firstElementChild, scrub: true } }); } });
+
+  card(P, { id: "#14 Standard", title: "Layered parallax", tags: [["Header image", ""], ["Scroll scrub"]],
+    desc: "Each layer moves at its own speed, front fastest, to fake depth. Scroll inside the box.",
+    code: "gsap.utils.toArray('.parallax-layer').forEach((layer, i) => { gsap.to(layer, { yPercent: (i + 1) * -8, ease: 'none', scrollTrigger: { trigger: layer.parentElement, scrub: 0.5 } }); });",
+    stage: layers,
+    run: (s) => { const sc = s.querySelector(".scroller"); s.querySelectorAll(".parallax-layer").forEach((layer, i) => gsap.to(layer, { yPercent: (i + 1) * -8, ease: "none", scrollTrigger: { scroller: sc, trigger: layer.parentElement, scrub: 0.5 } })); } });
+
+  card(P, { id: "#15 Subtle", title: "Skeleton shimmer", tags: [["Loading data", "app"], ["1.4s loop"]],
+    desc: "Grey placeholder bars with a light sweeping across while content loads.",
+    code: "gsap.to('.skeleton', { backgroundPosition: '200% 0', duration: 1.4, ease: 'sine.inOut', repeat: -1 });",
+    stage: `<div style="width:100%;display:grid;justify-items:center"><div class="skeleton" style="width:50%"></div><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton" style="width:60%"></div></div>`,
+    run: (s) => { gsap.killTweensOf(s.querySelectorAll(".skeleton")); gsap.fromTo(s.querySelectorAll(".skeleton"), { backgroundPosition: "0% 0" }, { backgroundPosition: "200% 0", duration: 1.4, ease: "sine.inOut", repeat: -1 }); } });
+
+  card(P, { id: "#16 Standard", title: "Bouncing dots", tags: [["Short waits", "app"], ["~1s loop"]],
+    desc: "Three dots hop one after another. Pauses itself when the tab is hidden.",
+    code: "gsap.timeline({ repeat: -1 }).to('.loader-dot', { y: -8, duration: 0.4, stagger: { each: 0.15, yoyo: true, repeat: 1 } });",
+    stage: `<div><span class="loader-dot"></span><span class="loader-dot"></span><span class="loader-dot"></span></div>`,
+    run: (s) => { const d = s.querySelectorAll(".loader-dot"); gsap.killTweensOf(d); gsap.set(d, { y: 0 }); gsap.timeline({ repeat: -1 }).to(d, { y: -8, duration: 0.4, stagger: { each: 0.15, yoyo: true, repeat: 1 } }); } });
+
+  card(P, { id: "#17 Standard", title: "Accessible carousel", tags: [["Offers / promos", ""], ["5s per slide"]],
+    desc: "Slides change every 5 seconds, but stop when you touch, focus or scroll away. Has its own controls.", interactive: true,
+    code: "start(): if (!reduced.matches && !document.hidden && onscreen) timer = setInterval(nextSlide, 5000);",
+    stage: `<div class="slides"><div class="slide on" style="background:#1D1B19">20% off hair spa</div><div class="slide" style="background:#D9472B">Refer a friend, get ₹100</div><div class="slide" style="background:#6B3A1F">New: beard styling</div></div><div class="ctrls"><button type="button" data-a="prev">Prev</button><button type="button" data-a="pause">Pause</button><button type="button" data-a="next">Next</button></div>`,
+    run: (s) => { const slides = [...s.querySelectorAll(".slide")]; let i = 0, timer; const show = (n) => { i = (n + slides.length) % slides.length; slides.forEach((x, k) => x.classList.toggle("on", k === i)); };
+      const start = () => { clearInterval(timer); if (!reduced) timer = setInterval(() => show(i + 1), 5000); }; const stop = () => { clearInterval(timer); timer = undefined; };
+      s.querySelector('[data-a="prev"]').onclick = () => (show(i - 1), stop()); s.querySelector('[data-a="next"]').onclick = () => (show(i + 1), stop());
+      s.querySelector('[data-a="pause"]').onclick = (e) => { if (timer) { stop(); e.target.textContent = "Play"; } else { start(); e.target.textContent = "Pause"; } };
+      s.addEventListener("pointerenter", stop); s.addEventListener("focusin", stop); start(); } });
+
+  // ── design-motion-principles cookbook ──
+  card(R, { id: "Jakub", title: "Materialize in", tags: [["Cards, toasts, results", "app"], ["450ms spring, no bounce"]],
+    desc: "Fades in, rises a little and comes into focus from a slight blur, settling smoothly with no overshoot.",
+    code: "initial={{ opacity: 0, translateY: 8, filter: 'blur(4px)' }} animate={{ opacity: 1, translateY: 0, filter: 'blur(0px)' }} transition={{ type: 'spring', duration: 0.45, bounce: 0 }}",
+    stage: `<div class="toast">Visit logged · ₹450</div>`,
+    run: (s) => gsap.fromTo(s.querySelector(".toast"), { opacity: 0, y: 8, filter: "blur(4px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out" }) });
+
+  card(R, { id: "Jakub", title: "Subtle exit", tags: [["Dismissing", "app"], ["200ms"]],
+    desc: "Leaves with less movement than it arrived, because your attention has already moved on.",
+    code: "exit={{ opacity: 0, translateY: 4, filter: 'blur(2px)' }} transition={{ duration: 0.2 }}",
+    stage: `<div class="toast">Reminder sent</div>`,
+    run: (s) => { const t = s.querySelector(".toast"); gsap.set(t, { opacity: 1, y: 0, filter: "blur(0px)" }); gsap.to(t, { opacity: 0, y: 4, filter: "blur(2px)", duration: 0.2, delay: 0.5, ease: "power2.in" }); } });
+
+  card(R, { id: "Jakub", title: "Icon swap", tags: [["Copy → copied", "app"], ["opacity + scale + blur"]],
+    desc: "One icon blurs and shrinks away while the next sharpens in. Tap the button.", interactive: true,
+    code: "outgoing: { opacity: 0, scale: 0.25, filter: 'blur(4px)' } · incoming: { opacity: 1, scale: 1, filter: 'blur(0px)' }",
+    stage: `<button class="icon-btn" type="button" aria-label="Copy referral code"><svg class="i-copy" viewBox="0 0 24 24" fill="none" stroke="#1D1B19" stroke-width="2" stroke-linecap="round"><rect x="8.5" y="8.5" width="11" height="11" rx="1.5"/><path d="M15.5 8.5V6A1.5 1.5 0 0 0 14 4.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"/></svg><svg class="i-check" viewBox="0 0 24 24" fill="none" stroke="#D9472B" stroke-width="2.5" stroke-linecap="round" style="opacity:0"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></button>`,
+    run: (s) => { const b = s.querySelector(".icon-btn"), a = s.querySelector(".i-copy"), c = s.querySelector(".i-check"); let on = false;
+      b.onclick = () => { on = !on; const [out, inn] = on ? [a, c] : [c, a]; gsap.to(out, { opacity: 0, scale: 0.25, filter: "blur(4px)", duration: 0.2 }); gsap.fromTo(inn, { opacity: 0, scale: 0.25, filter: "blur(4px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.25, ease: "expo.out" }); }; } });
+
+  card(R, { id: "Emil", title: "Clip-path reveal", tags: [["Receipt / image", "app"], ["clip-path"]],
+    desc: "The content is unveiled from top to bottom by a moving mask. Nothing moves, it's just uncovered.",
+    code: "clip-path: inset(0 0 100% 0) → inset(0 0 0 0); transition 1s cubic-bezier(0.77, 0, 0.175, 1)",
+    stage: `<div class="photo"></div>`,
+    run: (s) => gsap.fromTo(s.querySelector(".photo"), { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 1, ease: "power4.inOut" }) });
+
+  card(R, { id: "Emil", title: "Clip-path tabs", tags: [["Visits / Wallet tabs", "app"], ["clip-path"]],
+    desc: "A dark pill slides between tabs, and the text inside it changes colour exactly at its edge. Tap a tab.", interactive: true,
+    code: "active layer: clip-path: inset(0 X% 0 Y% round 999px); transition: clip-path 0.25s ease",
+    stage: `<div class="tabs"><div class="tabbar"><button type="button">Visits</button><button type="button">Wallet</button><button type="button">Refer</button><div class="ink" aria-hidden="true"><span><b>Visits</b><b>Wallet</b><b>Refer</b></span></div></div></div>`,
+    run: (s) => { const ink = s.querySelector(".ink"); s.querySelectorAll(".tabbar > button").forEach((b, i) => (b.onclick = () => gsap.to(ink, { clipPath: `inset(0 ${(2 - i) * 33.33}% 0 ${i * 33.33}% round 999px)`, duration: 0.25, ease: "power2.out" }))); } });
+
+  card(R, { id: "Emil", title: "Press squeeze", tags: [["Every button", "app"], ["0.97 scale"]],
+    desc: "Buttons shrink to 97% while pressed, never lower, so they feel physical. Press and hold.", interactive: true,
+    code: ".button:active { transform: scale(0.97); } — never scale from 0",
+    stage: `<button class="btn" type="button">Log visit · ₹450</button>`,
+    run: (s) => { const b = s.querySelector(".btn"); b.onpointerdown = () => gsap.to(b, { scale: 0.97, duration: 0.1 }); b.onpointerup = b.onpointerleave = () => gsap.to(b, { scale: 1, duration: 0.16 }); } });
+
+  card(R, { id: "Emil", title: "Origin-aware popover", tags: [["Stylist picker", "app"], ["from its trigger"]],
+    desc: "The menu grows out of the button that opened it, not from the middle. Tap the button.", interactive: true,
+    code: "transform-origin: var(--radix-popover-content-transform-origin); scale 0.9 → 1, opacity 0 → 1",
+    stage: `<div class="pop-wrap"><button class="btn" type="button">Choose stylist</button><div class="pop"><div>Stylist 1 · Chair 1</div><div>Stylist 2 · Chair 2</div><div>Stylist 3 · Chair 3</div></div></div>`,
+    run: (s) => { const b = s.querySelector(".btn"), p = s.querySelector(".pop"); let open = false; b.textContent = "Choose stylist";
+      b.onclick = () => { open = !open; p.style.pointerEvents = open ? "auto" : "none"; gsap.to(p, open ? { opacity: 1, scale: 1, duration: 0.18, ease: "expo.out" } : { opacity: 0, scale: 0.95, duration: 0.12 }); }; } });
+
+  card(R, { id: "Emil", title: "Swipe-to-dismiss sheet", tags: [["Top-up sheet", "app"], ["momentum"]],
+    desc: "Drag the sheet down: a quick flick closes it even if it hasn't travelled far; a slow drag springs back.", interactive: true,
+    code: "const velocity = Math.abs(dragDistance) / elapsedTime; if (Math.abs(dragDistance) >= THRESHOLD || velocity > 0.11) dismiss();",
+    stage: `<div class="sheet" aria-label="Drag down to close">Drag me down</div>`,
+    run: (s) => { const sh = s.querySelector(".sheet"); let y0 = 0, t0 = 0, dy = 0, drag = false;
+      sh.onpointerdown = (e) => { drag = true; y0 = e.clientY; t0 = performance.now(); sh.setPointerCapture(e.pointerId); };
+      sh.onpointermove = (e) => { if (!drag) return; dy = Math.max(0, e.clientY - y0); gsap.set(sh, { y: dy }); };
+      sh.onpointerup = () => { drag = false; const v = dy / (performance.now() - t0); if (dy > 60 || v > 0.11) gsap.to(sh, { y: 160, duration: 0.25, ease: "power2.in", onComplete: () => gsap.to(sh, { y: 0, delay: 0.6, duration: 0.45, ease: "expo.out" }) }); else gsap.to(sh, { y: 0, duration: 0.4, ease: "expo.out" }); dy = 0; }; } });
+
+  card(R, { id: "Jhey", title: "Stagger wave", tags: [["Badges, chips", "app"], ["stagger from center"]],
+    desc: "Items ripple out from the middle instead of left to right, drawing the eye inward first.",
+    code: "stagger: { each: 0.06, from: 'center', grid: 'auto' }",
+    stage: `<div class="bento">${'<i></i>'.repeat(9)}</div>`,
+    run: (s) => gsap.from(s.querySelectorAll(".bento i"), { opacity: 0, scale: 0.6, duration: 0.45, stagger: { each: 0.06, from: "center", grid: "auto" }, ease: "back.out(1.6)" }) });
+</script>
