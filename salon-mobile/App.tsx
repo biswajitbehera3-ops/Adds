@@ -7,19 +7,37 @@ import { Platform, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ToastHost } from "./src/components/Toast";
-import { loadStore, useStoreReady } from "./src/domain/store";
+import * as E from "./src/domain/engine";
+import { loadStore, useData, useSession, useStoreReady } from "./src/domain/store";
 import { Navigator, useNav, type Route } from "./src/nav/Navigator";
+import { Attendance, MyAttendance } from "./src/screens/Attendance";
 import { Counter } from "./src/screens/Counter";
 import { Customers } from "./src/screens/Customers";
-import { Dashboard } from "./src/screens/Dashboard";
 import { Home } from "./src/screens/Home";
+import { Login, Setup } from "./src/screens/Login";
+import { Owner } from "./src/screens/Owner";
 import { Profile } from "./src/screens/Profile";
 import { Refer } from "./src/screens/Refer";
 import { Reminders } from "./src/screens/Reminders";
+import { Receipt, VisitScreen } from "./src/screens/Visit";
 import { APP_MAX_WIDTH, color } from "./src/theme/tokens";
 
 function render(route: Route) {
   switch (route.name) {
+    case "setup":
+      return <Setup />;
+    case "login":
+      return <Login />;
+    case "attendance":
+      return <Attendance />;
+    case "myAttendance":
+      return <MyAttendance />;
+    case "owner":
+      return <Owner />;
+    case "visit":
+      return <VisitScreen id={route.id} />;
+    case "receipt":
+      return <Receipt visitId={route.visitId} />;
     case "home":
       return <Home />;
     case "counter":
@@ -32,14 +50,45 @@ function render(route: Route) {
       return <Reminders />;
     case "refer":
       return <Refer id={route.id} />;
-    case "dashboard":
-      return <Dashboard />;
   }
+}
+
+/**
+ * Where the app starts: first-launch setup, sign-in, today's attendance for staff
+ * who haven't checked in yet, then the staff home or the owner area.
+ */
+function useRootRoute(): Route {
+  const data = useData();
+  const session = useSession();
+  if (!data.owner) return { name: "setup" };
+  if (!session) return { name: "login" };
+  if (session.role === "owner") return { name: "owner" };
+  const staff = data.staff.find((s) => s.id === session.staffId && s.active);
+  if (!staff) return { name: "login" };
+  return E.todaysAttendance(data, staff.id) ? { name: "home" } : { name: "attendance" };
+}
+
+function Root() {
+  const root = useRootRoute();
+  // A new root (signed in, checked in, signed out) starts a fresh stack.
+  return (
+    <Navigator
+      key={root.name}
+      root={root}
+      render={(route) => (
+        <>
+          {render(route)}
+          <StatusBarForRoute />
+        </>
+      )}
+    />
+  );
 }
 
 function StatusBarForRoute() {
   const { top } = useNav();
-  return <StatusBar style={top.name === "home" ? "light" : "dark"} />;
+  const dark = ["home", "login", "setup", "attendance"].includes(top.name);
+  return <StatusBar style={dark ? "light" : "dark"} />;
 }
 
 export default function App() {
@@ -71,14 +120,7 @@ export default function App() {
           >
             {fontsSettled && ready ? (
               <ToastHost>
-                <Navigator
-                  render={(route) => (
-                    <>
-                      {render(route)}
-                      <StatusBarForRoute />
-                    </>
-                  )}
-                />
+                <Root />
               </ToastHost>
             ) : null}
           </View>

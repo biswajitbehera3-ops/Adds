@@ -47,6 +47,12 @@ export type SalonConfig = {
     newCustomerReward: number;
   };
   reminderTemplate: string;
+  /** Sent on WhatsApp after each paid visit. {name} {total} {balance} {code} {salon} */
+  receiptTemplate: string;
+  /** Attendance: check-ins after start + grace count as late. 24h "HH:MM", salon local time. */
+  shift: { start: string; graceMinutes: number };
+  /** How long after payment staff may undo a visit themselves. */
+  undoWindowMinutes: number;
 };
 
 const config: SalonConfig = {
@@ -69,6 +75,7 @@ const config: SalonConfig = {
     { id: "cleanup", name: "Face clean-up", price: 250, suggestWith: ["facial", "beard"] },
   ],
 
+  // Demo stylists only. Real staff are added by the owner inside the app.
   staff: [
     { id: "s1", name: "Stylist 1", chair: "Chair 1" },
     { id: "s2", name: "Stylist 2", chair: "Chair 2" },
@@ -88,6 +95,13 @@ const config: SalonConfig = {
 
   reminderTemplate:
     "Hi {name}, it's been a while since your last {service} with us. Want us to keep a slot for you this week?",
+
+  receiptTemplate:
+    "Thanks for visiting {salon}, {name}! Paid {total}. Wallet balance: {balance}. Share your code {code} with friends: you both get wallet credit on their first visit.",
+
+  shift: { start: "10:00", graceMinutes: 15 },
+
+  undoWindowMinutes: 2,
 };
 
 export default config;

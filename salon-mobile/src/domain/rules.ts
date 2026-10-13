@@ -69,3 +69,49 @@ export function startOfIstDay(now = new Date()): Date {
   ist.setUTCHours(0, 0, 0, 0);
   return new Date(ist.getTime() - IST_OFFSET);
 }
+
+/** Prices a visit with one or more services plus add-ons (stylist not needed for price). */
+export function priceItems(serviceIds: string[], addOnIds: string[], cfg: SalonConfig = config) {
+  const ids = [...new Set(serviceIds)];
+  if (ids.length === 0) throw new UserError("Pick at least one service");
+  const services = ids.map((id) => {
+    const s = cfg.services.find((x) => x.id === id);
+    if (!s) throw new UserError(`Unknown service: ${id}`);
+    return s;
+  });
+  const addOnIdsUnique = [...new Set(addOnIds)];
+  const addOns = addOnIdsUnique.map((id) => {
+    const a = cfg.addOns.find((x) => x.id === id);
+    if (!a) throw new UserError(`Unknown add-on: ${id}`);
+    return a;
+  });
+  const total = services.reduce((s, x) => s + x.price, 0) + addOns.reduce((s, a) => s + a.price, 0);
+  return { services, addOns, serviceIds: ids, addOnIds: addOnIdsUnique, total };
+}
+
+/** Add-ons to suggest for any of the chosen services, minus those already chosen. */
+export function upsellsForServices(serviceIds: string[], chosen: string[] = [], cfg: SalonConfig = config) {
+  return cfg.addOns.filter((a) => a.suggestWith.some((s) => serviceIds.includes(s)) && !chosen.includes(a.id));
+}
+
+/** Salon-local (IST) calendar day as YYYY-MM-DD. */
+export function istDate(at: Date | string = new Date()): string {
+  const d = typeof at === "string" ? new Date(at) : at;
+  return new Date(d.getTime() + 330 * 60 * 1000).toISOString().slice(0, 10);
+}
+
+/** Minutes after midnight, salon-local (IST). */
+export function istMinutes(at: Date | string): number {
+  const d = new Date((typeof at === "string" ? new Date(at) : at).getTime() + 330 * 60 * 1000);
+  return d.getUTCHours() * 60 + d.getUTCMinutes();
+}
+
+/** Whether a check-in counts as late against the configured shift. */
+export function isLate(checkInAt: Date | string, cfg: SalonConfig = config): boolean {
+  const [h, m] = cfg.shift.start.split(":").map(Number);
+  return istMinutes(checkInAt) > h * 60 + m + cfg.shift.graceMinutes;
+}
+
+export function renderTemplate(template: string, vars: Record<string, string>): string {
+  return template.replace(/\{(\w+)\}/g, (m, k: string) => (k in vars ? vars[k] : m));
+}

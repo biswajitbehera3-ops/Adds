@@ -3,9 +3,9 @@
  * out of the element that was tapped (a hub label, a customer row) and closes by
  * shrinking back into it. Without an origin it rises in on a short shared axis.
  *
- * Motion: spring, no bounce, 460ms open / 380ms close (production polish);
- * content fades in over the last half so the shell leads. Reduce Motion turns
- * every transition into a 160ms crossfade. Back works from the header button,
+ * Motion (MOTION.md): #12 shared-element morph — spring, no bounce, 460ms open /
+ * 380ms close, content revealed through the growing shell; #10 fade page change
+ * when there is no origin. Reduce Motion turns every transition into a crossfade. Back works from the header button,
  * Android's Back, Escape on the web, and an edge swipe from the left.
  */
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type RefObject } from "react";
@@ -26,13 +26,19 @@ import Animated, {
 import { color, radius } from "../theme/tokens";
 
 export type Route =
+  | { name: "setup" }
+  | { name: "login" }
+  | { name: "attendance" }
   | { name: "home" }
+  | { name: "owner" }
   | { name: "counter" }
+  | { name: "visit"; id: string }
+  | { name: "receipt"; visitId: string }
   | { name: "customers" }
   | { name: "profile"; id: string }
   | { name: "reminders" }
   | { name: "refer"; id?: string }
-  | { name: "dashboard" };
+  | { name: "myAttendance" };
 
 type Rect = { x: number; y: number; w: number; h: number };
 type Entry = { key: string; route: Route; origin: Rect | null; fromColor: string; toColor: string };
@@ -40,6 +46,10 @@ type Entry = { key: string; route: Route; origin: Rect | null; fromColor: string
 type Nav = {
   push: (route: Route, opts?: { from?: RefObject<View | null>; fromColor?: string; toColor?: string }) => void;
   pop: () => void;
+  /** Replaces the top screen without animating back to the one below (e.g. checkout → receipt). */
+  replace: (route: Route) => void;
+  /** Closes everything above the root screen. */
+  popToRoot: () => void;
   depth: number;
   top: Route;
 };
@@ -61,8 +71,8 @@ export function useScreenProgress() {
 const OPEN = { duration: 460, dampingRatio: 1 } as const;
 const CLOSE = { duration: 380, dampingRatio: 1 } as const;
 
-export function Navigator({ render }: { render: (route: Route) => React.ReactNode }) {
-  const [stack, setStack] = useState<Entry[]>([{ key: "root", route: { name: "home" }, origin: null, fromColor: color.choc, toColor: color.choc }]);
+export function Navigator({ root, render }: { root: Route; render: (route: Route) => React.ReactNode }) {
+  const [stack, setStack] = useState<Entry[]>([{ key: "root", route: root, origin: null, fromColor: color.choc, toColor: color.choc }]);
   const [closing, setClosing] = useState<string | null>(null);
   const rootRef = useRef<View>(null);
   const rootOffset = useRef({ x: 0, y: 0 });
@@ -95,6 +105,20 @@ export function Navigator({ render }: { render: (route: Route) => React.ReactNod
     });
   }, []);
 
+  const replace = useCallback((route: Route) => {
+    setStack((s) => (s.length <= 1 ? s : [...s.slice(0, -1), { ...s[s.length - 1], key: `${route.name}-${Date.now()}`, route, origin: null }]));
+  }, []);
+
+  const popToRoot = useCallback(() => {
+    setStack((s) => {
+      if (s.length <= 1) return s;
+      // Drop the middle screens instantly, then animate the top one closed.
+      const next = [s[0], s[s.length - 1]];
+      setClosing(s[s.length - 1].key);
+      return next;
+    });
+  }, []);
+
   const remove = useCallback((key: string) => {
     setStack((s) => s.filter((e) => e.key !== key));
     setClosing(null);
@@ -121,7 +145,7 @@ export function Navigator({ render }: { render: (route: Route) => React.ReactNod
   }, [pop]);
 
   const top = stack[stack.length - 1].route;
-  const nav = useMemo(() => ({ push, pop, depth: stack.length, top }), [push, pop, stack.length, top]);
+  const nav = useMemo(() => ({ push, pop, replace, popToRoot, depth: stack.length, top }), [push, pop, replace, popToRoot, stack.length, top]);
 
   return (
     <NavCtx.Provider value={nav}>
@@ -176,8 +200,8 @@ function MorphScreen({
   const { origin } = entry;
 
   useEffect(() => {
-    p.value = reduced ? withTiming(1, { duration: 160 }) : withSpring(1, OPEN);
-  }, [p, reduced]);
+    p.value = reduced ? withTiming(1, { duration: 160 }) : origin ? withSpring(1, OPEN) : withTiming(1, { duration: 220 });
+  }, [p, reduced, origin]);
 
   useEffect(() => {
     if (!closing) return;
@@ -185,8 +209,8 @@ function MorphScreen({
       "worklet";
       if (finished) runOnJS(onClosed)();
     };
-    p.value = reduced ? withTiming(0, { duration: 140 }, done) : withSpring(0, CLOSE, done);
-  }, [closing, p, reduced, onClosed]);
+    p.value = reduced || !origin ? withTiming(0, { duration: 180 }, done) : withSpring(0, CLOSE, done);
+  }, [closing, p, reduced, onClosed, origin]);
 
   const W = size.w || 1;
   const H = size.h || 1;
@@ -195,13 +219,8 @@ function MorphScreen({
 
   const shell = useAnimatedStyle(() => {
     if (reduced) return { opacity: p.value, backgroundColor: entry.toColor };
-    if (!origin) {
-      return {
-        opacity: interpolate(p.value, [0, 0.6], [0, 1], Extrapolation.CLAMP),
-        transform: [{ translateY: interpolate(p.value, [0, 1], [36, 0]) }],
-        backgroundColor: entry.toColor,
-      };
-    }
+    // #10 Fade page change: no shared element to grow from, so a quiet crossfade.
+    if (!origin) return { opacity: p.value, backgroundColor: entry.toColor };
     const sx = interpolate(p.value, [0, 1], [origin.w / W, 1]);
     const sy = interpolate(p.value, [0, 1], [origin.h / H, 1]);
     const tx = interpolate(p.value, [0, 1], [origin.x + origin.w / 2 - W / 2, 0]);

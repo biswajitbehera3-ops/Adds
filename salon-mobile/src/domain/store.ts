@@ -4,13 +4,16 @@
  */
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSyncExternalStore } from "react";
+import { migrate } from "./engine";
 import { buildDemoData } from "./seed";
-import { emptyData, type Data } from "./types";
+import { emptyData, type Data, type Session } from "./types";
 
 const KEY = "salon:data:v1";
+const SESSION_KEY = "salon:session";
 
 let state: Data = emptyData();
 let ready = false;
+let session: Session | null = null;
 const listeners = new Set<() => void>();
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -28,8 +31,10 @@ function persist() {
 export async function loadStore(): Promise<void> {
   try {
     const raw = await AsyncStorage.getItem(KEY);
-    state = raw ? (JSON.parse(raw) as Data) : buildDemoData();
-    if (!raw) persist();
+    state = raw ? migrate(JSON.parse(raw)) : buildDemoData();
+    persist();
+    const rawSession = await AsyncStorage.getItem(SESSION_KEY).catch(() => null);
+    session = rawSession ? (JSON.parse(rawSession) as Session) : null;
   } catch (e) {
     console.warn("Could not load saved data; starting with demo data", e);
     state = buildDemoData();
@@ -51,16 +56,18 @@ export function getData(): Data {
   return state;
 }
 
+/** Replaces everything with demo data and signs everyone out. */
 export function resetToDemo() {
   state = buildDemoData();
   persist();
-  emit();
+  setSession(null);
 }
 
+/** Wipes the phone back to first-launch: the owner sets a new password and adds staff. */
 export function clearAll() {
   state = emptyData();
   persist();
-  emit();
+  setSession(null);
 }
 
 function subscribe(l: () => void) {
@@ -70,6 +77,17 @@ function subscribe(l: () => void) {
 
 export function useData(): Data {
   return useSyncExternalStore(subscribe, () => state, () => state);
+}
+
+/** Who is using the phone right now. Kept across app restarts until they log out. */
+export function setSession(next: Session | null) {
+  session = next;
+  (next ? AsyncStorage.setItem(SESSION_KEY, JSON.stringify(next)) : AsyncStorage.removeItem(SESSION_KEY)).catch(() => {});
+  emit();
+}
+
+export function useSession(): Session | null {
+  return useSyncExternalStore(subscribe, () => session, () => session);
 }
 
 export function useStoreReady(): boolean {

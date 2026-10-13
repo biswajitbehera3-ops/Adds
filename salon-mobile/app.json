@@ -26,7 +26,16 @@
       "backgroundColor": "#2A1710"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-sharing",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "The camera is used to take your attendance selfie when you start your shift.",
+          "photosPermission": false,
+          "microphonePermission": false
+        }
+      ]
     ],
     "backgroundColor": "#2A1710",
     "splash": {

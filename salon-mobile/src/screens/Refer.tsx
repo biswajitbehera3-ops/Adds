@@ -28,7 +28,7 @@ export function Refer({ id }: { id?: string }) {
   return (
     <Screen title="Refer & Earn">
       <T v="body" c={color.inkMuted}>
-        A friend joins with a customer's code. On the friend's first paid visit, the friend gets {inr(newCustomerReward)} and the customer gets {inr(referrerReward)} — added to their wallets automatically.
+        Every customer gets a code on their thank-you WhatsApp. A friend tells the counter that code, or simply the customer's mobile number. On the friend's first paid visit, the friend gets {inr(newCustomerReward)} and the customer gets {inr(referrerReward)}, added to their wallets automatically.
       </T>
 
       {!p ? (

@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { Button } from "../components/Button";
-import { Icon } from "../components/Icon";
+import { IconSwap } from "../components/IconSwap";
 import { Press } from "../components/Press";
 import { Rule, Screen, SectionTitle } from "../components/Screen";
 import { Seal } from "../components/Seal";
@@ -19,7 +19,7 @@ import { formatPhone, inr, relativeDays, shortDate } from "../format";
 import { useNav } from "../nav/Navigator";
 import { color, font, space } from "../theme/tokens";
 
-const TX_LABEL: Record<WalletTx["type"], string> = { TOPUP: "Top-up", BONUS: "Top-up bonus", SPEND: "Paid for visit", REFERRAL_REWARD: "Referral reward" };
+const TX_LABEL: Record<WalletTx["type"], string> = { TOPUP: "Top-up", BONUS: "Top-up bonus", SPEND: "Paid for visit", REFERRAL_REWARD: "Referral reward", REFUND: "Refund (visit voided)", REFERRAL_REVERSAL: "Referral reward reversed" };
 
 export function Profile({ id }: { id: string }) {
   const data = useData();
@@ -82,22 +82,24 @@ export function Profile({ id }: { id: string }) {
         </View>
       </View>
 
-      <Press
-        onPress={async () => {
-          await Clipboard.setStringAsync(p.referralCode).catch(() => {});
-          toast("Referral code copied");
-        }}
-        accessibilityLabel={`Referral code ${p.referralCode}. Copy.`}
-        style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: space.lg, paddingVertical: space.sm }}
-      >
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: space.lg, paddingVertical: space.sm }}>
         <View>
           <T v="small" c={color.inkMuted}>
             Referral code
           </T>
           <T style={{ fontFamily: font.display, fontSize: 22, letterSpacing: 2 }}>{p.referralCode}</T>
         </View>
-        <Icon name="copy" color={color.seal} />
-      </Press>
+        <IconSwap
+          from="copy"
+          to="check"
+          tint={color.seal}
+          label={`Referral code ${p.referralCode}. Copy.`}
+          onPress={async () => {
+            await Clipboard.setStringAsync(p.referralCode).catch(() => {});
+            toast("Referral code copied");
+          }}
+        />
+      </View>
       {p.referredBy ? (
         <T v="small" c={color.inkMuted}>
           Referred by {p.referredBy.name}
@@ -127,17 +129,21 @@ export function Profile({ id }: { id: string }) {
         {tab === "visits" ? (
           p.visits.length ? (
             p.visits.map((v, i) => {
-              const s = config.services.find((x) => x.id === v.serviceId);
-              const st = config.staff.find((x) => x.id === v.staffId);
+              const names = v.serviceIds.map((id) => config.services.find((x) => x.id === id)?.name ?? id).join(" + ");
+              const st = data.staff.find((x) => x.id === v.staffId);
+              const method = (v.paymentMethod ?? "CASH").toLowerCase();
+              const voided = v.status === "VOID";
               const extras = v.addOnIds.map((a) => config.addOns.find((x) => x.id === a)?.name).filter(Boolean);
               return (
                 <View key={v.id}>
                   {i > 0 ? <Rule /> : null}
                   <View style={{ flexDirection: "row", paddingVertical: space.md, gap: space.md }}>
                     <View style={{ flex: 1 }}>
-                      <T v="bodyStrong">{s?.name ?? v.serviceId}</T>
-                      <T v="small" c={color.inkMuted}>
-                        {[shortDate(v.createdAt), st?.name, ...extras].join(" · ")}
+                      <T v="bodyStrong" style={voided ? { textDecorationLine: "line-through" } : undefined}>
+                        {names}
+                      </T>
+                      <T v="small" c={voided ? color.danger : color.inkMuted}>
+                        {voided ? `Voided · ${v.voidReason ?? ""}` : [shortDate(v.paidAt ?? v.createdAt), st?.name, ...extras].filter(Boolean).join(" · ")}
                       </T>
                     </View>
                     <View style={{ alignItems: "flex-end" }}>
@@ -145,7 +151,7 @@ export function Profile({ id }: { id: string }) {
                         {inr(v.total)}
                       </T>
                       <T v="small" c={color.inkMuted}>
-                        {v.walletPaid === v.total ? "wallet" : v.walletPaid ? "wallet + " + v.paymentMethod.toLowerCase() : v.paymentMethod === "UPI" ? "UPI" : v.paymentMethod.toLowerCase()}
+                        {v.walletPaid === v.total ? "wallet" : v.walletPaid ? "wallet + " + method : method === "upi" ? "UPI" : method}
                       </T>
                     </View>
                   </View>

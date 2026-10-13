@@ -12,7 +12,7 @@ Edit anything here. Each step has a number so you can say "change C1.4" or "remo
 | A1 | You | Install the app on the salon's phone (one phone per salon). **[Built]** |
 | A2 | You + owner | Fill in the salon's details: name, year established, services + prices, add-ons + which service they go with, stylists + chairs, wallet bonus tiers, referral reward, how many days until each service is "due back", the WhatsApp reminder message. **[Built — set in the config file by you; no in-app settings screen yet]** |
 | A3 | You | Clear the demo customers so the salon starts empty. **[Built — Dashboard → Clear all data]** |
-| A4 | You + owner | Set an owner PIN so staff can't open the Owner Dashboard. **[Proposed]** |
+| A4 | Owner | On first launch the owner sets the **owner password**, then adds each staff member (name, mobile, chair, password). **[Built]** |
 | A5 | You | If the salon has a register or Excel sheet of regulars, load them in so the app isn't empty on day one. **[Proposed]** |
 | A6 | You | 10-minute training with counter staff: one regular customer, one new customer, one top-up, one reminder. |
 | A7 | You | Leave a small printed card at the counter: "Give us your number — earn wallet bonus & referral rewards." **[Proposed]** |
@@ -23,16 +23,19 @@ Edit anything here. Each step has a number so you can say "change C1.4" or "remo
 
 | # | What staff do | What the app shows |
 |---|---|---|
-| B1 | Open the app. | Launch animation plays once (salon name letter by letter, tiles pop in). **[Motion #9, #8]** |
-| B2 | Glance at the home screen. | Today's takings ₹0, number of customers "due back", customer count. **[Built]** |
+| B0 | Sign in with **their own mobile number and password** (owner signs in separately with the owner password). | **[Built]** |
+| B1 | **Mark attendance first:** take a selfie at the counter. It is saved with the time; after the shift start + grace it counts as **late**. Only then does the home screen open. | **[Built]** Owner sees every check-in with the photo (section E). Staff see their own month under Menu → My attendance. |
+| B2 | Home screen: greeting animates in, **"Customer walked in? Enter mobile number"** search, who is **in the chair** now, due-back count, customer count, today's takings. | **[Built · Motion #9, #8]** |
 | B3 | Optional, before customers arrive: open **Reminders** and send 5–10 WhatsApp reminders. | See section D. |
 
 ---
 
 ## C. A customer arrives
 
-**When to use the app:** at payment time, after the service. By then the staff know the service,
-the add-ons and who did it. (Change this if you prefer logging when the customer walks in.)
+**When to use the app:** the moment the customer **walks in**. Staff see at once whether they are
+new or returning, their last service and their wallet balance, pick the service(s) and start the
+visit. After the service, staff open the visit from **In the chair**, add any extra service the
+customer chose, and take payment. **[Built]**
 
 ### C1. Regular customer (most common — target under 15 seconds)
 | # | Staff action | App response |
@@ -44,8 +47,10 @@ the add-ons and who did it. (Change this if you prefer logging when the customer
 | C1.5 | Ask about the suggested add-on ("Head massage today?"); tap it if yes. | Total updates. **[Built]** |
 | C1.6 | Check the stylist (remembered from the last customer); change if needed. | **[Built]** |
 | C1.7 | Payment: if the wallet covers the bill, "Pay from wallet" is already on. Otherwise pick Cash / UPI / Card. | **[Built]** |
-| C1.8 | Tap **Log visit · ₹450**. | Receipt prints top to bottom with a PAID stamp; wallet balance shown. **[Built · Motion R4]** |
-| C1.9 | Tap **Next customer**. | Back to an empty keypad. |
+| C1.8 | Tap **Start visit**. The customer appears under **In the chair** on the home screen. | **[Built]** |
+| C1.9 | After the service: tap the customer under **In the chair**, add any extra service or add-on, choose wallet / cash / UPI / card, tap **Collect ₹600**. | Receipt prints top to bottom with a PAID stamp; wallet balance shown. **[Built · Motion R4]** |
+| C1.10 | Tap **Send thank-you on WhatsApp** — the message carries the wallet balance and the customer's referral code. | **[Built]** |
+| C1.11 | If the customer leaves before the service: open the visit → "Customer left without a service". | Nothing is charged. **[Built]** |
 
 ### C2. First-time customer (about 30 seconds)
 | # | Staff action | App response |
@@ -79,13 +84,13 @@ the add-ons and who did it. (Change this if you prefer logging when the customer
 | # | What happens |
 |---|---|
 | C6.1 | Today: the visit isn't recorded, so it's missing from the day's takings. |
-| C6.2 | **[Proposed]** A "Walk-in, no number" button that records the service and money only, so the owner's totals stay complete. |
+| C6.2 | Decided: **no** "walk-in without number" button. |
 
 ### C7. Staff made a mistake
 | # | What happens |
 |---|---|
 | C7.1 | Wrong number typed before logging: tap **Clear** and retype. **[Built]** |
-| C7.2 | Wrong service or amount after logging: **no undo today.** **[Proposed]** "Undo last visit" for 2 minutes, and an owner-only "void visit" that refunds any wallet money used. |
+| C7.2 | Wrong service or amount after payment: **Undo this visit** on the receipt for 2 minutes. After that only the owner can **void** it (Owner → Visits). Both refund any wallet money used and take back a referral reward the visit paid. **[Built]** |
 
 ### C8. Customer asks "How much is in my wallet?"
 | # | Staff action |
@@ -108,10 +113,12 @@ the add-ons and who did it. (Change this if you prefer logging when the customer
 
 | # | Owner action | App shows |
 |---|---|---|
-| E1 | Unlock the Owner Dashboard with the PIN. | **[PIN proposed]** |
+| E1 | Sign in as **Owner** with the owner password. The owner area is separate from the staff app: Money · Attendance · Staff · Visits. | **[Built]** |
+| E1b | **Attendance:** who checked in today with their selfie and time (on time / late / not in), a month grid per staff member, and **Export to Excel** (one file per month: summary + one sheet per day). | **[Built · Motion #8, #7, 08]** |
+| E1c | **Staff:** add staff (name, mobile, chair, password), reset a password, deactivate someone who left. | **[Built]** |
 | E2 | Check today's takings. | Total, split into cash / UPI / card / wallet. Count the cash drawer against the cash figure. **[Built]** |
 | E3 | Check stylists. | Revenue and visits per stylist: today / 7 days / 30 days. **[Built · Motion R5]** |
-| E4 | Back up the day's data. | Barber-pole progress bar while it saves. **[Proposed · Motion 08]** |
+| E4 | Back up the day's data. | **[To ask the owner]** Google Drive or our own server. |
 
 ---
 
@@ -123,14 +130,15 @@ the add-ons and who did it. (Change this if you prefer logging when the customer
 | F2 | Wallet money held — money already paid for future visits. **[Built]** |
 | F3 | How many reminded customers came back. **[Proposed]** |
 | F4 | How many new customers came through referrals. **[Proposed]** |
+| F5 | Monthly bonus for the top-earning stylist. **[Ask the owner first]** |
 
 ---
 
-## G. Open decisions for you
-1. Log the visit at **payment** (as above) or when the customer **walks in**?
-2. Should staff each log in with their own name, or share one phone as now?
-3. Add "Walk-in, no number" (C6.2)?
-4. Add "Undo last visit" + owner "void visit" (C7.2)?
-5. Owner PIN on the Dashboard (A4)?
-6. Daily backup (E4) — to Google Drive, or to your own server?
-7. Should customers also get a WhatsApp message after each visit ("Thanks! Wallet balance ₹1,400")?
+## G. Decisions (answered)
+1. Log the visit when the customer **walks in**, take payment after the service. **[Built]**
+2. Each staff member signs in with their **mobile number + password**, then marks attendance. **[Built]**
+3. "Walk-in, no number": **no**.
+4. Undo for 2 minutes + owner void: **yes**. **[Built]**
+5. Owner area: **separate and password-protected**. **[Built]**
+6. Backup: **ask the owner**.
+7. Thank-you WhatsApp after each visit: **yes**, it sets up the next reminder and carries the referral code. **[Built]**

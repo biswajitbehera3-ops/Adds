@@ -1,10 +1,19 @@
 /**
  * Synthetic demo data so every screen has something to show on first launch.
- * Clearly labelled as demo in the UI; staff can wipe it from the Dashboard.
+ * Clearly labelled as demo in the UI; the owner wipes it before real use.
+ *
+ * Demo logins: owner password "owner1234"; staff 98111 00001 / 98111 00002 /
+ * 98111 00003, password "1234".
  */
 import config from "../config/salon";
-import { priceVisit, topUpBonus } from "./rules";
-import type { Customer, Data, PaymentMethod, Visit, WalletTx } from "./types";
+import { istDate, priceItems, topUpBonus } from "./rules";
+import type { Attendance, Customer, Data, PaymentMethod, Secret, Staff, Visit, WalletTx } from "./types";
+
+export const DEMO_OWNER_PASSWORD = "owner1234";
+export const DEMO_STAFF_PASSWORD = "1234";
+const SALT = "demosalt0123456789abcdef";
+const OWNER_SECRET: Secret = { salt: SALT, hash: "35f9b0747f3a284e25884cff17da38c34b79aa455133d9e6d2f6a1355ccd200b" };
+const STAFF_SECRET: Secret = { salt: SALT, hash: "d3418963e6c899c21ed54aff2f7fb55aeb1f090b6762f36f5b92038f3cb67be0" };
 
 const NAMES = [
   "Aarav Sharma", "Priya Patel", "Rohan Gupta", "Ananya Iyer", "Vikram Singh", "Sneha Reddy",
@@ -12,6 +21,7 @@ const NAMES = [
   "Aditya Rao", "Meera Pillai", "Siddharth Das", "Pooja Kulkarni", "Nikhil Bose", "Riya Chatterjee",
   "Varun Malhotra", "Neha Saxena", "Manish Yadav", "Tanvi Desai", "Harsh Agarwal", "Shreya Ghosh",
 ];
+const STAFF_NAMES = ["Imran Khan", "Sunita Devi", "Rakesh Kumar"];
 const DAY = 24 * 60 * 60 * 1000;
 
 export function buildDemoData(now = Date.now()): Data {
@@ -21,6 +31,31 @@ export function buildDemoData(now = Date.now()): Data {
   const pick = <T,>(xs: readonly T[]) => xs[Math.floor(rand() * xs.length)];
   let n = 0;
   const id = (p: string) => `demo-${p}-${++n}`;
+
+  const staff: Staff[] = STAFF_NAMES.map((name, i) => ({
+    id: id("s"),
+    name,
+    phone: `981110000${i + 1}`,
+    chair: `Chair ${i + 1}`,
+    secret: STAFF_SECRET,
+    active: true,
+    createdAt: new Date(now - 200 * DAY).toISOString(),
+  }));
+
+  // 30 days of check-ins: mostly on time, some late, a few days off. Today is left
+  // empty so the attendance step can be tried.
+  const attendance: Attendance[] = [];
+  for (let d = 30; d >= 1; d--) {
+    const day = new Date(now - d * DAY);
+    if (new Date(day.getTime() + 330 * 60000).getUTCDay() === 2) continue; // salon closed on Tuesdays
+    for (const s of staff) {
+      if (rand() < 0.08) continue; // day off
+      const date = istDate(day);
+      const minutes = 9 * 60 + 40 + Math.floor(rand() * (rand() < 0.2 ? 70 : 30)); // 09:40 to ~10:50 IST
+      const checkIn = new Date(`${date}T00:00:00.000Z`).getTime() - 330 * 60000 + minutes * 60000;
+      attendance.push({ id: id("a"), staffId: s.id, date, checkInAt: new Date(checkIn).toISOString(), photoKey: null });
+    }
+  }
 
   const customers: Customer[] = [];
   const visits: Visit[] = [];
@@ -45,10 +80,10 @@ export function buildDemoData(now = Date.now()): Data {
     if (i % 3 === 0) {
       const deposit = pick([1000, 2000, 5000] as const);
       const bonus = topUpBonus(deposit);
-      const at = new Date(now - 100 * DAY).toISOString();
+      const when = new Date(now - 100 * DAY).toISOString();
       walletTxs.push(
-        { id: id("t"), customerId: c.id, type: "TOPUP", amount: deposit, visitId: null, note: "Paid by UPI", createdAt: at },
-        { id: id("t"), customerId: c.id, type: "BONUS", amount: bonus, visitId: null, note: `Bonus on ₹${deposit} top-up`, createdAt: at },
+        { id: id("t"), customerId: c.id, type: "TOPUP", amount: deposit, visitId: null, note: "Paid by UPI", createdAt: when },
+        { id: id("t"), customerId: c.id, type: "BONUS", amount: bonus, visitId: null, note: `Bonus on ₹${deposit} top-up`, createdAt: when },
       );
       balance = deposit + bonus;
     }
@@ -61,25 +96,29 @@ export function buildDemoData(now = Date.now()): Data {
       const service = pick(config.services);
       const upsells = config.addOns.filter((a) => a.suggestWith.includes(service.id));
       const addOnIds = rand() < 0.4 && upsells.length ? [pick(upsells).id] : [];
-      const { total } = priceVisit({ serviceId: service.id, addOnIds, staffId: config.staff[0].id });
+      const { total } = priceItems([service.id], addOnIds);
       const walletPaid = balance >= total && rand() < 0.5 ? total : 0;
       balance -= walletPaid;
-      const at = new Date(t).toISOString();
+      const when = new Date(t).toISOString();
       const visit: Visit = {
         id: id("v"),
         customerId: c.id,
-        serviceId: service.id,
-        staffId: pick(config.staff).id,
+        serviceIds: [service.id],
+        staffId: pick(staff).id,
         addOnIds,
         total,
         walletPaid,
         directPaid: total - walletPaid,
         paymentMethod: pick(["CASH", "UPI", "UPI", "CARD"] as PaymentMethod[]),
-        createdAt: at,
+        status: "PAID",
+        createdAt: new Date(t - 40 * 60000).toISOString(),
+        paidAt: when,
+        voidedAt: null,
+        voidReason: null,
       };
       visits.push(visit);
       if (walletPaid > 0) {
-        walletTxs.push({ id: id("t"), customerId: c.id, type: "SPEND", amount: -walletPaid, visitId: visit.id, note: null, createdAt: at });
+        walletTxs.push({ id: id("t"), customerId: c.id, type: "SPEND", amount: -walletPaid, visitId: visit.id, note: null, createdAt: when });
       }
     });
     c.walletBalance = balance;
@@ -88,17 +127,17 @@ export function buildDemoData(now = Date.now()): Data {
   // Pay out referral rewards the way the engine would have, on each referred customer's first visit.
   for (const c of customers) {
     if (!c.referredById) continue;
-    const first = visits.filter((v) => v.customerId === c.id).sort((a, b) => a.createdAt.localeCompare(b.createdAt))[0];
+    const first = visits.filter((v) => v.customerId === c.id).sort((a, b) => a.paidAt!.localeCompare(b.paidAt!))[0];
     const referrer = customers.find((x) => x.id === c.referredById)!;
     if (!first) continue;
     walletTxs.push(
-      { id: id("t"), customerId: referrer.id, type: "REFERRAL_REWARD", amount: config.referral.referrerReward, visitId: first.id, note: `Referred ${c.name}`, createdAt: first.createdAt },
-      { id: id("t"), customerId: c.id, type: "REFERRAL_REWARD", amount: config.referral.newCustomerReward, visitId: first.id, note: "Welcome reward for joining by referral", createdAt: first.createdAt },
+      { id: id("t"), customerId: referrer.id, type: "REFERRAL_REWARD", amount: config.referral.referrerReward, visitId: first.id, note: `Referred ${c.name}`, createdAt: first.paidAt! },
+      { id: id("t"), customerId: c.id, type: "REFERRAL_REWARD", amount: config.referral.newCustomerReward, visitId: first.id, note: "Welcome reward for joining by referral", createdAt: first.paidAt! },
     );
     referrer.walletBalance += config.referral.referrerReward;
     c.walletBalance += config.referral.newCustomerReward;
-    c.referralRewardedAt = first.createdAt;
+    c.referralRewardedAt = first.paidAt;
   }
 
-  return { version: 1, customers, visits, walletTxs, reminders: [], demo: true };
+  return { version: 2, customers, visits, walletTxs, reminders: [], staff, attendance, owner: { secret: OWNER_SECRET }, demo: true };
 }

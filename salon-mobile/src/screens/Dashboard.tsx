@@ -4,7 +4,7 @@ import Animated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, w
 import { Button } from "../components/Button";
 import { LabelFrame } from "../components/LabelFrame";
 import { NumberRoll } from "../components/NumberRoll";
-import { Rule, Screen, SectionTitle } from "../components/Screen";
+import { Rule, SectionTitle } from "../components/Screen";
 import { Segmented } from "../components/Segmented";
 import { T } from "../components/T";
 import { useToast } from "../components/Toast";
@@ -21,7 +21,8 @@ const SPLIT = [
   { key: "wallet", label: "Wallet", color: color.seal },
 ] as const;
 
-export function Dashboard() {
+/** The owner's money view: today's takings, stylists, best customers, wallet money held. */
+export function DashboardBody() {
   const data = useData();
   const [range, setRange] = useState<E.Range>("today");
   const d = useMemo(() => E.ownerDashboard(data, range), [data, range]);
@@ -29,7 +30,7 @@ export function Dashboard() {
   const splitTotal = d.today.cash + d.today.upi + d.today.card + d.today.wallet;
 
   return (
-    <Screen title="Dashboard">
+    <>
       <LabelFrame innerStyle={{ padding: space.xl, gap: space.md }}>
         <View style={{ flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between" }}>
           <View>
@@ -69,6 +70,12 @@ export function Dashboard() {
           </T>
         )}
       </LabelFrame>
+
+      {d.inChair ? (
+        <T v="small" c={color.inkMuted} style={{ marginTop: space.sm }}>
+          {d.inChair} {d.inChair === 1 ? "customer is" : "customers are"} in the chair now (not counted until paid).
+        </T>
+      ) : null}
 
       <SectionTitle>By stylist</SectionTitle>
       <Segmented
@@ -132,7 +139,7 @@ export function Dashboard() {
       ))}
 
       <DataControls demo={data.demo} />
-    </Screen>
+    </>
   );
 }
 
@@ -154,12 +161,12 @@ function DataControls({ demo }: { demo: boolean }) {
     <View style={{ marginTop: space.xxl, paddingTop: space.lg, borderTopWidth: 1, borderTopColor: color.ruleSoft, gap: space.sm }}>
       <T v="heading">Data on this phone</T>
       <T v="small" c={color.inkMuted}>
-        {demo ? "You're looking at demo data. Clear it before the salon starts using the app." : "All customer data lives only on this phone."}
+        {demo ? "You're looking at demo data. Clear it before the salon starts using the app; you'll then set a new owner password and add your staff." : "All customer data lives only on this phone."}
       </T>
       {confirm ? (
         <View style={{ gap: space.sm }}>
           <T v="bodyStrong" c={color.danger}>
-            {confirm === "clear" ? "Delete every customer, visit and wallet on this phone? This can't be undone." : "Replace everything with demo data? Real data will be lost."}
+            {confirm === "clear" ? "Delete every customer, visit, wallet, staff account and attendance record on this phone, and the owner password? The app goes back to first-time setup. This can't be undone." : "Replace everything with demo data? Real data will be lost."}
           </T>
           <View style={{ flexDirection: "row", gap: space.sm }}>
             <View style={{ flex: 1 }}>

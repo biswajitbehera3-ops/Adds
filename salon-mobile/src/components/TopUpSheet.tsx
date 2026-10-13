@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Modal, Pressable, StyleSheet, TextInput, View } from "react-native";
-import Animated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
+import Animated, { Easing, runOnJS, useAnimatedStyle, useReducedMotion, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import config from "../config/salon";
 import * as E from "../domain/engine";
@@ -27,11 +28,13 @@ export function TopUpSheet({ customer, visible, onClose, onDone }: { customer: C
   const [custom, setCustom] = useState("");
   const [method, setMethod] = useState<PaymentMethod>("UPI");
   const y = useSharedValue(1);
+  const drag = useSharedValue(0);
 
   useEffect(() => {
     if (visible) {
       setAmount(1000);
       setCustom("");
+      drag.value = 0;
       y.value = reduced ? withTiming(0, { duration: 120 }) : withSpring(0, { duration: 420, dampingRatio: 1 });
     } else y.value = 1;
   }, [visible, reduced, y]);
@@ -45,7 +48,18 @@ export function TopUpSheet({ customer, visible, onClose, onDone }: { customer: C
   const bonus = topUpBonus(value);
   const nextTier = config.topUpTiers.filter((t) => t.minDeposit > value).sort((a, b) => a.minDeposit - b.minDeposit)[0];
 
-  const sheet = useAnimatedStyle(() => ({ transform: [{ translateY: y.value * 520 }] }));
+  const sheet = useAnimatedStyle(() => ({ transform: [{ translateY: y.value * 520 + drag.value }] }));
+
+  // MOTION.md R8: drag the sheet down to close; a quick flick closes it even if it moved little.
+  const pan = Gesture.Pan()
+    .activeOffsetY(8)
+    .onUpdate((e) => {
+      drag.value = Math.max(0, e.translationY);
+    })
+    .onEnd((e) => {
+      if (e.translationY > 120 || e.velocityY > 900) runOnJS(close)();
+      else drag.value = withSpring(0, { duration: 350, dampingRatio: 1 });
+    });
   const scrim = useAnimatedStyle(() => ({ opacity: (1 - y.value) * 0.55 }));
 
   const submit = () => {
@@ -64,9 +78,11 @@ export function TopUpSheet({ customer, visible, onClose, onDone }: { customer: C
       <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: color.choc950 }, scrim]}>
         <Pressable style={{ flex: 1 }} onPress={close} accessibilityLabel="Close top-up" />
       </Animated.View>
+      <GestureHandlerRootView style={{ position: "absolute", left: 0, right: 0, bottom: 0 }}>
+      <GestureDetector gesture={pan}>
       <Animated.View
         style={[
-          { position: "absolute", left: 0, right: 0, bottom: 0, alignItems: "center" },
+          { alignItems: "center" },
           sheet,
         ]}
       >
@@ -129,6 +145,8 @@ export function TopUpSheet({ customer, visible, onClose, onDone }: { customer: C
           <Button big label={value > 0 ? `Add ${inr(value)}` : "Choose an amount"} disabled={value <= 0} onPress={submit} />
         </View>
       </Animated.View>
+      </GestureDetector>
+      </GestureHandlerRootView>
     </Modal>
   );
 }
