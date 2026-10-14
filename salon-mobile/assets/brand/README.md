@@ -1,13 +1,12 @@
-# Brand assets (from the user, not yet wired into the app)
+# Brand assets
 
-| File | What | Notes |
+| File | What | Use |
 |---|---|---|
-| `intro.mp4` | 4.1 s opening animation, 1440×1440, 24 fps, H.264 + AAC stereo, 3.6 MB | Plays first on app launch, then hands off to the login page. Ends on the white logo on black. |
-| `logo.jpg` | Salon logo: crossed scissors, two combs, razor blade, shaving brush — white on black, 736×736 | Matches the intro's final frame. |
+| `intro-clean.mp4` | **App intro.** 4.0 s, 1080×1080, H.264, **no audio**, 1.05 MB. Cropped 130 px on every side of the original to remove the generator's sparkle mark; ends on the white logo on black. | Plays **every time the app opens**, **muted**, centred on black, then hands off to the login page. |
+| `logo-clean.png` | **Logo**, 592×592, white on black. Cropped to remove the sparkle mark. | Login page, app icon source. |
+| `intro.mp4`, `logo.jpg` | Originals as received (with the sparkle mark and audio). | Reference only — don't ship. |
 | (pending) | Login page image | User will upload. |
 
-Open points before building:
-- Both files show a small four-point sparkle mark in the bottom-right corner (looks like an AI-generator watermark). Use clean exports if possible.
-- Intro sound: play with sound, or muted by default (salon counters are noisy/shared)?
-- Square video on a tall phone: centre it on black (the video ends on black, so this is seamless).
-- For the app build, re-encode to ~1080×1080 to cut the size to roughly 1 MB.
+Decisions: intro is muted, plays on every launch, watermark cropped out.
+Side effect of the crop: the intro loses the outer edge of the paper card, including part of its thin
+red/blue border lines.
