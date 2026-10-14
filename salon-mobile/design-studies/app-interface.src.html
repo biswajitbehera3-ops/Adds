@@ -94,6 +94,34 @@
   .in-anim { animation: rise .6s cubic-bezier(.16,1,.3,1) both; }
   @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) { .in-anim { animation: none; } }
+
+  .ring { position: relative; width: 50cqw; aspect-ratio: 1; margin: 1cqw auto 0; flex: none; }
+  .ring.big-ring { width: 56cqw; }
+  .ring svg { position: absolute; inset: 0; transform: rotate(-90deg); overflow: visible; }
+  .ring svg .s { animation: draw 1.2s cubic-bezier(.16,1,.3,1) both .15s; }
+  @keyframes draw { from { stroke-dasharray: 0 251.33; } }
+  .ring .ctr { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; text-align: center; }
+  .legend { display: flex; justify-content: center; gap: 3.6cqw; font-size: 3cqw; color: var(--soft); flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 2cqw; height: 2cqw; border-radius: 50%; margin-right: 1.2cqw; vertical-align: middle; }
+  .tbl { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 2.4cqw; text-align: center; }
+  .tbl div { display: grid; gap: .4cqw; border-left: 1px solid rgba(255,244,236,.14); }
+  .tbl div:first-child { border-left: 0; }
+  .tbl b { font-size: 6.4cqw; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .tbl div:first-child b { color: var(--gold); }
+  .tbl span { font-size: 2.8cqw; color: var(--faint); }
+  .dock span { position: relative; }
+  .dock em.dot { position: absolute; top: -1.6cqw; right: -1cqw; font-style: normal; font-size: 2.3cqw; font-weight: 800; background: var(--gold); color: #2A1710; border-radius: 999px; padding: .2cqw 1.2cqw; }
+  .list .rowi { padding: 2cqw 0; }
+  .tm { font-size: 3cqw; color: var(--faint); width: 8.5cqw; flex: none; font-variant-numeric: tabular-nums; }
+  .list .nm { font-size: 3.6cqw; }
+  .list .sm { font-size: 2.9cqw; }
+  .wk { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2cqw; height: 15cqw; align-items: end; }
+  .wk div { display: grid; grid-template-rows: 1fr auto; height: 100%; gap: .8cqw; justify-items: center; }
+  .wk i { align-self: end; width: 100%; border-radius: 1cqw; background: rgba(255,244,236,.55); transform-origin: bottom; animation: grow .9s cubic-bezier(.16,1,.3,1) both .3s; }
+  .wk i.g { background: var(--gold); } .wk i.x { background: transparent; box-shadow: inset 0 0 0 1px rgba(255,244,236,.2); height: 8% !important; }
+  .wk span { font-size: 2.5cqw; color: var(--faint); }
+  @keyframes grow { from { transform: scaleY(0); } }
+  @media (prefers-reduced-motion: reduce) { .ring svg .s, .wk i { animation: none; } }
 </style>
 
 <div class="wrap">
@@ -117,33 +145,45 @@
   <div class="row">
     <figure>
       <div class="ph"><div class="bg"></div><div class="scr">
-        <div class="top"><div><div class="who">Wednesday, 14 Oct</div><div class="ttl">Hi Imran, check in</div></div><div class="badge"><img src="__LOGO__" alt=""></div></div>
+        <div class="top"><div><div class="who">First login today · Wed 14 Oct</div><div class="ttl">Hi Imran, check in</div></div><div class="badge"><img src="__LOGO__" alt=""></div></div>
         <div class="glass pad in-anim" style="display:grid;gap:4cqw;text-align:center;flex:1;align-content:center">
           <div class="cam">Take a selfie at the counter to mark today's attendance</div>
           <div><div class="big">9:52 AM</div><div class="sm"><span style="color:var(--ok)">On time</span> · shift starts 10:00</div></div>
         </div>
         <div class="btn gold-b">Take selfie</div>
       </div></div>
-      <figcaption><b>1 · Attendance first</b><span>Shown once a day before anything else. The selfie is saved with the time; after 10:15 it's marked late.</span></figcaption>
+      <figcaption><b>1 · Attendance first</b><span>Only at the first login of the day. Logging in again later that day goes straight to Home. The selfie is saved with the time; after 10:15 it's marked late.</span></figcaption>
     </figure>
 
     <figure>
       <div class="ph"><div class="bg"></div><div class="scr">
-        <div class="top"><div><div class="who">Wed 14 Oct · Salon</div><div class="ttl">Good morning, Imran</div></div><div class="badge"><img src="__LOGO__" alt=""></div></div>
         <div class="glass search in-anim">Customer's mobile number <i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2A1710" stroke-width="2.5" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg></i></div>
-        <div class="glass pad in-anim" style="animation-delay:.06s">
+        <div class="ring in-anim" style="animation-delay:.05s"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,244,236,.1)" stroke-width="7"/><circle cx="50" cy="50" r="32" fill="none" stroke="rgba(255,244,236,.18)" stroke-width=".4" stroke-dasharray=".6 2.4"/><circle class="s" cx="50" cy="50" r="40" fill="none" stroke="#FFF8F1" stroke-width="7" stroke-dasharray="89.4 251.33" stroke-dashoffset="-0.0"/><circle class="s" cx="50" cy="50" r="40" fill="none" stroke="#b98e78" stroke-width="7" stroke-dasharray="70.9 251.33" stroke-dashoffset="-92.4"/><circle class="s" cx="50" cy="50" r="40" fill="none" stroke="#E4A67B" stroke-width="7" stroke-dasharray="82.0 251.33" stroke-dashoffset="-166.3"/></svg><div class="ctr"><div class="lbl">Today</div><div class="big">₹6,800</div><div class="sm">Wed 14 Oct</div></div></div>
+        <div class="legend"><span><i style="background:#FFF8F1"></i>Cash ₹2,500</span><span><i style="background:#b98e78"></i>UPI ₹2,000</span><span><i style="background:#E4A67B"></i>Wallet ₹2,300</span></div>
+        <div class="glass pad in-anim tapcard" style="animation-delay:.1s">
+          <div style="display:flex;justify-content:space-between;align-items:center"><span class="lbl">Customers today</span><span class="sm gold">See all ›</span></div>
+          <div class="tbl"><div><b>9</b><span>Handled</span></div><div><b>7</b><span>Paid</span></div><div><b>2</b><span>In chair</span></div><div><b>2</b><span>New</span></div></div>
+        </div>
+        <div class="glass pad in-anim" style="animation-delay:.15s">
           <div class="lbl">In the chair · 2</div>
-          <div class="rowi"><div class="grow"><div class="nm">Aarav Sharma</div><div class="sm">since 10:42 · Haircut</div></div><span class="pill" style="background:var(--gold);color:#2A1710">Pay ₹450</span></div>
-          <div class="rowi"><div class="grow"><div class="nm">Priya Patel</div><div class="sm">since 10:58 · Facial</div></div><span class="pill" style="background:var(--gold);color:#2A1710">Pay ₹900</span></div>
-        </div>
-        <div class="two in-anim" style="animation-delay:.12s">
-          <div class="glass pad"><div class="lbl">Due back</div><div class="big gold">27</div><div class="sm">to remind</div></div>
-          <div class="glass pad"><div class="lbl">Today</div><div class="big">₹5,900</div><div class="sm">7 paid</div></div>
+          <div class="rowi"><div class="grow"><div class="nm">Priya Patel</div><div class="sm">since 11:30 · Facial</div></div><span class="pill" style="background:var(--gold);color:#2A1710">Pay ₹900</span></div>
+          <div class="rowi"><div class="grow"><div class="nm">Rahul Jain</div><div class="sm">since 11:35 · Haircut</div></div><span class="pill" style="background:var(--gold);color:#2A1710">Pay ₹300</span></div>
         </div>
       </div>
-        <div class="dock"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11 12 4l9 7v9H3z"/></svg>Home</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.6-3.4 3-5.4 6-5.4s5.4 2 6 5.4"/></svg>Customers</span><div class="fab"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A1710" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="7"/><path d="M12 9v4l2.6 1.8"/></svg>Reminders</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M12 9v11M3.5 13h17"/></svg>Refer</span></div>
+        <div class="dock"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11 12 4l9 7v9H3z"/></svg>Home</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.6-3.4 3-5.4 6-5.4s5.4 2 6 5.4"/></svg>Customers</span><div class="fab"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A1710" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="7"/><path d="M12 9v4l2.6 1.8"/></svg><em class="dot">27</em>Reminders</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M12 9v11M3.5 13h17"/></svg>Refer</span></div>
       </div>
-      <figcaption><b>2 · Home</b><span>Number search on top, who is in the chair with their bill, due-back and today. The dock's gold + also means "customer walked in".</span></figcaption>
+      <figcaption><b>2 · Home</b><span>Number search first. Then today's earnings in a ring (split cash / UPI / wallet), a small table of today's customers (tap it for the full list), and who is in the chair. Reminders shows its due-back count on the dock.</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph"><div class="bg"></div><div class="scr">
+        <div class="top"><div><div class="who">‹ Home · Wed 14 Oct</div><div class="ttl">Today's customers</div></div><span class="pill off">9</span></div>
+        <div class="seg"><span class="on">All 9</span><span>Paid 7</span><span>In chair 2</span></div>
+        <div class="glass pad in-anim list" style="flex:1">
+          <div class="rowi"><div class="tm">11:35</div><div class="grow"><div class="nm">Rahul Jain <span class="pill ok" style="padding:.4cqw 1.8cqw;font-size:2.5cqw">New</span></div><div class="sm">Haircut · Rakesh</div></div><div style="text-align:right"><div class="nm">₹300</div><div class="sm gold">In chair</div></div></div><div class="rowi"><div class="tm">11:30</div><div class="grow"><div class="nm">Priya Patel</div><div class="sm">Facial · Sunita</div></div><div style="text-align:right"><div class="nm">₹900</div><div class="sm gold">In chair</div></div></div><div class="rowi"><div class="tm">11:10</div><div class="grow"><div class="nm">Sana Khan</div><div class="sm">Facial + Hair spa · Sunita</div></div><div style="text-align:right"><div class="nm">₹1,700</div><div class="sm ">Paid · UPI</div></div></div><div class="rowi"><div class="tm">10:42</div><div class="grow"><div class="nm">Aarav Sharma</div><div class="sm">Haircut + Beard + Massage · Imran</div></div><div style="text-align:right"><div class="nm">₹600</div><div class="sm ">Paid · Wallet</div></div></div><div class="rowi"><div class="tm">10:40</div><div class="grow"><div class="nm">Kavya Menon</div><div class="sm">Hair colour · Rakesh</div></div><div style="text-align:right"><div class="nm">₹1,200</div><div class="sm ">Paid · Cash</div></div></div><div class="rowi"><div class="tm">10:25</div><div class="grow"><div class="nm">Meera Iyer <span class="pill ok" style="padding:.4cqw 1.8cqw;font-size:2.5cqw">New</span></div><div class="sm">Hair colour + Hair spa · Sunita</div></div><div style="text-align:right"><div class="nm">₹2,000</div><div class="sm ">Paid · UPI</div></div></div><div class="rowi"><div class="tm">10:20</div><div class="grow"><div class="nm">Vikram Rao</div><div class="sm">Haircut + Beard trim · Imran</div></div><div style="text-align:right"><div class="nm">₹450</div><div class="sm ">Paid · Cash</div></div></div><div class="rowi"><div class="tm">10:15</div><div class="grow"><div class="nm">Arjun Nair</div><div class="sm">Haircut + Head massage · Rakesh</div></div><div style="text-align:right"><div class="nm">₹450</div><div class="sm ">Paid · Wallet</div></div></div><div class="rowi"><div class="tm">10:05</div><div class="grow"><div class="nm">Neha Singh</div><div class="sm">Haircut + Hair wash · Sunita</div></div><div style="text-align:right"><div class="nm">₹400</div><div class="sm ">Paid · Cash</div></div></div>
+        </div>
+      </div></div>
+      <figcaption><b>2b · Today's customers</b><span>Opens from the table on Home. Every customer of the day one by one, newest first: time, services, stylist, amount, and paid or still in the chair. Tap a row to open that visit or profile.</span></figcaption>
     </figure>
 
     <figure>
@@ -203,32 +243,30 @@
   <div class="row">
     <figure>
       <div class="ph"><div class="bg"></div><div class="scr">
-        <div class="top"><div><div class="who">Owner · Wed 14 Oct</div><div class="ttl">Today's money</div></div><div class="badge"><img src="__LOGO__" alt=""></div></div>
-        <div class="glass pad in-anim" style="display:grid;gap:3cqw">
-          <div class="big" style="font-size:12cqw">₹6,800</div><div class="sm">7 visits · 2 in the chair now</div>
-          <div class="split"><i style="flex:25;background:var(--ink)"></i><i style="flex:20;background:#b98e78"></i><i style="flex:23;background:var(--gold)"></i></div>
-          <div class="two sm"><span>Cash ₹2,500</span><span>UPI ₹2,000</span><span>Card ₹0</span><span class="gold">Wallet ₹2,300</span></div>
+        <div class="top"><div><div class="who">Owner · Wed 14 Oct</div><div class="ttl">Today's earnings</div></div><div class="badge"><img src="__LOGO__" alt=""></div></div>
+        <div class="ring big-ring in-anim"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="41" fill="none" stroke="rgba(255,244,236,.1)" stroke-width="5.5"/><circle cx="50" cy="50" r="33" fill="none" stroke="rgba(255,244,236,.18)" stroke-width=".4" stroke-dasharray=".6 2.4"/><circle class="s" cx="50" cy="50" r="41" fill="none" stroke="#FFF8F1" stroke-width="5.5" stroke-dasharray="89.4 251.33" stroke-dashoffset="-0.0"/><circle class="s" cx="50" cy="50" r="41" fill="none" stroke="#b98e78" stroke-width="5.5" stroke-dasharray="70.9 251.33" stroke-dashoffset="-92.4"/><circle class="s" cx="50" cy="50" r="41" fill="none" stroke="#E4A67B" stroke-width="5.5" stroke-dasharray="82.0 251.33" stroke-dashoffset="-166.3"/></svg><div class="ctr"><div class="lbl">Earned</div><div class="big" style="font-size:11cqw">₹6,800</div><span class="pill ok" style="margin-top:1cqw">▲ 12% vs last Wed</span></div></div>
+        <div class="legend" style="margin-top:-1cqw"><span><i style="background:#FFF8F1"></i>Cash ₹2,500</span><span><i style="background:#b98e78"></i>UPI ₹2,000</span><span><i style="background:#E4A67B"></i>Wallet ₹2,300</span></div>
+        <div class="glass pad in-anim" style="animation-delay:.08s;display:grid;gap:2cqw">
+          <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="lbl">Visits</span><span class="sm"><b style="color:var(--ink);font-size:4.4cqw">9</b> today · 2 new · 0 voided</span></div>
+          <div class="wk"><div><i style="height:62%" class=""></i><span>Th</span></div><div><i style="height:71%" class=""></i><span>Fr</span></div><div><i style="height:91%" class=""></i><span>Sa</span></div><div><i style="height:100%" class=""></i><span>Su</span></div><div><i style="height:56%" class=""></i><span>Mo</span></div><div><i style="height:3%" class="x"></i><span>Tu</span></div><div><i style="height:26%" class="g"></i><span>We</span></div></div>
         </div>
-        <div class="glass pad in-anim" style="display:grid;gap:2.6cqw;animation-delay:.06s">
-          <div class="lbl">By stylist · today</div>
-          <div><div style="display:flex;justify-content:space-between" class="sm"><span style="color:var(--ink)">Sunita</span><span>₹3,650</span></div><div class="bar"><i class="g" style="width:100%"></i></div></div>
-          <div><div style="display:flex;justify-content:space-between" class="sm"><span style="color:var(--ink)">Rakesh</span><span>₹2,150</span></div><div class="bar"><i style="width:59%"></i></div></div>
-          <div><div style="display:flex;justify-content:space-between" class="sm"><span style="color:var(--ink)">Imran</span><span>₹1,000</span></div><div class="bar"><i style="width:27%"></i></div></div>
+        <div class="glass pad in-anim" style="animation-delay:.16s">
+          <div style="display:flex;justify-content:space-between"><span class="lbl">Staff today</span><span class="sm gold">3 of 3 in</span></div>
+          <div class="rowi"><div class="face l" style="width:9cqw;height:9cqw;font-size:3cqw">SD</div><div class="grow"><div style="display:flex;justify-content:space-between"><span class="nm" style="font-size:3.7cqw">Sunita · 4</span><span class="nm" style="font-size:3.7cqw">₹4,100</span></div><div class="bar" style="height:1.6cqw;margin-top:1.2cqw"><i class="g" style="width:100%"></i></div></div></div><div class="rowi"><div class="face " style="width:9cqw;height:9cqw;font-size:3cqw">RK</div><div class="grow"><div style="display:flex;justify-content:space-between"><span class="nm" style="font-size:3.7cqw">Rakesh · 3</span><span class="nm" style="font-size:3.7cqw">₹1,650</span></div><div class="bar" style="height:1.6cqw;margin-top:1.2cqw"><i class="" style="width:40%"></i></div></div></div><div class="rowi"><div class="face " style="width:9cqw;height:9cqw;font-size:3cqw">IK</div><div class="grow"><div style="display:flex;justify-content:space-between"><span class="nm" style="font-size:3.7cqw">Imran · 2</span><span class="nm" style="font-size:3.7cqw">₹1,050</span></div><div class="bar" style="height:1.6cqw;margin-top:1.2cqw"><i class="" style="width:26%"></i></div></div></div>
         </div>
-        <div class="two"><div class="glass pad"><div class="lbl">Wallets hold</div><div class="mid gold">₹14,900</div></div><div class="glass pad"><div class="lbl">Customers</div><div class="mid">124</div></div></div>
       </div>
         <div class="dock"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>Money</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Attendance</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.6-3.4 3-5.4 6-5.4s5.4 2 6 5.4M17 8v6M14 11h6"/></svg>Staff</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 9h6M9 13h6"/></svg>Visits</span></div>
       </div>
-      <figcaption><b>A · Money</b><span>Takings split by cash / UPI / card / wallet to match the drawer, stylists ranked with growing bars, wallet money held.</span></figcaption>
+      <figcaption><b>A · Earnings</b><span>Today's earnings in a ring split cash / UPI / wallet (matches the drawer), compared with the same day last week. Then visits with a 7-day trend (today in gold, Tuesday closed), then each stylist ranked with their customers and takings.</span></figcaption>
     </figure>
 
     <figure>
       <div class="ph"><div class="bg"></div><div class="scr">
-        <div class="top"><div><div class="who">Owner</div><div class="ttl">Attendance</div></div><div class="pill ok">2 of 3 in</div></div>
+        <div class="top"><div><div class="who">Owner</div><div class="ttl">Attendance</div></div><div class="pill ok">3 of 3 in</div></div>
         <div class="glass pad in-anim" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw;text-align:center">
           <div style="display:grid;justify-items:center;gap:1.4cqw"><div class="face">IK</div><div class="sm" style="color:var(--ink)">Imran</div><span class="pill ok">9:52</span></div>
           <div style="display:grid;justify-items:center;gap:1.4cqw"><div class="face l">SD</div><div class="sm" style="color:var(--ink)">Sunita</div><span class="pill late">10:31</span></div>
-          <div style="display:grid;justify-items:center;gap:1.4cqw"><div class="face n">RK</div><div class="sm" style="color:var(--ink)">Rakesh</div><span class="pill off">Not in</span></div>
+          <div style="display:grid;justify-items:center;gap:1.4cqw"><div class="face">RK</div><div class="sm" style="color:var(--ink)">Rakesh</div><span class="pill ok">10:04</span></div>
         </div>
         <div class="glass pad in-anim" style="display:grid;gap:2.6cqw;animation-delay:.06s">
           <div style="display:flex;justify-content:space-between"><span class="lbl">October</span><span class="sm">present · <span style="color:var(--late)">late</span> · absent</span></div>
@@ -267,7 +305,7 @@
         <div class="seg"><span class="on">Today</span><span>7 days</span><span>30 days</span></div>
         <div class="glass pad in-anim">
           <div class="rowi"><div class="grow"><div class="nm">Aarav Sharma</div><div class="sm">Haircut + Beard · Imran · 11:20</div></div><div style="text-align:right"><div class="nm">₹600</div><div class="sm gold">Void</div></div></div>
-          <div class="rowi"><div class="grow"><div class="nm">Priya Patel</div><div class="sm">Facial · Sunita · 11:05</div></div><div style="text-align:right"><div class="nm">₹900</div><div class="sm gold">Void</div></div></div>
+          <div class="rowi"><div class="grow"><div class="nm">Sana Khan</div><div class="sm">Facial + Hair spa · Sunita · 11:10</div></div><div style="text-align:right"><div class="nm">₹1,700</div><div class="sm gold">Void</div></div></div>
           <div class="rowi" style="opacity:.6"><div class="grow"><div class="nm" style="text-decoration:line-through">Rohan Gupta</div><div class="sm" style="color:var(--late)">Voided · wrong customer</div></div><div style="text-align:right"><div class="nm" style="text-decoration:line-through">₹300</div></div></div>
           <div class="rowi"><div class="grow"><div class="nm">Kavya Menon</div><div class="sm">Hair colour · Rakesh · 10:40</div></div><div style="text-align:right"><div class="nm">₹1,200</div><div class="sm gold">Void</div></div></div>
         </div>
