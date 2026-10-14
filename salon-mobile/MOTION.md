@@ -20,9 +20,18 @@ motion, the smaller and faster it is.
 | Top-up sheet | **R8 Swipe-to-dismiss sheet** | dismiss if dragged > threshold or velocity > 0.11; else spring back |
 | Receipt after a visit | **R4 Clip-path reveal** | inset(0 0 100% 0) → inset(0); ~0.5s |
 | Backup progress | **08 Barber-pole progress** | red/cream/blue stripe fill; moves only while a backup runs |
+| Collect ₹… button, Log in button | **P1 One-shape morph** | label blurs out 120ms → button narrows to a circle 340ms (tiny overshoot) → spinner → ✓ draws 280ms; text swaps have their own exit/enter timing |
+| Owner Today/7d/30d, Cash/UPI/Card, Today's customers filters | **P2 Stretchy tab pill** (replaces R5) | leading edge spring k≈640/c≈48, trailing edge k≈230/c≈28, so the pill stretches toward the tap |
+| Earnings rings, 7-day bars, attendance month grid | **P3 Self-drawing charts** | ring segments draw 1.2s ease (0.16,1,0.3,1); numbers count up 0.9s starting ~0.35s later; grid cells pop with 22ms stagger |
+| Excel export | **P4 Status pill** (with 08 barber pole) | label swaps Export → "Building … %" → "Saved ✓"; pole stripes move only while building |
+| Payment collected | **P5 Gold flood → PAID stamp** | gold circle floods past the corners in 0.3s, receipt prints underneath (R4), circle contracts into the stamp 0.56s, stamp lands |
+| Every screen | **P6 Staggered stops** | ease cubic-bezier(0.16,1,0.3,1); elements never all start and stop on the same frame; overshoot < 2% |
 
 Optional, only if the need appears: **R7 Popover from its button** (dropdown menus),
 **#15 Skeleton shimmer** (if data ever loads from a server).
+
+Source of P1–P6: prompt-motion.com research, see `design-studies/prompt-motion-notes.md`.
+Parked: **P7** gold tilt badge with particles, only if the owner approves the top-stylist bonus (F5).
 
 ## Never animated
 - Counter keypad: instant tint on touch, nothing else.
