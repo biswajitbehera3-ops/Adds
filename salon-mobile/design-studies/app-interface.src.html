@@ -1,0 +1,279 @@
+<title>Salon App Interface</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap">
+<style>
+  /* Layout: a specimen sheet of phone screens, staff row then owner row, in the approved login language (brown studio, frosted glass, gold accent). */
+  :root {
+    --page: #120D0B;
+    --glow: #8E5B4E; --mid: #4A3029; --deep: #1A1210;
+    --ink: #FFF8F1; --soft: rgba(255,248,241,.72); --faint: rgba(255,248,241,.5);
+    --glass: rgba(255,244,236,.12); --glass-2: rgba(255,244,236,.2); --edge: rgba(255,244,236,.28);
+    --gold: #E4A67B; --gold-deep: #C9864F; --ok: #9CCB8F; --late: #F08C6A; --btn: #1E1A18;
+    --font: "Urbanist", "Helvetica Neue", Arial, sans-serif;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font-family: var(--font); padding-inline: 16px; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding-block: 40px 80px; display: grid; gap: 28px; }
+  .kick { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+  h1 { font-size: clamp(30px, 4.6vw, 48px); font-weight: 500; margin: 6px 0 8px; letter-spacing: -.01em; }
+  h2 { font-size: 24px; font-weight: 600; margin: 0; }
+  p { margin: 0; color: var(--soft); line-height: 1.55; max-width: 72ch; }
+  .row { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 22px; }
+  figure { margin: 0; display: grid; gap: 10px; min-width: 0; }
+  figcaption b { display: block; font-size: 15px; font-weight: 700; }
+  figcaption span { font-size: 13px; color: var(--faint); line-height: 1.45; }
+  .rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .rule { border-top: 1px solid var(--edge); padding-top: 10px; }
+  .rule b { display: block; font-size: 14px; margin-bottom: 3px; }
+  .rule p { font-size: 13.5px; }
+
+  /* phone */
+  .ph { position: relative; width: 100%; max-width: 280px; aspect-ratio: 280 / 590; border-radius: 34px; overflow: hidden; box-shadow: 0 0 0 7px #1d1715, 0 30px 50px -20px rgba(0,0,0,.8); container-type: inline-size; justify-self: center; }
+  .ph .bg { position: absolute; inset: 0; background: radial-gradient(120% 75% at 15% 5%, var(--glow), var(--mid) 45%, var(--deep)); }
+  .ph .bg::after { content: ""; position: absolute; inset: 0; opacity: .2; mix-blend-mode: overlay; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .scr { position: absolute; inset: 0; padding: 10cqw 5.5cqw 22cqw; display: flex; flex-direction: column; gap: 3.2cqw; overflow: hidden; }
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .top .who { font-size: 3.6cqw; color: var(--soft); }
+  .top .ttl { font-size: 7.4cqw; font-weight: 500; line-height: 1.1; }
+  .badge { width: 10cqw; height: 10cqw; border-radius: 50%; overflow: hidden; background: #000; box-shadow: 0 0 0 1px var(--edge); flex: none; }
+  .badge img { width: 100%; height: 100%; display: block; }
+  .glass { background: linear-gradient(180deg, var(--glass-2), var(--glass)); border: 1px solid var(--edge); border-radius: 6cqw; backdrop-filter: blur(14px); box-shadow: inset 0 1px 0 rgba(255,255,255,.25); }
+  .pad { padding: 4.4cqw; }
+  .lbl { font-size: 3cqw; letter-spacing: .14em; text-transform: uppercase; color: var(--faint); font-weight: 700; }
+  .big { font-size: 9cqw; font-weight: 600; letter-spacing: -.01em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+  .mid { font-size: 5.2cqw; font-weight: 600; }
+  .sm { font-size: 3.4cqw; color: var(--soft); }
+  .pill { display: inline-flex; align-items: center; gap: 1.4cqw; border-radius: 999px; padding: 1.2cqw 3cqw; font-size: 3cqw; font-weight: 700; }
+  .ok { background: rgba(156,203,143,.18); color: var(--ok); }
+  .late { background: rgba(240,140,106,.2); color: var(--late); }
+  .off { background: rgba(255,248,241,.08); color: var(--faint); }
+  .gold { color: var(--gold); }
+  .btn { height: 12cqw; border-radius: 6cqw; background: var(--btn); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 4.2cqw; font-weight: 600; gap: 2cqw; }
+  .btn.gold-b { background: var(--gold); color: #2A1710; }
+  .btn.line { background: transparent; border: 1px solid var(--edge); }
+  .search { height: 13cqw; border-radius: 6.5cqw; display: flex; align-items: center; gap: 3cqw; padding: 0 2cqw 0 5cqw; font-size: 4.2cqw; color: var(--soft); }
+  .search i { margin-left: auto; width: 9cqw; height: 9cqw; border-radius: 50%; background: var(--gold); display: grid; place-items: center; }
+  .rowi { display: flex; align-items: center; gap: 3cqw; padding: 2.6cqw 0; border-top: 1px solid rgba(255,244,236,.12); }
+  .rowi:first-of-type { border-top: 0; }
+  .grow { flex: 1; min-width: 0; }
+  .nm { font-size: 4cqw; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 3cqw; }
+  .chips { display: flex; flex-wrap: wrap; gap: 2cqw; }
+  .chip { border: 1px solid var(--edge); border-radius: 999px; padding: 2cqw 3.4cqw; font-size: 3.5cqw; font-weight: 600; }
+  .chip small { display: block; font-size: 2.9cqw; color: var(--faint); font-weight: 500; }
+  .chip.on { background: var(--ink); color: #2A1710; border-color: var(--ink); }
+  .chip.on small { color: #6B4A39; }
+  .chip.sug { border-style: dashed; border-color: var(--gold); }
+  .seal { width: 22cqw; height: 22cqw; border-radius: 50%; border: 1.5px solid var(--gold); display: grid; place-items: center; text-align: center; flex: none; box-shadow: inset 0 0 0 3cqw rgba(228,166,123,.08); }
+  .seal b { font-size: 4.8cqw; display: block; }
+  .seal span { font-size: 2.4cqw; letter-spacing: .2em; color: var(--gold); }
+  .dock { position: absolute; left: 4cqw; right: 4cqw; bottom: 4.5cqw; height: 15cqw; border-radius: 7.5cqw; display: flex; align-items: center; justify-content: space-around; padding: 0 3cqw; background: rgba(26,18,16,.72); border: 1px solid var(--edge); backdrop-filter: blur(16px); }
+  .dock span { display: grid; justify-items: center; gap: .6cqw; font-size: 2.5cqw; color: var(--faint); font-weight: 600; }
+  .dock span svg { width: 5.6cqw; height: 5.6cqw; }
+  .dock span.on { color: var(--gold); }
+  .dock .fab { width: 13cqw; height: 13cqw; margin-top: -8cqw; border-radius: 50%; background: var(--gold); display: grid; place-items: center; box-shadow: 0 6px 16px rgba(0,0,0,.4), 0 0 0 4px rgba(26,18,16,.9); }
+  .bar { height: 2.6cqw; border-radius: 2cqw; background: rgba(255,244,236,.12); overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--ink); border-radius: 2cqw; }
+  .bar i.g { background: var(--gold); }
+  .split { display: flex; height: 3cqw; border-radius: 2cqw; overflow: hidden; gap: .6cqw; }
+  .face { width: 16cqw; height: 16cqw; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 4.6cqw; background: linear-gradient(135deg, #a77a62, #5b3b30); box-shadow: 0 0 0 1.5px var(--ok); }
+  .face.l { box-shadow: 0 0 0 1.5px var(--late); }
+  .face.n { background: rgba(255,248,241,.08); box-shadow: 0 0 0 1px var(--edge); color: var(--faint); }
+  .heat { display: grid; grid-template-columns: repeat(15, 1fr); gap: .8cqw; }
+  .heat i { aspect-ratio: 1; border-radius: .9cqw; background: rgba(255,244,236,.1); }
+  .heat i.p { background: var(--ink); } .heat i.lt { background: var(--late); } .heat i.f { background: transparent; box-shadow: inset 0 0 0 1px rgba(255,244,236,.15); }
+  .cam { width: 64cqw; height: 64cqw; margin: 0 auto; border-radius: 50%; display: grid; place-items: center; text-align: center; padding: 8cqw; font-size: 3.6cqw; color: var(--soft); background: rgba(0,0,0,.35); box-shadow: 0 0 0 1px var(--edge), 0 0 0 3cqw rgba(255,244,236,.05); }
+  .stamp { width: 24cqw; height: 24cqw; border-radius: 50%; border: 2px solid var(--gold); display: grid; place-items: center; transform: rotate(-12deg); color: var(--gold); font-weight: 800; letter-spacing: .14em; font-size: 4cqw; box-shadow: inset 0 0 0 2cqw rgba(228,166,123,.08), inset 0 0 0 calc(2cqw + 1px) var(--gold); }
+  .recl { display: flex; justify-content: space-between; font-size: 3.7cqw; padding: 1.2cqw 0; color: var(--soft); }
+  .recl.t { color: var(--ink); font-weight: 700; font-size: 4.4cqw; border-top: 1px solid var(--edge); padding-top: 2.4cqw; margin-top: 1cqw; }
+  .seg { display: flex; border-radius: 999px; border: 1px solid var(--edge); padding: .8cqw; }
+  .seg span { flex: 1; text-align: center; padding: 2cqw 0; font-size: 3.4cqw; font-weight: 600; border-radius: 999px; color: var(--soft); }
+  .seg span.on { background: var(--ink); color: #2A1710; }
+  .tog { width: 11cqw; height: 6.4cqw; border-radius: 4cqw; background: var(--gold); position: relative; flex: none; }
+  .tog::after { content: ""; position: absolute; right: .8cqw; top: .8cqw; width: 4.8cqw; height: 4.8cqw; border-radius: 50%; background: #fff; }
+  .in-anim { animation: rise .6s cubic-bezier(.16,1,.3,1) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .in-anim { animation: none; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="kick">Inside the app</div>
+    <h1>Staff and owner screens</h1>
+    <p>Everything continues the approved login: the brown studio backdrop, frosted-glass cards, gold for money and the main action, and Urbanist type. Staff and owner see different apps after login. Staff get a dock for the work they do all day; the owner gets a dock for money, attendance, staff and visits.</p>
+  </header>
+
+  <section class="rules">
+    <div class="rule"><b>Readable in a bright salon</b><p>Text is near-white on deep brown and every number is large. Glass cards are tinted enough that text never sits on a busy background.</p></div>
+    <div class="rule"><b>One gold thing per screen</b><p>Gold marks money and the main action only: wallet seals, "Collect ₹600", the PAID stamp. Everything else is cream on brown.</p></div>
+    <div class="rule"><b>Thumb-first</b><p>The main action sits low on the screen. The dock's round gold button always means "customer walked in".</p></div>
+    <div class="rule"><b>Motion from the approved list</b><p>Card morphs, letter reveal, grid pop-in, list stagger, sliding tabs, receipt print, barber-pole progress. The keypad never animates.</p></div>
+  </section>
+
+  <section>
+    <div class="kick">Staff app</div>
+    <h2>After login: check in, then serve customers</h2>
+  </section>
+  <div class="row">
+    <figure>
+      <div class="ph"><div class="bg"></div><div class="scr">
+        <div class="top"><div><div class="who">Wednesday, 14 Oct</div><div class="ttl">Hi Imran, check in</div></div><div class="badge"><img src="__LOGO__" alt=""></div></div>
+        <div class="glass pad in-anim" style="display:grid;gap:4cqw;text-align:center;flex:1;align-content:center">
+          <div class="cam">Take a selfie at the counter to mark today's attendance</div>
+          <div><div class="big">9:52 AM</div><div class="sm"><span style="color:var(--ok)">On time</span> · shift starts 10:00</div></div>
+        </div>
+        <div class="btn gold-b">Take selfie</div>
+      </div></div>
+      <figcaption><b>1 · Attendance first</b><span>Shown once a day before anything else. The selfie is saved with the time; after 10:15 it's marked late.</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph"><div class="bg"></div><div class="scr">
+        <div class="top"><div><div class="who">Wed 14 Oct · Salon</div><div class="ttl">Good morning, Imran</div></div><div class="badge"><img src="__LOGO__" alt=""></div></div>
+        <div class="glass search in-anim">Customer's mobile number <i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2A1710" stroke-width="2.5" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg></i></div>
+        <div class="glass pad in-anim" style="animation-delay:.06s">
+          <div class="lbl">In the chair · 2</div>
+          <div class="rowi"><div class="grow"><div class="nm">Aarav Sharma</div><div class="sm">since 10:42 · Haircut</div></div><span class="pill" style="background:var(--gold);color:#2A1710">Pay ₹450</span></div>
+          <div class="rowi"><div class="grow"><div class="nm">Priya Patel</div><div class="sm">since 10:58 · Facial</div></div><span class="pill" style="background:var(--gold);color:#2A1710">Pay ₹900</span></div>
+        </div>
+        <div class="two in-anim" style="animation-delay:.12s">
+          <div class="glass pad"><div class="lbl">Due back</div><div class="big gold">27</div><div class="sm">to remind</div></div>
+          <div class="glass pad"><div class="lbl">Today</div><div class="big">₹5,900</div><div class="sm">7 paid</div></div>
+        </div>
+      </div>
+        <div class="dock"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11 12 4l9 7v9H3z"/></svg>Home</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.6-3.4 3-5.4 6-5.4s5.4 2 6 5.4"/></svg>Customers</span><div class="fab"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A1710" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="7"/><path d="M12 9v4l2.6 1.8"/></svg>Reminders</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M12 9v11M3.5 13h17"/></svg>Refer</span></div>
+      </div>
+      <figcaption><b>2 · Home</b><span>Number search on top, who is in the chair with their bill, due-back and today. The dock's gold + also means "customer walked in".</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph"><div class="bg"></div><div class="scr">
+        <div class="top"><div><div class="who">+91</div><div class="ttl" style="font-variant-numeric:tabular-nums">98000 00000</div></div></div>
+        <div class="glass pad in-anim" style="display:flex;gap:3cqw;align-items:center">
+          <div class="grow"><span class="pill ok">Returning · 5 visits</span><div class="mid" style="margin-top:1.4cqw">Aarav Sharma</div><div class="sm">Last: hair spa, 3 weeks ago</div></div>
+          <div class="seal"><div><span>WALLET</span><b>₹700</b></div></div>
+        </div>
+        <div class="lbl" style="margin-top:1cqw">Services</div>
+        <div class="chips"><span class="chip on">Haircut<small>₹300</small></span><span class="chip">Beard trim<small>₹150</small></span><span class="chip">Hair colour<small>₹1,200</small></span><span class="chip">Facial<small>₹900</small></span></div>
+        <div class="lbl">Suggested add-ons</div>
+        <div class="chips"><span class="chip sug">Head massage<small>+₹150</small></span><span class="chip sug">Hair wash<small>+₹100</small></span></div>
+        <div style="margin-top:auto" class="btn gold-b">Start visit · ₹300</div>
+      </div></div>
+      <figcaption><b>3 · Customer walks in</b><span>Ten digits and the card appears: new or returning, last service, wallet seal. Pick services, start the visit. Payment comes later.</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph"><div class="bg"></div><div class="scr">
+        <div class="top"><div><div class="who">In the chair since 10:42</div><div class="ttl">Aarav</div></div><div class="seal" style="width:16cqw;height:16cqw"><div><span>WALLET</span><b style="font-size:3.8cqw">₹700</b></div></div></div>
+        <div class="glass pad in-anim">
+          <div class="recl"><span>Haircut</span><span>₹300</span></div>
+          <div class="recl"><span>Beard trim <span class="gold">· added</span></span><span>₹150</span></div>
+          <div class="recl"><span>Head massage</span><span>₹150</span></div>
+          <div class="recl t"><span>Total</span><span>₹600</span></div>
+        </div>
+        <div class="glass pad" style="display:flex;align-items:center;gap:3cqw"><div class="grow"><div class="nm">Pay from wallet</div><div class="sm">₹600 of ₹700</div></div><div class="tog"></div></div>
+        <div class="seg"><span class="on">Cash</span><span>UPI</span><span>Card</span></div>
+        <div style="margin-top:auto;display:grid;gap:2.4cqw"><div class="btn gold-b">Collect ₹600</div><div class="sm" style="text-align:center">Customer left without a service</div></div>
+      </div></div>
+      <figcaption><b>4 · After the service</b><span>Tap them under "In the chair", add anything extra, choose wallet / cash / UPI / card, collect.</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph"><div class="bg"></div><div class="scr">
+        <div class="top"><div><div class="who">Paid · 11:20 AM</div><div class="ttl">Aarav Sharma</div></div></div>
+        <div class="glass pad in-anim" style="position:relative">
+          <div class="recl"><span>Haircut</span><span>₹300</span></div>
+          <div class="recl"><span>Beard trim</span><span>₹150</span></div>
+          <div class="recl"><span>Head massage</span><span>₹150</span></div>
+          <div class="recl t"><span>Total</span><span>₹600</span></div>
+          <div class="recl"><span>From wallet</span><span>₹600</span></div>
+          <div class="recl"><span>Wallet now</span><span class="gold">₹100</span></div>
+          <div style="display:flex;justify-content:flex-end;margin-top:-2cqw"><div class="stamp">PAID</div></div>
+        </div>
+        <div style="margin-top:auto;display:grid;gap:2.4cqw"><div class="btn gold-b">Send thank-you on WhatsApp</div><div class="btn line">Next customer</div><div class="sm" style="text-align:center">Undo this visit · 1:59</div></div>
+      </div></div>
+      <figcaption><b>5 · Receipt</b><span>Prints top to bottom, PAID stamp lands with a buzz. One tap sends the thank-you with balance and referral code. Undo for 2 minutes.</span></figcaption>
+    </figure>
+  </div>
+
+  <section>
+    <div class="kick">Owner app</div>
+    <h2>Separate login, separate app</h2>
+  </section>
+  <div class="row">
+    <figure>
+      <div class="ph"><div class="bg"></div><div class="scr">
+        <div class="top"><div><div class="who">Owner · Wed 14 Oct</div><div class="ttl">Today's money</div></div><div class="badge"><img src="__LOGO__" alt=""></div></div>
+        <div class="glass pad in-anim" style="display:grid;gap:3cqw">
+          <div class="big" style="font-size:12cqw">₹6,800</div><div class="sm">7 visits · 2 in the chair now</div>
+          <div class="split"><i style="flex:25;background:var(--ink)"></i><i style="flex:20;background:#b98e78"></i><i style="flex:23;background:var(--gold)"></i></div>
+          <div class="two sm"><span>Cash ₹2,500</span><span>UPI ₹2,000</span><span>Card ₹0</span><span class="gold">Wallet ₹2,300</span></div>
+        </div>
+        <div class="glass pad in-anim" style="display:grid;gap:2.6cqw;animation-delay:.06s">
+          <div class="lbl">By stylist · today</div>
+          <div><div style="display:flex;justify-content:space-between" class="sm"><span style="color:var(--ink)">Sunita</span><span>₹3,650</span></div><div class="bar"><i class="g" style="width:100%"></i></div></div>
+          <div><div style="display:flex;justify-content:space-between" class="sm"><span style="color:var(--ink)">Rakesh</span><span>₹2,150</span></div><div class="bar"><i style="width:59%"></i></div></div>
+          <div><div style="display:flex;justify-content:space-between" class="sm"><span style="color:var(--ink)">Imran</span><span>₹1,000</span></div><div class="bar"><i style="width:27%"></i></div></div>
+        </div>
+        <div class="two"><div class="glass pad"><div class="lbl">Wallets hold</div><div class="mid gold">₹14,900</div></div><div class="glass pad"><div class="lbl">Customers</div><div class="mid">124</div></div></div>
+      </div>
+        <div class="dock"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>Money</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Attendance</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.6-3.4 3-5.4 6-5.4s5.4 2 6 5.4M17 8v6M14 11h6"/></svg>Staff</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 9h6M9 13h6"/></svg>Visits</span></div>
+      </div>
+      <figcaption><b>A · Money</b><span>Takings split by cash / UPI / card / wallet to match the drawer, stylists ranked with growing bars, wallet money held.</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph"><div class="bg"></div><div class="scr">
+        <div class="top"><div><div class="who">Owner</div><div class="ttl">Attendance</div></div><div class="pill ok">2 of 3 in</div></div>
+        <div class="glass pad in-anim" style="display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw;text-align:center">
+          <div style="display:grid;justify-items:center;gap:1.4cqw"><div class="face">IK</div><div class="sm" style="color:var(--ink)">Imran</div><span class="pill ok">9:52</span></div>
+          <div style="display:grid;justify-items:center;gap:1.4cqw"><div class="face l">SD</div><div class="sm" style="color:var(--ink)">Sunita</div><span class="pill late">10:31</span></div>
+          <div style="display:grid;justify-items:center;gap:1.4cqw"><div class="face n">RK</div><div class="sm" style="color:var(--ink)">Rakesh</div><span class="pill off">Not in</span></div>
+        </div>
+        <div class="glass pad in-anim" style="display:grid;gap:2.6cqw;animation-delay:.06s">
+          <div style="display:flex;justify-content:space-between"><span class="lbl">October</span><span class="sm">present · <span style="color:var(--late)">late</span> · absent</span></div>
+          <div class="sm" style="color:var(--ink)">Imran · 11 present · 2 late</div>
+          <div class="heat"><i class="p"></i><i class="p"></i><i class="lt"></i><i class="p"></i><i></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="lt"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="f"></i></div>
+          <div class="sm" style="color:var(--ink)">Sunita · 12 present · 4 late</div>
+          <div class="heat"><i class="p"></i><i class="lt"></i><i class="lt"></i><i class="p"></i><i class="p"></i><i></i><i class="p"></i><i class="lt"></i><i class="p"></i><i class="p"></i><i class="p"></i><i class="lt"></i><i class="p"></i><i class="lt"></i><i class="f"></i></div>
+        </div>
+        <div style="display:grid;gap:2cqw"><div class="bar" style="height:3cqw"><i style="width:62%;background:repeating-linear-gradient(-45deg,var(--late) 0 6px,#f6e9cf 6px 10px,#3b5c8f 10px 16px,#f6e9cf 16px 20px)"></i></div><div class="btn line">Export October to Excel</div></div>
+      </div></div>
+      <figcaption><b>B · Attendance</b><span>Today's selfies ringed green (on time) or orange (late). Month grid per person. Excel export fills the barber-pole bar while it builds.</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph"><div class="bg"></div><div class="scr">
+        <div class="top"><div><div class="who">Owner</div><div class="ttl">Staff</div></div></div>
+        <div class="glass pad in-anim">
+          <div class="rowi"><div class="face" style="width:11cqw;height:11cqw;font-size:3.4cqw">IK</div><div class="grow"><div class="nm">Imran Khan</div><div class="sm">98111 00001 · Chair 1</div></div><span class="sm gold">Edit</span></div>
+          <div class="rowi"><div class="face" style="width:11cqw;height:11cqw;font-size:3.4cqw">SD</div><div class="grow"><div class="nm">Sunita Devi</div><div class="sm">98111 00002 · Chair 2</div></div><span class="sm gold">Edit</span></div>
+          <div class="rowi"><div class="face" style="width:11cqw;height:11cqw;font-size:3.4cqw">RK</div><div class="grow"><div class="nm">Rakesh Kumar</div><div class="sm">98111 00003 · Chair 3</div></div><span class="sm gold">Edit</span></div>
+        </div>
+        <div class="glass pad" style="display:grid;gap:2.4cqw">
+          <div class="lbl">Add staff</div>
+          <div class="glass search" style="height:11cqw;font-size:3.6cqw">Name</div>
+          <div class="glass search" style="height:11cqw;font-size:3.6cqw">Mobile number (login)</div>
+          <div class="glass search" style="height:11cqw;font-size:3.6cqw">Password</div>
+        </div>
+        <div class="btn gold-b" style="margin-top:auto">Add staff member</div>
+      </div></div>
+      <figcaption><b>C · Staff</b><span>Add staff with their mobile number as login, reset a password, deactivate someone who left.</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph"><div class="bg"></div><div class="scr">
+        <div class="top"><div><div class="who">Owner</div><div class="ttl">Visits</div></div></div>
+        <div class="seg"><span class="on">Today</span><span>7 days</span><span>30 days</span></div>
+        <div class="glass pad in-anim">
+          <div class="rowi"><div class="grow"><div class="nm">Aarav Sharma</div><div class="sm">Haircut + Beard · Imran · 11:20</div></div><div style="text-align:right"><div class="nm">₹600</div><div class="sm gold">Void</div></div></div>
+          <div class="rowi"><div class="grow"><div class="nm">Priya Patel</div><div class="sm">Facial · Sunita · 11:05</div></div><div style="text-align:right"><div class="nm">₹900</div><div class="sm gold">Void</div></div></div>
+          <div class="rowi" style="opacity:.6"><div class="grow"><div class="nm" style="text-decoration:line-through">Rohan Gupta</div><div class="sm" style="color:var(--late)">Voided · wrong customer</div></div><div style="text-align:right"><div class="nm" style="text-decoration:line-through">₹300</div></div></div>
+          <div class="rowi"><div class="grow"><div class="nm">Kavya Menon</div><div class="sm">Hair colour · Rakesh · 10:40</div></div><div style="text-align:right"><div class="nm">₹1,200</div><div class="sm gold">Void</div></div></div>
+        </div>
+        <div class="sm" style="margin-top:auto">Voiding refunds wallet money and takes back a referral reward the visit paid.</div>
+      </div></div>
+      <figcaption><b>D · Visits</b><span>Every paid visit with who served it. Void with a reason; voided visits stay visible, struck through.</span></figcaption>
+    </figure>
+  </div>
+</div>
