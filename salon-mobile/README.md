@@ -1,5 +1,7 @@
 # Salon (mobile)
 
+> **Start here: [`BUILD-SPEC.md`](BUILD-SPEC.md)** is the master checklist of everything the app must contain. The app isn't built until every component there is decided.
+
 Phone-first Expo / React Native app for one salon: Counter, Customers, Reminders, Refer & Earn, Owner
 Dashboard. Each salon gets its own copy; customise `src/config/salon.ts`. Data lives on the phone
 (AsyncStorage). Business rules mirror `../salon-app` and are tested in `tests/`.
