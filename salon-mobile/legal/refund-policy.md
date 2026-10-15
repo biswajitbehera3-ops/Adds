@@ -2,7 +2,7 @@
 
 Two parts: **A** is for salon customers (shown at the counter and in the app). **B** is for salons paying for the app.
 
-## A. Customers of [Salon name]
+## A. Customers of {{salonName}}
 
 ### Services
 If you are not happy with a service, tell us before you leave. We will redo it or adjust the bill. A bill entered by mistake is cancelled (voided) and any wallet money used goes back to your wallet.
@@ -25,9 +25,9 @@ The app works this out automatically and shows the refundable amount before anyt
 ## B. Salons paying for the app
 | Payment | Refund |
 |---|---|
-| Setup fee | Full refund if the Provider doesn't deliver a working app within [14] days of the agreed date. No refund after the app is delivered and accepted |
+| Setup fee | Full refund if the Provider doesn't deliver a working app within {{deliveryDays}} days of the agreed date. No refund after the app is delivered and accepted |
 | Monthly fee | Paid in advance. Cancelling stops the next month; the current month isn't refunded part-way |
-| Outage | If sync or storage is unavailable for more than [24] hours in a month through the Provider's fault, that month is credited [pro rata] |
+| Outage | If sync or storage is unavailable for more than 24 hours in a month through the Provider's fault, that month is credited pro rata |
 | Overcharge or duplicate payment | Refunded in full within 7 days |
 
 Refunds go back by the original payment method. GST is adjusted with a credit note.

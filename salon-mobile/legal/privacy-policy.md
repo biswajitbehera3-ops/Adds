@@ -1,12 +1,12 @@
-# Privacy Policy — [Salon trading name]
+# Privacy Policy — {{salonName}}
 
-**Last updated:** [date] · **Notice version:** 2026-10-15
-This template follows India's Digital Personal Data Protection Act, 2023 ("DPDP Act") and the DPDP Rules, 2025. Fill every [bracket], then have a lawyer review it before use.
+**Effective:** {{effectiveDate}} · **Notice version:** {{noticeVersion}}
+This policy follows India's Digital Personal Data Protection Act, 2023 ("DPDP Act") and the DPDP Rules, 2025.
 
 ## 1. Who we are
-[Salon legal name] ("we", "the salon"), [full address], [GSTIN if any], phone [salon phone], email [salon email].
+{{legalName}} ("we", "the salon"), {{address}}{{gstinLine}}, phone {{phone}}, email {{email}}.
 We are the **Data Fiduciary**: we decide why and how your personal data is used.
-Our app is provided by [your business name] ("the provider"), which handles the data only on our written instructions (a **Data Processor**).
+Our app is provided by {{providerName}} ("the provider"), which handles the data only on our written instructions (a **Data Processor**).
 
 ## 2. What we collect, and why
 We collect only what we need.
@@ -31,15 +31,16 @@ For anyone under 18 we keep the record under a parent's or guardian's mobile num
 ## 5. Who can see your data
 - Our staff, to look you up and serve you at the counter. Each staff member has their own login.
 - The owner.
-- The provider, under contract, only to run and support the app. When online backup and sync are switched on, its hosting company ([cloud provider], servers in India) stores the data too.
+- The provider, under contract, only to run and support the app. When online backup and sync are switched on, its hosting company ({{cloudProvider}}, servers in {{cloudRegion}}) stores the data too.
 - WhatsApp (Meta) carries a message when we send one to you.
 - Government authorities, only when the law requires.
 We **never sell** your data and never share it for anyone else's marketing.
 
 ## 6. How long we keep it
-- Your record: until you ask us to delete it, or automatically after **3 years** with no visit or wallet activity (if your wallet is empty).
+- Your record: until you ask us to delete it, or automatically after **{{inactiveRetention}}** with no visit or wallet activity (if your wallet is empty).
 - Bills: kept without your name or number for as long as tax law requires.
-- Copies of reminder messages: 1 year.
+- Copies of reminder messages: {{reminderRetention}}.
+- Staff attendance selfies: {{selfieRetention}}.
 - Access logs: at least 1 year, as the DPDP Rules require.
 
 ## 7. Your rights
@@ -58,7 +59,7 @@ Data is kept in the app's private storage on the salon's phones. When online bac
 If a breach affects your data, we will tell you and the Data Protection Board without delay, as the DPDP Rules require.
 
 ## 9. Grievance officer
-[Owner name], [phone], [email], [salon address].
+{{ownerName}}, {{ownerPhone}}, {{ownerEmail}}, {{address}}.
 
 ## 10. Changes
 If we change this policy, we update the version number and show the new notice at the counter. If the purpose of use changes, we ask for your consent again.

@@ -1,8 +1,8 @@
 # Terms of Service — Salon App
 
-**Between** [your business name], [address], [GSTIN] ("the Provider")
-**and** [salon legal name], [address], [GSTIN] ("the Salon").
-**Effective:** [date]. Have a lawyer review before signing.
+**Between** {{providerName}}, {{providerAddress}}{{providerGstinLine}} ("the Provider")
+**and** {{legalName}}, {{address}}{{gstinLine}} ("the Salon").
+**Effective:** {{effectiveDate}}.
 
 ## 1. The service
 The Provider supplies the Salon with a custom app (Android APK), installed on the owner's and staff's phones, plus private online storage and sync.
@@ -12,8 +12,8 @@ A demo is shown before purchase. What the Salon sees in the demo is what it gets
 ## 2. Fees — all stated up front
 | Item | Amount | When |
 |---|---|---|
-| Setup (branding, configuration, installation, training) | ₹[ ] | Once, on delivery |
-| Monthly service (storage, sync, backups, updates, support) | ₹[ ] per month | In advance, each month |
+| Setup (branding, configuration, installation, training) | ₹{{setupFee}} | Once, on delivery |
+| Monthly service (storage, sync, backups, updates, support) | ₹{{monthlyFee}} per month | In advance, each month |
 | GST | 18% on the above, shown separately on every invoice | |
 
 There are **no other charges**: no per-customer, per-message, per-staff or per-device fees, and no automatic price rises.
@@ -42,9 +42,9 @@ WhatsApp messages are sent from the Salon's own WhatsApp; the Provider charges n
 - The Provider keeps ownership of the app's code; the Salon gets a licence to use it for the term.
 
 ## 7. Service level and support
-- Support: [hours], by WhatsApp/phone [number]. Response within [1 working day].
-- The app works offline and syncs when back online. The Provider aims for [99%] monthly availability of sync and storage.
-- Backups: daily, kept for [30] days.
+- Support: {{supportHours}}, by WhatsApp/phone {{providerPhone}}. Response within 1 working day.
+- The app works offline and syncs when back online. The Provider aims for 99% monthly availability of sync and storage.
+- Backups: daily, kept for 30 days.
 
 ## 8. Claims and liability
 - The Provider makes no promise of a specific increase in customers or revenue. Results depend on the Salon's use.
@@ -52,7 +52,7 @@ WhatsApp messages are sent from the Salon's own WhatsApp; the Provider charges n
 - Force majeure: neither party is liable for delays caused by events outside its reasonable control.
 
 ## 9. Law and disputes
-Indian law applies. Courts at [city] have jurisdiction. The parties will first try to settle any dispute by talking, for 30 days.
+Indian law applies. Courts at {{city}} have jurisdiction. The parties will first try to settle any dispute by talking, for 30 days.
 
 ---
 

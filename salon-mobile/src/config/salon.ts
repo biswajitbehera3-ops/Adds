@@ -2,6 +2,9 @@
  * Per-salon configuration. Every salon gets its own deployment of this app,
  * and this file is the only thing that changes between them.
  *
+ * Business, legal and retention details live in salon-details.json so the legal
+ * pack (npm run legal) reads the same values.
+ *
  * All money is in whole rupees. The numbers below are placeholder defaults,
  * not confirmed business rules — set them per salon before go-live.
  */
@@ -56,6 +59,7 @@ export type SalonConfig = {
   business: {
     legalName: string;
     address: string;
+    city: string;
     /** GSTIN, if registered. */
     gstin: string;
     phone: string;
@@ -69,8 +73,14 @@ export type SalonConfig = {
     privacyUrl: string;
     termsUrl: string;
     /** The app maker (data processor) and its support contact. */
+    effectiveDate: string;
     providerName: string;
+    providerAddress: string;
+    providerGstin: string;
     providerEmail: string;
+    providerPhone: string;
+    cloudProvider: string;
+    cloudRegion: string;
   };
   /** How long data is kept before it is erased automatically. */
   retention: {
@@ -87,8 +97,10 @@ export type SalonConfig = {
   undoWindowMinutes: number;
 };
 
+import details from "./salon-details.json";
+
 const config: SalonConfig = {
-  displayName: "Salon",
+  displayName: details.salonName,
   publicUrl: "https://salon.example/r",
 
   services: [
@@ -133,29 +145,9 @@ const config: SalonConfig = {
 
   receiptTemplatePlain: "Thanks for visiting {salon}, {name}. Paid {total}. Wallet balance: {balance}.",
 
-  // Fill in per salon before go-live. Every value here appears in the app and the policies.
-  business: {
-    legalName: "[Salon legal name]",
-    address: "[Full shop address, city, PIN]",
-    gstin: "",
-    phone: "[Salon phone]",
-    email: "[Salon email]",
-    grievance: { name: "[Owner name]", phone: "[Owner phone]", email: "[Owner email]" },
-  },
-
-  legal: {
-    noticeVersion: "2026-10-15",
-    privacyUrl: "[https://… privacy policy page]",
-    termsUrl: "[https://… terms page]",
-    providerName: "[Your business name]",
-    providerEmail: "[Your support email]",
-  },
-
-  retention: {
-    inactiveCustomerDays: 3 * 365,
-    attendancePhotoDays: 365,
-    reminderLogDays: 365,
-  },
+  business: details.business,
+  legal: details.legal,
+  retention: details.retention,
 
   shift: { start: "10:00", graceMinutes: 15 },
 

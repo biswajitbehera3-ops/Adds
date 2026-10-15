@@ -22,7 +22,7 @@
 |---|---|---|
 | WhatsApp message (`wa.me` link) | Staff tap Send; WhatsApp opens with the text ready, and staff press send | Meta (WhatsApp), only that message |
 | Excel attendance export | Owner taps Export / Share | Wherever the owner shares it |
-| Cloud sync (planned) | Continuously, once built | [Cloud provider], India region, under the DPA (sub-processor) |
+| Cloud sync (planned) | Continuously, once built | {{cloudProvider}}, {{cloudRegion}}, under the DPA (sub-processor) |
 
 ## Android permissions
 | Permission | Why | Asked when |

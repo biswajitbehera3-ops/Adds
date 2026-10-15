@@ -21,4 +21,4 @@
 - The Live floor animation needs a "pause animation" control for people who find motion distracting.
 - Hindi in-app text is not done yet.
 
-**Report a problem:** [support email / phone]. We aim to fix accessibility issues within 30 days.
+**Report a problem:** {{providerEmail}} / {{providerPhone}}. We aim to fix accessibility issues within 30 days.

@@ -2,7 +2,7 @@
 
 ## How a customer can ask
 - **At the counter** (fastest): staff open the customer's profile.
-- **WhatsApp or phone** to the grievance officer: [owner name], [phone]. Email: [email].
+- **WhatsApp or phone** to the grievance officer: {{ownerName}}, {{ownerPhone}}. Email: {{ownerEmail}}.
 - **Reply STOP** to any reminder to stop messages only.
 
 ## What staff and the owner do (all in the app)
@@ -24,6 +24,6 @@ For a child's record, it must come from the parent or guardian whose number is o
 - The person can come back later as a new customer.
 
 ## Request form (print or send as a message)
-> I, ____________ (name), mobile ____________, ask [Salon name] to:
+> I, ____________ (name), mobile ____________, ask {{salonName}} to:
 > ☐ send me a copy of my data  ☐ correct: ____________  ☐ stop WhatsApp messages  ☐ delete my data and refund my unused wallet money by ☐ cash ☐ UPI ____________
 > Date: ________ Signature / WhatsApp from the number above.

@@ -164,6 +164,16 @@
   .chairrow .pb i { display: block; height: 100%; background: var(--gold); border-radius: 1cqw; transition: width 1s linear; }
   .chairrow .nm { font-size: 3.6cqw; } .chairrow .sm { font-size: 2.8cqw; }
   @media (prefers-reduced-motion: reduce) { .dotlive, .dock .liveon svg, .floor .busy .snip g { animation: none !important; } }
+
+  .ck { display: grid; grid-template-columns: 6.4cqw 1fr; gap: 2.6cqw; align-items: start; cursor: pointer; padding: 1cqw 0; }
+  .ck[hidden] { display: none; }
+  .ck i { width: 6.4cqw; height: 6.4cqw; border-radius: 1.8cqw; border: 1.5px solid var(--edge); background: rgba(0,0,0,.2); display: grid; place-items: center; transition: background .18s, border-color .18s; }
+  .ck[aria-checked="true"] i { background: var(--gold); border-color: var(--gold); }
+  .ck[aria-checked="true"] i::after { content: ""; width: 1.6cqw; height: 3cqw; border: solid #2A1710; border-width: 0 .7cqw .7cqw 0; transform: rotate(45deg) translate(-.2cqw,-.3cqw); }
+  .ck b { display: block; font-size: 3.6cqw; font-weight: 600; }
+  .ck span { display: block; font-size: 2.9cqw; color: var(--soft); }
+  .ck:focus-visible, .js-add:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 2cqw; }
+  .btn[aria-disabled="true"] { opacity: .4; }
 </style>
 
 <div class="wrap">
@@ -423,6 +433,74 @@
       <figcaption><b>E · Visits</b><em class="try">Tap the tabs</em><span>Every paid visit with who served it. Void with a reason; voided visits stay visible, struck through.</span></figcaption>
     </figure>
   </div>
+
+  <section>
+    <div class="kick">Privacy built in · every salon</div>
+    <h2>Consent, opt-out, deletion and the legal pages</h2>
+    <p>Part of every salon's app, following India's DPDP Act. Nothing is pre-ticked. Messages are optional. Customers can stop messages, get a copy of their data, or have it deleted, and the wallet is refunded first.</p>
+  </section>
+  <div class="row">
+    <figure>
+      <div class="ph pv-new"><div class="bg"></div><div class="scr" style="gap:2.6cqw">
+        <div class="top"><div><div class="who">+91 91234 56780</div><div class="ttl">New customer</div></div></div>
+        <div class="glass search" style="height:11cqw;font-size:3.8cqw;color:var(--ink)">Neha Singh</div>
+        <div class="sm" style="font-size:3.1cqw;line-height:1.4">Read to the customer: we keep your name, number, visits and wallet only to serve you here. Stop messages or delete your data any time.</div>
+        <div class="glass pad" style="display:grid;gap:1.4cqw;padding:3.4cqw">
+          <div class="ck js-ck" data-k="minor" role="checkbox" aria-checked="false" tabindex="0"><i></i><div><b>Customer is under 18</b><span>Use the parent's or guardian's number</span></div></div>
+          <div class="ck js-ck" data-k="guardian" role="checkbox" aria-checked="false" tabindex="0" hidden><i></i><div><b>Parent or guardian agrees</b><span>They are here and the number is theirs</span></div></div>
+          <div class="ck js-ck" data-k="consent" role="checkbox" aria-checked="false" tabindex="0"><i></i><div><b>Agrees we keep their details</b><span>Required to save</span></div></div>
+          <div class="ck js-ck" data-k="marketing" role="checkbox" aria-checked="false" tabindex="0"><i></i><div><b>Wants WhatsApp reminders &amp; offers</b><span>Optional · reply STOP any time</span></div></div>
+        </div>
+        <div class="sm gold" style="text-decoration:underline">Full privacy notice</div>
+        <div class="btn gold-b js-add" style="margin-top:auto" aria-disabled="true">Add customer</div>
+      </div></div>
+      <figcaption><b>P1 · Consent at the counter</b><em class="try">Tick the boxes</em><span>Two separate choices, nothing pre-ticked. The button stays off until the customer agrees. Under 18 needs a parent or guardian. The app saves when, which notice and which staff member took the consent.</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph pv-prof"><div class="bg"></div><div class="scr" style="gap:2.6cqw">
+        <div class="top"><div><div class="who">Owner · customer</div><div class="ttl">Aarav Sharma</div></div><div class="seal" style="width:16cqw;height:16cqw"><div><span>WALLET</span><b style="font-size:3.8cqw" class="js-bal">₹600</b></div></div></div>
+        <div class="lbl">Privacy</div>
+        <div class="glass pad" style="display:grid;gap:2.4cqw;padding:3.4cqw">
+          <div class="ck js-ck" data-k="msgs" role="checkbox" aria-checked="true" tabindex="0"><i></i><div><b>WhatsApp reminders &amp; offers</b><span class="js-msgs-hint">On · untick if they reply STOP</span></div></div>
+          <div class="btn line" style="height:10.5cqw;font-size:3.6cqw">Send them their data on WhatsApp</div>
+        </div>
+        <div class="glass pad js-wallet" style="display:grid;gap:2cqw;padding:3.4cqw">
+          <div class="sm" style="font-size:3.2cqw">Before deleting, close the wallet: refund <b style="color:var(--ink)">₹500</b> paid-in money · ₹100 bonus credit is cancelled.</div>
+          <div class="seg"><span class="on">Cash</span><span>UPI</span><span>Card</span></div>
+          <div class="btn line js-close" role="button" tabindex="0" style="height:10.5cqw;font-size:3.6cqw">Close wallet · refund ₹500</div>
+        </div>
+        <div class="btn line js-del" role="button" tabindex="0" style="height:10.5cqw;font-size:3.6cqw;opacity:.4" aria-disabled="true">Delete customer data</div>
+        <div class="sm js-done" style="text-align:center;min-height:4cqw"></div>
+      </div></div>
+      <figcaption><b>P2 · Stop, copy, delete</b><em class="try">Untick, close the wallet, delete</em><span>STOP is one tick. The data copy goes to the customer on WhatsApp. Delete is owner-only: the wallet is refunded first (paid-in money back, bonus cancelled), then two taps erase the name and number, keeping anonymous bills for tax.</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph"><div class="bg"></div><div class="scr" style="gap:2cqw;overflow:hidden">
+        <div class="top"><div><div class="who">‹ Back</div><div class="ttl">Privacy &amp; terms</div></div><div class="badge"><img src="__LOGO__" alt="Salon logo"></div></div>
+        <div class="glass pad" style="display:grid;gap:1cqw;padding:3.4cqw">
+          <div class="lbl">Who we are</div>
+          <div class="sm" style="color:var(--ink)">[Salon legal name] · [address] · GSTIN · phone · email</div>
+        </div>
+        <div class="glass pad" style="display:grid;gap:1.2cqw;padding:3.4cqw">
+          <div class="lbl">Your rights</div>
+          <div class="sm">• Get a copy &nbsp;• Correct &nbsp;• Stop messages (STOP)<br>• Delete (wallet refunded first) &nbsp;• Nominate<br>• Complain to the Data Protection Board</div>
+        </div>
+        <div class="glass pad" style="display:grid;gap:1cqw;padding:3.4cqw">
+          <div class="lbl">Grievance officer</div>
+          <div class="sm" style="color:var(--ink)">[Owner name] · [phone] · reply in 7 days</div>
+        </div>
+        <div class="glass pad" style="display:grid;gap:1cqw;padding:3.4cqw">
+          <div class="lbl">Kept for</div>
+          <div class="sm">Inactive customers 3 years · selfies 1 year · bills (no name) for tax</div>
+        </div>
+        <div class="sm gold" style="text-decoration:underline">Privacy policy · Terms · Refund policy</div>
+        <div class="sm" style="font-size:3cqw">No cookies, no ads, no tracking. Fonts: SIL Open Font License.</div>
+      </div></div>
+      <figcaption><b>P3 · Privacy &amp; terms</b><span>Reachable from sign-in, the staff menu, the owner area and the new-customer form. Business details, grievance contact, retention and policy links come from each salon's settings, so every salon's app shows its own.</span></figcaption>
+    </figure>
+  </div>
 </div>
 
 <script>
@@ -646,7 +724,47 @@ document.querySelectorAll(".seg span").forEach((sp) => { sp.setAttribute("role",
 document.querySelectorAll(".ring, .floor .station").forEach((el) => { el.setAttribute("role", "button"); el.tabIndex = 0; });
 document.addEventListener("keydown", (e) => {
   const t = e.target;
-  if ((e.key === "Enter" || e.key === " ") && t instanceof Element && t.matches('[role="button"], [role="tab"]')) { e.preventDefault(); t.dispatchEvent(new MouseEvent("click", { bubbles: true })); }
+  if ((e.key === "Enter" || e.key === " ") && t instanceof Element && t.matches('[role="button"], [role="tab"], [role="checkbox"]')) { e.preventDefault(); t.dispatchEvent(new MouseEvent("click", { bubbles: true })); }
 });
 </script>
 <style>[role="button"]:focus-visible, [role="tab"]:focus-visible { outline: 2px solid #E4A67B; outline-offset: 3px; }</style>
+
+<script>
+// Privacy demo: consent ticks, STOP, wallet close and two-tap delete. Nothing is pre-ticked except an existing opt-in.
+(() => {
+  const ck = (el, on) => el.setAttribute("aria-checked", String(on));
+  const isOn = (el) => el.getAttribute("aria-checked") === "true";
+  const nw = document.querySelector(".pv-new");
+  if (nw) {
+    const q = (k) => nw.querySelector(`[data-k="${k}"]`), add = nw.querySelector(".js-add");
+    const sync = () => {
+      q("guardian").hidden = !isOn(q("minor"));
+      if (!isOn(q("minor"))) ck(q("guardian"), false);
+      const ok = isOn(q("consent")) && (!isOn(q("minor")) || isOn(q("guardian")));
+      add.setAttribute("aria-disabled", String(!ok));
+      add.textContent = ok ? "Add customer" : isOn(q("minor")) && !isOn(q("guardian")) ? "Needs parent or guardian" : "Add customer";
+    };
+    nw.querySelectorAll(".js-ck").forEach((el) => el.addEventListener("click", () => { ck(el, !isOn(el)); sync(); }));
+    sync();
+  }
+  const pr = document.querySelector(".pv-prof");
+  if (pr) {
+    const msgs = pr.querySelector('[data-k="msgs"]'), hint = pr.querySelector(".js-msgs-hint");
+    const done = pr.querySelector(".js-done"), del = pr.querySelector(".js-del"), wal = pr.querySelector(".js-wallet");
+    msgs.addEventListener("click", () => { ck(msgs, !isOn(msgs)); hint.textContent = isOn(msgs) ? "On · untick if they reply STOP" : "Off · stopped, logged with time"; });
+    pr.querySelector(".js-close").addEventListener("click", () => {
+      wal.style.display = "none"; pr.querySelector(".js-bal").textContent = "₹0";
+      del.style.opacity = 1; del.setAttribute("aria-disabled", "false"); done.textContent = "Refunded ₹500 · ₹100 bonus cancelled";
+    });
+    let armed = false;
+    del.addEventListener("click", () => {
+      if (del.getAttribute("aria-disabled") === "true") return;
+      if (!armed) { armed = true; del.textContent = "Tap again to delete Aarav's data"; return; }
+      del.textContent = "Deleted"; del.setAttribute("aria-disabled", "true");
+      pr.querySelector(".ttl").textContent = "Deleted customer";
+      pr.querySelector(".glass").style.display = "none";
+      done.textContent = "Name and number erased · bills kept without them";
+    });
+  }
+})();
+</script>

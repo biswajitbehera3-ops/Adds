@@ -13,3 +13,11 @@ npx tsc --noEmit        # typecheck
 ```
 
 Product truth: `PRODUCT.md`. Design system: `DESIGN.md`. Direction contract: `.impeccable/surfaces/app-tsx.md`.
+
+## Building the app for a new salon
+Each salon gets its own build. The look (brown glass), the business rules and the privacy features are the same for every salon. Only these change:
+- `src/config/salon-details.json`: business details, grievance officer, provider, contract, retention.
+- `src/config/salon.ts`: services, prices, add-ons, wallet bonus tiers, referral reward, message templates.
+- `assets/brand/`: the salon's logo and intro video (licensed; see `legal/licenses.md`).
+
+Then `npm run legal` builds that salon's policies, and `npm run release-check` must pass before an APK is made. Full steps: `legal/README.md`.

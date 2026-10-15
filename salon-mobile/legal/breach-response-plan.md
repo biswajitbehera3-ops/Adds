@@ -12,6 +12,6 @@ A breach is any unauthorised access, loss, change or disclosure of personal data
 | 6. Fix and learn | Within 7 days | Provider | Root cause, fix, update this plan |
 
 **Message template to customers:**
-> [Salon name]: On [date] we found that [what happened]. This may have exposed your [name and mobile number / visit history]. We have [action taken]. Please [be careful of calls or messages claiming to be from us]. Questions: [owner name, phone].
+> {{salonName}}: On ‹date› we found that ‹what happened›. This may have exposed your ‹name and mobile number / visit history›. We have ‹action taken›. Please ‹be careful of calls or messages claiming to be from us›. Questions: {{ownerName}}, {{ownerPhone}}.
 
 Keep a log of every breach, even small ones, for at least 1 year.

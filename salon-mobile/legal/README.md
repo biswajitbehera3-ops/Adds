@@ -1,6 +1,6 @@
 # Legal and Compliance Pack — Salon App
 
-Templates and audits for every salon build. Fill the [brackets], set `src/config/salon.ts → business / legal / retention`, and have an Indian lawyer review before the first live salon. Most DPDP Rules obligations apply from about **13 May 2027**. The app is built to meet them from day one.
+Templates and audits for **every** salon build. Each salon's details go in one file, `src/config/salon-details.json`. The app's Privacy & terms screen, the WhatsApp templates and these documents all read from it. Run `npm run legal` to produce that salon's filled documents and web pages in `legal-out/<salon>/`. Have an Indian lawyer review the templates once, before the first live salon. Most DPDP Rules obligations apply from about **13 May 2027**. The app is built to meet them from day one.
 
 ## Checklist: where each item is handled
 | # | Item | Status | Where |
@@ -31,10 +31,12 @@ Templates and audits for every salon build. Fill the [brackets], set `src/config
 | + | Breach plan | ✅ | `breach-response-plan.md` |
 | + | Counter card (English + Hindi) | ✅ | `privacy-notice-counter-card.md` |
 
-## Before each salon goes live
-1. Fill `config.business`, `config.legal` (policy URLs) and prices (+GST note).
-2. Publish the privacy policy, terms and refund policy as plain web pages (no cookies) and put the links in config.
-3. Print the counter card.
-4. Sign the Terms + DPA with the salon; give the Staff Data Notice to each staff member.
-5. Replace placeholder icons; resolve the logo/intro item in `licenses.md`.
-6. Run `npm test` and `node scripts/contrast-check.mjs`.
+## Every new salon: the standard steps
+1. Fill `src/config/salon-details.json` (business, grievance officer, provider, contract, retention) and set prices in `src/config/salon.ts` (state whether prices include GST).
+2. `npm run legal`, then check `legal-out/<salon>/index.html`.
+3. Publish the **public** pages (privacy, refund, cookie, accessibility) as static files, then put the privacy and terms links back into `salon-details.json`.
+4. Print the counter card and staff notice; sign the Terms and DPA with the owner.
+5. Replace the placeholder icons; resolve the logo/intro item in `licenses.md`.
+6. `npm run release-check`. It **fails** while any `[placeholder]` is unfilled, any colour pair fails contrast, or any test or typecheck fails. Only build the APK once it passes.
+
+Templates use `{{tokens}}` (see `scripts/build-legal.mjs`). Text in ‹angle brackets› (in the breach message) is filled at the time of an incident.
