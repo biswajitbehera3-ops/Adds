@@ -174,6 +174,39 @@
   .ck span { display: block; font-size: 2.9cqw; color: var(--soft); }
   .ck:focus-visible, .js-add:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 2cqw; }
   .btn[aria-disabled="true"] { opacity: .4; }
+
+  .calhead, .calgrid { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; }
+  .calhead span { font-size: 2.6cqw; color: var(--faint); font-weight: 700; padding-bottom: 1cqw; }
+  .calgrid button { all: unset; position: relative; aspect-ratio: 1; display: grid; place-items: center; font-size: 3.4cqw; font-weight: 600; border-radius: 50%; cursor: pointer; font-variant-numeric: tabular-nums; }
+  .calgrid button.closed { color: var(--faint); opacity: .45; cursor: default; }
+  .calgrid button.past { color: var(--faint); }
+  .calgrid button.today { box-shadow: inset 0 0 0 1.5px var(--edge); }
+  .calgrid button.sel { background: var(--ink); color: #2A1710; }
+  .calgrid button:focus-visible { outline: 2px solid var(--gold); }
+  .calgrid button i { position: absolute; top: 4%; right: 6%; min-width: 3.4cqw; height: 3.4cqw; border-radius: 2cqw; background: var(--gold); color: #2A1710; font: 800 2.2cqw/3.4cqw var(--font); font-style: normal; padding: 0 .6cqw; }
+  .calgrid button.pop i { animation: popn .5s cubic-bezier(.3,1.6,.5,1); }
+  @keyframes popn { from { transform: scale(0); } }
+  .ag { display: grid; grid-template-columns: 10cqw 1fr auto; gap: 2.4cqw; align-items: center; padding: 2cqw 0; border-top: 1px solid rgba(255,244,236,.12); }
+  .ag:first-child { border-top: 0; }
+  .ag > b { font-size: 3.4cqw; font-variant-numeric: tabular-nums; }
+  .ag .nm { font-size: 3.6cqw; } .ag .sm { font-size: 2.8cqw; }
+  .ag.new { animation: rise .5s cubic-bezier(.16,1,.3,1) both; }
+  .bubble { position: relative; background: rgba(255,244,236,.16); border: 1px solid var(--edge); border-radius: 4cqw 4cqw 4cqw 1cqw; padding: 2.6cqw 3.4cqw; font-size: 3.5cqw; line-height: 1.4; }
+  .bubble .sm { display: block; font-size: 2.6cqw; margin-bottom: .8cqw; }
+  .bubble.out { border-radius: 4cqw 4cqw 1cqw 4cqw; background: linear-gradient(180deg, rgba(228,166,123,.28), rgba(228,166,123,.14)); border-color: rgba(228,166,123,.5); }
+  .bubble em { display: block; text-align: right; font-style: normal; font-size: 2.6cqw; color: var(--ok); margin-top: 1cqw; font-weight: 700; }
+  .days { display: flex; gap: 1.6cqw; overflow: hidden; }
+  .days button, .slots button { all: unset; cursor: pointer; border: 1px solid var(--edge); border-radius: 3cqw; text-align: center; font-weight: 600; }
+  .days button { flex: none; width: 11.6cqw; padding: 1.4cqw 0; font-size: 3.6cqw; }
+  .days button small { display: block; font-size: 2.4cqw; color: var(--soft); font-weight: 700; }
+  .days button.off { opacity: .35; cursor: default; }
+  .slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.6cqw; }
+  .slots button { padding: 1.8cqw 0; font-size: 3.2cqw; font-variant-numeric: tabular-nums; }
+  .slots button.taken { opacity: .3; text-decoration: line-through; cursor: default; }
+  .days button.on, .slots button.on { background: var(--ink); color: #2A1710; border-color: var(--ink); }
+  .days button.on small { color: #6B4A39; }
+  .days button:focus-visible, .slots button:focus-visible { outline: 2px solid var(--gold); }
+  @media (prefers-reduced-motion: reduce) { .calgrid button.pop i, .ag.new { animation: none; } }
 </style>
 
 <div class="wrap">
@@ -230,9 +263,9 @@
           <div class="rowi"><div class="grow"><div class="sm">Salon now: 3 of 3 chairs busy · 1 waiting</div></div></div>
         </div>
       </div>
-        <div class="dock"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11 12 4l9 7v9H3z"/></svg>Home</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.6-3.4 3-5.4 6-5.4s5.4 2 6 5.4"/></svg>Customers</span><div class="fab"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A1710" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="7"/><path d="M12 9v4l2.6 1.8"/></svg><em class="dot">27</em>Reminders</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M12 9v11M3.5 13h17"/></svg>Refer</span></div>
+        <div class="dock"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11 12 4l9 7v9H3z"/></svg>Home</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.6-3.4 3-5.4 6-5.4s5.4 2 6 5.4"/></svg>Customers</span><div class="fab"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A1710" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="7"/><path d="M12 9v4l2.6 1.8"/></svg><em class="dot">27</em>Reminders</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8.5 3v4M15.5 3v4"/><circle cx="12" cy="15" r="1.4" fill="currentColor" stroke="none"/></svg>Calendar</span></div>
       </div>
-      <figcaption><b>2 · Home</b><em class="try">Tap the ring to replay</em><span>On each stylist's own phone. Number search first, then <b>their own</b> earnings today in a ring (and the month so far), their customers today (tap for the list), and who is in their chair right now.</span></figcaption>
+      <figcaption><b>2 · Home</b><em class="try">Tap the ring to replay</em><span>On each stylist's own phone. Number search first, then <b>their own</b> earnings today in a ring (and the month so far), their customers today (tap for the list), and who is in their chair right now. The bottom bar's last button is now Calendar; Refer moved into each customer's profile.</span></figcaption>
     </figure>
 
     <figure>
@@ -431,6 +464,59 @@
         <div class="sm" style="margin-top:auto">Voiding refunds wallet money and takes back a referral reward the visit paid.</div>
       </div></div>
       <figcaption><b>E · Visits</b><em class="try">Tap the tabs</em><span>Every paid visit with who served it. Void with a reason; voided visits stay visible, struck through.</span></figcaption>
+    </figure>
+  </div>
+
+
+  <section>
+    <div class="kick">Appointments · replaces Refer in the bottom bar</div>
+    <h2>Booked from WhatsApp, reminded on the day</h2>
+    <p>A customer answers the reminder ("Yes, Saturday 5 pm"). Staff book it in two taps, the customer gets a confirmation, and on the day they get an appointment reminder. When they walk in, one tap opens their visit.</p>
+  </section>
+  <div class="row">
+    <figure>
+      <div class="ph pv-cal"><div class="bg"></div><div class="scr" style="gap:2.4cqw">
+        <div class="top"><div><div class="who">October 2026</div><div class="ttl">Calendar</div></div><span class="pill" style="background:var(--gold);color:#2A1710">2 to remind</span></div>
+        <div class="glass" style="padding:2.6cqw 2.6cqw 1.6cqw;border-radius:5cqw">
+          <div class="calhead"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+          <div class="calgrid js-calgrid" role="grid" aria-label="October 2026"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="lbl js-dayname">Saturday 17</span><span class="sm js-daycount"></span></div>
+        <div class="glass pad js-agenda" style="padding:1.6cqw 3.4cqw;flex:1;overflow:hidden"></div>
+      </div>
+        <div class="dock"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11 12 4l9 7v9H3z"/></svg>Home</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c.6-3.4 3-5.4 6-5.4s5.4 2 6 5.4"/></svg>Customers</span><div class="fab"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2A1710" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="7"/><path d="M12 9v4l2.6 1.8"/></svg><em class="dot">27</em>Reminders</span><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8.5 3v4M15.5 3v4"/><circle cx="12" cy="15" r="1.4" fill="currentColor" stroke="none"/></svg>Calendar</span></div>
+      </div>
+      <figcaption><b>C1 · Calendar</b><em class="try">Tap a day</em><span>The month at a glance: a gold count on every day with bookings, today ringed, Tuesdays shown closed. Under it, that day in time order: customer, service, stylist, and whether the reminder has gone out.</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph pv-book"><div class="bg"></div><div class="scr" style="gap:2.4cqw">
+        <div class="top"><div><div class="who">From a reminder reply</div><div class="ttl">Book Aarav</div></div><div class="seal" style="width:15cqw;height:15cqw"><div><span>DUE</span><b style="font-size:3.4cqw">Haircut</b></div></div></div>
+        <div class="bubble"><span class="sm">Aarav · WhatsApp · 11:42</span>Yes bhaiya, Saturday 5 baje aa jaunga 👍</div>
+        <div class="lbl">Day</div>
+        <div class="days js-days"></div>
+        <div class="lbl">Time · with Imran</div>
+        <div class="slots js-slots"></div>
+        <div class="chips" style="gap:1.6cqw"><span class="chip on" style="padding:1.4cqw 3cqw">Haircut<small>30 min</small></span><span class="chip" style="padding:1.4cqw 3cqw">Beard trim<small>15 min</small></span></div>
+        <div class="btn gold-b js-book" role="button" tabindex="0" style="margin-top:auto">Book Sat 17 · 5:00 PM</div>
+        <div class="sm js-booked" style="text-align:center;min-height:4cqw">Then WhatsApp opens with the confirmation ready</div>
+      </div></div>
+      <figcaption><b>C2 · Book from the reply</b><em class="try">Pick a day and time, then Book</em><span>Opened from Reminders when the customer answers. Their words stay on the booking. Taken times are greyed out, closed days can't be picked, and the confirmation ("Booked! Sat 17 Oct at 5:00 PM with Imran. Reply C to cancel.") is ready to send. The booking appears on the calendar at once.</span></figcaption>
+    </figure>
+
+    <figure>
+      <div class="ph pv-day"><div class="bg"></div><div class="scr" style="gap:2.4cqw">
+        <div class="top"><div><div class="who">Saturday 17 Oct · 9:00 AM</div><div class="ttl">Today's bookings</div></div></div>
+        <div class="bubble out"><span class="sm">To Aarav · appointment reminder</span>Hi Aarav, a reminder: your haircut at Salon is today at 5:00 PM with Imran. See you soon! Reply C to cancel.<em class="js-tick">Auto-sent 9:00 AM ✓✓</em></div>
+        <div class="glass pad" style="padding:1.6cqw 3.4cqw">
+          <div class="ag"><b>11:00</b><div class="grow"><div class="nm">Neha Singh</div><div class="sm">Facial · Sunita</div></div><span class="pill ok">Sent ✓</span></div>
+          <div class="ag"><b>14:30</b><div class="grow"><div class="nm">Vikram Rao</div><div class="sm">Beard trim · anyone</div></div><span class="pill js-send" role="button" tabindex="0" style="background:var(--gold);color:#2A1710">Send</span></div>
+          <div class="ag js-arr-row"><b>17:00</b><div class="grow"><div class="nm">Aarav Sharma</div><div class="sm">Haircut · Imran</div></div><span class="pill ok">Sent ✓</span></div>
+        </div>
+        <div class="btn gold-b js-arrive" role="button" tabindex="0" style="margin-top:auto">Aarav arrived · start visit</div>
+        <div class="sm" style="text-align:center">No-show after the time? One tap marks it.</div>
+      </div></div>
+      <figcaption><b>C3 · On the day</b><em class="try">Tap Send, then Arrived</em><span>At 9:00 the day's booked customers get their reminder: automatically through WhatsApp Business, or with one tap each if the salon uses its normal WhatsApp. When they walk in, "Arrived" opens their visit with the booked services, straight into In the chair.</span></figcaption>
     </figure>
   </div>
 
@@ -766,5 +852,84 @@ document.addEventListener("keydown", (e) => {
       done.textContent = "Name and number erased · bills kept without them";
     });
   }
+})();
+</script>
+
+<script>
+// Appointments demo. Mirrors the engine: Tuesday closed, 30-minute slots 10:00–20:00, taken slots greyed.
+(() => {
+  const cal = document.querySelector(".pv-cal"); if (!cal) return;
+  const TODAY = 14, DOW1 = 3; // 1 Oct 2026 is a Thursday → Monday-first offset 3
+  const W = "Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" ");
+  const book = {
+    15: [["12:00", "Kavya Menon", "Hair colour · Rakesh", "Booked"]],
+    16: [["16:30", "Arjun Nair", "Haircut · Imran", "Booked"]],
+    17: [["11:00", "Neha Singh", "Facial · Sunita", "Booked"], ["14:30", "Vikram Rao", "Beard trim · anyone", "Booked"]],
+    18: [["10:30", "Sana Khan", "Hair spa · Sunita", "Booked"], ["18:00", "Rohan Gupta", "Haircut · Rakesh", "Booked"]],
+    23: [["13:00", "Meera Iyer", "Hair colour · Sunita", "Booked"]],
+    14: [["12:30", "Karan Mehta", "Haircut · Imran", "Arrived"], ["16:00", "Priya Patel", "Facial · Sunita", "Reminder sent"]],
+  };
+  const grid = cal.querySelector(".js-calgrid"), agenda = cal.querySelector(".js-agenda");
+  let sel = 17;
+  const dow = (d) => (d + DOW1 - 1) % 7; // 0 = Monday
+  function drawGrid(popDay) {
+    grid.innerHTML = "";
+    for (let i = 0; i < DOW1; i++) grid.appendChild(document.createElement("span"));
+    for (let d = 1; d <= 31; d++) {
+      const b = document.createElement("button");
+      const closed = dow(d) === 1;
+      b.className = [closed && "closed", d < TODAY && "past", d === TODAY && "today", d === sel && "sel", d === popDay && "pop"].filter(Boolean).join(" ");
+      b.textContent = d;
+      b.setAttribute("aria-label", `${W[(dow(d) + 1) % 7]} ${d} October${closed ? ", closed" : ""}${book[d] ? `, ${book[d].length} booked` : ""}`);
+      if (book[d]) { const n = document.createElement("i"); n.textContent = book[d].length; b.appendChild(n); }
+      if (!closed) b.onclick = () => { sel = d; drawGrid(); drawDay(); };
+      grid.appendChild(b);
+    }
+  }
+  function drawDay(newTime) {
+    cal.querySelector(".js-dayname").textContent = `${W[(dow(sel) + 1) % 7]} ${sel}${sel === TODAY ? " · today" : ""}`;
+    const list = (book[sel] || []).slice().sort((a, b) => a[0].localeCompare(b[0]));
+    cal.querySelector(".js-daycount").textContent = list.length ? `${list.length} booked` : "";
+    agenda.innerHTML = list.length
+      ? list.map(([t, n, sv, st]) => `<div class="ag${t === newTime ? " new" : ""}"><b>${t}</b><div class="grow"><div class="nm">${n}</div><div class="sm">${sv}</div></div><span class="pill ${st === "Booked" ? "off" : "ok"}">${st}</span></div>`).join("")
+      : `<div class="sm" style="padding:3cqw 0">No bookings. Free all day.</div>`;
+  }
+  drawGrid(); drawDay();
+
+  // C2: booking
+  const bk = document.querySelector(".pv-book");
+  const days = bk.querySelector(".js-days"), slots = bk.querySelector(".js-slots"), btn = bk.querySelector(".js-book");
+  const taken = { 17: ["11:00", "14:30", "15:00", "18:30"], 15: ["12:00", "12:30"], 16: ["16:30"], 18: ["10:30", "18:00"] };
+  let bd = 17, bt = "17:00", done = false;
+  const SL = ["15:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30", "19:00"];
+  const label = (t) => { const [h, m] = t.split(":").map(Number); return `${((h + 11) % 12) + 1}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`; };
+  function drawBook() {
+    days.innerHTML = [15, 16, 17, 18, 19, 20].map((d) => `<button class="${d === bd ? "on" : ""}${dow(d) === 1 ? " off" : ""}" data-d="${d}" aria-label="${W[(dow(d) + 1) % 7]} ${d}${dow(d) === 1 ? ", closed" : ""}"><small>${W[(dow(d) + 1) % 7].slice(0, 3)}</small>${d}</button>`).join("");
+    slots.innerHTML = SL.map((t) => { const tk = (taken[bd] || []).includes(t); return `<button class="${tk ? "taken" : ""}${t === bt ? " on" : ""}" data-t="${t}" ${tk ? 'aria-disabled="true"' : ""} aria-label="${label(t)}${tk ? ", taken" : ""}">${t}</button>`; }).join("");
+    if ((taken[bd] || []).includes(bt)) bt = SL.find((t) => !(taken[bd] || []).includes(t));
+    if (!done) btn.textContent = `Book ${W[(dow(bd) + 1) % 7].slice(0, 3)} ${bd} · ${label(bt)}`;
+    slots.querySelectorAll("button").forEach((b) => b.classList.toggle("on", b.dataset.t === bt));
+  }
+  days.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b || b.classList.contains("off") || done) return; bd = +b.dataset.d; drawBook(); });
+  slots.addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b || b.classList.contains("taken") || done) return; bt = b.dataset.t; drawBook(); });
+  btn.addEventListener("click", () => {
+    if (done) return; done = true;
+    (book[bd] = book[bd] || []).push([bt, "Aarav Sharma", "Haircut · Imran", "Booked"]);
+    (taken[bd] = taken[bd] || []).push(bt);
+    btn.textContent = "Booked ✓"; btn.setAttribute("aria-disabled", "true");
+    bk.querySelector(".js-booked").textContent = `Confirmation ready: "Booked! Aarav, your haircut at Salon is on ${W[(dow(bd) + 1) % 7].slice(0, 3)} ${bd} Oct at ${label(bt)} with Imran."`;
+    sel = bd; drawGrid(bd); drawDay(bt);
+  });
+  drawBook();
+
+  // C3: on the day
+  const day = document.querySelector(".pv-day");
+  const send = day.querySelector(".js-send");
+  send.addEventListener("click", () => { send.textContent = "Sent ✓"; send.style.background = ""; send.className = "pill ok"; });
+  const arr = day.querySelector(".js-arrive");
+  arr.addEventListener("click", () => {
+    const pill = day.querySelector(".js-arr-row .pill");
+    pill.textContent = "Arrived"; arr.textContent = "Visit started · In the chair"; arr.setAttribute("aria-disabled", "true");
+  });
 })();
 </script>

@@ -237,7 +237,7 @@ describe("migration and demo data", () => {
       demo: false,
     };
     const d = E.migrate(v1);
-    expect(d.version).toBe(3);
+    expect(d.version).toBe(4);
     expect(d.customers[0]).toMatchObject({ marketingConsentAt: "x", guardianConsent: false, deletedAt: null });
     expect(d.visits[0]).toMatchObject({ serviceIds: ["haircut"], status: "PAID" });
     expect(E.ownerDashboard(d).today.total).toBe(300);

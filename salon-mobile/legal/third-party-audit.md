@@ -21,6 +21,7 @@
 | Flow | When | To whom |
 |---|---|---|
 | WhatsApp message (`wa.me` link) | Staff tap Send; WhatsApp opens with the text ready, and staff press send | Meta (WhatsApp), only that message |
+| Appointment confirmation and on-the-day reminder | Manual: staff tap Send (wa.me link). Automatic: only if the salon connects WhatsApp Business | Meta (WhatsApp). In automatic mode, Meta's WhatsApp Business Platform becomes a sub-processor and must be added to the DPA |
 | Excel attendance export | Owner taps Export / Share | Wherever the owner shares it |
 | Cloud sync (planned) | Continuously, once built | {{cloudProvider}}, {{cloudRegion}}, under the DPA (sub-processor) |
 

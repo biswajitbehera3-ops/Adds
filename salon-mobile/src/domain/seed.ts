@@ -145,5 +145,5 @@ export function buildDemoData(now = Date.now()): Data {
     c.referralRewardedAt = first.paidAt;
   }
 
-  return { version: 3, customers, visits, walletTxs, reminders: [], staff, attendance, privacyLog: [], owner: { secret: OWNER_SECRET }, demo: true };
+  return { version: 4, customers, visits, walletTxs, reminders: [], staff, attendance, appointments: [], privacyLog: [], owner: { secret: OWNER_SECRET }, demo: true };
 }

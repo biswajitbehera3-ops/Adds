@@ -22,7 +22,7 @@ import {
   startOfIstDay,
   topUpBonus,
 } from "./rules";
-import type { Attendance, Customer, Data, PaymentMethod, PrivacyEvent, ReminderLog, Secret, Staff, Visit, WalletTx } from "./types";
+import type { Appointment, Attendance, Customer, Data, PaymentMethod, PrivacyEvent, ReminderLog, Secret, Staff, Visit, WalletTx } from "./types";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 // No 0/O/1/I so codes read cleanly over the phone.
@@ -57,12 +57,13 @@ const at = (v: Visit) => v.paidAt ?? v.createdAt;
 /** Upgrades stored data from older versions of the app. */
 export function migrate(raw: unknown): Data {
   const d = raw as Record<string, unknown> & { version?: number };
-  if (d.version === 3) return d as unknown as Data;
-  const v2 = d.version === 2 ? (d as unknown as Omit<Data, "version" | "privacyLog"> & { customers: Array<Record<string, unknown>> }) : migrateV1(d);
+  if (d.version === 4) return d as unknown as Data;
+  if (d.version === 3) return { ...(d as unknown as Omit<Data, "version" | "appointments">), version: 4, appointments: [] };
+  const v2 = d.version === 2 ? (d as unknown as Omit<Data, "version" | "privacyLog" | "appointments"> & { customers: Array<Record<string, unknown>> }) : migrateV1(d);
   // v2 → v3: one consent covered both records and reminders, so it carries over to both.
   return {
     ...v2,
-    version: 3,
+    version: 4,
     customers: v2.customers.map((c) => ({
       ...(c as unknown as Customer),
       marketingConsentAt: (c.marketingConsentAt as string | null | undefined) ?? (c.consentAt as string | null) ?? null,
@@ -71,6 +72,7 @@ export function migrate(raw: unknown): Data {
       guardianConsent: Boolean(c.guardianConsent),
       deletedAt: (c.deletedAt as string | null | undefined) ?? null,
     })),
+    appointments: [],
     privacyLog: [],
   };
 }
@@ -659,8 +661,9 @@ function erase(data: Data, customerId: string, now: Date): Data {
         ? { ...c, name: "Deleted customer", phone: "", referralCode: "", consentAt: null, marketingConsentAt: null, deletedAt: now.toISOString() }
         : c,
     ),
-    // Copies of messages carry the name, so they go too.
+    // Copies of messages and bookings carry the name or the customer's words, so they go too.
     reminders: data.reminders.filter((r) => r.customerId !== customerId),
+    appointments: data.appointments.filter((a) => a.customerId !== customerId),
   };
 }
 
@@ -698,7 +701,12 @@ export function purgeExpired(data: Data, now = new Date()): Op<{ photoKeys: stri
     return a;
   });
   const reminderCut = cutoff(r.reminderLogDays);
-  let next: Data = { ...data, attendance, reminders: data.reminders.filter((x) => x.createdAt >= reminderCut) };
+  let next: Data = {
+    ...data,
+    attendance,
+    reminders: data.reminders.filter((x) => x.createdAt >= reminderCut),
+    appointments: data.appointments.filter((a) => a.at >= reminderCut),
+  };
 
   const lastActive = new Map<string, string>();
   const bump = (id: string, when: string) => {
@@ -720,6 +728,192 @@ export function purgeExpired(data: Data, now = new Date()): Op<{ photoKeys: stri
     next = { ...next, privacyLog: logPrivacy(next, c.id, "AUTO_ERASED", "auto", now) };
   }
   return { data: next, result: { photoKeys, customersErased: stale.length } };
+}
+
+// ── Appointments ─────────────────────────────────────────────────────────────
+
+const A = () => config.appointments;
+const hm = (t: string) => {
+  const [h, m] = t.split(":").map(Number);
+  return h * 60 + m;
+};
+const fmtHm = (mins: number) => `${String(Math.floor(mins / 60)).padStart(2, "0")}:${String(mins % 60).padStart(2, "0")}`;
+/** A salon-local (IST) day and "HH:MM" as an instant. */
+export function istInstant(day: string, time: string): Date {
+  const [y, mo, d] = day.split("-").map(Number);
+  return new Date(Date.UTC(y, mo - 1, d) + (hm(time) - 330) * 60000);
+}
+const istDow = (day: string) => new Date(`${day}T00:00:00Z`).getUTCDay();
+const overlaps = (aStart: number, aMin: number, bStart: number, bMin: number) => aStart < bStart + bMin * 60000 && bStart < aStart + aMin * 60000;
+
+/** Minutes the chosen services take together. */
+export function appointmentMinutes(serviceIds: string[]): number {
+  const total = serviceIds.reduce((sum, id) => sum + (config.services.find((s) => s.id === id)?.minutes ?? 0), 0);
+  return Math.max(A().slotMinutes, total);
+}
+
+function busyAt(data: Data, start: number, minutes: number, staffId: string | null, ignoreId?: string) {
+  const booked = data.appointments.filter((a) => a.status === "BOOKED" && a.id !== ignoreId && overlaps(Date.parse(a.at), a.minutes, start, minutes));
+  if (staffId) return booked.some((a) => a.staffId === staffId);
+  // "Anyone free": full when every active stylist (or the whole floor) is taken.
+  const stylists = Math.max(1, data.staff.filter((x) => x.active).length);
+  return booked.length >= stylists;
+}
+
+/** Bookable start times for a day. Past times today and closed days give none. */
+export function appointmentSlots(data: Data, day: string, input: { staffId: string | null; minutes: number }, now = new Date()) {
+  if (A().closedDays.includes(istDow(day))) return [];
+  const out: { time: string; free: boolean }[] = [];
+  for (let t = hm(A().open); t + input.minutes <= hm(A().close); t += A().slotMinutes) {
+    const start = istInstant(day, fmtHm(t)).getTime();
+    if (start <= now.getTime()) continue;
+    out.push({ time: fmtHm(t), free: !busyAt(data, start, input.minutes, input.staffId) });
+  }
+  return out;
+}
+
+/** Books a customer in, usually straight after they reply to a reminder on WhatsApp. */
+export function bookAppointment(
+  data: Data,
+  input: { customerId: string; serviceIds: string[]; staffId: string | null; day: string; time: string; source: Appointment["source"]; note?: string; by: string | null },
+  now = new Date(),
+): Op<Appointment> {
+  const customer = data.customers.find((c) => c.id === input.customerId && !c.deletedAt);
+  if (!customer) throw new UserError("Customer not found");
+  if (!customer.consentAt) throw new UserError("Save the customer's consent first");
+  const serviceIds = input.serviceIds.filter((id) => config.services.some((s) => s.id === id));
+  if (!serviceIds.length) throw new UserError("Pick at least one service");
+  if (input.staffId && !data.staff.some((x) => x.id === input.staffId && x.active)) throw new UserError("That stylist isn't available");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(input.day) || !/^\d{2}:\d{2}$/.test(input.time)) throw new UserError("Pick a day and a time");
+  if (A().closedDays.includes(istDow(input.day))) throw new UserError("The salon is closed that day");
+  const minutes = appointmentMinutes(serviceIds);
+  const startMin = hm(input.time);
+  if (startMin < hm(A().open) || startMin + minutes > hm(A().close)) throw new UserError(`Book between ${A().open} and ${A().close}`);
+  const at = istInstant(input.day, input.time);
+  if (at.getTime() <= now.getTime()) throw new UserError("That time has already passed");
+  if (busyAt(data, at.getTime(), minutes, input.staffId)) throw new UserError("That time is already taken");
+  if (data.appointments.some((a) => a.customerId === customer.id && a.status === "BOOKED" && overlaps(Date.parse(a.at), a.minutes, at.getTime(), minutes))) {
+    throw new UserError(`${customer.name.split(" ")[0]} is already booked then`);
+  }
+  const appt: Appointment = {
+    id: newId(),
+    customerId: customer.id,
+    serviceIds,
+    staffId: input.staffId,
+    at: at.toISOString(),
+    minutes,
+    status: "BOOKED",
+    source: input.source,
+    note: input.note?.trim().slice(0, 140) || null,
+    reminderSentAt: null,
+    reminderChannel: null,
+    visitId: null,
+    createdBy: input.by,
+    createdAt: now.toISOString(),
+  };
+  return { data: { ...data, appointments: [...data.appointments, appt] }, result: appt };
+}
+
+function setAppt(data: Data, id: string, patch: Partial<Appointment>): Op<Appointment> {
+  const appt = data.appointments.find((a) => a.id === id);
+  if (!appt) throw new UserError("Appointment not found");
+  const next = { ...appt, ...patch };
+  return { data: { ...data, appointments: data.appointments.map((a) => (a.id === id ? next : a)) }, result: next };
+}
+
+export function cancelAppointment(data: Data, id: string): Op<Appointment> {
+  const appt = data.appointments.find((a) => a.id === id);
+  if (appt?.status !== "BOOKED") throw new UserError("Only a booked appointment can be cancelled");
+  return setAppt(data, id, { status: "CANCELLED" });
+}
+
+export function markNoShow(data: Data, id: string, now = new Date()): Op<Appointment> {
+  const appt = data.appointments.find((a) => a.id === id);
+  if (appt?.status !== "BOOKED") throw new UserError("Only a booked appointment can be marked");
+  if (Date.parse(appt.at) > now.getTime()) throw new UserError("The appointment time hasn't come yet");
+  return setAppt(data, id, { status: "NO_SHOW" });
+}
+
+/** The customer has arrived: opens their visit with the booked services. */
+export function appointmentArrived(data: Data, input: { id: string; staffId: string }, now = new Date()): Op<{ appointment: Appointment; visit: Visit }> {
+  const appt = data.appointments.find((a) => a.id === input.id);
+  if (appt?.status !== "BOOKED") throw new UserError("This appointment isn't open");
+  const started = startVisit(data, { customerId: appt.customerId, serviceIds: appt.serviceIds, addOnIds: [], staffId: appt.staffId ?? input.staffId }, now);
+  const marked = setAppt(started.data, appt.id, { status: "ARRIVED", visitId: started.result.id });
+  return { data: marked.data, result: { appointment: marked.result, visit: started.result } };
+}
+
+function describe(data: Data, a: Appointment) {
+  const customer = data.customers.find((c) => c.id === a.customerId);
+  const stylist = a.staffId ? data.staff.find((x) => x.id === a.staffId) : null;
+  const local = new Date(Date.parse(a.at) + 330 * 60000);
+  return {
+    ...a,
+    day: istDate(new Date(a.at)),
+    time: fmtHm(local.getUTCHours() * 60 + local.getUTCMinutes()),
+    customerName: customer?.name ?? "Customer",
+    phone: customer?.phone ?? "",
+    serviceNames: a.serviceIds.map((id) => config.services.find((s) => s.id === id)?.name ?? id),
+    stylistName: stylist?.name ?? null,
+  };
+}
+
+/** One day's appointments in time order, with names ready to show. */
+export function appointmentsOn(data: Data, day: string) {
+  return data.appointments
+    .filter((a) => istDate(new Date(a.at)) === day)
+    .sort((a, b) => a.at.localeCompare(b.at))
+    .map((a) => describe(data, a));
+}
+
+/** Booked count per day of a month (YYYY-MM), for the calendar dots. */
+export function appointmentMonth(data: Data, month: string): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const a of data.appointments) {
+    if (a.status === "CANCELLED") continue;
+    const day = istDate(new Date(a.at));
+    if (day.startsWith(month)) out[day] = (out[day] ?? 0) + 1;
+  }
+  return out;
+}
+
+/** WhatsApp text for a booking: the confirmation now, or the reminder on the day. */
+export function appointmentMessage(data: Data, id: string, kind: "confirm" | "reminder"): { phone: string; message: string } {
+  const appt = data.appointments.find((a) => a.id === id);
+  if (!appt) throw new UserError("Appointment not found");
+  const a = describe(data, appt);
+  if (!a.phone) throw new UserError("This customer's number has been deleted");
+  // Built by hand: phone locales format dates differently.
+  const dd = new Date(`${a.day}T00:00:00Z`);
+  const dayLabel = `${"Sun Mon Tue Wed Thu Fri Sat".split(" ")[dd.getUTCDay()]} ${dd.getUTCDate()} ${"Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ")[dd.getUTCMonth()]}`;
+  const [h, m] = a.time.split(":").map(Number);
+  const time = `${((h + 11) % 12) + 1}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
+  return {
+    phone: a.phone,
+    message: renderTemplate(kind === "confirm" ? A().confirmTemplate : A().reminderTemplate, {
+      name: a.customerName.split(" ")[0],
+      service: a.serviceNames.join(" + ").toLowerCase(),
+      salon: config.displayName,
+      day: dayLabel,
+      time,
+      stylist: a.stylistName ? ` with ${a.stylistName.split(" ")[0]}` : "",
+    }),
+  };
+}
+
+/**
+ * Today's booked customers who haven't had their reminder yet, once the reminder
+ * time has come. Staff send these with one tap; with the WhatsApp Business
+ * connection the server sends exactly this list automatically.
+ */
+export function appointmentRemindersDue(data: Data, now = new Date()) {
+  const today = istDate(now);
+  if (now.getTime() < istInstant(today, A().reminderAt).getTime()) return [];
+  return appointmentsOn(data, today).filter((a) => a.status === "BOOKED" && !a.reminderSentAt && Date.parse(a.at) > now.getTime());
+}
+
+export function markAppointmentReminded(data: Data, input: { id: string; channel: "MANUAL" | "AUTO" }, now = new Date()): Op<Appointment> {
+  return setAppt(data, input.id, { reminderSentAt: now.toISOString(), reminderChannel: input.channel });
 }
 
 // ── Owner dashboard ──────────────────────────────────────────────────────────

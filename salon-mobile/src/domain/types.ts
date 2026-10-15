@@ -110,6 +110,36 @@ export type Attendance = {
 };
 
 /**
+ * A booked visit. Usually made when a customer answers a WhatsApp reminder with a
+ * day and time; staff enter it from the reply. On the day, the customer gets an
+ * appointment reminder (sent by staff with one tap, or automatically once the
+ * WhatsApp Business connection is set up).
+ */
+export type Appointment = {
+  id: string;
+  customerId: string;
+  serviceIds: string[];
+  /** Stylist booked, or null for "anyone free". */
+  staffId: string | null;
+  /** Start time (ISO). */
+  at: string;
+  /** Booked length in minutes: the services' durations added up. */
+  minutes: number;
+  status: "BOOKED" | "ARRIVED" | "CANCELLED" | "NO_SHOW";
+  /** How the booking came in. */
+  source: "WHATSAPP" | "PHONE" | "COUNTER";
+  /** The customer's own words, e.g. "Yes, Saturday 5 pm" (optional, kept short). */
+  note: string | null;
+  /** When the on-the-day reminder went out, and how. */
+  reminderSentAt: string | null;
+  reminderChannel: "MANUAL" | "AUTO" | null;
+  /** The visit opened when the customer arrived. */
+  visitId: string | null;
+  createdBy: string | null;
+  createdAt: string;
+};
+
+/**
  * Privacy audit trail: proof of consent and of each request handled. Holds ids
  * and times only, never names or numbers, so it can outlive an erased customer.
  */
@@ -123,13 +153,14 @@ export type PrivacyEvent = {
 };
 
 export type Data = {
-  version: 3;
+  version: 4;
   customers: Customer[];
   visits: Visit[];
   walletTxs: WalletTx[];
   reminders: ReminderLog[];
   staff: Staff[];
   attendance: Attendance[];
+  appointments: Appointment[];
   privacyLog: PrivacyEvent[];
   /** Null until the owner sets a password on first launch. */
   owner: { secret: Secret } | null;
@@ -138,13 +169,14 @@ export type Data = {
 };
 
 export const emptyData = (): Data => ({
-  version: 3,
+  version: 4,
   customers: [],
   visits: [],
   walletTxs: [],
   reminders: [],
   staff: [],
   attendance: [],
+  appointments: [],
   privacyLog: [],
   owner: null,
   demo: false,

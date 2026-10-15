@@ -16,6 +16,7 @@ We collect only what we need.
 | Name and mobile number | To find your record at the counter, run your visits and wallet, send your bill | Your consent |
 | Services taken, stylist, date, amount, payment method | To bill you, keep your visit history, remind you when a service is due (if you opt in), meet tax law | Your consent; legal obligation for bills |
 | Wallet top-ups, bonus, spends, refunds | To hold and use your prepaid wallet money | Your consent |
+| Appointments you book: day, time, services, stylist, and your reply if you booked on WhatsApp | To keep your slot, send a booking confirmation and an appointment reminder on the day | Your consent (you asked for the booking) |
 | Who referred you / whom you referred | To credit referral rewards | Your consent |
 | Whether you are under 18 (record kept under a parent's/guardian's number) | To get a parent's or guardian's consent, as the law requires | Legal obligation |
 | A record of your consent (when, notice version, staff who took it) | To prove we asked you properly | Legal obligation |
@@ -24,6 +25,8 @@ We collect only what we need.
 
 ## 3. WhatsApp reminders and offers (optional)
 We send them only if you tick the separate box for them. Each one says how to stop. Reply **STOP**, or ask at the counter, and they stop. Saying no does not affect our service to you. Your bill can still be sent on WhatsApp, without offers.
+
+Appointment confirmations and on-the-day reminders are part of a booking you asked for, so they're sent even if you have not opted in to offers. Reply **C** to cancel a booking.
 
 ## 4. Children
 For anyone under 18 we keep the record under a parent's or guardian's mobile number, only with that adult's consent given in person. We never send offers to a child's own number.
@@ -39,7 +42,7 @@ We **never sell** your data and never share it for anyone else's marketing.
 ## 6. How long we keep it
 - Your record: until you ask us to delete it, or automatically after **{{inactiveRetention}}** with no visit or wallet activity (if your wallet is empty).
 - Bills: kept without your name or number for as long as tax law requires.
-- Copies of reminder messages: {{reminderRetention}}.
+- Copies of reminder messages and past bookings: {{reminderRetention}}.
 - Staff attendance selfies: {{selfieRetention}}.
 - Access logs: at least 1 year, as the DPDP Rules require.
 

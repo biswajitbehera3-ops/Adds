@@ -15,6 +15,8 @@ export type Service = {
   price: number;
   /** Days until a customer is due back for this service. Drives Reminders. */
   cycleDays: number;
+  /** How long the service takes, for booking appointments. */
+  minutes: number;
 };
 
 export type AddOn = {
@@ -91,6 +93,20 @@ export type SalonConfig = {
     /** Copies of sent reminder messages are deleted after this many days. */
     reminderLogDays: number;
   };
+  /** Appointments: bookable hours (salon local time), slot size, and the on-the-day reminder. */
+  appointments: {
+    open: string;
+    close: string;
+    slotMinutes: number;
+    /** Days of the week the salon is closed (0 = Sunday … 6 = Saturday). */
+    closedDays: number[];
+    /** Sent after booking. {name} {service} {day} {time} {stylist} {salon} */
+    confirmTemplate: string;
+    /** Sent on the day. Same placeholders. */
+    reminderTemplate: string;
+    /** When the on-the-day reminder goes out (salon local time). */
+    reminderAt: string;
+  };
   /** Attendance: check-ins after start + grace count as late. 24h "HH:MM", salon local time. */
   shift: { start: string; graceMinutes: number };
   /** How long after payment staff may undo a visit themselves. */
@@ -104,11 +120,11 @@ const config: SalonConfig = {
   publicUrl: "https://salon.example/r",
 
   services: [
-    { id: "haircut", name: "Haircut", price: 300, cycleDays: 30 },
-    { id: "beard", name: "Beard trim", price: 150, cycleDays: 14 },
-    { id: "hair-colour", name: "Hair colour", price: 1200, cycleDays: 45 },
-    { id: "facial", name: "Facial", price: 900, cycleDays: 30 },
-    { id: "hair-spa", name: "Hair spa", price: 1000, cycleDays: 60 },
+    { id: "haircut", name: "Haircut", price: 300, cycleDays: 30, minutes: 30 },
+    { id: "beard", name: "Beard trim", price: 150, cycleDays: 14, minutes: 15 },
+    { id: "hair-colour", name: "Hair colour", price: 1200, cycleDays: 45, minutes: 90 },
+    { id: "facial", name: "Facial", price: 900, cycleDays: 30, minutes: 45 },
+    { id: "hair-spa", name: "Hair spa", price: 1000, cycleDays: 60, minutes: 60 },
   ],
 
   addOns: [
@@ -148,6 +164,16 @@ const config: SalonConfig = {
   business: details.business,
   legal: details.legal,
   retention: details.retention,
+
+  appointments: {
+    open: "10:00",
+    close: "20:00",
+    slotMinutes: 30,
+    closedDays: [2],
+    confirmTemplate: "Booked! {name}, your {service} at {salon} is on {day} at {time}{stylist}. Reply C to cancel.",
+    reminderTemplate: "Hi {name}, a reminder: your {service} at {salon} is today at {time}{stylist}. See you soon! Reply C to cancel.",
+    reminderAt: "09:00",
+  },
 
   shift: { start: "10:00", graceMinutes: 15 },
 
