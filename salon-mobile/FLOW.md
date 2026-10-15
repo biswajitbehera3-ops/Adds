@@ -118,7 +118,7 @@ customer chose, and take payment. **[Built]**
 | E1c | **Staff:** add staff (name, mobile, chair, password), reset a password, deactivate someone who left. | **[Built]** |
 | E2 | Check today's takings. | Total, split into cash / UPI / card / wallet. Count the cash drawer against the cash figure. **[Built]** |
 | E3 | Check stylists. | Revenue and visits per stylist: today / 7 days / 30 days. **[Built · Motion R5]** |
-| E4 | Back up the day's data. | **[To ask the owner]** Google Drive or our own server. |
+| E4 | Back up the day's data. | Automatic: every phone syncs to the salon's private online store. **[Decided, not built]** |
 
 ---
 
@@ -140,5 +140,7 @@ customer chose, and take payment. **[Built]**
 3. "Walk-in, no number": **no**.
 4. Undo for 2 minutes + owner void: **yes**. **[Built]**
 5. Owner area: **separate and password-protected**. **[Built]**
-6. Backup: **ask the owner**.
+6. Backup: **solved by online sync** (decision 8).
 7. Thank-you WhatsApp after each visit: **yes**, it sets up the next reminder and carries the referral code. **[Built]**
+8. **Every phone gets the app** (decided 15 Oct): the owner installs it on their own phone and sees live data from anywhere; each stylist installs it on their own phone, signs in with their number, and sees **only their own** earnings and customers. All phones sync to the salon's own private online store (also the backup); the app keeps working offline and catches up. **[Decided, not built]**
+9. **Owner Live tab** (decided 15 Oct): an animated top-down salon floor — each chair shows the customer, the service, the stylist in charge and service progress; customers walk from the waiting bench to a free chair and to the counter when they pay. Live tab is first in the owner's dock. **[Designed, not built]**
