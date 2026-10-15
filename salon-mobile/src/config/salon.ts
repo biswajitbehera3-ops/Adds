@@ -46,9 +46,41 @@ export type SalonConfig = {
     /** Credited to the new customer. */
     newCustomerReward: number;
   };
+  /** Marketing: only sent to customers who opted in. Must say how to stop. */
   reminderTemplate: string;
-  /** Sent on WhatsApp after each paid visit. {name} {total} {balance} {code} {salon} */
+  /** Thank-you after a paid visit for customers who opted in to messages. {name} {total} {balance} {code} {salon} */
   receiptTemplate: string;
+  /** Plain receipt for customers who did not opt in: no offers, no referral pitch. */
+  receiptTemplatePlain: string;
+  /** Who runs the salon. Shown in the app's Privacy & terms screen and in every policy. */
+  business: {
+    legalName: string;
+    address: string;
+    /** GSTIN, if registered. */
+    gstin: string;
+    phone: string;
+    email: string;
+    /** DPDP grievance contact for privacy requests and complaints. */
+    grievance: { name: string; phone: string; email: string };
+  };
+  legal: {
+    /** Bump when the privacy notice text changes; stored with each consent. */
+    noticeVersion: string;
+    privacyUrl: string;
+    termsUrl: string;
+    /** The app maker (data processor) and its support contact. */
+    providerName: string;
+    providerEmail: string;
+  };
+  /** How long data is kept before it is erased automatically. */
+  retention: {
+    /** Customers with no visit or wallet activity for this long are erased (wallet must be ₹0). */
+    inactiveCustomerDays: number;
+    /** Attendance selfies are deleted after this many days; the check-in time stays. */
+    attendancePhotoDays: number;
+    /** Copies of sent reminder messages are deleted after this many days. */
+    reminderLogDays: number;
+  };
   /** Attendance: check-ins after start + grace count as late. 24h "HH:MM", salon local time. */
   shift: { start: string; graceMinutes: number };
   /** How long after payment staff may undo a visit themselves. */
@@ -94,10 +126,36 @@ const config: SalonConfig = {
   },
 
   reminderTemplate:
-    "Hi {name}, it's been a while since your last {service} with us. Want us to keep a slot for you this week?",
+    "Hi {name}, it's been a while since your last {service} with us. Want us to keep a slot for you this week? Reply STOP to stop these messages.",
 
   receiptTemplate:
-    "Thanks for visiting {salon}, {name}! Paid {total}. Wallet balance: {balance}. Share your code {code} with friends: you both get wallet credit on their first visit.",
+    "Thanks for visiting {salon}, {name}! Paid {total}. Wallet balance: {balance}. Share your code {code} with friends: you both get wallet credit on their first visit. Reply STOP to stop offers.",
+
+  receiptTemplatePlain: "Thanks for visiting {salon}, {name}. Paid {total}. Wallet balance: {balance}.",
+
+  // Fill in per salon before go-live. Every value here appears in the app and the policies.
+  business: {
+    legalName: "[Salon legal name]",
+    address: "[Full shop address, city, PIN]",
+    gstin: "",
+    phone: "[Salon phone]",
+    email: "[Salon email]",
+    grievance: { name: "[Owner name]", phone: "[Owner phone]", email: "[Owner email]" },
+  },
+
+  legal: {
+    noticeVersion: "2026-10-15",
+    privacyUrl: "[https://… privacy policy page]",
+    termsUrl: "[https://… terms page]",
+    providerName: "[Your business name]",
+    providerEmail: "[Your support email]",
+  },
+
+  retention: {
+    inactiveCustomerDays: 3 * 365,
+    attendancePhotoDays: 365,
+    reminderLogDays: 365,
+  },
 
   shift: { start: "10:00", graceMinutes: 15 },
 

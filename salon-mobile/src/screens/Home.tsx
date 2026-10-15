@@ -60,6 +60,7 @@ export function Home() {
           <Reveal kind="rise" style={{ backgroundColor: color.choc700, borderRadius: radius.control, padding: space.sm }}>
             <MenuItem label="My attendance" onPress={() => (setMenu(false), nav.push({ name: "myAttendance" }))} />
             <MenuItem label="All customers" onPress={() => (setMenu(false), nav.push({ name: "customers" }))} />
+            <MenuItem label="Privacy & terms" onPress={() => (setMenu(false), nav.push({ name: "legal" }))} />
             <MenuItem label="Sign out" tone={color.sealBright} onPress={() => setSession(null)} />
           </Reveal>
         ) : null}

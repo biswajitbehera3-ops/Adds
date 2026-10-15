@@ -70,6 +70,12 @@ export function buildDemoData(now = Date.now()): Data {
       referralCode: name.replace(/[^A-Z]/g, "").padEnd(3, "X").slice(0, 3) + (2300 + i * 37),
       walletBalance: 0,
       consentAt: created,
+      // Most demo customers opted in to messages; every fourth did not.
+      marketingConsentAt: i % 4 === 3 ? null : created,
+      consentNotice: config.legal.noticeVersion,
+      consentTakenBy: null,
+      guardianConsent: false,
+      deletedAt: null,
       referredById: i > 3 && i % 5 === 0 ? customers[i - 4].id : null,
       referralRewardedAt: null,
       createdAt: created,
@@ -139,5 +145,5 @@ export function buildDemoData(now = Date.now()): Data {
     c.referralRewardedAt = first.paidAt;
   }
 
-  return { version: 2, customers, visits, walletTxs, reminders: [], staff, attendance, owner: { secret: OWNER_SECRET }, demo: true };
+  return { version: 3, customers, visits, walletTxs, reminders: [], staff, attendance, privacyLog: [], owner: { secret: OWNER_SECRET }, demo: true };
 }

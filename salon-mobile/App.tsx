@@ -17,6 +17,7 @@ import { Home } from "./src/screens/Home";
 import { Login, Setup } from "./src/screens/Login";
 import { Owner } from "./src/screens/Owner";
 import { Profile } from "./src/screens/Profile";
+import { Legal } from "./src/screens/Legal";
 import { Refer } from "./src/screens/Refer";
 import { Reminders } from "./src/screens/Reminders";
 import { Receipt, VisitScreen } from "./src/screens/Visit";
@@ -50,6 +51,8 @@ function render(route: Route) {
       return <Reminders />;
     case "refer":
       return <Refer id={route.id} />;
+    case "legal":
+      return <Legal />;
   }
 }
 

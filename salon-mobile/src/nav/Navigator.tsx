@@ -38,7 +38,8 @@ export type Route =
   | { name: "profile"; id: string }
   | { name: "reminders" }
   | { name: "refer"; id?: string }
-  | { name: "myAttendance" };
+  | { name: "myAttendance" }
+  | { name: "legal" };
 
 type Rect = { x: number; y: number; w: number; h: number };
 type Entry = { key: string; route: Route; origin: Rect | null; fromColor: string; toColor: string };

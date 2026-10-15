@@ -9,6 +9,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Platform, TextInput, View } from "react-native";
 import Animated, { FadeIn, LinearTransition } from "react-native-reanimated";
 import { Button } from "../components/Button";
+import { Check } from "../components/Check";
 import { Icon } from "../components/Icon";
 import { LabelFrame } from "../components/LabelFrame";
 import { Press } from "../components/Press";
@@ -23,7 +24,7 @@ import config from "../config/salon";
 import * as E from "../domain/engine";
 import { UserError } from "../domain/errors";
 import { priceItems } from "../domain/rules";
-import { commit, useData } from "../domain/store";
+import { commit, useData, useSession } from "../domain/store";
 import { formatPhone, inr, relativeDays } from "../format";
 import { useNav } from "../nav/Navigator";
 import { color, font, radius, space } from "../theme/tokens";
@@ -153,12 +154,29 @@ function KeyButton({ label, onPress, disabled }: { label: string; onPress: () =>
 
 function NewCustomer({ phone }: { phone: string }) {
   const toast = useToast();
+  const nav = useNav();
+  const session = useSession();
   const [name, setName] = useState("");
   const [referredBy, setReferredBy] = useState("");
+  // DPDP: nothing is pre-ticked; the record consent is required, messages are optional.
   const [consent, setConsent] = useState(false);
+  const [marketing, setMarketing] = useState(false);
+  const [minor, setMinor] = useState(false);
+  const [guardian, setGuardian] = useState(false);
   const add = () => {
     try {
-      commit((d) => E.createCustomer(d, { phone, name, consent, referredBy: referredBy || undefined }));
+      commit((d) =>
+        E.createCustomer(d, {
+          phone,
+          name,
+          consent,
+          marketing,
+          minor,
+          guardianConsent: guardian,
+          referredBy: referredBy || undefined,
+          takenBy: session?.role === "staff" ? session.staffId : "owner",
+        }),
+      );
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       toast(`${name.trim().split(" ")[0]} added`);
     } catch (e) {
@@ -184,21 +202,19 @@ function NewCustomer({ phone }: { phone: string }) {
         autoCapitalize="characters"
         placeholder="e.g. PRI2337 or 98xxx xxxxx"
       />
-      <Press
-        onPress={() => setConsent((c) => !c)}
-        accessibilityRole="checkbox"
-        accessibilityState={{ checked: consent }}
-        scaleTo={0.99}
-        style={{ flexDirection: "row", gap: space.md, alignItems: "flex-start", paddingVertical: space.xs }}
-      >
-        <View style={{ width: 26, height: 26, borderRadius: 6, borderWidth: 1.5, borderColor: color.ink, backgroundColor: consent ? color.choc : color.paperLight, alignItems: "center", justifyContent: "center", marginTop: 1 }}>
-          {consent ? <Icon name="check" color={color.sealBright} size={18} strokeWidth={2.5} /> : null}
-        </View>
-        <T v="body" style={{ flex: 1 }}>
-          Customer agrees we can save their name and number for their wallet and visit reminders on WhatsApp.
+      <T v="small" c={color.inkMuted}>
+        Read this to the customer: we keep your name, number, visits and wallet only to serve you here. You can ask us to stop messages or delete your data at any time.
+      </T>
+      <Check checked={minor} onChange={(v) => (setMinor(v), v ? null : setGuardian(false))} label="Customer is under 18" hint="Use the parent's or guardian's mobile number above" />
+      {minor ? <Check checked={guardian} onChange={setGuardian} label="Parent or guardian agrees" hint="They are present and the number above is theirs" /> : null}
+      <Check checked={consent} onChange={setConsent} label="Agrees we keep their details for visits and wallet" hint="Required to save the customer" />
+      <Check checked={marketing} onChange={setMarketing} label="Wants WhatsApp reminders and offers" hint="Optional. They can reply STOP any time" />
+      <Press onPress={() => nav.push({ name: "legal" })} accessibilityRole="link" style={{ minHeight: 44, justifyContent: "center" }}>
+        <T v="small" c={color.seal} style={{ textDecorationLine: "underline" }}>
+          Full privacy notice
         </T>
       </Press>
-      <Button label="Add customer" icon="plus" onPress={add} disabled={!name.trim() || !consent} big />
+      <Button label="Add customer" icon="plus" onPress={add} disabled={!name.trim() || !consent || (minor && !guardian)} big />
     </LabelFrame>
   );
 }

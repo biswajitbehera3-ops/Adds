@@ -36,6 +36,7 @@ type Tab = "today" | "attendance" | "staff" | "visits";
 
 export function Owner() {
   const insets = useSafeAreaInsets();
+  const nav = useNav();
   const [tab, setTab] = useState<Tab>("today");
   return (
     <View style={{ flex: 1, backgroundColor: color.paper }}>
@@ -49,11 +50,23 @@ export function Owner() {
               {tab === "today" ? "Today" : tab === "attendance" ? "Attendance" : tab === "staff" ? "Staff" : "Visits"}
             </T>
           </View>
-          <Press onPress={() => setSession(null)} accessibilityLabel="Sign out" style={{ minHeight: 48, justifyContent: "center" }}>
-            <T v="bodyStrong" c={color.sealBright}>
-              Sign out
-            </T>
-          </Press>
+          <View style={{ flexDirection: "row", gap: space.lg }}>
+            <Press onPress={() => nav.push({ name: "customers" })} accessibilityLabel="All customers" style={{ minHeight: 48, justifyContent: "center" }}>
+              <T v="bodyStrong" c={color.cream}>
+                Customers
+              </T>
+            </Press>
+            <Press onPress={() => nav.push({ name: "legal" })} accessibilityRole="link" accessibilityLabel="Privacy and terms" style={{ minHeight: 48, justifyContent: "center" }}>
+              <T v="bodyStrong" c={color.cream}>
+                Privacy
+              </T>
+            </Press>
+            <Press onPress={() => setSession(null)} accessibilityLabel="Sign out" style={{ minHeight: 48, justifyContent: "center" }}>
+              <T v="bodyStrong" c={color.sealBright}>
+                Sign out
+              </T>
+            </Press>
+          </View>
         </View>
         <Segmented
           label="Owner section"

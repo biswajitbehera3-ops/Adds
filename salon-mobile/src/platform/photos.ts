@@ -50,3 +50,11 @@ export async function photoUri(key: string | null): Promise<string | null> {
   const info = await FileSystem.getInfoAsync(uri).catch(() => null);
   return info?.exists ? uri : null;
 }
+
+/** Deletes stored selfies (retention). Missing files are ignored. */
+export async function deletePhotos(keys: string[]): Promise<void> {
+  for (const key of keys) {
+    if (Platform.OS === "web") await AsyncStorage.removeItem(`salon:photo:${key}`).catch(() => {});
+    else await FileSystem.deleteAsync(`${DIR}${key}.jpg`, { idempotent: true }).catch(() => {});
+  }
+}

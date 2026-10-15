@@ -1,8 +1,9 @@
 import * as Clipboard from "expo-clipboard";
 import { useMemo, useState } from "react";
-import { View } from "react-native";
+import { Linking, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { Button } from "../components/Button";
+import { Check } from "../components/Check";
 import { IconSwap } from "../components/IconSwap";
 import { Press } from "../components/Press";
 import { Rule, Screen, SectionTitle } from "../components/Screen";
@@ -13,13 +14,14 @@ import { useToast } from "../components/Toast";
 import { TopUpSheet } from "../components/TopUpSheet";
 import config from "../config/salon";
 import * as E from "../domain/engine";
-import { useData } from "../domain/store";
-import type { WalletTx } from "../domain/types";
+import { UserError } from "../domain/errors";
+import { commit, useData, useSession } from "../domain/store";
+import type { PaymentMethod, WalletTx } from "../domain/types";
 import { formatPhone, inr, relativeDays, shortDate } from "../format";
 import { useNav } from "../nav/Navigator";
 import { color, font, space } from "../theme/tokens";
 
-const TX_LABEL: Record<WalletTx["type"], string> = { TOPUP: "Top-up", BONUS: "Top-up bonus", SPEND: "Paid for visit", REFERRAL_REWARD: "Referral reward", REFUND: "Refund (visit voided)", REFERRAL_REVERSAL: "Referral reward reversed" };
+const TX_LABEL: Record<WalletTx["type"], string> = { TOPUP: "Top-up", BONUS: "Top-up bonus", SPEND: "Paid for visit", REFERRAL_REWARD: "Referral reward", REFUND: "Refund (visit voided)", REFERRAL_REVERSAL: "Referral reward reversed", CASHOUT: "Refunded (wallet closed)", WRITE_OFF: "Bonus credit cancelled" };
 
 export function Profile({ id }: { id: string }) {
   const data = useData();
@@ -188,6 +190,8 @@ export function Profile({ id }: { id: string }) {
         )}
       </Animated.View>
 
+      <PrivacyControls customerId={p.id} name={p.name} phone={p.phone} messagesOn={Boolean(p.marketingConsentAt)} guardian={p.guardianConsent} />
+
       <TopUpSheet customer={p} visible={topUp} onClose={() => setTopUp(false)} />
     </Screen>
   );
@@ -207,6 +211,86 @@ function Stat({ label, value, sub, tone }: { label: string; value: string; sub?:
           {sub}
         </T>
       ) : null}
+    </View>
+  );
+}
+
+/**
+ * DPDP requests at the counter: stop messages, send the customer their data, and
+ * (owner only) close the wallet and erase the customer. Deleting takes two taps.
+ */
+function PrivacyControls({ customerId, name, phone, messagesOn, guardian }: { customerId: string; name: string; phone: string; messagesOn: boolean; guardian: boolean }) {
+  const data = useData();
+  const session = useSession();
+  const nav = useNav();
+  const toast = useToast();
+  const by = session?.role === "staff" ? session.staffId : "owner";
+  const isOwner = session?.role === "owner";
+  const [method, setMethod] = useState<PaymentMethod>("CASH");
+  const [armed, setArmed] = useState(false);
+  const wallet = E.refundableBalance(data, customerId);
+  const run = (fn: () => void, ok: string) => {
+    try {
+      fn();
+      toast(ok);
+    } catch (e) {
+      toast(e instanceof UserError ? e.message : "Couldn't do that. Try again.", "error");
+    }
+  };
+  return (
+    <View style={{ marginTop: space.xl, gap: space.sm }}>
+      <SectionTitle>Privacy</SectionTitle>
+      {guardian ? (
+        <T v="small" c={color.inkMuted}>
+          Under 18 · kept under a parent's or guardian's number with their consent.
+        </T>
+      ) : null}
+      <Check
+        checked={messagesOn}
+        onChange={(on) => run(() => commit((d) => E.setMarketingConsent(d, { customerId, on, by })), on ? "Messages turned on" : "Messages stopped")}
+        label="WhatsApp reminders and offers"
+        hint={messagesOn ? "On. Untick if they reply STOP or ask to stop" : "Off. Tick only if the customer asks for them"}
+      />
+      <Button
+        kind="outline"
+        label="Send them their data on WhatsApp"
+        icon="refer"
+        onPress={() =>
+          run(() => {
+            const text = commit((d) => E.customerDataExport(d, customerId));
+            Linking.openURL(E.whatsappLink(phone, text)).catch(() => {});
+          }, "Opening WhatsApp")
+        }
+      />
+      {isOwner ? (
+        <View style={{ gap: space.sm, marginTop: space.sm }}>
+          {wallet.balance > 0 ? (
+            <>
+              <T v="small" c={color.inkMuted}>
+                {`Before deleting, close the wallet: refund ₹${wallet.refundable.toLocaleString("en-IN")}${wallet.promotional ? `; ₹${wallet.promotional.toLocaleString("en-IN")} bonus credit is cancelled` : ""}.`}
+              </T>
+              <Segmented label="Refund by" value={method} onChange={setMethod} options={[{ key: "CASH", label: "Cash" }, { key: "UPI", label: "UPI" }, { key: "CARD", label: "Card" }]} />
+              <Button kind="outline" label={`Close wallet · refund ₹${wallet.refundable.toLocaleString("en-IN")}`} onPress={() => run(() => commit((d) => E.closeWallet(d, { customerId, method, by: "owner" })), "Wallet closed")} />
+            </>
+          ) : (
+            <Button
+              kind="outline"
+              label={armed ? `Tap again to delete ${name.split(" ")[0]}'s data` : "Delete customer data"}
+              onPress={() => {
+                if (!armed) return setArmed(true);
+                run(() => {
+                  commit((d) => E.deleteCustomer(d, { customerId, by: "owner" }));
+                  nav.pop();
+                }, "Customer data deleted");
+              }}
+            />
+          )}
+        </View>
+      ) : (
+        <T v="small" c={color.inkMuted}>
+          To delete a customer's data, ask the owner. It's in the owner's sign-in.
+        </T>
+      )}
     </View>
   );
 }

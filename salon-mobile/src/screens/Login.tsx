@@ -10,6 +10,7 @@ import { Button } from "../components/Button";
 import { LabelFrame } from "../components/LabelFrame";
 import { Reveal } from "../components/Reveal";
 import { Segmented } from "../components/Segmented";
+import { Press } from "../components/Press";
 import { T } from "../components/T";
 import { useToast } from "../components/Toast";
 import config from "../config/salon";
@@ -19,6 +20,7 @@ import { UserError } from "../domain/errors";
 import { DEMO_OWNER_PASSWORD, DEMO_STAFF_PASSWORD } from "../domain/seed";
 import { commit, setSession, useData } from "../domain/store";
 import { hasher } from "../platform/hasher";
+import { useNav } from "../nav/Navigator";
 import { color, space } from "../theme/tokens";
 import { Field } from "./Counter";
 
@@ -87,7 +89,19 @@ export function Login() {
           </T>
         </Reveal>
       ) : null}
+      <PrivacyLink />
     </Shell>
+  );
+}
+
+function PrivacyLink() {
+  const nav = useNav();
+  return (
+    <Press onPress={() => nav.push({ name: "legal" })} accessibilityRole="link" style={{ minHeight: 44, alignItems: "center", justifyContent: "center" }}>
+      <T v="small" c={color.cream} style={{ textDecorationLine: "underline" }}>
+        Privacy & terms
+      </T>
+    </Press>
   );
 }
 

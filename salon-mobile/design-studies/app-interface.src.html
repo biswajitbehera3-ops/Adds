@@ -640,3 +640,13 @@
   loop();
 })();
 </script>
+<script>
+// Keyboard access for the demo: tabs and buttons are reachable with Tab and work with Enter or Space.
+document.querySelectorAll(".seg span").forEach((sp) => { sp.setAttribute("role", "tab"); sp.tabIndex = 0; });
+document.querySelectorAll(".ring, .floor .station").forEach((el) => { el.setAttribute("role", "button"); el.tabIndex = 0; });
+document.addEventListener("keydown", (e) => {
+  const t = e.target;
+  if ((e.key === "Enter" || e.key === " ") && t instanceof Element && t.matches('[role="button"], [role="tab"]')) { e.preventDefault(); t.dispatchEvent(new MouseEvent("click", { bubbles: true })); }
+});
+</script>
+<style>[role="button"]:focus-visible, [role="tab"]:focus-visible { outline: 2px solid #E4A67B; outline-offset: 3px; }</style>

@@ -22,7 +22,7 @@ import {
   startOfIstDay,
   topUpBonus,
 } from "./rules";
-import type { Attendance, Customer, Data, PaymentMethod, ReminderLog, Secret, Staff, Visit, WalletTx } from "./types";
+import type { Attendance, Customer, Data, PaymentMethod, PrivacyEvent, ReminderLog, Secret, Staff, Visit, WalletTx } from "./types";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 // No 0/O/1/I so codes read cleanly over the phone.
@@ -57,12 +57,29 @@ const at = (v: Visit) => v.paidAt ?? v.createdAt;
 /** Upgrades stored data from older versions of the app. */
 export function migrate(raw: unknown): Data {
   const d = raw as Record<string, unknown> & { version?: number };
-  if (d.version === 2) return d as unknown as Data;
+  if (d.version === 3) return d as unknown as Data;
+  const v2 = d.version === 2 ? (d as unknown as Omit<Data, "version" | "privacyLog"> & { customers: Array<Record<string, unknown>> }) : migrateV1(d);
+  // v2 → v3: one consent covered both records and reminders, so it carries over to both.
+  return {
+    ...v2,
+    version: 3,
+    customers: v2.customers.map((c) => ({
+      ...(c as unknown as Customer),
+      marketingConsentAt: (c.marketingConsentAt as string | null | undefined) ?? (c.consentAt as string | null) ?? null,
+      consentNotice: (c.consentNotice as string | undefined) ?? "before-2026-10-15",
+      consentTakenBy: (c.consentTakenBy as string | null | undefined) ?? null,
+      guardianConsent: Boolean(c.guardianConsent),
+      deletedAt: (c.deletedAt as string | null | undefined) ?? null,
+    })),
+    privacyLog: [],
+  };
+}
+
+function migrateV1(d: Record<string, unknown>) {
   // v1: one service per visit, every visit paid, staff lived in config.
   const v1Visits = (d.visits as Array<Record<string, unknown>>) ?? [];
   return {
-    version: 2,
-    customers: (d.customers as Customer[]) ?? [],
+    customers: (d.customers as Array<Record<string, unknown>>) ?? [],
     visits: v1Visits.map((v) => ({
       id: v.id as string,
       customerId: v.customerId as string,
@@ -73,7 +90,7 @@ export function migrate(raw: unknown): Data {
       walletPaid: v.walletPaid as number,
       directPaid: v.directPaid as number,
       paymentMethod: v.paymentMethod as PaymentMethod,
-      status: "PAID",
+      status: "PAID" as const,
       createdAt: v.createdAt as string,
       paidAt: v.createdAt as string,
       voidedAt: null,
@@ -88,12 +105,18 @@ export function migrate(raw: unknown): Data {
   };
 }
 
+function logPrivacy(data: Data, customerId: string, type: PrivacyEvent["type"], by: string | null, now: Date): PrivacyEvent[] {
+  return [...data.privacyLog, { id: newId(), customerId, type, by, at: now.toISOString() }];
+}
+
+const live = (c: Customer) => !c.deletedAt;
+
 // ── Customers ────────────────────────────────────────────────────────────────
 
 export function findByPhone(data: Data, rawPhone: string) {
   const phone = normalizePhone(rawPhone);
   if (!phone) throw new UserError("Enter a valid 10-digit mobile number");
-  const customer = data.customers.find((c) => c.phone === phone) ?? null;
+  const customer = data.customers.find((c) => live(c) && c.phone === phone) ?? null;
   if (!customer) return { phone, customer: null };
   const visits = paidVisitsOf(data, customer.id);
   const openVisit = data.visits.find((v) => v.customerId === customer.id && v.status === "OPEN") ?? null;
@@ -105,13 +128,28 @@ export function findReferrer(data: Data, codeOrPhone: string): Customer | null {
   const raw = codeOrPhone.trim();
   if (!raw) return null;
   const phone = normalizePhone(raw);
-  if (phone) return data.customers.find((c) => c.phone === phone) ?? null;
-  return data.customers.find((c) => c.referralCode === raw.toUpperCase()) ?? null;
+  if (phone) return data.customers.find((c) => live(c) && c.phone === phone) ?? null;
+  return data.customers.find((c) => live(c) && c.referralCode === raw.toUpperCase()) ?? null;
 }
 
+/**
+ * Saves a new customer. DPDP: `consent` (keep my details for visits and the wallet)
+ * is required; `marketing` (WhatsApp reminders and offers) is a separate, optional
+ * choice. A customer under 18 is saved only with a parent's or guardian's consent,
+ * under that adult's number.
+ */
 export function createCustomer(
   data: Data,
-  input: { phone: string; name: string; consent: boolean; referredBy?: string },
+  input: {
+    phone: string;
+    name: string;
+    consent: boolean;
+    marketing?: boolean;
+    minor?: boolean;
+    guardianConsent?: boolean;
+    referredBy?: string;
+    takenBy?: string | null;
+  },
   now = new Date(),
 ): Op<Customer> {
   const phone = normalizePhone(input.phone);
@@ -120,7 +158,10 @@ export function createCustomer(
   if (!name) throw new UserError("Name is required");
   if (name.length > 80) throw new UserError("Name is too long");
   if (!input.consent) throw new UserError("The customer's consent is needed to save their details");
-  if (data.customers.some((c) => c.phone === phone)) throw new UserError("A customer with this number already exists");
+  if (input.minor && !input.guardianConsent) {
+    throw new UserError("For a customer under 18, a parent or guardian must agree and give their own number");
+  }
+  if (data.customers.some((c) => live(c) && c.phone === phone)) throw new UserError("A customer with this number already exists");
 
   let referredById: string | null = null;
   if (input.referredBy?.trim()) {
@@ -130,31 +171,41 @@ export function createCustomer(
     referredById = referrer.id;
   }
 
+  const when = now.toISOString();
   const customer: Customer = {
     id: newId(),
     phone,
     name,
     referralCode: makeReferralCode(name, new Set(data.customers.map((c) => c.referralCode))),
     walletBalance: 0,
-    consentAt: now.toISOString(),
+    consentAt: when,
+    marketingConsentAt: input.marketing ? when : null,
+    consentNotice: config.legal.noticeVersion,
+    consentTakenBy: input.takenBy ?? null,
+    guardianConsent: Boolean(input.minor),
+    deletedAt: null,
     referredById,
     referralRewardedAt: null,
-    createdAt: now.toISOString(),
+    createdAt: when,
   };
-  return { data: { ...data, customers: [...data.customers, customer] }, result: customer };
+  let next: Data = { ...data, customers: [...data.customers, customer] };
+  next = { ...next, privacyLog: logPrivacy(next, customer.id, "CONSENT_GIVEN", customer.consentTakenBy, now) };
+  if (input.marketing) next = { ...next, privacyLog: logPrivacy(next, customer.id, "MARKETING_ON", customer.consentTakenBy, now) };
+  return { data: next, result: customer };
 }
 
 export function searchCustomers(data: Data, q: string, take = 60) {
   const term = q.trim().toLowerCase();
   const digits = term.replace(/\D/g, "");
+  const people = data.customers.filter(live);
   const list = term
-    ? data.customers.filter(
+    ? people.filter(
         (c) =>
           c.name.toLowerCase().includes(term) ||
           (digits.length > 0 && c.phone.includes(digits)) ||
           c.referralCode === term.toUpperCase(),
       )
-    : data.customers;
+    : people;
   return [...list].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, take);
 }
 
@@ -428,7 +479,8 @@ export function receiptMessage(data: Data, visitId: string): { phone: string; me
   const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
   return {
     phone: customer.phone,
-    message: renderTemplate(config.receiptTemplate, {
+    // Offers and the referral pitch only go to customers who opted in to messages.
+    message: renderTemplate(customer.marketingConsentAt ? config.receiptTemplate : config.receiptTemplatePlain, {
       name: customer.name.split(" ")[0],
       salon: config.displayName,
       total: inr(visit.total),
@@ -458,8 +510,8 @@ export function overdueReminders(data: Data, now = new Date()) {
       const service = config.services.find((s) => s.id === v.serviceId);
       const lastVisit = new Date(v.at);
       const dueAt = dueDate(v.serviceId, lastVisit);
-      // Only customers who consented to reminders.
-      if (!customer?.consentAt || !service || !dueAt || dueAt > now) return [];
+      // Only customers who opted in to messages.
+      if (!customer?.marketingConsentAt || customer.deletedAt || !service || !dueAt || dueAt > now) return [];
       const reminded = data.reminders
         .filter((r) => r.customerId === customer.id && r.serviceId === service.id && r.createdAt > v.at)
         .sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
@@ -492,13 +544,182 @@ export function logReminder(
   if (message.length > 1000) throw new UserError("Message is too long");
   const customer = data.customers.find((c) => c.id === input.customerId);
   if (!customer) throw new UserError("Customer not found");
-  if (!customer.consentAt) throw new UserError("This customer hasn't agreed to receive reminders");
+  if (!customer.marketingConsentAt || customer.deletedAt) throw new UserError("This customer hasn't agreed to receive messages");
   const log: ReminderLog = { id: newId(), customerId: customer.id, serviceId: input.serviceId, message, status: input.status, createdAt: now.toISOString() };
   return { data: { ...data, reminders: [...data.reminders, log] }, result: log };
 }
 
 export function whatsappLink(phone10: string, message: string): string {
   return `https://wa.me/91${phone10}?text=${encodeURIComponent(message)}`;
+}
+
+
+// ── Privacy requests (DPDP) ──────────────────────────────────────────────────
+
+/** Turns WhatsApp reminders and offers on or off. "STOP" replies are handled here. */
+export function setMarketingConsent(
+  data: Data,
+  input: { customerId: string; on: boolean; by: string | null },
+  now = new Date(),
+): Op<Customer> {
+  const customer = data.customers.find((c) => c.id === input.customerId && live(c));
+  if (!customer) throw new UserError("Customer not found");
+  const updated: Customer = { ...customer, marketingConsentAt: input.on ? now.toISOString() : null };
+  const changed = Boolean(customer.marketingConsentAt) !== input.on;
+  return {
+    data: {
+      ...data,
+      customers: data.customers.map((c) => (c.id === customer.id ? updated : c)),
+      privacyLog: changed ? logPrivacy(data, customer.id, input.on ? "MARKETING_ON" : "MARKETING_OFF", input.by, now) : data.privacyLog,
+    },
+    result: updated,
+  };
+}
+
+/**
+ * How much of the wallet is refundable. Bonus and referral credit are promotional
+ * and not refundable; they count as spent first, so the customer keeps the most
+ * refundable money.
+ */
+export function refundableBalance(data: Data, customerId: string) {
+  const customer = data.customers.find((c) => c.id === customerId);
+  if (!customer) throw new UserError("Customer not found");
+  let promo = 0;
+  let spent = 0;
+  for (const t of data.walletTxs) {
+    if (t.customerId !== customerId) continue;
+    if (t.type === "BONUS" || t.type === "REFERRAL_REWARD" || t.type === "REFERRAL_REVERSAL") promo += t.amount;
+    if (t.type === "SPEND" || t.type === "REFUND") spent -= t.amount;
+  }
+  const promoLeft = Math.min(customer.walletBalance, Math.max(0, promo - Math.max(0, spent)));
+  return { balance: customer.walletBalance, refundable: customer.walletBalance - promoLeft, promotional: promoLeft };
+}
+
+/** Closes a wallet: hands back the refundable money and cancels unused promotional credit. */
+export function closeWallet(
+  data: Data,
+  input: { customerId: string; method: PaymentMethod; by: string | null },
+  now = new Date(),
+): Op<{ refunded: number; writtenOff: number }> {
+  const customer = data.customers.find((c) => c.id === input.customerId && live(c));
+  if (!customer) throw new UserError("Customer not found");
+  const { refundable, promotional } = refundableBalance(data, customer.id);
+  const when = now.toISOString();
+  const txs: WalletTx[] = [];
+  if (refundable > 0) {
+    txs.push({ id: newId(), customerId: customer.id, type: "CASHOUT", amount: -refundable, visitId: null, note: `Refunded by ${input.method}`, createdAt: when });
+  }
+  if (promotional > 0) {
+    txs.push({ id: newId(), customerId: customer.id, type: "WRITE_OFF", amount: -promotional, visitId: null, note: "Unused bonus / referral credit", createdAt: when });
+  }
+  return {
+    data: {
+      ...data,
+      customers: data.customers.map((c) => (c.id === customer.id ? { ...c, walletBalance: 0 } : c)),
+      walletTxs: [...data.walletTxs, ...txs],
+      privacyLog: logPrivacy(data, customer.id, "WALLET_CLOSED", input.by, now),
+    },
+    result: { refunded: refundable, writtenOff: promotional },
+  };
+}
+
+/** Everything the salon holds about one customer, as plain text they can be sent (right of access). */
+export function customerDataExport(data: Data, customerId: string, now = new Date()): Op<string> {
+  const p = getProfile(data, customerId);
+  if (p.deletedAt) throw new UserError("This customer's data has been erased");
+  const inr = (n: number) => `₹${n.toLocaleString("en-IN")}`;
+  const day = (iso: string) => istDate(new Date(iso));
+  const names = new Map([...config.services, ...config.addOns].map((s) => [s.id, s.name]));
+  const lines = [
+    `Your data at ${config.displayName} (${config.business.legalName})`,
+    `Name: ${p.name}`,
+    `Mobile: ${p.phone}${p.guardianConsent ? " (parent/guardian)" : ""}`,
+    `Customer since: ${day(p.createdAt)}`,
+    `Consent to keep details: ${p.consentAt ? day(p.consentAt) : "no"}`,
+    `WhatsApp reminders and offers: ${p.marketingConsentAt ? "on since " + day(p.marketingConsentAt) : "off"}`,
+    `Wallet balance: ${inr(p.walletBalance)}`,
+    `Referral code: ${p.referralCode}`,
+    "",
+    `Visits (${p.visits.length}):`,
+    ...p.visits.map((v) => `- ${day(v.paidAt ?? v.createdAt)}: ${[...v.serviceIds, ...v.addOnIds].map((id) => names.get(id) ?? id).join(", ")}, ${inr(v.total)}${v.status === "VOID" ? " (cancelled)" : ""}`),
+    "",
+    `Wallet entries (${p.walletTxs.length}):`,
+    ...p.walletTxs.map((t) => `- ${day(t.createdAt)}: ${t.type.replace(/_/g, " ").toLowerCase()} ${t.amount > 0 ? "+" : ""}${inr(t.amount)}`),
+    "",
+    `To correct or delete this data, or to complain, contact ${config.business.grievance.name}, ${config.business.grievance.phone}, ${config.business.grievance.email}.`,
+  ];
+  return { data: { ...data, privacyLog: logPrivacy(data, customerId, "DATA_SHARED", null, now) }, result: lines.join("\n") };
+}
+
+function erase(data: Data, customerId: string, now: Date): Data {
+  return {
+    ...data,
+    customers: data.customers.map((c) =>
+      c.id === customerId
+        ? { ...c, name: "Deleted customer", phone: "", referralCode: "", consentAt: null, marketingConsentAt: null, deletedAt: now.toISOString() }
+        : c,
+    ),
+    // Copies of messages carry the name, so they go too.
+    reminders: data.reminders.filter((r) => r.customerId !== customerId),
+  };
+}
+
+/**
+ * Erases a customer's personal data on request. Their visits and wallet entries
+ * stay for the salon's accounts, linked to an anonymous record. The wallet must
+ * be closed first so no money is lost silently.
+ */
+export function deleteCustomer(data: Data, input: { customerId: string; by: string | null }, now = new Date()): Op<null> {
+  const customer = data.customers.find((c) => c.id === input.customerId && live(c));
+  if (!customer) throw new UserError("Customer not found");
+  if (data.visits.some((v) => v.customerId === customer.id && v.status === "OPEN")) {
+    throw new UserError("Finish or cancel the open visit first");
+  }
+  if (customer.walletBalance !== 0) throw new UserError("Close the wallet first: refund the balance, then delete");
+  const next = erase(data, customer.id, now);
+  return { data: { ...next, privacyLog: logPrivacy(next, customer.id, "DELETED", input.by, now) }, result: null };
+}
+
+/**
+ * Retention: erases long-inactive customers (wallet ₹0, nothing open), deletes old
+ * attendance selfies and old message copies. Returns the selfie keys whose files
+ * the platform layer should delete. Safe to run on every app start.
+ */
+export function purgeExpired(data: Data, now = new Date()): Op<{ photoKeys: string[]; customersErased: number }> {
+  const r = config.retention;
+  const cutoff = (days: number) => new Date(now.getTime() - days * DAY_MS).toISOString();
+  const photoCut = cutoff(r.attendancePhotoDays);
+  const photoKeys: string[] = [];
+  const attendance = data.attendance.map((a) => {
+    if (a.photoKey && a.checkInAt < photoCut) {
+      photoKeys.push(a.photoKey);
+      return { ...a, photoKey: null };
+    }
+    return a;
+  });
+  const reminderCut = cutoff(r.reminderLogDays);
+  let next: Data = { ...data, attendance, reminders: data.reminders.filter((x) => x.createdAt >= reminderCut) };
+
+  const lastActive = new Map<string, string>();
+  const bump = (id: string, when: string) => {
+    if ((lastActive.get(id) ?? "") < when) lastActive.set(id, when);
+  };
+  for (const c of next.customers) bump(c.id, c.createdAt);
+  for (const v of next.visits) bump(v.customerId, v.paidAt ?? v.createdAt);
+  for (const t of next.walletTxs) bump(t.customerId, t.createdAt);
+  const customerCut = cutoff(r.inactiveCustomerDays);
+  const stale = next.customers.filter(
+    (c) =>
+      live(c) &&
+      c.walletBalance === 0 &&
+      (lastActive.get(c.id) ?? "") < customerCut &&
+      !next.visits.some((v) => v.customerId === c.id && v.status === "OPEN"),
+  );
+  for (const c of stale) {
+    next = erase(next, c.id, now);
+    next = { ...next, privacyLog: logPrivacy(next, c.id, "AUTO_ERASED", "auto", now) };
+  }
+  return { data: next, result: { photoKeys, customersErased: stale.length } };
 }
 
 // ── Owner dashboard ──────────────────────────────────────────────────────────

@@ -4,7 +4,8 @@
  */
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSyncExternalStore } from "react";
-import { migrate } from "./engine";
+import { deletePhotos } from "../platform/photos";
+import { migrate, purgeExpired } from "./engine";
 import { buildDemoData } from "./seed";
 import { emptyData, type Data, type Session } from "./types";
 
@@ -32,6 +33,10 @@ export async function loadStore(): Promise<void> {
   try {
     const raw = await AsyncStorage.getItem(KEY);
     state = raw ? migrate(JSON.parse(raw)) : buildDemoData();
+    // Retention: erase what has been kept long enough, every time the app starts.
+    const purged = purgeExpired(state);
+    state = purged.data;
+    deletePhotos(purged.result.photoKeys).catch(() => {});
     persist();
     const rawSession = await AsyncStorage.getItem(SESSION_KEY).catch(() => null);
     session = rawSession ? (JSON.parse(rawSession) as Session) : null;

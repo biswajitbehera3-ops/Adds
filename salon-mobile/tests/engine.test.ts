@@ -18,7 +18,7 @@ function setup() {
   let data: Data = emptyData();
   const run = <T,>(op: { data: Data; result: T }) => ((data = op.data), op.result);
   const stylist = run(E.addStaff(data, { name: "Imran", phone: "9811100001", chair: "Chair 1", secret: SECRET }));
-  const add = (phone: string, name: string, referredBy?: string) => run(E.createCustomer(data, { phone, name, consent: true, referredBy }));
+  const add = (phone: string, name: string, referredBy?: string) => run(E.createCustomer(data, { phone, name, consent: true, marketing: true, referredBy }));
   /** Walk in, do the service, pay. */
   const visit = (customerId: string, extra: { serviceIds?: string[]; walletAmount?: number; paymentMethod?: "CASH" | "UPI" | "CARD" } = {}, now?: Date) => {
     const v = run(E.startVisit(data, { customerId, serviceIds: extra.serviceIds ?? ["haircut"], addOnIds: [], staffId: stylist.id }, now));
@@ -237,7 +237,8 @@ describe("migration and demo data", () => {
       demo: false,
     };
     const d = E.migrate(v1);
-    expect(d.version).toBe(2);
+    expect(d.version).toBe(3);
+    expect(d.customers[0]).toMatchObject({ marketingConsentAt: "x", guardianConsent: false, deletedAt: null });
     expect(d.visits[0]).toMatchObject({ serviceIds: ["haircut"], status: "PAID" });
     expect(E.ownerDashboard(d).today.total).toBe(300);
     expect(d.owner).toBeNull();

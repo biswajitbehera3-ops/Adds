@@ -9,8 +9,18 @@ export type Customer = {
   referralCode: string;
   /** Always equals the sum of this customer's wallet transactions. */
   walletBalance: number;
-  /** DPDP: when the customer agreed to having details stored and receiving reminders. */
+  /** DPDP: when the customer agreed to the salon keeping their details for visits and the wallet. */
   consentAt: string | null;
+  /** DPDP: separate, optional consent to WhatsApp reminders and offers. Null = no messages. */
+  marketingConsentAt: string | null;
+  /** Version of the privacy notice shown when consent was taken (config.legal.noticeVersion). */
+  consentNotice: string;
+  /** Staff member who took the consent, or null for the owner / older records. */
+  consentTakenBy: string | null;
+  /** The customer is under 18: the record is kept under a parent's or guardian's number, with their consent. */
+  guardianConsent: boolean;
+  /** Set when the customer's personal data was erased. The visits stay, without name or number, for the accounts. */
+  deletedAt: string | null;
   referredById: string | null;
   /** Set once the referral reward is paid (on this customer's first paid visit). */
   referralRewardedAt: string | null;
@@ -43,7 +53,17 @@ export type Visit = {
   voidReason: string | null;
 };
 
-export type WalletTxType = "TOPUP" | "BONUS" | "SPEND" | "REFERRAL_REWARD" | "REFUND" | "REFERRAL_REVERSAL";
+export type WalletTxType =
+  | "TOPUP"
+  | "BONUS"
+  | "SPEND"
+  | "REFERRAL_REWARD"
+  | "REFUND"
+  | "REFERRAL_REVERSAL"
+  /** Unused paid money handed back to the customer when the wallet is closed. */
+  | "CASHOUT"
+  /** Unused bonus / referral credit cancelled when the wallet is closed (not refundable). */
+  | "WRITE_OFF";
 
 export type WalletTx = {
   id: string;
@@ -89,14 +109,28 @@ export type Attendance = {
   photoKey: string | null;
 };
 
+/**
+ * Privacy audit trail: proof of consent and of each request handled. Holds ids
+ * and times only, never names or numbers, so it can outlive an erased customer.
+ */
+export type PrivacyEvent = {
+  id: string;
+  customerId: string;
+  type: "CONSENT_GIVEN" | "MARKETING_ON" | "MARKETING_OFF" | "DATA_SHARED" | "WALLET_CLOSED" | "DELETED" | "AUTO_ERASED";
+  /** Staff id, "owner", "auto", or null. */
+  by: string | null;
+  at: string;
+};
+
 export type Data = {
-  version: 2;
+  version: 3;
   customers: Customer[];
   visits: Visit[];
   walletTxs: WalletTx[];
   reminders: ReminderLog[];
   staff: Staff[];
   attendance: Attendance[];
+  privacyLog: PrivacyEvent[];
   /** Null until the owner sets a password on first launch. */
   owner: { secret: Secret } | null;
   /** True while the store holds generated demo data. */
@@ -104,13 +138,14 @@ export type Data = {
 };
 
 export const emptyData = (): Data => ({
-  version: 2,
+  version: 3,
   customers: [],
   visits: [],
   walletTxs: [],
   reminders: [],
   staff: [],
   attendance: [],
+  privacyLog: [],
   owner: null,
   demo: false,
 });
