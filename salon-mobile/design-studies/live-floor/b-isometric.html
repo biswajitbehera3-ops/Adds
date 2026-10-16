@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Live Floor Isometric</title>
+<style>
+:root{
+  --glow:#8E5B4E; --mid:#4A3029; --deep:#1A1210;
+  --cream:#FFF8F1; --soft:rgba(255,248,241,.72); --faint:rgba(255,248,241,.5);
+  --gold:#E4A67B; --ok:#9CCB8F; --alert:#F08C6A;
+  --glass:rgba(255,244,236,.13); --glass-hi:rgba(255,244,236,.2); --line:rgba(255,244,236,.28);
+  --font:"Urbanist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--deep);height:100%}
+body{font-family:var(--font);color:var(--cream);-webkit-font-smoothing:antialiased;display:flex;justify-content:center}
+.screen{position:relative;width:390px;max-width:100%;height:844px;overflow:hidden;
+  background:radial-gradient(130% 75% at 8% 0%, var(--glow) 0%, var(--mid) 46%, var(--deep) 100%);isolation:isolate}
+.screen::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:50;opacity:.13;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>")}
+
+/* header */
+header{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:flex-end;padding:18px 18px 0;height:92px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.title-row{display:flex;align-items:center;gap:10px;margin-top:4px}
+h1{font-size:28px;line-height:1.1;font-weight:800;letter-spacing:-.01em}
+.live{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:12px;font-size:12px;font-weight:800;letter-spacing:.08em;
+  background:rgba(156,203,143,.16);border:1px solid rgba(156,203,143,.42);color:var(--ok)}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(156,203,143,.6);animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(156,203,143,.55)}80%,100%{box-shadow:0 0 0 7px rgba(156,203,143,0)}}
+.today{text-align:right}
+.today .k{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.today .v{font-size:26px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums;line-height:1.15;transition:text-shadow .3s}
+.today .v.flash{text-shadow:0 0 18px rgba(228,166,123,.75)}
+.today .s{font-size:12px;color:var(--soft);font-variant-numeric:tabular-nums}
+
+/* hero diorama */
+.hero{position:relative;z-index:2;height:438px;margin-top:2px}
+.hero svg{display:block;width:390px;height:438px;overflow:visible}
+.hero-foot{position:absolute;left:18px;right:18px;bottom:8px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--soft);font-variant-numeric:tabular-nums}
+.hero-foot b{color:var(--cream);font-weight:700}
+.legend{display:flex;gap:12px;align-items:center}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.tok{display:inline-block;width:8px;height:12px;border-radius:4px;position:relative;margin-top:4px}
+.tok::before{content:"";position:absolute;width:7px;height:7px;border-radius:50%;left:.5px;top:-7px}
+.tok.sty{background:#2B1C18;box-shadow:inset 0 -5px 0 #CDB29B, 0 0 0 1px rgba(255,244,236,.35)}
+.tok.sty::before{background:#C29C80}
+.tok.cus{background:#A98C78}
+.tok.cus::before{background:#E7CDB6}
+
+/* chair cards */
+.row-head{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:baseline;padding:0 18px;height:22px;font-size:12px;color:var(--soft)}
+.row-head b{font-size:14px;color:var(--cream);font-weight:700;margin-right:6px}
+.row-head .warn{color:var(--alert);font-weight:700}
+.cards{position:relative;z-index:3;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding:0 16px;padding:6px 16px 10px;scrollbar-width:none}
+.cards::-webkit-scrollbar{display:none}
+.card{flex:0 0 286px;scroll-snap-align:start;border-radius:22px;padding:14px 16px 14px;cursor:pointer;position:relative;
+  background:linear-gradient(160deg, rgba(255,244,236,.19), rgba(255,244,236,.1));border:1px solid var(--line);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18), 0 10px 26px rgba(20,10,8,.28);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  transition:border-color .25s, transform .25s, background .25s;min-height:166px}
+.card.sel{border-color:rgba(255,248,241,.85);background:linear-gradient(160deg, rgba(255,244,236,.26), rgba(255,244,236,.14));transform:translateY(-2px)}
+.card:focus-visible{outline:2px solid var(--cream);outline-offset:2px}
+.c-top{display:flex;align-items:center;gap:8px;height:24px}
+.c-no{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.pill{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 9px;border-radius:11px;font-size:12px;font-weight:700;white-space:nowrap}
+.pill i{width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.ok{color:var(--ok);background:rgba(156,203,143,.14)}
+.pill.alert{color:var(--alert);background:rgba(240,140,106,.16)}
+.pill.free{color:var(--cream);background:rgba(255,244,236,.12)}
+.c-amt{margin-left:auto;font-size:15px;font-weight:800;color:var(--cream);font-variant-numeric:tabular-nums}
+.c-body{transition:none}
+.c-name{font-size:21px;font-weight:800;margin-top:8px;letter-spacing:-.005em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-svc{font-size:14px;color:var(--soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-bar{height:6px;border-radius:3px;background:rgba(255,244,236,.14);margin-top:14px;overflow:hidden}
+.c-bar i{display:block;height:100%;border-radius:3px;background:var(--ok);width:0}
+.c-bar.free{background:repeating-linear-gradient(90deg, rgba(255,244,236,.22) 0 6px, transparent 6px 11px)}
+.c-foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:13px;color:var(--soft);font-variant-numeric:tabular-nums}
+.c-sty{display:inline-flex;align-items:center;gap:7px;color:var(--cream);font-weight:600}
+.c-sty .tok{margin-top:5px}
+.c-foot b{color:var(--cream);font-weight:700}
+.wait-row{display:flex;gap:10px;align-items:center;margin-top:12px}
+.badge{flex:0 0 36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:800;color:#2A1A15;background:#E7CDB6}
+.wait-row .n{font-size:17px;font-weight:800}
+.wait-row .d{font-size:13px;color:var(--soft);margin-top:1px}
+.wait-row .d .late{color:var(--alert);font-weight:700}
+.wait-empty{font-size:15px;color:var(--soft);margin-top:14px}
+
+/* tab bar */
+nav{position:absolute;z-index:4;left:10px;right:10px;bottom:16px;height:66px;border-radius:24px;display:flex;justify-content:space-around;align-items:center;
+  background:rgba(38,24,21,.62);border:1px solid rgba(255,244,236,.2);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:inset 0 1px 0 rgba(255,255,255,.1)}
+nav a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:600;color:var(--soft);text-decoration:none;padding:6px 8px;border-radius:16px;min-width:62px}
+nav a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav a.on{color:var(--cream);background:rgba(255,244,236,.14)}
+
+/* svg text */
+svg text{font-family:var(--font)}
+.hit{cursor:pointer;outline:none}
+@media (prefers-reduced-motion: reduce){.live i{animation:none}.card{transition:none}}
+</style>
+</head>
+<body>
+<main class="screen" id="screen">
+  <header>
+    <div>
+      <div class="eyebrow">Owner · from anywhere</div>
+      <div class="title-row"><h1>Live floor</h1><span class="live" aria-label="Live"><i></i>LIVE</span></div>
+    </div>
+    <div class="today" id="today">
+      <div class="k">Today</div>
+      <div class="v" id="total">₹6,800</div>
+      <div class="s" id="visits">10 visits</div>
+    </div>
+  </header>
+
+  <section class="hero" aria-label="Salon floor, live">
+    <svg id="dio" viewBox="0 0 390 438" role="img" aria-label="Isometric view of the salon floor"></svg>
+    <div class="hero-foot">
+      <span><b id="clock">11:38 AM</b> · Wed 14 Oct</span>
+      <span class="legend"><span><i class="tok sty"></i>Stylist</span><span><i class="tok cus"></i>Customer</span></span>
+    </div>
+  </section>
+
+  <div class="row-head"><span><b>Chairs</b><span id="counts">3 of 3 busy</span></span><span id="waitc">1 waiting</span></div>
+  <div class="cards" id="cards"></div>
+
+  <nav aria-label="Owner tabs">
+    <a href="#" class="on" aria-current="page"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.5"/><path d="M7.5 7.5a6.4 6.4 0 0 0 0 9M16.5 7.5a6.4 6.4 0 0 1 0 9M4.6 4.6a10.5 10.5 0 0 0 0 14.8M19.4 4.6a10.5 10.5 0 0 1 0 14.8"/></svg>Live</a>
+    <a href="#"><svg viewBox="0 0 24 24"><path d="M7 5h10M7 9.5h10M7 5c5 0 5 9 0 9l7 6"/></svg>Earnings</a>
+    <a href="#"><svg viewBox="0 0 24 24"><rect x="4" y="5.5" width="16" height="14" rx="3"/><path d="M8 3.5v4M16 3.5v4M8.5 13.5l2.3 2.3 4.7-4.6"/></svg>Attendance</a>
+    <a href="#"><svg viewBox="0 0 24 24"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.5" cy="9.5" r="2.4"/><path d="M16 14c2.4 0 4 1.5 4.5 4.2"/></svg>Staff</a>
+    <a href="#"><svg viewBox="0 0 24 24"><path d="M6 3.5h12v17l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/></svg>Visits</a>
+  </nav>
+</main>
+
+<script>
+(() => {
+"use strict";
+/* ---------- data (from spec) ---------- */
+const CHAIRS = [
+  {n:1, stylist:"Imran",  cust:"Karan Mehta", first:"Karan", svc:"Haircut + Beard trim", amt:450, done:18, total:30},
+  {n:2, stylist:"Sunita", cust:"Priya Patel", first:"Priya", svc:"Facial",               amt:900, done:12, total:45},
+  {n:3, stylist:"Rakesh", cust:"Rahul Jain",  first:"Rahul", svc:"Haircut",              amt:300, done:26, total:30},
+];
+const DEV  = {name:"Dev Arora",  first:"Dev",  svc:"Beard trim", amt:150, total:15, booked:"11:40"};
+const NEHA = {name:"Neha Singh", first:"Neha"};
+const START_TOTAL = 6800, START_VISITS = 10, START_MIN = 11*60+38;
+
+/* ---------- timeline ---------- */
+const T = 24;          // loop length (s)
+const R = 0.45;        // floor minutes per second
+const SEAM0 = 22.8, SEAM_MID = 23.4;
+const K = {            // key moments (s)
+  r3done: 4/R,         // 8.89 chair 3 hits 30/30
+  rStand0: 9.5, rStand1: 10.1, rWalk1: 12.8, paid0: 13.0, tick0: 13.2, tick1: 13.9, paid1: 14.7, rOut0: 14.6, rOut1: 17.0,
+  dStand0: 15.4, dStand1: 15.9, dWalk1: 18.6, dSit1: 19.1,
+  nIn0: 17.4, nWalk1: 20.8, nSit1: 21.3, nArrive: 17.9,
+};
+
+/* ---------- iso geometry ---------- */
+const NC = CHAIRS.length;
+const SP = 1.8;                     // chair spacing along back wall
+const W = 1.9 + SP*(NC-1) + 1.6;    // room width (gx)
+const D = 6;                        // room depth (gy)
+const HW = Math.min(29.5, 382/(W+D)), HH = HW/2, ZS = HW*1.2;
+const WALLH = 3.75;
+const OX = 195 - (W-D)*HW/2, OY = 168;
+const P = (x,y,z=0) => [OX+(x-y)*HW, OY+(x+y)*HH - z*ZS];
+const pts = a => a.map(p=>p.map(v=>v.toFixed(2)).join(",")).join(" ");
+const CX = CHAIRS.map((_,i)=>1.9 + i*SP);
+const SEAT_Y = 1.25, SEAT_Z = .72, BENCH_Z = .47;
+const NS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("dio");
+function el(tag, attrs={}, parent){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); if(parent) parent.appendChild(e); return e; }
+
+/* ---------- defs ---------- */
+const defs = el("defs",{},svg);
+function lin(id, stops, x1=0,y1=0,x2=0,y2=1, units){ const g=el("linearGradient",{id,x1,y1,x2,y2},defs); if(units) g.setAttribute("gradientUnits",units); stops.forEach(([o,c,op])=>el("stop",{offset:o,"stop-color":c,"stop-opacity":op??1},g)); return g; }
+function rad(id, stops, cx=.5,cy=.5,r=.5, units){ const g=el("radialGradient",{id,cx,cy,r},defs); if(units) g.setAttribute("gradientUnits",units); stops.forEach(([o,c,op])=>el("stop",{offset:o,"stop-color":c,"stop-opacity":op??1},g)); return g; }
+const blur = (id,s)=>{ const f=el("filter",{id,x:"-50%",y:"-50%",width:"200%",height:"200%"},defs); el("feGaussianBlur",{stdDeviation:s},f); };
+blur("b2",2); blur("b6",6); blur("b14",14);
+lin("wallA",[[0,"#9A6C5A"],[1,"#7E5546"]],0,1,0,0);
+lin("wallB",[[0,"#7C5345"],[1,"#664437"]],0,1,0,0);
+lin("mirror",[[0,"#F3E6D8"],[.45,"#C9B2A2"],[.55,"#E8D8C8"],[1,"#A8907F"]],0,0,1,1);
+lin("day",[[0,"#FFF4DE"],[.7,"#F6D7AE"],[1,"#E8B98A"]],0,1,0,0);
+lin("spill",[[0,"#FFE8C4",.42],[1,"#FFE8C4",0]],0,0,1,0);
+rad("pool",[[0,"#FFE3C2",.26],[1,"#FFE3C2",0]]);
+rad("floorLight",[[0,"#FFD9B8",.16],[1,"#2A1712",.22]],.35,.15,1);
+lin("chrome",[[0,"#EFE4DA"],[.5,"#B7A597"],[1,"#7E6E63"]],0,0,1,0);
+lin("gold",[[0,"#F6CFA8"],[.55,"#E4A67B"],[1,"#B97A52"]],0,0,0,1);
+rad("shadow",[[0,"#000",.55],[1,"#000",0]]);
+const bodyGrad = {};
+function bodyG(c1,c2){ const id="g"+c1.slice(1)+c2.slice(1); if(!bodyGrad[id]) { lin(id,[[0,c1],[1,c2]],0,0,1,0); bodyGrad[id]=1;} return `url(#${id})`; }
+
+/* ---------- layers ---------- */
+const L = {};
+["ground","floor","walls","sel","sort","labels","fx","hits"].forEach(k=>L[k]=el("g",{id:"L_"+k},svg));
+
+/* diorama shadow + slab */
+{
+  const c = P(W/2, D/2); el("ellipse",{cx:c[0],cy:c[1]+44,rx:(W+D)*HW*.52,ry:(W+D)*HH*.55,fill:"url(#shadow)"},L.ground);
+  const t=.16, s=.42;
+  el("polygon",{points:pts([P(-t,D,0),P(W,D,0),P(W,D,-s),P(-t,D,-s)]),fill:"#3E281F"},L.ground);
+  el("polygon",{points:pts([P(W,-t,0),P(W,D,0),P(W,D,-s),P(W,-t,-s)]),fill:"#2A1A15"},L.ground);
+  el("polyline",{points:pts([P(-t,D,0),P(W,D,0),P(W,-t,0)]),fill:"none",stroke:"rgba(255,226,198,.35)","stroke-width":1},L.ground);
+}
+
+/* floor (drawn in grid space via affine matrix) */
+const floorM = `matrix(${HW},${HH},${-HW},${HH},${OX},${OY})`;
+{
+  const g = el("g",{transform:floorM},L.floor);
+  const woods = ["#7C5040","#835645","#784B3C","#8A5C49","#7F5343"];
+  let seed = 7; const rnd = () => (seed = (seed*9301+49297)%233280)/233280;
+  for(let x=0;x<W;x++) for(let y=0;y<D;y++){
+    const w = Math.min(1, W-x);
+    for(let k=0;k<3;k++) el("rect",{x, y:y+k/3, width:w, height:1/3, fill:woods[Math.floor(rnd()*woods.length)],
+      stroke:"rgba(42,24,18,.42)","stroke-width":.7,"vector-effect":"non-scaling-stroke"},g);
+  }
+  // tile grid accents
+  for(let x=0;x<=W;x++) el("line",{x1:x,y1:0,x2:x,y2:D,stroke:"rgba(36,20,15,.5)","stroke-width":1,"vector-effect":"non-scaling-stroke"},g);
+  el("rect",{x:0,y:0,width:W,height:D,fill:"url(#floorLight)"},g);
+  CX.forEach(c=>el("ellipse",{cx:c,cy:1.5,rx:1.05,ry:.95,fill:"url(#pool)"},g));
+  // door daylight spill
+  el("polygon",{points:"0,4.15 0,5.35 3.4,6 3.4,3.7",fill:"url(#spill)"},g);
+  // mat at door
+  el("rect",{x:.12,y:4.3,width:.7,height:.9,rx:.08,fill:"#5B3A30",opacity:.9},g);
+  L.floorG = g;
+}
+
+/* walls */
+const wallAM = `matrix(${HW},${HH},0,${-ZS},${OX},${OY})`;   // (u=gx, v=z) on gy=0
+const wallBM = `matrix(${-HW},${HH},0,${-ZS},${OX},${OY})`;  // (u=gy, v=z) on gx=0
+const NSW = {"vector-effect":"non-scaling-stroke"};
+function attrs(a){ return Object.assign({},NSW,a); }
+{
+  const t=.16;
+  // wall B (left)
+  const gb = el("g",{transform:wallBM},L.walls);
+  el("rect",{x:0,y:0,width:D,height:WALLH,fill:"url(#wallB)"},gb);
+  el("rect",{x:0,y:0,width:D,height:1.05,fill:"#4E3128"},gb);
+  for(let u=.6;u<D;u+=.75) el("line",attrs({x1:u,y1:.08,x2:u,y2:.97,stroke:"rgba(255,226,198,.10)","stroke-width":1}),gb);
+  el("rect",{x:0,y:1.05,width:D,height:.08,fill:"#A57B64"},gb);
+  // price board above counter (abstract lines, no text)
+  el("rect",{x:1.35,y:1.85,width:1.3,height:1.05,rx:.06,fill:"#2E1D18",stroke:"rgba(255,226,198,.35)","stroke-width":1,"vector-effect":"non-scaling-stroke"},gb);
+  [2.68,2.5,2.32,2.14].forEach((v,i)=>el("line",attrs({x1:1.52,y1:v,x2:1.52+[.95,.75,.85,.6][i],y2:v,stroke:"rgba(255,240,226,.45)","stroke-width":1.4})),gb);
+  // door
+  el("rect",{x:4.08,y:0,width:1.34,height:2.62,fill:"#3A241D"},gb);
+  el("rect",{x:4.18,y:0,width:1.14,height:2.5,fill:"url(#day)"},gb);
+  el("path",{d:"M4.18 0 L4.18 .55 Q4.5 .8 4.8 .62 Q5.1 .9 5.32 .6 L5.32 0Z",fill:"#9DB08A",opacity:.55},gb); // outdoor greenery hint
+  el("rect",{x:4.18,y:0,width:1.14,height:2.5,fill:"#FFF6E6",opacity:.25,filter:"url(#b2)"},gb);
+  // wall A (back)
+  const ga = el("g",{transform:wallAM},L.walls);
+  el("rect",{x:0,y:0,width:W,height:WALLH,fill:"url(#wallA)"},ga);
+  el("rect",{x:0,y:0,width:W,height:1.05,fill:"#5C3B31"},ga);
+  for(let u=.45;u<W;u+=.75) el("line",attrs({x1:u,y1:.08,x2:u,y2:.97,stroke:"rgba(255,226,198,.10)","stroke-width":1}),ga);
+  el("rect",{x:0,y:1.05,width:W,height:.08,fill:"#B48A72"},ga);
+  CX.forEach(c=>{
+    el("ellipse",{cx:c,cy:2.2,rx:.95,ry:1.3,fill:"#FFE2C2",opacity:.22,filter:"url(#b6)"},ga);
+    const l=c-.47,r=c+.47,b=1.3,top=2.7;
+    el("path",{d:`M${l-.07} ${b-.06} L${l-.07} ${top} A${.54} ${.54} 0 0 0 ${r+.07} ${top} L${r+.07} ${b-.06}Z`,fill:"#3A241D"},ga);
+    el("path",{d:`M${l} ${b} L${l} ${top} A${.47} ${.47} 0 0 0 ${r} ${top} L${r} ${b}Z`,fill:"url(#mirror)"},ga);
+    el("path",{d:`M${l+.12} ${b+.1} L${l+.42} ${top+.25} L${l+.56} ${top+.25} L${l+.26} ${b+.1}Z`,fill:"#FFFFFF",opacity:.22},ga);
+    for(let k=0;k<5;k++){ const v=b+.15+k*.33; el("circle",{cx:l-.15,cy:v,r:.055,fill:"#FFF1D8"},ga); el("circle",{cx:r+.15,cy:v,r:.055,fill:"#FFF1D8"},ga); }
+    el("rect",{x:c-.55,y:1.12,width:1.1,height:.09,fill:"#C79F84"},ga); // shelf
+  });
+  // wall caps & ends
+  el("polygon",{points:pts([P(-t,-t,WALLH),P(W,-t,WALLH),P(W,0,WALLH),P(0,0,WALLH)]),fill:"#C9A189"},L.walls);
+  el("polygon",{points:pts([P(-t,-t,WALLH),P(0,0,WALLH),P(0,D,WALLH),P(-t,D,WALLH)]),fill:"#B8917A"},L.walls);
+  el("polygon",{points:pts([P(W,-t,0),P(W,0,0),P(W,0,WALLH),P(W,-t,WALLH)]),fill:"#4A2F27"},L.walls);
+  el("polygon",{points:pts([P(-t,D,0),P(0,D,0),P(0,D,WALLH),P(-t,D,WALLH)]),fill:"#5A3A30"},L.walls);
+  // corner shading
+  el("line",{x1:P(0,0,0)[0],y1:P(0,0,0)[1],x2:P(0,0,WALLH)[0],y2:P(0,0,WALLH)[1],stroke:"rgba(30,16,12,.45)","stroke-width":2},L.walls);
+}
+
+/* ---------- sortable objects ---------- */
+const sortables = [];
+function addSortable(g, box, isFig=false){ const o={g, box, fig:isFig}; sortables.push(o); L.sort.appendChild(g); return o; }
+function box3(g, x0,y0,z0, w,d,h, c){
+  const x1=x0+w, y1=y0+d, z1=z0+h;
+  el("polygon",{points:pts([P(x0,y1,z0),P(x1,y1,z0),P(x1,y1,z1),P(x0,y1,z1)]),fill:c.l},g);
+  el("polygon",{points:pts([P(x1,y0,z0),P(x1,y1,z0),P(x1,y1,z1),P(x1,y0,z1)]),fill:c.r},g);
+  el("polygon",{points:pts([P(x0,y0,z1),P(x1,y0,z1),P(x1,y1,z1),P(x0,y1,z1)]),fill:c.t},g);
+}
+const LEATHER = {t:"#8E5946",l:"#7A4A3A",r:"#5A3529"};
+const CHROME  = {t:"#E8DDD2",l:"#BFAE9F",r:"#8E7D70"};
+CX.forEach((c,i)=>{
+  const g = el("g",{});
+  const base = P(c,1.15,0);
+  el("ellipse",{cx:base[0],cy:base[1],rx:HW*.55,ry:HH*.55,fill:"url(#chrome)"},g);
+  el("ellipse",{cx:base[0],cy:base[1]-1.5,rx:HW*.5,ry:HH*.5,fill:"#D9CCBF"},g);
+  el("rect",{x:base[0]-4,y:base[1]-.42*ZS,width:8,height:.42*ZS,fill:"url(#chrome)"},g);
+  box3(g, c-.36,.88,.42, .72,.62,.3, LEATHER);
+  box3(g, c-.34,.74,.72, .68,.16,1.0, LEATHER);
+  box3(g, c-.17,.78,1.76, .34,.1,.2, LEATHER);
+  box3(g, c-.44,.95,.72, .1,.5,.24, LEATHER);
+  box3(g, c+.34,.95,.72, .1,.5,.24, LEATHER);
+  box3(g, c-.22,1.62,.12, .44,.16,.07, CHROME);
+  addSortable(g,{x0:c-.44,x1:c+.44,y0:.74,y1:1.78});
+});
+// counter
+{
+  const g = el("g",{});
+  box3(g, .12,1.15,0, .88,1.8,1.1, {t:"#E2CDB7",l:"#4C2F26",r:"#3B241D"});
+  // panel grooves on customer-facing side (x=1.0)
+  [1.5,1.95,2.4].forEach(y=>el("line",{x1:P(1,y,.12)[0],y1:P(1,y,.12)[1],x2:P(1,y,.98)[0],y2:P(1,y,.98)[1],stroke:"rgba(255,220,190,.16)","stroke-width":1.2},g));
+  // till + card machine
+  box3(g, .3,1.7,1.1, .42,.5,.2, {t:"#3A2722",l:"#2B1C18",r:"#22160F"});
+  const s=[P(.36,1.78,1.3),P(.66,1.78,1.3),P(.66,2.12,1.62),P(.36,2.12,1.62)];
+  el("polygon",{points:pts([P(.4,1.9,1.3),P(.6,1.9,1.3),P(.6,2.0,1.45),P(.4,2.0,1.45)]),fill:"#2B1C18"},g);
+  el("polygon",{points:pts([P(.33,1.95,1.42),P(.67,1.95,1.42),P(.67,2.25,1.72),P(.33,2.25,1.72)]),fill:"#2A1B17"},g);
+  el("polygon",{points:pts([P(.37,1.99,1.46),P(.63,1.99,1.46),P(.63,2.21,1.68),P(.37,2.21,1.68)]),fill:"#9CCB8F",opacity:.75},g);
+  box3(g, .45,2.5,1.1, .2,.16,.08, {t:"#5A4038",l:"#3A2722",r:"#2B1C18"});
+  addSortable(g,{x0:.12,x1:1.0,y0:1.15,y1:2.95});
+}
+// bench
+{
+  const g = el("g",{});
+  [[3.6,4.35],[5.55,4.35],[3.6,4.68],[5.55,4.68]].forEach(([x,y])=>box3(g,x,y,0,.08,.08,.32,{t:"#3A2620",l:"#3A2620",r:"#2A1B16"}));
+  box3(g, 3.5,4.22,.47, 2.2,.12,.62, {t:"#A27552",l:"#8A6043",r:"#6A4632"});
+  box3(g, 3.5,4.3,.32, 2.2,.5,.15, {t:"#B88A66",l:"#9C7052",r:"#76523C"});
+  addSortable(g,{x0:3.5,x1:5.7,y0:4.22,y1:4.8});
+}
+// plant (back corner)
+{
+  const g = el("g",{});
+  box3(g, .28,.28,0, .45,.45,.5, {t:"#5A3A30",l:"#9A6248",r:"#7A4A36"});
+  const p = P(.5,.5,.5);
+  [[-12,-26,8,16,-25],[10,-24,8,15,25],[-3,-38,7,17,-5],[-15,-12,7,12,-45],[14,-12,7,12,45],[4,-30,6,14,15]].forEach(([dx,dy,rx,ry,rot],k)=>
+    el("ellipse",{cx:p[0]+dx,cy:p[1]+dy,rx,ry,transform:`rotate(${rot} ${p[0]+dx} ${p[1]+dy})`,fill:["#6E8A5E","#7F9C6E","#5F7B52","#8DAA7C","#6E8A5E","#93AF83"][k]},g));
+  addSortable(g,{x0:.28,x1:.73,y0:.28,y1:.73});
+}
+// door leaf (open into room, glass)
+{
+  const g = el("g",{});
+  const a=[0,4.18], b=[.85,3.55], H=2.45;
+  el("polygon",{points:pts([P(a[0],a[1],0),P(b[0],b[1],0),P(b[0],b[1],H),P(a[0],a[1],H)]),fill:"rgba(255,244,236,.16)",stroke:"#3A241D","stroke-width":3,"stroke-linejoin":"round"},g);
+  el("line",{x1:P(.62,3.72,1.1)[0],y1:P(.62,3.72,1.1)[1],x2:P(.62,3.72,1.4)[0],y2:P(.62,3.72,1.4)[1],stroke:"#C9A189","stroke-width":2.5,"stroke-linecap":"round"},g);
+  addSortable(g,{x0:0,x1:.85,y0:3.55,y1:4.18});
+}
+
+/* ---------- figures ---------- */
+function makeFigure(o){
+  const g = el("g",{});
+  const shadow = el("ellipse",{cx:0,cy:0,rx:8,ry:4,fill:"#1A0E0A",opacity:.38},g);
+  const arm = el("line",{x1:0,y1:0,x2:0,y2:0,stroke:o.body,"stroke-width":3.6,"stroke-linecap":"round",opacity:o.stylist?1:0},g);
+  const body = el("rect",{x:-6.5,y:0,width:13,height:20,rx:6.5,fill:bodyG(o.bodyHi,o.body)},g);
+  const apron = o.stylist ? el("path",{d:"",fill:"#CDB29B"},g) : null;
+  const cape = o.stylist ? null : el("path",{d:"",fill:"#EADCCD",opacity:0},g);
+  const head = el("circle",{cx:0,cy:0,r:5.8,fill:bodyG(o.headHi,o.head)},g);
+  const hi = el("circle",{cx:-1.8,cy:0,r:1.8,fill:"#fff",opacity:.28},g);
+  const f = Object.assign({},o,{g,shadow,arm,body,apron,cape,head,hi});
+  f.sort = addSortable(g,{x0:0,x1:0,y0:0,y1:0},true);
+  return f;
+}
+// pose: {x,y,sit(0..1),seatZ,op,cape,bob,armA}
+function drawFigure(f, s){
+  const [sx,sy] = P(s.x,s.y,0);
+  f.g.setAttribute("transform",`translate(${sx.toFixed(2)} ${sy.toFixed(2)})`);
+  f.g.setAttribute("opacity",s.op.toFixed(3));
+  f.g.style.display = s.op<=0.001 ? "none" : "";
+  const zp = s.sit*s.seatZ*ZS, bob = s.bob||0;
+  const h = (f.stylist?27:23) - 9*s.sit, w = f.stylist?14:13;
+  const top = -zp - h - bob;
+  f.body.setAttribute("y",top.toFixed(2)); f.body.setAttribute("height",h.toFixed(2));
+  f.body.setAttribute("x",-w/2); f.body.setAttribute("width",w); f.body.setAttribute("rx",w/2);
+  const hy = top - 5.2;
+  f.head.setAttribute("cy",hy.toFixed(2)); f.hi.setAttribute("cy",(hy-1.6).toFixed(2));
+  f.shadow.setAttribute("rx", (8 + 2*s.sit).toFixed(2));
+  if(f.apron){ const t=top+8; f.apron.setAttribute("d",`M${-w/2+2.2} ${t} L${w/2-2.2} ${t} L${w/2-1.6} ${top+h-2} Q0 ${top+h+1} ${-w/2+1.6} ${top+h-2}Z`); }
+  if(f.cape){
+    f.cape.setAttribute("opacity",(s.cape||0).toFixed(3));
+    const t=top+1.5, b=-zp+3;
+    f.cape.setAttribute("d",`M-4 ${t} Q0 ${t-2} 4 ${t} L11 ${b} Q0 ${b+4} -11 ${b}Z`);
+  }
+  if(f.stylist){
+    const a = s.armA ?? 0; // radians, 0 = resting down
+    const sx0 = -w/2+1.5, sy0 = top+7;
+    const len = 11;
+    const ang = Math.PI/2 + a; // down rotated toward chair (left)
+    f.arm.setAttribute("x1",sx0); f.arm.setAttribute("y1",sy0);
+    f.arm.setAttribute("x2",(sx0 - Math.sin(a)*len*1.0 + 0*ang).toFixed(2)); f.arm.setAttribute("y2",(sy0 + Math.cos(a)*len).toFixed(2));
+  }
+  const r = .19; f.sort.box = {x0:s.x-r,x1:s.x+r,y0:s.y-r,y1:s.y+r};
+}
+
+const STY = CHAIRS.map((c,i)=>makeFigure({stylist:true, body:"#241612", bodyHi:"#4A3029", head:"#B88F72", headHi:"#D8B497"}));
+const CUS = {
+  Karan: makeFigure({body:"#7F604D", bodyHi:"#A88B76", head:"#D9BCA4", headHi:"#F0DCC8"}),
+  Priya: makeFigure({body:"#9C6F69", bodyHi:"#C29A92", head:"#D9BCA4", headHi:"#F0DCC8"}),
+  Rahul: makeFigure({body:"#6E7B67", bodyHi:"#97A48D", head:"#D9BCA4", headHi:"#F0DCC8"}),
+  Dev:   makeFigure({body:"#67717F", bodyHi:"#939DAA", head:"#D9BCA4", headHi:"#F0DCC8"}),
+  Neha:  makeFigure({body:"#A5785E", bodyHi:"#CBA084", head:"#D9BCA4", headHi:"#F0DCC8"}),
+};
+
+/* ---------- paths ---------- */
+function makePath(ctrl){
+  const pts=[ctrl[0],...ctrl,ctrl[ctrl.length-1]], s=[];
+  for(let i=1;i<pts.length-2;i++){
+    const [p0,p1,p2,p3]=[pts[i-1],pts[i],pts[i+1],pts[i+2]];
+    for(let k=0;k<24;k++){ const t=k/24, t2=t*t, t3=t2*t;
+      s.push([0,1].map(j=>.5*((2*p1[j])+(-p0[j]+p2[j])*t+(2*p0[j]-5*p1[j]+4*p2[j]-p3[j])*t2+(-p0[j]+3*p1[j]-3*p2[j]+p3[j])*t3))); }
+  }
+  s.push(ctrl[ctrl.length-1]);
+  const d=[0]; for(let i=1;i<s.length;i++) d.push(d[i-1]+Math.hypot(s[i][0]-s[i-1][0],s[i][1]-s[i-1][1]));
+  const len=d[d.length-1];
+  return {len, at(u){ const L=u*len; let i=1; while(i<d.length-1 && d[i]<L) i++; const f=(L-d[i-1])/((d[i]-d[i-1])||1); return [s[i-1][0]+(s[i][0]-s[i-1][0])*f, s[i-1][1]+(s[i][1]-s[i-1][1])*f]; }};
+}
+const S3 = [CX[2], SEAT_Y], ST3 = [CX[2], 1.95];
+const B1 = [4.1, 4.62], BS = [4.1, 5.2];
+const PATH_R1 = makePath([ST3,[CX[2]-.6,2.5],[3.6,2.75],[2.2,2.5],[1.42,2.1]]);
+const PATH_R2 = makePath([[1.42,2.1],[1.8,3.2],[1.55,4.4],[.8,4.78],[-.55,4.78]]);
+const PATH_D  = makePath([BS,[5.0,5.38],[5.95,5.12],[6.4,3.7],[6.05,2.45],ST3]);
+const PATH_N  = makePath([[-.55,4.78],[.8,4.82],[2.0,5.32],[3.3,5.38],BS]);
+
+/* ---------- helpers ---------- */
+const clamp = (v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+const seg = (t,a,b)=>clamp((t-a)/(b-a));
+const ease = u=>(1-Math.cos(Math.PI*clamp(u)))/2;
+const easeOut = u=>1-Math.pow(1-clamp(u),3);
+const lerp = (a,b,u)=>a+(b-a)*u;
+const lerp2 = (A,B,u)=>[lerp(A[0],B[0],u),lerp(A[1],B[1],u)];
+function walkPose(path, t, a, b){
+  const u = seg(t,a,b), e = ease(u), p = path.at(e);
+  const dist = e*path.len, moving = u>0 && u<1;
+  return {x:p[0], y:p[1], sit:0, seatZ:0, bob: moving ? Math.abs(Math.sin(dist*Math.PI/.42))*2.4 : 0};
+}
+const doorFade = x => clamp((x+.5)/.85);
+const fmtR = v => "₹" + Math.round(v).toLocaleString("en-IN");
+function fmtClock(m){ m=Math.floor(m); let h=Math.floor(m/60), mm=m%60; const ap=h>=12?"PM":"AM"; h=h%12||12; return `${h}:${String(mm).padStart(2,"0")} ${ap}`; }
+function fadeNear(t, keys, w=.28){ let a=1; keys.forEach(k=>{ a=Math.min(a, clamp(Math.abs(t-k)/w)); }); return a; }
+
+/* ---------- scene state ---------- */
+function sceneAt(t){
+  t = ((t % T) + T) % T;
+  let te = t, a = 1;
+  if(t >= SEAM0){ a = clamp(Math.abs(t-SEAM_MID)/(SEAM_MID-SEAM0)); if(t >= SEAM_MID) te = 0; }
+  const s = {t, te, seamA:a};
+  s.clockMin = START_MIN + R*te;
+  // chairs
+  s.chairs = CHAIRS.map((c,i)=>({kind:"busy", cust:c.cust, first:c.first, svc:c.svc, amt:c.amt, done:Math.min(c.total, c.done + R*te), total:c.total, stylist:c.stylist, fade:a}));
+  const c3 = s.chairs[2];
+  if(te >= K.r3done && te < K.rStand1){ c3.kind="done"; c3.done=30; }
+  else if(te >= K.rStand1 && te < K.dSit1){ Object.assign(c3,{kind:"free", cust:"", first:"Free", svc:"", amt:0, done:0, total:0}); }
+  else if(te >= K.dSit1){ Object.assign(c3,{kind:"busy", cust:DEV.name, first:DEV.first, svc:DEV.svc, amt:DEV.amt, done:R*(te-K.dSit1), total:DEV.total}); }
+  c3.fade = a * fadeNear(te,[K.r3done, K.rStand1, K.dSit1]);
+  // waiting
+  if(te < K.dStand0) s.wait=[{who:DEV, kind:"booked"}];
+  else if(te < K.nArrive) s.wait=[];
+  else s.wait=[{who:NEHA, kind:"walkin"}];
+  s.waitFade = a * fadeNear(te,[K.dStand0, K.nArrive]);
+  // money
+  const tk = ease(seg(te,K.tick0,K.tick1));
+  s.total = START_TOTAL + 300*tk; s.visits = START_VISITS + (te >= (K.tick0+K.tick1)/2 ? 1 : 0);
+  s.flash = te > K.tick0-.1 && te < K.tick1+.5;
+  s.paid = te;
+  // figures
+  const F = {};
+  CHAIRS.forEach((c,i)=>{ if(i<2) F[c.first] = {x:CX[i], y:SEAT_Y, sit:1, seatZ:SEAT_Z, op:1, cape:1}; });
+  // Rahul
+  let r;
+  if(te < K.rStand0) r = {x:S3[0],y:S3[1],sit:1,seatZ:SEAT_Z,cape:1};
+  else if(te < K.rStand1){ const u=ease(seg(te,K.rStand0,K.rStand1)); const p=lerp2(S3,ST3,u); r={x:p[0],y:p[1],sit:1-u,seatZ:SEAT_Z,cape:1-u}; }
+  else if(te < K.rWalk1) r = walkPose(PATH_R1, te, K.rStand1, K.rWalk1);
+  else if(te < K.rOut0) r = {x:1.42,y:2.1,sit:0,seatZ:0};
+  else r = walkPose(PATH_R2, te, K.rOut0, K.rOut1);
+  r.op = (te >= K.rOut1 ? 0 : (te>=K.rOut0 ? doorFade(r.x) : 1)) * a;
+  F.Rahul = r;
+  // Dev
+  let d;
+  if(te < K.dStand0) d = {x:B1[0],y:B1[1],sit:1,seatZ:BENCH_Z};
+  else if(te < K.dStand1){ const u=ease(seg(te,K.dStand0,K.dStand1)); const p=lerp2(B1,BS,u); d={x:p[0],y:p[1],sit:1-u,seatZ:BENCH_Z}; }
+  else if(te < K.dWalk1) d = walkPose(PATH_D, te, K.dStand1, K.dWalk1);
+  else { const u=ease(seg(te,K.dWalk1,K.dSit1)); const p=lerp2(ST3,S3,u); d={x:p[0],y:p[1],sit:u,seatZ:SEAT_Z,cape:u}; }
+  d.op = a; F.Dev = d;
+  // Neha
+  let n;
+  if(te < K.nIn0) n = {x:-.55,y:4.78,sit:0,seatZ:0,op:0};
+  else if(te < K.nWalk1){ n = walkPose(PATH_N, te, K.nIn0, K.nWalk1); n.op = doorFade(n.x); }
+  else { const u=ease(seg(te,K.nWalk1,K.nSit1)); const p=lerp2(BS,B1,u); n={x:p[0],y:p[1],sit:u,seatZ:BENCH_Z,op:1}; }
+  n.op *= a; F.Neha = n;
+  // stylists
+  const occupied3 = te < K.rStand0 || te >= K.dSit1 - .2;
+  s.sty = CHAIRS.map((c,i)=>{
+    const working = i<2 || occupied3;
+    const ph = t*Math.PI*2/ (i===0?1.5:i===1?2.4:2.0) + i; // periods divide T so the loop is seamless
+    return {x:CX[i]+.72, y:1.5, sit:0, seatZ:0, op:1, bob: working ? Math.abs(Math.sin(ph*.5))*.8 : 0,
+            armA: working ? .9 + Math.sin(ph)*.32 : .12};
+  });
+  s.F = F;
+  return s;
+}
+
+/* ---------- depth sort ---------- */
+function behind(a,b){
+  const A=a.box,B=b.box;
+  const aB = A.x1<=B.x0 || A.y1<=B.y0, bB = B.x1<=A.x0 || B.y1<=A.y0;
+  if(aB && !bB) return true; if(bB && !aB) return false;
+  if(!aB && !bB){ if(a.fig && !b.fig) return false; if(b.fig && !a.fig) return true; }
+  return (A.x0+A.x1+A.y0+A.y1) < (B.x0+B.x1+B.y0+B.y1);
+}
+let lastOrder = "";
+function depthSort(){
+  const items = sortables.filter(o=>o.g.style.display!=="none");
+  const n = items.length, vis = new Array(n).fill(0), out = [];
+  const visit = i => { if(vis[i]) return; vis[i]=1; for(let j=0;j<n;j++) if(j!==i && behind(items[j],items[i])) visit(j); out.push(items[i]); };
+  for(let i=0;i<n;i++) visit(i);
+  const key = out.map(o=>sortables.indexOf(o)).join(",");
+  if(key !== lastOrder){ out.forEach(o=>L.sort.appendChild(o.g)); lastOrder = key; }
+  return out;
+}
+
+/* ---------- labels ---------- */
+const RING_R = 7, RING_C = 2*Math.PI*RING_R;
+function makeLabel(){
+  const g = el("g",{},L.labels);
+  const stem = el("line",{x1:0,y1:12,x2:0,y2:20,stroke:"rgba(255,244,236,.45)","stroke-width":1.2},g);
+  const bg = el("rect",{x:-40,y:-12,width:80,height:24,rx:12,fill:"rgba(36,23,19,.8)",stroke:"rgba(255,244,236,.32)","stroke-width":1},g);
+  const ringBg = el("circle",{cx:0,cy:0,r:RING_R,fill:"none",stroke:"rgba(255,244,236,.22)","stroke-width":2.6},g);
+  const ring = el("circle",{cx:0,cy:0,r:RING_R,fill:"none",stroke:"#9CCB8F","stroke-width":2.6,"stroke-linecap":"round","stroke-dasharray":`0 ${RING_C}`},g);
+  const check = el("path",{d:"",fill:"none",stroke:"#9CCB8F","stroke-width":1.8,"stroke-linecap":"round","stroke-linejoin":"round",opacity:0},g);
+  const txt = el("text",{x:0,y:4.4,"font-size":13,"font-weight":700,fill:"#FFF8F1"},g);
+  const num = el("text",{x:0,y:4.4,"font-size":12,"font-weight":700,fill:"rgba(255,248,241,.6)"},g);
+  return {g,stem,bg,ringBg,ring,check,txt,num,last:""};
+}
+const labels = CHAIRS.map(makeLabel);
+const benchLabel = makeLabel();
+function layoutLabel(L_, numStr, name, frac, mode){
+  const key = numStr+"|"+name+"|"+mode;
+  if(L_.last !== key){
+    L_.num.textContent = numStr; L_.txt.textContent = name;
+    const nw = numStr ? L_.num.getComputedTextLength() : 0, tw = L_.txt.getComputedTextLength();
+    const ringW = mode==="none" ? 0 : 2*RING_R + 7;
+    const w = 12 + ringW + (nw? nw+5:0) + tw + 13;
+    let x = -w/2 + 12;
+    if(ringW){ L_.ringBg.setAttribute("cx",x+RING_R); L_.ring.setAttribute("cx",x+RING_R); L_.ring.setAttribute("transform",`rotate(-90 ${x+RING_R} 0)`); L_.ringCx = x+RING_R; x += ringW; }
+    L_.ringBg.style.display = L_.ring.style.display = ringW ? "" : "none";
+    if(nw){ L_.num.setAttribute("x",x); x += nw+5; }
+    L_.txt.setAttribute("x",x);
+    L_.bg.setAttribute("x",-w/2); L_.bg.setAttribute("width",w);
+    L_.last = key;
+  }
+  if(mode !== "none"){
+    const cx = L_.ringCx;
+    L_.ringBg.setAttribute("stroke-dasharray", mode==="free" ? "2.2 2.6" : "");
+    L_.ring.setAttribute("stroke-dasharray", `${(clamp(frac)*RING_C).toFixed(2)} ${RING_C}`);
+    L_.ring.setAttribute("stroke", mode==="alert" ? "#F08C6A" : "#9CCB8F");
+    const done = mode==="done";
+    L_.check.setAttribute("opacity", done?1:0);
+    if(done) L_.check.setAttribute("d",`M${cx-3} 0.2 L${cx-.8} 2.4 L${cx+3.2} -2.2`);
+    L_.ring.style.opacity = done ? .55 : 1;
+  }
+}
+
+/* ---------- PAID fx ---------- */
+const paid = (()=>{
+  const at = P(.52,1.95,1.62);
+  const g = el("g",{opacity:0},L.fx);
+  const ripple = el("ellipse",{cx:at[0],cy:at[1]+10,rx:10,ry:5,fill:"none",stroke:"#E4A67B","stroke-width":1.6,opacity:0},L.fx);
+  const inner = el("g",{},g);
+  el("circle",{cx:0,cy:0,r:20,fill:"#E4A67B",opacity:.35,filter:"url(#b6)"},inner);
+  el("circle",{cx:0,cy:0,r:12,fill:"url(#gold)",stroke:"#FBE2C6","stroke-width":1.2},inner);
+  el("circle",{cx:0,cy:0,r:8.6,fill:"none",stroke:"#9A6141","stroke-width":.8,opacity:.6},inner);
+  el("text",{x:0,y:4.6,"text-anchor":"middle","font-size":13,"font-weight":800,fill:"#3A2118"},inner).textContent="₹";
+  el("rect",{x:-101,y:-12,width:86,height:24,rx:12,fill:"url(#gold)"},inner);
+  el("text",{x:-58,y:4.4,"text-anchor":"middle","font-size":12.5,"font-weight":800,fill:"#2A1712","letter-spacing":".03em"},inner).textContent="₹300 PAID";
+  return {at,g,inner,ripple};
+})();
+function drawPaid(te, a){
+  const u = easeOut(seg(te,K.paid0,K.paid0+.8));
+  const out = seg(te,K.paid1-.5,K.paid1);
+  const op = (te<K.paid0 || te>K.paid1) ? 0 : Math.min(seg(te,K.paid0,K.paid0+.3), 1-out) * a;
+  const y = paid.at[1] - 6 - 26*u - 10*out;
+  const sc = .6 + .4*u;
+  paid.g.setAttribute("opacity",op.toFixed(3));
+  paid.inner.setAttribute("transform",`translate(${paid.at[0]+2} ${y.toFixed(2)}) scale(${sc.toFixed(3)})`);
+  const ru = seg(te,K.paid0,K.paid0+.7);
+  paid.ripple.setAttribute("opacity", (te>=K.paid0 && te<=K.paid0+.7 ? (1-ru)*.9 : 0).toFixed(3));
+  paid.ripple.setAttribute("rx", (10+22*ru).toFixed(2)); paid.ripple.setAttribute("ry",(5+11*ru).toFixed(2));
+}
+
+/* ---------- selection highlights + hit areas ---------- */
+const selG = CX.map(c=>{
+  const g = el("g",{transform:floorM,opacity:0},L.sel);
+  el("rect",{x:c-.7,y:.55,width:1.75,height:1.5,rx:.22,fill:"rgba(255,244,236,.10)",stroke:"rgba(255,248,241,.85)","stroke-width":1.6,"vector-effect":"non-scaling-stroke"},g);
+  return g;
+});
+CX.forEach((c,i)=>{
+  const p = el("polygon",{points:pts([P(c-.7,.5,0),P(c+1.1,.5,0),P(c+1.1,2.05,0),P(c-.7,2.05,0),P(c-.7,.5,2.6),P(c+.3,.5,2.6)]),fill:"transparent",class:"hit",role:"button","aria-label":`Chair ${i+1}`,tabindex:0},L.hits);
+  // generous box covering chair + label area
+  p.setAttribute("points", pts([P(c-.7,2.05,0),P(c-.7,.55,3.2),P(c+1.1,.55,3.2),P(c+1.1,2.05,0)]));
+  p.addEventListener("click",()=>select(i,true));
+  p.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();select(i,true);} });
+});
+
+/* ---------- cards ---------- */
+const cardsEl = document.getElementById("cards");
+const cards = CHAIRS.map((c,i)=>{
+  const a = document.createElement("article");
+  a.className="card"; a.tabIndex=0; a.setAttribute("role","button");
+  a.innerHTML = `<div class="c-top"><span class="c-no">Chair ${c.n}</span><span class="pill ok"><i></i><b></b></span><span class="c-amt"></span></div>
+    <div class="c-body"><div class="c-name"></div><div class="c-svc"></div>
+    <div class="c-bar"><i></i></div>
+    <div class="c-foot"><span class="c-sty"><i class="tok sty"></i><span class="sn"></span></span><span class="c-min"></span></div></div>`;
+  a.addEventListener("click",()=>select(i,false));
+  a.addEventListener("keydown",e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();select(i,false);} });
+  cardsEl.appendChild(a);
+  const q = s=>a.querySelector(s);
+  return {a, pill:q(".pill"), pillT:q(".pill b"), amt:q(".c-amt"), body:q(".c-body"), name:q(".c-name"), svc:q(".c-svc"), bar:q(".c-bar"), barI:q(".c-bar i"), sn:q(".sn"), min:q(".c-min")};
+});
+const waitCard = (()=>{
+  const a = document.createElement("article");
+  a.className="card";
+  a.innerHTML = `<div class="c-top"><span class="c-no">Waiting bench</span><span class="pill free"><i></i><b></b></span></div><div class="c-body"></div>`;
+  cardsEl.appendChild(a);
+  return {a, pill:a.querySelector(".pill"), pillT:a.querySelector(".pill b"), body:a.querySelector(".c-body"), last:""};
+})();
+const set = (node, prop, v) => { if(node[prop] !== v) node[prop] = v; };
+function setStyle(node, k, v){ if(node.style[k] !== v) node.style[k] = v; }
+
+let sel = null;
+function select(i, fromFloor){
+  sel = (sel===i) ? null : i;
+  cards.forEach((c,j)=>c.a.classList.toggle("sel", j===sel));
+  if(sel!==null){
+    const card = cards[sel].a;
+    cardsEl.scrollTo({left: card.offsetLeft - 16, behavior: fromFloor && !reduce ? "smooth" : "auto"});
+  }
+  if(paused || reduce) render(curT);
+}
+
+/* ---------- render ---------- */
+const $ = id=>document.getElementById(id);
+function render(t){
+  curT = t;
+  const s = sceneAt(t), te = s.te, a = s.seamA;
+  // figures
+  STY.forEach((f,i)=>drawFigure(f, s.sty[i]));
+  Object.keys(CUS).forEach(k=>drawFigure(CUS[k], Object.assign({op:1}, s.F[k])));
+  depthSort();
+  // chair labels
+  s.chairs.forEach((c,i)=>{
+    const L_ = labels[i];
+    const p = P(CX[i], SEAT_Y, 2.5 - Math.min(i,3)*0.2);
+    L_.g.setAttribute("transform",`translate(${p[0].toFixed(2)} ${p[1].toFixed(2)})`);
+    const mode = c.kind==="free" ? "free" : c.kind==="done" ? "done" : "ok";
+    layoutLabel(L_, String(i+1), c.first, c.total? c.done/c.total : 0, mode);
+    L_.g.setAttribute("opacity", c.fade.toFixed(3));
+    L_.bg.setAttribute("stroke", sel===i ? "rgba(255,248,241,.9)" : "rgba(255,244,236,.32)");
+    selG[i].setAttribute("opacity", sel===i ? 1 : 0);
+  });
+  // bench label
+  {
+    const p = P(4.75, D+.2, -.24);
+    benchLabel.g.setAttribute("transform",`translate(${p[0].toFixed(2)} ${p[1].toFixed(2)})`);
+    benchLabel.stem.style.display = "none";
+    const n = s.wait.length;
+    const late = n && s.wait[0].kind==="booked" && s.clockMin >= START_MIN+2;
+    layoutLabel(benchLabel, "", n ? `Waiting bench · ${n}` : "Waiting bench · empty", 1, "none");
+    benchLabel.g.setAttribute("opacity", (s.waitFade*.4 + .6*a).toFixed(3));
+    benchLabel.txt.setAttribute("fill", late ? "#F08C6A" : "#FFF8F1");
+  }
+  drawPaid(te, a);
+  // header
+  const tot = $("total");
+  set(tot,"textContent", fmtR(s.total)); tot.style.opacity = a.toFixed(3);
+  tot.classList.toggle("flash", s.flash);
+  set($("visits"),"textContent", `${s.visits} visits`); $("visits").style.opacity = a.toFixed(3);
+  set($("clock"),"textContent", fmtClock(s.clockMin)); $("clock").style.opacity = a.toFixed(3);
+  const busy = s.chairs.filter(c=>c.kind!=="free").length;
+  set($("counts"),"textContent", `${busy} of ${NC} busy`);
+  const late = s.wait.length && s.wait[0].kind==="booked" && s.clockMin >= START_MIN+2;
+  set($("waitc"),"textContent", s.wait.length ? `${s.wait.length} waiting` : "No one waiting");
+  $("waitc").classList.toggle("warn", !!late);
+  // cards
+  s.chairs.forEach((c,i)=>{
+    const C = cards[i];
+    setStyle(C.body,"opacity", c.fade.toFixed(3)); setStyle(C.amt,"opacity",c.fade.toFixed(3)); setStyle(C.pill,"opacity",c.fade.toFixed(3));
+    if(c.kind==="free"){
+      set(C.pill,"className","pill free"); set(C.pillT,"textContent","Free");
+      set(C.amt,"textContent","");
+      set(C.name,"textContent","Chair is free");
+      set(C.svc,"textContent", s.wait.length && s.wait[0].who===DEV ? `Next up: ${DEV.name} · ${DEV.svc}` : (te < K.dSit1 && te >= K.dStand0 ? `${DEV.first} is on the way` : "Ready for next"));
+      C.bar.classList.add("free"); setStyle(C.barI,"width","0%");
+      set(C.sn,"textContent", c.stylist); set(C.min,"textContent","Ready");
+    } else {
+      const done = c.kind==="done";
+      set(C.pill,"className","pill ok"); set(C.pillT,"textContent", done ? "Done · billing" : "On time");
+      set(C.amt,"textContent", fmtR(c.amt));
+      set(C.name,"textContent", c.cust); set(C.svc,"textContent", c.svc);
+      C.bar.classList.remove("free"); setStyle(C.barI,"width", (100*c.done/c.total).toFixed(1)+"%");
+      set(C.sn,"textContent", c.stylist);
+      const left = Math.max(0, Math.ceil(c.total - c.done - 1e-6));
+      const html = done ? `<b>${c.total} / ${c.total} min</b> · done` : `${Math.floor(c.done)} / ${c.total} min · <b>${left} min left</b>`;
+      if(C.min.innerHTML !== html) C.min.innerHTML = html;
+    }
+  });
+  // waiting card
+  {
+    setStyle(waitCard.body,"opacity", s.waitFade.toFixed(3)); setStyle(waitCard.pill,"opacity", s.waitFade.toFixed(3));
+    let html, pillCls="pill free", pillT;
+    if(!s.wait.length){ html = `<div class="wait-empty">No one waiting right now</div>`; pillT="0"; }
+    else if(s.wait[0].kind==="booked"){
+      const over = Math.floor(s.clockMin - (11*60+40));
+      const st = over>0 ? `<span class="late">Booked 11:40 · ${over} min over</span>` : `Booked 11:40 · due in ${-over} min`;
+      html = `<div class="wait-row"><span class="badge">DA</span><div><div class="n">${DEV.name}</div><div class="d">${DEV.svc} · ₹${DEV.amt}</div><div class="d">${st}</div></div></div>`;
+      pillT = "1"; if(over>0) pillCls="pill alert";
+    } else {
+      html = `<div class="wait-row"><span class="badge" style="background:#E9C7AE">NS</span><div><div class="n">${NEHA.name}</div><div class="d">Walk-in · just arrived</div><div class="d">Service not chosen yet</div></div></div>`;
+      pillT = "1";
+    }
+    if(waitCard.last !== html){ waitCard.body.innerHTML = html; waitCard.last = html; }
+    set(waitCard.pill,"className",pillCls); set(waitCard.pillT,"textContent", pillT);
+  }
+}
+
+/* ---------- loop ---------- */
+const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let curT = 0, paused = false, t0 = performance.now();
+function frame(now){
+  if(!paused){ render(((now - t0)/1000) % T); requestAnimationFrame(frame); }
+}
+render(0);
+if(!reduce) requestAnimationFrame(frame);
+window.__seek = (t)=>{ paused = true; render(t); return sceneAt(t); };
+window.__play = ()=>{ if(paused && !reduce){ paused=false; t0 = performance.now() - curT*1000; requestAnimationFrame(frame);} };
+window.__select = (i)=>{ sel = null; if(i!=null) select(i,false); render(curT); };
+window.__order = ()=>[...L.sort.children].map(g=>{ const o=sortables.find(s=>s.g===g); return o.fig ? "fig@"+o.box.x0.toFixed(2)+","+o.box.y0.toFixed(2) : "obj@"+o.box.x0+","+o.box.y0; });
+})();
+</script>
+</body>
+</html>
