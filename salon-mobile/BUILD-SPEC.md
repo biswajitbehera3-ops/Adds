@@ -74,7 +74,7 @@ Where things live:
 | 5.6 | Rules: 10:00–20:00, 30-minute slots, Tuesday closed, no double-booking a stylist, no past times (all per-salon settings) | Logic |
 | 5.7 | **Automatic sending**: one-tap (free) vs fully automatic (WhatsApp Business, paid per message) | **Open: ask the user** |
 
-## 6. Owner app
+## 6. Owner app — **CONFIRMED by user, 19 Oct** (demo: `design-studies/owner-demo/owner-app-demo.html`)
 | # | Item | Status |
 |---|---|---|
 | 6.1 | **Bottom bar = 4 tabs (user, 19 Oct): Live · Earnings · Staff · Customers.** Attendance tab removed; attendance moves inside **Staff**. Visits tab replaced by **Customers** (where void-a-bill goes: to decide). Tab map: `design-studies/owner-map/owner-app-map.html` (to update to 4 tabs) | Decided |
