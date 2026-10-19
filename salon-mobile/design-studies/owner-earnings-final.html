@@ -179,6 +179,27 @@ function L1(el,state){
 }
 
 /* ---------- Layout 2: trend chart + full stylist page ---------- */
+// Each stylist's earnings for the last 8 weeks (example data; last point = this week so far)
+const WEEKS={labels:['7 Sep','14 Sep','21 Sep','28 Sep','5 Oct','12 Oct','This wk'],
+  s:[26400,28100,25300,30200,29100,28900,31200], r:[15800,16900,14600,18100,17400,17100,18900], i:[11100,11800,10200,12900,12600,12200,13400]};
+function weekLine(sid){
+  const v=WEEKS[sid], L=WEEKS.labels, n=v.length, W=300, H=118, padL=6, padR=8, top=18, bot=96;
+  const lo=Math.min(...v)*.9, hi=Math.max(...v)*1.06, X=i=>padL+i*(W-padL-padR)/(n-1), Y=x=>bot-(x-lo)/(hi-lo)*(bot-top);
+  const avg=v.reduce((a,b)=>a+b,0)/n, uid='wl'+sid+Math.random().toString(36).slice(2,6);
+  let line='',area='';
+  v.forEach((x,i)=>{const c=`${X(i).toFixed(1)} ${Y(x).toFixed(1)}`;line+=(i?' L':'M')+c;});
+  area=line+` L${X(n-1)} ${bot} L${X(0)} ${bot} Z`;
+  let g=`<div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:3cqw"><span class="lbl">Last 7 weeks</span><span class="sm">avg ${inr(Math.round(avg/100)*100)} / week</span></div>
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block;margin-top:1.4cqw" role="img" aria-label="Weekly earnings for the last 7 weeks, this week ${inr(v[n-1])}">
+  <defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4A67B" stop-opacity=".38"/><stop offset="1" stop-color="#E4A67B" stop-opacity="0"/></linearGradient></defs>
+  <line x1="${padL}" x2="${W-padR}" y1="${Y(avg)}" y2="${Y(avg)}" stroke="rgba(255,248,241,.35)" stroke-dasharray="3 4"/>
+  <path d="${area}" fill="url(#${uid})"/>
+  <path d="${line}" fill="none" stroke="#F5C9A0" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
+  v.forEach((x,i)=>{const last=i===n-1;g+=`<circle cx="${X(i)}" cy="${Y(x)}" r="${last?4.6:2.6}" fill="${last?'#FFF8F1':'#E4A67B'}" stroke="#3a2620" stroke-width="1.2"/>`;
+    g+=`<text x="${X(i)}" y="${H-6}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}" font-size="8.5" fill="${last?'#F5C9A0':'rgba(255,248,241,.5)'}">${L[i]}</text>`;});
+  g+=`<text x="${X(n-1)}" y="${Y(v[n-1])-9}" text-anchor="end" font-size="9.5" font-weight="700" fill="#F5C9A0">${lakh(v[n-1])}</text></svg>`;
+  return g;
+}
 function chartSVG(pk){
   const t=P[pk].trend, n=t.vals.length, max=Math.max(...t.vals)*1.12, W=300,H=120,bw=W/n*.56;
   let s=`<svg viewBox="0 0 ${W} ${H+18}" style="width:100%;display:block" role="img" aria-label="${t.note}">`;
@@ -199,8 +220,7 @@ function L2(el,state){
       ${segHTML(pk)}
       <div class="glass">
         <div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="big" style="font-size:9.6cqw">${inr(e)}</div>${deltaPill(e,pe,d.cmpWord)}</div>
-        <div class="cmp"><div class="r"><span>Now</span><div class="track"><i style="width:${e/max*100}%;background:var(--gold)"></i></div><b>${lakh(e)}</b></div>
-        <div class="r"><span>Before</span><div class="track"><i style="width:${pe/max*100}%;background:rgba(255,244,236,.4)"></i></div><b>${lakh(pe)}</b></div></div>
+        ${weekLine(s.id)}
       </div>
       <div class="glass"><div class="lbl" style="margin-bottom:1cqw">${pk==='day'?'Customers today':pk==='week'?'Day by day':'Week by week'}</div>${detailRows(pk,s.id)}</div>`);
     el.querySelector('[data-back]').onclick=()=>{state.page=null;L2(el,state);};
