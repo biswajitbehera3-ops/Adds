@@ -37,3 +37,15 @@ Walkers face down-right; mirror horizontally (CSS `scaleX(-1)`) to walk the othe
 Inspected in Higgsfield's sandbox: plate has no people, all 14 sprites have transparent backgrounds and consistent identities.
 Rahul step A and Stylist 3 had a faint semi-transparent halo; removed by alpha clean-up (no regeneration).
 Phone-size copies are in `assets/` (`people-sheet.png` = all 14 cut-outs, 180 px tall). The animated page is `final-live-floor.html`.
+
+## 19 Oct: salon edit + walk sheets (13.75 credits, approved)
+| Use | Job id | Result |
+|---|---|---|
+| Salon edit v1: receptionist + waiting sofa opposite the desk (long sofa) | 2dbabb9f-0528-4a58-b116-3857961b5734 | Good |
+| Salon edit v2: same, smaller loveseat | fcfde6ba-f52d-4ab2-8f74-11b2fec7780d | Good |
+| Dev 8-pose walk sheet | caec6c92-5c99-4ff4-9ee0-022a12f975a6 | **Failed**: 8 near-identical poses |
+| Neha 8-pose walk sheet | 6ce6ab12-a508-4d14-bf94-4b325f1744fe | **Failed**: 8 near-identical poses |
+| Rahul 8-pose walk sheet | a14fac79-3902-4021-a0ae-d26f59db8cea | **Failed**: only slight stride differences |
+
+Lesson: the image model will not draw a real walk cycle as one sheet; it repeats one pose.
+Note: the new sofa faces the desk (away from the camera), so the existing sofa sitters (front views) no longer fit it.
