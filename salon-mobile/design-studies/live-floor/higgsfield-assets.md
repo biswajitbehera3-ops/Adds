@@ -33,6 +33,7 @@ Total spend: **26.5 credits** (2 × 2.75 plates + 14 × 1.5 sprites), matching t
 
 Walkers face down-right; mirror horizontally (CSS `scaleX(-1)`) to walk the other way.
 
-## Not yet done
-- Not inspected by Claude: the image host is blocked by the session's network policy.
-- Animated Live floor (plate + sprites + chair labels "1 · Karan · 3 min", walk cycles, ₹ PAID pop) to be built once the files can be downloaded.
+## Checked (19 Oct)
+Inspected in Higgsfield's sandbox: plate has no people, all 14 sprites have transparent backgrounds and consistent identities.
+Rahul step A and Stylist 3 had a faint semi-transparent halo; removed by alpha clean-up (no regeneration).
+Phone-size copies are in `assets/` (`people-sheet.png` = all 14 cut-outs, 180 px tall). The animated page is `final-live-floor.html`.
