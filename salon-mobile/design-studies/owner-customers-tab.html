@@ -13,10 +13,10 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--page);color:var(--cream);font-family:var(--font);-webkit-font-smoothing:antialiased}
 body{padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.wrap{max-width:1200px;margin:0 auto}
+.wrap{max-width:1320px;margin:0 auto}
 h1{font-size:28px;font-weight:700;text-wrap:balance}
 .lead{color:var(--soft);font-size:15px;line-height:1.55;max-width:74ch;margin-top:8px}
-.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,360px));gap:28px;margin-top:26px;justify-content:start}
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,300px));gap:28px;margin-top:26px;justify-content:start}
 figcaption{margin-top:12px}
 figcaption b{display:block;font-size:16px}
 figcaption span{display:block;color:var(--soft);font-size:13.5px;line-height:1.5;margin-top:4px}
@@ -93,6 +93,25 @@ figcaption span{display:block;color:var(--soft);font-size:13.5px;line-height:1.5
 .eff div{display:flex;gap:2cqw;align-items:flex-start}
 .eff i{font-style:normal;color:var(--gold2)}
 .cancel{margin-top:auto;padding:3.4cqw;border-radius:999px;background:var(--red);color:#2a1210;font-weight:800;font-size:3.8cqw;text-align:center}
+.sort{font-size:3cqw;font-weight:600;color:var(--gold2);padding:1.2cqw 2.6cqw;border-radius:999px;border:1px solid rgba(228,166,123,.45)}
+.seg{display:grid;grid-template-columns:1fr 1fr;padding:1cqw;border-radius:999px;background:rgba(26,18,16,.5);border:1px solid var(--line)}
+.seg span{text-align:center;font-size:3.3cqw;font-weight:600;padding:1.8cqw 0;border-radius:999px;color:var(--soft)}
+.seg span.on{background:var(--gold);color:var(--ink)}
+.pchips{display:flex;gap:1.6cqw}
+.pchips span{font-size:2.9cqw;padding:1.3cqw 2.6cqw;border-radius:999px;background:var(--glass);border:1px solid var(--line);color:var(--soft)}
+.pchips span.on{color:var(--cream);border-color:rgba(228,166,123,.7);background:rgba(228,166,123,.18)}
+.share{padding:3.4cqw 3.8cqw;border-radius:5cqw;background:linear-gradient(135deg,rgba(228,166,123,.3),rgba(228,166,123,.08));border:1px solid rgba(228,166,123,.5);display:grid;gap:1.6cqw}
+.share b{font-size:6cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.sbar{height:2cqw;border-radius:999px;background:rgba(255,244,236,.12);overflow:hidden}.sbar i{display:block;height:100%;width:34%;background:var(--gold);border-radius:inherit}
+.rank{display:grid;grid-template-columns:7cqw 9cqw 1fr auto;gap:2.4cqw;align-items:center;padding:2.5cqw 3.4cqw;border-top:1px solid rgba(255,244,236,.08)}
+.rank:first-child{border-top:0}
+.rank .n{font-size:3.6cqw;font-weight:800;color:var(--soft);text-align:center;font-variant-numeric:tabular-nums}
+.rank .n.m1{color:#F5C9A0}.rank .n.m2{color:#E8E2DA}.rank .n.m3{color:#C9946E}
+.rank .av{width:9cqw;height:9cqw;font-size:3cqw}
+.rank .nm{font-size:3.6cqw;font-weight:700}
+.rank .sub{font-size:2.8cqw;color:var(--soft);margin-top:.3cqw}
+.rank .amt{text-align:right;font-weight:800;font-size:3.6cqw;font-variant-numeric:tabular-nums}
+.rank .bar{height:1cqw;border-radius:999px;background:rgba(255,244,236,.08);margin-top:.9cqw;overflow:hidden}.rank .bar i{display:block;height:100%;background:var(--gold);border-radius:inherit}
 .dock{position:absolute;left:3.5cqw;right:3.5cqw;bottom:3.5cqw;display:grid;grid-template-columns:repeat(4,1fr);padding:2cqw;border-radius:6cqw;background:rgba(38,22,17,.7);border:1px solid var(--line);z-index:5}
 .dock span{display:flex;flex-direction:column;align-items:center;gap:.8cqw;font-size:2.8cqw;color:var(--soft);padding:1.6cqw 0;border-radius:4cqw}
 .dock span.on{background:var(--gold);color:var(--ink);font-weight:700}
@@ -103,9 +122,10 @@ figcaption span{display:block;color:var(--soft);font-size:13.5px;line-height:1.5
   <h1>Owner Customers tab</h1>
   <p class="lead">The fourth tab. Find any customer by name or number, see who is a regular and who hasn't come back, open a customer to see every visit, their wallet, bookings and message settings, and cancel a wrong bill from inside the customer. Example data.</p>
   <div class="trio">
-    <figure><div class="phone" id="c1"></div><figcaption><b>1 · Customers</b><span>Search by name or mobile. Filters: All, Regulars, Not seen 30+ days, Wallet balance, New this month. Each row: name, last visit and stylist, visits, total spent, wallet balance.</span></figcaption></figure>
+    <figure><div class="phone" id="c1"></div><figcaption><b>1 · Customers</b><span>Search by name or mobile. Filters: All, ⭐ Top spenders, Regulars, Not seen 30+ days, Wallet balance, New. Sorted by highest spending (change with Sort). Each row: name, last visit and stylist, visits, total spent, wallet balance.</span></figcaption></figure>
     <figure><div class="phone" id="c2"></div><figcaption><b>2 · Tap a customer: profile</b><span>Call, WhatsApp, Book. Wallet balance with Top up. Every visit and bill (tap a bill to see it). Upcoming booking, reminders on/off, and privacy: send their data, delete.</span></figcaption></figure>
     <figure><div class="phone" id="c3"></div><figcaption><b>3 · Tap a bill: Cancel bill</b><span>The bill as printed. Cancel bill asks for a reason and says exactly what happens: wallet refunded, referral reward taken back, removed from earnings. The cancelled bill stays in the history, struck through.</span></figcaption></figure>
+    <figure><div class="phone" id="c4"></div><figcaption><b>4 · Tap ⭐ Top spenders</b><span>The salon's best customers ranked by total spending, highest first. Switch between Top 20 and Top 30, and between All time, This year and Last 3 months. Their share of all earnings is shown at the top; tap anyone to open their profile.</span></figcaption></figure>
   </div>
 </div>
 
@@ -126,8 +146,9 @@ document.getElementById('c1').innerHTML=`<div class="scr">
   <div><div class="who">Owner · Wed 14 Oct</div><div class="ttl">Customers</div></div>
   <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg>Search name or mobile</div>
   <div class="kpis"><div class="kpi"><b>412</b><span>customers</span></div><div class="kpi"><b>38</b><span>new this month</span></div><div class="kpi"><b style="color:var(--warn)">57</b><span>not seen 30+ days</span></div></div>
-  <div class="filters"><span class="on">All</span><span>Regulars</span><span>Not seen 30+</span><span>Wallet balance</span><span>New</span></div>
-  <div class="list">${C.map(([n,i,l,v,t,w,k],x)=>`<div class="cust"><div class="av" style="background:${COLS[x%5]}">${i}</div>
+  <div class="filters"><span class="on">All</span><span>⭐ Top spenders</span><span>Regulars</span><span>Not seen 30+</span><span>Wallet balance</span><span>New</span></div>
+  <div style="display:flex;justify-content:space-between;align-items:center"><span class="lbl">412 customers</span><span class="sort">Sort: Highest spending ▾</span></div>
+  <div class="list">${[...C].sort((a,b)=>parseInt(b[4].replace(/\D/g,''))-parseInt(a[4].replace(/\D/g,''))).map(([n,i,l,v,t,w,k],x)=>`<div class="cust"><div class="av" style="background:${COLS[x%5]}">${i}</div>
     <div><div class="nm">${n} ${TAG[k]}</div><div class="sub">${l} · ${v} visits</div></div>
     <div class="r"><b>${t}</b>${w?`<div class="wal">Wallet ${w}</div>`:''}</div></div>`).join('')}</div>
   </div><div class="dock">${DOCK}</div>`;
@@ -179,5 +200,19 @@ document.getElementById('c3').innerHTML=`<div class="scr">
       <div><i>●</i>The bill stays in the history, marked cancelled with the reason</div>
     </div>
     <div class="cancel">Cancel bill</div>
+  </div><div class="dock">${DOCK}</div>`;
+
+const TOP=[['Vikram Shah',22,11900,'Rakesh'],['Meghna Rao',9,10800,'Sunita'],['Aarav Sharma',14,9450,'Imran'],['Ritu Malhotra',11,8900,'Sunita'],['Kunal Bose',16,8350,'Imran'],['Neha Kapoor',8,7900,'Sunita'],['Siddharth Rao',13,7400,'Rakesh'],['Kavya Iyer',6,6200,'Sunita'],['Farhan Qureshi',12,5900,'Imran'],['Pallavi Desai',7,5650,'Sunita'],['Amit Joshi',15,5400,'Rakesh'],['Tanya Mehra',5,5100,'Sunita'],['Rahul Jain',10,4800,'Rakesh'],['Ishaan Verma',9,4550,'Imran'],['Divya Nair',6,4300,'Sunita'],['Arjun Mehta',8,4100,'Rakesh'],['Sneha Kulkarni',5,3900,'Sunita'],['Manish Gupta',11,3750,'Imran'],['Pooja Reddy',4,3600,'Sunita'],['Sana Khan',3,3100,'Sunita']];
+const ini=n=>n.split(' ').map(w=>w[0]).join('');
+const mx=TOP[0][2];
+document.getElementById('c4').innerHTML=`<div class="scr">
+  <button class="back">‹ Customers</button>
+  <div class="ttl" style="font-size:6.2cqw">⭐ Top spenders</div>
+  <div class="seg"><span class="on">Top 20</span><span>Top 30</span></div>
+  <div class="pchips"><span class="on">All time</span><span>This year</span><span>Last 3 months</span></div>
+  <div class="share"><div style="display:flex;justify-content:space-between;align-items:baseline"><span class="lbl" style="color:var(--gold2)">Top 20 spent</span><span class="sm">34% of all earnings</span></div><b>₹1,34,850</b><div class="sbar"><i></i></div></div>
+  <div class="list">${TOP.map(([n,v,a,st],k)=>`<div class="rank"><div class="n ${k<3?'m'+(k+1):''}">${k+1}</div><div class="av" style="background:${COLS[k%5]}">${ini(n)}</div>
+    <div style="min-width:0"><div class="nm">${n}</div><div class="sub">${v} visits · mostly ${st}</div><div class="bar"><i style="width:${(a/mx*100).toFixed(0)}%"></i></div></div>
+    <div class="amt">₹${a.toLocaleString('en-IN')}</div></div>`).join('')}</div>
   </div><div class="dock">${DOCK}</div>`;
 </script>
