@@ -1,6 +1,6 @@
 # Live floor in 3D (three.js): build plan
 
-Status: **waiting for the user's confirmation. Nothing is built yet.**
+Status: **shelved (19 Oct).** The user chose to keep the Higgsfield salon and characters and only improve the walking (see BUILD-SPEC 6.2). three.js 0.170 is installed in `design-studies/live-floor-3d/` if this is picked up again.
 Request (19 Oct): rebuild the owner's Live dashboard with three.js, salon looking like the Higgsfield
 render (Image 2), with a lady at the reception desk, the waiting area opposite the reception counter,
 and people who walk like real humans.

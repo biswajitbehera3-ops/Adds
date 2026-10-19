@@ -167,26 +167,73 @@ function select(n){selected=(selected===n)?null:n;[...pills,...cardEls].forEach(
 
 // ---------- timeline (28 s loop) ----------
 const LOOP=28;
-const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
-const lerp=(a,b,t)=>a+(b-a)*t;
-function path(pts,t){ // pts: [[x,y],...] along a polyline, t 0..1 eased
-  const segs=[];let L=0;for(let i=1;i<pts.length;i++){const d=Math.hypot(pts[i][0]-pts[i-1][0],pts[i][1]-pts[i-1][1]);segs.push(d);L+=d;}
-  let d=ease(Math.min(1,Math.max(0,t)))*L;
-  for(let i=0;i<segs.length;i++){if(d<=segs[i]||i===segs.length-1){const k=segs[i]?Math.min(1,d/segs[i]):1;
-    return {x:lerp(pts[i][0],pts[i+1][0],k),y:lerp(pts[i][1],pts[i+1][1],k),dx:pts[i+1][0]-pts[i][0]};}d-=segs[i];}
+// ---- walking ----
+// Paths get rounded corners; people move at a steady walking pace with a short speed-up and
+// slow-down; steps are counted from distance covered (so feet don't slide); the body rises on
+// the passing pose and dips on contact, with a slight side sway; turns rotate through, not snap.
+const STEP=30;            // one step ≈ 43 cm in plate units (person ≈ 118 units ≈ 1.7 m)
+const RAMP=.5;            // seconds to reach / leave walking pace
+const smooth=(a,b,x)=>{const k=Math.min(1,Math.max(0,(x-a)/(b-a)));return k*k*(3-2*k);};
+function buildPath(pts){
+  const out=[pts[0]];
+  for(let i=1;i<pts.length-1;i++){
+    const [px,py]=pts[i-1],[cx,cy]=pts[i],[nx,ny]=pts[i+1];
+    const d1=Math.hypot(cx-px,cy-py),d2=Math.hypot(nx-cx,ny-cy),r=Math.min(30,d1/2,d2/2);
+    const a=[cx-(cx-px)/d1*r,cy-(cy-py)/d1*r],b=[cx+(nx-cx)/d2*r,cy+(ny-cy)/d2*r];
+    out.push(a);
+    for(let k=1;k<8;k++){const u=k/8;out.push([(1-u)*(1-u)*a[0]+2*u*(1-u)*cx+u*u*b[0],(1-u)*(1-u)*a[1]+2*u*(1-u)*cy+u*u*b[1]]);}
+    out.push(b);
+  }
+  out.push(pts[pts.length-1]);
+  const cum=[0];for(let i=1;i<out.length;i++)cum.push(cum[i-1]+Math.hypot(out[i][0]-out[i-1][0],out[i][1]-out[i-1][1]));
+  return {pts:out,cum,L:cum[cum.length-1]};
+}
+const pathCache=new Map();
+function getPath(pts){const k=JSON.stringify(pts);if(!pathCache.has(k))pathCache.set(k,buildPath(pts));return pathCache.get(k);}
+function pointAt(P,s){
+  s=Math.max(0,Math.min(P.L,s));let i=1;while(i<P.cum.length-1&&P.cum[i]<s)i++;
+  const seg=(P.cum[i]-P.cum[i-1])||1,k=(s-P.cum[i-1])/seg,a=P.pts[i-1],b=P.pts[i];
+  return {x:a[0]+(b[0]-a[0])*k,y:a[1]+(b[1]-a[1])*k,dx:b[0]-a[0]};
+}
+function covered(L,T,u){ // distance after u seconds of a T-second leg: ramp up, steady pace, ramp down
+  const r=Math.min(RAMP,T/3),v=L/(T-r);
+  if(u<=0)return 0; if(u>=T)return L;
+  if(u<r)return v*u*u/(2*r);
+  if(u>T-r){const w=T-u;return L-v*w*w/(2*r);}
+  return v*r/2+v*(u-r);
 }
 // legs: [start,end,points]  holds: [start,end,[x,y],faceLeft]
-function drive(w,t,legs,holds,visible){
-  let st=null;
-  for(const [a,b,pts] of legs) if(t>=a&&t<b){const p=path(pts,(t-a)/(b-a));st={...p,moving:true};}
-  if(!st) for(const [a,b,pt,left] of holds) if(t>=a&&t<b) st={x:pt[0],y:pt[1],dx:left?-1:1,moving:false};
-  const op=visible(t);
-  if(!st||op<=0){w.A.style.opacity=0;w.B.style.opacity=0;w.sh.style.opacity=0;return;}
-  const frame=st.moving&&!RM?Math.floor(t/0.27)%2:0;
-  const flip=st.dx<0;
-  place(w.A,st.x,st.y,{op:frame===0?op:0,flip});place(w.B,st.x,st.y,{op:frame===1?op:0,flip});
-  w.sh.style.left=((st.x-19)/10)+'%';w.sh.style.top=((st.y-6)/5.65)+'%';w.sh.style.opacity=op;w.sh.style.zIndex=Math.round(st.y)-1;
+function stateAt(t,legs,holds){
+  for(const [a,b,pts] of legs) if(t>=a&&t<b){const P=getPath(pts),s=covered(P.L,b-a,t-a);return {...pointAt(P,s),moving:true,s};}
+  for(const [a,b,pt,left] of holds) if(t>=a&&t<b) return {x:pt[0],y:pt[1],dx:left?-1:1,moving:false,s:0};
+  return null;
 }
+function facingAt(t,legs,holds){ // averaged over the last 0.3 s so turns rotate through
+  let f=0,n=0;for(let k=0;k<6;k++){const st=stateAt(t-k*.06,legs,holds);if(st&&st.dx){f+=Math.sign(st.dx);n++;}}
+  return n?f/n:1;
+}
+function drive(w,t,legs,holds,visible){
+  const st=stateAt(t,legs,holds),op=visible(t);
+  if(!st||op<=0){w.A.style.opacity=0;w.B.style.opacity=0;w.sh.style.opacity=0;return;}
+  let f=RM?Math.sign(st.dx)||1:facingAt(t,legs,holds);
+  if(Math.abs(f)<.18)f=.18*(Math.sign(f)||1);
+  let wB=1,lift=0,rot=0,breathe=1;                   // standing: legs-together pose
+  if(st.moving&&!RM){
+    const ph=st.s/STEP,q=ph-Math.floor(ph),side=Math.floor(ph)%2?1:-1;
+    wB=smooth(.22,.32,q)-smooth(.68,.78,q);           // contact → passing → contact
+    lift=2.2*(.5-.5*Math.cos(2*Math.PI*q));            // highest at passing
+    rot=side*1.1*Math.sin(Math.PI*q);                  // weight shifts over the standing leg
+  } else if(!RM) breathe=1+.006*Math.sin(t*1.8);
+  const wA=st.moving&&!RM?1-smooth(.26,.3,q2(st))+smooth(.7,.74,q2(st)):0;
+  for(const [el,o] of [[w.A,wA],[w.B,wB]]){
+    place(el,st.x,st.y,{op:o*op});
+    el.style.transform=`translate(-50%,-100%) translateY(${(-lift/walkH*100).toFixed(2)}%) rotate(${rot.toFixed(2)}deg) scaleY(${breathe.toFixed(4)})`;
+    el.firstChild.style.transform=`scaleX(${f.toFixed(3)})`;
+  }
+  const shw=38*(1-lift*.03);
+  w.sh.style.width=(shw/10)+'%';w.sh.style.left=((st.x-shw/2)/10)+'%';w.sh.style.top=((st.y-6)/5.65)+'%';w.sh.style.opacity=op;w.sh.style.zIndex=Math.round(st.y)-1;
+}
+function q2(st){const ph=st.s/STEP;return ph-Math.floor(ph);}
 const fade=(t,a,b,f=.45)=>t<a||t>b?0:Math.min(1,(t-a)/f,(b-t)/f);
 const D=SPOTS.door, K=SPOTS.desk;
 
