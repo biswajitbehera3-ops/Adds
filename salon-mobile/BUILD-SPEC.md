@@ -125,6 +125,9 @@ Where things live:
 | 10.5 | Real prices, bonus tiers, referral amounts, service due-back days per salon | Per salon |
 | 10.6 | App name and referral link domain | Per salon |
 | 10.7 | Online sync provider (recommended: servers in India / Mumbai) | Decide at build |
+| 10.8 | **Live floor ↔ real data (asked 19 Oct)**: customer walks in when staff taps *Start visit* / *Arrived*, walks to that stylist's chair, sits; walks to the desk and out when the bill is *Collected*. Events from synced phones play as they arrive (a few seconds' delay); several at once are queued so people don't collide. Owner opening the app later sees the current state, not a replay. Needs online sync (3.4). Needs a **matched character set** (walk + seated in cape per figure); today only Dev has both | Proposed · **user to approve** · extra Higgsfield assets to quote |
+| 10.9 | **Empty salon (asked 19 Oct)**: open with no customers → receptionist at desk, stylists idle at their stations, chair labels "Free", desk line "Ready"; outside opening hours or closed day (Tue) → lights dimmed, "Closed · opens 10:00 AM", nobody inside, today's total still shown. Needs idle stylist poses + an empty, no-receptionist salon picture | Proposed · **user to approve** · assets to quote |
+| 10.10 | **Staff on leave (asked 19 Oct)**: owner marks leave (Staff/Attendance); that stylist's figure disappears and their chair shows "Off today", greyed, and no customer is sent there. No selfie by shift start + grace → chair shows "Not in yet". App has no leave record today (only check-in), so this adds one | Proposed · **user to approve** |
 
 ## 11. After the app is built
 | # | Item | Status |
