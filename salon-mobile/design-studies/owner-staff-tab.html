@@ -96,13 +96,13 @@ figcaption span{display:block;color:var(--soft);font-size:13.5px;line-height:1.5
 </style>
 
 <div class="wrap">
-  <h1>Owner Staff tab</h1>
-  <p class="lead">The bottom bar now has four tabs: Live · Earnings · Staff · Customers. Staff shows a photo card for every stylist with today's attendance on it, a gold + button at the lower right to add someone, and a profile with all their options when tapped. Photos here are placeholders; in the app the owner takes the photo when adding the stylist.</p>
+  <h1>Owner Staff tab · final</h1>
+  <p class="lead">The bottom bar now has four tabs: Live · Earnings · Staff · Customers. Staff shows a photo card for every stylist with today's attendance on it, a gold + button at the lower right to add someone, and a profile with all their options when tapped. Photos here are placeholders; in the app the owner uploads each stylist's photo (from the gallery or camera) when adding them, and can change it later under Account.</p>
 
   <div class="trio">
     <figure><div class="phone" id="p1"></div><figcaption><b>1 · Staff</b><span>One card per stylist: photo, name, chair, today's attendance (In 9:52 / Late / On leave / Not in yet), today's customers and earnings. Tap a card to open the profile. The gold + adds a stylist.</span></figcaption></figure>
     <figure><div class="phone" id="p2"></div><figcaption><b>2 · Tap a stylist: profile</b><span>Photo, this month at a glance, then every option for that stylist: attendance, leave, shift, performance and account.</span></figcaption></figure>
-    <figure><div class="phone" id="p3"></div><figcaption><b>3 · Tap +: add a stylist</b><span>Take a photo, then name, mobile (their login), chair, shift start, weekly off and a first password.</span></figcaption></figure>
+    <figure><div class="phone" id="p3"></div><figcaption><b>3 · Tap +: add a stylist</b><span>Upload their photo (gallery or camera), then name, mobile (their login), chair, shift start, weekly off and a first password.</span></figcaption></figure>
   </div>
 </div>
 
@@ -166,7 +166,7 @@ document.getElementById('p3').innerHTML=`<div class="scr" style="filter:blur(1px
   <div class="dim"></div>
   <div class="sheet"><div class="grab"></div>
     <div class="ttl" style="font-size:5.6cqw">Add a stylist</div>
-    <div class="addphoto"><div class="ph"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-2.5h6L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>Take photo</div>
+    <div class="addphoto"><div class="ph"><svg viewBox="0 0 24 24"><path d="M12 16V5M7.5 9.5 12 5l4.5 4.5"/><path d="M5 15v4h14v-4"/></svg>Upload photo</div>
       <div style="display:grid;gap:3cqw;flex:1"><div class="field"><label>Name</label><div class="in ph2">Full name</div></div><div class="field"><label>Mobile (their login)</label><div class="in ph2">10-digit number</div></div></div></div>
     <div class="two"><div class="field"><label>Chair</label><div class="in">Chair 6 ▾</div></div><div class="field"><label>Shift starts</label><div class="in">10:00 AM</div></div></div>
     <div class="field"><label>Weekly off</label><div class="days"><span>M</span><span class="on">T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div></div>
