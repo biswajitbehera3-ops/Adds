@@ -135,6 +135,7 @@ const MONTHWEEKS=[['8–14 Oct',.6],['1–7 Oct',.4]];
 function rows(pk,sid){
   if(pk==='day') return {kind:'cust',list:TODAY[sid]};
   const [c,e]=P[pk].staff[sid], parts=pk==='week'?WEEKDAYS:MONTHWEEKS;
+  if(pk==='week'){const amt=[...DAYS[sid]].reverse();return {kind:'sum',list:parts.map(([d,w],k)=>[d,Math.round(c*w),amt[k]||0])};}
   return {kind:'sum',list:parts.map(([d,w])=>[d,Math.round(c*w),Math.round(e*w/50)*50])};
 }
 function detailRows(pk,sid){
@@ -179,26 +180,31 @@ function L1(el,state){
 }
 
 /* ---------- Layout 2: trend chart + full stylist page ---------- */
-// Each stylist's earnings for the last 8 weeks (example data; last point = this week so far)
-const WEEKS={labels:['7 Sep','14 Sep','21 Sep','28 Sep','5 Oct','12 Oct','This wk'],
-  s:[26400,28100,25300,30200,29100,28900,31200], r:[15800,16900,14600,18100,17400,17100,18900], i:[11100,11800,10200,12900,12600,12200,13400]};
+// Each stylist's earnings for each day of the last 7 days (example data; Tue closed; Wed = today so far)
+const DAYS={labels:['Thu 8','Fri 9','Sat 10','Sun 11','Mon 12','Tue 13','Today'],
+  s:[6900,4500,5800,6600,3300,null,4100], r:[3900,2800,3600,4300,2650,null,1650], i:[2700,1900,2600,3050,2100,null,1050]};
 function weekLine(sid){
-  const v=WEEKS[sid], L=WEEKS.labels, n=v.length, W=300, H=118, padL=6, padR=8, top=18, bot=96;
-  const lo=Math.min(...v)*.9, hi=Math.max(...v)*1.06, X=i=>padL+i*(W-padL-padR)/(n-1), Y=x=>bot-(x-lo)/(hi-lo)*(bot-top);
-  const avg=v.reduce((a,b)=>a+b,0)/n, uid='wl'+sid+Math.random().toString(36).slice(2,6);
-  let line='',area='';
-  v.forEach((x,i)=>{const c=`${X(i).toFixed(1)} ${Y(x).toFixed(1)}`;line+=(i?' L':'M')+c;});
-  area=line+` L${X(n-1)} ${bot} L${X(0)} ${bot} Z`;
-  let g=`<div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:3cqw"><span class="lbl">Last 7 weeks</span><span class="sm">avg ${inr(Math.round(avg/100)*100)} / week</span></div>
-  <svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block;margin-top:1.4cqw" role="img" aria-label="Weekly earnings for the last 7 weeks, this week ${inr(v[n-1])}">
+  const v=DAYS[sid], L=DAYS.labels, n=v.length, W=300, H=122, padL=8, padR=10, top=20, bot=98;
+  const open=v.filter(x=>x!==null), hi=Math.max(...open)*1.12, X=i=>padL+i*(W-padL-padR)/(n-1), Y=x=>bot-x/hi*(bot-top);
+  const avg=open.reduce((a,b)=>a+b,0)/open.length, uid='dl'+sid+Math.random().toString(36).slice(2,6);
+  // split into runs so the closed day breaks the line
+  const runs=[];let cur=[];v.forEach((x,i)=>{if(x===null){if(cur.length)runs.push(cur);cur=[];}else cur.push(i);});if(cur.length)runs.push(cur);
+  let g=`<div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:3cqw"><span class="lbl">Last 7 days</span><span class="sm">avg ${inr(Math.round(avg/50)*50)} / day</span></div>
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block;margin-top:1.4cqw" role="img" aria-label="Daily earnings for the last 7 days, Tuesday closed, today so far ${inr(v[n-1])}">
   <defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4A67B" stop-opacity=".38"/><stop offset="1" stop-color="#E4A67B" stop-opacity="0"/></linearGradient></defs>
-  <line x1="${padL}" x2="${W-padR}" y1="${Y(avg)}" y2="${Y(avg)}" stroke="rgba(255,248,241,.35)" stroke-dasharray="3 4"/>
-  <path d="${area}" fill="url(#${uid})"/>
-  <path d="${line}" fill="none" stroke="#F5C9A0" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;
-  v.forEach((x,i)=>{const last=i===n-1;g+=`<circle cx="${X(i)}" cy="${Y(x)}" r="${last?4.6:2.6}" fill="${last?'#FFF8F1':'#E4A67B'}" stroke="#3a2620" stroke-width="1.2"/>`;
-    g+=`<text x="${X(i)}" y="${H-6}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}" font-size="8.5" fill="${last?'#F5C9A0':'rgba(255,248,241,.5)'}">${L[i]}</text>`;});
-  g+=`<text x="${X(n-1)}" y="${Y(v[n-1])-9}" text-anchor="end" font-size="9.5" font-weight="700" fill="#F5C9A0">${lakh(v[n-1])}</text></svg>`;
-  return g;
+  <line x1="${padL}" x2="${W-padR}" y1="${bot}" y2="${bot}" stroke="rgba(255,244,236,.12)"/>
+  <line x1="${padL}" x2="${W-padR}" y1="${Y(avg)}" y2="${Y(avg)}" stroke="rgba(255,248,241,.35)" stroke-dasharray="3 4"/>`;
+  runs.forEach(r=>{const d=r.map((i,k)=>(k?'L':'M')+X(i).toFixed(1)+' '+Y(v[i]).toFixed(1)).join(' ');
+    if(r.length>1)g+=`<path d="${d} L${X(r[r.length-1])} ${bot} L${X(r[0])} ${bot} Z" fill="url(#${uid})"/>`;
+    g+=`<path d="${d}" fill="none" stroke="#F5C9A0" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;});
+  // dotted bridge across the closed day
+  const ci=v.indexOf(null); if(ci>0&&ci<n-1)g+=`<path d="M${X(ci-1)} ${Y(v[ci-1])} L${X(ci+1)} ${Y(v[ci+1])}" stroke="rgba(245,201,160,.35)" stroke-width="1.4" stroke-dasharray="2 4" fill="none"/>`;
+  v.forEach((x,i)=>{const last=i===n-1;
+    if(x===null){g+=`<circle cx="${X(i)}" cy="${bot}" r="3" fill="none" stroke="rgba(255,248,241,.45)"/><text x="${X(i)}" y="${bot-8}" text-anchor="middle" font-size="8" fill="rgba(255,248,241,.5)">Closed</text>`;}
+    else{g+=`<circle cx="${X(i)}" cy="${Y(x)}" r="${last?4.6:2.8}" fill="${last?'#FFF8F1':'#E4A67B'}" stroke="#3a2620" stroke-width="1.2"/>`;
+      g+=`<text x="${X(i)}" y="${last?Y(x)+15:Y(x)-7}" text-anchor="${last?'end':'middle'}" font-size="${last?9.5:8}" font-weight="${last?700:600}" fill="${last?'#F5C9A0':'rgba(255,248,241,.7)'}">${lakh(x)}${last?' so far':''}</text>`;}
+    g+=`<text x="${X(i)}" y="${H-5}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}" font-size="8.5" fill="${last?'#F5C9A0':'rgba(255,248,241,.5)'}">${L[i]}</text>`;});
+  return g+'</svg>';
 }
 function chartSVG(pk){
   const t=P[pk].trend, n=t.vals.length, max=Math.max(...t.vals)*1.12, W=300,H=120,bw=W/n*.56;
