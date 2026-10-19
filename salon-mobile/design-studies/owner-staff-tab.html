@@ -101,7 +101,7 @@ figcaption span{display:block;color:var(--soft);font-size:13.5px;line-height:1.5
 
   <div class="trio">
     <figure><div class="phone" id="p1"></div><figcaption><b>1 · Staff</b><span>One card per stylist: photo, name, chair, today's attendance (In 9:52 / Late / On leave / Not in yet), today's customers and earnings. Tap a card to open the profile. The gold + adds a stylist.</span></figcaption></figure>
-    <figure><div class="phone" id="p2"></div><figcaption><b>2 · Tap a stylist: profile</b><span>Photo, this month at a glance, then every option for that stylist: attendance, leave, shift, performance, salary, advances and account.</span></figcaption></figure>
+    <figure><div class="phone" id="p2"></div><figcaption><b>2 · Tap a stylist: profile</b><span>Photo, this month at a glance, then every option for that stylist: attendance, leave, shift, performance and account.</span></figcaption></figure>
     <figure><div class="phone" id="p3"></div><figcaption><b>3 · Tap +: add a stylist</b><span>Take a photo, then name, mobile (their login), chair, shift start, weekly off and a first password.</span></figcaption></figure>
   </div>
 </div>
@@ -146,8 +146,6 @@ const OPTS=[
   [ic('<path d="M3 12h18M12 3c4 3 4 15 0 18M12 3c-4 3-4 15 0 18"/>'),'Leave','Mark leave days, sick / casual, upcoming leave','1 this month'],
   [ic('<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>'),'Shift & weekly off','Shift start 10:00, grace 15 min, off on Tuesday','10:00'],
   [ic('<path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/>'),'Performance','Customers, earnings, average bill, top services, repeat customers','₹52.8k'],
-  [ic('<rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M7 12h.01M17 12h.01"/>'),'Salary & commission','Fixed salary + commission %, this month\'s payout','₹21,840'],
-  [ic('<path d="M12 3v18M17 7.5c0-1.9-2.2-3-5-3s-5 1.1-5 3 2.2 2.6 5 3.2 5 1.4 5 3.3-2.2 3-5 3-5-1.1-5-3"/>'),'Advances','Money given in advance, deducted from payout','₹2,000'],
   [ic('<rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>'),'Account','Change photo, mobile, chair, reset password',''],
 ];
 document.getElementById('p2').innerHTML=`<div class="scr" style="padding-top:5cqw">
