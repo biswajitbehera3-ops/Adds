@@ -49,3 +49,10 @@ Phone-size copies are in `assets/` (`people-sheet.png` = all 14 cut-outs, 180 px
 
 Lesson: the image model will not draw a real walk cycle as one sheet; it repeats one pose.
 Note: the new sofa faces the desk (away from the camera), so the existing sofa sitters (front views) no longer fit it.
+
+## 19 Oct: final changes (user decisions)
+- **Waiting area removed completely** (user). Salon edit `e3845a55-3c50-4347-be6a-febce868a3f7` = salon v1 with receptionist, sofa/side table/plant removed, floor filled. This is the **current background** (`assets/plate2.webp`).
+- **Real walking**: Seedance 2.5 image-to-video, 4 s, 480p, no sound, from each walker's existing picture on green:
+  Rahul `6669ab01-54af-4e46-98fb-fc37d6597ac3`, Dev `58e2baf7-3658-40b5-9394-364f2d88caf7`, Neha `788e8953-af7d-4dc5-89b7-7158759668a0`.
+  Green keyed out in Higgsfield's sandbox; one clean walk cycle cut from each (Rahul 29 frames, Dev 43, Neha 42 at 24 fps) → `assets/walk-*.png`.
+- Spend on 19 Oct: 13.75 (salon edits + failed walk sheets) + 36 (walk clips) + 2.75 (sofa removal) = **52.5 credits**, matching Higgsfield's charge history. Balance 521.

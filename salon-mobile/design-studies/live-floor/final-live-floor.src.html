@@ -89,7 +89,7 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.01em;margin-top:2px}
   <div class="sub"><span id="clock">Wed 14 Oct · 11:38 AM</span><span>Today <b id="total">₹6,800</b></span></div>
 
   <div class="floorWrap">
-    <div class="floor" id="floor" role="img" aria-label="Animated view of the salon floor: three chairs with stylists, reception desk, waiting sofa">
+    <div class="floor" id="floor" role="img" aria-label="Animated view of the salon floor: receptionist at the front desk, three chairs with stylists">
       <img class="plate" id="plate" alt="">
       <div class="toast" id="toast"></div>
     </div>
@@ -97,7 +97,7 @@ h1{font-size:28px;font-weight:700;letter-spacing:-.01em;margin-top:2px}
 
   <div class="secTitle"><b>Chairs</b><span id="busy">3 of 3 busy</span></div>
   <div class="cards" id="cards"></div>
-  <div class="wait"><span>Waiting on the sofa</span><b id="waiting">Anita Rao · Suresh Iyer</b></div>
+  <div class="wait"><span>Front desk · Meera</span><b id="desk">Ready</b></div>
   <div class="spacer"></div>
 
   <nav class="tabs" aria-label="Owner sections">
@@ -135,20 +135,110 @@ function place(el,x,y,{op=1,flip}={}){
 function shadow(x,y,w){const s=document.createElement('div');s.className='shadow';floor.appendChild(s);
   s.style.width=(w/10)+'%';s.style.height=(w*.32/5.65)+'%';s.style.left=((x-w/2)/10)+'%';s.style.top=((y-w*.16)/5.65)+'%';s.style.zIndex=Math.round(y)-1;return s;}
 
-// static cast
-const seatH=96, standH=122, walkH=118, sofaH=78;
+// static cast (the receptionist is part of the salon picture)
+const seatH=96, standH=122, walkH=120;
 const karan=sprite('s3',seatH), priya=sprite('s4',seatH), devSeat=sprite('s5',seatH);
 const imran=sprite('s0',standH), sunita=sprite('s1',standH), rakesh=sprite('s2',standH);
-const anita=sprite('s12',sofaH), suresh=sprite('s13',sofaH);
 place(karan,SPOTS.chair1.x+6,SPOTS.chair1.y,{flip:true});
 place(priya,SPOTS.chair2.x+6,SPOTS.chair2.y,{flip:true});
 place(imran,SPOTS.chair1.x-44,SPOTS.chair1.y+20,{flip:true});
 place(sunita,SPOTS.chair2.x-44,SPOTS.chair2.y+20,{flip:true});
-place(anita,292,352); place(suresh,338,338);
+place(rakesh,SPOTS.chair3.x-44,SPOTS.chair3.y+20,{flip:true});
 
-// walkers: two frames each
-function walker(a,b){const A=sprite(a,walkH),B=sprite(b,walkH);const sh=shadow(0,0,38);return {A,B,sh};}
-const dev=walker('s8','s9'), neha=walker('s10','s11'), rahul=walker('s6','s7');
+// ---- walkers: real walk cycles cut from Higgsfield video clips ----
+// Each sheet is one full walk cycle (two steps). The frame shown is chosen from the distance
+// walked, so steps stay matched to movement; walking pace is set so the cycle plays at the
+// clip's natural speed (24 fps).
+const SHEETS={
+  dev:{img:'walkDev',frames:43,fw:70,fh:150,stand:16},
+  rahul:{img:'walkRahul',frames:29,fw:67,fh:150,stand:17},
+  neha:{img:'walkNeha',frames:42,fw:57,fh:150,stand:22}
+};
+const CYCLE=96;                               // plate units covered by one walk cycle (≈1.4 m)
+function walker(key){
+  const S=SHEETS[key], el=document.createElement('div'); el.className='sp';
+  const inner=document.createElement('div'); el.appendChild(inner);
+  el.style.height=(walkH/565*100)+'%'; el.style.aspectRatio=`${S.fw}/${S.fh}`;
+  inner.style.cssText=`width:100%;height:100%;background-image:url(${IMG[S.img]});background-repeat:no-repeat;background-size:${S.frames*100}% 100%`;
+  floor.appendChild(el);
+  const sh=document.createElement('div'); sh.className='shadow'; floor.appendChild(sh);
+  return {S,el,inner,sh,speed:CYCLE*24/S.frames};
+}
+const dev=walker('dev'), neha=walker('neha'), rahul=walker('rahul');
+
+// ---- schedule: walks get their duration from path length and the person's natural pace ----
+const RAMP=.45;
+function buildPath(pts){
+  const out=[pts[0]];
+  for(let i=1;i<pts.length-1;i++){
+    const [px,py]=pts[i-1],[cx,cy]=pts[i],[nx,ny]=pts[i+1];
+    const d1=Math.hypot(cx-px,cy-py),d2=Math.hypot(nx-cx,ny-cy),r=Math.min(34,d1/2,d2/2);
+    const a=[cx-(cx-px)/d1*r,cy-(cy-py)/d1*r],b=[cx+(nx-cx)/d2*r,cy+(ny-cy)/d2*r];
+    out.push(a);for(let k=1;k<8;k++){const u=k/8;out.push([(1-u)*(1-u)*a[0]+2*u*(1-u)*cx+u*u*b[0],(1-u)*(1-u)*a[1]+2*u*(1-u)*cy+u*u*b[1]]);}out.push(b);
+  }
+  out.push(pts[pts.length-1]);
+  const cum=[0];for(let i=1;i<out.length;i++)cum.push(cum[i-1]+Math.hypot(out[i][0]-out[i-1][0],out[i][1]-out[i-1][1]));
+  return {pts:out,cum,L:cum[cum.length-1]};
+}
+function pointAt(P,s){
+  s=Math.max(0,Math.min(P.L,s));let i=1;while(i<P.cum.length-1&&P.cum[i]<s)i++;
+  const seg=(P.cum[i]-P.cum[i-1])||1,k=(s-P.cum[i-1])/seg,a=P.pts[i-1],b=P.pts[i];
+  return {x:a[0]+(b[0]-a[0])*k,y:a[1]+(b[1]-a[1])*k,dx:b[0]-a[0]};
+}
+function covered(L,T,u){const r=Math.min(RAMP,T/3),v=L/(T-r);
+  if(u<=0)return 0;if(u>=T)return L;if(u<r)return v*u*u/(2*r);if(u>T-r){const w=T-u;return L-v*w*w/(2*r);}return v*r/2+v*(u-r);}
+// steps: {walk:[[x,y]...]} | {stand:sec, faceLeft, mark} | {away:sec, mark}  (away = hidden, e.g. seated)
+function plan(w,start,steps){
+  let t=start; const segs=[], marks={};
+  for(const st of steps){
+    if(st.walk){const P=buildPath(st.walk),T=P.L/w.speed+RAMP;segs.push({type:'walk',a:t,b:t+T,P});t+=T;}
+    else if(st.stand!==undefined){const last=segs[segs.length-1];const p=last.P?last.P.pts[last.P.pts.length-1]:last.pt;
+      segs.push({type:'stand',a:t,b:t+st.stand,pt:p,left:!!st.faceLeft});if(st.mark)marks[st.mark]=t;t+=st.stand;}
+    else if(st.away!==undefined){if(st.mark)marks[st.mark]=t;segs.push({type:'away',a:t,b:t+st.away});t+=st.away;}
+    if(st.markEnd)marks[st.markEnd]=t;
+  }
+  marks.end=t; return {segs,marks,start,end:t};
+}
+function stateAt(pl,t){
+  for(const s of pl.segs) if(t>=s.a&&t<s.b){
+    if(s.type==='walk'){const d=covered(s.P.L,s.b-s.a,t-s.a);return {...pointAt(s.P,d),moving:true,d,seg:s};}
+    if(s.type==='stand')return {x:s.pt[0],y:s.pt[1],dx:s.left?-1:1,moving:false,seg:s};
+    return null;
+  }
+  return null;
+}
+function opacityAt(pl,t){ // fade at the door and when sitting down / standing up
+  if(t<pl.start||t>=pl.end)return 0;
+  let op=Math.min(1,(t-pl.start)/.4,(pl.end-t)/.4);
+  for(const s of pl.segs) if(s.type==='away'){op=Math.min(op,Math.max(0,Math.min(1,Math.abs(t-s.a)/.4,Math.abs(t-s.b)/.4)));if(t>=s.a&&t<s.b)op=0;}
+  return op;
+}
+function drive(w,pl,t){
+  const st=stateAt(pl,t), op=opacityAt(pl,t);
+  if(!st||op<=0){w.el.style.opacity=0;w.sh.style.opacity=0;return;}
+  let f=0,n=0;for(let k=0;k<6;k++){const s2=stateAt(pl,t-k*.05);if(s2&&s2.dx){f+=Math.sign(s2.dx);n++;}}
+  f=n?f/n:1; if(Math.abs(f)<.2)f=.2*(Math.sign(f)||1); if(RM)f=Math.sign(st.dx)||1;
+  const S=w.S; let fr=S.stand;
+  if(st.moving&&!RM){const travelled=st.d+(st.seg.a*7.3);fr=Math.floor(((travelled/CYCLE)%1)*S.frames);}
+  w.inner.style.backgroundPosition=`${(fr/(S.frames-1)*100).toFixed(3)}% 0`;
+  w.inner.style.transform=`scaleX(${f.toFixed(3)})`;
+  place(w.el,st.x,st.y,{op});
+  const breathe=!st.moving&&!RM?1+.006*Math.sin(t*1.8):1;
+  w.el.style.transform=`translate(-50%,-100%) scaleY(${breathe.toFixed(4)})`;
+  const shw=34;w.sh.style.width=(shw/10)+'%';w.sh.style.height=(shw*.3/5.65)+'%';w.sh.style.left=((st.x-shw/2)/10)+'%';w.sh.style.top=((st.y-5)/5.65)+'%';w.sh.style.opacity=op*.9;w.sh.style.zIndex=Math.round(st.y)-1;
+}
+
+// Route: door → round the front of the reception desk → stand at its right-hand side.
+const DOOR=[118,356], DESK=[322,364];
+const IN=[DOOR,[178,416],[304,414],DESK], OUT=[DESK,[304,414],[178,416],DOOR];
+const TO3=[DESK,[430,386],[600,394],[SPOTS.ch3front.x,SPOTS.ch3front.y]];
+const FROM3=[[SPOTS.ch3front.x,SPOTS.ch3front.y],[600,394],[430,386],DESK];
+const SEAT=10;
+const devPlan=plan(dev,.3,[{walk:IN},{stand:1.6,faceLeft:true,mark:'checkin'},{walk:TO3},{stand:.5,mark:'atChair'},{away:SEAT,mark:'seated',markEnd:'up'},{walk:FROM3},{stand:1.8,faceLeft:true,mark:'pay'},{walk:OUT}]);
+const nehaPlan=plan(neha,devPlan.marks.checkin+4.4,[{walk:IN},{stand:2.4,faceLeft:true,mark:'topup'},{walk:OUT}]);
+const rahulPlan=plan(rahul,devPlan.marks.seated+6.5,[{walk:IN},{stand:2.6,faceLeft:true,mark:'book'},{walk:OUT}]);
+const LOOP=Math.ceil(Math.max(devPlan.end,nehaPlan.end,rahulPlan.end)+1);
+const M=devPlan.marks, sitA=M.seated, sitB=M.up;
 
 // pills + ring helper
 const ringSVG=(p)=>`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5" fill="none" stroke="rgba(255,244,236,.25)" stroke-width="2"/><circle cx="12" cy="12" r="10.5" fill="none" stroke="#FFF8F1" stroke-width="2" stroke-linecap="round" stroke-dasharray="${(p*66).toFixed(1)} 66"/></svg>`;
@@ -165,117 +255,38 @@ let selected=null;
 function select(n){selected=(selected===n)?null:n;[...pills,...cardEls].forEach(e=>e.classList.toggle('sel',+e.dataset.ch===selected));}
 [...pills,...cardEls].forEach(e=>{e.addEventListener('click',()=>select(+e.dataset.ch));e.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();select(+e.dataset.ch);}});});
 
-// ---------- timeline (28 s loop) ----------
-const LOOP=28;
-// ---- walking ----
-// Paths get rounded corners; people move at a steady walking pace with a short speed-up and
-// slow-down; steps are counted from distance covered (so feet don't slide); the body rises on
-// the passing pose and dips on contact, with a slight side sway; turns rotate through, not snap.
-const STEP=30;            // one step ≈ 43 cm in plate units (person ≈ 118 units ≈ 1.7 m)
-const RAMP=.5;            // seconds to reach / leave walking pace
-const smooth=(a,b,x)=>{const k=Math.min(1,Math.max(0,(x-a)/(b-a)));return k*k*(3-2*k);};
-function buildPath(pts){
-  const out=[pts[0]];
-  for(let i=1;i<pts.length-1;i++){
-    const [px,py]=pts[i-1],[cx,cy]=pts[i],[nx,ny]=pts[i+1];
-    const d1=Math.hypot(cx-px,cy-py),d2=Math.hypot(nx-cx,ny-cy),r=Math.min(30,d1/2,d2/2);
-    const a=[cx-(cx-px)/d1*r,cy-(cy-py)/d1*r],b=[cx+(nx-cx)/d2*r,cy+(ny-cy)/d2*r];
-    out.push(a);
-    for(let k=1;k<8;k++){const u=k/8;out.push([(1-u)*(1-u)*a[0]+2*u*(1-u)*cx+u*u*b[0],(1-u)*(1-u)*a[1]+2*u*(1-u)*cy+u*u*b[1]]);}
-    out.push(b);
-  }
-  out.push(pts[pts.length-1]);
-  const cum=[0];for(let i=1;i<out.length;i++)cum.push(cum[i-1]+Math.hypot(out[i][0]-out[i-1][0],out[i][1]-out[i-1][1]));
-  return {pts:out,cum,L:cum[cum.length-1]};
-}
-const pathCache=new Map();
-function getPath(pts){const k=JSON.stringify(pts);if(!pathCache.has(k))pathCache.set(k,buildPath(pts));return pathCache.get(k);}
-function pointAt(P,s){
-  s=Math.max(0,Math.min(P.L,s));let i=1;while(i<P.cum.length-1&&P.cum[i]<s)i++;
-  const seg=(P.cum[i]-P.cum[i-1])||1,k=(s-P.cum[i-1])/seg,a=P.pts[i-1],b=P.pts[i];
-  return {x:a[0]+(b[0]-a[0])*k,y:a[1]+(b[1]-a[1])*k,dx:b[0]-a[0]};
-}
-function covered(L,T,u){ // distance after u seconds of a T-second leg: ramp up, steady pace, ramp down
-  const r=Math.min(RAMP,T/3),v=L/(T-r);
-  if(u<=0)return 0; if(u>=T)return L;
-  if(u<r)return v*u*u/(2*r);
-  if(u>T-r){const w=T-u;return L-v*w*w/(2*r);}
-  return v*r/2+v*(u-r);
-}
-// legs: [start,end,points]  holds: [start,end,[x,y],faceLeft]
-function stateAt(t,legs,holds){
-  for(const [a,b,pts] of legs) if(t>=a&&t<b){const P=getPath(pts),s=covered(P.L,b-a,t-a);return {...pointAt(P,s),moving:true,s};}
-  for(const [a,b,pt,left] of holds) if(t>=a&&t<b) return {x:pt[0],y:pt[1],dx:left?-1:1,moving:false,s:0};
-  return null;
-}
-function facingAt(t,legs,holds){ // averaged over the last 0.3 s so turns rotate through
-  let f=0,n=0;for(let k=0;k<6;k++){const st=stateAt(t-k*.06,legs,holds);if(st&&st.dx){f+=Math.sign(st.dx);n++;}}
-  return n?f/n:1;
-}
-function drive(w,t,legs,holds,visible){
-  const st=stateAt(t,legs,holds),op=visible(t);
-  if(!st||op<=0){w.A.style.opacity=0;w.B.style.opacity=0;w.sh.style.opacity=0;return;}
-  let f=RM?Math.sign(st.dx)||1:facingAt(t,legs,holds);
-  if(Math.abs(f)<.18)f=.18*(Math.sign(f)||1);
-  let wB=1,lift=0,rot=0,breathe=1;                   // standing: legs-together pose
-  if(st.moving&&!RM){
-    const ph=st.s/STEP,q=ph-Math.floor(ph),side=Math.floor(ph)%2?1:-1;
-    wB=smooth(.22,.32,q)-smooth(.68,.78,q);           // contact → passing → contact
-    lift=2.2*(.5-.5*Math.cos(2*Math.PI*q));            // highest at passing
-    rot=side*1.1*Math.sin(Math.PI*q);                  // weight shifts over the standing leg
-  } else if(!RM) breathe=1+.006*Math.sin(t*1.8);
-  const wA=st.moving&&!RM?1-smooth(.26,.3,q2(st))+smooth(.7,.74,q2(st)):0;
-  for(const [el,o] of [[w.A,wA],[w.B,wB]]){
-    place(el,st.x,st.y,{op:o*op});
-    el.style.transform=`translate(-50%,-100%) translateY(${(-lift/walkH*100).toFixed(2)}%) rotate(${rot.toFixed(2)}deg) scaleY(${breathe.toFixed(4)})`;
-    el.firstChild.style.transform=`scaleX(${f.toFixed(3)})`;
-  }
-  const shw=38*(1-lift*.03);
-  w.sh.style.width=(shw/10)+'%';w.sh.style.left=((st.x-shw/2)/10)+'%';w.sh.style.top=((st.y-6)/5.65)+'%';w.sh.style.opacity=op;w.sh.style.zIndex=Math.round(st.y)-1;
-}
-function q2(st){const ph=st.s/STEP;return ph-Math.floor(ph);}
-const fade=(t,a,b,f=.45)=>t<a||t>b?0:Math.min(1,(t-a)/f,(b-t)/f);
-const D=SPOTS.door, K=SPOTS.desk;
-
 function fmt(n){return '₹'+n.toLocaleString('en-IN');}
+const within=(t,a,b)=>t>=a&&t<b;
 function render(t){
   t=((t%LOOP)+LOOP)%LOOP;
-  // Dev: walks in, checks in, walks to chair 3, sits, beard trim, stands, pays, leaves
-  drive(dev,t,[[0,3.6,[[D.x,D.y],[190,410],[K.x,K.y]]],[4.8,8.6,[[K.x,K.y],[400,386],[600,392],[SPOTS.ch3front.x,SPOTS.ch3front.y]]],
-    [19.6,22.6,[[SPOTS.ch3front.x,SPOTS.ch3front.y],[600,394],[400,390],[K.x+20,K.y+8]]],[24.2,27.4,[[K.x+20,K.y+8],[200,420],[D.x,D.y]]]],
-    [[3.6,4.8,[K.x,K.y],false],[8.6,9.2,[SPOTS.ch3front.x,SPOTS.ch3front.y],false],[19,19.6,[SPOTS.ch3front.x,SPOTS.ch3front.y],true],[22.6,24.2,[K.x+20,K.y+8],true]],
-    t=>Math.min(fade(t,0,9.2,.5)+fade(t,19,27.6,.5),1));
-  const seated=t>=9.2&&t<19.2; const seatOp=t<8.8||t>19.6?0:Math.min(1,(t-8.8)/.4,(19.6-t)/.4);
+  drive(dev,devPlan,t); drive(neha,nehaPlan,t); drive(rahul,rahulPlan,t);
+  const seatOp=t<sitA-.4||t>sitB+.4?0:Math.min(1,(t-(sitA-.4))/.4,((sitB+.4)-t)/.4);
   place(devSeat,SPOTS.chair3.x+6,SPOTS.chair3.y,{op:seatOp,flip:true});
-  place(rakesh,SPOTS.chair3.x-44,SPOTS.chair3.y+20,{flip:true});
-  // Neha: walk-in wallet top-up
-  drive(neha,t,[[10,13,[[D.x,D.y],[180,430],[K.x-14,K.y+18]]],[15.4,18.4,[[K.x-14,K.y+18],[170,425],[D.x,D.y]]]],
-    [[13,15.4,[K.x-14,K.y+18],false]],t=>fade(t,10,18.6,.5));
-  // Rahul: walk-in, joins the waiting list
-  drive(rahul,t,[[13.6,16.4,[[D.x,D.y],[200,440],[SPOTS.lounge.x,SPOTS.lounge.y]]]],[[16.4,27.8,[SPOTS.lounge.x,SPOTS.lounge.y],true]],t=>fade(t,13.6,27.8,.5));
+  const seated=within(t,sitA,sitB);
 
   // money
-  const paidOn=t>=22.8&&t<24.4; const pk=paidOn?Math.min(1,(t-22.8)/.35):0;
-  paid.textContent='₹300 PAID'; paid.style.left=((K.x+10)/10)+'%'; paid.style.top=((K.y-128-pk*14)/5.65)+'%';
-  paid.style.opacity=paidOn?Math.min(1,(24.4-t)/.4):0; paid.style.transform=`translate(-50%,-100%) scale(${paidOn?.8+.2*Math.min(1,pk*1.4):.6})`;
-  const total=6800+(t>=23.2?300:0); // wallet top-ups are money held, not earnings
-  document.getElementById('total').textContent=fmt(total);
+  const pA=M.pay+.3,pB=M.pay+1.8, paidOn=within(t,pA,pB), pk=paidOn?Math.min(1,(t-pA)/.35):0;
+  paid.textContent='₹300 PAID'; paid.style.left=(DESK[0]/10)+'%'; paid.style.top=((DESK[1]-130-pk*14)/5.65)+'%';
+  paid.style.opacity=paidOn?Math.min(1,(pB-t)/.4):0; paid.style.transform=`translate(-50%,-100%) scale(${paidOn?.8+.2*Math.min(1,pk*1.4):.6})`;
+  document.getElementById('total').textContent=fmt(6800+(t>=pA+.3?300:0)); // wallet top-ups are money held, not earnings
 
-  // toasts
-  let msg='',gold=false;
-  if(t>=3.4&&t<5) msg='Dev Arora checked in · booked 11:40';
-  else if(t>=13.2&&t<15.2){msg='Neha Singh · wallet top-up ₹2,000 (+₹100 bonus)';gold=true;}
-  else if(t>=16.4&&t<18.4) msg='Rahul Jain · walk-in · added to waiting';
-  else if(t>=22.8&&t<24.4){msg='Dev Arora paid ₹300 · UPI';gold=true;}
+  // front desk messages
+  let msg='',gold=false,desk='Ready';
+  const NM=nehaPlan.marks, RMk=rahulPlan.marks;
+  if(within(t,M.checkin,M.checkin+1.8)){msg='Dev Arora checked in · booked 11:40';desk='Checked in Dev Arora';}
+  else if(within(t,NM.topup,NM.topup+2.4)){msg='Neha Singh · wallet top-up ₹2,000 (+₹100 bonus)';gold=true;desk='Wallet top-up · Neha Singh';}
+  else if(within(t,RMk.book,RMk.book+2.6)){msg='Rahul Jain booked a haircut · Sat 4:30 PM';desk='Booking · Rahul Jain';}
+  else if(paidOn){msg='Dev Arora paid ₹300 · UPI';gold=true;desk='Payment · Dev Arora';}
   toast.textContent=msg; toast.classList.toggle('on',!!msg); toast.classList.toggle('gold',gold);
+  document.getElementById('desk').textContent=desk;
 
-  // chair data (1 s of loop ≈ 1 min)
-  const mins=t*0.4;
+  // chair data
+  const mins=t*0.25;
   const ch=[
     {n:1,c:'Karan Mehta',first:'Karan',s:'Haircut + Beard trim',st:'Imran',r:450,done:18+mins,tot:30},
     {n:2,c:'Priya Patel',first:'Priya',s:'Hair spa + blow-dry',st:'Sunita',r:900,done:12+mins,tot:45},
-    seated?{n:3,c:'Dev Arora',first:'Dev',s:'Beard trim & shape',st:'Rakesh',r:300,done:Math.min(15,(t-9.2)*1.5),tot:15}
-          :{n:3,free:true,c:t<9.2?'Free · next Dev Arora':'Free · cleaning',s:'Rakesh',st:'Rakesh'}
+    seated?{n:3,c:'Dev Arora',first:'Dev',s:'Beard trim & shape',st:'Rakesh',r:300,done:Math.min(15,(t-sitA)/SEAT*15),tot:15}
+          :{n:3,free:true,c:t<sitA?'Free · next Dev Arora':'Free · cleaning',s:'Rakesh',st:'Rakesh'}
   ];
   ch.forEach((d,i)=>{
     const p=d.free?0:Math.min(1,d.done/d.tot), left=d.free?0:Math.max(0,Math.ceil(d.tot-d.done));
@@ -288,11 +299,10 @@ function render(t){
       <div class="amt">${d.free?'<div class="m">—</div>':`<div class="r">${fmt(d.r)}</div><div class="m">${left} min left</div>`}</div>`;
   });
   document.getElementById('busy').textContent=`${seated?3:2} of 3 busy`;
-  document.getElementById('waiting').textContent=(t>=16.4&&t<27.8)?'Anita · Suresh · Rahul':'Anita Rao · Suresh Iyer';
-  const hm=38+Math.floor(t/7); document.getElementById('clock').textContent=`Wed 14 Oct · 11:${String(hm).padStart(2,'0')} AM`;
+  const hm=38+Math.floor(t/10); document.getElementById('clock').textContent=`Wed 14 Oct · 11:${String(hm).padStart(2,'0')} AM`;
 }
 let start=performance.now(), seekT=null;
 window.__seek=s=>{seekT=s;render(s);};
-function loop(now){ if(seekT===null) render(RM?11:(now-start)/1000); requestAnimationFrame(loop);}
+function loop(now){ if(seekT===null) render(RM?18:(now-start)/1000); requestAnimationFrame(loop);}
 requestAnimationFrame(loop);
 </script>
