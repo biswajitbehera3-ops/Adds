@@ -244,7 +244,8 @@ function L2(el,state){
       <div class="row"><div class="av" style="background:${s.col};width:13cqw;height:13cqw;font-size:4.2cqw">${s.ini}</div><div><div class="ttl" style="font-size:6cqw">${s.name}</div><div class="sm">${d.label} · ${c} customers</div></div></div>
       ${segHTML(pk)}
       <div class="glass">
-        <div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="big" style="font-size:9.6cqw">${inr(e)}</div>${deltaPill(e,pe,d.cmpWord)}</div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="big" style="font-size:9.6cqw">${inr(e)}</div>${pk==='week'?deltaPill(e,SERIES.week.ghost[s.id][1],'vs September'):deltaPill(e,pe,d.cmpWord)}</div>
+        ${pk==='week'?'<div class="sm" style="margin-top:1.4cqw">This week (8–14 Oct) vs the same week in September (8–14 Sep)</div>':''}
         ${stylistLine(s.id,pk)}
       </div>
       <div class="glass"><div class="lbl" style="margin-bottom:1cqw">${pk==='day'?'Customers today':pk==='week'?'Day by day':'Week by week'}</div>${detailRows(pk,s.id)}</div>`);

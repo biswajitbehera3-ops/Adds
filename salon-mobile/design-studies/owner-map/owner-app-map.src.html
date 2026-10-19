@@ -1,0 +1,80 @@
+<title>Owner App Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: a map of the owner app. Row 1: the five bottom-bar tabs and the screen each opens. Row 2: the Earnings tab in depth (cards, then a stylist's page). Single dark look by design. */
+:root{
+  --page:#140d0b; --panel:#1f1512; --gold:#E4A67B; --gold2:#F5C9A0; --cream:#FFF8F1; --soft:rgba(255,248,241,.72); --line:rgba(255,244,236,.16);
+  --font:Urbanist,"Avenir Next","Segoe UI",system-ui,sans-serif; color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--page);color:var(--cream);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{padding-block:30px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1240px;margin:0 auto}
+h1{font-size:30px;font-weight:700;text-wrap:balance}
+.lead{color:var(--soft);font-size:15px;line-height:1.55;max-width:72ch;margin-top:8px}
+h2{font-size:21px;font-weight:700;margin:44px 0 6px}
+.sub{color:var(--soft);font-size:14.5px;line-height:1.5;max-width:75ch;margin-bottom:18px}
+.dockbar{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0 14px;padding:8px;border-radius:22px;background:rgba(38,22,17,.7);border:1px solid var(--line);max-width:640px}
+.dockbar a{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0;border-radius:15px;color:var(--soft);text-decoration:none;font-size:13px;font-weight:600}
+.dockbar a:hover,.dockbar a:focus-visible{background:rgba(228,166,123,.18);color:var(--cream);outline:none}
+.dockbar svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.row{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:22px}
+.card{display:flex;flex-direction:column;gap:10px;min-width:0}
+.step{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.06em;text-transform:uppercase}
+.step b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#2a1a12;font-size:12.5px;letter-spacing:0}
+.card img{width:100%;max-width:100%;height:auto;display:block;border-radius:26px;box-shadow:0 18px 40px rgba(0,0,0,.5),0 0 0 1px rgba(255,244,236,.07)}
+.card h3{font-size:16px;font-weight:700}
+.card p{color:var(--soft);font-size:13.5px;line-height:1.5}
+.flow{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:22px;align-items:start}
+.arrow{color:var(--gold2);font-weight:700}
+.group{padding:18px;border-radius:24px;background:var(--panel);border:1px solid var(--line);margin-top:18px}
+.group .gt{font-size:15px;font-weight:700;margin-bottom:4px}
+.group .gs{color:var(--soft);font-size:13.5px;margin-bottom:16px;line-height:1.5}
+</style>
+
+<div class="wrap">
+  <h1>Owner app: what each tab opens</h1>
+  <p class="lead">The owner signs in with the owner password and gets this bottom bar. Each tab opens one screen; Earnings has more inside it. Screens are from the approved designs with example data (Wednesday 14 Oct).</p>
+
+  <nav class="dockbar" aria-label="Owner bottom bar">
+    <a href="#live"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M5 12a7 7 0 0 1 14 0"/></svg>Live</a>
+    <a href="#earnings"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>Earnings</a>
+    <a href="#attendance"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4"/></svg>Attendance</a>
+    <a href="#staff"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/></svg>Staff</a>
+    <a href="#visits"><svg viewBox="0 0 24 24"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2z"/></svg>Visits</a>
+  </nav>
+
+  <h2>1. The five tabs</h2>
+  <p class="sub">Tap a tab in the bottom bar and this screen opens.</p>
+  <div class="row">
+    <div class="card" id="live"><div class="step"><b>1</b>Live</div><img src="IMG:1-live" alt="Live floor: animated salon with receptionist, stylists and customers, chair cards below"><h3>Live floor</h3><p>The animated salon, live. Each chair shows the customer, service, stylist and minutes left. Customers walk in when a visit starts and walk out when it's paid. Front desk line and today's total.</p></div>
+    <div class="card" id="earnings"><div class="step"><b>2</b>Earnings</div><img src="IMG:2-earn-day" alt="Earnings: Today, 7 days and Month cards, total, bar chart, stylists ranked"><h3>Earnings</h3><p>Today / 7 days / Month cards, the total against the previous period, the trend chart and every stylist's customers and earnings. More in section 2.</p></div>
+    <div class="card" id="attendance"><div class="step"><b>3</b>Attendance</div><img src="IMG:4-attendance" alt="Attendance: today's selfies and the month grid"><h3>Attendance</h3><p>Today's check-in selfies (green on time, orange late), the month grid per stylist, and Export to Excel.</p></div>
+    <div class="card" id="staff"><div class="step"><b>4</b>Staff</div><img src="IMG:5-staff" alt="Staff: list with edit and add staff form"><h3>Staff</h3><p>Every stylist with number and chair; edit, reset password, deactivate; add a new staff member.</p></div>
+    <div class="card" id="visits"><div class="step"><b>5</b>Visits</div><img src="IMG:6-visits" alt="Visits: today's bills with void"><h3>Visits</h3><p>Every bill for today, 7 days or 30 days. Void a wrong bill with a reason (refunds the wallet, takes back a referral).</p></div>
+  </div>
+
+  <h2>2. Inside Earnings</h2>
+  <p class="sub">Tap one of the three cards at the top to switch the whole screen; tap a stylist to open their page.</p>
+
+  <div class="group">
+    <div class="gt">Tap a card: Today, 7 days or Month</div>
+    <div class="gs">The total, the comparison and the chart change with the card. Stylists re-rank for that period.</div>
+    <div class="flow">
+      <div class="card"><div class="step"><b>A</b>Today card</div><img src="IMG:2-earn-day" alt="Earnings with Today selected"><p>Today so far vs last Wednesday by this time; bars for the last 7 days.</p></div>
+      <div class="card"><div class="step"><b>B</b>7 days card</div><img src="IMG:2-earn-week" alt="Earnings with 7 days selected"><p>Last 7 days vs the 7 days before; bars for the last 8 weeks.</p></div>
+      <div class="card"><div class="step"><b>C</b>Month card</div><img src="IMG:2-earn-month" alt="Earnings with Month selected"><p>October so far vs September 1–14; bars for the last 6 months.</p></div>
+    </div>
+  </div>
+
+  <div class="group">
+    <div class="gt">Tap a stylist <span class="arrow">→</span> their page</div>
+    <div class="gs">Their total and change, a line graph that follows the Day / Week / Month switch on their page, and their customers. "‹ Earnings" goes back.</div>
+    <div class="flow">
+      <div class="card"><div class="step"><b>D</b>Day</div><img src="IMG:3-stylist-day" alt="Stylist page, Day: daily graph and today's customers"><p>Each day of the last 7 days (Tuesday closed, today so far). Below: today's customers with time, service, amount and payment.</p></div>
+      <div class="card"><div class="step"><b>E</b>Week</div><img src="IMG:3-stylist-week" alt="Stylist page, Week: weeks of October vs September"><p>Each week of October, September dashed behind; badge "vs September" (8–14 Oct vs 8–14 Sep). Below: day-by-day earnings.</p></div>
+      <div class="card"><div class="step"><b>F</b>Month</div><img src="IMG:3-stylist-month" alt="Stylist page, Month: last 12 months"><p>The last 12 months, best month labelled, October so far. Below: week-by-week and top services.</p></div>
+    </div>
+  </div>
+</div>
