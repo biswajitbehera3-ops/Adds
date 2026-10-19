@@ -8,6 +8,7 @@ The rule (from the user): **don't build the app until every component is complet
 Status key: **Decided** = agreed, not built · **Designed** = shown in a demo/mock · **Logic** = rules written and tested in code · **Built** = in the installable app (none yet in the new look) · **Open** = waiting for a decision.
 
 Where things live:
+- **Owner app demo (all 4 tabs, clickable):** `design-studies/owner-demo/owner-app-demo.html` (built by `build-owner-demo.py` from the approved tab pages)
 - Screens demo: `design-studies/app-interface.src.html` (published link: https://claude.ai/artifact/4uia3iM8nDTeofW7dMX8dr)
 - Login demo: `design-studies/login-prototype.src.html` (https://claude.ai/artifact/YHAPPq7mSU9TsmyQuz5Tac)
 - Rules: `src/domain/engine.ts`, with tests in `tests/`
