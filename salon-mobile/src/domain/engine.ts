@@ -517,6 +517,7 @@ export function overdueReminders(data: Data, now = new Date()) {
       const reminded = data.reminders
         .filter((r) => r.customerId === customer.id && r.serviceId === service.id && r.createdAt > v.at)
         .sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
+      const lockedUntil = reminded ? new Date(Date.parse(reminded.createdAt) + config.reminderResendDays * DAY_MS) : null;
       return [
         {
           key: `${customer.id}|${service.id}`,
@@ -529,6 +530,10 @@ export function overdueReminders(data: Data, now = new Date()) {
           dueAt,
           daysOverdue: daysBetween(dueAt, now),
           remindedAt: reminded ? new Date(reminded.createdAt) : null,
+          /** Who sent the last reminder: a stylist's name, "Owner", or null if never sent. */
+          remindedBy: reminded ? (data.staff.find((s) => s.id === reminded.sentBy)?.name ?? "Owner") : null,
+          /** Locked for everyone until then; after that it can be sent again. */
+          lockedUntil: lockedUntil && lockedUntil > now ? lockedUntil : null,
           message: renderReminder(config.reminderTemplate, { name: customer.name.split(" ")[0], service: service.name.toLowerCase() }),
         },
       ];
@@ -538,7 +543,7 @@ export function overdueReminders(data: Data, now = new Date()) {
 
 export function logReminder(
   data: Data,
-  input: { customerId: string; serviceId: string; message: string; status: ReminderLog["status"] },
+  input: { customerId: string; serviceId: string; message: string; status: ReminderLog["status"]; by?: string | null },
   now = new Date(),
 ): Op<ReminderLog> {
   const message = input.message.trim();
@@ -547,7 +552,16 @@ export function logReminder(
   const customer = data.customers.find((c) => c.id === input.customerId);
   if (!customer) throw new UserError("Customer not found");
   if (!customer.marketingConsentAt || customer.deletedAt) throw new UserError("This customer hasn't agreed to receive messages");
-  const log: ReminderLog = { id: newId(), customerId: customer.id, serviceId: input.serviceId, message, status: input.status, createdAt: now.toISOString() };
+  // One reminder per customer and service at a time, whoever sends it.
+  const last = data.reminders
+    .filter((r) => r.customerId === customer.id && r.serviceId === input.serviceId)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
+  if (last && now.getTime() - Date.parse(last.createdAt) < config.reminderResendDays * DAY_MS) {
+    const who = data.staff.find((s) => s.id === last.sentBy)?.name.split(" ")[0] ?? "the owner";
+    const again = istDate(new Date(Date.parse(last.createdAt) + config.reminderResendDays * DAY_MS));
+    throw new UserError(`Already reminded by ${who} on ${istDate(new Date(last.createdAt))}. It can be sent again from ${again}.`);
+  }
+  const log: ReminderLog = { id: newId(), customerId: customer.id, serviceId: input.serviceId, message, status: input.status, sentBy: input.by ?? null, createdAt: now.toISOString() };
   return { data: { ...data, reminders: [...data.reminders, log] }, result: log };
 }
 

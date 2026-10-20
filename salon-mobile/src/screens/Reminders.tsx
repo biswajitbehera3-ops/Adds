@@ -12,6 +12,7 @@ import * as E from "../domain/engine";
 import { UserError } from "../domain/errors";
 import { commit, useData } from "../domain/store";
 import { formatPhone, relativeDays, shortDate } from "../format";
+import { useCurrentStaff } from "./Attendance";
 import { color, font, radius, space } from "../theme/tokens";
 
 type R = ReturnType<typeof E.overdueReminders>[number];
@@ -25,7 +26,8 @@ export function Reminders() {
   const all = useMemo(() => E.overdueReminders(data), [data]);
   const [filter, setFilter] = useState<"todo" | "done">("todo");
   const [open, setOpen] = useState<string | null>(null);
-  const list = all.filter((r) => (filter === "todo" ? !r.remindedAt : !!r.remindedAt));
+  // A sent reminder is locked for everyone for a few days, then comes back to "To remind".
+  const list = all.filter((r) => (filter === "todo" ? !r.lockedUntil : !!r.lockedUntil));
   const reduced = useReducedMotion();
 
   return (
@@ -38,8 +40,8 @@ export function Reminders() {
         value={filter}
         onChange={(k) => (setFilter(k), setOpen(null))}
         options={[
-          { key: "todo", label: `To remind (${all.filter((r) => !r.remindedAt).length})` },
-          { key: "done", label: `Reminded (${all.filter((r) => r.remindedAt).length})` },
+          { key: "todo", label: `To remind (${all.filter((r) => !r.lockedUntil).length})` },
+          { key: "done", label: `Sent (${all.filter((r) => r.lockedUntil).length})` },
         ]}
       />
       <View style={{ gap: space.md, marginTop: space.lg }}>
@@ -63,10 +65,11 @@ export function Reminders() {
 
 function ReminderCard({ r, open, onToggle }: { r: R; open: boolean; onToggle: () => void }) {
   const toast = useToast();
+  const me = useCurrentStaff();
   const [msg, setMsg] = useState(r.message);
   const send = async () => {
     try {
-      commit((d) => E.logReminder(d, { customerId: r.customerId, serviceId: r.serviceId, message: msg, status: "OPENED" }));
+      commit((d) => E.logReminder(d, { customerId: r.customerId, serviceId: r.serviceId, message: msg, status: "OPENED", by: me?.id ?? null }));
       await Linking.openURL(E.whatsappLink(r.phone, msg.trim()));
       toast(`Opened WhatsApp for ${r.name.split(" ")[0]}`);
     } catch (e) {
@@ -97,7 +100,8 @@ function ReminderCard({ r, open, onToggle }: { r: R; open: boolean; onToggle: ()
       </Press>
       {r.remindedAt ? (
         <T v="small" c={color.positive}>
-          Reminded {relativeDays(r.remindedAt)} ({shortDate(r.remindedAt)})
+          Reminded by {r.remindedBy === me?.name ? "you" : r.remindedBy?.split(" ")[0]} {relativeDays(r.remindedAt)} ({shortDate(r.remindedAt)})
+          {r.lockedUntil ? ` · can be sent again from ${shortDate(r.lockedUntil)}` : ""}
         </T>
       ) : null}
       {open ? (
@@ -123,7 +127,12 @@ function ReminderCard({ r, open, onToggle }: { r: R; open: boolean; onToggle: ()
               textAlignVertical: "top",
             }}
           />
-          <Button label={r.remindedAt ? "Send again on WhatsApp" : "Send on WhatsApp"} icon="chat" onPress={send} disabled={!msg.trim()} />
+          <Button
+            label={r.lockedUntil ? `Sent · again from ${shortDate(r.lockedUntil)}` : r.remindedAt ? "Send again on WhatsApp" : "Send on WhatsApp"}
+            icon="chat"
+            onPress={send}
+            disabled={!msg.trim() || !!r.lockedUntil}
+          />
         </Animated.View>
       ) : null}
     </LabelFrame>

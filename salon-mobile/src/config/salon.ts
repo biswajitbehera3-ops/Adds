@@ -53,6 +53,11 @@ export type SalonConfig = {
   };
   /** Marketing: only sent to customers who opted in. Must say how to stop. */
   reminderTemplate: string;
+  /**
+   * After anyone sends a customer's reminder, it is locked for every staff member for this
+   * many days, so two stylists never send the same customer the same message.
+   */
+  reminderResendDays: number;
   /** Thank-you after a paid visit for customers who opted in to messages. {name} {total} {balance} {code} {salon} */
   receiptTemplate: string;
   /** Plain receipt for customers who did not opt in: no offers, no referral pitch. */
@@ -155,6 +160,8 @@ const config: SalonConfig = {
 
   reminderTemplate:
     "Hi {name}, it's been a while since your last {service} with us. Want us to keep a slot for you this week? Reply STOP to stop these messages.",
+
+  reminderResendDays: 5,
 
   receiptTemplate:
     "Thanks for visiting {salon}, {name}! Paid {total}. Wallet balance: {balance}. Share your code {code} with friends: you both get wallet credit on their first visit. Reply STOP to stop offers.",

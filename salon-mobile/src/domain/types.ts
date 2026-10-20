@@ -83,6 +83,8 @@ export type ReminderLog = {
   message: string;
   /** OPENED = handed to WhatsApp with the message prefilled. */
   status: "OPENED" | "SIMULATED";
+  /** Staff member who sent it (null for the owner, or for reminders logged before this was kept). */
+  sentBy?: string | null;
   createdAt: string;
 };
 

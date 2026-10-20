@@ -95,7 +95,7 @@ document.getElementById('s1').innerHTML=`<div class="scr">
   <div><div class="who">Imran · Wed 14 Oct</div><div class="ttl">Customers</div></div>
   <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg>Search name or mobile</div>
   <div class="remind"><div><div class="lbl" style="color:var(--gold2)">Reminders due today</div><b>6 customers to remind</b></div><span class="send">Open</span></div>
-  <div class="filters"><span class="on">All</span><span>⭐ Top spenders</span><span>Regulars</span><span>Not seen 30+</span><span>New</span></div>
+  <div class="filters"><span class="on">All</span><span>My customers</span><span>⭐ Top spenders</span><span>Regulars</span><span>Not seen 30+</span><span>New</span></div>
   <div style="display:flex;justify-content:space-between;align-items:center"><span class="lbl">412 customers</span><span class="sort">Sort: Highest spending ▾</span></div>
   <div class="list">${C.map(([n,i,l,v,t,w,k],x)=>`<div class="cust"><div class="av" style="background:${COLS[x%5]}">${i}</div><div><div class="nm">${n} ${TAG[k]}</div><div class="sub">${l} · ${v} visits</div></div><div class="r"><b>${t}</b>${w?`<div class="wal">Wallet ${w}</div>`:''}</div></div>`).join('')}</div>
   </div>${DOCK('cust')}`;
@@ -105,10 +105,10 @@ document.getElementById('s2').innerHTML=`<div class="scr">
   <button class="back">‹ Customers</button>
   <div class="ttl" style="font-size:6.2cqw">Reminders</div>
   <div class="filters"><span class="on">Due today · 6</span><span>This week · 19</span><span>Sent · 4</span></div>
-  <div class="list">${R.map(([n,i,s,d,sent],x)=>`<div class="rrow"><div class="av" style="background:${COLS[x%5]}">${i}</div><div><div class="nm">${n}</div><div class="sub">${s} · ${d}</div></div>${sent?'<span class="sent">Sent ✓</span>':'<span class="send">Send</span>'}</div>`).join('')}</div>
+  <div class="list">${R.map(([n,i,s,d,sent],x)=>`<div class="rrow"><div class="av" style="background:${COLS[x%5]}">${i}</div><div><div class="nm">${n}</div><div class="sub">${s} · ${d}</div></div>${sent?'<span class="sent" style="text-align:right;line-height:1.3">Sent by Rakesh ✓<br><small style="color:var(--faint);font-weight:600">locked till Sun 19</small></span>':'<span class="send">Send</span>'}</div>`).join('')}</div>
   <div class="lbl">Message preview</div>
   <div class="msg">Hi Kavya, it's been 6 weeks since your hair spa at the salon. Book your next visit: reply with a day and time. Reply STOP to stop these messages.</div>
-  <div class="ownonly">Only customers who said yes to WhatsApp messages are listed</div>
+  <div class="ownonly">Only customers who said yes to WhatsApp messages are listed. Once anyone sends a reminder it is locked for everyone for 5 days.</div>
   </div>${DOCK('cust')}`;
 
 document.getElementById('s3').innerHTML=`<div class="scr">
