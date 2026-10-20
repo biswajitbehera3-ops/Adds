@@ -1,34 +1,44 @@
+/**
+ * A customer's profile (BUILD-SPEC 4.11, 4.17), brown glass: Call / WhatsApp / Book, wallet
+ * with Top up, what they have spent, visits and bills, next booking, when each service is due,
+ * referral code, and their privacy choices. Cancelling a bill and deleting the customer stay
+ * with the owner; a stylist sees a note instead.
+ */
 import * as Clipboard from "expo-clipboard";
+import { LinearGradient } from "expo-linear-gradient";
 import { useMemo, useState } from "react";
-import { Linking, View } from "react-native";
-import Animated, { FadeIn } from "react-native-reanimated";
-import { Button } from "../components/Button";
-import { Check } from "../components/Check";
-import { IconSwap } from "../components/IconSwap";
+import { Linking, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import Animated, { FadeIn, useReducedMotion } from "react-native-reanimated";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { BookSheet } from "../components/BookSheet";
+import { GhostButton, GlassCard, GlassSwitch, GoldButton, GT } from "../components/glass";
+import { Icon, type IconName } from "../components/Icon";
 import { Press } from "../components/Press";
-import { Rule, Screen, SectionTitle } from "../components/Screen";
-import { Seal } from "../components/Seal";
-import { Segmented } from "../components/Segmented";
-import { T } from "../components/T";
 import { useToast } from "../components/Toast";
 import { TopUpSheet } from "../components/TopUpSheet";
 import config from "../config/salon";
+import * as C from "../domain/calendar";
 import * as E from "../domain/engine";
 import { UserError } from "../domain/errors";
+import { istDate } from "../domain/rules";
 import { commit, useData, useSession } from "../domain/store";
 import type { PaymentMethod, WalletTx } from "../domain/types";
 import { formatPhone, inr, relativeDays, shortDate } from "../format";
 import { useNav } from "../nav/Navigator";
-import { color, font, space } from "../theme/tokens";
+import { glass } from "../theme/tokens";
 
 const TX_LABEL: Record<WalletTx["type"], string> = { TOPUP: "Top-up", BONUS: "Top-up bonus", SPEND: "Paid for visit", REFERRAL_REWARD: "Referral reward", REFUND: "Refund (visit voided)", REFERRAL_REVERSAL: "Referral reward reversed", CASHOUT: "Refunded (wallet closed)", WRITE_OFF: "Bonus credit cancelled" };
+const METHOD: Record<string, string> = { CASH: "Cash", UPI: "UPI", CARD: "Card" };
 
 export function Profile({ id }: { id: string }) {
   const data = useData();
   const nav = useNav();
   const toast = useToast();
+  const insets = useSafeAreaInsets();
+  const reduced = useReducedMotion();
   const [tab, setTab] = useState<"visits" | "wallet">("visits");
   const [topUp, setTopUp] = useState(false);
+  const [book, setBook] = useState(false);
   const p = useMemo(() => {
     try {
       return E.getProfile(data, id);
@@ -36,182 +46,299 @@ export function Profile({ id }: { id: string }) {
       return null;
     }
   }, [data, id]);
+  const dir = useMemo(() => E.customerDirectory(data).rows.find((r) => r.id === id) ?? null, [data, id]);
+  const now = new Date();
+  const next = useMemo(() => {
+    const appt = data.appointments.filter((a) => a.customerId === id && a.status === "BOOKED" && Date.parse(a.at) > now.getTime()).sort((a, b) => a.at.localeCompare(b.at))[0];
+    return appt ? (E.appointmentsOn(data, istDate(new Date(appt.at))).find((x) => x.id === appt.id) ?? null) : null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data, id]);
 
   if (!p) {
     return (
-      <Screen title="Customer">
-        <T v="body">This customer is no longer on this device.</T>
-      </Screen>
+      <Backdrop>
+        <View style={{ paddingTop: insets.top + 16, paddingHorizontal: 18, gap: 12 }}>
+          <BackLink />
+          <GT size={18} w="bold">
+            This customer is no longer on this device.
+          </GT>
+        </View>
+      </Backdrop>
     );
   }
-  const now = new Date();
-  const overdue = p.nextDue && p.nextDue.dueAt <= now;
+  const initials = p.name.split(" ").map((x) => x[0]).slice(0, 2).join("").toUpperCase();
+  const tag = dir?.tag === "regular" ? "Regular" : dir?.tag === "lapsed" ? `Not seen ${dir.daysSinceLast} days` : dir?.tag === "new" ? "New" : null;
+  const since = new Date(p.createdAt);
+  const nextDue = p.nextDue;
+  const overdue = nextDue && nextDue.dueAt <= now;
 
   return (
-    <Screen title={p.name.split(" ")[0]}>
-      <View style={{ flexDirection: "row", alignItems: "center", gap: space.lg }}>
-        <View style={{ flex: 1, gap: 2 }}>
-          <T v="title">{p.name}</T>
-          <T v="body" c={color.inkMuted}>
-            +91 {formatPhone(p.phone)}
-          </T>
-          <T v="small" c={color.inkMuted}>
-            Customer since {shortDate(p.createdAt)} {new Date(p.createdAt).getFullYear()}
-          </T>
-        </View>
-        <Seal amount={p.walletBalance} width={128} />
-      </View>
-
-      <View style={{ flexDirection: "row", marginTop: space.xl, borderTopWidth: 1, borderBottomWidth: 1, borderColor: color.rule }}>
-        <Stat label="Lifetime spend" value={inr(p.lifetimeSpend)} />
-        <View style={{ width: 1, backgroundColor: color.ruleSoft }} />
-        <Stat label="Visits" value={String(p.visits.length)} />
-        <View style={{ width: 1, backgroundColor: color.ruleSoft }} />
-        <Stat
-          label={p.nextDue ? (overdue ? "Overdue" : "Next due") : "Next due"}
-          value={p.nextDue ? shortDate(p.nextDue.dueAt) : "—"}
-          sub={p.nextDue?.serviceName}
-          tone={overdue ? color.seal : undefined}
-        />
-      </View>
-
-      <View style={{ flexDirection: "row", gap: space.sm, marginTop: space.lg }}>
-        <View style={{ flex: 1 }}>
-          <Button label="Top up" icon="wallet" onPress={() => setTopUp(true)} />
-        </View>
-        <View style={{ flex: 1 }}>
-          <Button kind="outline" label="Refer" icon="refer" onPress={() => nav.push({ name: "refer", id: p.id })} />
-        </View>
-      </View>
-
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: space.lg, paddingVertical: space.sm }}>
-        <View>
-          <T v="small" c={color.inkMuted}>
-            Referral code
-          </T>
-          <T style={{ fontFamily: font.display, fontSize: 22, letterSpacing: 2 }}>{p.referralCode}</T>
-        </View>
-        <IconSwap
-          from="copy"
-          to="check"
-          tint={color.seal}
-          label={`Referral code ${p.referralCode}. Copy.`}
-          onPress={async () => {
-            await Clipboard.setStringAsync(p.referralCode).catch(() => {});
-            toast("Referral code copied");
-          }}
-        />
-      </View>
-      {p.referredBy ? (
-        <T v="small" c={color.inkMuted}>
-          Referred by {p.referredBy.name}
-          {p.referralRewardedAt ? " · reward paid" : " · reward on first paid visit"}
-        </T>
-      ) : null}
-
-      {p.serviceDues.length > 1 ? (
-        <>
-          <SectionTitle>Due back</SectionTitle>
-          {p.serviceDues.map((d) => (
-            <View key={d.serviceId} style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 6 }}>
-              <T v="body">{d.serviceName}</T>
-              <T v="bodyStrong" c={d.dueAt <= now ? color.seal : color.ink}>
-                {d.dueAt <= now ? `overdue since ${shortDate(d.dueAt)}` : shortDate(d.dueAt)}
-              </T>
-            </View>
-          ))}
-        </>
-      ) : null}
-
-      <View style={{ marginTop: space.xl, marginBottom: space.md }}>
-        <Segmented label="History" value={tab} onChange={setTab} options={[{ key: "visits", label: `Visits (${p.visits.length})` }, { key: "wallet", label: `Wallet (${p.walletTxs.length})` }]} />
-      </View>
-
-      <Animated.View key={tab} entering={FadeIn.duration(180)}>
-        {tab === "visits" ? (
-          p.visits.length ? (
-            p.visits.map((v, i) => {
-              const names = v.serviceIds.map((id) => config.services.find((x) => x.id === id)?.name ?? id).join(" + ");
-              const st = data.staff.find((x) => x.id === v.staffId);
-              const method = (v.paymentMethod ?? "CASH").toLowerCase();
-              const voided = v.status === "VOID";
-              const extras = v.addOnIds.map((a) => config.addOns.find((x) => x.id === a)?.name).filter(Boolean);
-              return (
-                <View key={v.id}>
-                  {i > 0 ? <Rule /> : null}
-                  <View style={{ flexDirection: "row", paddingVertical: space.md, gap: space.md }}>
-                    <View style={{ flex: 1 }}>
-                      <T v="bodyStrong" style={voided ? { textDecorationLine: "line-through" } : undefined}>
-                        {names}
-                      </T>
-                      <T v="small" c={voided ? color.danger : color.inkMuted}>
-                        {voided ? `Voided · ${v.voidReason ?? ""}` : [shortDate(v.paidAt ?? v.createdAt), st?.name, ...extras].filter(Boolean).join(" · ")}
-                      </T>
-                    </View>
-                    <View style={{ alignItems: "flex-end" }}>
-                      <T v="bodyStrong" style={{ fontVariant: ["tabular-nums"] }}>
-                        {inr(v.total)}
-                      </T>
-                      <T v="small" c={color.inkMuted}>
-                        {v.walletPaid === v.total ? "wallet" : v.walletPaid ? "wallet + " + method : method === "upi" ? "UPI" : method}
-                      </T>
-                    </View>
-                  </View>
-                </View>
-              );
-            })
-          ) : (
-            <T v="body" c={color.inkMuted}>
-              No visits yet.
-            </T>
-          )
-        ) : p.walletTxs.length ? (
-          p.walletTxs.map((t, i) => (
-            <View key={t.id}>
-              {i > 0 ? <Rule /> : null}
-              <View style={{ flexDirection: "row", paddingVertical: space.md, gap: space.md }}>
-                <View style={{ flex: 1 }}>
-                  <T v="bodyStrong">{TX_LABEL[t.type]}</T>
-                  <T v="small" c={color.inkMuted}>
-                    {[relativeDays(t.createdAt), t.note].filter(Boolean).join(" · ")}
-                  </T>
-                </View>
-                <T v="bodyStrong" c={t.amount > 0 ? color.positive : color.ink} style={{ fontVariant: ["tabular-nums"] }}>
-                  {t.amount > 0 ? "+" : ""}
-                  {inr(t.amount)}
-                </T>
+    <Backdrop>
+      <ScrollView contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 18, paddingBottom: insets.bottom + 48, gap: 14 }} showsVerticalScrollIndicator={false}>
+        <BackLink />
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 14 }}>
+          <View style={{ width: 72, height: 72, borderRadius: 36, backgroundColor: glass.gold, alignItems: "center", justifyContent: "center" }}>
+            <GT size={24} w="heavy" c={glass.ink}>
+              {initials}
+            </GT>
+          </View>
+          <View style={{ flex: 1, gap: 2 }}>
+            <GT size={25} w="heavy" accessibilityRole="header" style={{ lineHeight: 30 }}>
+              {p.name}
+            </GT>
+            <GT size={13} c={glass.soft}>
+              {formatPhone(p.phone)} · since {C.MONTHS[since.getMonth()].slice(0, 3)} {since.getFullYear()}
+            </GT>
+            {tag ? (
+              <View style={{ alignSelf: "flex-start", marginTop: 3, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, backgroundColor: "rgba(228,166,123,0.18)" }}>
+                <GT size={11} w="heavy" c={glass.gold2}>
+                  {tag}
+                </GT>
               </View>
-            </View>
-          ))
-        ) : (
-          <T v="body" c={color.inkMuted}>
-            No wallet activity yet.
-          </T>
-        )}
-      </Animated.View>
+            ) : null}
+          </View>
+        </View>
 
-      <PrivacyControls customerId={p.id} name={p.name} phone={p.phone} messagesOn={Boolean(p.marketingConsentAt)} guardian={p.guardianConsent} />
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          <Action icon="phone" label="Call" onPress={() => Linking.openURL(`tel:${p.phone}`)} />
+          <Action icon="chat" label="WhatsApp" onPress={() => Linking.openURL(`https://wa.me/91${p.phone}`)} />
+          <Action icon="calendar" label="Book" onPress={() => setBook(true)} />
+        </View>
+
+        <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", padding: 16, borderRadius: 22, backgroundColor: "rgba(228,166,123,0.18)", borderWidth: 1, borderColor: "rgba(228,166,123,0.45)" }}>
+          <View>
+            <GT size={11.5} w="heavy" c={glass.gold2} style={{ letterSpacing: 1.2 }}>
+              WALLET
+            </GT>
+            <GT size={30} w="heavy" style={{ lineHeight: 36, fontVariant: ["tabular-nums"] }}>
+              {inr(p.walletBalance)}
+            </GT>
+          </View>
+          <Press onPress={() => setTopUp(true)} accessibilityLabel="Top up wallet" style={{ backgroundColor: glass.gold, borderRadius: 999, paddingHorizontal: 16, paddingVertical: 9 }}>
+            <GT size={14} w="heavy" c={glass.ink}>
+              Top up
+            </GT>
+          </Press>
+        </View>
+
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          <Stat label="Spent" value={inr(p.lifetimeSpend)} />
+          <Stat label="Visits" value={String(dir?.visits ?? 0)} />
+          <Stat label={overdue ? "Overdue" : "Next due"} value={nextDue ? shortDate(nextDue.dueAt) : "—"} sub={nextDue?.serviceName} tone={overdue ? "#F0A86A" : undefined} />
+        </View>
+
+        <GlassCard style={{ padding: 14, gap: 4 }}>
+          <GT size={11.5} w="heavy" c={glass.soft} style={{ letterSpacing: 1.2 }}>
+            NEXT BOOKING
+          </GT>
+          {next ? (
+            <>
+              <GT size={16} w="heavy">
+                {C.shortDay(istDate(new Date(next.at)))} · {C.clock(next.time).time} {C.clock(next.time).ampm}
+              </GT>
+              <GT size={13} c={glass.soft}>
+                {next.serviceNames.join(" + ")} · {next.stylistName?.split(" ")[0] ?? "anyone free"}
+              </GT>
+            </>
+          ) : (
+            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+              <GT size={14} c={glass.soft}>
+                No booking yet.
+              </GT>
+              <Pressable onPress={() => setBook(true)} accessibilityRole="button" hitSlop={8}>
+                <GT size={13.5} w="heavy" c={glass.gold2}>
+                  + Book
+                </GT>
+              </Pressable>
+            </View>
+          )}
+        </GlassCard>
+
+        {p.serviceDues.length > 1 ? (
+          <GlassCard style={{ padding: 14, gap: 6 }}>
+            <GT size={11.5} w="heavy" c={glass.soft} style={{ letterSpacing: 1.2 }}>
+              DUE BACK
+            </GT>
+            {p.serviceDues.map((d) => (
+              <View key={d.serviceId} style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <GT size={14}>{d.serviceName}</GT>
+                <GT size={14} w="bold" c={d.dueAt <= now ? "#F0A86A" : glass.cream}>
+                  {d.dueAt <= now ? `overdue since ${shortDate(d.dueAt)}` : shortDate(d.dueAt)}
+                </GT>
+              </View>
+            ))}
+          </GlassCard>
+        ) : null}
+
+        <GlassSwitch
+          options={[
+            { key: "visits", label: `Visits & bills · ${p.visits.length}` },
+            { key: "wallet", label: `Wallet · ${p.walletTxs.length}` },
+          ]}
+          value={tab}
+          onChange={setTab}
+        />
+        <Animated.View key={tab} entering={reduced ? undefined : FadeIn.duration(200)}>
+          <GlassCard style={{ paddingHorizontal: 14, paddingVertical: 4 }}>
+            {tab === "visits" ? (
+              p.visits.length ? (
+                p.visits.map((v, i) => {
+                  const names = v.serviceIds.map((sid) => config.services.find((x) => x.id === sid)?.name ?? sid);
+                  const extras = v.addOnIds.map((a) => config.addOns.find((x) => x.id === a)?.name).filter(Boolean);
+                  const st = data.staff.find((x) => x.id === v.staffId);
+                  const voided = v.status === "VOID";
+                  const when = new Date(v.paidAt ?? v.createdAt);
+                  const method = v.walletPaid === v.total ? "Wallet" : v.walletPaid ? `Wallet + ${METHOD[v.paymentMethod ?? "CASH"]}` : METHOD[v.paymentMethod ?? "CASH"];
+                  return (
+                    <View key={v.id} style={{ flexDirection: "row", gap: 12, paddingVertical: 11, borderTopWidth: i ? 1 : 0, borderColor: "rgba(255,244,236,0.08)" }}>
+                      <GT size={12.5} c={glass.soft} style={{ width: 52 }}>
+                        {relativeDays(when) === "today" ? "Today" : shortDate(when)}
+                      </GT>
+                      <View style={{ flex: 1 }}>
+                        <GT size={14.5} w="bold" style={voided ? { textDecorationLine: "line-through", color: glass.faint } : undefined}>
+                          {[...names, ...extras].join(" + ")}
+                        </GT>
+                        <GT size={12} c={voided ? "#F08C6A" : glass.soft}>
+                          {voided ? `Cancelled · ${v.voidReason ?? ""}` : (st?.name.split(" ")[0] ?? "")}
+                        </GT>
+                      </View>
+                      <View style={{ alignItems: "flex-end" }}>
+                        <GT size={14.5} w="heavy" style={{ fontVariant: ["tabular-nums"] }}>
+                          {inr(v.total)}
+                        </GT>
+                        <GT size={11} w="bold" c={glass.faint}>
+                          {method.toUpperCase()}
+                        </GT>
+                      </View>
+                    </View>
+                  );
+                })
+              ) : (
+                <GT size={14} c={glass.soft} style={{ paddingVertical: 12 }}>
+                  No visits yet.
+                </GT>
+              )
+            ) : p.walletTxs.length ? (
+              p.walletTxs.map((t, i) => (
+                <View key={t.id} style={{ flexDirection: "row", gap: 12, paddingVertical: 11, borderTopWidth: i ? 1 : 0, borderColor: "rgba(255,244,236,0.08)" }}>
+                  <View style={{ flex: 1 }}>
+                    <GT size={14.5} w="bold">
+                      {TX_LABEL[t.type]}
+                    </GT>
+                    <GT size={12} c={glass.soft}>
+                      {[relativeDays(t.createdAt), t.note].filter(Boolean).join(" · ")}
+                    </GT>
+                  </View>
+                  <GT size={14.5} w="heavy" c={t.amount > 0 ? glass.ok : glass.cream} style={{ fontVariant: ["tabular-nums"] }}>
+                    {t.amount > 0 ? "+" : ""}
+                    {inr(t.amount)}
+                  </GT>
+                </View>
+              ))
+            ) : (
+              <GT size={14} c={glass.soft} style={{ paddingVertical: 12 }}>
+                No wallet activity yet.
+              </GT>
+            )}
+          </GlassCard>
+        </Animated.View>
+
+        <GlassCard style={{ padding: 14, gap: 8 }}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <View>
+              <GT size={11.5} w="heavy" c={glass.soft} style={{ letterSpacing: 1.2 }}>
+                REFERRAL CODE
+              </GT>
+              <GT size={20} w="heavy" style={{ letterSpacing: 2 }}>
+                {p.referralCode}
+              </GT>
+            </View>
+            <View style={{ flexDirection: "row", gap: 8 }}>
+              <GhostButton
+                label="Copy"
+                style={{ paddingHorizontal: 14 }}
+                onPress={async () => {
+                  await Clipboard.setStringAsync(p.referralCode).catch(() => {});
+                  toast("Referral code copied");
+                }}
+              />
+              <GhostButton label="Refer" style={{ paddingHorizontal: 14 }} onPress={() => nav.push({ name: "refer", id: p.id })} />
+            </View>
+          </View>
+          {p.referredBy ? (
+            <GT size={12.5} c={glass.soft}>
+              Referred by {p.referredBy.name}
+              {p.referralRewardedAt ? " · reward paid" : " · reward on first paid visit"}
+            </GT>
+          ) : null}
+        </GlassCard>
+
+        <PrivacyControls customerId={p.id} name={p.name} phone={p.phone} messagesOn={Boolean(p.marketingConsentAt)} guardian={p.guardianConsent} />
+      </ScrollView>
 
       <TopUpSheet customer={p} visible={topUp} onClose={() => setTopUp(false)} />
-    </Screen>
+      <BookSheet
+        open={book}
+        day={istDate()}
+        phone={p.phone}
+        top={insets.top + 30}
+        onClose={() => setBook(false)}
+        onBooked={(appt) => {
+          setBook(false);
+          const t = C.clock(new Date(Date.parse(appt.at) + 330 * 60000).toISOString().slice(11, 16));
+          toast(`Booked · ${p.name.split(" ")[0]}, ${t.time} ${t.ampm} ${C.shortDay(istDate(new Date(appt.at)))}`);
+        }}
+      />
+    </Backdrop>
+  );
+}
+
+function Backdrop({ children }: { children: React.ReactNode }) {
+  return (
+    <View style={{ flex: 1, backgroundColor: glass.deep }}>
+      <LinearGradient colors={[glass.glow, glass.mid, glass.deep]} locations={[0, 0.42, 1]} start={{ x: 0.1, y: 0 }} end={{ x: 0.6, y: 1 }} style={StyleSheet.absoluteFill} />
+      {children}
+    </View>
+  );
+}
+
+function BackLink() {
+  const nav = useNav();
+  return (
+    <Pressable onPress={nav.pop} accessibilityRole="button" accessibilityLabel="Back to customers" hitSlop={10}>
+      <GT size={13.5} w="bold" c={glass.gold2}>
+        ‹ Customers
+      </GT>
+    </Pressable>
+  );
+}
+
+function Action({ icon, label, onPress }: { icon: IconName; label: string; onPress: () => void }) {
+  return (
+    <Press onPress={onPress} accessibilityLabel={label} style={{ flex: 1, alignItems: "center", gap: 5, paddingVertical: 13, borderRadius: 18, backgroundColor: glass.card, borderWidth: 1, borderColor: glass.line }}>
+      <Icon name={icon} color={glass.gold2} size={21} />
+      <GT size={13} w="bold">
+        {label}
+      </GT>
+    </Press>
   );
 }
 
 function Stat({ label, value, sub, tone }: { label: string; value: string; sub?: string; tone?: string }) {
   return (
-    <View style={{ flex: 1, paddingVertical: space.md, paddingHorizontal: space.sm, gap: 2 }}>
-      <T v="small" c={color.inkMuted}>
+    <GlassCard style={{ flex: 1, padding: 11, borderRadius: 18 }}>
+      <GT size={11} w="bold" c={glass.faint}>
         {label}
-      </T>
-      <T style={{ fontFamily: font.display, fontSize: 19, lineHeight: 25, fontVariant: ["tabular-nums"] }} c={tone ?? color.ink} numberOfLines={1}>
+      </GT>
+      <GT size={16} w="heavy" c={tone ?? glass.cream} numberOfLines={1} style={{ fontVariant: ["tabular-nums"] }}>
         {value}
-      </T>
+      </GT>
       {sub ? (
-        <T v="small" c={color.inkMuted} numberOfLines={1}>
+        <GT size={11} c={glass.soft} numberOfLines={1}>
           {sub}
-        </T>
+        </GT>
       ) : null}
-    </View>
+    </GlassCard>
   );
 }
 
@@ -238,58 +365,86 @@ function PrivacyControls({ customerId, name, phone, messagesOn, guardian }: { cu
     }
   };
   return (
-    <View style={{ marginTop: space.xl, gap: space.sm }}>
-      <SectionTitle>Privacy</SectionTitle>
+    <View style={{ gap: 10 }}>
+      <GlassCard style={{ paddingHorizontal: 14, paddingVertical: 4 }}>
+        <Pressable
+          onPress={() => run(() => commit((d) => E.setMarketingConsent(d, { customerId, on: !messagesOn, by })), messagesOn ? "Messages stopped" : "Messages turned on")}
+          accessibilityRole="switch"
+          accessibilityState={{ checked: messagesOn }}
+          style={{ flexDirection: "row", alignItems: "center", gap: 12, paddingVertical: 12 }}
+        >
+          <View style={{ flex: 1 }}>
+            <GT size={14.5} w="bold">
+              WhatsApp reminders & offers
+            </GT>
+            <GT size={12} c={glass.soft}>
+              {messagesOn ? "On. Turn off if they reply STOP or ask to stop" : "Off. Turn on only if the customer asks for them"}
+            </GT>
+          </View>
+          <View style={{ width: 44, height: 26, borderRadius: 13, padding: 3, backgroundColor: messagesOn ? glass.ok : "rgba(255,244,236,0.18)", alignItems: messagesOn ? "flex-end" : "flex-start" }}>
+            <View style={{ width: 20, height: 20, borderRadius: 10, backgroundColor: glass.cream }} />
+          </View>
+        </Pressable>
+        <Pressable
+          onPress={() =>
+            run(() => {
+              const text = commit((d) => E.customerDataExport(d, customerId));
+              Linking.openURL(E.whatsappLink(phone, text)).catch(() => {});
+            }, "Opening WhatsApp")
+          }
+          accessibilityRole="button"
+          style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 13, borderTopWidth: 1, borderColor: "rgba(255,244,236,0.08)" }}
+        >
+          <GT size={14.5} w="bold">
+            Send them their data
+          </GT>
+          <GT size={15} c={glass.soft}>
+            ›
+          </GT>
+        </Pressable>
+      </GlassCard>
       {guardian ? (
-        <T v="small" c={color.inkMuted}>
+        <GT size={12} c={glass.faint}>
           Under 18 · kept under a parent's or guardian's number with their consent.
-        </T>
+        </GT>
       ) : null}
-      <Check
-        checked={messagesOn}
-        onChange={(on) => run(() => commit((d) => E.setMarketingConsent(d, { customerId, on, by })), on ? "Messages turned on" : "Messages stopped")}
-        label="WhatsApp reminders and offers"
-        hint={messagesOn ? "On. Untick if they reply STOP or ask to stop" : "Off. Tick only if the customer asks for them"}
-      />
-      <Button
-        kind="outline"
-        label="Send them their data on WhatsApp"
-        icon="refer"
-        onPress={() =>
-          run(() => {
-            const text = commit((d) => E.customerDataExport(d, customerId));
-            Linking.openURL(E.whatsappLink(phone, text)).catch(() => {});
-          }, "Opening WhatsApp")
-        }
-      />
       {isOwner ? (
-        <View style={{ gap: space.sm, marginTop: space.sm }}>
+        <View style={{ gap: 8 }}>
           {wallet.balance > 0 ? (
             <>
-              <T v="small" c={color.inkMuted}>
-                {`Before deleting, close the wallet: refund ₹${wallet.refundable.toLocaleString("en-IN")}${wallet.promotional ? `; ₹${wallet.promotional.toLocaleString("en-IN")} bonus credit is cancelled` : ""}.`}
-              </T>
-              <Segmented label="Refund by" value={method} onChange={setMethod} options={[{ key: "CASH", label: "Cash" }, { key: "UPI", label: "UPI" }, { key: "CARD", label: "Card" }]} />
-              <Button kind="outline" label={`Close wallet · refund ₹${wallet.refundable.toLocaleString("en-IN")}`} onPress={() => run(() => commit((d) => E.closeWallet(d, { customerId, method, by: "owner" })), "Wallet closed")} />
+              <GT size={12.5} c={glass.soft}>
+                {`Before deleting, close the wallet: refund ${inr(wallet.refundable)}${wallet.promotional ? `; ${inr(wallet.promotional)} bonus credit is cancelled` : ""}.`}
+              </GT>
+              <GlassSwitch
+                options={[
+                  { key: "CASH", label: "Cash" },
+                  { key: "UPI", label: "UPI" },
+                  { key: "CARD", label: "Card" },
+                ]}
+                value={method}
+                onChange={setMethod}
+              />
+              <GhostButton label={`Close wallet · refund ${inr(wallet.refundable)}`} tone="#F08C6A" onPress={() => run(() => commit((d) => E.closeWallet(d, { customerId, method, by: "owner" })), "Wallet closed")} />
             </>
-          ) : (
-            <Button
-              kind="outline"
-              label={armed ? `Tap again to delete ${name.split(" ")[0]}'s data` : "Delete customer data"}
-              onPress={() => {
-                if (!armed) return setArmed(true);
+          ) : armed ? (
+            <GoldButton
+              label={`Tap again to delete ${name.split(" ")[0]}'s data`}
+              style={{ backgroundColor: "#F08C6A" }}
+              onPress={() =>
                 run(() => {
                   commit((d) => E.deleteCustomer(d, { customerId, by: "owner" }));
                   nav.pop();
-                }, "Customer data deleted");
-              }}
+                }, "Customer data deleted")
+              }
             />
+          ) : (
+            <GhostButton label="Delete customer data" tone="#F08C6A" onPress={() => setArmed(true)} />
           )}
         </View>
       ) : (
-        <T v="small" c={color.inkMuted}>
-          To delete a customer's data, ask the owner. It's in the owner's sign-in.
-        </T>
+        <GT size={12} c={glass.faint} style={{ textAlign: "center" }}>
+          Wrong bill or a delete request? Ask the owner: only the owner can cancel bills or delete a customer.
+        </GT>
       )}
     </View>
   );

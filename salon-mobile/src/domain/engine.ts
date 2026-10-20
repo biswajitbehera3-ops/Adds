@@ -211,6 +211,89 @@ export function searchCustomers(data: Data, q: string, take = 60) {
   return [...list].sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, take);
 }
 
+export type CustomerFilter = "all" | "mine" | "top" | "regular" | "lapsed" | "wallet" | "new";
+export type CustomerSort = "spend" | "recent" | "name";
+/** Regulars have this many paid visits; "not seen" and "new" use this many days. */
+const REGULAR_VISITS = 5;
+const LAPSED_DAYS = 30;
+const NEW_DAYS = 30;
+const TOP_SPENDERS = 20;
+
+/**
+ * The Customers tab: every customer with what they have spent, their wallet, last visit and
+ * who served them, for any staff member (BUILD-SPEC 4.17). `staffId` powers "My customers"
+ * (customers this stylist has served). Search matches name, number or referral code.
+ */
+export function customerDirectory(
+  data: Data,
+  input: { q?: string; filter?: CustomerFilter; sort?: CustomerSort; staffId?: string | null } = {},
+  now = new Date(),
+) {
+  const stats = new Map<string, { visits: number; spent: number; lastAt: string | null; lastStaffId: string | null; served: Set<string> }>();
+  for (const v of data.visits) {
+    if (!paid(v)) continue;
+    const s = stats.get(v.customerId) ?? { visits: 0, spent: 0, lastAt: null, lastStaffId: null, served: new Set<string>() };
+    s.visits += 1;
+    s.spent += v.total;
+    s.served.add(v.staffId);
+    if (!s.lastAt || at(v) > s.lastAt) {
+      s.lastAt = at(v);
+      s.lastStaffId = v.staffId;
+    }
+    stats.set(v.customerId, s);
+  }
+  const days = (iso: string) => Math.floor((now.getTime() - Date.parse(iso)) / DAY_MS);
+  const all = data.customers.filter(live).map((c) => {
+    const s = stats.get(c.id);
+    const sinceLast = s?.lastAt ? days(s.lastAt) : null;
+    const tag: "new" | "lapsed" | "regular" | null =
+      days(c.createdAt) <= NEW_DAYS ? "new" : sinceLast !== null && sinceLast > LAPSED_DAYS ? "lapsed" : (s?.visits ?? 0) >= REGULAR_VISITS ? "regular" : null;
+    return {
+      id: c.id,
+      name: c.name,
+      phone: c.phone,
+      referralCode: c.referralCode,
+      walletBalance: c.walletBalance,
+      visits: s?.visits ?? 0,
+      spent: s?.spent ?? 0,
+      lastVisitAt: s?.lastAt ? new Date(s.lastAt) : null,
+      daysSinceLast: sinceLast,
+      lastStylist: s?.lastStaffId ? (data.staff.find((x) => x.id === s.lastStaffId)?.name ?? null) : null,
+      servedByMe: !!input.staffId && !!s?.served.has(input.staffId),
+      tag,
+      createdAt: c.createdAt,
+    };
+  });
+  const counts = {
+    all: all.length,
+    newThisMonth: all.filter((r) => days(r.createdAt) <= NEW_DAYS).length,
+    lapsed: all.filter((r) => r.daysSinceLast !== null && r.daysSinceLast > LAPSED_DAYS).length,
+    mine: all.filter((r) => r.servedByMe).length,
+  };
+  const term = (input.q ?? "").trim().toLowerCase();
+  const digits = term.replace(/\D/g, "");
+  let rows = term
+    ? all.filter((r) => r.name.toLowerCase().includes(term) || (digits.length > 0 && r.phone.includes(digits)) || r.referralCode === term.toUpperCase())
+    : all;
+  const filter = input.filter ?? "all";
+  const bySpend = (a: (typeof all)[number], b: (typeof all)[number]) => b.spent - a.spent || a.name.localeCompare(b.name);
+  if (filter === "mine") rows = rows.filter((r) => r.servedByMe);
+  if (filter === "regular") rows = rows.filter((r) => r.visits >= REGULAR_VISITS);
+  if (filter === "lapsed") rows = rows.filter((r) => r.daysSinceLast !== null && r.daysSinceLast > LAPSED_DAYS);
+  if (filter === "wallet") rows = rows.filter((r) => r.walletBalance > 0);
+  if (filter === "new") rows = rows.filter((r) => days(r.createdAt) <= NEW_DAYS);
+  if (filter === "top") rows = [...rows].sort(bySpend).slice(0, TOP_SPENDERS);
+  const sort = filter === "top" ? "spend" : (input.sort ?? "spend");
+  rows = [...rows].sort(
+    sort === "spend"
+      ? bySpend
+      : sort === "recent"
+        ? (a, b) => (b.lastVisitAt?.getTime() ?? 0) - (a.lastVisitAt?.getTime() ?? 0) || a.name.localeCompare(b.name)
+        : (a, b) => a.name.localeCompare(b.name),
+  );
+  return { rows, counts };
+}
+
 function paidVisitsOf(data: Data, customerId: string) {
   return data.visits.filter((v) => v.customerId === customerId && paid(v)).sort((a, b) => at(b).localeCompare(at(a)));
 }

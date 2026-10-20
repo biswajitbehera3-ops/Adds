@@ -27,6 +27,7 @@ export function BookSheet({
   open,
   day,
   time,
+  phone: forPhone,
   top,
   onClose,
   onBooked,
@@ -34,6 +35,8 @@ export function BookSheet({
   open: boolean;
   day: string;
   time?: string;
+  /** Opened from a customer's profile: their number is already filled in. */
+  phone?: string;
   top: number;
   onClose: () => void;
   onBooked: (appt: Appointment, name: string) => void;
@@ -59,7 +62,7 @@ export function BookSheet({
   // Every opening starts clean, on the day (and time) it was opened from.
   useEffect(() => {
     if (!open) return;
-    setPhone("");
+    setPhone(forPhone ?? "");
     setFound(null);
     setName("");
     setConsent(false);
@@ -84,9 +87,11 @@ export function BookSheet({
     }
     const r = E.findByPhone(data, digits);
     setFound(r.customer);
-    if (r.customer?.lastVisit && !svcs.length) setSvcs(r.customer.lastVisit.serviceIds);
+    const lastServices = r.customer?.lastVisit?.serviceIds;
+    if (lastServices) setSvcs((v) => (v.length ? v : lastServices));
+    // Re-run on every opening too: a number filled in from a profile doesn't change between openings.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [digits, valid]);
+  }, [digits, valid, open]);
 
   const custOk = valid && (found ? true : name.trim().length > 0 && consent);
   const minutes = svcs.length ? E.appointmentMinutes(svcs) : 0;

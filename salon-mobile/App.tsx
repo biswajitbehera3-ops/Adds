@@ -94,7 +94,7 @@ function Root() {
 
 function StatusBarForRoute() {
   const { top } = useNav();
-  const dark = ["home", "login", "setup", "attendance", "calendar"].includes(top.name);
+  const dark = ["home", "login", "setup", "attendance", "calendar", "customers", "profile", "reminders"].includes(top.name);
   return <StatusBar style={dark ? "light" : "dark"} />;
 }
 

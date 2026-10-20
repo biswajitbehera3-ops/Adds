@@ -287,3 +287,35 @@ describe("migration and demo data", () => {
     expect(E.overdueReminders(d).length).toBeGreaterThan(3);
   });
 });
+
+describe("customers tab", () => {
+  it("lists everyone with spending, filters by my customers, top spenders and not seen, and sorts", () => {
+    const s = setup(); // Imran
+    const sunita = s.run(E.addStaff(s.data, { name: "Sunita Devi", phone: "9811100002", chair: "Chair 2", secret: SECRET }));
+    const now = new Date();
+    const old = new Date(now.getTime() - 120 * DAY);
+    const asha = s.add("9876543210", "Asha Rao");
+    const bina = s.add("9876543211", "Bina Shah");
+    const chetan = s.add("9876543212", "Chetan Iyer");
+    // Asha: 5 visits with Imran (a regular), Bina: one big colour with Sunita 40 days ago, Chetan: nothing yet.
+    for (let i = 0; i < 5; i++) s.visit(asha.id, {}, new Date(now.getTime() - (10 + i) * DAY));
+    const v = s.run(E.startVisit(s.data, { customerId: bina.id, serviceIds: ["hair-colour"], addOnIds: [], staffId: sunita.id }, new Date(now.getTime() - 40 * DAY)));
+    s.run(E.checkoutVisit(s.data, { visitId: v.id, walletAmount: 0, paymentMethod: "UPI" }, new Date(now.getTime() - 40 * DAY)));
+    // Make them older customers so "new" doesn't win over the other tags.
+    const aged = { ...s.data, customers: s.data.customers.map((c) => ({ ...c, createdAt: c.id === chetan.id ? c.createdAt : old.toISOString() })) };
+
+    const all = E.customerDirectory(aged, { staffId: s.stylist.id }, now);
+    expect(all.counts).toMatchObject({ all: 3, mine: 1, lapsed: 1, newThisMonth: 1 });
+    expect(all.rows.map((r) => r.name)).toEqual(["Asha Rao", "Bina Shah", "Chetan Iyer"]); // 1500, 1200, 0
+    expect(all.rows[0]).toMatchObject({ visits: 5, spent: 1500, tag: "regular", lastStylist: "Imran", servedByMe: true });
+    expect(all.rows[1]).toMatchObject({ tag: "lapsed", lastStylist: "Sunita Devi", servedByMe: false });
+    expect(all.rows[2]).toMatchObject({ tag: "new", visits: 0 });
+
+    expect(E.customerDirectory(aged, { staffId: s.stylist.id, filter: "mine" }, now).rows.map((r) => r.name)).toEqual(["Asha Rao"]);
+    expect(E.customerDirectory(aged, { filter: "lapsed" }, now).rows.map((r) => r.name)).toEqual(["Bina Shah"]);
+    expect(E.customerDirectory(aged, { filter: "top" }, now).rows[0].name).toBe("Asha Rao");
+    expect(E.customerDirectory(aged, { sort: "name" }, now).rows.map((r) => r.name)).toEqual(["Asha Rao", "Bina Shah", "Chetan Iyer"]);
+    expect(E.customerDirectory(aged, { sort: "recent" }, now).rows[0].name).toBe("Asha Rao");
+    expect(E.customerDirectory(aged, { q: "98765 43211" }, now).rows.map((r) => r.name)).toEqual(["Bina Shah"]);
+  });
+});
