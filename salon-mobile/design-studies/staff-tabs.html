@@ -263,19 +263,19 @@ document.getElementById('s4').innerHTML=`<div class="scr">
 
 const pic=`<svg viewBox="0 0 100 110" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A57461"/><stop offset="1" stop-color="#5B3A30"/></linearGradient></defs><rect width="100" height="110" fill="url(#gp)"/><path d="M18 112c2-20 15-31 32-31s30 11 32 31z" fill="#1d1411" opacity=".88"/><path d="M38 80h24l-3 9H41z" fill="#C99A78"/><ellipse cx="50" cy="56" rx="17" ry="20" fill="#C99A78"/><path d="M33 52c-1-14 8-24 18-24 12 0 18 9 17 22-3-6-8-9-17-9-8 0-14 3-18 11z" fill="#1d1411"/></svg>`;
 const att=[];for(let i=0;i<3;i++)att.push('<span></span>');
-const late=[5,9,13],leave=[20],cur=14;
+const late=[5,9,12],leave=[22],cur=14;
 for(let d=1;d<=31;d++){const dow=(d+2)%7;let c='rgba(255,244,236,.08)',t='var(--faint)';
   if(d<=cur){if(dow===1){c='rgba(255,244,236,.05)';}else if(late.includes(d)){c='var(--warn)';t='var(--ink)';}else{c='var(--ok)';t='var(--ink)';}}
   if(leave.includes(d)){c='var(--blue)';t='var(--ink)';}
   att.push(`<span style="background:${c};color:${t}">${d}</span>`);}
 document.getElementById('s5').innerHTML=`<div class="scr">
   <div class="me"><div class="pic">${pic}</div><div><div class="nm">Imran Khan</div><div class="sm" style="margin-top:1cqw;line-height:1.45">Chair 1 · Shift 10:00<br>Weekly off: Tuesday</div><span class="chip" style="margin-top:2cqw"><span class="dot" style="background:var(--ok)"></span>In · 9:52 today</span></div></div>
-  <div class="glass"><div style="display:flex;justify-content:space-between;margin-bottom:2cqw"><span class="lbl">My attendance · October</span><span class="sm">11 · 3 late</span></div>
+  <div class="glass"><div style="display:flex;justify-content:space-between;margin-bottom:2cqw"><span class="lbl">My attendance · October</span><span class="sm">12 days · 3 late</span></div>
     <div class="mini">${att.join('')}</div>
     <div class="legend" style="margin-top:2cqw"><span><i style="background:var(--ok)"></i>On time</span><span><i style="background:var(--warn)"></i>Late</span><span><i style="background:var(--blue)"></i>Leave</span><span><i style="background:rgba(255,244,236,.08)"></i>Off / to come</span></div></div>
   <div class="stats4"><div><b>41</b><span>customers</span></div><div><b style="color:var(--gold2)">₹18.9k</b><span>earned</span></div><div><b>₹460</b><span>avg bill</span></div><div><b>68%</b><span>came back</span></div></div>
   <div class="opts">
-    <div class="opt"><div class="ic">${ic('<path d="M3 12h18M12 3c4 3 4 15 0 18M12 3c-4 3-4 15 0 18"/>')}</div><div><div class="t">Leave</div><div class="d">Request leave · 1 upcoming (Tue 20, approved)</div></div><div class="r">›</div></div>
+    <div class="opt"><div class="ic">${ic('<path d="M3 12h18M12 3c4 3 4 15 0 18M12 3c-4 3-4 15 0 18"/>')}</div><div><div class="t">Leave</div><div class="d">Request leave · 1 upcoming (Thu 22, approved)</div></div><div class="r">›</div></div>
     <div class="opt"><div class="ic">${ic('<rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>')}</div><div><div class="t">Change password</div><div class="d">Login: 98110 00001</div></div><div class="r">›</div></div>
     <div class="opt"><div class="ic">${ic('<path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/>')}</div><div><div class="t">Privacy &amp; terms</div><div class="d">How customer data is used</div></div><div class="r">›</div></div>
     <div class="opt"><div class="ic" style="background:rgba(240,140,106,.14);color:var(--red)">${ic('<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>')}</div><div><div class="t" style="color:var(--red)">Log out</div></div><div class="r">›</div></div>
@@ -292,7 +292,7 @@ document.getElementById('s6').innerHTML=`<div class="scr">
   <div class="cancel" style="background:var(--gold);color:var(--ink)">Send to owner</div>
   <div class="lbl" style="margin-top:2cqw">My requests</div>
   <div class="glass">
-    <div class="bk"><span class="t" style="font-size:3cqw">20 Oct</span><div><b>Casual</b><div class="sm">1 day</div></div><span class="st a">Approved</span></div>
+    <div class="bk"><span class="t" style="font-size:3cqw">22 Oct</span><div><b>Casual</b><div class="sm">1 day</div></div><span class="st a">Approved</span></div>
     <div class="bk"><span class="t" style="font-size:3cqw">26–27</span><div><b>Casual</b><div class="sm">1 day</div></div><span class="st b">Waiting for owner</span></div>
   </div>
   </div>${DOCK('me')}`;
