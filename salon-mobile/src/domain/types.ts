@@ -81,8 +81,8 @@ export type ReminderLog = {
   customerId: string;
   serviceId: string;
   message: string;
-  /** OPENED = handed to WhatsApp with the message prefilled. */
-  status: "OPENED" | "SIMULATED";
+  /** OPENED = handed to WhatsApp with the message prefilled. CALLED = the stylist phoned them (last step). */
+  status: "OPENED" | "SIMULATED" | "CALLED";
   /** Staff member who sent it (null for the owner, or for reminders logged before this was kept). */
   sentBy?: string | null;
   createdAt: string;

@@ -33,7 +33,7 @@ export function Home() {
   const searchRef = useRef<View>(null);
   const [menu, setMenu] = useState(false);
   const dash = useMemo(() => E.ownerDashboard(data), [data]);
-  const due = useMemo(() => E.overdueReminders(data).filter((r) => !r.lockedUntil).length, [data]);
+  const due = useMemo(() => E.overdueReminders(data).filter((r) => E.reminderIsMine(r, me?.id ?? null)).length, [data]);
   const inChair = useMemo(() => E.openVisits(data), [data]);
   const bookedToday = useMemo(() => E.appointmentsOn(data, istDate()).filter((x) => x.status !== "CANCELLED" && (!me || x.staffId === me.id)).length, [data, me]);
   const animate = !revealed;

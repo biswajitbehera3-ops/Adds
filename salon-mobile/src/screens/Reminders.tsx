@@ -26,22 +26,24 @@ export function Reminders() {
   const all = useMemo(() => E.overdueReminders(data), [data]);
   const [filter, setFilter] = useState<"todo" | "done">("todo");
   const [open, setOpen] = useState<string | null>(null);
-  // A sent reminder is locked for everyone for a few days, then comes back to "To remind".
-  const list = all.filter((r) => (filter === "todo" ? !r.lockedUntil : !!r.lockedUntil));
+  const me = useCurrentStaff();
+  // Done steps are locked for everyone until the next one is due; calls belong to the last stylist.
+  const mine = (r: R) => E.reminderIsMine(r, me?.id ?? null);
+  const list = all.filter((r) => (filter === "todo" ? mine(r) : !mine(r)));
   const reduced = useReducedMotion();
 
   return (
     <Screen title="Reminders">
       <T v="body" c={color.inkMuted} style={{ marginBottom: space.lg }}>
-        Each service has its own cycle — a beard trim is due sooner than a colour. These customers are past theirs.
+        Message 1 when they're due, message 2 a month later, then a call from whoever served them last. After the call we stop until they visit.
       </T>
       <Segmented
         label="Show"
         value={filter}
         onChange={(k) => (setFilter(k), setOpen(null))}
         options={[
-          { key: "todo", label: `To remind (${all.filter((r) => !r.lockedUntil).length})` },
-          { key: "done", label: `Sent (${all.filter((r) => r.lockedUntil).length})` },
+          { key: "todo", label: `To do (${all.filter(mine).length})` },
+          { key: "done", label: `Waiting (${all.filter((r) => !mine(r)).length})` },
         ]}
       />
       <View style={{ gap: space.md, marginTop: space.lg }}>
@@ -52,9 +54,9 @@ export function Reminders() {
         ))}
         {list.length === 0 ? (
           <View style={{ paddingVertical: space.xxl, gap: space.xs }}>
-            <T v="heading">{filter === "todo" ? "Everyone's been reminded" : "No reminders sent yet"}</T>
+            <T v="heading">{filter === "todo" ? "Nothing to do" : "Nothing waiting"}</T>
             <T v="body" c={color.inkMuted}>
-              {filter === "todo" ? "New names appear here as customers pass their service cycle." : "Reminders you send from the other tab show up here."}
+              {filter === "todo" ? "New names appear here as customers pass their service cycle." : "Customers already messaged, and calls for other stylists, wait here for their next step."}
             </T>
           </View>
         ) : null}
@@ -76,6 +78,19 @@ function ReminderCard({ r, open, onToggle }: { r: R; open: boolean; onToggle: ()
       toast(e instanceof UserError ? e.message : "Couldn't open WhatsApp on this device.", "error");
     }
   };
+  const call = async () => {
+    try {
+      commit((d) => E.logReminderCall(d, { customerId: r.customerId, serviceId: r.serviceId, by: me?.id ?? null }));
+      await Linking.openURL(`tel:${r.phone}`);
+      toast(`Calling ${r.name.split(" ")[0]}. No more reminders until they visit.`);
+    } catch (e) {
+      toast(e instanceof UserError ? e.message : "Couldn't start the call on this device.", "error");
+    }
+  };
+  const isCall = r.step === "call";
+  const myCall = isCall && (!me || !r.callerId || r.callerId === me.id);
+  const who = (name: string | null) => (name === me?.name ? "you" : (name?.split(" ")[0] ?? "their stylist"));
+  const stepLabel = r.step === "message1" ? "Message 1" : r.step === "message2" ? "Message 2" : `Call · ${who(r.callerName)} served them last`;
   return (
     <LabelFrame innerStyle={{ padding: space.lg, gap: space.md }}>
       <Press onPress={onToggle} scaleTo={0.99} accessibilityLabel={`${r.name}, ${r.serviceName}, ${r.daysOverdue} days overdue`} accessibilityState={{ expanded: open }}>
@@ -98,13 +113,24 @@ function ReminderCard({ r, open, onToggle }: { r: R; open: boolean; onToggle: ()
           </View>
         </View>
       </Press>
+      <T v="label" c={isCall ? color.seal : color.inkMuted}>
+        Next: {stepLabel}
+      </T>
       {r.remindedAt ? (
         <T v="small" c={color.positive}>
-          Reminded by {r.remindedBy === me?.name ? "you" : r.remindedBy?.split(" ")[0]} {relativeDays(r.remindedAt)} ({shortDate(r.remindedAt)})
-          {r.lockedUntil ? ` · can be sent again from ${shortDate(r.lockedUntil)}` : ""}
+          Last message by {who(r.remindedBy)} {relativeDays(r.remindedAt)} ({shortDate(r.remindedAt)})
+          {r.lockedUntil ? ` · next step from ${shortDate(r.lockedUntil)}` : ""}
         </T>
       ) : null}
-      {open ? (
+      {open && isCall ? (
+        <Animated.View entering={FadeIn.duration(200)} style={{ gap: space.md }}>
+          <T v="body" c={color.inkMuted}>
+            Two WhatsApp messages and no visit, so no more messages. {myCall ? "You served them last: give them a call." : `${who(r.callerName)} served them last and makes the call.`} After the call they won't be reminded again until they come in.
+          </T>
+          {myCall ? <Button label={r.lockedUntil ? `Call from ${shortDate(r.lockedUntil)}` : `Call ${r.name.split(" ")[0]}`} icon="chat" onPress={call} disabled={!!r.lockedUntil} /> : null}
+        </Animated.View>
+      ) : null}
+      {open && !isCall ? (
         <Animated.View entering={FadeIn.duration(200)} style={{ gap: space.md }}>
           <TextInput
             selectionColor={color.seal}
@@ -128,7 +154,7 @@ function ReminderCard({ r, open, onToggle }: { r: R; open: boolean; onToggle: ()
             }}
           />
           <Button
-            label={r.lockedUntil ? `Sent · again from ${shortDate(r.lockedUntil)}` : r.remindedAt ? "Send again on WhatsApp" : "Send on WhatsApp"}
+            label={r.lockedUntil ? `Message 2 from ${shortDate(r.lockedUntil)}` : r.step === "message2" ? "Send message 2 on WhatsApp" : "Send on WhatsApp"}
             icon="chat"
             onPress={send}
             disabled={!msg.trim() || !!r.lockedUntil}

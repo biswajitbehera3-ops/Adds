@@ -164,23 +164,34 @@ describe("reminders", () => {
     expect(E.overdueReminders(s.data)[0].remindedAt).not.toBeNull();
   });
 
-  it("locks a sent reminder for every stylist for 5 days, then lets it go again", () => {
-    const s = setup();
+  it("runs the ladder: message 1, message 2 after 30 days, a call by the last stylist, then stops", () => {
+    const s = setup(); // Imran served the customer
     const sunita = s.run(E.addStaff(s.data, { name: "Sunita Devi", phone: "9811100002", chair: "Chair 2", secret: SECRET }));
     const c = s.add("9876543210", "Asha Rao");
-    s.visit(c.id, { serviceIds: ["beard"] }, new Date(Date.now() - 20 * DAY));
-    const sent = new Date();
-    s.run(E.logReminder(s.data, { customerId: c.id, serviceId: "beard", message: "Hi!", status: "OPENED", by: sunita.id }, sent));
-    const r = E.overdueReminders(s.data)[0];
-    expect(r.remindedBy).toBe("Sunita Devi");
-    expect(r.lockedUntil?.getTime()).toBe(sent.getTime() + 5 * DAY);
-    // Another stylist can't send the same reminder while it is locked.
-    const fourDays = new Date(sent.getTime() + 4 * DAY);
-    expect(() => E.logReminder(s.data, { customerId: c.id, serviceId: "beard", message: "Hi!", status: "OPENED", by: s.stylist.id }, fourDays)).toThrow("Already reminded by Sunita");
-    // After 5 days it is free again for anyone.
-    const sixDays = new Date(sent.getTime() + 6 * DAY);
-    expect(E.overdueReminders(s.data, sixDays)[0].lockedUntil).toBeNull();
-    expect(s.run(E.logReminder(s.data, { customerId: c.id, serviceId: "beard", message: "Hi!", status: "OPENED", by: s.stylist.id }, sixDays)).sentBy).toBe(s.stylist.id);
+    const t0 = new Date(Date.now() - 80 * DAY);
+    s.visit(c.id, { serviceIds: ["beard"] }, t0); // beard is due 14 days later
+    const at = (days: number) => new Date(t0.getTime() + days * DAY);
+    const send = (by: string, when: Date) => s.run(E.logReminder(s.data, { customerId: c.id, serviceId: "beard", message: "Hi!", status: "OPENED", by }, when));
+    const item = (when: Date) => E.overdueReminders(s.data, when)[0];
+
+    expect(item(at(15))).toMatchObject({ step: "message1", lockedUntil: null });
+    send(sunita.id, at(15));
+    // Message 1 is done for everyone; message 2 is locked for 30 days.
+    expect(item(at(20))).toMatchObject({ step: "message2", remindedBy: "Sunita Devi" });
+    expect(item(at(20)).lockedUntil?.getTime()).toBe(at(45).getTime());
+    expect(E.reminderIsMine(item(at(20)), s.stylist.id)).toBe(false);
+    expect(() => send(s.stylist.id, at(20))).toThrow("Already reminded by Sunita");
+    send(s.stylist.id, at(46));
+    // After two messages: no more WhatsApp, only a call, and only from Imran (served them last).
+    expect(item(at(77))).toMatchObject({ step: "call", callerName: "Imran" });
+    expect(() => send(s.stylist.id, at(77))).toThrow("next step is a call");
+    expect(E.reminderIsMine(item(at(77)), sunita.id)).toBe(false);
+    expect(E.reminderIsMine(item(at(77)), s.stylist.id)).toBe(true);
+    expect(() => s.run(E.logReminderCall(s.data, { customerId: c.id, serviceId: "beard", by: sunita.id }, at(77)))).toThrow("Imran served them last");
+    s.run(E.logReminderCall(s.data, { customerId: c.id, serviceId: "beard", by: s.stylist.id, note: "Will come Saturday" }, at(77)));
+    // Called and still not back: they drop off the list for good, until they visit again.
+    expect(E.overdueReminders(s.data, at(200))).toEqual([]);
+    expect(() => send(s.stylist.id, at(200))).toThrow("No more reminders");
   });
 
   it("builds the thank-you message with the balance and referral code", () => {

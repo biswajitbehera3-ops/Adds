@@ -494,17 +494,23 @@ export function receiptMessage(data: Data, visitId: string): { phone: string; me
 
 // ── Reminders ────────────────────────────────────────────────────────────────
 
-/** Customers overdue for a repeat visit, computed per service against each service's own cycle. */
+/**
+ * Customers overdue for a repeat visit, computed per service against each service's own cycle,
+ * with where each one is on the reminder ladder: WhatsApp 1 when due → WhatsApp 2 some days
+ * later → a phone call by the stylist who served them last → then nothing until they visit.
+ * Each step is shared by the whole salon: once someone does it, it is done for everyone.
+ */
 export function overdueReminders(data: Data, now = new Date()) {
-  const last = new Map<string, { customerId: string; serviceId: string; at: string }>();
+  const last = new Map<string, { customerId: string; serviceId: string; at: string; staffId: string }>();
   for (const v of data.visits) {
     if (!paid(v)) continue;
     for (const serviceId of v.serviceIds) {
       const key = `${v.customerId}|${serviceId}`;
       const prev = last.get(key);
-      if (!prev || at(v) > prev.at) last.set(key, { customerId: v.customerId, serviceId, at: at(v) });
+      if (!prev || at(v) > prev.at) last.set(key, { customerId: v.customerId, serviceId, at: at(v), staffId: v.staffId });
     }
   }
+  const ladder = config.reminderLadder;
   const byId = new Map(data.customers.map((c) => [c.id, c]));
   return [...last.values()]
     .flatMap((v) => {
@@ -514,10 +520,17 @@ export function overdueReminders(data: Data, now = new Date()) {
       const dueAt = dueDate(v.serviceId, lastVisit);
       // Only customers who opted in to messages.
       if (!customer?.marketingConsentAt || customer.deletedAt || !service || !dueAt || dueAt > now) return [];
-      const reminded = data.reminders
+      const since = data.reminders
         .filter((r) => r.customerId === customer.id && r.serviceId === service.id && r.createdAt > v.at)
-        .sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
-      const lockedUntil = reminded ? new Date(Date.parse(reminded.createdAt) + config.reminderResendDays * DAY_MS) : null;
+        .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+      // Called and still not back: stop reminding until their next visit.
+      if (since.some((r) => r.status === "CALLED")) return [];
+      const messages = since.filter((r) => r.status !== "CALLED");
+      const reminded = messages[messages.length - 1];
+      const step: "message1" | "message2" | "call" = messages.length === 0 ? "message1" : messages.length === 1 ? "message2" : "call";
+      const after = (r: ReminderLog, days: number) => new Date(Date.parse(r.createdAt) + days * DAY_MS);
+      const readyAt = step === "message1" ? dueAt : step === "message2" ? after(reminded, ladder.secondAfterDays) : after(reminded, ladder.callAfterDays);
+      const caller = data.staff.find((s) => s.id === v.staffId) ?? null;
       return [
         {
           key: `${customer.id}|${service.id}`,
@@ -529,11 +542,16 @@ export function overdueReminders(data: Data, now = new Date()) {
           lastVisit,
           dueAt,
           daysOverdue: daysBetween(dueAt, now),
+          /** The next step on the ladder. */
+          step,
           remindedAt: reminded ? new Date(reminded.createdAt) : null,
-          /** Who sent the last reminder: a stylist's name, "Owner", or null if never sent. */
+          /** Who sent the last message: a stylist's name, "Owner", or null if none sent yet. */
           remindedBy: reminded ? (data.staff.find((s) => s.id === reminded.sentBy)?.name ?? "Owner") : null,
-          /** Locked for everyone until then; after that it can be sent again. */
-          lockedUntil: lockedUntil && lockedUntil > now ? lockedUntil : null,
+          /** The next step is locked for everyone until then. */
+          lockedUntil: readyAt > now ? readyAt : null,
+          /** The stylist who served them last: the only one who makes the call. */
+          callerId: caller?.id ?? null,
+          callerName: caller?.name ?? null,
           message: renderReminder(config.reminderTemplate, { name: customer.name.split(" ")[0], service: service.name.toLowerCase() }),
         },
       ];
@@ -552,16 +570,53 @@ export function logReminder(
   const customer = data.customers.find((c) => c.id === input.customerId);
   if (!customer) throw new UserError("Customer not found");
   if (!customer.marketingConsentAt || customer.deletedAt) throw new UserError("This customer hasn't agreed to receive messages");
-  // One reminder per customer and service at a time, whoever sends it.
-  const last = data.reminders
-    .filter((r) => r.customerId === customer.id && r.serviceId === input.serviceId)
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0];
-  if (last && now.getTime() - Date.parse(last.createdAt) < config.reminderResendDays * DAY_MS) {
-    const who = data.staff.find((s) => s.id === last.sentBy)?.name.split(" ")[0] ?? "the owner";
-    const again = istDate(new Date(Date.parse(last.createdAt) + config.reminderResendDays * DAY_MS));
-    throw new UserError(`Already reminded by ${who} on ${istDate(new Date(last.createdAt))}. It can be sent again from ${again}.`);
-  }
+  const item = ladderStep(data, customer.id, input.serviceId, now);
+  if (item.step === "call") throw new UserError(`Both messages have gone. The next step is a call from ${item.callerName?.split(" ")[0] ?? "their stylist"}.`);
   const log: ReminderLog = { id: newId(), customerId: customer.id, serviceId: input.serviceId, message, status: input.status, sentBy: input.by ?? null, createdAt: now.toISOString() };
+  return { data: { ...data, reminders: [...data.reminders, log] }, result: log };
+}
+
+/**
+ * Whether a reminder is this person's to do now: any message that isn't locked, and a call
+ * only for the stylist who served the customer last (the owner, staffId null, sees all).
+ */
+export function reminderIsMine(r: ReturnType<typeof overdueReminders>[number], staffId: string | null): boolean {
+  if (r.lockedUntil) return false;
+  return r.step !== "call" || !staffId || !r.callerId || r.callerId === staffId;
+}
+
+/** Where one customer's service is on the ladder now; refuses when nothing is due or the step is locked. */
+function ladderStep(data: Data, customerId: string, serviceId: string, now: Date) {
+  const item = overdueReminders(data, now).find((r) => r.customerId === customerId && r.serviceId === serviceId);
+  if (!item) {
+    const called = data.reminders.some((r) => r.customerId === customerId && r.serviceId === serviceId && r.status === "CALLED");
+    throw new UserError(called ? "Already called. No more reminders until they visit again." : "This customer isn't due a reminder");
+  }
+  if (item.lockedUntil) {
+    const who = item.remindedBy === "Owner" ? "the owner" : item.remindedBy?.split(" ")[0];
+    const next = item.step === "message2" ? "Message 2" : "The call";
+    throw new UserError(`Already reminded by ${who} on ${istDate(item.remindedAt!)}. ${next} can go from ${istDate(item.lockedUntil)}.`);
+  }
+  return item;
+}
+
+/**
+ * The last step: the stylist who served the customer last calls them. Only that stylist (or
+ * the owner) can log it. After the call nobody reminds this customer again until they visit.
+ */
+export function logReminderCall(data: Data, input: { customerId: string; serviceId: string; by: string | null; note?: string }, now = new Date()): Op<ReminderLog> {
+  const item = ladderStep(data, input.customerId, input.serviceId, now);
+  if (item.step !== "call") throw new UserError("Send the WhatsApp messages first; the call comes after both");
+  if (input.by && item.callerId && input.by !== item.callerId) throw new UserError(`${item.callerName?.split(" ")[0]} served them last, so ${item.callerName?.split(" ")[0]} makes the call`);
+  const log: ReminderLog = {
+    id: newId(),
+    customerId: input.customerId,
+    serviceId: input.serviceId,
+    message: input.note?.trim().slice(0, 300) || "Phone call",
+    status: "CALLED",
+    sentBy: input.by,
+    createdAt: now.toISOString(),
+  };
   return { data: { ...data, reminders: [...data.reminders, log] }, result: log };
 }
 

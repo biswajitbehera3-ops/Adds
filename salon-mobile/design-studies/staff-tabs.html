@@ -215,15 +215,15 @@ document.getElementById('s1').innerHTML=`<div class="scr">
   <div class="list">${C.map(([n,i,l,v,t,w,k],x)=>`<div class="cust"><div class="av" style="background:${COLS[x%5]}">${i}</div><div><div class="nm">${n} ${TAG[k]}</div><div class="sub">${l} · ${v} visits</div></div><div class="r"><b>${t}</b>${w?`<div class="wal">Wallet ${w}</div>`:''}</div></div>`).join('')}</div>
   </div>${DOCK('cust')}`;
 
-const R=[['Kavya Iyer','KI','Hair spa','due 6 days ago · last 2 Sep',0],['Rohan Gupta','RG','Haircut','due today · last 28 Aug',0],['Pooja Reddy','PR','Facial','due today · last 14 Sep',0],['Amit Joshi','AJ','Beard trim','due today · last 30 Sep',1],['Divya Nair','DN','Hair colour','due today · last 15 Aug',0],['Ishaan Verma','IV','Haircut','due today · last 16 Sep',0]];
+const R=[['Rohan Gupta','RG','Haircut','Message 1 · due today · last 28 Aug','send'],['Kavya Iyer','KI','Hair spa','Message 2 · 1st sent 14 Sep, no visit','send2'],['Pooja Reddy','PR','Facial','Call · you served her last · 2 messages, no visit','call'],['Amit Joshi','AJ','Beard trim','Message 1 sent by Rakesh today','sent'],['Divya Nair','DN','Hair colour','Message 1 · due today · last 15 Aug','send'],['Ishaan Verma','IV','Haircut','Call · Sunita served him last','other']];
 document.getElementById('s2').innerHTML=`<div class="scr">
   <button class="back">‹ Customers</button>
   <div class="ttl" style="font-size:6.2cqw">Reminders</div>
   <div class="filters"><span class="on">Due today · 6</span><span>This week · 19</span><span>Sent · 4</span></div>
-  <div class="list">${R.map(([n,i,s,d,sent],x)=>`<div class="rrow"><div class="av" style="background:${COLS[x%5]}">${i}</div><div><div class="nm">${n}</div><div class="sub">${s} · ${d}</div></div>${sent?'<span class="sent" style="text-align:right;line-height:1.3">Sent by Rakesh ✓<br><small style="color:var(--faint);font-weight:600">locked till Sun 19</small></span>':'<span class="send">Send</span>'}</div>`).join('')}</div>
+  <div class="list">${R.map(([n,i,s,d,a],x)=>`<div class="rrow"><div class="av" style="background:${COLS[x%5]}">${i}</div><div><div class="nm">${n}</div><div class="sub">${s} · ${d}</div></div>${({send:'<span class="send">Send</span>',send2:'<span class="send">Send 2nd</span>',call:'<span class="send" style="background:var(--ok)">Call</span>',sent:'<span class="sent" style="text-align:right;line-height:1.3">Sent ✓<br><small style="color:var(--faint);font-weight:600">2nd from 13 Nov</small></span>',other:'<span class="sent" style="color:var(--faint);text-align:right;line-height:1.3">Sunita<br>calls</span>'})[a]}</div>`).join('')}</div>
   <div class="lbl">Message preview</div>
   <div class="msg">Hi Kavya, it's been 6 weeks since your hair spa at the salon. Book your next visit: reply with a day and time. Reply STOP to stop these messages.</div>
-  <div class="ownonly">Only customers who said yes to WhatsApp messages are listed. Once anyone sends a reminder it is locked for everyone for 5 days.</div>
+  <div class="ownonly">Message 1 when due, message 2 a month later, then a call from whoever served them last. Each step is done once for the whole salon; after the call, no more reminders until they visit.</div>
   </div>${DOCK('cust')}`;
 
 document.getElementById('s3').innerHTML=`<div class="scr">
