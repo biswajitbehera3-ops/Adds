@@ -56,7 +56,7 @@ Where things live:
 | 4.6 | **After the service**: add extras, pay from wallet / cash / UPI / card, Collect | Logic · Designed |
 | 4.7 | **Receipt**: PAID stamp, WhatsApp thank-you (with referral code only if opted in), Next customer, **Undo for 2 minutes** | Logic · Designed |
 | 4.8 | **No "walk-in without number"** | Decided |
-| 4.9 | Bottom bar: Home · Customers · gold **+** (customer walked in) · Reminders (with due count) · **Calendar** | Designed |
+| 4.9 | **Staff bottom bar (user, 20 Oct): Home · Customers · gold + (customer walked in) · Calendar · Profile.** Home unchanged. **Customers = same design as the owner's Customers tab**, with **Reminders inside it** (no separate Reminders tab). New **Calendar** tab and new **own Profile** tab. Design: `design-studies/staff-tabs.html` | Decided · Designed |
 | 4.10 | **Refer** moved into each customer's profile (no longer in the bar) | Decided |
 | 4.11 | Customers list + profile (visits, wallet history, referral code) | Logic |
 | 4.12 | **Reminders** (per-service due dates, WhatsApp message, only to opted-in customers) | Logic |
