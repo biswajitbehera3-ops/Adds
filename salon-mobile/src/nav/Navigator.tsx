@@ -40,7 +40,12 @@ export type Route =
   | { name: "refer"; id?: string }
   | { name: "myAttendance" }
   | { name: "legal" }
-  | { name: "calendar" };
+  | { name: "calendar" }
+  | { name: "me" }
+  | { name: "myLeave" }
+  | { name: "changePassword" }
+  | { name: "staffPrivacy" }
+  | { name: "leaveRequests" };
 
 type Rect = { x: number; y: number; w: number; h: number };
 type Entry = { key: string; route: Route; origin: Rect | null; fromColor: string; toColor: string };

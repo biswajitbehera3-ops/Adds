@@ -44,6 +44,7 @@ import { commit, useData } from "../domain/store";
 import { inr } from "../format";
 import { useNav } from "../nav/Navigator";
 import { glass } from "../theme/tokens";
+import { DOCK_SPACE, StaffDock, useStaffTabs } from "../nav/StaffTabs";
 import { useCurrentStaff } from "./Attendance";
 
 type Mode = "me" | "all";
@@ -90,6 +91,14 @@ export function Calendar() {
   const [sweep, setSweep] = useState(true);
 
   const staffId = mode === "me" ? (me?.id ?? null) : null;
+  const tabs = useStaffTabs();
+  // My approved leave days, shown on the month in "My bookings".
+  const leaveDays = useMemo(() => {
+    const out = new Set<string>();
+    if (!me || mode !== "me") return out;
+    for (const l of data.leaves) if (l.staffId === me.id && l.status === "APPROVED") for (let d = l.from; d <= l.to; d = C.addDays(d, 1)) if (!C.isClosed(d)) out.add(d);
+    return out;
+  }, [data, me, mode]);
   const loads: Load = useMemo(
     () => ({ ...E.appointmentLoad(data, C.addMonths(month, -1), staffId), ...E.appointmentLoad(data, month, staffId), ...E.appointmentLoad(data, C.addMonths(month, 1), staffId) }),
     [data, month, staffId],
@@ -176,9 +185,10 @@ export function Calendar() {
                 </GT>
               </Pressable>
             ) : (
-              <Pressable onPress={nav.pop} accessibilityRole="button" accessibilityLabel="Back" hitSlop={10}>
+              <Pressable onPress={tabs ? undefined : nav.pop} disabled={!!tabs} accessibilityRole={tabs ? "text" : "button"} accessibilityLabel={tabs ? undefined : "Back"} hitSlop={10}>
                 <GT size={13.5} w="semibold" c={glass.soft}>
-                  ‹ {C.WEEKDAYS[C.dayOfWeek(today)]} {C.dayNum(today)} {C.MONTHS[Number(today.slice(5, 7)) - 1].slice(0, 3)}
+                  {tabs ? "" : "‹ "}
+                  {C.WEEKDAYS[C.dayOfWeek(today)]} {C.dayNum(today)} {C.MONTHS[Number(today.slice(5, 7)) - 1].slice(0, 3)}
                 </GT>
               </Pressable>
             )}
@@ -222,6 +232,8 @@ export function Calendar() {
               staffId={staffId}
               onPick={openDay}
               onMonth={changeMonth}
+              leaveDays={leaveDays}
+              bottom={tabs ? DOCK_SPACE : 0}
             />
           ) : (
             <DayView
@@ -237,12 +249,13 @@ export function Calendar() {
               onPick={goDay}
               onOpen={setOpenId}
               onEmpty={(time) => setBooking({ day: sel, time })}
-              bottom={insets.bottom}
+              bottom={insets.bottom + (tabs ? DOCK_SPACE : 0)}
             />
           )}
         </View>
       </View>
 
+      <StaffDock />
       <BookingCard id={openId} meId={me?.id ?? null} onClose={() => setOpenId(null)} />
       <BookSheet open={!!booking} day={booking?.day ?? today} time={booking?.time} top={insets.top + 30} onClose={() => setBooking(null)} onBooked={onBooked} />
     </View>
@@ -265,6 +278,8 @@ function MonthView({
   staffId,
   onPick,
   onMonth,
+  leaveDays,
+  bottom,
 }: {
   month: string;
   sel: string;
@@ -279,6 +294,8 @@ function MonthView({
   staffId: string | null;
   onPick: (day: string) => void;
   onMonth: (n: number) => void;
+  leaveDays: Set<string>;
+  bottom: number;
 }) {
   const reduced = useReducedMotion();
   const grid = C.monthGrid(month);
@@ -322,7 +339,7 @@ function MonthView({
   const todayIdx = today.startsWith(month) ? C.dayNum(today) : 0;
 
   return (
-    <ScrollView contentContainerStyle={{ gap: 12, paddingBottom: 40 }} showsVerticalScrollIndicator={false} scrollEnabled>
+    <ScrollView contentContainerStyle={{ gap: 12, paddingBottom: 40 + bottom }} showsVerticalScrollIndicator={false} scrollEnabled>
       <Animated.View style={[{ overflow: "hidden", borderRadius: 22, backgroundColor: glass.card, borderWidth: 1, borderColor: glass.line }, card]}>
         <Animated.View style={[{ padding: PAD }, inner]}>
           <Animated.View style={[{ height: BAR, flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between" }, fades]}>
@@ -360,6 +377,7 @@ function MonthView({
                   isToday={day === today}
                   isSel={day === sel}
                   closed={C.isClosed(day)}
+                  leave={leaveDays.has(day)}
                   delay={todayIdx ? Math.abs(C.dayNum(day) - todayIdx) * 24 : C.dayNum(day) * 24}
                   sweep={sweep}
                   fold={fold}
@@ -427,6 +445,7 @@ function DayCell({
   isToday,
   isSel,
   closed,
+  leave,
   delay,
   sweep,
   fold,
@@ -442,6 +461,7 @@ function DayCell({
   isToday: boolean;
   isSel: boolean;
   closed: boolean;
+  leave?: boolean;
   delay: number;
   sweep: boolean;
   fold: SharedValue<number>;
@@ -467,22 +487,28 @@ function DayCell({
         onPress={onPress}
         accessibilityRole="button"
         accessibilityState={{ selected: isSel }}
-        accessibilityLabel={`${C.shortDay(day)}${closed ? ", closed" : `, ${count} booking${count === 1 ? "" : "s"}, ${Math.round(load * 100)}% booked`}`}
+        accessibilityLabel={`${C.shortDay(day)}${closed ? ", closed" : leave ? ", you're on leave" : `, ${count} booking${count === 1 ? "" : "s"}, ${Math.round(load * 100)}% booked`}`}
         style={{ flex: 1, alignItems: "center", justifyContent: "center", borderRadius: 13, borderWidth: isToday && !isSel ? 1.5 : 0, borderColor: glass.gold2, opacity: closed ? 0.45 : 1 }}
       >
+        {leave && !isSel ? <View pointerEvents="none" style={{ position: "absolute", top: 3, left: 3, right: 3, bottom: 3, borderRadius: 11, backgroundColor: "#9FB8E6" }} /> : null}
         {count && !isSel ? (
           <Animated.View pointerEvents="none" style={[{ position: "absolute", top: 3, left: 3, right: 3, bottom: 3, borderRadius: 12, backgroundColor: `rgba(228,166,123,${(0.06 + load * 0.5).toFixed(3)})` }, glow]} />
         ) : null}
-        {!closed ? (
+        {!closed && !leave ? (
           <Svg width={34} height={34} style={{ position: "absolute" }} pointerEvents="none">
             <Circle cx={17} cy={17} r={R} stroke={isSel ? "rgba(42,26,18,0.22)" : "rgba(255,244,236,0.09)"} strokeWidth={2.4} fill="none" />
             <AnimatedCircle cx={17} cy={17} r={R} stroke={stroke} strokeWidth={2.4} fill="none" strokeLinecap="round" strokeDasharray={`${CIRC}`} animatedProps={ring} transform="rotate(-90 17 17)" />
           </Svg>
         ) : null}
-        <GT size={15} w={isSel ? "heavy" : "semibold"} c={fg} style={{ fontVariant: ["tabular-nums"] }}>
+        <GT size={15} w={isSel || leave ? "heavy" : "semibold"} c={leave && !isSel ? glass.ink : fg} style={{ fontVariant: ["tabular-nums"], marginTop: leave ? -6 : 0 }}>
           {C.dayNum(day)}
         </GT>
-        {count ? (
+        {leave ? (
+          <GT size={8.5} w="heavy" c={glass.ink} style={{ position: "absolute", bottom: 5, letterSpacing: 0.3 }}>
+            LEAVE
+          </GT>
+        ) : null}
+        {count && !leave ? (
           <View style={{ position: "absolute", top: 0, right: 1, paddingHorizontal: 3, borderRadius: 999, backgroundColor: full && !isSel ? glass.gold : "transparent" }}>
             <GT size={9.5} w="heavy" c={isSel || full ? glass.ink : glass.gold2} style={{ lineHeight: 13 }}>
               {count}
@@ -711,6 +737,7 @@ function Timeline({
   const now = new Date();
   const nowMin = C.salonMinutesNow(now);
   const list = E.appointmentsOn(data, day).filter((a) => a.status !== "CANCELLED" && (mode === "all" || a.staffId === meId));
+  const myLeave = meId ? E.leaveOn(data, meId, day) : null;
   const stylists = data.staff.filter((s) => s.active);
   const cols: { id: string | null; name: string; initial: string; color: string }[] =
     mode === "me"
@@ -742,7 +769,7 @@ function Timeline({
     });
 
   const tapEmpty = (y: number) => {
-    if (mode !== "me" || C.isClosed(day)) return;
+    if (mode !== "me" || C.isClosed(day) || myLeave) return;
     const slot = config.appointments.slotMinutes;
     const min = OPEN_MIN + Math.floor((((y - TL_TOP) / PX) * 60) / slot) * slot;
     if (min < OPEN_MIN || min >= CLOSE_MIN) return;
@@ -763,6 +790,11 @@ function Timeline({
               <GT size={11.5} w="bold" c={c.id === meId ? glass.gold2 : glass.soft}>
                 {c.name}
               </GT>
+              {c.id && E.leaveOn(data, c.id, day) ? (
+                <GT size={9.5} w="heavy" c="#9FB8E6">
+                  ON LEAVE
+                </GT>
+              ) : null}
             </View>
           ))}
         </View>
@@ -781,7 +813,16 @@ function Timeline({
               </View>
             );
           })}
-          {C.isClosed(day) ? (
+          {mode === "me" && myLeave && !C.isClosed(day) ? (
+            <View style={{ position: "absolute", left: gutter, right: 10, top: TL_TOP + 40, padding: 14, borderRadius: 18, backgroundColor: "rgba(159,184,230,0.16)", borderWidth: 1, borderColor: "rgba(159,184,230,0.45)", gap: 2 }}>
+              <GT size={16} w="heavy">
+                You're on leave
+              </GT>
+              <GT size={12.5} c={glass.soft}>
+                {({ CASUAL: "Casual", SICK: "Sick", OTHER: "Other" } as const)[myLeave.type]} · approved by the owner{myLeave.bookings === "REASSIGNED" ? " · your bookings were moved" : ""}. Nobody can book you today.
+              </GT>
+            </View>
+          ) : C.isClosed(day) ? (
             <GT size={14} c={glass.faint} style={{ position: "absolute", left: gutter, right: 10, top: TL_TOP + 60, textAlign: "center" }}>
               Closed. {C.WEEKDAYS[C.dayOfWeek(day)]} is the weekly off.
             </GT>

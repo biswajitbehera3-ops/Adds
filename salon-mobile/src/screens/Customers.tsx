@@ -15,6 +15,7 @@ import type { Customer } from "../domain/types";
 import { formatPhone, inr, shortDate } from "../format";
 import { useNav } from "../nav/Navigator";
 import { color, font, glass, space, urbanist } from "../theme/tokens";
+import { DOCK_SPACE, StaffDock, useStaffTabs } from "../nav/StaffTabs";
 import { useCurrentStaff } from "./Attendance";
 
 type Row = ReturnType<typeof E.customerDirectory>["rows"][number];
@@ -42,6 +43,7 @@ export function Customers() {
   const { rows, counts } = useMemo(() => E.customerDirectory(data, { q, filter, sort, staffId: me?.id ?? null }), [data, q, filter, sort, me]);
   const toRemind = useMemo(() => E.overdueReminders(data).filter((r) => E.reminderIsMine(r, me?.id ?? null)).length, [data, me]);
   const today = new Date();
+  const tabs = useStaffTabs();
   const filters: { key: E.CustomerFilter; label: string }[] = [
     { key: "all", label: "All" },
     ...(me ? [{ key: "mine" as const, label: `My customers · ${counts.mine}` }] : []),
@@ -54,9 +56,10 @@ export function Customers() {
 
   const header = (
     <View style={{ gap: 12, paddingBottom: 12 }}>
-      <Pressable onPress={nav.pop} accessibilityRole="button" accessibilityLabel="Back" hitSlop={10}>
+      <Pressable onPress={tabs ? undefined : nav.pop} disabled={!!tabs} accessibilityRole={tabs ? "text" : "button"} accessibilityLabel={tabs ? undefined : "Back"} hitSlop={10}>
         <GT size={13.5} w="semibold" c={glass.soft}>
-          ‹ {me ? `${me.name.split(" ")[0]} · ` : ""}
+          {tabs ? "" : "‹ "}
+          {me ? `${me.name.split(" ")[0]} · ` : ""}
           {C.shortDay(istDate(today))}
         </GT>
       </Pressable>
@@ -140,7 +143,7 @@ export function Customers() {
         keyExtractor={(r) => r.id}
         keyboardShouldPersistTaps="handled"
         ListHeaderComponent={header}
-        contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 18, paddingBottom: insets.bottom + 40 }}
+        contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 18, paddingBottom: insets.bottom + 40 + (tabs ? DOCK_SPACE : 0) }}
         renderItem={({ item, index }) => (
           <Animated.View entering={reduced || q || index > 8 ? undefined : FadeInDown.duration(300).delay(index * 30)}>
             <GlassCustomerRow r={item} first={index === 0} last={index === rows.length - 1} index={index} rank={filter === "top" ? index + 1 : undefined} />
@@ -157,6 +160,7 @@ export function Customers() {
           </View>
         }
       />
+      <StaffDock />
     </View>
   );
 }

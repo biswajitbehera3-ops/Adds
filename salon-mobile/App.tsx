@@ -9,13 +9,16 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ToastHost } from "./src/components/Toast";
 import * as E from "./src/domain/engine";
+import { istDate } from "./src/domain/rules";
 import { loadStore, useData, useSession, useStoreReady } from "./src/domain/store";
 import { Navigator, useNav, type Route } from "./src/nav/Navigator";
-import { Attendance, MyAttendance } from "./src/screens/Attendance";
+import { StaffTabs } from "./src/nav/StaffTabs";
+import { Attendance } from "./src/screens/Attendance";
+import { ChangePassword, MyAttendance, MyLeave, MyProfile, StaffPrivacy } from "./src/screens/Me";
+import { LeaveRequests } from "./src/screens/LeaveRequests";
 import { Calendar } from "./src/screens/Calendar";
 import { Counter } from "./src/screens/Counter";
 import { Customers } from "./src/screens/Customers";
-import { Home } from "./src/screens/Home";
 import { Login, Setup } from "./src/screens/Login";
 import { Owner } from "./src/screens/Owner";
 import { Profile } from "./src/screens/Profile";
@@ -42,7 +45,7 @@ function render(route: Route) {
     case "receipt":
       return <Receipt visitId={route.visitId} />;
     case "home":
-      return <Home />;
+      return <StaffTabs />;
     case "counter":
       return <Counter />;
     case "customers":
@@ -57,7 +60,22 @@ function render(route: Route) {
       return <Legal />;
     case "calendar":
       return <Calendar />;
+    case "me":
+      return <MyProfileRoute />;
+    case "myLeave":
+      return <MyLeave />;
+    case "changePassword":
+      return <ChangePassword />;
+    case "staffPrivacy":
+      return <StaffPrivacy />;
+    case "leaveRequests":
+      return <LeaveRequests />;
   }
+}
+
+function MyProfileRoute() {
+  const nav = useNav();
+  return <MyProfile onBack={nav.pop} />;
 }
 
 /**
@@ -72,7 +90,8 @@ function useRootRoute(): Route {
   if (session.role === "owner") return { name: "owner" };
   const staff = data.staff.find((s) => s.id === session.staffId && s.active);
   if (!staff) return { name: "login" };
-  return E.todaysAttendance(data, staff.id) ? { name: "home" } : { name: "attendance" };
+  // On approved leave today: no check-in selfie is asked for.
+  return E.todaysAttendance(data, staff.id) || E.leaveOn(data, staff.id, istDate()) ? { name: "home" } : { name: "attendance" };
 }
 
 function Root() {
@@ -94,7 +113,7 @@ function Root() {
 
 function StatusBarForRoute() {
   const { top } = useNav();
-  const dark = ["home", "login", "setup", "attendance", "calendar", "customers", "profile", "reminders"].includes(top.name);
+  const dark = ["home", "login", "setup", "attendance", "calendar", "customers", "profile", "reminders", "me", "myAttendance", "myLeave", "changePassword", "staffPrivacy", "leaveRequests"].includes(top.name);
   return <StatusBar style={dark ? "light" : "dark"} />;
 }
 

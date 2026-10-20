@@ -17,9 +17,10 @@ import config from "../config/salon";
 import * as E from "../domain/engine";
 import { istDate } from "../domain/rules";
 import { setSession, useData } from "../domain/store";
-import { greeting, inr, longDate } from "../format";
+import { greeting, inr, longDate, shortDate } from "../format";
 import { useNav, type Route } from "../nav/Navigator";
 import { color, font, radius, space } from "../theme/tokens";
+import { DOCK_SPACE, StaffDock, useStaffTabs } from "../nav/StaffTabs";
 import { istTime, useCurrentStaff } from "./Attendance";
 
 // The launch cascade plays once per app launch, not on every return home.
@@ -36,12 +37,14 @@ export function Home() {
   const due = useMemo(() => E.overdueReminders(data).filter((r) => E.reminderIsMine(r, me?.id ?? null)).length, [data]);
   const inChair = useMemo(() => E.openVisits(data), [data]);
   const bookedToday = useMemo(() => E.appointmentsOn(data, istDate()).filter((x) => x.status !== "CANCELLED" && (!me || x.staffId === me.id)).length, [data, me]);
+  const tabs = useStaffTabs();
+  const leaveNews = me ? E.leaveUpdates(data, me.id) : [];
   const animate = !revealed;
   revealed = true;
 
   return (
     <View style={{ flex: 1, backgroundColor: color.choc }}>
-      <ScrollView contentContainerStyle={{ paddingTop: insets.top + space.lg, paddingHorizontal: space.lg, paddingBottom: insets.bottom + space.xxl, gap: space.md }}>
+      <ScrollView contentContainerStyle={{ paddingTop: insets.top + space.lg, paddingHorizontal: space.lg, paddingBottom: insets.bottom + space.xxl + (tabs ? DOCK_SPACE : 0), gap: space.md }}>
         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
           <View style={{ flexShrink: 1 }}>
             <T v="small" c={color.creamMuted}>
@@ -58,10 +61,24 @@ export function Home() {
           </Press>
         </View>
 
+        {leaveNews.length ? (
+          <Press onPress={() => nav.push({ name: "myLeave" })} accessibilityLabel="Leave update from the owner. Open" scaleTo={0.985}>
+            <View style={{ padding: space.lg, borderRadius: radius.label, backgroundColor: leaveNews[0].status === "APPROVED" ? color.positive : color.danger, gap: 2 }}>
+              <T v="bodyStrong" c={color.paperLight}>
+                {leaveNews[0].status === "APPROVED" ? "Leave approved ✓ " : "Leave declined · "}
+                {leaveNews[0].from === leaveNews[0].to ? shortDate(leaveNews[0].from) : `${shortDate(leaveNews[0].from)} – ${shortDate(leaveNews[0].to)}`}
+              </T>
+              <T v="small" c={color.paperLight}>
+                {leaveNews[0].status === "APPROVED" ? "Your calendar is updated. Tap to see it." : `Owner: “${leaveNews[0].reason}”`}
+              </T>
+            </View>
+          </Press>
+        ) : null}
+
         {menu ? (
           <Reveal kind="rise" style={{ backgroundColor: color.choc700, borderRadius: radius.control, padding: space.sm }}>
             <MenuItem label="My attendance" onPress={() => (setMenu(false), nav.push({ name: "myAttendance" }))} />
-            <MenuItem label="All customers" onPress={() => (setMenu(false), nav.push({ name: "customers" }))} />
+            <MenuItem label="All customers" onPress={() => (setMenu(false), tabs ? tabs.go("customers") : nav.push({ name: "customers" }))} />
             <MenuItem label="Refer & earn" onPress={() => (setMenu(false), nav.push({ name: "refer" }))} />
             <MenuItem label="Privacy & terms" onPress={() => (setMenu(false), nav.push({ name: "legal" }))} />
             <MenuItem label="Sign out" tone={color.sealBright} onPress={() => setSession(null)} />
@@ -125,6 +142,7 @@ export function Home() {
           </View>
         </Reveal>
       </ScrollView>
+      <StaffDock />
     </View>
   );
 }
@@ -168,9 +186,12 @@ function ChairRow({ visitId, name, since, total, stylist }: { visitId: string; n
 
 function Tile({ route, label, sub, icon, children, accessibilityLabel }: { route: Route; label: string; sub: string; icon?: IconName; children?: React.ReactNode; accessibilityLabel: string }) {
   const nav = useNav();
+  const tabs = useStaffTabs();
   const ref = useRef<View>(null);
+  // Customers and Calendar are tabs of their own: switch to them instead of opening a copy.
+  const open = () => (tabs && route.name === "customers" ? tabs.go("customers") : tabs && route.name === "calendar" ? tabs.go("calendar") : nav.push(route, { from: ref }));
   return (
-    <Press onPress={() => nav.push(route, { from: ref })} accessibilityLabel={accessibilityLabel} style={{ flex: 1 }} scaleTo={0.98}>
+    <Press onPress={open} accessibilityLabel={accessibilityLabel} style={{ flex: 1 }} scaleTo={0.98}>
       <View ref={ref} collapsable={false}>
         <LabelFrame innerStyle={{ padding: space.lg, gap: 2, minHeight: 112 }}>
           {icon ? <Icon name={icon} color={color.seal} size={26} /> : null}

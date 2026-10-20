@@ -145,64 +145,18 @@ export function Attendance() {
   );
 }
 
-/** Staff's own attendance for this month. */
-export function MyAttendance() {
-  const staff = useCurrentStaff();
-  const data = useData();
-  const month = istDate(new Date()).slice(0, 7);
-  const m = useMemo(() => E.attendanceMonth(data, month), [data, month]);
-  const row = m.rows.find((r) => r.staff.id === staff?.id);
-  if (!staff || !row) return <Screen title="My attendance"><T v="body">No attendance yet.</T></Screen>;
-  const today = istDate(new Date());
-  return (
-    <Screen title="My attendance">
-      <View style={{ flexDirection: "row", gap: space.md }}>
-        <Stat label="Present" value={row.present} />
-        <Stat label="Late" value={row.late} tone={row.late ? color.seal : undefined} />
-        <Stat label="Absent" value={row.cells.filter((c) => c.date <= today && !c.record).length} />
-      </View>
-      <SectionTitle>{month}</SectionTitle>
-      <MonthStrip cells={row.cells} today={today} />
-      <SectionTitle>Check-ins</SectionTitle>
-      {[...row.cells].reverse().filter((c) => c.record).map((c, i) => (
-        <Reveal key={c.date} kind="list" index={i}>
-          <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: space.sm, borderBottomWidth: 1, borderBottomColor: color.ruleSoft }}>
-            <T v="body">{c.date}</T>
-            <T v="bodyStrong" c={c.late ? color.seal : color.ink}>
-              {istTime(c.record!.checkInAt)}
-              {c.late ? " · late" : ""}
-            </T>
-          </View>
-        </Reveal>
-      ))}
-    </Screen>
-  );
-}
-
-function Stat({ label, value, tone }: { label: string; value: number; tone?: string }) {
-  return (
-    <View style={{ flex: 1, padding: space.md, borderRadius: radius.label, borderWidth: 1.25, borderColor: color.choc }}>
-      <T v="small" c={color.inkMuted}>
-        {label}
-      </T>
-      <T style={{ fontFamily: font.display, fontSize: 26, lineHeight: 32 }} c={tone ?? color.ink}>
-        {value}
-      </T>
-    </View>
-  );
-}
-
 /** A month as a strip of day squares: present, late, absent, or still to come. */
-export function MonthStrip({ cells, today, size = 22 }: { cells: { date: string; record: AttendanceRec | null; late: boolean }[]; today: string; size?: number }) {
+export function MonthStrip({ cells, today, size = 22 }: { cells: { date: string; record: AttendanceRec | null; late: boolean; leave?: boolean; off?: boolean }[]; today: string; size?: number }) {
   return (
     <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 4 }}>
       {cells.map((c, i) => {
         const future = c.date > today;
-        const bg = future ? "transparent" : c.record ? (c.late ? color.seal : color.choc) : color.paperPressed;
+        // Approved leave shows blue on any day; the weekly off is left blank, never "absent".
+        const bg = c.leave ? "#7FA3D6" : c.off ? "transparent" : future ? "transparent" : c.record ? (c.late ? color.seal : color.choc) : color.paperPressed;
         return (
           <Reveal key={c.date} kind="pop" index={i} delay={0}>
             <View
-              accessibilityLabel={`${c.date}: ${future ? "upcoming" : c.record ? (c.late ? "late" : "present") : "absent"}`}
+              accessibilityLabel={`${c.date}: ${c.leave ? "leave" : c.off ? "weekly off" : future ? "upcoming" : c.record ? (c.late ? "late" : "present") : "absent"}`}
               style={{ width: size, height: size, borderRadius: 5, backgroundColor: bg, borderWidth: future ? 1 : 0, borderColor: color.ruleSoft, alignItems: "center", justifyContent: "center" }}
             >
               <T style={{ fontFamily: font.semibold, fontSize: 9 }} c={c.record ? color.paperLight : color.inkMuted}>

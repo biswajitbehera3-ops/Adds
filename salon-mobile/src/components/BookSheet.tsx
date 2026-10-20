@@ -249,6 +249,11 @@ export function BookSheet({
                   <GT size={11.5} w="bold" c={on ? glass.cream : glass.soft} numberOfLines={1}>
                     {s.label}
                   </GT>
+                  {s.id && E.leaveOn(data, s.id, pickDay) ? (
+                    <GT size={9.5} w="heavy" c="#9FB8E6">
+                      ON LEAVE
+                    </GT>
+                  ) : null}
                 </Pressable>
               );
             })}

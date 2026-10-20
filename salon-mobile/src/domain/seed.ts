@@ -7,7 +7,7 @@
  */
 import config from "../config/salon";
 import { istDate, priceItems, topUpBonus } from "./rules";
-import type { Appointment, Attendance, Customer, Data, PaymentMethod, Secret, Staff, Visit, WalletTx } from "./types";
+import type { Appointment, Attendance, Customer, Data, LeaveRequest, PaymentMethod, Secret, Staff, Visit, WalletTx } from "./types";
 
 export const DEMO_OWNER_PASSWORD = "owner1234";
 export const DEMO_STAFF_PASSWORD = "1234";
@@ -188,5 +188,20 @@ export function buildDemoData(now = Date.now()): Data {
     }
   }
 
-  return { version: 4, customers, visits, walletTxs, reminders: [], staff, attendance, appointments, leaves: [], privacyLog: [], owner: { secret: OWNER_SECRET }, demo: true };
+  // Leave: one request waiting for the owner, one approved for next week, one declined earlier.
+  const openDay = (from: number) => {
+    let d = from;
+    while (closedDays.includes(new Date(`${istDate(new Date(now + d * DAY))}T00:00:00Z`).getUTCDay())) d++;
+    return istDate(new Date(now + d * DAY));
+  };
+  const leaves: LeaveRequest[] = [
+    { id: id("lv"), staffId: staff[0].id, from: openDay(12), to: openDay(12), type: "CASUAL", halfDay: false, note: "Family function", status: "WAITING", reason: null, decidedAt: null, bookings: null, seenAt: null, createdAt: new Date(now - 3600 * 1000).toISOString() },
+    { id: id("lv"), staffId: staff[1].id, from: openDay(5), to: openDay(5), type: "OTHER", halfDay: false, note: "Sister's wedding", status: "APPROVED", reason: null, decidedAt: new Date(now - DAY).toISOString(), bookings: "REASSIGNED", seenAt: new Date(now - DAY).toISOString(), createdAt: new Date(now - 4 * DAY).toISOString() },
+    { id: id("lv"), staffId: staff[0].id, from: openDay(-12), to: openDay(-12), type: "OTHER", halfDay: false, note: null, status: "DECLINED", reason: "Saturday is our busiest day. Can you take Thursday?", decidedAt: new Date(now - 20 * DAY).toISOString(), bookings: null, seenAt: new Date(now - 19 * DAY).toISOString(), createdAt: new Date(now - 21 * DAY).toISOString() },
+  ];
+  // The approved leave frees that stylist's demo bookings on that day.
+  const sunitaOff = leaves[1].from;
+  for (const a of appointments) if (a.staffId === staff[1].id && istDate(new Date(a.at)) === sunitaOff) a.status = "CANCELLED";
+
+  return { version: 4, customers, visits, walletTxs, reminders: [], staff, attendance, appointments, leaves, privacyLog: [], owner: { secret: OWNER_SECRET }, demo: true };
 }

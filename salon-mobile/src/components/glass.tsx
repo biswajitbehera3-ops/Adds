@@ -5,7 +5,8 @@
  * makes every change instant.
  */
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, View, type StyleProp, type TextProps, type ViewStyle } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type TextProps, type ViewStyle } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { Easing, runOnJS, useAnimatedStyle, useReducedMotion, useSharedValue, withTiming } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -166,5 +167,47 @@ export function GhostButton({ label, onPress, tone = glass.cream, style }: { lab
         {label}
       </GT>
     </Press>
+  );
+}
+
+/** The brown studio backdrop behind every glass screen. */
+export function Backdrop({ children }: { children: React.ReactNode }) {
+  return (
+    <View style={{ flex: 1, backgroundColor: glass.deep }}>
+      <LinearGradient colors={[glass.glow, glass.mid, glass.deep]} locations={[0, 0.42, 1]} start={{ x: 0.1, y: 0 }} end={{ x: 0.6, y: 1 }} style={StyleSheet.absoluteFill} />
+      {children}
+    </View>
+  );
+}
+
+/** A scrolling glass screen: a gold "‹ back" link, a big title, then the content. */
+export function GlassScreen({ back, onBack, title, children, after }: { back?: string; onBack?: () => void; title: string; children: React.ReactNode; after?: React.ReactNode }) {
+  const insets = useSafeAreaInsets();
+  return (
+    <Backdrop>
+      <ScrollView contentContainerStyle={{ paddingTop: insets.top + 8, paddingHorizontal: 18, paddingBottom: insets.bottom + 110, gap: 12 }} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false}>
+        {back && onBack ? (
+          <Pressable onPress={onBack} accessibilityRole="button" accessibilityLabel={`Back to ${back}`} hitSlop={10}>
+            <GT size={13.5} w="bold" c={glass.gold2}>
+              ‹ {back}
+            </GT>
+          </Pressable>
+        ) : null}
+        <GT size={28} w="heavy" accessibilityRole="header" style={{ lineHeight: 34 }}>
+          {title}
+        </GT>
+        {children}
+      </ScrollView>
+      {after}
+    </Backdrop>
+  );
+}
+
+/** Small uppercase section label. */
+export function SectionLabel({ children }: { children: string }) {
+  return (
+    <GT size={11.5} w="heavy" c={glass.gold2} style={{ letterSpacing: 1.2, textTransform: "uppercase", marginTop: 4 }}>
+      {children}
+    </GT>
   );
 }

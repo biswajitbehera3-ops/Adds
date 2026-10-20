@@ -38,6 +38,8 @@ export function Owner() {
   const insets = useSafeAreaInsets();
   const nav = useNav();
   const [tab, setTab] = useState<Tab>("today");
+  const data = useData();
+  const waitingLeave = E.leaveRequestsWaiting(data).length;
   return (
     <View style={{ flex: 1, backgroundColor: color.paper }}>
       <View style={{ backgroundColor: color.choc, paddingTop: insets.top + space.md, paddingHorizontal: space.lg, paddingBottom: space.md, gap: space.md }}>
@@ -68,6 +70,23 @@ export function Owner() {
             </Press>
           </View>
         </View>
+        {waitingLeave ? (
+          <Press onPress={() => nav.push({ name: "leaveRequests" })} accessibilityLabel={`Leave requests, ${waitingLeave} waiting. Review`} scaleTo={0.985}>
+            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", padding: space.md, borderRadius: radius.control, backgroundColor: color.sealBright }}>
+              <View>
+                <T v="bodyStrong" c={color.choc950}>
+                  Leave requests · {waitingLeave} waiting
+                </T>
+                <T v="small" c={color.choc900}>
+                  {E.leaveRequestsWaiting(data).map((l) => data.staff.find((s) => s.id === l.staffId)?.name.split(" ")[0]).join(", ")}
+                </T>
+              </View>
+              <T v="bodyStrong" c={color.choc950}>
+                Review ›
+              </T>
+            </View>
+          </Press>
+        ) : null}
         <Segmented
           label="Owner section"
           value={tab}
@@ -188,6 +207,7 @@ function AttendanceBoard() {
         <Legend swatch={color.choc} label="Present" />
         <Legend swatch={color.seal} label="Late" />
         <Legend swatch={color.paperPressed} label="Absent" />
+        <Legend swatch="#7FA3D6" label="Leave" />
       </View>
       {m.rows.map((r, i) => (
         <Reveal key={`${month}-${r.staff.id}`} kind="list" index={i} style={{ marginBottom: space.lg }}>
