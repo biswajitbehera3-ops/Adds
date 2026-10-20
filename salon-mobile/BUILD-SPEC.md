@@ -21,7 +21,7 @@ Where things live:
 ## 1. Look and feel
 | # | Item | Status |
 |---|---|---|
-| 1.1 | **Brown glass look** everywhere: brown studio backdrop, frosted-glass cards, gold only for money and the main button, cream text, Urbanist font. Replaces the old "grooming-tin" styling | Decided · Designed · **bottom bar built 20 Oct** (`src/nav/StaffTabs.tsx`: tabs stay mounted, + opens the walk-in counter, badges for reminders to do and leave news) |
+| 1.1 | **Brown glass look** everywhere: brown studio backdrop, frosted-glass cards, gold only for money and the main button, cream text, Urbanist font. Replaces the old "grooming-tin" styling | Decided · Designed |
 | 1.2 | Brand assets: salon logo + intro video (`assets/brand/`) | Have files; licence action pending (see 9.6) |
 | 1.3 | Other style boards (Vulcanico/Noturno, the bold styles) were **explorations only**; not used | Decided |
 | 1.4 | Text contrast passes WCAG AA (`node scripts/contrast-check.mjs`) | Logic |
