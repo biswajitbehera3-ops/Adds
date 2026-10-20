@@ -1,5 +1,6 @@
 import { Hind_400Regular, Hind_500Medium, Hind_600SemiBold, Hind_700Bold } from "@expo-google-fonts/hind";
 import { RozhaOne_400Regular } from "@expo-google-fonts/rozha-one";
+import { Urbanist_400Regular, Urbanist_500Medium, Urbanist_600SemiBold, Urbanist_700Bold, Urbanist_800ExtraBold } from "@expo-google-fonts/urbanist";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
@@ -11,6 +12,7 @@ import * as E from "./src/domain/engine";
 import { loadStore, useData, useSession, useStoreReady } from "./src/domain/store";
 import { Navigator, useNav, type Route } from "./src/nav/Navigator";
 import { Attendance, MyAttendance } from "./src/screens/Attendance";
+import { Calendar } from "./src/screens/Calendar";
 import { Counter } from "./src/screens/Counter";
 import { Customers } from "./src/screens/Customers";
 import { Home } from "./src/screens/Home";
@@ -53,6 +55,8 @@ function render(route: Route) {
       return <Refer id={route.id} />;
     case "legal":
       return <Legal />;
+    case "calendar":
+      return <Calendar />;
   }
 }
 
@@ -90,12 +94,23 @@ function Root() {
 
 function StatusBarForRoute() {
   const { top } = useNav();
-  const dark = ["home", "login", "setup", "attendance"].includes(top.name);
+  const dark = ["home", "login", "setup", "attendance", "calendar"].includes(top.name);
   return <StatusBar style={dark ? "light" : "dark"} />;
 }
 
 export default function App() {
-  const [fontsLoaded, fontError] = useFonts({ RozhaOne_400Regular, Hind_400Regular, Hind_500Medium, Hind_600SemiBold, Hind_700Bold });
+  const [fontsLoaded, fontError] = useFonts({
+    RozhaOne_400Regular,
+    Hind_400Regular,
+    Hind_500Medium,
+    Hind_600SemiBold,
+    Hind_700Bold,
+    Urbanist_400Regular,
+    Urbanist_500Medium,
+    Urbanist_600SemiBold,
+    Urbanist_700Bold,
+    Urbanist_800ExtraBold,
+  });
   const ready = useStoreReady();
   // Never hold the app hostage to fonts: if they fail or are slow, draw with system fonts.
   const [fontWaitOver, setFontWaitOver] = useState(false);

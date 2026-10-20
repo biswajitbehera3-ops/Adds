@@ -3,7 +3,7 @@ import Svg, { Circle, Path, Rect } from "react-native-svg";
 /** Authored line icons: 24 grid, 1.75 stroke, round caps. */
 export type IconName =
   | "counter" | "customers" | "reminders" | "refer" | "dashboard" | "back" | "search" | "check"
-  | "plus" | "wallet" | "chat" | "copy" | "share" | "chevron" | "close" | "backspace" | "spark";
+  | "plus" | "wallet" | "chat" | "copy" | "share" | "chevron" | "close" | "backspace" | "spark" | "calendar";
 
 const P: Record<IconName, React.ReactNode> = {
   // Scissors
@@ -34,6 +34,12 @@ const P: Record<IconName, React.ReactNode> = {
     </>
   ),
   dashboard: <Path d="M4 20V10M10 20V4M16 20v-7M21 20H3" />,
+  calendar: (
+    <>
+      <Rect x="4" y="5" width="16" height="15" rx="3" />
+      <Path d="M8 3v4M16 3v4M4 10h16" />
+    </>
+  ),
   back: <Path d="M15 5 8 12l7 7" />,
   search: (
     <>

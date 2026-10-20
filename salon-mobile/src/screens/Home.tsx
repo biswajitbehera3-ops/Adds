@@ -15,6 +15,7 @@ import { Reveal } from "../components/Reveal";
 import { T } from "../components/T";
 import config from "../config/salon";
 import * as E from "../domain/engine";
+import { istDate } from "../domain/rules";
 import { setSession, useData } from "../domain/store";
 import { greeting, inr, longDate } from "../format";
 import { useNav, type Route } from "../nav/Navigator";
@@ -34,6 +35,7 @@ export function Home() {
   const dash = useMemo(() => E.ownerDashboard(data), [data]);
   const due = useMemo(() => E.overdueReminders(data).filter((r) => !r.remindedAt).length, [data]);
   const inChair = useMemo(() => E.openVisits(data), [data]);
+  const bookedToday = useMemo(() => E.appointmentsOn(data, istDate()).filter((x) => x.status !== "CANCELLED" && (!me || x.staffId === me.id)).length, [data, me]);
   const animate = !revealed;
   revealed = true;
 
@@ -60,6 +62,7 @@ export function Home() {
           <Reveal kind="rise" style={{ backgroundColor: color.choc700, borderRadius: radius.control, padding: space.sm }}>
             <MenuItem label="My attendance" onPress={() => (setMenu(false), nav.push({ name: "myAttendance" }))} />
             <MenuItem label="All customers" onPress={() => (setMenu(false), nav.push({ name: "customers" }))} />
+            <MenuItem label="Refer & earn" onPress={() => (setMenu(false), nav.push({ name: "refer" }))} />
             <MenuItem label="Privacy & terms" onPress={() => (setMenu(false), nav.push({ name: "legal" }))} />
             <MenuItem label="Sign out" tone={color.sealBright} onPress={() => setSession(null)} />
           </Reveal>
@@ -109,7 +112,7 @@ export function Home() {
         </Reveal>
         <Reveal kind="pop" enabled={animate} index={3}>
           <View style={{ flexDirection: "row", gap: space.md }}>
-            <Tile route={{ name: "refer" }} label="Refer & earn" sub={`${inr(config.referral.referrerReward)} each`} icon="refer" accessibilityLabel="Refer and earn" />
+            <Tile route={{ name: "calendar" }} label="Calendar" sub={`${bookedToday} booked today`} icon="calendar" accessibilityLabel={`Calendar, ${bookedToday} booked today`} />
             <View style={{ flex: 1, borderRadius: radius.label, borderWidth: 1, borderColor: color.creamMuted, padding: space.lg, gap: 2 }}>
               <T v="label" c={color.creamMuted}>
                 Today

@@ -7,7 +7,7 @@
  */
 import config from "../config/salon";
 import { istDate, priceItems, topUpBonus } from "./rules";
-import type { Attendance, Customer, Data, PaymentMethod, Secret, Staff, Visit, WalletTx } from "./types";
+import type { Appointment, Attendance, Customer, Data, PaymentMethod, Secret, Staff, Visit, WalletTx } from "./types";
 
 export const DEMO_OWNER_PASSWORD = "owner1234";
 export const DEMO_STAFF_PASSWORD = "1234";
@@ -145,5 +145,48 @@ export function buildDemoData(now = Date.now()): Data {
     c.referralRewardedAt = first.paidAt;
   }
 
-  return { version: 4, customers, visits, walletTxs, reminders: [], staff, attendance, appointments: [], privacyLog: [], owner: { secret: OWNER_SECRET }, demo: true };
+  // Bookings from ten days back to three weeks ahead, so the calendar has busy and quiet
+  // days: weekends fuller. Its own random stream keeps the visits above unchanged.
+  let aSeed = 7;
+  const aRand = () => ((aSeed = (aSeed * 16807) % 2147483647) - 1) / 2147483646;
+  const appointments: Appointment[] = [];
+  const { open, close, slotMinutes, closedDays } = config.appointments;
+  const [oh, om] = open.split(":").map(Number);
+  const [ch, cm] = close.split(":").map(Number);
+  for (let d = -10; d <= 21; d++) {
+    const date = istDate(new Date(now + d * DAY));
+    const dow = new Date(`${date}T00:00:00Z`).getUTCDay();
+    if (closedDays.includes(dow)) continue;
+    const weekend = dow === 0 || dow === 6;
+    for (const s of staff) {
+      let t = oh * 60 + om + Math.floor(aRand() * 3) * slotMinutes;
+      const count = (weekend ? 5 : 2) + Math.floor(aRand() * (weekend ? 4 : 4));
+      for (let k = 0; k < count; k++) {
+        const service = config.services[Math.floor(aRand() * config.services.length)];
+        const minutes = Math.max(slotMinutes, Math.ceil(service.minutes / slotMinutes) * slotMinutes);
+        if (t + minutes > ch * 60 + cm) break;
+        const at = new Date(`${date}T00:00:00.000Z`).getTime() + (t - 330) * 60000;
+        const past = at + minutes * 60000 < now;
+        appointments.push({
+          id: id("ap"),
+          customerId: customers[Math.floor(aRand() * customers.length)].id,
+          serviceIds: [service.id],
+          staffId: s.id,
+          at: new Date(at).toISOString(),
+          minutes,
+          status: past ? "ARRIVED" : "BOOKED",
+          source: aRand() < 0.6 ? "WHATSAPP" : "PHONE",
+          note: null,
+          reminderSentAt: null,
+          reminderChannel: null,
+          visitId: null,
+          createdBy: s.id,
+          createdAt: new Date(at - 3 * DAY).toISOString(),
+        });
+        t += minutes + slotMinutes * Math.floor(aRand() * (weekend ? 2 : 4));
+      }
+    }
+  }
+
+  return { version: 4, customers, visits, walletTxs, reminders: [], staff, attendance, appointments, privacyLog: [], owner: { secret: OWNER_SECRET }, demo: true };
 }

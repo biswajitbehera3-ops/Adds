@@ -4,7 +4,7 @@
 | Font | Where | Licence | OK to ship? |
 |---|---|---|---|
 | Rozha One, Hind | Current app (bundled via @expo-google-fonts) | SIL Open Font License 1.1 | Yes |
-| Urbanist | Login prototype and screen designs | SIL OFL 1.1 | Yes |
+| Urbanist | App (bundled via @expo-google-fonts, from the Calendar on), login prototype and screen designs | SIL OFL 1.1 | Yes |
 | Bebas Neue, Space Grotesk | Vulcanico/Noturno design | SIL OFL 1.1 | Yes |
 | Inter, DM Sans, Fraunces, Playfair Display, Cormorant Garamond, Unbounded, Nunito, Orbitron, JetBrains Mono, Archivo Black, Instrument Serif | Style-direction boards only | SIL OFL 1.1 | Yes, if chosen |
 

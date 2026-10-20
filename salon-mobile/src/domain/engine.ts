@@ -877,6 +877,27 @@ export function appointmentMonth(data: Data, month: string): Record<string, numb
   return out;
 }
 
+/**
+ * How full each day of a month is, for the calendar rings: bookings, booked minutes and
+ * load (0–1) against the open hours of one stylist, or of every active stylist when
+ * `staffId` is null. Cancelled bookings don't count; no-shows do (the time was held).
+ */
+export function appointmentLoad(data: Data, month: string, staffId: string | null): Record<string, { count: number; minutes: number; load: number }> {
+  const stylists = staffId ? 1 : Math.max(1, data.staff.filter((x) => x.active).length);
+  const capacity = (hm(A().close) - hm(A().open)) * stylists;
+  const out: Record<string, { count: number; minutes: number; load: number }> = {};
+  for (const a of data.appointments) {
+    if (a.status === "CANCELLED" || (staffId && a.staffId !== staffId)) continue;
+    const day = istDate(new Date(a.at));
+    if (!day.startsWith(month)) continue;
+    const d = (out[day] ??= { count: 0, minutes: 0, load: 0 });
+    d.count += 1;
+    d.minutes += a.minutes;
+    d.load = Math.min(1, d.minutes / capacity);
+  }
+  return out;
+}
+
 /** WhatsApp text for a booking: the confirmation now, or the reminder on the day. */
 export function appointmentMessage(data: Data, id: string, kind: "confirm" | "reminder"): { phone: string; message: string } {
   const appt = data.appointments.find((a) => a.id === id);

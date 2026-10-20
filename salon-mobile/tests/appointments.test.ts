@@ -80,4 +80,17 @@ describe("appointments", () => {
     s.run(E.deleteCustomer(s.data, { customerId: s.priya.id, by: "owner" }));
     expect(s.data.appointments.some((x) => x.customerId === s.priya.id)).toBe(false);
   });
+
+  it("measures how full each day is, for one stylist or the whole salon", () => {
+    const s = setup();
+    s.book(s.aarav.id, "2026-10-17", "10:00", s.imran.id, ["hair-colour"]); // 90 min
+    s.book(s.priya.id, "2026-10-17", "12:00", s.sunita.id);
+    const cancelled = s.book(s.priya.id, "2026-10-18", "12:00");
+    s.run(E.cancelAppointment(s.data, cancelled.id));
+    const mine = E.appointmentLoad(s.data, "2026-10", s.imran.id);
+    expect(mine).toEqual({ "2026-10-17": { count: 1, minutes: 90, load: 90 / 600 } });
+    const salon = E.appointmentLoad(s.data, "2026-10", null);
+    expect(salon["2026-10-17"]).toEqual({ count: 2, minutes: 120, load: 120 / 1200 });
+    expect(salon["2026-10-18"]).toBeUndefined();
+  });
 });

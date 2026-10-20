@@ -39,7 +39,8 @@ export type Route =
   | { name: "reminders" }
   | { name: "refer"; id?: string }
   | { name: "myAttendance" }
-  | { name: "legal" };
+  | { name: "legal" }
+  | { name: "calendar" };
 
 type Rect = { x: number; y: number; w: number; h: number };
 type Entry = { key: string; route: Route; origin: Rect | null; fromColor: string; toColor: string };
