@@ -216,6 +216,31 @@ h2{font-size:21px;font-weight:700;margin:46px 0 10px}
 .legend i{width:12px;height:12px;border-radius:4px;display:inline-block}
 .back{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:var(--gold2);padding:2px 0}
 .ttl.sw{animation:inU 240ms var(--out) both}
+
+/* booking effects: a ring around each day fills to how booked it is, a warm glow by load; both sweep in once, rippling out from today */
+@property --p{syntax:'<number>';inherits:false;initial-value:0}
+.mg .cell b{position:relative;z-index:1;font-weight:inherit}
+.mg .cell i{position:absolute;z-index:1;top:0;right:1px;font-size:9.5px;line-height:13px;min-height:0;padding:0 3px;border-radius:999px}
+.mg .cell .ring{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;
+  background:conic-gradient(var(--gold2) calc(var(--p)*1turn),rgba(255,244,236,.09) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.6px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.6px),#000 calc(100% - 2px))}
+.mg .cell.has::before{content:"";position:absolute;inset:3px;border-radius:12px;background:radial-gradient(circle,rgba(228,166,123,calc(.06 + var(--h)*.55)),transparent 72%)}
+.mg .cell.full i{background:var(--gold);color:var(--ink)}
+.mg .cell.full .ring{background:conic-gradient(var(--gold) calc(var(--p)*1turn),rgba(255,244,236,.09) 0)}
+.mg .cell.sel::before{opacity:0}
+.mg .cell.sel .ring{background:conic-gradient(var(--ink) calc(var(--p)*1turn),rgba(42,26,18,.22) 0)}
+.mg .cell.sel i{color:var(--ink);background:none}
+@keyframes sweep{from{--p:0}}
+@keyframes glow{from{opacity:0;transform:scale(.7)}}
+.cells.fx .ring{animation:sweep 700ms var(--out) both;animation-delay:calc(var(--d,0) * 24ms)}
+.cells.fx .cell.has::before{animation:glow 520ms var(--out) both;animation-delay:calc(var(--d,0) * 24ms)}
+.strip .wd .lb{width:22px;height:3px;border-radius:3px;background:rgba(255,244,236,.12);overflow:hidden;margin-top:2px}
+.strip .wd .lb i{display:block;height:100%;border-radius:3px;background:var(--gold2);transform-origin:left;transform:scaleX(var(--p));animation:fill 520ms var(--out) both;animation-delay:calc(var(--d,0) * 40ms)}
+.strip .wd.sel .lb{background:rgba(42,26,18,.2)}.strip .wd.sel .lb i{background:var(--ink)}
+@keyframes fill{from{transform:scaleX(0)}}
+.lbar{height:6px;border-radius:6px;background:rgba(255,244,236,.1);overflow:hidden}
+.lbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--gold2));transform-origin:left;transform:scaleX(var(--p));animation:fill 700ms var(--out) 150ms both}
+.lrow{display:flex;justify-content:space-between;font-size:12px;color:var(--soft);margin-top:-4px}
 </style>
 
 <div class="wrap">
@@ -224,7 +249,7 @@ h2{font-size:21px;font-weight:700;margin:46px 0 10px}
   <div class="solo">
     <figure style="max-width:360px"><div class="phone" id="pF"></div></figure>
     <div class="steps">
-      <div><b><i>1</i>Opens on the month</b><p>Each day shows how many bookings it has; today is ringed, Tuesdays are faded. Below it, a Today card shows bookings left and who's next. ‹ › changes month.</p></div>
+      <div><b><i>1</i>Opens on the month</b><p>Every day with bookings gets a glow and a gold ring that fills to how booked it is, with the booking count in the corner; nearly full days (75%+) turn solid gold. When the month opens, the rings sweep in once, rippling out from today. Tuesdays are faded. Below, the Today card shows who's next and how full the day is. ‹ › changes month.</p></div>
       <div><b><i>2</i>Tap a day</b><p>The gold highlight moves to the day. The other weeks fade out and the month folds up into a single row: that week. The day's timeline fades in under it. Tapping the Today card does the same for today.</p></div>
       <div><b><i>3</i>The day (setup B)</b><p>Hours down the side, bookings as blocks sized to their length, a gold line at the current time. Tap another day in the strip; swipe the strip for the next week, or the timeline for the next day.</p></div>
       <div><b><i>4</i>Whole salon</b><p>The same switch as before. In the day view it shows one column per stylist, so they can see who is free for a walk-in. On the month it changes the counts.</p></div>
@@ -258,12 +283,12 @@ function day(d){
   const out=[]; if(d.getDay()===2)return cache[k]=out;
   const r=rng(k);
   STY.forEach((s,si)=>{
-    let t=600+Math.floor(r()*5)*15; const n=si===0?5+Math.floor(r()*3):2+Math.floor(r()*3);
+    let t=600+Math.floor(r()*5)*15; const we=d.getDay()===0||d.getDay()===6,n=si===0?(we?8+Math.floor(r()*3):3+Math.floor(r()*5)):(we?4:2)+Math.floor(r()*3);
     for(let i=0;i<n;i++){
       const sv=s.svc[Math.floor(r()*s.svc.length)], [dur,price]=SVC[sv];
       if(t+dur>1185)break;
       out.push({id:k+'-'+si+'-'+i,date:d,start:t,dur,svc:sv,price,sty:s.n,cust:CUST[Math.floor(r()*CUST.length)],visit:1+Math.floor(r()*12)});
-      t+=dur+15*(si===0?1+Math.floor(r()*4):1+Math.floor(r()*6));
+      t+=dur+15*(we?Math.floor(r()*2):si===0?1+Math.floor(r()*4):1+Math.floor(r()*6));
     }
   });
   return cache[k]=out.sort((a,b)=>a.start-b.start);
@@ -303,11 +328,13 @@ function placePill(pill,cell,instant){
   pill.style.transform=`translate(${cell.offsetLeft}px,${cell.offsetTop}px)`;pill.style.opacity=1;
   if(instant){pill.offsetWidth;pill.classList.remove('jump')}
 }
+const load=(d,mode)=>Math.min(1,list(d,mode).reduce((a,b)=>a+b.dur,0)/((H1-H0)*60*(mode==='all'?STY.length:1)));
 function monthCells(m,mode,sel){
   const first=new Date(m.getFullYear(),m.getMonth(),1), lead=(first.getDay()+6)%7, n=new Date(m.getFullYear(),m.getMonth()+1,0).getDate();
   let h='';for(let i=0;i<lead;i++)h+='<span></span>';
   for(let d=1;d<=n;d++){const dt=new Date(m.getFullYear(),m.getMonth(),d),off=dt.getDay()===2,c=off?0:list(dt,mode).length;
-    h+=`<button class="cell${off?' off':''}${same(dt,TODAY)?' today':''}${sel&&same(dt,sel)?' sel':''}" data-k="${key(dt)}" aria-label="${d} ${MON[m.getMonth()]}${off?', closed':', '+c+' bookings'}">${d}<i>${off?'':c||''}</i></button>`}
+    const L=off?0:load(dt,mode),dist=m.getMonth()===TODAY.getMonth()?Math.abs(d-TODAY.getDate()):d;
+    h+=`<button class="cell${off?' off':''}${c?' has':''}${L>=.75?' full':''}${same(dt,TODAY)?' today':''}${sel&&same(dt,sel)?' sel':''}" style="--d:${dist};--h:${L.toFixed(2)}" data-k="${key(dt)}" aria-label="${d} ${MON[m.getMonth()]}${off?', closed':', '+c+' bookings, '+Math.round(L*100)+'% booked'}">${off?'':`<span class="ring" style="--p:${L.toFixed(3)}"></span>`}<b>${d}</b><i>${off?'':c||''}</i></button>`}
   return h;
 }
 const HEADS=`<div class="heads">${['M','T','W','T','F','S','S'].map(x=>`<span>${x}</span>`).join('')}</div>`;
@@ -353,7 +380,7 @@ function refresh(b){
     <div class="stage">
       <div class="mv" id="fM"><div class="glass mg"><div class="bar"><button class="arw press" data-d="-1" aria-label="Previous month">‹</button><b></b><button class="arw press" data-d="1" aria-label="Next month">›</button></div>${HEADS}<div class="cw" style="position:relative"><span class="pill"></span><div class="cells"></div></div></div>
         <button class="glass tcard press" id="fC"></button>
-        <div class="legend"><span><i style="box-shadow:inset 0 0 0 1.5px var(--gold2)"></i>Today</span><span><i style="background:var(--gold)"></i>Selected</span><span><b style="color:var(--gold2);font-size:11px">5</b>&nbsp;bookings</span></div></div>
+        <div class="legend"><span><i style="box-shadow:inset 0 0 0 1.5px var(--gold2)"></i>Today</span><span><i style="background:var(--gold)"></i>Selected</span><span><i style="border-radius:50%;background:conic-gradient(var(--gold2) 65%,rgba(255,244,236,.15) 0)"></i>Ring = how booked</span><span><b style="color:var(--gold2);font-size:11px">5</b>&nbsp;bookings</span></div></div>
       <div class="dv" id="fD" hidden><div class="glass strip"><span class="pill"></span><div class="sd" style="display:contents"></div></div><div class="tl glass"><div class="tlb"></div></div></div>
     </div>`);
   const $=s=>inner.querySelector(s);
@@ -364,7 +391,7 @@ function refresh(b){
   function title(t){if(T.textContent===t)return;T.textContent=t;T.classList.remove('sw');T.offsetWidth;T.classList.add('sw')}
   // month view
   function grid(dir){
-    cells.innerHTML=monthCells(m,mode,sel);cells.className='cells'+(dir>0?' enR':dir<0?' enL':'');
+    cells.innerHTML=monthCells(m,mode,sel);cells.className='cells fx'+(dir>0?' enR':dir<0?' enL':'');
     mv.querySelector('.bar b').textContent=MON[m.getMonth()]+' '+m.getFullYear();
     requestAnimationFrame(()=>placePill(mpill,cells.querySelector('.sel'),true));
     todayCard();
@@ -373,7 +400,7 @@ function refresh(b){
     const bs=list(TODAY,mode),left=bs.filter(b=>status(b)!=='done'),nx=left.find(b=>status(b)==='booked'||status(b)==='arrived')||left[0];
     $('#fC').innerHTML=`<div class="r1"><b>Today · Wed 14</b><span>${bs.length} bookings · ${left.length} left</span></div>`+
       (nx?`<div class="nx"><span class="tm">${fmt(nx.start)}<small>${ap(nx.start)}</small></span><span><b style="font-size:14.5px">${nx.cust}</b><div style="font-size:12px;color:var(--soft)">${nx.svc}${mode==='all'?' · '+nx.sty:''}</div></span>${chip(nx)}</div>`:'')+
-      `<span class="go">Open today's timeline →</span>`;
+      `<div class="lbar"><i style="--p:${load(TODAY,mode).toFixed(3)}"></i></div><div class="lrow"><span>${mode==='all'?'Salon':'Your day'} is ${Math.round(load(TODAY,mode)*100)}% booked</span><span>10a – 8p</span></div><span class="go">Open today's timeline →</span>`;
   }
   function headMonth(){back.hidden=true;sub.hidden=false;sub.textContent=WDL[TODAY.getDay()]+' '+TODAY.getDate()+' Oct';title('Calendar')}
   function headDay(){back.hidden=false;sub.hidden=true;back.querySelector('span').textContent=MON[sel.getMonth()]+' '+sel.getFullYear();
@@ -411,7 +438,7 @@ function refresh(b){
   function week(dir,instant){
     const w0=mon(sel);let h='';
     for(let i=0;i<7;i++){const d=addD(w0,i),off=d.getDay()===2,n=off?0:list(d,mode).length;
-      h+=`<button class="wd${off?' off':''}${same(d,TODAY)?' today':''}${same(d,sel)?' sel':''}${dir?(dir>0?' enR':' enL'):''}" data-k="${key(d)}" aria-label="${WDL[d.getDay()]} ${d.getDate()}"><small>${WD[d.getDay()][0]}</small><b>${d.getDate()}</b><span class="dots">${'<i></i>'.repeat(Math.min(n,4))}</span></button>`}
+      h+=`<button class="wd${off?' off':''}${same(d,TODAY)?' today':''}${same(d,sel)?' sel':''}${dir?(dir>0?' enR':' enL'):''}" data-k="${key(d)}" aria-label="${WDL[d.getDay()]} ${d.getDate()}"><small>${WD[d.getDay()][0]}</small><b>${d.getDate()}</b><span class="lb">${off?'':`<i style="--p:${load(d,mode).toFixed(3)};--d:${i}"></i>`}</span></button>`}
     S.innerHTML=h;requestAnimationFrame(()=>placePill(spill,S.querySelector('.sel'),instant||!!dir));
   }
   function timeline(dir){
