@@ -74,6 +74,7 @@ Where things live:
 | 5.5 | **Arrived** → opens the visit with the booked services; cancel; no-show | Logic · Designed |
 | 5.6 | Rules: 10:00–20:00, 30-minute slots, Tuesday closed, no double-booking a stylist, no past times (all per-salon settings) | Logic |
 | 5.7 | **Automatic sending**: one-tap (free) vs fully automatic (WhatsApp Business, paid per message) | **Open: ask the user** |
+| 5.8 | **+ Book sheet (designed 20 Oct, awaiting user OK)**: one tall sheet, 5 parts unlocking in order: **1 Customer** (10-digit mobile → returning: name, visit no., last service, wallet, reminders status; new: name required + WhatsApp-reminders consent tick) · **2 Services** (multi-pick chips with min and ₹, last-time service pre-picked, running total) · **3 Stylist** (you by default; stylists who can't do all picked services greyed; "Any free" picks the first free one) · **4 Day and time** (next 14 days, closed days off; 30-min slots open only where the whole service length fits, no past times, no double-booking; "No room on … try another day or Any free") · **5 Note + WhatsApp confirmation toggle with message preview**. Sticky summary + Book. After Book: the day opens, the new block scales in with a gold halo, toast "Booked · … WhatsApp confirmation sent". Tapping an empty spot on your own timeline opens Book at that time. Design: `design-studies/staff-calendar-final.html` | Designed · Logic |
 
 ## 6. Owner app — **CONFIRMED by user, 19 Oct** (demo: `design-studies/owner-demo/owner-app-demo.html`)
 | # | Item | Status |
