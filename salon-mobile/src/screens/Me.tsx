@@ -82,7 +82,7 @@ export function MyProfile({ onBack }: { onBack?: () => void }) {
       }
     >
       <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
-        <StaffPhoto photoKey={latest?.photoKey ?? null} name={me.name} size={96} />
+        <StaffPhoto photoKey={me.photoKey || latest?.photoKey || null} name={me.name} size={96} />
         <View style={{ flex: 1, gap: 3 }}>
           <GT size={24} w="heavy" style={{ lineHeight: 29 }}>
             {me.name}
@@ -139,7 +139,7 @@ export function MyProfile({ onBack }: { onBack?: () => void }) {
   );
 }
 
-/** The stylist's latest check-in photo, or their initials on gold. */
+/** The photo the owner uploaded, else the latest check-in selfie, else initials on gold. */
 function StaffPhoto({ photoKey, name, size }: { photoKey: string | null; name: string; size: number }) {
   const [uri, setUri] = useState<string | null>(null);
   useEffect(() => {

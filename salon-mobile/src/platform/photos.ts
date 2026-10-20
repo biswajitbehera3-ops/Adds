@@ -26,6 +26,22 @@ export async function takeSelfie(): Promise<string | null> {
   return Platform.OS === "web" && a.base64 ? `data:image/jpeg;base64,${a.base64}` : a.uri;
 }
 
+/**
+ * A stylist's profile photo (BUILD-SPEC 6.5), picked by the owner from the gallery or taken
+ * with the back camera, cropped square. Returns the photo's temporary uri, or null if cancelled.
+ */
+export async function pickPhoto(from: "gallery" | "camera"): Promise<string | null> {
+  const opts: ImagePicker.ImagePickerOptions = { mediaTypes: ["images"], quality: 0.5, allowsEditing: true, aspect: [1, 1], base64: Platform.OS === "web" };
+  if (Platform.OS !== "web") {
+    const perm = from === "camera" ? await ImagePicker.requestCameraPermissionsAsync() : await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!perm.granted) throw new Error(from === "camera" ? "Camera permission is needed to take the photo" : "Photo access is needed to pick the photo");
+  }
+  const res = from === "camera" ? await ImagePicker.launchCameraAsync(opts) : await ImagePicker.launchImageLibraryAsync(opts);
+  if (res.canceled || !res.assets?.[0]) return null;
+  const a = res.assets[0];
+  return Platform.OS === "web" && a.base64 ? `data:${a.mimeType ?? "image/jpeg"};base64,${a.base64}` : a.uri;
+}
+
 /** Saves the photo under a key and returns the key. */
 export async function savePhoto(key: string, uri: string): Promise<string> {
   if (Platform.OS === "web") {

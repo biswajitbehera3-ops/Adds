@@ -1165,7 +1165,7 @@ export function setOwnerSecret(data: Data, secret: Secret): Op<null> {
 
 export function addStaff(
   data: Data,
-  input: { name: string; phone: string; chair: string; secret: Secret },
+  input: { name: string; phone: string; chair: string; secret: Secret; photoKey?: string | null; shiftStart?: string; weeklyOff?: number | null },
   now = new Date(),
 ): Op<Staff> {
   const name = input.name.trim().replace(/\s+/g, " ");
@@ -1173,14 +1173,55 @@ export function addStaff(
   const phone = normalizePhone(input.phone);
   if (!phone) throw new UserError("Enter the staff member's 10-digit mobile number");
   if (data.staff.some((s) => s.phone === phone)) throw new UserError("A staff member with this number already exists");
-  const staff: Staff = { id: newId(), name, phone, chair: input.chair.trim() || "Chair", secret: input.secret, active: true, createdAt: now.toISOString() };
+  const staff: Staff = {
+    id: newId(),
+    name,
+    phone,
+    chair: input.chair.trim() || "Chair",
+    secret: input.secret,
+    active: true,
+    createdAt: now.toISOString(),
+    ...staffExtras(input),
+  };
   return { data: { ...data, staff: [...data.staff, staff] }, result: staff };
 }
 
-export function updateStaff(data: Data, staffId: string, patch: Partial<Pick<Staff, "name" | "chair" | "active" | "secret">>): Op<Staff> {
+/** Validates the optional photo, shift start and weekly off of a stylist (BUILD-SPEC 6.5). */
+function staffExtras(input: { photoKey?: string | null; shiftStart?: string; weeklyOff?: number | null }): Partial<Staff> {
+  const out: Partial<Staff> = {};
+  if (input.photoKey !== undefined) out.photoKey = input.photoKey || null;
+  if (input.shiftStart !== undefined) {
+    const m = /^([01]?\d|2[0-3]):([0-5]\d)$/.exec(input.shiftStart.trim());
+    if (!m) throw new UserError("Enter the shift start as HH:MM, e.g. 10:00");
+    out.shiftStart = `${m[1].padStart(2, "0")}:${m[2]}`;
+  }
+  if (input.weeklyOff !== undefined) {
+    if (input.weeklyOff !== null && !(Number.isInteger(input.weeklyOff) && input.weeklyOff >= 0 && input.weeklyOff <= 6)) throw new UserError("Pick a weekly off day");
+    out.weeklyOff = input.weeklyOff;
+  }
+  return out;
+}
+
+export function updateStaff(
+  data: Data,
+  staffId: string,
+  patch: Partial<Pick<Staff, "name" | "chair" | "active" | "secret" | "phone" | "photoKey" | "shiftStart" | "weeklyOff">>,
+): Op<Staff> {
   const s = data.staff.find((x) => x.id === staffId);
   if (!s) throw new UserError("Staff member not found");
-  const next = { ...s, ...patch };
+  const { photoKey, shiftStart, weeklyOff, ...rest } = patch;
+  const next: Staff = { ...s, ...rest, ...staffExtras({ photoKey, shiftStart, weeklyOff }) };
+  if (patch.name !== undefined) {
+    next.name = patch.name.trim().replace(/\s+/g, " ");
+    if (!next.name) throw new UserError("Staff name is required");
+  }
+  if (patch.chair !== undefined) next.chair = patch.chair.trim() || s.chair;
+  if (patch.phone !== undefined) {
+    const phone = normalizePhone(patch.phone);
+    if (!phone) throw new UserError("Enter the staff member's 10-digit mobile number");
+    if (data.staff.some((x) => x.id !== staffId && x.phone === phone)) throw new UserError("A staff member with this number already exists");
+    next.phone = phone;
+  }
   return { data: { ...data, staff: data.staff.map((x) => (x.id === staffId ? next : x)) }, result: next };
 }
 
