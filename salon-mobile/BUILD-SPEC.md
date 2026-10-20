@@ -13,6 +13,7 @@ Where things live:
 - Login demo: `design-studies/login-prototype.src.html` (https://claude.ai/artifact/YHAPPq7mSU9TsmyQuz5Tac)
 - Rules: `src/domain/engine.ts`, with tests in `tests/`
 - Flow details: `FLOW.md`
+- New salon checklist (what to collect, what stays fixed): `SALON-ONBOARDING.md`
 - Motions: `MOTION.md`
 - Legal: `legal/`
 
@@ -63,6 +64,7 @@ Where things live:
 | 3.4 | **Online sync**: all phones share the salon's data live; owner sees everything from anywhere; this is also the backup; works offline and catches up | Decided · not built |
 | 3.5 | Each salon gets its **own app** (own name, logo, prices); no salon sees another's data | Decided |
 | 3.6 | Delivered as an **APK file** (Android); Play Store optional later | Decided |
+| 3.7 | **The built app is the frame (user, 20 Oct).** When a salon gives its data we fill the frame and make their live app. The looks and designs may still change, but the kinds of data the app keeps stay the same. What to collect from a salon and what stays fixed: `SALON-ONBOARDING.md` | Decided |
 
 ## 4. Staff app
 | # | Item | Status |
