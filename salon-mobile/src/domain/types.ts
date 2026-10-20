@@ -154,6 +154,26 @@ export type PrivacyEvent = {
   at: string;
 };
 
+/** A stylist's leave request (BUILD-SPEC 4.15, 4.16). Days are salon-local "YYYY-MM-DD". */
+export type LeaveRequest = {
+  id: string;
+  staffId: string;
+  from: string;
+  to: string;
+  type: "CASUAL" | "SICK" | "OTHER";
+  halfDay: boolean;
+  note: string | null;
+  status: "WAITING" | "APPROVED" | "DECLINED" | "WITHDRAWN";
+  /** The owner's reason when declining. */
+  reason: string | null;
+  decidedAt: string | null;
+  /** What happened to the stylist's bookings on those days when it was approved. */
+  bookings: "REASSIGNED" | "REBOOK" | null;
+  /** When the stylist saw the owner's decision (the in-app notification). */
+  seenAt: string | null;
+  createdAt: string;
+};
+
 export type Data = {
   version: 4;
   customers: Customer[];
@@ -163,6 +183,7 @@ export type Data = {
   staff: Staff[];
   attendance: Attendance[];
   appointments: Appointment[];
+  leaves: LeaveRequest[];
   privacyLog: PrivacyEvent[];
   /** Null until the owner sets a password on first launch. */
   owner: { secret: Secret } | null;
@@ -179,6 +200,7 @@ export const emptyData = (): Data => ({
   staff: [],
   attendance: [],
   appointments: [],
+  leaves: [],
   privacyLog: [],
   owner: null,
   demo: false,

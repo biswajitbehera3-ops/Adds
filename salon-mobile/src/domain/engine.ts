@@ -22,7 +22,7 @@ import {
   startOfIstDay,
   topUpBonus,
 } from "./rules";
-import type { Appointment, Attendance, Customer, Data, PaymentMethod, PrivacyEvent, ReminderLog, Secret, Staff, Visit, WalletTx } from "./types";
+import type { Appointment, Attendance, Customer, Data, LeaveRequest, PaymentMethod, PrivacyEvent, ReminderLog, Secret, Staff, Visit, WalletTx } from "./types";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 // No 0/O/1/I so codes read cleanly over the phone.
@@ -57,8 +57,9 @@ const at = (v: Visit) => v.paidAt ?? v.createdAt;
 /** Upgrades stored data from older versions of the app. */
 export function migrate(raw: unknown): Data {
   const d = raw as Record<string, unknown> & { version?: number };
-  if (d.version === 4) return d as unknown as Data;
-  if (d.version === 3) return { ...(d as unknown as Omit<Data, "version" | "appointments">), version: 4, appointments: [] };
+  // Leave requests arrived within version 4, so older v4 data simply has none yet.
+  if (d.version === 4) return { ...(d as unknown as Data), leaves: (d.leaves as LeaveRequest[] | undefined) ?? [] };
+  if (d.version === 3) return { ...(d as unknown as Omit<Data, "version" | "appointments" | "leaves">), version: 4, appointments: [], leaves: [] };
   const v2 = d.version === 2 ? (d as unknown as Omit<Data, "version" | "privacyLog" | "appointments"> & { customers: Array<Record<string, unknown>> }) : migrateV1(d);
   // v2 → v3: one consent covered both records and reminders, so it carries over to both.
   return {
@@ -73,6 +74,7 @@ export function migrate(raw: unknown): Data {
       deletedAt: (c.deletedAt as string | null | undefined) ?? null,
     })),
     appointments: [],
+    leaves: [],
     privacyLog: [],
   };
 }
@@ -906,9 +908,11 @@ export function appointmentMinutes(serviceIds: string[]): number {
 
 function busyAt(data: Data, start: number, minutes: number, staffId: string | null, ignoreId?: string) {
   const booked = data.appointments.filter((a) => a.status === "BOOKED" && a.id !== ignoreId && overlaps(Date.parse(a.at), a.minutes, start, minutes));
-  if (staffId) return booked.some((a) => a.staffId === staffId);
-  // "Anyone free": full when every active stylist (or the whole floor) is taken.
-  const stylists = Math.max(1, data.staff.filter((x) => x.active).length);
+  const day = istDate(new Date(start));
+  // A stylist on approved leave is never free that day.
+  if (staffId) return !!leaveOn(data, staffId, day) || booked.some((a) => a.staffId === staffId);
+  // "Anyone free": full when every active stylist who isn't on leave (or the whole floor) is taken.
+  const stylists = Math.max(1, data.staff.filter((x) => x.active && !leaveOn(data, x.id, day)).length);
   return booked.length >= stylists;
 }
 
@@ -938,6 +942,9 @@ export function bookAppointment(
   if (input.staffId && !data.staff.some((x) => x.id === input.staffId && x.active)) throw new UserError("That stylist isn't available");
   if (!/^\d{4}-\d{2}-\d{2}$/.test(input.day) || !/^\d{2}:\d{2}$/.test(input.time)) throw new UserError("Pick a day and a time");
   if (A().closedDays.includes(istDow(input.day))) throw new UserError("The salon is closed that day");
+  if (input.staffId && leaveOn(data, input.staffId, input.day)) {
+    throw new UserError(`${data.staff.find((x) => x.id === input.staffId)?.name.split(" ")[0]} is on leave that day`);
+  }
   const minutes = appointmentMinutes(serviceIds);
   const startMin = hm(input.time);
   if (startMin < hm(A().open) || startMin + minutes > hm(A().close)) throw new UserError(`Book between ${A().open} and ${A().close}`);
@@ -1213,13 +1220,17 @@ export function attendanceMonth(data: Data, month: string /* YYYY-MM */) {
         const mine = new Map(recs.filter((r) => r.staffId === s.id).map((r) => [r.date, r]));
         const cells = dates.map((d) => {
           const r = mine.get(d);
-          return r ? { date: d, record: r, late: isLate(r.checkInAt) } : { date: d, record: null, late: false };
+          // An approved leave or the weekly off is never an absence.
+          const off = !r && closedOn(d);
+          const leave = !r && !off && !!leaveOn(data, s.id, d);
+          return r ? { date: d, record: r, late: isLate(r.checkInAt), leave: false, off: false } : { date: d, record: null, late: false, leave, off };
         });
         return {
           staff: s,
           cells,
           present: cells.filter((c) => c.record).length,
           late: cells.filter((c) => c.late).length,
+          leave: cells.filter((c) => c.leave).length,
         };
       }),
   };
@@ -1237,10 +1248,11 @@ export function attendanceSheets(data: Data, month: string, now = new Date()) {
   const summary = {
     name: `Summary ${month}`,
     rows: [
-      ["Staff", "Mobile", "Chair", "Days present", "Days late", "Days absent"],
+      ["Staff", "Mobile", "Chair", "Days present", "Days late", "Days on leave", "Days absent"],
       ...m.rows.map((r) => {
-        const absent = r.cells.filter((c) => c.date <= today && !c.record).length;
-        return [r.staff.name, r.staff.phone, r.staff.chair, r.present, r.late, absent];
+        const absent = r.cells.filter((c) => c.date <= today && !c.record && !c.leave && !c.off).length;
+        const leave = r.cells.filter((c) => c.date <= today && c.leave).length;
+        return [r.staff.name, r.staff.phone, r.staff.chair, r.present, r.late, leave, absent];
       }),
     ] as (string | number)[][],
   };
@@ -1252,9 +1264,231 @@ export function attendanceSheets(data: Data, month: string, now = new Date()) {
         const c = r.cells.find((x) => x.date === date)!;
         return c.record
           ? [r.staff.name, r.staff.phone, r.staff.chair, c.late ? "Late" : "Present", time(c.record.checkInAt), c.record.photoKey ? "Saved in app" : "None"]
-          : [r.staff.name, r.staff.phone, r.staff.chair, "Absent", "", ""];
+          : [r.staff.name, r.staff.phone, r.staff.chair, c.leave ? "Leave" : c.off ? "Weekly off" : "Absent", "", ""];
       }),
     ] as (string | number)[][],
   }));
   return [summary, ...daySheets];
+}
+
+// ── Leave (BUILD-SPEC 4.15, 4.16) ────────────────────────────────────────────
+
+const dayAdd = (day: string, n: number) => new Date(Date.parse(`${day}T00:00:00Z`) + n * DAY_MS).toISOString().slice(0, 10);
+const closedOn = (day: string) => A().closedDays.includes(istDow(day));
+function daysOf(from: string, to: string) {
+  const out: string[] = [];
+  for (let d = from; d <= to; d = dayAdd(d, 1)) out.push(d);
+  return out;
+}
+const dayLabel = (day: string) => {
+  const d = new Date(`${day}T00:00:00Z`);
+  return `${"Sun Mon Tue Wed Thu Fri Sat".split(" ")[d.getUTCDay()]} ${d.getUTCDate()} ${"Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ")[d.getUTCMonth()]}`;
+};
+const clock12 = (hhmm: string) => {
+  const [h, m] = hhmm.split(":").map(Number);
+  return `${((h + 11) % 12) + 1}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`;
+};
+
+/** Working days a leave takes: the weekly off doesn't count; a single half day is 0.5. */
+export function leaveWorkingDays(from: string, to: string, halfDay = false): number {
+  const n = daysOf(from, to).filter((d) => !closedOn(d)).length;
+  return halfDay && n === 1 ? 0.5 : n;
+}
+
+/** The approved leave covering this stylist's day, if any. */
+export function leaveOn(data: Data, staffId: string, day: string): LeaveRequest | null {
+  return data.leaves.find((l) => l.staffId === staffId && l.status === "APPROVED" && l.from <= day && day <= l.to) ?? null;
+}
+
+/** A stylist asks for leave from Profile → Leave. It waits for the owner. */
+export function requestLeave(
+  data: Data,
+  input: { staffId: string; from: string; to: string; type: LeaveRequest["type"]; halfDay?: boolean; note?: string },
+  now = new Date(),
+): Op<LeaveRequest> {
+  if (!data.staff.some((x) => x.id === input.staffId && x.active)) throw new UserError("Staff member not found");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(input.from) || !/^\d{4}-\d{2}-\d{2}$/.test(input.to)) throw new UserError("Pick the dates");
+  if (input.to < input.from) throw new UserError("The last day is before the first day");
+  if (input.from < istDate(now)) throw new UserError("Leave can't start in the past");
+  if (daysOf(input.from, input.to).length > 31) throw new UserError("Ask for at most a month at a time");
+  const halfDay = Boolean(input.halfDay);
+  if (halfDay && input.from !== input.to) throw new UserError("A half day is a single day");
+  if (!leaveWorkingDays(input.from, input.to)) throw new UserError("Those days are the weekly off already");
+  if (data.leaves.some((l) => l.staffId === input.staffId && (l.status === "WAITING" || l.status === "APPROVED") && l.from <= input.to && input.from <= l.to)) {
+    throw new UserError("You've already asked for leave on some of those days");
+  }
+  const leave: LeaveRequest = {
+    id: newId(),
+    staffId: input.staffId,
+    from: input.from,
+    to: input.to,
+    type: input.type,
+    halfDay,
+    note: input.note?.trim().slice(0, 200) || null,
+    status: "WAITING",
+    reason: null,
+    decidedAt: null,
+    bookings: null,
+    seenAt: null,
+    createdAt: now.toISOString(),
+  };
+  return { data: { ...data, leaves: [...data.leaves, leave] }, result: leave };
+}
+
+function setLeave(data: Data, id: string, patch: Partial<LeaveRequest>): Op<LeaveRequest> {
+  const l = data.leaves.find((x) => x.id === id);
+  if (!l) throw new UserError("Leave request not found");
+  const next = { ...l, ...patch };
+  return { data: { ...data, leaves: data.leaves.map((x) => (x.id === id ? next : x)) }, result: next };
+}
+
+/** A stylist takes back a request the owner hasn't answered yet. */
+export function withdrawLeave(data: Data, input: { id: string; staffId: string }): Op<LeaveRequest> {
+  const l = data.leaves.find((x) => x.id === input.id);
+  if (!l || l.staffId !== input.staffId) throw new UserError("Leave request not found");
+  if (l.status !== "WAITING") throw new UserError("Only a request still waiting for the owner can be withdrawn");
+  return setLeave(data, l.id, { status: "WITHDRAWN" });
+}
+
+/** What approving would touch: the stylist's bookings on those days, and who else is in or off. */
+export function leaveImpact(data: Data, id: string) {
+  const leave = data.leaves.find((x) => x.id === id);
+  if (!leave) throw new UserError("Leave request not found");
+  const days = daysOf(leave.from, leave.to).filter((d) => !closedOn(d));
+  const bookings = data.appointments
+    .filter((a) => a.staffId === leave.staffId && a.status === "BOOKED" && days.includes(istDate(new Date(a.at))))
+    .sort((a, b) => a.at.localeCompare(b.at))
+    .map((a) => describe(data, a));
+  const others = data.staff.filter((x) => x.active && x.id !== leave.staffId);
+  return {
+    leave,
+    staffName: data.staff.find((x) => x.id === leave.staffId)?.name ?? "Stylist",
+    workingDays: leaveWorkingDays(leave.from, leave.to, leave.halfDay),
+    bookings,
+    working: others.filter((x) => days.every((d) => !leaveOn(data, x.id, d))).map((x) => x.name),
+    alsoOff: others.filter((x) => days.some((d) => leaveOn(data, x.id, d))).map((x) => x.name),
+  };
+}
+
+type Affected = { appointmentId: string; customerName: string; phone: string; day: string; time: string; toStylist: string | null; message: string };
+
+/**
+ * The owner approves. The stylist's bookings on those days are either given to a stylist who
+ * is free at that time ("REASSIGN"; if nobody is, that one is cancelled for rebooking) or all
+ * cancelled for the customers to rebook ("REBOOK"). Returns the WhatsApp message for each
+ * customer so the owner can tell them. The stylist sees the decision next time they open the app.
+ */
+export function approveLeave(data: Data, input: { id: string; bookings: "REASSIGN" | "REBOOK" }, now = new Date()): Op<{ leave: LeaveRequest; moved: Affected[]; cancelled: Affected[] }> {
+  const l = data.leaves.find((x) => x.id === input.id);
+  if (!l) throw new UserError("Leave request not found");
+  if (l.status !== "WAITING") throw new UserError("This request has already been answered");
+  const impact = leaveImpact(data, l.id);
+  const stylist = impact.staffName.split(" ")[0];
+  let next = setLeave(data, l.id, { status: "APPROVED", decidedAt: now.toISOString(), bookings: input.bookings === "REASSIGN" ? "REASSIGNED" : "REBOOK", seenAt: null }).data;
+  const moved: Affected[] = [];
+  const cancelled: Affected[] = [];
+  for (const b of impact.bookings) {
+    const first = b.customerName.split(" ")[0];
+    const service = b.serviceNames.join(" + ").toLowerCase();
+    const start = Date.parse(b.at);
+    const to =
+      input.bookings === "REASSIGN"
+        ? next.staff.find((x) => x.active && x.id !== l.staffId && !busyAt(next, start, b.minutes, x.id, b.id))
+        : undefined;
+    if (to) {
+      next = { ...next, appointments: next.appointments.map((a) => (a.id === b.id ? { ...a, staffId: to.id } : a)) };
+      moved.push({
+        appointmentId: b.id, customerName: b.customerName, phone: b.phone, day: b.day, time: b.time, toStylist: to.name,
+        message: `Hi ${first}, ${stylist} is on leave on ${dayLabel(b.day)}, so ${to.name.split(" ")[0]} will do your ${service} at ${clock12(b.time)} at ${config.displayName}. Reply C to cancel.`,
+      });
+    } else {
+      next = { ...next, appointments: next.appointments.map((a) => (a.id === b.id ? { ...a, status: "CANCELLED" as const } : a)) };
+      cancelled.push({
+        appointmentId: b.id, customerName: b.customerName, phone: b.phone, day: b.day, time: b.time, toStylist: null,
+        message: `Hi ${first}, sorry: ${stylist} is away on ${dayLabel(b.day)}, so we've had to move your ${service} at ${clock12(b.time)}. Reply with a day and time that suits you and we'll book it.`,
+      });
+    }
+  }
+  return { data: next, result: { leave: next.leaves.find((x) => x.id === l.id)!, moved, cancelled } };
+}
+
+/** The owner says no, with a reason the stylist will see. */
+export function declineLeave(data: Data, input: { id: string; reason: string }, now = new Date()): Op<LeaveRequest> {
+  const l = data.leaves.find((x) => x.id === input.id);
+  if (!l) throw new UserError("Leave request not found");
+  if (l.status !== "WAITING") throw new UserError("This request has already been answered");
+  const reason = input.reason.trim();
+  if (!reason) throw new UserError("Give a reason, so they know what to ask for instead");
+  return setLeave(data, l.id, { status: "DECLINED", reason: reason.slice(0, 200), decidedAt: now.toISOString(), seenAt: null });
+}
+
+/** Requests waiting for the owner, oldest first. */
+export function leaveRequestsWaiting(data: Data) {
+  return data.leaves.filter((l) => l.status === "WAITING").sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+}
+
+/** The owner's decisions this stylist hasn't seen yet: shown as a notification in their app. */
+export function leaveUpdates(data: Data, staffId: string) {
+  return data.leaves.filter((l) => l.staffId === staffId && (l.status === "APPROVED" || l.status === "DECLINED") && !l.seenAt);
+}
+
+export function markLeaveSeen(data: Data, staffId: string, now = new Date()): Op<number> {
+  const ids = new Set(leaveUpdates(data, staffId).map((l) => l.id));
+  if (!ids.size) return { data, result: 0 };
+  return { data: { ...data, leaves: data.leaves.map((l) => (ids.has(l.id) ? { ...l, seenAt: now.toISOString() } : l)) }, result: ids.size };
+}
+
+/** Profile → Leave: next approved leave, every request newest first, and days taken this year. */
+export function myLeave(data: Data, staffId: string, now = new Date()) {
+  const today = istDate(now);
+  const mine = data.leaves.filter((l) => l.staffId === staffId && l.status !== "WITHDRAWN");
+  const year = today.slice(0, 4);
+  return {
+    next: mine.filter((l) => l.status === "APPROVED" && l.to >= today).sort((a, b) => a.from.localeCompare(b.from))[0] ?? null,
+    requests: [...mine].sort((a, b) => b.from.localeCompare(a.from)).map((l) => ({ ...l, workingDays: leaveWorkingDays(l.from, l.to, l.halfDay) })),
+    takenThisYear: mine.filter((l) => l.status === "APPROVED" && l.from.startsWith(year)).reduce((sum, l) => sum + leaveWorkingDays(l.from, l.to, l.halfDay), 0),
+    waiting: mine.filter((l) => l.status === "WAITING").length,
+    declined: mine.filter((l) => l.status === "DECLINED" && l.from.startsWith(year)).length,
+  };
+}
+
+/**
+ * Profile → Attendance: when they joined, totals since then, and one month's calendar of
+ * present / late / leave / weekly off / absent. Days before joining or still to come are blank.
+ */
+export function myAttendance(data: Data, staffId: string, month: string, now = new Date()) {
+  const staff = data.staff.find((x) => x.id === staffId);
+  if (!staff) throw new UserError("Staff member not found");
+  const today = istDate(now);
+  const joined = istDate(new Date(staff.createdAt));
+  const kindOf = (d: string): "present" | "late" | "leave" | "off" | "absent" | "future" | "before" => {
+    if (d < joined) return "before";
+    const r = data.attendance.find((a) => a.staffId === staffId && a.date === d);
+    if (r) return isLate(r.checkInAt) ? "late" : "present";
+    // The weekly off stays "off" even inside a leave; it isn't a leave day.
+    if (closedOn(d)) return "off";
+    if (leaveOn(data, staffId, d)) return "leave";
+    return d >= today ? "future" : "absent";
+  };
+  const [y, m] = month.split("-").map(Number);
+  const n = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const cells = Array.from({ length: n }, (_, i) => {
+    const date = `${month}-${String(i + 1).padStart(2, "0")}`;
+    return { date, kind: kindOf(date) };
+  });
+  const count = (k: string) => cells.filter((c) => c.kind === k).length;
+  const sinceJoin = daysOf(joined, today < joined ? joined : today).map(kindOf);
+  return {
+    joined,
+    daysWithSalon: Math.max(0, Math.round((Date.parse(`${today}T00:00:00Z`) - Date.parse(`${joined}T00:00:00Z`)) / DAY_MS)),
+    presentSinceJoin: sinceJoin.filter((k) => k === "present" || k === "late").length,
+    leaveSinceJoin: sinceJoin.filter((k) => k === "leave").length,
+    month: { present: count("present") + count("late"), late: count("late"), leave: count("leave"), absent: count("absent") },
+    cells,
+    lastCheckIns: data.attendance
+      .filter((a) => a.staffId === staffId)
+      .sort((a, b) => b.checkInAt.localeCompare(a.checkInAt))
+      .slice(0, 5)
+      .map((a) => ({ date: a.date, at: a.checkInAt, late: isLate(a.checkInAt), photoKey: a.photoKey })),
+  };
 }

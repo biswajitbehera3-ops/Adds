@@ -188,5 +188,5 @@ export function buildDemoData(now = Date.now()): Data {
     }
   }
 
-  return { version: 4, customers, visits, walletTxs, reminders: [], staff, attendance, appointments, privacyLog: [], owner: { secret: OWNER_SECRET }, demo: true };
+  return { version: 4, customers, visits, walletTxs, reminders: [], staff, attendance, appointments, leaves: [], privacyLog: [], owner: { secret: OWNER_SECRET }, demo: true };
 }
