@@ -142,15 +142,15 @@ export function Home() {
         </GT>
       </GlassCard>
 
-      <Press onPress={() => nav.push({ name: "todayBookings" })} accessibilityLabel={`Today's bookings: ${bookings.length}. ${toSend} reminders to send`} scaleTo={0.985}>
+      <Press onPress={() => nav.push({ name: "todayBookings" })} accessibilityLabel={`Your bookings today: ${bookings.length}. Salon reminders to send: ${toSend}`} scaleTo={0.985}>
         <GlassCard style={{ padding: 14, flexDirection: "row", alignItems: "center", gap: 12 }}>
           <Icon name="calendar" color={glass.gold2} size={22} />
           <View style={{ flex: 1 }}>
             <GT size={15} w="bold">
-              Today's bookings · {bookings.length}
+              Your bookings today · {bookings.length}
             </GT>
             <GT size={12.5} c={glass.soft}>
-              {toSend ? `${toSend} on-the-day reminder${toSend === 1 ? "" : "s"} to send` : "All reminders sent"}
+              {toSend ? `Salon: ${toSend} on-the-day reminder${toSend === 1 ? "" : "s"} to send` : "All reminders sent"}
             </GT>
           </View>
           <GT size={15} c={glass.soft}>

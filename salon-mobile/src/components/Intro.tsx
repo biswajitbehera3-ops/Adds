@@ -38,6 +38,8 @@ export function Intro({ onDone }: { onDone: () => void }) {
   }, [player]);
   useEffect(() => {
     if (status === "error") finish();
+    // On the web the first play() can land before the video has loaded; start it once it's ready.
+    if (status === "readyToPlay" && !player.playing) player.play();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
   return (
