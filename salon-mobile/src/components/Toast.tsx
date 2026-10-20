@@ -2,9 +2,9 @@ import { createContext, useCallback, useContext, useRef, useState } from "react"
 import { View } from "react-native";
 import Animated, { FadeOutDown, SlideInDown } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { color, radius, space } from "../theme/tokens";
+import { glass } from "../theme/tokens";
 import { Icon } from "./Icon";
-import { T } from "./T";
+import { GT } from "./glass";
 
 type Toast = { id: number; text: string; tone: "ok" | "error" };
 const Ctx = createContext<(text: string, tone?: Toast["tone"]) => void>(() => {});
@@ -24,7 +24,7 @@ export function ToastHost({ children }: { children: React.ReactNode }) {
   return (
     <Ctx.Provider value={show}>
       {children}
-      <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, bottom: insets.bottom + space.lg, alignItems: "center", paddingHorizontal: space.lg }}>
+      <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, bottom: insets.bottom + 18, alignItems: "center", paddingHorizontal: 16 }}>
         {toast ? (
           <Animated.View
             key={toast.id}
@@ -35,11 +35,13 @@ export function ToastHost({ children }: { children: React.ReactNode }) {
               maxWidth: 440,
               flexDirection: "row",
               alignItems: "center",
-              gap: space.sm,
-              backgroundColor: toast.tone === "error" ? color.danger : color.choc900,
-              paddingVertical: space.md,
-              paddingHorizontal: space.lg,
-              borderRadius: radius.control,
+              gap: 10,
+              backgroundColor: toast.tone === "error" ? "#5A1F17" : "rgba(38,22,17,0.97)",
+              borderWidth: 1,
+              borderColor: toast.tone === "error" ? "rgba(240,140,106,0.55)" : glass.line,
+              paddingVertical: 13,
+              paddingHorizontal: 18,
+              borderRadius: 20,
               shadowColor: "#000",
               shadowOpacity: 0.25,
               shadowRadius: 18,
@@ -47,10 +49,10 @@ export function ToastHost({ children }: { children: React.ReactNode }) {
               elevation: 8,
             }}
           >
-            <Icon name={toast.tone === "error" ? "close" : "check"} color={toast.tone === "error" ? color.paperLight : color.sealBright} size={18} strokeWidth={2.25} />
-            <T v="bodyStrong" c={color.paperLight} style={{ flexShrink: 1 }}>
+            <Icon name={toast.tone === "error" ? "close" : "check"} color={toast.tone === "error" ? glass.late : glass.gold} size={18} strokeWidth={2.25} />
+            <GT size={15} w="bold" style={{ flexShrink: 1 }}>
               {toast.text}
-            </T>
+            </GT>
           </Animated.View>
         ) : null}
       </View>

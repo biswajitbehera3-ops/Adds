@@ -1,5 +1,3 @@
-import { Hind_400Regular, Hind_500Medium, Hind_600SemiBold, Hind_700Bold } from "@expo-google-fonts/hind";
-import { RozhaOne_400Regular } from "@expo-google-fonts/rozha-one";
 import { Urbanist_400Regular, Urbanist_500Medium, Urbanist_600SemiBold, Urbanist_700Bold, Urbanist_800ExtraBold } from "@expo-google-fonts/urbanist";
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
@@ -141,11 +139,6 @@ function StatusBarForRoute() {
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
-    RozhaOne_400Regular,
-    Hind_400Regular,
-    Hind_500Medium,
-    Hind_600SemiBold,
-    Hind_700Bold,
     Urbanist_400Regular,
     Urbanist_500Medium,
     Urbanist_600SemiBold,

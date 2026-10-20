@@ -6,15 +6,13 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { GT } from "../components/glass";
 import { Icon } from "../components/Icon";
 import { Press } from "../components/Press";
-import { T } from "../components/T";
 import * as C from "../domain/calendar";
 import * as E from "../domain/engine";
 import { istDate } from "../domain/rules";
 import { useData } from "../domain/store";
-import type { Customer } from "../domain/types";
-import { formatPhone, inr, shortDate } from "../format";
+import { inr, shortDate } from "../format";
 import { useNav } from "../nav/Navigator";
-import { color, font, glass, space, urbanist } from "../theme/tokens";
+import { glass, urbanist } from "../theme/tokens";
 import { OwnerDock, useOwnerTabs } from "../nav/OwnerTabs";
 import { DOCK_SPACE, StaffDock, useStaffTabs } from "../nav/StaffTabs";
 import { useCurrentStaff } from "./Attendance";
@@ -253,51 +251,3 @@ function GlassCustomerRow({ r, first, last, index, rank }: { r: Row; first: bool
   );
 }
 
-export function CustomerRow({ c, aside }: { c: Pick<Customer, "id" | "name" | "phone" | "walletBalance">; aside?: string }) {
-  const nav = useNav();
-  const ref = useRef<View>(null);
-  return (
-    <Press onPress={() => nav.push({ name: "profile", id: c.id }, { from: ref, fromColor: color.paperPressed })} accessibilityLabel={`${c.name}, wallet ${inr(c.walletBalance)}`} scaleTo={0.985}>
-      <View ref={ref} collapsable={false} style={{ flexDirection: "row", alignItems: "center", paddingVertical: space.md, gap: space.md, minHeight: 64 }}>
-        <Monogram name={c.name} />
-        <View style={{ flex: 1 }}>
-          <T v="bodyStrong" numberOfLines={1}>
-            {c.name}
-          </T>
-          <T v="small" c={color.inkMuted}>
-            {aside ?? formatPhone(c.phone)}
-          </T>
-        </View>
-        <View style={{ alignItems: "flex-end" }}>
-          <T style={{ fontFamily: font.display, fontSize: 17, fontVariant: ["tabular-nums"] }} c={c.walletBalance ? color.seal : color.inkMuted}>
-            {inr(c.walletBalance)}
-          </T>
-          <T v="small" c={color.inkMuted}>
-            wallet
-          </T>
-        </View>
-      </View>
-    </Press>
-  );
-}
-
-export function Monogram({ name, size = 40, dark }: { name: string; size?: number; dark?: boolean }) {
-  const initials = name.split(" ").map((p) => p[0]).slice(0, 2).join("").toUpperCase();
-  return (
-    <View
-      style={{
-        width: size,
-        height: size * 0.78,
-        borderRadius: size,
-        borderWidth: 1.25,
-        borderColor: dark ? color.creamMuted : color.choc,
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <T style={{ fontFamily: font.display, fontSize: size * 0.38, lineHeight: size * 0.5 }} c={dark ? color.cream : color.ink}>
-        {initials}
-      </T>
-    </View>
-  );
-}

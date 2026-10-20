@@ -18,7 +18,7 @@ import { makeSecret, MIN_PASSWORD } from "../../domain/auth";
 import * as C from "../../domain/calendar";
 import * as E from "../../domain/engine";
 import { UserError } from "../../domain/errors";
-import { istDate, isLate } from "../../domain/rules";
+import { istDate } from "../../domain/rules";
 import { commit, useData } from "../../domain/store";
 import type { Data, LeaveRequest, Staff } from "../../domain/types";
 import { buildXlsx } from "../../domain/xlsx";

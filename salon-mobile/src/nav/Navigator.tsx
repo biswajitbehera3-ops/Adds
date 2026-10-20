@@ -23,7 +23,7 @@ import Animated, {
   withTiming,
   type SharedValue,
 } from "react-native-reanimated";
-import { color, radius } from "../theme/tokens";
+import { glass } from "../theme/tokens";
 
 export type Route =
   | { name: "setup" }
@@ -87,7 +87,7 @@ const OPEN = { duration: 460, dampingRatio: 1 } as const;
 const CLOSE = { duration: 380, dampingRatio: 1 } as const;
 
 export function Navigator({ root, render }: { root: Route; render: (route: Route) => React.ReactNode }) {
-  const [stack, setStack] = useState<Entry[]>([{ key: "root", route: root, origin: null, fromColor: color.choc, toColor: color.choc }]);
+  const [stack, setStack] = useState<Entry[]>([{ key: "root", route: root, origin: null, fromColor: glass.deep, toColor: glass.deep }]);
   const [closing, setClosing] = useState<string | null>(null);
   const rootRef = useRef<View>(null);
   const rootOffset = useRef({ x: 0, y: 0 });
@@ -100,7 +100,7 @@ export function Navigator({ root, render }: { root: Route; render: (route: Route
     const add = (origin: Rect | null) => {
       setStack((s) => [
         ...s,
-        { key: `${route.name}-${Date.now()}`, route, origin, fromColor: opts?.fromColor ?? color.paper, toColor: opts?.toColor ?? color.paper },
+        { key: `${route.name}-${Date.now()}`, route, origin, fromColor: opts?.fromColor ?? glass.deep, toColor: opts?.toColor ?? glass.deep },
       ]);
       setTimeout(() => (busy.current = false), 300);
     };
@@ -241,7 +241,7 @@ function MorphScreen({
     const tx = interpolate(p.value, [0, 1], [origin.x + origin.w / 2 - W / 2, 0]);
     const ty = interpolate(p.value, [0, 1], [origin.y + origin.h / 2 - H / 2, 0]);
     // Keep the corner looking like a label's corner while the shell is scaled down.
-    const r = interpolate(p.value, [0, 1], [radius.label / ((origin.w / W + origin.h / H) / 2), 0]);
+    const r = interpolate(p.value, [0, 1], [20 / ((origin.w / W + origin.h / H) / 2), 0]);
     return {
       borderRadius: r,
       backgroundColor: interpolateColor(p.value, [0, 0.5], [entry.fromColor, entry.toColor]),
@@ -279,7 +279,7 @@ function MorphScreen({
 
   return (
     <View style={StyleSheet.absoluteFill} pointerEvents={interactive && !closing ? "box-none" : "none"}>
-      <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: color.choc950 }, scrim]} />
+      <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: "#080504" }, scrim]} />
       <Animated.View style={[StyleSheet.absoluteFill, { overflow: "hidden" }, shell]}>
         <Animated.View style={[StyleSheet.absoluteFill, content]}>
           <ProgressCtx.Provider value={p}>{children}</ProgressCtx.Provider>

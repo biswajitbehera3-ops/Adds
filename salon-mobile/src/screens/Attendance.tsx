@@ -1,22 +1,19 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Image, Pressable, View } from "react-native";
 import Animated, { FadeInDown, useReducedMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Backdrop, easeOut, GhostButton, GoldButton, GT } from "../components/glass";
 import { Icon } from "../components/Icon";
-import { Reveal } from "../components/Reveal";
-import { T } from "../components/T";
 import { useToast } from "../components/Toast";
 import config from "../config/salon";
 import * as E from "../domain/engine";
 import { UserError } from "../domain/errors";
-import { istDate, isLate } from "../domain/rules";
+import { istDate } from "../domain/rules";
 import { commit, setSession, useData, useSession } from "../domain/store";
-import type { Attendance as AttendanceRec, Staff } from "../domain/types";
+import type { Staff } from "../domain/types";
 import { longDate } from "../format";
-import { photoUri, savePhoto, takeSelfie } from "../platform/photos";
-import { color, font, glass } from "../theme/tokens";
-import { Monogram } from "./Customers";
+import { savePhoto, takeSelfie } from "../platform/photos";
+import { glass } from "../theme/tokens";
 
 /** Salon-local clock, HH:MM. */
 export function istTime(at: Date | string): string {
@@ -29,18 +26,6 @@ export function useCurrentStaff(): Staff | null {
   const data = useData();
   const session = useSession();
   return session?.role === "staff" ? (data.staff.find((s) => s.id === session.staffId) ?? null) : null;
-}
-
-/** Shows a stored attendance selfie, or the staff member's initials when there is none. */
-export function SelfieThumb({ record, staff, size = 64 }: { record: AttendanceRec | null; staff: Staff; size?: number }) {
-  const [uri, setUri] = useState<string | null>(null);
-  useEffect(() => {
-    let live = true;
-    photoUri(record?.photoKey ?? null).then((u) => live && setUri(u));
-    return () => void (live = false);
-  }, [record?.photoKey]);
-  if (uri) return <Image source={{ uri }} style={{ width: size, height: size, borderRadius: size / 2, backgroundColor: color.paperPressed }} accessibilityLabel={`${staff.name}'s check-in photo`} />;
-  return <Monogram name={staff.name} size={size} />;
 }
 
 /** The first thing staff see after signing in (BUILD-SPEC 2.3): a glass check-in with a selfie. */
@@ -154,30 +139,5 @@ export function Attendance() {
         </Animated.View>
       </View>
     </Backdrop>
-  );
-}
-
-/** A month as a strip of day squares: present, late, absent, or still to come. */
-export function MonthStrip({ cells, today, size = 22 }: { cells: { date: string; record: AttendanceRec | null; late: boolean; leave?: boolean; off?: boolean }[]; today: string; size?: number }) {
-  return (
-    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 4 }}>
-      {cells.map((c, i) => {
-        const future = c.date > today;
-        // Approved leave shows blue on any day; the weekly off is left blank, never "absent".
-        const bg = c.leave ? "#7FA3D6" : c.off ? "transparent" : future ? "transparent" : c.record ? (c.late ? color.seal : color.choc) : color.paperPressed;
-        return (
-          <Reveal key={c.date} kind="pop" index={i} delay={0}>
-            <View
-              accessibilityLabel={`${c.date}: ${c.leave ? "leave" : c.off ? "weekly off" : future ? "upcoming" : c.record ? (c.late ? "late" : "present") : "absent"}`}
-              style={{ width: size, height: size, borderRadius: 5, backgroundColor: bg, borderWidth: future ? 1 : 0, borderColor: color.ruleSoft, alignItems: "center", justifyContent: "center" }}
-            >
-              <T style={{ fontFamily: font.semibold, fontSize: 9 }} c={c.record ? color.paperLight : color.inkMuted}>
-                {Number(c.date.slice(8))}
-              </T>
-            </View>
-          </Reveal>
-        );
-      })}
-    </View>
   );
 }

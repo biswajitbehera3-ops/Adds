@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { type TextStyle } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 import { inr } from "../format";
-import { T } from "./T";
+import { GT } from "./glass";
 
 /** Counts from the previous value to the new one (ease-out-expo, 700ms). Money only. */
 export function NumberRoll({ value, style, c, rupees = true, duration = 700 }: { value: number; style?: TextStyle; c?: string; rupees?: boolean; duration?: number }) {
@@ -30,8 +30,8 @@ export function NumberRoll({ value, style, c, rupees = true, duration = 700 }: {
     return () => cancelAnimationFrame(raf);
   }, [value, reduced, duration]);
   return (
-    <T v="amount" c={c} style={[{ fontVariant: ["tabular-nums"] }, style]} accessibilityLabel={rupees ? inr(value) : String(value)}>
+    <GT w="heavy" c={c} style={[{ fontVariant: ["tabular-nums"] }, style]} accessibilityLabel={rupees ? inr(value) : String(value)}>
       {rupees ? inr(shown) : shown.toLocaleString("en-IN")}
-    </T>
+    </GT>
   );
 }
