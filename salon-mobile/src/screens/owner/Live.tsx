@@ -253,7 +253,7 @@ export function Live() {
               {trips.map((t) => (
                 <Walker key={t.id} trip={t} k={k} />
               ))}
-              {floor.closed ? null : onPlate.map((c, i) => (
+              {floor.closed || floor.chairs.every((c) => c.state === "notIn" || c.state === "off") ? null : onPlate.map((c, i) => (
                 <ChairPill key={c.staff.id} chair={chairsView[i]} n={i + 1} k={k} at={PILLS[i]} selected={selected === c.staff.id} onPress={() => setSelected((s) => (s === c.staff.id ? null : c.staff.id))} />
               ))}
               {paidBubble ? <PaidBubble key={paidBubble.key} amount={paidBubble.amount} k={k} onDone={() => setPaidBubble(null)} /> : null}
