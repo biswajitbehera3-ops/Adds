@@ -58,7 +58,7 @@ export function Attendance() {
     return () => clearInterval(t);
   }, []);
   if (!staff) return null;
-  const late = isLate(shot?.at ?? now);
+  const late = E.staffLate(staff, shot?.at ?? now);
 
   const capture = async () => {
     try {
@@ -136,7 +136,7 @@ export function Attendance() {
             <View style={{ flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 14, paddingVertical: 6, borderRadius: 999, backgroundColor: late ? "rgba(240,160,138,0.16)" : "rgba(143,214,164,0.14)", borderWidth: 1, borderColor: late ? "rgba(240,160,138,0.45)" : "rgba(143,214,164,0.4)" }}>
               <View style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: late ? glass.late : glass.ok }} />
               <GT size={13} w="bold" c={late ? glass.late : glass.ok}>
-                {late ? "Late" : "On time"} · shift starts {config.shift.start}
+                {late ? "Late" : "On time"} · shift starts {staff.shiftStart ?? config.shift.start}
               </GT>
             </View>
           </View>

@@ -32,3 +32,19 @@ describe("owner's staff accounts", () => {
     expect(E.updateStaff(up.data, a.result.id, { active: false }).result).toMatchObject({ active: false, photoKey: "staff-p" });
   });
 });
+
+describe("a stylist's own shift and weekly off", () => {
+  it("counts late against their shift and their own day off as off, not absent", () => {
+    let data: Data = emptyData();
+    const s = E.addStaff(data, { name: "Neha Kapoor", phone: "9811100009", chair: "Chair 4", secret: { salt: "x", hash: "y" }, shiftStart: "12:00", weeklyOff: 1 });
+    data = s.data;
+    // 11:50 IST check-in on Wed 4 Nov: on time for a 12:00 shift, late for the salon's 10:00.
+    data = E.markAttendance(data, { staffId: s.result.id, photoKey: null }, new Date("2026-11-04T06:20:00.000Z")).data;
+    const a = E.myAttendance(data, s.result.id, "2026-11", new Date("2026-11-04T08:00:00.000Z"));
+    expect(a.cells.find((c) => c.date === "2026-11-04")!.kind).toBe("present");
+    const past = E.myAttendance(data, s.result.id, "2026-11", new Date("2026-11-17T08:00:00.000Z"));
+    expect(past.cells.find((c) => c.date === "2026-11-09")!.kind).toBe("off"); // Monday, her own off
+    expect(past.cells.find((c) => c.date === "2026-11-10")!.kind).toBe("off"); // Tuesday, salon closed
+    expect(E.leaveWorkingDays("2026-11-09", "2026-11-11", false, s.result)).toBe(1);
+  });
+});

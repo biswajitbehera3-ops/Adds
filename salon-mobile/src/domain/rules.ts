@@ -107,8 +107,8 @@ export function istMinutes(at: Date | string): number {
 }
 
 /** Whether a check-in counts as late against the configured shift. */
-export function isLate(checkInAt: Date | string, cfg: SalonConfig = config): boolean {
-  const [h, m] = cfg.shift.start.split(":").map(Number);
+export function isLate(checkInAt: Date | string, cfg: SalonConfig = config, shiftStart?: string): boolean {
+  const [h, m] = (shiftStart ?? cfg.shift.start).split(":").map(Number);
   return istMinutes(checkInAt) > h * 60 + m + cfg.shift.graceMinutes;
 }
 

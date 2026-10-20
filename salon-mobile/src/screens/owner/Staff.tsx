@@ -46,7 +46,7 @@ type Status = { kind: "in" | "late" | "leave" | "off" | "notin"; label: string; 
 /** Today's attendance for one stylist, as the card badge reads it. */
 function todayStatus(data: Data, s: Staff, today: string): Status {
   const rec = E.todaysAttendance(data, s.id);
-  if (rec) return isLate(rec.checkInAt) ? { kind: "late", label: `Late ${istTime(rec.checkInAt).replace(/ (AM|PM)/, "")}`, tone: LATE } : { kind: "in", label: `In ${istTime(rec.checkInAt).replace(/ (AM|PM)/, "")}`, tone: OK };
+  if (rec) return E.staffLate(s, rec.checkInAt) ? { kind: "late", label: `Late ${istTime(rec.checkInAt).replace(/ (AM|PM)/, "")}`, tone: LATE } : { kind: "in", label: `In ${istTime(rec.checkInAt).replace(/ (AM|PM)/, "")}`, tone: OK };
   if (E.leaveOn(data, s.id, today)) return { kind: "leave", label: "On leave", tone: LEAVE };
   if (isOffDay(s, today)) return { kind: "off", label: "Weekly off", tone: glass.faint };
   return { kind: "notin", label: "Not in yet", tone: glass.faint };
@@ -55,7 +55,7 @@ function todayStatus(data: Data, s: Staff, today: string): Status {
 /** The salon's closed day, or this stylist's own weekly off when the owner set one. */
 function isOffDay(s: Staff, day: string) {
   const dow = C.dayOfWeek(day);
-  return s.weeklyOff != null ? s.weeklyOff === dow : config.appointments.closedDays.includes(dow);
+  return config.appointments.closedDays.includes(dow) || s.weeklyOff === dow;
 }
 const weeklyOffName = (s: Staff) => (s.weeklyOff != null ? C.WEEKDAYS[s.weeklyOff] : config.appointments.closedDays.map((d) => C.WEEKDAYS[d]).join(", ") || "None");
 const initials = (name: string) => name.split(" ").map((x) => x[0]).slice(0, 2).join("").toUpperCase();
@@ -753,7 +753,7 @@ export function StaffAttendance({ id }: { id: string }) {
             Today
           </GT>
           <GT size={18} w="heavy">
-            {rec ? `${isLate(rec.checkInAt) ? "Late" : "On time"} · in ${istTime(rec.checkInAt)}` : status.label}
+            {rec ? `${E.staffLate(s, rec.checkInAt) ? "Late" : "On time"} · in ${istTime(rec.checkInAt)}` : status.label}
           </GT>
           <GT size={12.5} c={glass.soft}>
             Shift starts {s.shiftStart ?? config.shift.start} · off on {weeklyOffName(s)}

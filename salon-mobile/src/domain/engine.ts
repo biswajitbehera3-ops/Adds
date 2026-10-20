@@ -910,9 +910,9 @@ function busyAt(data: Data, start: number, minutes: number, staffId: string | nu
   const booked = data.appointments.filter((a) => a.status === "BOOKED" && a.id !== ignoreId && overlaps(Date.parse(a.at), a.minutes, start, minutes));
   const day = istDate(new Date(start));
   // A stylist on approved leave is never free that day.
-  if (staffId) return !!leaveOn(data, staffId, day) || booked.some((a) => a.staffId === staffId);
+  if (staffId) return !!leaveOn(data, staffId, day) || staffOff(data.staff.find((x) => x.id === staffId), day) || booked.some((a) => a.staffId === staffId);
   // "Anyone free": full when every active stylist who isn't on leave (or the whole floor) is taken.
-  const stylists = Math.max(1, data.staff.filter((x) => x.active && !leaveOn(data, x.id, day)).length);
+  const stylists = Math.max(1, data.staff.filter((x) => x.active && !leaveOn(data, x.id, day) && !staffOff(x, day)).length);
   return booked.length >= stylists;
 }
 
@@ -1262,9 +1262,9 @@ export function attendanceMonth(data: Data, month: string /* YYYY-MM */) {
         const cells = dates.map((d) => {
           const r = mine.get(d);
           // An approved leave or the weekly off is never an absence.
-          const off = !r && closedOn(d);
+          const off = !r && staffOff(s, d);
           const leave = !r && !off && !!leaveOn(data, s.id, d);
-          return r ? { date: d, record: r, late: isLate(r.checkInAt), leave: false, off: false } : { date: d, record: null, late: false, leave, off };
+          return r ? { date: d, record: r, late: staffLate(s, r.checkInAt), leave: false, off: false } : { date: d, record: null, late: false, leave, off };
         });
         return {
           staff: s,
@@ -1316,6 +1316,10 @@ export function attendanceSheets(data: Data, month: string, now = new Date()) {
 
 const dayAdd = (day: string, n: number) => new Date(Date.parse(`${day}T00:00:00Z`) + n * DAY_MS).toISOString().slice(0, 10);
 const closedOn = (day: string) => A().closedDays.includes(istDow(day));
+/** A stylist's day off: the salon's closed days, plus their own weekly off when the owner set one. */
+export const staffOff = (staff: Pick<Staff, "weeklyOff"> | null | undefined, day: string) => closedOn(day) || (staff?.weeklyOff != null && istDow(day) === staff.weeklyOff);
+/** Late against the stylist's own shift start when they have one. */
+export const staffLate = (staff: Pick<Staff, "shiftStart"> | null | undefined, at: string | Date) => isLate(at, config, staff?.shiftStart);
 function daysOf(from: string, to: string) {
   const out: string[] = [];
   for (let d = from; d <= to; d = dayAdd(d, 1)) out.push(d);
@@ -1331,8 +1335,8 @@ const clock12 = (hhmm: string) => {
 };
 
 /** Working days a leave takes: the weekly off doesn't count; a single half day is 0.5. */
-export function leaveWorkingDays(from: string, to: string, halfDay = false): number {
-  const n = daysOf(from, to).filter((d) => !closedOn(d)).length;
+export function leaveWorkingDays(from: string, to: string, halfDay = false, staff?: Pick<Staff, "weeklyOff"> | null): number {
+  const n = daysOf(from, to).filter((d) => !staffOff(staff, d)).length;
   return halfDay && n === 1 ? 0.5 : n;
 }
 
@@ -1354,7 +1358,7 @@ export function requestLeave(
   if (daysOf(input.from, input.to).length > 31) throw new UserError("Ask for at most a month at a time");
   const halfDay = Boolean(input.halfDay);
   if (halfDay && input.from !== input.to) throw new UserError("A half day is a single day");
-  if (!leaveWorkingDays(input.from, input.to)) throw new UserError("Those days are the weekly off already");
+  if (!leaveWorkingDays(input.from, input.to, false, data.staff.find((x) => x.id === input.staffId))) throw new UserError("Those days are the weekly off already");
   if (data.leaves.some((l) => l.staffId === input.staffId && (l.status === "WAITING" || l.status === "APPROVED") && l.from <= input.to && input.from <= l.to)) {
     throw new UserError("You've already asked for leave on some of those days");
   }
@@ -1395,7 +1399,7 @@ export function withdrawLeave(data: Data, input: { id: string; staffId: string }
 export function leaveImpact(data: Data, id: string) {
   const leave = data.leaves.find((x) => x.id === id);
   if (!leave) throw new UserError("Leave request not found");
-  const days = daysOf(leave.from, leave.to).filter((d) => !closedOn(d));
+  const days = daysOf(leave.from, leave.to).filter((d) => !staffOff(data.staff.find((x) => x.id === leave.staffId), d));
   const bookings = data.appointments
     .filter((a) => a.staffId === leave.staffId && a.status === "BOOKED" && days.includes(istDate(new Date(a.at))))
     .sort((a, b) => a.at.localeCompare(b.at))
@@ -1404,7 +1408,7 @@ export function leaveImpact(data: Data, id: string) {
   return {
     leave,
     staffName: data.staff.find((x) => x.id === leave.staffId)?.name ?? "Stylist",
-    workingDays: leaveWorkingDays(leave.from, leave.to, leave.halfDay),
+    workingDays: leaveWorkingDays(leave.from, leave.to, leave.halfDay, data.staff.find((x) => x.id === leave.staffId)),
     bookings,
     working: others.filter((x) => days.every((d) => !leaveOn(data, x.id, d))).map((x) => x.name),
     alsoOff: others.filter((x) => days.some((d) => leaveOn(data, x.id, d))).map((x) => x.name),
@@ -1484,10 +1488,11 @@ export function myLeave(data: Data, staffId: string, now = new Date()) {
   const today = istDate(now);
   const mine = data.leaves.filter((l) => l.staffId === staffId && l.status !== "WITHDRAWN");
   const year = today.slice(0, 4);
+  const staff = data.staff.find((x) => x.id === staffId);
   return {
     next: mine.filter((l) => l.status === "APPROVED" && l.to >= today).sort((a, b) => a.from.localeCompare(b.from))[0] ?? null,
-    requests: [...mine].sort((a, b) => b.from.localeCompare(a.from)).map((l) => ({ ...l, workingDays: leaveWorkingDays(l.from, l.to, l.halfDay) })),
-    takenThisYear: mine.filter((l) => l.status === "APPROVED" && l.from.startsWith(year)).reduce((sum, l) => sum + leaveWorkingDays(l.from, l.to, l.halfDay), 0),
+    requests: [...mine].sort((a, b) => b.from.localeCompare(a.from)).map((l) => ({ ...l, workingDays: leaveWorkingDays(l.from, l.to, l.halfDay, staff) })),
+    takenThisYear: mine.filter((l) => l.status === "APPROVED" && l.from.startsWith(year)).reduce((sum, l) => sum + leaveWorkingDays(l.from, l.to, l.halfDay, staff), 0),
     waiting: mine.filter((l) => l.status === "WAITING").length,
     declined: mine.filter((l) => l.status === "DECLINED" && l.from.startsWith(year)).length,
   };
@@ -1505,9 +1510,9 @@ export function myAttendance(data: Data, staffId: string, month: string, now = n
   const kindOf = (d: string): "present" | "late" | "leave" | "off" | "absent" | "future" | "before" => {
     if (d < joined) return "before";
     const r = data.attendance.find((a) => a.staffId === staffId && a.date === d);
-    if (r) return isLate(r.checkInAt) ? "late" : "present";
+    if (r) return staffLate(staff, r.checkInAt) ? "late" : "present";
     // The weekly off stays "off" even inside a leave; it isn't a leave day.
-    if (closedOn(d)) return "off";
+    if (staffOff(staff, d)) return "off";
     if (leaveOn(data, staffId, d)) return "leave";
     return d >= today ? "future" : "absent";
   };
@@ -1530,7 +1535,7 @@ export function myAttendance(data: Data, staffId: string, month: string, now = n
       .filter((a) => a.staffId === staffId)
       .sort((a, b) => b.checkInAt.localeCompare(a.checkInAt))
       .slice(0, 5)
-      .map((a) => ({ date: a.date, at: a.checkInAt, late: isLate(a.checkInAt), photoKey: a.photoKey })),
+      .map((a) => ({ date: a.date, at: a.checkInAt, late: staffLate(staff, a.checkInAt), photoKey: a.photoKey })),
   };
 }
 

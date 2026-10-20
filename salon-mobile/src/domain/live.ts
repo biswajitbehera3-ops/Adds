@@ -6,7 +6,7 @@
 import config from "../config/salon";
 import { isClosed } from "./calendar";
 import * as E from "./engine";
-import { istDate, isLate, startOfIstDay } from "./rules";
+import { istDate, startOfIstDay } from "./rules";
 import type { Data, Staff, Visit } from "./types";
 
 export type ChairState = "busy" | "free" | "notIn" | "off";
@@ -42,7 +42,7 @@ export function liveFloor(data: Data, now = new Date()) {
       const visit = data.visits.filter((v) => v.staffId === s.id && v.status === "OPEN").sort((a, b) => a.createdAt.localeCompare(b.createdAt))[0] ?? null;
       const rec = data.attendance.find((a) => a.staffId === s.id && a.date === today) ?? null;
       const leave = E.leaveOn(data, s.id, today);
-      const weeklyOff = s.weeklyOff != null ? new Date(`${today}T00:00:00Z`).getUTCDay() === s.weeklyOff : closed;
+      const weeklyOff = E.staffOff(s, today);
       const offReason = leave ? "leave" : weeklyOff ? "weeklyOff" : null;
       const state: ChairState = visit ? "busy" : offReason ? "off" : rec ? "free" : "notIn";
       const customer = visit ? data.customers.find((c) => c.id === visit.customerId) : null;
@@ -53,7 +53,7 @@ export function liveFloor(data: Data, now = new Date()) {
         staff: s,
         state,
         offReason,
-        late: rec ? isLate(rec.checkInAt) : false,
+        late: rec ? E.staffLate(s, rec.checkInAt) : false,
         visit,
         customerName: customer?.name ?? "",
         services: visit ? [...visit.serviceIds, ...visit.addOnIds].map((id) => config.services.find((x) => x.id === id)?.name ?? id).join(" + ") : "",
