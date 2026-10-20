@@ -1,20 +1,18 @@
 /**
- * An open visit, after the service: add any extra services, then take payment.
- * The receipt follows, with the thank-you WhatsApp and a short undo window.
+ * The bill and the receipt (BUILD-SPEC 4.6, 4.7), brown glass, as approved.
+ * Bill: who is in the chair since when, the services (anything added after the start is
+ * marked "added"), pay from wallet, Cash / UPI / Card, Collect. "Customer left without a
+ * service" cancels the visit (two taps).
+ * Receipt: the bill with the PAID stamp landing (motion P5), the WhatsApp thank-you, Next
+ * customer, and Undo for the first 2 minutes.
  */
 import { useEffect, useMemo, useState } from "react";
-import { Linking, View } from "react-native";
-import { Button } from "../components/Button";
+import { Linking, Pressable, View } from "react-native";
+import Animated, { FadeIn, FadeInDown, useReducedMotion } from "react-native-reanimated";
+import { GhostButton, GlassCard, GlassScreen, GlassSwitch, GoldButton, GT, WalletBadge } from "../components/glass";
 import { Icon } from "../components/Icon";
-import { LabelFrame } from "../components/LabelFrame";
-import { Press } from "../components/Press";
-import { PrintReveal } from "../components/PrintReveal";
-import { Screen, SectionTitle } from "../components/Screen";
-import { Seal } from "../components/Seal";
-import { Segmented } from "../components/Segmented";
 import { ServicePicker } from "../components/ServicePicker";
 import { Stamp } from "../components/Stamp";
-import { T } from "../components/T";
 import { useToast } from "../components/Toast";
 import { TopUpSheet } from "../components/TopUpSheet";
 import config from "../config/salon";
@@ -25,8 +23,13 @@ import { commit, useData } from "../domain/store";
 import type { PaymentMethod } from "../domain/types";
 import { inr } from "../format";
 import { useNav } from "../nav/Navigator";
-import { color, radius, space } from "../theme/tokens";
+import { glass } from "../theme/tokens";
 import { istTime } from "./Attendance";
+
+const itemsOf = (serviceIds: string[], addOnIds: string[]) => [
+  ...serviceIds.map((id) => config.services.find((s) => s.id === id)).filter(Boolean).map((s) => ({ id: s!.id, name: s!.name, price: s!.price })),
+  ...addOnIds.map((id) => config.addOns.find((a) => a.id === id)).filter(Boolean).map((a) => ({ id: a!.id, name: a!.name, price: a!.price })),
+];
 
 export function VisitScreen({ id }: { id: string }) {
   const data = useData();
@@ -35,6 +38,7 @@ export function VisitScreen({ id }: { id: string }) {
   const visit = data.visits.find((v) => v.id === id);
   const customer = visit && data.customers.find((c) => c.id === visit.customerId);
   const [pick, setPick] = useState(() => ({ serviceIds: visit?.serviceIds ?? [], addOnIds: visit?.addOnIds ?? [], staffId: visit?.staffId ?? null }));
+  const [editing, setEditing] = useState(false);
   const [useWallet, setUseWallet] = useState<boolean | null>(null);
   const [method, setMethod] = useState<PaymentMethod>("CASH");
   const [confirmCancel, setConfirmCancel] = useState(false);
@@ -42,16 +46,20 @@ export function VisitScreen({ id }: { id: string }) {
 
   if (!visit || !customer || visit.status !== "OPEN") {
     return (
-      <Screen title="Visit">
-        <T v="body">This visit is already closed.</T>
-      </Screen>
+      <GlassScreen title="Visit" back="Home" onBack={nav.pop}>
+        <GT size={15} c={glass.soft}>
+          This visit is already closed.
+        </GT>
+      </GlassScreen>
     );
   }
-
+  const items = itemsOf(pick.serviceIds, pick.addOnIds);
+  const startIds = new Set([...visit.serviceIds, ...visit.addOnIds]);
   const total = pick.serviceIds.length ? priceItems(pick.serviceIds, pick.addOnIds).total : 0;
   const walletOn = useWallet ?? (customer.walletBalance > 0 && customer.walletBalance >= total && total > 0);
   const walletAmount = walletOn ? Math.min(customer.walletBalance, total) : 0;
   const due = total - walletAmount;
+  const methodText = method === "UPI" ? "UPI" : method.toLowerCase();
 
   const collect = () => {
     try {
@@ -62,7 +70,6 @@ export function VisitScreen({ id }: { id: string }) {
       toast(e instanceof UserError ? e.message : "Couldn't take the payment. Try again.", "error");
     }
   };
-
   const cancel = () => {
     commit((d) => E.cancelOpenVisit(d, visit.id));
     toast(`${customer.name.split(" ")[0]}'s visit cancelled`);
@@ -70,64 +77,99 @@ export function VisitScreen({ id }: { id: string }) {
   };
 
   return (
-    <Screen title={customer.name.split(" ")[0]}>
-      <LabelFrame innerStyle={{ flexDirection: "row", alignItems: "center", padding: space.md, paddingLeft: space.lg, gap: space.md }}>
-        <View style={{ flex: 1, gap: 2 }}>
-          <T v="small" c={color.inkMuted}>
-            In the chair since {istTime(visit.createdAt)}
-          </T>
-          <T v="heading" numberOfLines={1}>
-            {customer.name}
-          </T>
-        </View>
-        <Seal amount={customer.walletBalance} width={104} />
-      </LabelFrame>
-
-      <ServicePicker {...pick} staff={data.staff} onChange={(n) => (setPick(n), setUseWallet(null))} />
-
-      <SectionTitle aside={<Press onPress={() => setTopUpOpen(true)} accessibilityLabel="Top up wallet" style={{ minHeight: 48, justifyContent: "center" }}><T v="bodyStrong" c={color.seal}>Top up</T></Press>}>Payment</SectionTitle>
-      {customer.walletBalance > 0 ? (
-        <Press
-          onPress={() => setUseWallet(!walletOn)}
-          accessibilityRole="switch"
-          accessibilityState={{ checked: walletOn }}
-          scaleTo={0.99}
-          style={{ flexDirection: "row", alignItems: "center", gap: space.md, padding: space.md, borderRadius: radius.control, borderWidth: 1.25, borderColor: walletOn ? color.seal : color.ruleSoft, backgroundColor: color.paperLight, marginBottom: space.sm }}
-        >
-          <Icon name="wallet" color={color.seal} />
-          <View style={{ flex: 1 }}>
-            <T v="bodyStrong">Pay from wallet</T>
-            <T v="small" c={color.inkMuted}>
-              {walletOn && total ? `${inr(walletAmount)} of ${inr(customer.walletBalance)}` : `${inr(customer.walletBalance)} available`}
-            </T>
-          </View>
-          <View style={{ width: 50, height: 30, borderRadius: 15, backgroundColor: walletOn ? color.seal : color.ruleSoft, padding: 3, alignItems: walletOn ? "flex-end" : "flex-start" }}>
-            <View style={{ width: 24, height: 24, borderRadius: 12, backgroundColor: color.paperLight }} />
-          </View>
-        </Press>
-      ) : null}
-      {due > 0 ? <Segmented label="Paid by" value={method} onChange={setMethod} options={[{ key: "CASH", label: "Cash" }, { key: "UPI", label: "UPI" }, { key: "CARD", label: "Card" }]} /> : null}
-
-      <View style={{ marginTop: space.xl, gap: space.sm }}>
-        <T v="small" c={color.inkMuted} style={{ textAlign: "center" }}>
-          {walletAmount > 0 ? `${inr(walletAmount)} from wallet${due > 0 ? ` · ${inr(due)} by ${method === "UPI" ? "UPI" : method.toLowerCase()}` : ""}` : `${inr(due)} by ${method === "UPI" ? "UPI" : method.toLowerCase()}`}
-        </T>
-        <Button big label={!pick.serviceIds.length ? "Pick a service" : `Collect ${inr(total)}`} disabled={!pick.serviceIds.length || !pick.staffId} onPress={collect} />
-        {confirmCancel ? (
-          <View style={{ flexDirection: "row", gap: space.sm }}>
-            <View style={{ flex: 1 }}>
-              <Button kind="outline" label="Keep visit" onPress={() => setConfirmCancel(false)} />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Button kind="ink" label="Cancel visit" onPress={cancel} />
-            </View>
-          </View>
-        ) : (
-          <Button kind="ghost" label="Customer left without a service" onPress={() => setConfirmCancel(true)} />
-        )}
+    <GlassScreen title={customer.name.split(" ")[0]} back="Home" onBack={nav.pop} after={<TopUpSheet customer={customer} visible={topUpOpen} onClose={() => setTopUpOpen(false)} onDone={() => setUseWallet(null)} />}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 12, marginTop: -6 }}>
+        <GT size={13} c={glass.soft} style={{ flex: 1 }}>
+          In the chair since {istTime(visit.createdAt)} · {customer.name}
+        </GT>
+        <WalletBadge amount={customer.walletBalance} size={70} />
       </View>
-      <TopUpSheet customer={customer} visible={topUpOpen} onClose={() => setTopUpOpen(false)} onDone={() => setUseWallet(null)} />
-    </Screen>
+
+      <GlassCard style={{ padding: 16, gap: 8 }}>
+        {items.map((it) => (
+          <View key={it.id} style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            <GT size={14.5} c={glass.soft}>
+              {it.name}
+              {!startIds.has(it.id) ? <GT size={13} c={glass.gold2}> · added</GT> : null}
+            </GT>
+            <GT size={14.5} w="bold" style={{ fontVariant: ["tabular-nums"] }}>
+              {inr(it.price)}
+            </GT>
+          </View>
+        ))}
+        <View style={{ height: 1, backgroundColor: glass.line, marginVertical: 4 }} />
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" }}>
+          <GT size={16} w="heavy">
+            Total
+          </GT>
+          <GT size={22} w="heavy" style={{ fontVariant: ["tabular-nums"] }}>
+            {inr(total)}
+          </GT>
+        </View>
+        <Pressable onPress={() => setEditing((x) => !x)} accessibilityRole="button" accessibilityState={{ expanded: editing }} hitSlop={6}>
+          <GT size={13} w="bold" c={glass.gold2}>
+            {editing ? "Done adding" : "+ Add or change services"}
+          </GT>
+        </Pressable>
+      </GlassCard>
+      {editing ? (
+        <Animated.View entering={FadeIn.duration(200)}>
+          <ServicePicker {...pick} staff={data.staff} onChange={(n) => (setPick(n), setUseWallet(null))} />
+        </Animated.View>
+      ) : null}
+
+      {customer.walletBalance > 0 ? (
+        <Pressable onPress={() => setUseWallet(!walletOn)} accessibilityRole="switch" accessibilityState={{ checked: walletOn }} style={{ flexDirection: "row", alignItems: "center", gap: 12, padding: 14, borderRadius: 18, backgroundColor: glass.card, borderWidth: 1, borderColor: walletOn ? glass.gold : glass.line }}>
+          <View style={{ flex: 1 }}>
+            <GT size={15} w="bold">
+              Pay from wallet
+            </GT>
+            <GT size={12.5} c={glass.soft}>
+              {walletOn && total ? `${inr(walletAmount)} of ${inr(customer.walletBalance)}` : `${inr(customer.walletBalance)} available`}
+            </GT>
+          </View>
+          <View style={{ width: 46, height: 28, borderRadius: 14, padding: 3, backgroundColor: walletOn ? glass.gold : "rgba(255,244,236,0.18)", alignItems: walletOn ? "flex-end" : "flex-start" }}>
+            <View style={{ width: 22, height: 22, borderRadius: 11, backgroundColor: glass.cream }} />
+          </View>
+        </Pressable>
+      ) : null}
+      <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+        <Pressable onPress={() => setTopUpOpen(true)} accessibilityRole="button" accessibilityLabel="Top up wallet" hitSlop={8} style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+          <Icon name="wallet" color={glass.gold2} size={17} />
+          <GT size={13} w="bold" c={glass.gold2}>
+            Top up wallet
+          </GT>
+        </Pressable>
+      </View>
+      {due > 0 ? (
+        <GlassSwitch
+          options={[
+            { key: "CASH", label: "Cash" },
+            { key: "UPI", label: "UPI" },
+            { key: "CARD", label: "Card" },
+          ]}
+          value={method}
+          onChange={setMethod}
+        />
+      ) : null}
+
+      <GT size={12.5} c={glass.soft} style={{ textAlign: "center", marginTop: 6 }}>
+        {walletAmount > 0 ? `${inr(walletAmount)} from wallet${due > 0 ? ` · ${inr(due)} by ${methodText}` : ""}` : `${inr(due)} by ${methodText}`}
+      </GT>
+      <GoldButton label={!pick.serviceIds.length ? "Pick a service" : `Collect ${inr(total)}`} disabled={!pick.serviceIds.length || !pick.staffId} onPress={collect} />
+      {confirmCancel ? (
+        <View style={{ flexDirection: "row", gap: 8 }}>
+          <GhostButton label="Keep visit" style={{ flex: 1 }} onPress={() => setConfirmCancel(false)} />
+          <GhostButton label="Cancel visit" tone="#F08C6A" style={{ flex: 1 }} onPress={cancel} />
+        </View>
+      ) : (
+        <Pressable onPress={() => setConfirmCancel(true)} accessibilityRole="button" style={{ alignItems: "center", paddingVertical: 8 }}>
+          <GT size={13.5} c={glass.soft}>
+            Customer left without a service
+          </GT>
+        </Pressable>
+      )}
+    </GlassScreen>
   );
 }
 
@@ -135,6 +177,7 @@ export function Receipt({ visitId }: { visitId: string }) {
   const data = useData();
   const nav = useNav();
   const toast = useToast();
+  const reduced = useReducedMotion();
   const visit = data.visits.find((v) => v.id === visitId);
   const customer = visit && data.customers.find((c) => c.id === visit.customerId);
   const staff = visit && data.staff.find((s) => s.id === visit.staffId);
@@ -144,12 +187,18 @@ export function Receipt({ visitId }: { visitId: string }) {
     const t = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
-
-  if (!visit || !customer) return <Screen title="Receipt"><T v="body">Visit not found.</T></Screen>;
-
+  if (!visit || !customer) {
+    return (
+      <GlassScreen title="Receipt" back="Home" onBack={nav.popToRoot}>
+        <GT size={15} c={glass.soft}>
+          Visit not found.
+        </GT>
+      </GlassScreen>
+    );
+  }
   const voided = visit.status === "VOID";
   const undoLeft = visit.paidAt ? Math.max(0, config.undoWindowMinutes * 60 - Math.floor((now.getTime() - new Date(visit.paidAt).getTime()) / 1000)) : 0;
-
+  const items = itemsOf(visit.serviceIds, visit.addOnIds);
   const sendThanks = async () => {
     try {
       const { phone, message } = E.receiptMessage(data, visit.id);
@@ -158,7 +207,6 @@ export function Receipt({ visitId }: { visitId: string }) {
       toast("Couldn't open WhatsApp on this phone.", "error");
     }
   };
-
   const undo = () => {
     try {
       commit((d) => E.voidVisit(d, { visitId: visit.id, by: "staff", reason: "" }));
@@ -168,70 +216,54 @@ export function Receipt({ visitId }: { visitId: string }) {
       toast(e instanceof UserError ? e.message : "Couldn't undo.", "error");
     }
   };
-
-  const items = [
-    ...visit.serviceIds.map((id) => config.services.find((s) => s.id === id)!).map((s) => ({ name: s.name, price: s.price })),
-    ...visit.addOnIds.map((id) => config.addOns.find((a) => a.id === id)!).map((a) => ({ name: a.name, price: a.price })),
-  ];
-
+  const line = (label: string, value: string, opts: { strong?: boolean; tone?: string } = {}) => (
+    <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" }}>
+      <GT size={opts.strong ? 16 : 14.5} w={opts.strong ? "heavy" : "medium"} c={opts.strong ? glass.cream : glass.soft}>
+        {label}
+      </GT>
+      <GT size={opts.strong ? 22 : 14.5} w={opts.strong ? "heavy" : "bold"} c={opts.tone ?? glass.cream} style={{ fontVariant: ["tabular-nums"] }}>
+        {value}
+      </GT>
+    </View>
+  );
   return (
-    <Screen title={voided ? "Visit undone" : "Paid"}>
-      <PrintReveal>
-        <LabelFrame innerStyle={{ padding: space.xl, gap: space.md }}>
-          <View>
-            <T v="title">{customer.name}</T>
-            <T v="small" c={color.inkMuted}>
-              {staff?.name ?? "Stylist"} · {staff?.chair ?? ""}
-            </T>
-          </View>
-          <View style={{ gap: space.xs, borderTopWidth: 1, borderTopColor: color.ruleSoft, paddingTop: space.md }}>
-            {items.map((it, i) => (
-              <Line key={i} label={it.name} value={inr(it.price)} />
-            ))}
-          </View>
-          <View style={{ gap: space.xs, borderTopWidth: 1, borderTopColor: color.rule, paddingTop: space.md }}>
-            <Line label="Total" value={inr(visit.total)} strong />
-            {visit.walletPaid ? <Line label="From wallet" value={inr(visit.walletPaid)} /> : null}
-            {visit.directPaid ? <Line label={`By ${visit.paymentMethod === "UPI" ? "UPI" : (visit.paymentMethod ?? "cash").toLowerCase()}`} value={inr(visit.directPaid)} /> : null}
-            <Line label="Wallet balance now" value={inr(customer.walletBalance)} />
-          </View>
+    <GlassScreen title={voided ? "Visit undone" : customer.name} back="Home" onBack={nav.popToRoot}>
+      <GT size={13} c={glass.soft} style={{ marginTop: -8 }}>
+        {voided ? "Money returned to the wallet" : `Paid · ${istTime(visit.paidAt ?? visit.createdAt)}`} · {staff?.name.split(" ")[0] ?? ""} · {staff?.chair ?? ""}
+      </GT>
+      <Animated.View entering={reduced ? undefined : FadeInDown.duration(500)}>
+        <GlassCard style={{ padding: 18, gap: 8, overflow: "hidden" }}>
+          {items.map((it) => (
+            <View key={it.id}>{line(it.name, inr(it.price))}</View>
+          ))}
+          <View style={{ height: 1, backgroundColor: glass.line, marginVertical: 4 }} />
+          {line("Total", inr(visit.total), { strong: true })}
+          {visit.walletPaid ? line("From wallet", inr(visit.walletPaid)) : null}
+          {visit.directPaid ? line(`By ${visit.paymentMethod === "UPI" ? "UPI" : (visit.paymentMethod ?? "cash").toLowerCase()}`, inr(visit.directPaid)) : null}
+          {line("Wallet now", inr(customer.walletBalance), { tone: glass.gold2 })}
           {voided ? null : (
-            <View style={{ alignItems: "flex-end", marginTop: -space.md }}>
-              <Stamp amount={visit.total} />
+            <View style={{ alignItems: "flex-end", marginTop: -8, marginRight: -6 }}>
+              <Stamp />
             </View>
           )}
-        </LabelFrame>
-      </PrintReveal>
-
+        </GlassCard>
+      </Animated.View>
       {referral.length && !voided ? (
-        <View style={{ marginTop: space.lg, flexDirection: "row", gap: space.md, alignItems: "center", padding: space.lg, borderRadius: radius.control, backgroundColor: color.choc }}>
-          <Icon name="refer" color={color.sealBright} size={26} />
-          <T v="body" c={color.cream} style={{ flex: 1 }}>
+        <View style={{ padding: 14, borderRadius: 18, backgroundColor: "rgba(228,166,123,0.16)", borderWidth: 1, borderColor: "rgba(228,166,123,0.45)" }}>
+          <GT size={13.5} c={glass.cream}>
             Referral reward paid: {inr(config.referral.newCustomerReward)} to {customer.name.split(" ")[0]} and {inr(config.referral.referrerReward)} to their friend. Tell them!
-          </T>
+          </GT>
         </View>
       ) : null}
-
-      <View style={{ gap: space.sm, marginTop: space.xl }}>
-        {voided ? null : <Button big label="Send thank-you on WhatsApp" icon="chat" onPress={sendThanks} />}
-        <Button kind={voided ? "seal" : "outline"} label="Back to home" onPress={() => nav.popToRoot()} />
-        {!voided && undoLeft > 0 ? (
-          <Button kind="ghost" label={`Undo this visit (${Math.floor(undoLeft / 60)}:${String(undoLeft % 60).padStart(2, "0")})`} onPress={undo} />
-        ) : null}
-      </View>
-    </Screen>
-  );
-}
-
-function Line({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
-  return (
-    <View style={{ flexDirection: "row", justifyContent: "space-between", gap: space.md }}>
-      <T v={strong ? "bodyStrong" : "body"} c={strong ? color.ink : color.inkMuted}>
-        {label}
-      </T>
-      <T v={strong ? "amount" : "bodyStrong"} style={strong ? { fontSize: 22 } : { fontVariant: ["tabular-nums"] }}>
-        {value}
-      </T>
-    </View>
+      {voided ? null : <GoldButton label="Send thank-you on WhatsApp" onPress={sendThanks} />}
+      <GhostButton label="Next customer" onPress={() => nav.replace({ name: "counter" })} />
+      {!voided && undoLeft > 0 ? (
+        <Pressable onPress={undo} accessibilityRole="button" style={{ alignItems: "center", paddingVertical: 8 }}>
+          <GT size={13.5} c={glass.soft}>
+            Undo this visit · {Math.floor(undoLeft / 60)}:{String(undoLeft % 60).padStart(2, "0")}
+          </GT>
+        </Pressable>
+      ) : null}
+    </GlassScreen>
   );
 }

@@ -7,12 +7,15 @@ import { useEffect, useState } from "react";
 import { Platform, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Intro } from "./src/components/Intro";
 import { ToastHost } from "./src/components/Toast";
 import * as E from "./src/domain/engine";
 import { istDate } from "./src/domain/rules";
 import { loadStore, useData, useSession, useStoreReady } from "./src/domain/store";
 import { Navigator, useNav, type Route } from "./src/nav/Navigator";
 import { StaffTabs } from "./src/nav/StaffTabs";
+import { MyCustomers } from "./src/screens/Home";
+import { TodayBookings } from "./src/screens/TodayBookings";
 import { Attendance } from "./src/screens/Attendance";
 import { ChangePassword, MyAttendance, MyLeave, MyProfile, StaffPrivacy } from "./src/screens/Me";
 import { LeaveRequests } from "./src/screens/LeaveRequests";
@@ -26,7 +29,7 @@ import { Legal } from "./src/screens/Legal";
 import { Refer } from "./src/screens/Refer";
 import { Reminders } from "./src/screens/Reminders";
 import { Receipt, VisitScreen } from "./src/screens/Visit";
-import { APP_MAX_WIDTH, color } from "./src/theme/tokens";
+import { APP_MAX_WIDTH, glass } from "./src/theme/tokens";
 
 function render(route: Route) {
   switch (route.name) {
@@ -70,6 +73,10 @@ function render(route: Route) {
       return <StaffPrivacy />;
     case "leaveRequests":
       return <LeaveRequests />;
+    case "myCustomers":
+      return <MyCustomers />;
+    case "todayBookings":
+      return <TodayBookings />;
   }
 }
 
@@ -113,7 +120,7 @@ function Root() {
 
 function StatusBarForRoute() {
   const { top } = useNav();
-  const dark = ["home", "login", "setup", "attendance", "calendar", "customers", "profile", "reminders", "me", "myAttendance", "myLeave", "changePassword", "staffPrivacy", "leaveRequests"].includes(top.name);
+  const dark = ["home", "login", "setup", "attendance", "calendar", "customers", "profile", "reminders", "me", "myAttendance", "myLeave", "changePassword", "staffPrivacy", "leaveRequests", "myCustomers", "todayBookings", "counter", "visit", "receipt", "refer", "legal", "owner"].includes(top.name);
   return <StatusBar style={dark ? "light" : "dark"} />;
 }
 
@@ -139,18 +146,20 @@ export default function App() {
     return () => clearTimeout(t);
   }, []);
   const fontsSettled = fontsLoaded || !!fontError || fontWaitOver;
+  // The intro video plays every time the app opens (BUILD-SPEC 2.1), over the login.
+  const [introDone, setIntroDone] = useState(false);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1, backgroundColor: color.choc950 }}>
+    <GestureHandlerRootView style={{ flex: 1, backgroundColor: "#000" }}>
       <SafeAreaProvider>
         {/* Phone-first: on tablets and the web preview the app sits in a phone-width column. */}
-        <View style={{ flex: 1, alignItems: "center", backgroundColor: color.choc950 }}>
+        <View style={{ flex: 1, alignItems: "center", backgroundColor: "#000" }}>
           <View
             style={{
               flex: 1,
               width: "100%",
               maxWidth: APP_MAX_WIDTH,
-              backgroundColor: color.choc,
+              backgroundColor: glass.deep,
               overflow: "hidden",
               ...(Platform.OS === "web" ? { boxShadow: "0 0 60px rgba(0,0,0,0.45)" } : null),
             }}
@@ -160,6 +169,7 @@ export default function App() {
                 <Root />
               </ToastHost>
             ) : null}
+            {!introDone ? <Intro onDone={() => setIntroDone(true)} /> : null}
           </View>
         </View>
       </SafeAreaProvider>

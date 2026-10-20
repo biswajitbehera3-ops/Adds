@@ -319,3 +319,33 @@ describe("customers tab", () => {
     expect(E.customerDirectory(aged, { q: "98765 43211" }, now).rows.map((r) => r.name)).toEqual(["Bina Shah"]);
   });
 });
+
+describe("staff home", () => {
+  it("shows only my own day: earnings split, today's customers, my chair, month bars", () => {
+    const s = setup(); // Imran
+    const sunita = s.run(E.addStaff(s.data, { name: "Sunita Devi", phone: "9811100002", chair: "Chair 2", secret: SECRET }));
+    const now = new Date();
+    const a = s.add("9876543210", "Asha Rao");
+    const b = s.add("9876543211", "Bina Shah");
+    s.run(E.topUp(s.data, { customerId: a.id, amount: 1000, method: "CASH" }));
+    s.visit(a.id, { walletAmount: 300 }, now); // 300 from wallet
+    s.visit(b.id, { paymentMethod: "UPI" }, now); // 300 by UPI
+    s.run(E.startVisit(s.data, { customerId: b.id, serviceIds: ["beard"], addOnIds: [], staffId: s.stylist.id }, now)); // in my chair now
+    const sv = s.run(E.startVisit(s.data, { customerId: a.id, serviceIds: ["hair-colour"], addOnIds: [], staffId: sunita.id }, now));
+    s.run(E.checkoutVisit(s.data, { visitId: sv.id, walletAmount: 0, paymentMethod: "CASH" }, now)); // Sunita's money: not mine
+
+    const d = E.staffDay(s.data, s.stylist.id, now);
+    expect(d).toMatchObject({ earned: 600, wallet: 300, direct: 300, monthTotal: 600 });
+    expect(d.counts).toEqual({ handled: 3, paid: 2, inChair: 1, new: 2 }); // Bina twice counts once
+    expect(d.chair?.customerName).toBe("Bina Shah");
+    expect(d.chair?.amount).toBe(150);
+    expect(d.salonBusy).toBe(1);
+    const m = E.staffMonth(s.data, s.stylist.id, istMonth(now));
+    expect(m).toMatchObject({ total: 600, customers: 2 });
+    expect(m.best?.total).toBe(600);
+  });
+});
+
+function istMonth(d: Date) {
+  return new Date(d.getTime() + 330 * 60000).toISOString().slice(0, 7);
+}

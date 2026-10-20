@@ -1,15 +1,16 @@
-import { View } from "react-native";
-import Animated, { FadeIn } from "react-native-reanimated";
+/**
+ * Services (any number), suggested add-ons for the chosen services (dashed, as approved) and
+ * the stylist, in brown glass. Used when a customer walks in and on the bill.
+ */
+import { Pressable, View } from "react-native";
+import Animated, { FadeIn, useReducedMotion } from "react-native-reanimated";
 import config from "../config/salon";
 import { upsellsForServices } from "../domain/rules";
 import type { Staff } from "../domain/types";
 import { inr } from "../format";
-import { color, space } from "../theme/tokens";
-import { Chip } from "./Chip";
-import { SectionTitle } from "./Screen";
-import { T } from "./T";
+import { glass } from "../theme/tokens";
+import { GT, SectionLabel } from "./glass";
 
-/** Services (any number), add-ons with suggestions for the chosen services, and the stylist. */
 export function ServicePicker({
   serviceIds,
   addOnIds,
@@ -23,49 +24,56 @@ export function ServicePicker({
   staff: Staff[];
   onChange: (next: { serviceIds: string[]; addOnIds: string[]; staffId: string | null }) => void;
 }) {
+  const reduced = useReducedMotion();
   const suggested = upsellsForServices(serviceIds).map((a) => a.id);
   const addOnList = [...config.addOns].sort((a, b) => Number(suggested.includes(b.id)) - Number(suggested.includes(a.id)));
   const toggle = (list: string[], id: string) => (list.includes(id) ? list.filter((x) => x !== id) : [...list, id]);
 
   return (
-    <View>
-      <SectionTitle aside={<T v="small" c={color.inkMuted}>pick one or more</T>}>Services</SectionTitle>
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: space.sm }}>
+    <View style={{ gap: 10 }}>
+      <SectionLabel>Services</SectionLabel>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
         {config.services.map((s) => (
-          <Chip
-            key={s.id}
-            label={s.name}
-            sub={inr(s.price)}
-            selected={serviceIds.includes(s.id)}
-            onPress={() => onChange({ serviceIds: toggle(serviceIds, s.id), addOnIds, staffId })}
-          />
+          <Pill key={s.id} label={s.name} sub={inr(s.price)} on={serviceIds.includes(s.id)} onPress={() => onChange({ serviceIds: toggle(serviceIds, s.id), addOnIds, staffId })} />
         ))}
       </View>
-
       {serviceIds.length ? (
-        <Animated.View entering={FadeIn.duration(200)}>
-          <SectionTitle aside={suggested.length ? <T v="small" c={color.seal}>Suggested for these services</T> : undefined}>Add-ons</SectionTitle>
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: space.sm }}>
+        <Animated.View entering={reduced ? undefined : FadeIn.duration(200)} style={{ gap: 10 }}>
+          <SectionLabel>{suggested.length ? "Suggested add-ons" : "Add-ons"}</SectionLabel>
+          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
             {addOnList.map((a) => (
-              <Chip
-                key={a.id}
-                label={a.name}
-                sub={`+${inr(a.price)}`}
-                suggested={suggested.includes(a.id)}
-                selected={addOnIds.includes(a.id)}
-                onPress={() => onChange({ serviceIds, addOnIds: toggle(addOnIds, a.id), staffId })}
-              />
+              <Pill key={a.id} label={a.name} sub={`+${inr(a.price)}`} dashed={suggested.includes(a.id)} on={addOnIds.includes(a.id)} onPress={() => onChange({ serviceIds, addOnIds: toggle(addOnIds, a.id), staffId })} />
             ))}
           </View>
         </Animated.View>
       ) : null}
-
-      <SectionTitle>Stylist</SectionTitle>
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: space.sm }}>
+      <SectionLabel>Stylist</SectionLabel>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
         {staff.filter((s) => s.active).map((s) => (
-          <Chip key={s.id} grow label={s.name.split(" ")[0]} sub={s.chair} selected={staffId === s.id} onPress={() => onChange({ serviceIds, addOnIds, staffId: s.id })} />
+          <Pill key={s.id} label={s.name.split(" ")[0]} sub={s.chair} on={staffId === s.id} onPress={() => onChange({ serviceIds, addOnIds, staffId: s.id })} />
         ))}
       </View>
     </View>
+  );
+}
+
+export function Pill({ label, sub, on, dashed, onPress }: { label: string; sub?: string; on: boolean; dashed?: boolean; onPress: () => void }) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="checkbox"
+      accessibilityState={{ checked: on }}
+      accessibilityLabel={`${label}${sub ? `, ${sub}` : ""}${dashed ? ", suggested" : ""}`}
+      style={{ paddingHorizontal: 14, paddingVertical: 8, borderRadius: 18, backgroundColor: on ? glass.cream : "rgba(255,244,236,0.06)", borderWidth: 1.2, borderStyle: dashed && !on ? "dashed" : "solid", borderColor: on ? glass.cream : dashed ? glass.gold2 : glass.line }}
+    >
+      <GT size={14} w="bold" c={on ? glass.ink : glass.cream}>
+        {label}
+      </GT>
+      {sub ? (
+        <GT size={11.5} c={on ? "rgba(42,26,18,0.7)" : glass.soft}>
+          {sub}
+        </GT>
+      ) : null}
+    </Pressable>
   );
 }

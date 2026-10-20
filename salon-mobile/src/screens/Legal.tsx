@@ -4,20 +4,20 @@
  * rights, retention, and where the full policies live. Text comes from config so
  * each salon's build carries its own details.
  */
-import { Linking, View } from "react-native";
-import { Press } from "../components/Press";
-import { Rule, Screen, SectionTitle } from "../components/Screen";
-import { T } from "../components/T";
+import { Linking, Pressable, View } from "react-native";
+import { GlassCard, GlassScreen, GT, SectionLabel } from "../components/glass";
 import config from "../config/salon";
-import { color, space } from "../theme/tokens";
+import { useNav } from "../nav/Navigator";
+import { glass } from "../theme/tokens";
 
 const years = (days: number) => (days % 365 === 0 ? `${days / 365} year${days === 365 ? "" : "s"}` : `${days} days`);
 
 export function Legal() {
   const b = config.business;
   const r = config.retention;
+  const nav = useNav();
   return (
-    <Screen title="Privacy & terms">
+    <GlassScreen title="Privacy & terms" back="Back" onBack={nav.pop}>
       <SectionTitle>Who we are</SectionTitle>
       <Line k="Business" v={b.legalName} />
       <Line k="Address" v={b.address} />
@@ -61,59 +61,60 @@ export function Legal() {
 
       <SectionTitle>Credits</SectionTitle>
       <P>Fonts under the SIL Open Font License. App built with open-source software (MIT, Apache-2.0 and similar licences). The salon's logo and intro video are used with the salon's permission.</P>
-    </Screen>
+    </GlassScreen>
   );
+}
+
+function SectionTitle({ children }: { children: string }) {
+  return <SectionLabel>{children}</SectionLabel>;
 }
 
 function P({ children }: { children: string }) {
   return (
-    <T v="body" style={{ marginBottom: space.sm }}>
+    <GT size={14} c={glass.soft} style={{ lineHeight: 20 }}>
       {children}
-    </T>
+    </GT>
   );
 }
 
 function Bullet({ children }: { children: string }) {
   return (
-    <View style={{ flexDirection: "row", gap: space.sm, marginBottom: 4 }}>
-      <T v="body" accessibilityElementsHidden importantForAccessibility="no">
+    <View style={{ flexDirection: "row", gap: 8 }}>
+      <GT size={14} c={glass.gold2} accessibilityElementsHidden importantForAccessibility="no">
         •
-      </T>
-      <T v="body" style={{ flex: 1 }}>
+      </GT>
+      <GT size={14} c={glass.soft} style={{ flex: 1, lineHeight: 20 }}>
         {children}
-      </T>
+      </GT>
     </View>
   );
 }
 
 function Line({ k, v }: { k: string; v: string }) {
   return (
-    <View>
-      <View style={{ flexDirection: "row", gap: space.md, paddingVertical: 6 }}>
-        <T v="small" c={color.inkMuted} style={{ width: 84 }}>
-          {k}
-        </T>
-        <T v="bodyStrong" style={{ flex: 1 }} selectable>
-          {v}
-        </T>
-      </View>
-      <Rule />
-    </View>
+    <GlassCard style={{ flexDirection: "row", gap: 12, paddingHorizontal: 14, paddingVertical: 10, borderRadius: 14 }}>
+      <GT size={12.5} c={glass.faint} style={{ width: 76 }}>
+        {k}
+      </GT>
+      <GT size={14} w="bold" style={{ flex: 1 }} selectable>
+        {v}
+      </GT>
+    </GlassCard>
   );
 }
 
 function LinkRow({ label, url }: { label: string; url: string }) {
   const real = /^https?:\/\//.test(url);
   return (
-    <Press
+    <Pressable
       onPress={() => (real ? Linking.openURL(url).catch(() => {}) : undefined)}
       accessibilityRole="link"
       accessibilityLabel={real ? label : `${label}, not set up yet`}
       style={{ minHeight: 44, justifyContent: "center" }}
     >
-      <T v="bodyStrong" c={real ? color.seal : color.inkMuted} style={real ? { textDecorationLine: "underline" } : undefined}>
+      <GT size={14.5} w="bold" c={real ? glass.gold2 : glass.faint} style={real ? { textDecorationLine: "underline" } : undefined}>
         {real ? label : `${label} (link not set yet)`}
-      </T>
-    </Press>
+      </GT>
+    </Pressable>
   );
 }

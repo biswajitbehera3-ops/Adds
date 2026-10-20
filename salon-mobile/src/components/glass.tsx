@@ -211,3 +211,18 @@ export function SectionLabel({ children }: { children: string }) {
     </GT>
   );
 }
+
+/** The approved round wallet badge: a gold ring with "WALLET" and the balance. */
+export function WalletBadge({ amount, size = 76 }: { amount: number; size?: number }) {
+  const text = `₹${Math.round(amount).toLocaleString("en-IN")}`;
+  return (
+    <View accessible accessibilityLabel={`Wallet ${text}`} style={{ width: size, height: size, borderRadius: size / 2, borderWidth: 1.5, borderColor: "rgba(245,201,160,0.7)", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(26,18,16,0.25)" }}>
+      <GT size={size * 0.12} w="heavy" c={glass.gold2} style={{ letterSpacing: 1.2 }}>
+        WALLET
+      </GT>
+      <GT size={text.length > 6 ? size * 0.2 : size * 0.24} w="heavy" style={{ fontVariant: ["tabular-nums"] }}>
+        {text}
+      </GT>
+    </View>
+  );
+}

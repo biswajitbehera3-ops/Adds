@@ -1,11 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { Image, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
+import Animated, { FadeInDown, useReducedMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Button } from "../components/Button";
-import { LabelFrame } from "../components/LabelFrame";
-import { Press } from "../components/Press";
+import { Backdrop, easeOut, GhostButton, GoldButton, GT } from "../components/glass";
+import { Icon } from "../components/Icon";
 import { Reveal } from "../components/Reveal";
-import { Screen, SectionTitle } from "../components/Screen";
 import { T } from "../components/T";
 import { useToast } from "../components/Toast";
 import config from "../config/salon";
@@ -16,7 +15,7 @@ import { commit, setSession, useData, useSession } from "../domain/store";
 import type { Attendance as AttendanceRec, Staff } from "../domain/types";
 import { longDate } from "../format";
 import { photoUri, savePhoto, takeSelfie } from "../platform/photos";
-import { color, font, radius, space } from "../theme/tokens";
+import { color, font, glass } from "../theme/tokens";
 import { Monogram } from "./Customers";
 
 /** Salon-local clock, HH:MM. */
@@ -44,11 +43,12 @@ export function SelfieThumb({ record, staff, size = 64 }: { record: AttendanceRe
   return <Monogram name={staff.name} size={size} />;
 }
 
-/** The first thing staff see after signing in: check in with a selfie before serving customers. */
+/** The first thing staff see after signing in (BUILD-SPEC 2.3): a glass check-in with a selfie. */
 export function Attendance() {
   const staff = useCurrentStaff();
   const insets = useSafeAreaInsets();
   const toast = useToast();
+  const reduced = useReducedMotion();
   const [now, setNow] = useState(new Date());
   const [shot, setShot] = useState<{ uri: string; at: Date } | null>(null);
   const [busy, setBusy] = useState(false);
@@ -70,7 +70,7 @@ export function Attendance() {
   };
 
   const confirm = async () => {
-    if (!shot) return;
+    if (!shot || busy) return;
     setBusy(true);
     try {
       const key = `${staff.id}-${istDate(shot.at)}`;
@@ -84,64 +84,76 @@ export function Attendance() {
     }
   };
 
+  const enter = (i: number) => (reduced ? undefined : FadeInDown.duration(420).delay(i * 90).easing(easeOut));
   return (
-    <View style={{ flex: 1, backgroundColor: color.choc, paddingTop: insets.top + space.xl, paddingHorizontal: space.lg, paddingBottom: insets.bottom + space.lg, gap: space.lg }}>
-      <Reveal kind="rise">
-        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
-          <View style={{ flexShrink: 1 }}>
-            <T v="small" c={color.creamMuted}>
-              {longDate(now)}
-            </T>
-            <T v="title" c={color.cream}>
+    <Backdrop>
+      <View style={{ flex: 1, paddingTop: insets.top + 18, paddingHorizontal: 20, paddingBottom: insets.bottom + 20, gap: 18 }}>
+        <Animated.View entering={enter(0)} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <View style={{ flexShrink: 1, gap: 2 }}>
+            <GT size={11.5} w="heavy" c={glass.gold2} style={{ letterSpacing: 1.2, textTransform: "uppercase" }}>
+              First login today
+            </GT>
+            <GT size={28} w="heavy" accessibilityRole="header" style={{ lineHeight: 34 }}>
               Hi {staff.name.split(" ")[0]}, check in
-            </T>
+            </GT>
+            <GT size={13} c={glass.soft}>
+              {longDate(now)}
+            </GT>
           </View>
-          <Press onPress={() => setSession(null)} accessibilityLabel="Sign out" style={{ minHeight: 48, justifyContent: "center", paddingLeft: space.md }}>
-            <T v="bodyStrong" c={color.sealBright}>
+          <Pressable onPress={() => setSession(null)} accessibilityRole="button" accessibilityLabel="Sign out" hitSlop={10} style={{ paddingTop: 4 }}>
+            <GT size={13.5} w="bold" c={glass.gold2}>
               Sign out
-            </T>
-          </Press>
-        </View>
-      </Reveal>
+            </GT>
+          </Pressable>
+        </Animated.View>
 
-      <Reveal kind="pop" index={1} style={{ flex: 1 }}>
-        <LabelFrame style={{ flex: 1 }} innerStyle={{ padding: space.xl, alignItems: "center", justifyContent: "center", gap: space.lg }}>
-          <View style={{ width: 220, height: 220, borderRadius: 110, overflow: "hidden", borderWidth: 2, borderColor: color.choc, backgroundColor: color.paperPressed, alignItems: "center", justifyContent: "center" }}>
-            {shot ? (
-              <Image source={{ uri: shot.uri }} style={{ width: 220, height: 220 }} accessibilityLabel="Your selfie" />
-            ) : (
-              <T v="body" c={color.inkMuted} style={{ textAlign: "center", paddingHorizontal: space.xl }}>
-                Take a selfie at the counter to mark today's attendance
-              </T>
-            )}
-            {shot ? (
-              <View style={{ position: "absolute", bottom: 14, backgroundColor: "rgba(31,15,9,0.75)", borderRadius: 999, paddingHorizontal: 10, paddingVertical: 3 }}>
-                <T v="small" c={color.cream}>
-                  {istTime(shot.at)} · {istDate(shot.at)}
-                </T>
-              </View>
-            ) : null}
+        <Animated.View entering={enter(1)} style={{ flex: 1, alignItems: "center", justifyContent: "center", gap: 18 }}>
+          <View style={{ width: 236, height: 236, borderRadius: 118, padding: 6, borderWidth: 1.5, borderColor: "rgba(245,201,160,0.6)", backgroundColor: glass.card }}>
+            <View style={{ flex: 1, borderRadius: 112, overflow: "hidden", backgroundColor: "rgba(26,18,16,0.45)", alignItems: "center", justifyContent: "center" }}>
+              {shot ? (
+                <Image source={{ uri: shot.uri }} style={{ width: 224, height: 224 }} accessibilityLabel="Your selfie" />
+              ) : (
+                <View style={{ alignItems: "center", gap: 8, paddingHorizontal: 28 }}>
+                  <Icon name="person" color={glass.gold2} size={44} />
+                  <GT size={13.5} c={glass.soft} style={{ textAlign: "center" }}>
+                    Take a selfie at the counter to mark today's attendance
+                  </GT>
+                </View>
+              )}
+              {shot ? (
+                <View style={{ position: "absolute", bottom: 16, backgroundColor: "rgba(26,18,16,0.7)", borderRadius: 999, paddingHorizontal: 12, paddingVertical: 4 }}>
+                  <GT size={12} w="semibold">
+                    {istTime(shot.at)} · {istDate(shot.at)}
+                  </GT>
+                </View>
+              ) : null}
+            </View>
           </View>
-          <View style={{ alignItems: "center", gap: 2 }}>
-            <T style={{ fontFamily: font.display, fontSize: 34, lineHeight: 42 }}>{istTime(shot?.at ?? now)}</T>
-            <T v="small" c={late ? color.seal : color.positive}>
-              Shift starts {config.shift.start} · {late ? "this counts as late" : "you're on time"}
-            </T>
+          <View style={{ alignItems: "center", gap: 6 }}>
+            <GT size={46} w="heavy" style={{ lineHeight: 54, fontVariant: ["tabular-nums"] }}>
+              {istTime(shot?.at ?? now)}
+            </GT>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 8, paddingHorizontal: 14, paddingVertical: 6, borderRadius: 999, backgroundColor: late ? "rgba(240,160,138,0.16)" : "rgba(143,214,164,0.14)", borderWidth: 1, borderColor: late ? "rgba(240,160,138,0.45)" : "rgba(143,214,164,0.4)" }}>
+              <View style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: late ? glass.late : glass.ok }} />
+              <GT size={13} w="bold" c={late ? glass.late : glass.ok}>
+                {late ? "Late" : "On time"} · shift starts {config.shift.start}
+              </GT>
+            </View>
           </View>
-        </LabelFrame>
-      </Reveal>
+        </Animated.View>
 
-      <Reveal kind="rise" index={2} style={{ gap: space.sm }}>
-        {shot ? (
-          <>
-            <Button big label="Confirm attendance" icon="check" busy={busy} onPress={confirm} />
-            <Button kind="outlineCream" label="Retake photo" onPress={capture} />
-          </>
-        ) : (
-          <Button big label="Take selfie" icon="spark" onPress={capture} />
-        )}
-      </Reveal>
-    </View>
+        <Animated.View entering={enter(2)} style={{ gap: 10 }}>
+          {shot ? (
+            <>
+              <GoldButton label={busy ? "Saving…" : "Confirm attendance"} disabled={busy} onPress={confirm} />
+              <GhostButton label="Retake" onPress={capture} />
+            </>
+          ) : (
+            <GoldButton label="Take selfie" onPress={capture} />
+          )}
+        </Animated.View>
+      </View>
+    </Backdrop>
   );
 }
 

@@ -1492,3 +1492,69 @@ export function myAttendance(data: Data, staffId: string, month: string, now = n
       .map((a) => ({ date: a.date, at: a.checkInAt, late: isLate(a.checkInAt), photoKey: a.photoKey })),
   };
 }
+
+// ── A stylist's own day and month (BUILD-SPEC 4.2, 4.3, 4.4: only their own numbers) ──
+
+/**
+ * Staff Home: what this stylist earned today (wallet vs cash/UPI/card), this month's total,
+ * today's customers one by one (paid or still in the chair), whether each was new, and who
+ * is in their chair now. The salon line counts busy chairs only, never others' money.
+ */
+export function staffDay(data: Data, staffId: string, now = new Date()) {
+  const today = istDate(now);
+  const month = today.slice(0, 7);
+  const firstVisit = new Map<string, string>();
+  for (const v of data.visits) {
+    if (v.status === "VOID") continue;
+    const prev = firstVisit.get(v.customerId);
+    if (!prev || v.createdAt < prev) firstVisit.set(v.customerId, v.createdAt);
+  }
+  const byId = new Map(data.customers.map((c) => [c.id, c]));
+  const mine = data.visits.filter((v) => v.staffId === staffId && (v.status === "OPEN" || v.status === "PAID"));
+  const todays = mine
+    .filter((v) => istDate(new Date(v.status === "PAID" ? at(v) : v.createdAt)) === today)
+    .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+    .map((v) => ({
+      visit: v,
+      customerName: byId.get(v.customerId)?.name ?? "Customer",
+      services: [...v.serviceIds.map((id) => config.services.find((s) => s.id === id)?.name ?? id), ...v.addOnIds.map((id) => config.addOns.find((a) => a.id === id)?.name ?? id)],
+      amount: v.status === "PAID" ? v.total : priceItems(v.serviceIds, v.addOnIds).total,
+      isNew: istDate(new Date(firstVisit.get(v.customerId) ?? v.createdAt)) === today,
+    }));
+  const paidToday = todays.filter((t) => t.visit.status === "PAID");
+  const monthTotal = mine.filter((v) => paid(v) && istDate(new Date(at(v))).startsWith(month)).reduce((s, v) => s + v.total, 0);
+  const busy = new Set(data.visits.filter((v) => v.status === "OPEN").map((v) => v.staffId));
+  return {
+    earned: paidToday.reduce((s, t) => s + t.visit.total, 0),
+    wallet: paidToday.reduce((s, t) => s + t.visit.walletPaid, 0),
+    direct: paidToday.reduce((s, t) => s + t.visit.directPaid, 0),
+    monthTotal,
+    customers: todays,
+    counts: {
+      handled: todays.length,
+      paid: paidToday.length,
+      inChair: todays.filter((t) => t.visit.status === "OPEN").length,
+      new: new Set(todays.filter((t) => t.isNew).map((t) => t.visit.customerId)).size,
+    },
+    chair: todays.find((t) => t.visit.status === "OPEN") ?? null,
+    salonBusy: busy.size,
+    salonChairs: data.staff.filter((s) => s.active && !leaveOn(data, s.id, today)).length,
+  };
+}
+
+/** My customers → the month so far: one bar per day, customers served and the best day. */
+export function staffMonth(data: Data, staffId: string, month: string) {
+  const [y, m] = month.split("-").map(Number);
+  const n = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const days = Array.from({ length: n }, (_, i) => ({ date: `${month}-${String(i + 1).padStart(2, "0")}`, total: 0, customers: 0 }));
+  for (const v of data.visits) {
+    if (v.staffId !== staffId || !paid(v)) continue;
+    const d = istDate(new Date(at(v)));
+    if (!d.startsWith(month)) continue;
+    const slot = days[Number(d.slice(8, 10)) - 1];
+    slot.total += v.total;
+    slot.customers += 1;
+  }
+  const best = days.reduce((b, d) => (d.total > b.total ? d : b), days[0]);
+  return { days, total: days.reduce((s, d) => s + d.total, 0), customers: days.reduce((s, d) => s + d.customers, 0), best: best.total ? best : null };
+}
