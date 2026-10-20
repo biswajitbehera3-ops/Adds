@@ -105,7 +105,7 @@ export function Customers() {
         {filters.map((f) => {
           const on = f.key === filter;
           return (
-            <Pressable key={f.key} onPress={() => setFilter(f.key)} accessibilityRole="tab" accessibilityState={{ selected: on }} style={{ paddingHorizontal: 13, paddingVertical: 7, borderRadius: 999, backgroundColor: on ? glass.gold : glass.card, borderWidth: 1, borderColor: on ? glass.gold : glass.line }}>
+            <Pressable key={f.key} onPress={() => (f.key === "top" && !me ? nav.push({ name: "topSpenders" }) : setFilter(f.key))} accessibilityRole="tab" accessibilityState={{ selected: on }} style={{ paddingHorizontal: 13, paddingVertical: 7, borderRadius: 999, backgroundColor: on ? glass.gold : glass.card, borderWidth: 1, borderColor: on ? glass.gold : glass.line }}>
               <GT size={13} w="bold" c={on ? glass.ink : glass.soft}>
                 {f.label}
               </GT>
