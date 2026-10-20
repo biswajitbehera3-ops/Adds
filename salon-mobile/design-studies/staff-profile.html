@@ -1,0 +1,349 @@
+<title>Staff Profile Tab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+
+/* Layout: three phones — customer list (search, filters), a customer's profile, and a bill with Cancel bill. Brown glass, single dark look by design. */
+:root{
+  --glow:#8E5B4E; --mid:#4A3029; --deep:#1A1210; --page:#140d0b;
+  --gold:#E4A67B; --gold2:#F5C9A0; --cream:#FFF8F1; --soft:rgba(255,248,241,.72); --faint:rgba(255,248,241,.42);
+  --glass:rgba(255,244,236,.11); --glass2:rgba(255,244,236,.18); --line:rgba(255,244,236,.22);
+  --ok:#9CCB8F; --warn:#F0A86A; --red:#F08C6A; --blue:#9FB8E6; --ink:#2a1a12;
+  --font:Urbanist,"Avenir Next","Segoe UI",system-ui,sans-serif; color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--page);color:var(--cream);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1320px;margin:0 auto}
+h1{font-size:28px;font-weight:700;text-wrap:balance}
+.lead{color:var(--soft);font-size:15px;line-height:1.55;max-width:74ch;margin-top:8px}
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,300px));gap:28px;margin-top:26px;justify-content:start}
+figcaption{margin-top:12px}
+figcaption b{display:block;font-size:16px}
+figcaption span{display:block;color:var(--soft);font-size:13.5px;line-height:1.5;margin-top:4px}
+.phone{position:relative;width:100%;aspect-ratio:390/820;border-radius:40px;overflow:hidden;
+  background:radial-gradient(120% 70% at 12% 0%,var(--glow) 0%,var(--mid) 46%,var(--deep) 100%);
+  box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,244,236,.08);container-type:inline-size}
+.scr{position:absolute;inset:0;padding:6cqw 4.6cqw 24cqw;display:flex;flex-direction:column;gap:3cqw;overflow-y:auto;scrollbar-width:none}
+.scr::-webkit-scrollbar{display:none}
+.who{font-size:3.2cqw;color:var(--soft)}
+.ttl{font-size:6.6cqw;font-weight:700;letter-spacing:-.01em}
+.lbl{font-size:2.8cqw;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:600}
+.sm{font-size:3cqw;color:var(--soft)}
+.num{font-variant-numeric:tabular-nums}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:5cqw;padding:3.4cqw 3.8cqw}
+.search{display:flex;align-items:center;gap:2.4cqw;padding:3cqw 3.6cqw;border-radius:999px;background:rgba(26,18,16,.5);border:1px solid var(--line);font-size:3.5cqw;color:var(--faint)}
+.search svg{width:4.6cqw;height:4.6cqw;stroke:var(--soft);fill:none;stroke-width:2}
+.filters{display:flex;gap:1.8cqw;overflow-x:auto;scrollbar-width:none}
+.filters span{white-space:nowrap;font-size:3cqw;font-weight:600;padding:1.6cqw 3cqw;border-radius:999px;background:var(--glass);border:1px solid var(--line);color:var(--soft)}
+.filters span.on{background:var(--gold);color:var(--ink);border-color:transparent}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.kpi{background:var(--glass);border:1px solid var(--line);border-radius:4cqw;padding:2.6cqw;display:grid;gap:.6cqw}
+.kpi b{font-size:5cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.kpi span{font-size:2.6cqw;color:var(--soft)}
+.list{background:var(--glass);border:1px solid var(--line);border-radius:5cqw;overflow:hidden}
+.cust{display:grid;grid-template-columns:10cqw 1fr auto;gap:3cqw;align-items:center;padding:3cqw 3.6cqw;border-top:1px solid rgba(255,244,236,.08)}
+.cust:first-child{border-top:0}
+.av{width:10cqw;height:10cqw;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:3.3cqw;color:var(--ink)}
+.cust .nm{font-size:3.8cqw;font-weight:700;display:flex;align-items:center;gap:1.6cqw}
+.cust .sub{font-size:2.9cqw;color:var(--soft);margin-top:.5cqw}
+.cust .r{text-align:right}
+.cust .r b{font-size:3.6cqw;font-variant-numeric:tabular-nums}
+.tag{font-size:2.4cqw;font-weight:700;padding:.5cqw 1.6cqw;border-radius:999px;letter-spacing:.03em}
+.tag.reg{background:rgba(228,166,123,.2);color:var(--gold2)}
+.tag.lapse{background:rgba(240,168,106,.16);color:var(--warn)}
+.tag.new{background:rgba(156,203,143,.16);color:var(--ok)}
+.wal{font-size:2.8cqw;color:var(--gold2);margin-top:.4cqw}
+/* profile */
+.back{font:600 3.4cqw var(--font);color:var(--soft);background:none;border:0;text-align:left;padding:0}
+.phead{display:flex;gap:3.6cqw;align-items:center}
+.phead .av{width:16cqw;height:16cqw;font-size:5cqw}
+.phead .nm{font-size:6cqw;font-weight:800}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.actions span{display:flex;flex-direction:column;align-items:center;gap:1cqw;padding:2.6cqw 0;border-radius:4cqw;background:var(--glass);border:1px solid var(--line);font-size:2.8cqw;font-weight:600}
+.actions svg{width:5.4cqw;height:5.4cqw;stroke:var(--gold2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.walcard{display:flex;justify-content:space-between;align-items:center;padding:3.6cqw 4cqw;border-radius:5cqw;background:linear-gradient(135deg,rgba(228,166,123,.34),rgba(228,166,123,.08));border:1px solid rgba(228,166,123,.5)}
+.walcard b{font-size:7cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.btn{font:700 3.1cqw var(--font);padding:2cqw 3.4cqw;border-radius:999px;background:var(--gold);color:var(--ink);border:0}
+.visit{display:grid;grid-template-columns:13cqw 1fr auto;gap:2.6cqw;align-items:center;padding:2.6cqw 0;border-top:1px solid rgba(255,244,236,.08);font-size:3.2cqw}
+.visit:first-of-type{border-top:0}
+.visit .d{color:var(--soft);font-size:2.9cqw;line-height:1.3}
+.visit .s{font-weight:600}
+.visit .x{font-size:2.8cqw;color:var(--soft);margin-top:.3cqw}
+.visit .a{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.visit .a small{display:block;font-size:2.5cqw;color:var(--soft);font-weight:600;letter-spacing:.05em}
+.void{color:var(--faint);text-decoration:line-through}
+.row2{display:flex;justify-content:space-between;align-items:center;padding:2.4cqw 0;border-top:1px solid rgba(255,244,236,.08);font-size:3.3cqw}
+.row2:first-of-type{border-top:0}
+.tog{width:10cqw;height:5.6cqw;border-radius:999px;background:var(--ok);position:relative}
+.tog::after{content:"";position:absolute;right:.7cqw;top:.7cqw;width:4.2cqw;height:4.2cqw;border-radius:50%;background:#fff}
+.dangerlink{color:var(--red);font-weight:700}
+/* bill */
+.bill{background:#f6efe6;color:#2a1a12;border-radius:5cqw;padding:4cqw;display:grid;gap:1.6cqw;position:relative}
+.bill .h{display:flex;justify-content:space-between;font-size:3cqw;color:#6b5448}
+.bill .it{display:flex;justify-content:space-between;font-size:3.4cqw}
+.bill .tot{display:flex;justify-content:space-between;font-size:4.2cqw;font-weight:800;border-top:1px dashed #b9a596;padding-top:2cqw;margin-top:1cqw}
+.bill .pay{font-size:2.9cqw;color:#6b5448}
+.sheet{position:absolute;left:0;right:0;bottom:0;top:38%;z-index:7;border-radius:7cqw 7cqw 0 0;background:linear-gradient(180deg,#5a3b32,#2b1c17);border-top:1px solid var(--line);padding:3cqw 5cqw 6cqw;display:flex;flex-direction:column;gap:2.6cqw}
+.dim{position:absolute;inset:0;background:rgba(10,6,5,.5);z-index:6}
+.grab{width:12cqw;height:1.2cqw;border-radius:999px;background:rgba(255,244,236,.35);margin:0 auto}
+.reasons{display:flex;flex-wrap:wrap;gap:1.8cqw}
+.reasons span{font-size:3cqw;padding:1.8cqw 3cqw;border-radius:999px;background:rgba(26,18,16,.45);border:1px solid var(--line)}
+.reasons span.on{background:var(--gold);color:var(--ink);font-weight:700;border-color:transparent}
+.eff{display:grid;gap:1.4cqw;font-size:3cqw;color:var(--soft)}
+.eff div{display:flex;gap:2cqw;align-items:flex-start}
+.eff i{font-style:normal;color:var(--gold2)}
+.cancel{margin-top:auto;padding:3.4cqw;border-radius:999px;background:var(--red);color:#2a1210;font-weight:800;font-size:3.8cqw;text-align:center}
+.sort{font-size:3cqw;font-weight:600;color:var(--gold2);padding:1.2cqw 2.6cqw;border-radius:999px;border:1px solid rgba(228,166,123,.45)}
+.seg{display:grid;grid-template-columns:1fr 1fr;padding:1cqw;border-radius:999px;background:rgba(26,18,16,.5);border:1px solid var(--line)}
+.seg span{text-align:center;font-size:3.3cqw;font-weight:600;padding:1.8cqw 0;border-radius:999px;color:var(--soft)}
+.seg span.on{background:var(--gold);color:var(--ink)}
+.pchips{display:flex;gap:1.6cqw}
+.pchips span{font-size:2.9cqw;padding:1.3cqw 2.6cqw;border-radius:999px;background:var(--glass);border:1px solid var(--line);color:var(--soft)}
+.pchips span.on{color:var(--cream);border-color:rgba(228,166,123,.7);background:rgba(228,166,123,.18)}
+.share{padding:3.4cqw 3.8cqw;border-radius:5cqw;background:linear-gradient(135deg,rgba(228,166,123,.3),rgba(228,166,123,.08));border:1px solid rgba(228,166,123,.5);display:grid;gap:1.6cqw}
+.share b{font-size:6cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.sbar{height:2cqw;border-radius:999px;background:rgba(255,244,236,.12);overflow:hidden}.sbar i{display:block;height:100%;width:34%;background:var(--gold);border-radius:inherit}
+.rank{display:grid;grid-template-columns:7cqw 9cqw 1fr auto;gap:2.4cqw;align-items:center;padding:2.5cqw 3.4cqw;border-top:1px solid rgba(255,244,236,.08)}
+.rank:first-child{border-top:0}
+.rank .n{font-size:3.6cqw;font-weight:800;color:var(--soft);text-align:center;font-variant-numeric:tabular-nums}
+.rank .n.m1{color:#F5C9A0}.rank .n.m2{color:#E8E2DA}.rank .n.m3{color:#C9946E}
+.rank .av{width:9cqw;height:9cqw;font-size:3cqw}
+.rank .nm{font-size:3.6cqw;font-weight:700}
+.rank .sub{font-size:2.8cqw;color:var(--soft);margin-top:.3cqw}
+.rank .amt{text-align:right;font-weight:800;font-size:3.6cqw;font-variant-numeric:tabular-nums}
+.rank .bar{height:1cqw;border-radius:999px;background:rgba(255,244,236,.08);margin-top:.9cqw;overflow:hidden}.rank .bar i{display:block;height:100%;background:var(--gold);border-radius:inherit}
+.dock{position:absolute;left:3.5cqw;right:3.5cqw;bottom:3.5cqw;display:grid;grid-template-columns:repeat(4,1fr);padding:2cqw;border-radius:6cqw;background:rgba(38,22,17,.7);border:1px solid var(--line);z-index:5}
+.dock span{display:flex;flex-direction:column;align-items:center;gap:.8cqw;font-size:2.8cqw;color:var(--soft);padding:1.6cqw 0;border-radius:4cqw}
+.dock span.on{background:var(--gold);color:var(--ink);font-weight:700}
+.dock svg{width:5.2cqw;height:5.2cqw;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* staff extras */
+.trio{grid-template-columns:repeat(auto-fit,minmax(260px,300px))!important}
+.wrap{max-width:1320px!important}
+.dock5{position:absolute;left:3.5cqw;right:3.5cqw;bottom:3.5cqw;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;padding:2cqw;border-radius:6cqw;background:rgba(38,22,17,.72);border:1px solid var(--line);z-index:5}
+.dock5 span{display:flex;flex-direction:column;align-items:center;gap:.8cqw;font-size:2.7cqw;color:var(--soft);padding:1.6cqw 0;border-radius:4cqw}
+.dock5 span.on{background:var(--gold);color:var(--ink);font-weight:700}
+.dock5 svg{width:5.2cqw;height:5.2cqw;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dock5 .plus{width:13cqw;height:13cqw;margin:-7cqw auto 0;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;padding:0;box-shadow:0 8px 20px rgba(0,0,0,.45),0 0 0 3cqw rgba(38,22,17,.72)}
+.dock5 .plus svg{width:6.4cqw;height:6.4cqw;stroke-width:2.6}
+.badge{position:relative}
+.badge i{position:absolute;top:-1.2cqw;right:-2.6cqw;font-style:normal;font-size:2.3cqw;font-weight:800;background:var(--red);color:#2a1210;border-radius:999px;padding:.2cqw 1.2cqw}
+.remind{display:flex;justify-content:space-between;align-items:center;padding:3cqw 3.6cqw;border-radius:5cqw;background:linear-gradient(135deg,rgba(228,166,123,.3),rgba(228,166,123,.08));border:1px solid rgba(228,166,123,.5)}
+.remind b{font-size:4cqw}
+.rrow{display:grid;grid-template-columns:10cqw 1fr auto;gap:3cqw;align-items:center;padding:3cqw 3.6cqw;border-top:1px solid rgba(255,244,236,.08)}
+.rrow:first-child{border-top:0}
+.rrow .nm{font-size:3.7cqw;font-weight:700}
+.rrow .sub{font-size:2.9cqw;color:var(--soft);margin-top:.4cqw}
+.send{font:700 3cqw var(--font);padding:1.8cqw 3.2cqw;border-radius:999px;background:var(--gold);color:var(--ink)}
+.sent{font-size:2.9cqw;color:var(--ok);font-weight:700}
+.msg{padding:3cqw 3.4cqw;border-radius:4cqw;background:rgba(26,18,16,.45);border:1px solid var(--line);font-size:3cqw;line-height:1.45;color:var(--soft)}
+.ownonly{font-size:2.8cqw;color:var(--faint);text-align:center}
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:1.2cqw;text-align:center}
+.cal .h{font-size:2.6cqw;color:var(--faint);font-weight:700}
+.cal .d{position:relative;padding:2.2cqw 0;border-radius:3cqw;font-size:3.3cqw;font-variant-numeric:tabular-nums}
+.cal .d.x{color:var(--faint);opacity:.45}
+.cal .d.t{box-shadow:inset 0 0 0 1.5px var(--gold2)}
+.cal .d.s{background:var(--gold);color:var(--ink);font-weight:800}
+.cal .d i{position:absolute;top:.3cqw;right:.6cqw;font-style:normal;font-size:2.2cqw;font-weight:800;color:var(--gold2)}
+.cal .d.s i{color:var(--ink)}
+.bk{display:grid;grid-template-columns:12cqw 1fr auto;gap:2.6cqw;align-items:center;padding:2.8cqw 0;border-top:1px solid rgba(255,244,236,.08);font-size:3.3cqw}
+.bk:first-of-type{border-top:0}
+.bk .t{font-weight:800;font-variant-numeric:tabular-nums}
+.st{font-size:2.6cqw;font-weight:700;padding:.8cqw 2cqw;border-radius:999px}
+.st.b{background:rgba(255,244,236,.12);color:var(--soft)}.st.a{background:rgba(156,203,143,.16);color:var(--ok)}.st.n{background:rgba(240,140,106,.16);color:var(--red)}
+/* profile */
+.me{display:grid;grid-template-columns:30cqw 1fr;gap:4cqw;align-items:end}
+.me .pic{border-radius:5cqw;overflow:hidden;aspect-ratio:4/4.6;border:1px solid var(--line)}
+.me .pic svg{width:100%;height:100%;display:block}
+.me .nm{font-size:6.2cqw;font-weight:800;line-height:1.1}
+.mini{display:grid;grid-template-columns:repeat(7,1fr);gap:1cqw}
+.mini span{aspect-ratio:1;border-radius:1.6cqw;display:grid;place-items:center;font-size:2.4cqw;color:var(--ink);font-weight:700}
+.legend{display:flex;gap:3cqw;font-size:2.7cqw;color:var(--soft);flex-wrap:wrap}
+.legend i{display:inline-block;width:2.2cqw;height:2.2cqw;border-radius:.6cqw;margin-right:1cqw;vertical-align:middle}
+.stats4{display:grid;grid-template-columns:repeat(4,1fr);gap:2cqw}
+.stats4 div{background:var(--glass);border:1px solid var(--line);border-radius:4cqw;padding:2.4cqw;text-align:center}
+.stats4 b{display:block;font-size:4.6cqw;font-weight:800}
+.stats4 span{font-size:2.6cqw;color:var(--soft)}
+.opts{background:var(--glass);border:1px solid var(--line);border-radius:5cqw;overflow:hidden}
+.opt{display:grid;grid-template-columns:9cqw 1fr auto;gap:3cqw;align-items:center;padding:3cqw 3.6cqw;border-top:1px solid rgba(255,244,236,.08)}
+.opt:first-child{border-top:0}
+.opt .ic{width:9cqw;height:9cqw;border-radius:3cqw;background:rgba(228,166,123,.16);display:grid;place-items:center;color:var(--gold2)}
+.opt .ic svg{width:5cqw;height:5cqw;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.opt .t{font-size:3.6cqw;font-weight:700}
+.opt .d{font-size:2.8cqw;color:var(--soft);margin-top:.3cqw}
+.opt .r{font-size:2.9cqw;color:var(--soft)}
+.field{display:grid;gap:1.2cqw}
+.field label{font-size:2.9cqw;color:var(--soft);font-weight:600}
+.field .in{padding:3cqw 3.6cqw;border-radius:3.6cqw;background:rgba(26,18,16,.45);border:1px solid var(--line);font-size:3.5cqw}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3cqw}
+/* profile sections */
+.wrap{max-width:1320px!important}
+.grid7{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,300px));gap:28px;justify-content:center;margin-top:26px}
+.back{font:700 3.2cqw var(--font);color:var(--gold2);background:none;border:0;padding:0;text-align:left}
+.det{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--glass);border:1px solid var(--line);border-radius:5cqw;overflow:hidden}
+.det div{padding:2.8cqw 3.6cqw;border-top:1px solid rgba(255,244,236,.08)}
+.det div:nth-child(-n+2){border-top:0}
+.det div:nth-child(odd){border-right:1px solid rgba(255,244,236,.08)}
+.det small{display:block;font-size:2.6cqw;color:var(--faint);font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.det b{font-size:3.5cqw;font-weight:700}
+.secl{font-size:2.8cqw;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);margin-top:1cqw}
+.join{display:flex;justify-content:space-between;align-items:center;padding:3.4cqw 3.8cqw;border-radius:5cqw;background:linear-gradient(135deg,rgba(228,166,123,.28),rgba(228,166,123,.07));border:1px solid rgba(228,166,123,.45)}
+.join b{font-size:4.2cqw}.join span{font-size:2.8cqw;color:var(--soft)}
+.join .big{text-align:right}.join .big b{font-size:5.2cqw;color:var(--gold2);display:block}
+.sum4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6cqw}
+.sum4 div{border-radius:3.6cqw;padding:2cqw 0;text-align:center;background:var(--glass);border:1px solid var(--line)}
+.sum4 b{display:block;font-size:4.4cqw;font-weight:800}.sum4 span{font-size:2.5cqw;color:var(--soft)}
+.mhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:2cqw}
+.mhead b{font-size:3.6cqw}
+.rnd{width:7cqw;height:7cqw;border-radius:50%;display:grid;place-items:center;background:var(--glass);border:1px solid var(--line);font-size:3.4cqw}
+.cal2{display:grid;grid-template-columns:repeat(7,1fr);gap:1.1cqw;text-align:center}
+.cal2 .h{font-size:2.4cqw;color:var(--faint);font-weight:700}
+.cal2 .c{aspect-ratio:1;border-radius:2cqw;display:grid;place-items:center;font-size:2.8cqw;font-weight:700;font-variant-numeric:tabular-nums}
+.cal2 .p{background:var(--ok);color:var(--ink)}.cal2 .l{background:var(--warn);color:var(--ink)}.cal2 .v{background:var(--blue);color:var(--ink)}
+.cal2 .o{color:var(--faint);opacity:.5}.cal2 .f{background:rgba(255,244,236,.07);color:var(--faint)}
+.cal2 .t{box-shadow:0 0 0 2px var(--gold2)}
+.chk{display:grid;grid-template-columns:9cqw 1fr auto;gap:3cqw;align-items:center;padding:2.4cqw 0;border-top:1px solid rgba(255,244,236,.08)}
+.chk:first-child{border-top:0}
+.chk .sf{width:9cqw;height:9cqw;border-radius:2.6cqw;background:linear-gradient(135deg,#A57461,#5d3a2e);border:1px solid var(--line)}
+.chk b{font-size:3.3cqw}.chk span{font-size:2.7cqw;color:var(--soft)}
+.req{display:grid;grid-template-columns:1fr auto;gap:1cqw 3cqw;align-items:center;padding:3cqw 3.6cqw;border-top:1px solid rgba(255,244,236,.08)}
+.req:first-child{border-top:0}
+.req b{font-size:3.5cqw}.req .sm2{font-size:2.8cqw;color:var(--soft)}
+.req .why{grid-column:1/-1;font-size:2.7cqw;color:var(--faint);font-style:italic}
+.st.w{background:rgba(245,201,160,.14);color:var(--gold2)}.st.d{background:rgba(240,140,106,.16);color:var(--red)}
+.up{padding:3.6cqw;border-radius:5cqw;background:rgba(122,166,214,.14);border:1px solid rgba(122,166,214,.4);display:flex;justify-content:space-between;align-items:center}
+.up b{font-size:4cqw}.up span{font-size:2.8cqw;color:var(--soft)}
+.goldbtn{font:800 3.8cqw var(--font);text-align:center;padding:3.6cqw;border-radius:999px;background:var(--gold);color:var(--ink)}
+.ghost{font:800 3.6cqw var(--font);text-align:center;padding:3.4cqw;border-radius:999px;background:rgba(255,244,236,.12);border:1px solid var(--line)}
+.pw{display:flex;justify-content:space-between;align-items:center}
+.pw em{font-style:normal;font-size:2.8cqw;color:var(--gold2);font-weight:700}
+.rule{display:flex;gap:2cqw;align-items:center;font-size:2.9cqw;color:var(--soft)}
+.rule i{width:4cqw;height:4cqw;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:2.4cqw;font-weight:800}
+.rule i.y{background:var(--ok);color:var(--ink)}.rule i.n{background:rgba(255,244,236,.14);color:var(--faint)}
+.acc{background:var(--glass);border:1px solid var(--line);border-radius:5cqw;overflow:hidden}
+.acc .row{display:flex;justify-content:space-between;align-items:center;padding:3cqw 3.6cqw;border-top:1px solid rgba(255,244,236,.08);font-size:3.4cqw;font-weight:700}
+.acc .row:first-child{border-top:0}
+.acc .row span{color:var(--soft);font-size:3cqw}
+.acc .body{padding:0 3.6cqw 3cqw;font-size:2.9cqw;line-height:1.5;color:var(--soft)}
+.acc .body li{margin-left:4cqw}
+.dim{position:absolute;inset:0;background:rgba(8,5,4,.6);z-index:6}
+.sheet2{position:absolute;left:0;right:0;bottom:0;z-index:7;padding:3cqw 5cqw 8cqw;border-radius:7cqw 7cqw 0 0;background:linear-gradient(180deg,#4a3029,#241713);border-top:1px solid var(--line);display:grid;gap:3cqw}
+.sheet2 .hd{width:10cqw;height:1.2cqw;border-radius:9px;background:rgba(255,244,236,.3);margin:0 auto 1cqw}
+.sheet2 h3{font-size:5.4cqw;font-weight:800}
+.sheet2 p{font-size:3.1cqw;line-height:1.5;color:var(--soft)}
+.redbtn{font:800 3.8cqw var(--font);text-align:center;padding:3.6cqw;border-radius:999px;background:var(--red);color:#2a1210}
+.opt .t.red{color:var(--red)}
+.tog.off{background:rgba(255,244,236,.18)}.tog.off::after{right:auto;left:.7cqw}
+.chip{display:inline-flex;align-items:center;gap:1.4cqw;font-size:3cqw;font-weight:700;padding:1.2cqw 2.8cqw;border-radius:999px;background:rgba(143,214,164,.14);color:var(--ok)}
+.chip .dot{width:1.8cqw;height:1.8cqw;border-radius:50%}
+figcaption ul{margin:6px 0 0 18px;color:var(--soft);font-size:13px;line-height:1.5}
+</style>
+
+<div class="wrap">
+  <h1>Staff app: Profile tab</h1>
+  <p class="lead">Only the stylist's own details, no business numbers. One list of sections: Attendance, Leave, Change password, Privacy &amp; terms, Log out. Each phone below is what that section opens. Example data for Imran, Wednesday 14 Oct 2026.</p>
+  <div class="grid7">
+    <figure><div class="phone" id="p1"></div><figcaption><b>1 · My profile</b><span>Photo (uploaded by the owner), name, today's check-in, and his details: mobile (his login), chair, shift, weekly off, joined date. Then the five sections.</span></figcaption></figure>
+    <figure><div class="phone" id="p2"></div><figcaption><b>2 · Attendance</b><span>When he joined and how long ago; this month's totals; the calendar with present, late, leave and weekly off (‹ › for earlier months back to his joining month); his last check-ins with the selfie time.</span></figcaption></figure>
+    <figure><div class="phone" id="p3"></div><figcaption><b>3 · Leave</b><span>Next approved leave on top, "+ Request leave", leave taken this year, and every request with its status: Waiting for owner (can be withdrawn), Approved, or Declined with the owner's reason.</span></figcaption></figure>
+    <figure><div class="phone" id="p4"></div><figcaption><b>4 · Request leave</b><span>From and to dates, type (Casual / Sick / Other), half day, a note, and the working days counted without the weekly off. Sends to the owner's Staff tab.</span></figcaption></figure>
+    <figure><div class="phone" id="p5"></div><figcaption><b>5 · Change password</b><span>Current password, new password twice, show/hide, rules ticked as he types. Forgotten password: the owner resets it from Staff.</span></figcaption></figure>
+    <figure><div class="phone" id="p6"></div><figcaption><b>6 · Privacy &amp; terms</b><span>His own staff data notice first (what is kept about him, who sees it, how long, his rights), then the rules for handling customer data, the full policies, and credits.</span></figcaption></figure>
+    <figure><div class="phone" id="p7"></div><figcaption><b>7 · Log out</b><span>A confirm sheet so it is never tapped by mistake. Today's attendance and any open visit stay saved; he signs back in with his mobile number and password.</span></figcaption></figure>
+  </div>
+</div>
+
+<script>
+const DOCK=on=>`<div class="dock5">${[
+ ['home','<path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-6h4v6"/>','Home'],
+ ['cust','<circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.6 7-5.6s6.2 2 7 5.6"/>','Customers'],
+ ['plus','',''],
+ ['cal','<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/>','Calendar'],
+ ['me','<circle cx="12" cy="8" r="3.5"/><path d="M6 20c.5-3 3-5 6-5s5.5 2 6 5"/><path d="M16.5 4.5l1.5 1.5"/>','Profile']
+].map(([k,p,l])=>k==='plus'?'<span class="plus"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>':`<span class="${k===on?'on':''}">${k==='cust'?`<span class="badge"><svg viewBox="0 0 24 24">${p}</svg><i>6</i></span>`:`<svg viewBox="0 0 24 24">${p}</svg>`}${l}</span>`).join('')}</div>`;
+const ic=p=>`<svg viewBox="0 0 24 24">${p}</svg>`;
+const pic=`<svg viewBox="0 0 100 110" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A57461"/><stop offset="1" stop-color="#5B3A30"/></linearGradient></defs><rect width="100" height="110" fill="url(#gp)"/><path d="M18 112c2-20 15-31 32-31s30 11 32 31z" fill="#1d1411" opacity=".88"/><path d="M38 80h24l-3 9H41z" fill="#C99A78"/><ellipse cx="50" cy="56" rx="17" ry="20" fill="#C99A78"/><path d="M33 52c-1-14 8-24 18-24 12 0 18 9 17 22-3-6-8-9-17-9-8 0-14 3-18 11z" fill="#1d1411"/></svg>`;
+const BACK=`<button class="back">‹ My profile</button>`;
+const opt=(icon,t,d,cls='')=>`<div class="opt"><div class="ic"${cls?' style="background:rgba(240,140,106,.14);color:var(--red)"':''}>${ic(icon)}</div><div><div class="t ${cls}">${t}</div>${d?`<div class="d">${d}</div>`:''}</div><div class="r">›</div></div>`;
+const I={att:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16M9 15l2 2 4-4"/>',leave:'<path d="M4 20c4-1 6-4 7-9M11 11c3 0 7-2 8-7-5 0-8 3-8 7zM11 11c-3-1-6 0-7 3 3 1 6 0 7-3z"/>',pw:'<rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',priv:'<path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/>',out:'<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>'};
+const PROFILE=`
+  <div class="me"><div class="pic">${pic}</div><div><div class="nm">Imran Khan</div><div class="sm" style="margin-top:1cqw">Stylist · Chair 1</div><span class="chip" style="margin-top:2cqw"><span class="dot" style="background:var(--ok)"></span>In · 9:52 today</span></div></div>
+  <div class="det"><div><small>Mobile (login)</small><b>98111 00001</b></div><div><small>Chair</small><b>Chair 1</b></div><div><small>Shift</small><b>10:00 – 8:00 pm</b></div><div><small>Weekly off</small><b>Tuesday</b></div><div><small>Joined</small><b>3 Apr 2026</b></div><div><small>With the salon</small><b>6 months</b></div></div>
+  <div class="opts">
+    ${opt(I.att,'Attendance','12 days present this month · 3 late')}
+    ${opt(I.leave,'Leave','Next: Thu 22 Oct, approved · 1 waiting')}
+    ${opt(I.pw,'Change password','Last changed 3 Apr 2026')}
+    ${opt(I.priv,'Privacy &amp; terms','Your data and the salon\'s rules')}
+    ${opt(I.out,'Log out','','red')}
+  </div>`;
+document.getElementById('p1').innerHTML=`<div class="scr"><div class="ttl" style="font-size:6.4cqw">My profile</div>${PROFILE}</div>${DOCK('me')}`;
+
+// October 2026: 1 Oct is a Thursday; today the 14th; Tuesdays off
+const late=[5,9,12],leave=[22],today=14;let cells=['M','T','W','T','F','S','S'].map(x=>`<span class="h">${x}</span>`).join('')+'<span></span>'.repeat(3);
+for(let d=1;d<=31;d++){const tue=(d+2)%7===1;let c=tue?'o':d>today?'f':late.includes(d)?'l':'p';if(leave.includes(d))c='v';cells+=`<span class="c ${c}${d===today?' t':''}">${d}</span>`}
+document.getElementById('p2').innerHTML=`<div class="scr">${BACK}<div class="ttl" style="font-size:6.2cqw">Attendance</div>
+  <div class="join"><div><span>Joined</span><b style="display:block">Fri 3 Apr 2026</b><span>151 days present · 3 days leave</span></div><div class="big"><b>6 mo</b><span>11 days</span></div></div>
+  <div class="sum4"><div><b style="color:var(--ok)">12</b><span>present</span></div><div><b style="color:var(--warn)">3</b><span>late</span></div><div><b style="color:var(--blue)">1</b><span>leave</span></div><div><b>0</b><span>absent</span></div></div>
+  <div class="glass"><div class="mhead"><span class="rnd">‹</span><b>October 2026</b><span class="rnd" style="opacity:.35">›</span></div><div class="cal2">${cells}</div>
+    <div class="legend" style="margin-top:2.4cqw"><span><i style="background:var(--ok)"></i>Present</span><span><i style="background:var(--warn)"></i>Late</span><span><i style="background:var(--blue)"></i>Leave</span><span><i style="background:rgba(255,244,236,.2)"></i>Weekly off</span></div></div>
+  <div class="secl">Last check-ins</div>
+  <div class="glass" style="padding:1cqw 3.6cqw">
+    <div class="chk"><span class="sf"></span><div><b>Wed 14 Oct</b><br><span>Selfie at 9:52</span></div><span class="st a">On time</span></div>
+    <div class="chk"><span class="sf"></span><div><b>Mon 12 Oct</b><br><span>Selfie at 10:21</span></div><span class="st n">Late</span></div>
+  </div></div>${DOCK('me')}`;
+
+document.getElementById('p3').innerHTML=`<div class="scr">${BACK}<div class="ttl" style="font-size:6.2cqw">Leave</div>
+  <div class="up"><div><span>Next leave · approved</span><b style="display:block">Thu 22 Oct</b><span>Casual · 1 day</span></div><span class="st a">Approved</span></div>
+  <div class="goldbtn">+ Request leave</div>
+  <div class="sum4" style="grid-template-columns:repeat(3,1fr)"><div><b>3</b><span>days taken in 2026</span></div><div><b>1</b><span>waiting</span></div><div><b>1</b><span>declined</span></div></div>
+  <div class="secl">My requests</div>
+  <div class="acc">
+    <div class="req"><div><b>Mon 26 – Tue 27 Oct</b><div class="sm2">Casual · 1 working day · sent today</div></div><span class="st w">Waiting for owner</span><div class="why" style="font-style:normal;color:var(--red);font-weight:700">Withdraw request</div></div>
+    <div class="req"><div><b>Thu 22 Oct</b><div class="sm2">Casual · 1 day</div></div><span class="st a">Approved</span></div>
+    <div class="req"><div><b>Sat 3 Oct</b><div class="sm2">Other · 1 day</div></div><span class="st d">Declined</span><div class="why">Owner: "Saturday is our busiest day. Can you take Thursday?"</div></div>
+    <div class="req"><div><b>Mon 7 – Wed 9 Sep</b><div class="sm2">Sick · 2 working days</div></div><span class="st a">Approved</span></div>
+  </div></div>${DOCK('me')}`;
+
+document.getElementById('p4').innerHTML=`<div class="scr"><button class="back">‹ Leave</button><div class="ttl" style="font-size:6.2cqw">Request leave</div>
+  <div class="two"><div class="field"><label>From</label><div class="in">Mon 26 Oct</div></div><div class="field"><label>To</label><div class="in">Tue 27 Oct</div></div></div>
+  <div class="field"><label>Type</label><div class="filters"><span class="on">Casual</span><span>Sick</span><span>Other</span></div></div>
+  <div class="pw" style="padding:2.6cqw 3.6cqw;border-radius:3.6cqw;background:var(--glass);border:1px solid var(--line)"><span style="font-size:3.3cqw">Half day</span><span class="tog off"></span></div>
+  <div class="field"><label>Note for the owner</label><div class="in" style="min-height:16cqw;color:var(--soft)">Family function in Jaipur</div></div>
+  <div class="msg"><b style="color:var(--cream)">1 working day.</b> Tuesday 27 is your weekly off, so it isn't counted. Once approved your chair shows "Off today" on the owner's Live floor and no one can book you that day.</div>
+  <div class="goldbtn" style="margin-top:auto;margin-bottom:24cqw">Send to owner</div></div>${DOCK('me')}`;
+
+document.getElementById('p5').innerHTML=`<div class="scr">${BACK}<div class="ttl" style="font-size:6.2cqw">Change password</div>
+  <div class="field"><label>Current password</label><div class="in pw"><span>••••</span><em>Show</em></div></div>
+  <div class="field"><label>New password</label><div class="in pw"><span>••••••</span><em>Show</em></div></div>
+  <div class="field"><label>New password again</label><div class="in pw"><span>••••••</span><em>Show</em></div></div>
+  <div class="glass" style="display:grid;gap:2.2cqw">
+    <div class="rule"><i class="y">✓</i>At least 4 characters</div>
+    <div class="rule"><i class="y">✓</i>Not the same as the old one</div>
+    <div class="rule"><i class="y">✓</i>Both new passwords match</div>
+  </div>
+  <div class="goldbtn">Save new password</div>
+  <div class="ownonly" style="font-size:2.9cqw;line-height:1.5">Forgot it? Ask the owner: they can reset it from Staff. Your login stays your mobile number, 98111 00001.</div></div>${DOCK('me')}`;
+
+document.getElementById('p6').innerHTML=`<div class="scr">${BACK}<div class="ttl" style="font-size:6.2cqw">Privacy &amp; terms</div>
+  <div class="secl">About you</div>
+  <div class="acc">
+    <div class="row">What we keep about you <span>▾</span></div>
+    <div class="body">Name, mobile number (your login), chair, password (scrambled, nobody can read it), check-in times, attendance selfies, and the customers you served.</div>
+    <div class="row">Who sees it <span>›</span></div>
+    <div class="row">How long it is kept <span>›</span></div>
+    <div class="row">Your rights <span>›</span></div>
+  </div>
+  <div class="secl">Customer data: your rules</div>
+  <div class="acc"><div class="body" style="padding-top:3cqw"><ul><li>Use numbers only to serve and remind customers here</li><li>No screenshots or sharing outside the app</li><li>Message only customers who agreed</li></ul></div></div>
+  <div class="secl">Full documents</div>
+  <div class="acc"><div class="row">Privacy policy <span>↗</span></div><div class="row">Terms of service <span>↗</span></div><div class="row">Credits &amp; licences <span>›</span></div></div>
+  <div class="ownonly">Notice version 1.0 · no cookies, ads or tracking</div></div>${DOCK('me')}`;
+
+document.getElementById('p7').innerHTML=`<div class="scr"><div class="ttl" style="font-size:6.4cqw">My profile</div>${PROFILE}</div>${DOCK('me')}
+  <div class="dim"></div>
+  <div class="sheet2"><div class="hd"></div><h3>Log out of this phone?</h3>
+    <p>Today's attendance and any customer in your chair stay saved. To come back, log in with your mobile number and password.</p>
+    <div class="redbtn">Log out</div><div class="ghost">Stay logged in</div></div>`;
+</script>

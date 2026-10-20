@@ -63,6 +63,7 @@ Where things live:
 | 4.12 | **Reminders** (per-service due dates, WhatsApp message, only to opted-in customers) | Logic |
 | 4.13 | Wallet top-up with tiered bonus (5/10/15% at ₹1000/2000/5000), swipe-down sheet | Logic |
 | 4.14 | Referrals by code or friend's phone; ₹100 + ₹100 on the first paid visit; reversed if that visit is voided | Logic |
+| 4.15 | **Staff Profile tab (user, 20 Oct): own details only, no business numbers** (no attendance grid and no customers/earnings stats on the main page). Top: photo (owner uploads), name, chair, today's check-in; details: mobile (login), chair, shift, weekly off, joined date, time with the salon. Sections: **Attendance** (joined date and how long, month totals present/late/leave/absent, calendar of present/late/leave/weekly off back to the joining month, last check-ins) · **Leave** (next approved leave, + Request leave, days taken this year, requests: Waiting for owner (withdraw) / Approved / Declined with owner's reason) · **Request leave** (dates, Casual/Sick/Other, half day, note, working days without the weekly off) · **Change password** (current + new twice, rules, owner resets if forgotten) · **Privacy & terms** (staff data notice first, customer-data rules, full policies, credits) · **Log out** (confirm sheet). Design: `design-studies/staff-profile.html` | Designed · **awaiting user OK** |
 
 ## 5. Appointments / Calendar
 | # | Item | Status |
