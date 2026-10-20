@@ -3,7 +3,7 @@ import Svg, { Circle, Path, Rect } from "react-native-svg";
 /** Authored line icons: 24 grid, 1.75 stroke, round caps. */
 export type IconName =
   | "counter" | "customers" | "reminders" | "refer" | "dashboard" | "back" | "search" | "check"
-  | "plus" | "wallet" | "chat" | "copy" | "share" | "chevron" | "close" | "backspace" | "spark" | "calendar" | "phone" | "home" | "person";
+  | "plus" | "wallet" | "chat" | "copy" | "share" | "chevron" | "close" | "backspace" | "spark" | "calendar" | "phone" | "home" | "person" | "live" | "rupee" | "staff" | "menu" | "camera";
 
 const P: Record<IconName, React.ReactNode> = {
   // Scissors
@@ -78,6 +78,26 @@ const P: Record<IconName, React.ReactNode> = {
     <>
       <Path d="M9 5h10.5A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5H9l-6-7Z" />
       <Path d="m12.5 9.5 5 5M17.5 9.5l-5 5" />
+    </>
+  ),
+  live: (
+    <>
+      <Circle cx="12" cy="12" r="3" />
+      <Path d="M5 12a7 7 0 0 1 14 0M2 12a10 10 0 0 1 20 0" />
+    </>
+  ),
+  rupee: <Path d="M6 4h12M6 9h12M9 4c4 0 5 5 0 5l7 11" />,
+  staff: (
+    <>
+      <Circle cx="9" cy="8" r="3" />
+      <Path d="M3 20c0-3 3-5 6-5s6 2 6 5M16 5a3 3 0 0 1 0 6M18 15c2 .5 3 2 3 5" />
+    </>
+  ),
+  menu: <Path d="M4 7h16M4 12h16M4 17h10" />,
+  camera: (
+    <>
+      <Path d="M4 8h3l2-3h6l2 3h3v11H4z" />
+      <Circle cx="12" cy="13" r="3.5" />
     </>
   ),
   spark: <Path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M18 6l-2.5 2.5M8.5 15.5 6 18" />,

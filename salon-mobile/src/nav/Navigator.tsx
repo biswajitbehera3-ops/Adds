@@ -47,7 +47,13 @@ export type Route =
   | { name: "staffPrivacy" }
   | { name: "leaveRequests" }
   | { name: "myCustomers" }
-  | { name: "todayBookings" };
+  | { name: "todayBookings" }
+  | { name: "ownerStylist"; id: string }
+  | { name: "staffCard"; id: string }
+  | { name: "addStylist" }
+  | { name: "staffAttendance"; id: string }
+  | { name: "topSpenders" }
+  | { name: "bill"; visitId: string };
 
 type Rect = { x: number; y: number; w: number; h: number };
 type Entry = { key: string; route: Route; origin: Rect | null; fromColor: string; toColor: string };

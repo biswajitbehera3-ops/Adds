@@ -15,6 +15,7 @@ import type { Customer } from "../domain/types";
 import { formatPhone, inr, shortDate } from "../format";
 import { useNav } from "../nav/Navigator";
 import { color, font, glass, space, urbanist } from "../theme/tokens";
+import { OwnerDock, useOwnerTabs } from "../nav/OwnerTabs";
 import { DOCK_SPACE, StaffDock, useStaffTabs } from "../nav/StaffTabs";
 import { useCurrentStaff } from "./Attendance";
 
@@ -43,7 +44,9 @@ export function Customers() {
   const { rows, counts } = useMemo(() => E.customerDirectory(data, { q, filter, sort, staffId: me?.id ?? null }), [data, q, filter, sort, me]);
   const toRemind = useMemo(() => E.overdueReminders(data).filter((r) => E.reminderIsMine(r, me?.id ?? null)).length, [data, me]);
   const today = new Date();
-  const tabs = useStaffTabs();
+  const staffTabs = useStaffTabs();
+  const ownerTabs = useOwnerTabs();
+  const tabs = staffTabs ?? ownerTabs;
   const filters: { key: E.CustomerFilter; label: string }[] = [
     { key: "all", label: "All" },
     ...(me ? [{ key: "mine" as const, label: `My customers · ${counts.mine}` }] : []),
@@ -161,6 +164,7 @@ export function Customers() {
         }
       />
       <StaffDock />
+      <OwnerDock />
     </View>
   );
 }

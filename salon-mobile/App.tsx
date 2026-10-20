@@ -23,7 +23,10 @@ import { Calendar } from "./src/screens/Calendar";
 import { Counter } from "./src/screens/Counter";
 import { Customers } from "./src/screens/Customers";
 import { Login, Setup } from "./src/screens/Login";
-import { Owner } from "./src/screens/Owner";
+import { OwnerTabs } from "./src/nav/OwnerTabs";
+import { StylistEarnings } from "./src/screens/owner/Earnings";
+import { AddStylist, StaffAttendance, StaffCard } from "./src/screens/owner/Staff";
+import { Bill, TopSpenders } from "./src/screens/owner/TopSpenders";
 import { Profile } from "./src/screens/Profile";
 import { Legal } from "./src/screens/Legal";
 import { Refer } from "./src/screens/Refer";
@@ -42,7 +45,7 @@ function render(route: Route) {
     case "myAttendance":
       return <MyAttendance />;
     case "owner":
-      return <Owner />;
+      return <OwnerTabs />;
     case "visit":
       return <VisitScreen id={route.id} />;
     case "receipt":
@@ -77,6 +80,18 @@ function render(route: Route) {
       return <MyCustomers />;
     case "todayBookings":
       return <TodayBookings />;
+    case "ownerStylist":
+      return <StylistEarnings id={route.id} />;
+    case "staffCard":
+      return <StaffCard id={route.id} />;
+    case "addStylist":
+      return <AddStylist />;
+    case "staffAttendance":
+      return <StaffAttendance id={route.id} />;
+    case "topSpenders":
+      return <TopSpenders />;
+    case "bill":
+      return <Bill visitId={route.visitId} />;
   }
 }
 
@@ -120,7 +135,7 @@ function Root() {
 
 function StatusBarForRoute() {
   const { top } = useNav();
-  const dark = ["home", "login", "setup", "attendance", "calendar", "customers", "profile", "reminders", "me", "myAttendance", "myLeave", "changePassword", "staffPrivacy", "leaveRequests", "myCustomers", "todayBookings", "counter", "visit", "receipt", "refer", "legal", "owner"].includes(top.name);
+  const dark = ["home", "login", "setup", "attendance", "calendar", "customers", "profile", "reminders", "me", "myAttendance", "myLeave", "changePassword", "staffPrivacy", "leaveRequests", "myCustomers", "todayBookings", "ownerStylist", "staffCard", "addStylist", "staffAttendance", "topSpenders", "bill", "counter", "visit", "receipt", "refer", "legal", "owner"].includes(top.name);
   return <StatusBar style={dark ? "light" : "dark"} />;
 }
 

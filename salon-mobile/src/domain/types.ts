@@ -99,6 +99,12 @@ export type Staff = {
   secret: Secret;
   active: boolean;
   createdAt: string;
+  /** Profile photo the owner uploads (BUILD-SPEC 6.5); null/absent shows initials. */
+  photoKey?: string | null;
+  /** Shift start "HH:MM" for this stylist; absent = the salon's shift. */
+  shiftStart?: string;
+  /** This stylist's weekly off (0 = Sunday … 6); absent = the salon's closed days. */
+  weeklyOff?: number | null;
 };
 
 export type Attendance = {
