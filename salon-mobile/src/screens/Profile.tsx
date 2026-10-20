@@ -190,7 +190,7 @@ export function Profile({ id }: { id: string }) {
                   const when = new Date(v.paidAt ?? v.createdAt);
                   const method = v.walletPaid === v.total ? "Wallet" : v.walletPaid ? `Wallet + ${METHOD[v.paymentMethod ?? "CASH"]}` : METHOD[v.paymentMethod ?? "CASH"];
                   return (
-                    <View key={v.id} style={{ flexDirection: "row", gap: 12, paddingVertical: 11, borderTopWidth: i ? 1 : 0, borderColor: "rgba(255,244,236,0.08)" }}>
+                    <Press key={v.id} onPress={() => nav.push({ name: "bill", visitId: v.id })} accessibilityLabel={`${voided ? "Cancelled bill" : "Bill"}, ${inr(v.total)}. Open`} scaleTo={0.985} style={{ flexDirection: "row", gap: 12, paddingVertical: 11, borderTopWidth: i ? 1 : 0, borderColor: "rgba(255,244,236,0.08)" }}>
                       <GT size={12.5} c={glass.soft} style={{ width: 52 }}>
                         {relativeDays(when) === "today" ? "Today" : shortDate(when)}
                       </GT>
@@ -203,14 +203,14 @@ export function Profile({ id }: { id: string }) {
                         </GT>
                       </View>
                       <View style={{ alignItems: "flex-end" }}>
-                        <GT size={14.5} w="heavy" style={{ fontVariant: ["tabular-nums"] }}>
+                        <GT size={14.5} w="heavy" style={[{ fontVariant: ["tabular-nums"] }, voided ? { textDecorationLine: "line-through", color: glass.faint } : null]}>
                           {inr(v.total)}
                         </GT>
                         <GT size={11} w="bold" c={glass.faint}>
                           {method.toUpperCase()}
                         </GT>
                       </View>
-                    </View>
+                    </Press>
                   );
                 })
               ) : (
