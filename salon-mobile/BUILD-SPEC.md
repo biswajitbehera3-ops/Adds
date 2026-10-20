@@ -5,7 +5,7 @@ When the app is built, each line is ticked only once it works in the installed a
 
 The rule (from the user): **don't build the app until every component is complete.** Until then, design, decide and record here.
 
-Status key: **Decided** = agreed, not built · **Designed** = shown in a demo/mock · **Logic** = rules written and tested in code · **Built** = in the installable app (none yet in the new look) · **Open** = waiting for a decision.
+Status key: **Decided** = agreed, not built · **Designed** = shown in a demo/mock · **Logic** = rules written and tested in code · **Built** = in the app code (see the status check below) · **Open** = waiting for a decision.
 
 Where things live:
 - **Owner app demo (all 4 tabs, clickable):** `design-studies/owner-demo/owner-app-demo.html` (built by `build-owner-demo.py` from the approved tab pages)
@@ -15,6 +15,16 @@ Where things live:
 - Flow details: `FLOW.md`
 - Motions: `MOTION.md`
 - Legal: `legal/`
+
+## Build status check (20 Oct, against every row below)
+
+**In the app, in the new brown glass look:** staff bottom bar (4.9) · Calendar with booking rings, fold into the day, + Book (4.10, 5.1, 5.5, 5.6, 5.8) · Customers with spending, filters, My customers, profile (4.11, 4.17, 8.3, 8.4, 8.5) · Reminders ladder (4.12) · Profile tab: attendance, leave, change password, privacy, log out (4.15) · Leave flow: request, owner approve/decline, bookings moved, attendance and calendar show leave (4.16, 10.10 except the Live floor part).
+
+**In the app, working, but still in the OLD look (not yet redesigned):** Login (2.2, 2.3, 2.5) · attendance selfie (4.1) · staff Home (4.2: the approved design with the earnings ring and "my customers today" is NOT built; the old Home is there) · walk-in counter, visit, payment, receipt with PAID stamp and 2-minute undo (4.5–4.7) · wallet top-up sheet (4.13) · referrals (4.14) · customer-facing Privacy & terms (8.7) · the whole owner app (old screens: Today / Attendance / Staff / Visits, plus the new Leave requests banner and screen).
+
+**Not in the app yet:** intro video on opening (2.1) · "My customers today" list and month chart (4.3) · owner uploads a stylist's photo (4.15, 6.5; the profile shows the last check-in selfie instead) · owner app in the new design: Live floor, Earnings, Staff tab with photo cards and leave badge, Customers with Top spenders screen and cancel bill (6.1–6.7, 10.8, 10.9, 10.11) · on-the-day 9:00 booking reminder screen (5.4: logic only) · online sync and phone notifications (3.4) · APK (3.6) · app icon from the salon logo (9.7).
+
+**Still open (your decision):** 5.7 / 10.1 automatic vs one-tap WhatsApp · 10.2 waiting bench · 10.3 chairs per salon · 10.4 top-stylist bonus · 10.5–10.7 per-salon prices, app name, sync provider · 9.5–9.6 lawyer, CA, logo licence.
 
 ---
 
