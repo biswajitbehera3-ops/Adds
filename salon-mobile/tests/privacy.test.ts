@@ -107,8 +107,8 @@ describe("access and deletion", () => {
     const old = new Date(Date.now() - (config.retention.inactiveCustomerDays + 10) * DAY);
     const c = s.run(E.createCustomer(s.data, { phone: "9876543210", name: "Old", consent: true }, old));
     s.visit(c.id, 0, old);
-    const fresh = s.run(E.createCustomer(s.data, { phone: "9876543211", name: "New", consent: true }));
     s.run(E.markAttendance(s.data, { staffId: s.stylist.id, photoKey: "p1" }, old));
+    const fresh = s.run(E.createCustomer(s.data, { phone: "9876543211", name: "New", consent: true }));
     const r = s.run(E.purgeExpired(s.data));
     expect(r).toEqual({ photoKeys: ["p1"], customersErased: 1 });
     expect(s.data.customers.find((x) => x.id === c.id)?.deletedAt).toBeTruthy();

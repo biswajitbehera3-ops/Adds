@@ -18,7 +18,7 @@ function setup() {
   let data: Data = emptyData();
   const run = <T,>(op: { data: Data; result: T }) => ((data = op.data), op.result);
   const stylist = run(E.addStaff(data, { name: "Imran", phone: "9811100001", chair: "Chair 1", secret: SECRET }));
-  const add = (phone: string, name: string, referredBy?: string) => run(E.createCustomer(data, { phone, name, consent: true, marketing: true, referredBy }));
+  const add = (phone: string, name: string, referredBy?: string) => run(E.createCustomer(data, { phone, name, consent: true, marketing: true, referredBy, referralVerified: !!referredBy }));
   /** Walk in, do the service, pay. */
   const visit = (customerId: string, extra: { serviceIds?: string[]; walletAmount?: number; paymentMethod?: "CASH" | "UPI" | "CARD" } = {}, now?: Date) => {
     const v = run(E.startVisit(data, { customerId, serviceIds: extra.serviceIds ?? ["haircut"], addOnIds: [], staffId: stylist.id }, now));
@@ -68,8 +68,11 @@ describe("visit lifecycle", () => {
     const c = s.add("9876543210", "Asha");
     const v = s.run(E.startVisit(s.data, { customerId: c.id, serviceIds: ["facial"], addOnIds: [], staffId: s.stylist.id }));
     expect(E.ownerDashboard(s.data).today).toMatchObject({ visits: 0, total: 0 });
-    s.run(E.cancelOpenVisit(s.data, v.id));
-    expect(s.data.visits).toHaveLength(0);
+    const left = s.run(E.cancelOpenVisit(s.data, v.id, s.stylist.id));
+    // Kept on record as LEFT (who and when), never deleted, and never counted as money.
+    expect(left).toMatchObject({ status: "LEFT", leftBy: s.stylist.id });
+    expect(s.data.visits).toHaveLength(1);
+    expect(E.ownerDashboard(s.data).today).toMatchObject({ visits: 0, total: 0 });
   });
 });
 
@@ -128,9 +131,11 @@ describe("undo and void", () => {
     const t0 = new Date();
     const { visit } = s.visit(c.id, { walletAmount: 300 }, t0);
     expect(E.getProfile(s.data, c.id).walletBalance).toBe(750);
-    expect(() => E.voidVisit(s.data, { visitId: visit.id, by: "staff", reason: "" }, new Date(t0.getTime() + 3 * 60000))).toThrow("Ask the owner");
-    const v = s.run(E.voidVisit(s.data, { visitId: visit.id, by: "staff", reason: "" }, new Date(t0.getTime() + 60000)));
-    expect(v).toMatchObject({ status: "VOID", voidReason: "Undone by staff" });
+    expect(() => E.voidVisit(s.data, { visitId: visit.id, by: "staff", reason: "Wrong service" }, new Date(t0.getTime() + 3 * 60000))).toThrow("Ask the owner");
+    expect(() => E.voidVisit(s.data, { visitId: visit.id, by: "staff", reason: " " }, new Date(t0.getTime() + 60000))).toThrow("Say why");
+    const v = s.run(E.voidVisit(s.data, { visitId: visit.id, by: "staff", reason: "Wrong service", staffId: s.stylist.id }, new Date(t0.getTime() + 60000)));
+    expect(v).toMatchObject({ voidedBy: s.stylist.id, voidReason: "Wrong service" });
+    expect(v).toMatchObject({ status: "VOID", voidReason: "Wrong service" });
     expect(E.getProfile(s.data, c.id).walletBalance).toBe(1050);
     expect(E.ownerDashboard(s.data).today.total).toBe(0);
   });

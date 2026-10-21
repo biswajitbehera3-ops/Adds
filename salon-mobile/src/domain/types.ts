@@ -22,6 +22,8 @@ export type Customer = {
   /** Set when the customer's personal data was erased. The visits stay, without name or number, for the accounts. */
   deletedAt: string | null;
   referredById: string | null;
+  /** When the new customer confirmed their number with the WhatsApp code sent for a referral. */
+  referralVerifiedAt?: string | null;
   /** Set once the referral reward is paid (on this customer's first paid visit). */
   referralRewardedAt: string | null;
   createdAt: string;
@@ -29,9 +31,13 @@ export type Customer = {
 
 /**
  * A visit opens when the customer walks in (OPEN), is settled after the service
- * (PAID), and can be cancelled before payment or voided after it (VOID).
+ * (PAID), and can be voided after it (VOID). A customer who leaves before being
+ * served is kept on record as LEFT (who, when, how long they sat), never deleted.
  */
-export type VisitStatus = "OPEN" | "PAID" | "VOID";
+export type VisitStatus = "OPEN" | "PAID" | "VOID" | "LEFT";
+
+/** A service not in the salon's list ("Other"): needs the owner's approval before payment. */
+export type VisitExtra = { name: string; price: number; approvedAt: string | null };
 
 export type Visit = {
   id: string;
@@ -51,6 +57,15 @@ export type Visit = {
   paidAt: string | null;
   voidedAt: string | null;
   voidReason: string | null;
+  /** Who cancelled the bill: "owner", or the stylist's id for a 2-minute undo. */
+  voidedBy?: string | null;
+  /** LEFT: when the customer left without service, and which staff member recorded it. */
+  leftAt?: string | null;
+  leftBy?: string | null;
+  /** "Other" services typed in at the counter. */
+  extras?: VisitExtra[];
+  /** Set when the customer confirmed a wallet spend above the salon's limit with a WhatsApp code. */
+  walletCodeAt?: string | null;
 };
 
 export type WalletTxType =
@@ -195,6 +210,34 @@ export type Data = {
   owner: { secret: Secret } | null;
   /** True while the store holds generated demo data. */
   demo: boolean;
+  /** Services and add-ons the owner edits in the app; absent = the config file's list. */
+  catalog?: Catalog;
+  /** Limits the owner sets for the misuse checks; absent = the config file's defaults. */
+  checks?: CheckSettings;
+  /** End-of-day cash counts (MISUSE-CHECKS 3). */
+  dayClosings?: DayClosing[];
+};
+
+export type CatalogService = { id: string; name: string; price: number; cycleDays: number; minutes: number; active?: boolean };
+export type CatalogAddOn = { id: string; name: string; price: number; suggestWith: string[]; active?: boolean };
+export type Catalog = { services: CatalogService[]; addOns: CatalogAddOn[] };
+
+export type CheckSettings = {
+  /** A wallet spend above this needs the customer's WhatsApp code. */
+  walletCodeAbove: number;
+  /** Referral rewards one customer can earn in a calendar month. */
+  referralMonthlyLimit: number;
+};
+
+export type DayClosing = {
+  id: string;
+  /** Salon-local day, YYYY-MM-DD. */
+  date: string;
+  /** Cash the app expects in the drawer: cash bills + cash wallet top-ups that day. */
+  expected: number;
+  counted: number;
+  note: string;
+  at: string;
 };
 
 export const emptyData = (): Data => ({

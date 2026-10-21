@@ -22,7 +22,7 @@ import {
   startOfIstDay,
   topUpBonus,
 } from "./rules";
-import type { Appointment, Attendance, Customer, Data, LeaveRequest, PaymentMethod, PrivacyEvent, ReminderLog, Secret, Staff, Visit, WalletTx } from "./types";
+import type { Appointment, Attendance, CheckSettings, Customer, Data, LeaveRequest, PaymentMethod, PrivacyEvent, ReminderLog, Secret, Staff, Visit, VisitExtra, WalletTx } from "./types";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 // No 0/O/1/I so codes read cleanly over the phone.
@@ -50,6 +50,26 @@ export function referralLink(code: string): string {
 type Op<T> = { data: Data; result: T };
 
 const paid = (v: Visit) => v.status === "PAID";
+const inrText = (n: number) => `₹${n.toLocaleString("en-IN")}`;
+
+/** The misuse-check limits: the owner's settings, or the config file's defaults. */
+export function checkSettings(data: Data): CheckSettings {
+  return { walletCodeAbove: data.checks?.walletCodeAbove ?? config.checks.walletCodeAbove, referralMonthlyLimit: data.checks?.referralMonthlyLimit ?? config.checks.referralMonthlyLimit };
+}
+
+/** The newest time already saved on this phone; a phone clock earlier than this has been set back. */
+export function latestRecordTime(data: Data): number {
+  let t = 0;
+  const see = (iso: string | null | undefined) => {
+    const ms = iso ? Date.parse(iso) : NaN;
+    if (ms > t) t = ms;
+  };
+  for (const v of data.visits) (see(v.createdAt), see(v.paidAt), see(v.voidedAt), see(v.leftAt));
+  for (const a of data.attendance) see(a.checkInAt);
+  for (const w of data.walletTxs) see(w.createdAt);
+  for (const c of data.customers) see(c.createdAt);
+  return t;
+}
 const at = (v: Visit) => v.paidAt ?? v.createdAt;
 
 // ── Migration ────────────────────────────────────────────────────────────────
@@ -152,6 +172,8 @@ export function createCustomer(
     minor?: boolean;
     guardianConsent?: boolean;
     referredBy?: string;
+    /** The new customer read back the code sent to their WhatsApp (MISUSE-CHECKS 7). */
+    referralVerified?: boolean;
     takenBy?: string | null;
   },
   now = new Date(),
@@ -172,6 +194,7 @@ export function createCustomer(
     const referrer = findReferrer(data, input.referredBy);
     if (!referrer) throw new UserError("No customer found with that referral code or number");
     if (referrer.phone === phone) throw new UserError("A customer can't refer themselves");
+    if (!input.referralVerified) throw new UserError("Confirm the new customer's number with the WhatsApp code first");
     referredById = referrer.id;
   }
 
@@ -189,6 +212,7 @@ export function createCustomer(
     guardianConsent: Boolean(input.minor),
     deletedAt: null,
     referredById,
+    referralVerifiedAt: referredById ? when : null,
     referralRewardedAt: null,
     createdAt: when,
   };
@@ -377,6 +401,18 @@ export function topUp(
 
 // ── Visits ───────────────────────────────────────────────────────────────────
 
+/** Services + add-ons at today's prices, plus any "Other" items typed in at the counter. */
+export function visitTotal(serviceIds: string[], addOnIds: string[], extras: VisitExtra[] = []) {
+  const extra = extras.reduce((s, x) => s + x.price, 0);
+  if (!serviceIds.length) {
+    if (!extras.length) throw new UserError("Pick at least one service");
+    if (addOnIds.length) throw new UserError("Add-ons go with a service from the list");
+    return { serviceIds: [], addOnIds: [], total: extra };
+  }
+  const p = priceItems(serviceIds, addOnIds);
+  return { serviceIds: p.serviceIds, addOnIds: p.addOnIds, total: p.total + extra };
+}
+
 function requireStaff(data: Data, staffId: string) {
   if (!data.staff.some((s) => s.id === staffId && s.active)) throw new UserError("Pick who is doing the service");
 }
@@ -421,16 +457,49 @@ export function updateOpenVisit(
   const visit = data.visits.find((v) => v.id === input.visitId);
   if (!visit || visit.status !== "OPEN") throw new UserError("This visit is no longer open");
   requireStaff(data, input.staffId);
-  const { serviceIds, addOnIds, total } = priceItems(input.serviceIds, input.addOnIds);
+  const { serviceIds, addOnIds, total } = visitTotal(input.serviceIds, input.addOnIds, visit.extras);
   const next = { ...visit, serviceIds, addOnIds, staffId: input.staffId, total };
   return { data: { ...data, visits: data.visits.map((v) => (v.id === visit.id ? next : v)) }, result: next };
 }
 
-/** The customer left before the service: remove the open visit. No money was involved. */
-export function cancelOpenVisit(data: Data, visitId: string): Op<null> {
+/**
+ * The customer left before being served. The visit is kept as LEFT with who recorded it and
+ * when, never deleted, so the owner can see it (MISUSE-CHECKS 4). No money was involved.
+ */
+export function cancelOpenVisit(data: Data, visitId: string, by: string | null = null, now = new Date()): Op<Visit> {
   const visit = data.visits.find((v) => v.id === visitId);
   if (!visit || visit.status !== "OPEN") throw new UserError("This visit is no longer open");
-  return { data: { ...data, visits: data.visits.filter((v) => v.id !== visitId) }, result: null };
+  const left: Visit = { ...visit, status: "LEFT", leftAt: now.toISOString(), leftBy: by };
+  return { data: { ...data, visits: data.visits.map((v) => (v.id === visitId ? left : v)) }, result: left };
+}
+
+/** Adds an "Other" service not in the salon's list. It waits for the owner's approval. */
+export function addVisitExtra(data: Data, input: { visitId: string; name: string; price: number }): Op<Visit> {
+  const visit = data.visits.find((v) => v.id === input.visitId);
+  if (!visit || visit.status !== "OPEN") throw new UserError("This visit is no longer open");
+  const name = input.name.trim().replace(/\s+/g, " ");
+  if (!name) throw new UserError("Name the service");
+  if (!Number.isInteger(input.price) || input.price <= 0 || input.price > 100000) throw new UserError("Enter the price in whole rupees");
+  const extras = [...(visit.extras ?? []), { name, price: input.price, approvedAt: null }];
+  const next = { ...visit, extras, total: visitTotal(visit.serviceIds, visit.addOnIds, extras).total };
+  return { data: { ...data, visits: data.visits.map((v) => (v.id === visit.id ? next : v)) }, result: next };
+}
+
+export function removeVisitExtra(data: Data, input: { visitId: string; index: number }): Op<Visit> {
+  const visit = data.visits.find((v) => v.id === input.visitId);
+  if (!visit || visit.status !== "OPEN") throw new UserError("This visit is no longer open");
+  const extras = (visit.extras ?? []).filter((_, i) => i !== input.index);
+  if (!extras.length && !visit.serviceIds.length) throw new UserError("Pick a service first, then remove this one");
+  const next = { ...visit, extras, total: visitTotal(visit.serviceIds, visit.addOnIds, extras).total };
+  return { data: { ...data, visits: data.visits.map((v) => (v.id === visit.id ? next : v)) }, result: next };
+}
+
+/** The owner approves the "Other" items on a bill (after typing the owner password on the phone). */
+export function approveVisitExtras(data: Data, visitId: string, now = new Date()): Op<Visit> {
+  const visit = data.visits.find((v) => v.id === visitId);
+  if (!visit || visit.status !== "OPEN") throw new UserError("This visit is no longer open");
+  const next = { ...visit, extras: (visit.extras ?? []).map((x) => (x.approvedAt ? x : { ...x, approvedAt: now.toISOString() })) };
+  return { data: { ...data, visits: data.visits.map((v) => (v.id === visit.id ? next : v)) }, result: next };
 }
 
 export function openVisits(data: Data) {
@@ -452,18 +521,22 @@ export function openVisits(data: Data) {
  */
 export function checkoutVisit(
   data: Data,
-  input: { visitId: string; walletAmount: number; paymentMethod: PaymentMethod },
+  input: { visitId: string; walletAmount: number; paymentMethod: PaymentMethod; walletCodeOk?: boolean },
   now = new Date(),
 ): Op<{ visit: Visit; balance: number; referral: { referrerName: string; referrerReward: number; newCustomerReward: number } | null }> {
   const visit = data.visits.find((v) => v.id === input.visitId);
   if (!visit || visit.status !== "OPEN") throw new UserError("This visit is no longer open");
-  const { total } = priceItems(visit.serviceIds, visit.addOnIds);
+  const waiting = (visit.extras ?? []).find((x) => !x.approvedAt);
+  if (waiting) throw new UserError(`Ask the owner to approve "${waiting.name}" first`);
+  const { total } = visitTotal(visit.serviceIds, visit.addOnIds, visit.extras);
   const walletAmount = input.walletAmount;
   if (!Number.isInteger(walletAmount) || walletAmount < 0) throw new UserError("Invalid wallet amount");
   if (walletAmount > total) throw new UserError("Wallet amount is more than the bill");
   const customer = data.customers.find((c) => c.id === visit.customerId);
   if (!customer) throw new UserError("Customer not found");
   if (walletAmount > customer.walletBalance) throw new UserError("Not enough wallet balance");
+  const codeAbove = checkSettings(data).walletCodeAbove;
+  if (walletAmount > codeAbove && !input.walletCodeOk) throw new UserError(`Wallet use above ${inrText(codeAbove)} needs the code sent to the customer's WhatsApp`);
 
   const when = now.toISOString();
   const priorPaidVisits = data.visits.filter((v) => v.customerId === customer.id && paid(v) && v.total > 0).length;
@@ -475,6 +548,7 @@ export function checkoutVisit(
     paymentMethod: input.paymentMethod,
     status: "PAID",
     paidAt: when,
+    walletCodeAt: walletAmount > codeAbove ? when : null,
   };
   const txs: WalletTx[] = [];
   const delta = new Map<string, number>([[customer.id, -walletAmount]]);
@@ -486,12 +560,15 @@ export function checkoutVisit(
   const referrer = customer.referredById ? data.customers.find((c) => c.id === customer.referredById) : undefined;
   const rewardNow = total > 0 && priorPaidVisits === 0 && referrer && !customer.referralRewardedAt;
   if (rewardNow) {
-    const { referrerReward, newCustomerReward } = config.referral;
-    txs.push(
-      { id: newId(), customerId: referrer.id, type: "REFERRAL_REWARD", amount: referrerReward, visitId: visit.id, note: `Referred ${customer.name}`, createdAt: when },
-      { id: newId(), customerId: customer.id, type: "REFERRAL_REWARD", amount: newCustomerReward, visitId: visit.id, note: "Welcome reward for joining by referral", createdAt: when },
-    );
-    delta.set(referrer.id, referrerReward);
+    const { newCustomerReward } = config.referral;
+    // A customer earns at most N referral rewards a month (MISUSE-CHECKS 7); the new customer still gets theirs.
+    const month = istDate(now).slice(0, 7);
+    const earned = data.walletTxs.filter((t) => t.customerId === referrer.id && t.type === "REFERRAL_REWARD" && t.note?.startsWith("Referred") && istDate(new Date(t.createdAt)).startsWith(month)).length;
+    const reversed = data.walletTxs.filter((t) => t.customerId === referrer.id && t.type === "REFERRAL_REVERSAL" && istDate(new Date(t.createdAt)).startsWith(month)).length;
+    const referrerReward = earned - reversed < checkSettings(data).referralMonthlyLimit ? config.referral.referrerReward : 0;
+    if (referrerReward) txs.push({ id: newId(), customerId: referrer.id, type: "REFERRAL_REWARD", amount: referrerReward, visitId: visit.id, note: `Referred ${customer.name}`, createdAt: when });
+    txs.push({ id: newId(), customerId: customer.id, type: "REFERRAL_REWARD", amount: newCustomerReward, visitId: visit.id, note: "Welcome reward for joining by referral", createdAt: when });
+    if (referrerReward) delta.set(referrer.id, referrerReward);
     delta.set(customer.id, (delta.get(customer.id) ?? 0) + newCustomerReward);
     referral = { referrerName: referrer.name, referrerReward, newCustomerReward };
   }
@@ -522,11 +599,13 @@ export function canStaffUndo(visit: Visit, now = new Date()): boolean {
  */
 export function voidVisit(
   data: Data,
-  input: { visitId: string; by: "staff" | "owner"; reason: string },
+  input: { visitId: string; by: "staff" | "owner"; reason: string; staffId?: string | null },
   now = new Date(),
 ): Op<Visit> {
   const visit = data.visits.find((v) => v.id === input.visitId);
   if (!visit || visit.status !== "PAID") throw new UserError("Only a paid visit can be voided");
+  // Staff say why and are named on the record (MISUSE-CHECKS 5).
+  if (input.by === "staff" && !input.reason.trim()) throw new UserError("Say why you're undoing this bill");
   if (input.by === "staff" && !canStaffUndo(visit, now)) {
     throw new UserError(`Undo is only possible for ${config.undoWindowMinutes} minutes. Ask the owner to void it.`);
   }
@@ -551,7 +630,7 @@ export function voidVisit(
     }
   }
   const customers = applyDelta(data.customers, delta, (c) => (rewards.length && c.id === visit.customerId ? { referralRewardedAt: null } : {}));
-  const voided: Visit = { ...visit, status: "VOID", voidedAt: when, voidReason: input.reason.trim() || (input.by === "staff" ? "Undone by staff" : "Voided by owner") };
+  const voided: Visit = { ...visit, status: "VOID", voidedAt: when, voidReason: input.reason.trim() || "Voided by owner", voidedBy: input.by === "owner" ? "owner" : (input.staffId ?? visit.staffId) };
   return {
     data: { ...data, customers, visits: data.visits.map((v) => (v.id === visit.id ? voided : v)), walletTxs: [...data.walletTxs, ...txs] },
     result: voided,
@@ -559,6 +638,15 @@ export function voidVisit(
 }
 
 /** The thank-you WhatsApp sent after a paid visit — it carries the referral code. */
+/** Each line of a bill with its price at the time: services, add-ons, then "Other" items. */
+export function billLines(visit: Visit): { name: string; price: number }[] {
+  return [
+    ...visit.serviceIds.map((id) => config.services.find((s) => s.id === id)).filter(Boolean).map((s) => ({ name: s!.name, price: s!.price })),
+    ...visit.addOnIds.map((id) => config.addOns.find((a) => a.id === id)).filter(Boolean).map((a) => ({ name: a!.name, price: a!.price })),
+    ...(visit.extras ?? []).map((x) => ({ name: x.name, price: x.price })),
+  ];
+}
+
 export function receiptMessage(data: Data, visitId: string): { phone: string; message: string } {
   const visit = data.visits.find((v) => v.id === visitId);
   const customer = visit && data.customers.find((c) => c.id === visit.customerId);
@@ -570,7 +658,9 @@ export function receiptMessage(data: Data, visitId: string): { phone: string; me
     message: renderTemplate(customer.marketingConsentAt ? config.receiptTemplate : config.receiptTemplatePlain, {
       name: customer.name.split(" ")[0],
       salon: config.displayName,
+      items: billLines(visit).map((l) => `${l.name} ${inr(l.price)}`).join(", "),
       total: inr(visit.total),
+      wallet: visit.walletPaid ? ` (${inr(visit.walletPaid)} from your wallet)` : "",
       balance: inr(customer.walletBalance),
       code: customer.referralCode,
     }),
@@ -1242,6 +1332,10 @@ export function markAttendance(data: Data, input: { staffId: string; photoKey: s
   const staff = data.staff.find((s) => s.id === input.staffId && s.active);
   if (!staff) throw new UserError("Staff member not found");
   if (todaysAttendance(data, staff.id, now)) throw new UserError("Attendance is already marked for today");
+  // A phone clock set back to look on time (MISUSE-CHECKS 9): refuse a time earlier than what's already saved.
+  if (now.getTime() < latestRecordTime(data) - 5 * 60000) {
+    throw new UserError("This phone's clock is behind. Set the date and time to automatic, then check in again.");
+  }
   const rec: Attendance = { id: newId(), staffId: staff.id, date: istDate(now), checkInAt: now.toISOString(), photoKey: input.photoKey };
   return { data: { ...data, attendance: [...data.attendance, rec] }, result: rec };
 }

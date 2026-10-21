@@ -17,6 +17,8 @@ export type Service = {
   cycleDays: number;
   /** How long the service takes, for booking appointments. */
   minutes: number;
+  /** False = no longer offered (kept so old bills still show its name). */
+  active?: boolean;
 };
 
 export type AddOn = {
@@ -25,6 +27,7 @@ export type AddOn = {
   price: number;
   /** Services at whose checkout this add-on is suggested as an upsell. */
   suggestWith: string[];
+  active?: boolean;
 };
 
 export type Staff = { id: string; name: string; chair: string };
@@ -45,6 +48,15 @@ export type SalonConfig = {
   addOns: AddOn[];
   staff: Staff[];
   topUpTiers: TopUpTier[];
+  /** Misuse checks (MISUSE-CHECKS.md); the owner can change these in the app. */
+  checks: {
+    /** A wallet spend above this needs a WhatsApp code from the customer. */
+    walletCodeAbove: number;
+    /** Referral rewards one customer can earn in a calendar month. */
+    referralMonthlyLimit: number;
+    /** Flag a stylist whose average bill today is this many times their usual. */
+    unusualBillRatio: number;
+  };
   referral: {
     /** Credited to the existing customer who referred the new one. */
     referrerReward: number;
@@ -60,7 +72,7 @@ export type SalonConfig = {
    * Each step is locked for every staff member once done, so nobody repeats it.
    */
   reminderLadder: { secondAfterDays: number; callAfterDays: number };
-  /** Thank-you after a paid visit for customers who opted in to messages. {name} {total} {balance} {code} {salon} */
+  /** Thank-you after a paid visit for customers who opted in to messages. {name} {items} {total} {wallet} {balance} {code} {salon} */
   receiptTemplate: string;
   /** Plain receipt for customers who did not opt in: no offers, no referral pitch. */
   receiptTemplatePlain: string;
@@ -155,6 +167,8 @@ const config: SalonConfig = {
     { minDeposit: 5000, bonusPercent: 15 },
   ],
 
+  checks: { walletCodeAbove: 500, referralMonthlyLimit: 5, unusualBillRatio: 1.6 },
+
   referral: {
     referrerReward: 100,
     newCustomerReward: 100,
@@ -166,9 +180,9 @@ const config: SalonConfig = {
   reminderLadder: { secondAfterDays: 30, callAfterDays: 30 },
 
   receiptTemplate:
-    "Thanks for visiting {salon}, {name}! Paid {total}. Wallet balance: {balance}. Share your code {code} with friends: you both get wallet credit on their first visit. Reply STOP to stop offers.",
+    "Thanks for visiting {salon}, {name}! Your bill: {items}. Paid {total}{wallet}. Wallet balance: {balance}. Share your code {code} with friends: you both get wallet credit on their first visit. Reply STOP to stop offers.",
 
-  receiptTemplatePlain: "Thanks for visiting {salon}, {name}. Paid {total}. Wallet balance: {balance}.",
+  receiptTemplatePlain: "Thanks for visiting {salon}, {name}. Your bill: {items}. Paid {total}{wallet}. Wallet balance: {balance}.",
 
   business: details.business,
   legal: details.legal,
