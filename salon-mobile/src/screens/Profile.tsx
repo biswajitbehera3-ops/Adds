@@ -39,6 +39,7 @@ export function Profile({ id }: { id: string }) {
   const [tab, setTab] = useState<"visits" | "wallet">("visits");
   const [topUp, setTopUp] = useState(false);
   const [book, setBook] = useState(false);
+  const isOwner = useSession()?.role === "owner";
   const p = useMemo(() => {
     try {
       return E.getProfile(data, id);
@@ -114,11 +115,13 @@ export function Profile({ id }: { id: string }) {
               {inr(p.walletBalance)}
             </GT>
           </View>
-          <Press onPress={() => setTopUp(true)} accessibilityLabel="Top up wallet" style={{ backgroundColor: glass.gold, borderRadius: 999, paddingHorizontal: 16, paddingVertical: 9 }}>
-            <GT size={14} w="heavy" c={glass.ink}>
-              Top up
-            </GT>
-          </Press>
+          {isOwner ? (
+            <Press onPress={() => setTopUp(true)} accessibilityLabel="Top up wallet" style={{ backgroundColor: glass.gold, borderRadius: 999, paddingHorizontal: 16, paddingVertical: 9 }}>
+              <GT size={14} w="heavy" c={glass.ink}>
+                Top up
+              </GT>
+            </Press>
+          ) : null}
         </View>
 
         <View style={{ flexDirection: "row", gap: 8 }}>

@@ -162,6 +162,26 @@ export function Home() {
   );
 }
 
+/** The day picked on the month chart: its date, customers and earnings. */
+function PickedDay({ day, isToday }: { day: { date: string; total: number; customers: number }; isToday: boolean }) {
+  const closed = C.isClosed(day.date) && !day.total;
+  return (
+    <View style={{ flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", paddingVertical: 8, paddingHorizontal: 12, borderRadius: 14, backgroundColor: "rgba(26,18,16,0.35)" }} accessibilityLiveRegion="polite">
+      <View>
+        <GT size={13.5} w="bold">
+          {isToday ? "Today" : C.shortDay(day.date)}
+        </GT>
+        <GT size={12} c={glass.soft}>
+          {closed ? "Salon closed" : `${day.customers} customer${day.customers === 1 ? "" : "s"}`}
+        </GT>
+      </View>
+      <GT size={20} w="heavy" c={glass.gold}>
+        {inr(day.total)}
+      </GT>
+    </View>
+  );
+}
+
 const R = 70;
 const CIRC = 2 * Math.PI * R;
 
@@ -224,6 +244,7 @@ export function MyCustomers() {
   const day = useMemo(() => (me ? E.staffDay(data, me.id) : null), [data, me]);
   const month = useMemo(() => (me ? E.staffMonth(data, me.id, today.slice(0, 7)) : null), [data, me, today]);
   const [filter, setFilter] = useState<"all" | "paid" | "chair">("all");
+  const [picked, setPicked] = useState(today);
   if (!me || !day || !month) return <GlassScreen title="My customers">{null}</GlassScreen>;
   const list = day.customers.filter((c) => (filter === "all" ? true : filter === "paid" ? c.visit.status === "PAID" : c.visit.status === "OPEN"));
   const max = Math.max(1, ...month.days.map((d) => d.total));
@@ -290,10 +311,35 @@ export function MyCustomers() {
             {inr(month.total)}
           </GT>
         </View>
-        <View style={{ flexDirection: "row", alignItems: "flex-end", height: 56, gap: 2 }} accessible accessibilityLabel={`${month.customers} customers this month, ${inr(month.total)}`}>
-          {month.days.slice(0, todayIdx + 1).map((d, i) => (
-            <View key={d.date} style={{ flex: 1, height: Math.max(3, (d.total / max) * 56), borderRadius: 3, backgroundColor: i === todayIdx ? glass.gold : C.isClosed(d.date) ? "rgba(255,244,236,0.06)" : "rgba(255,244,236,0.28)" }} />
-          ))}
+        <PickedDay day={month.days.find((d) => d.date === picked) ?? month.days[todayIdx]} isToday={picked === today} />
+        <View style={{ flexDirection: "row", alignItems: "flex-end", height: 64 }}>
+          {month.days.slice(0, todayIdx + 1).map((d, i) => {
+            const on = d.date === picked;
+            const closed = C.isClosed(d.date) && !d.total;
+            return (
+              <Pressable
+                key={d.date}
+                onPress={() => setPicked(d.date)}
+                accessibilityRole="button"
+                accessibilityState={{ selected: on }}
+                accessibilityLabel={`${C.shortDay(d.date)}: ${closed ? "salon closed" : `${d.customers} customers, ${inr(d.total)}`}`}
+                style={{ flex: 1, height: 64, justifyContent: "flex-end", paddingHorizontal: 1 }}
+              >
+                <View style={{ height: Math.max(3, (d.total / max) * 56), borderRadius: 3, backgroundColor: on ? glass.gold : closed ? "rgba(255,244,236,0.06)" : i === todayIdx ? "rgba(228,166,123,0.55)" : "rgba(255,244,236,0.28)" }} />
+              </Pressable>
+            );
+          })}
+        </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <GT size={11} c={glass.faint}>
+            1
+          </GT>
+          <GT size={11} c={glass.faint}>
+            Tap a day
+          </GT>
+          <GT size={11} c={glass.faint}>
+            {todayIdx + 1}
+          </GT>
         </View>
         <GT size={12} c={glass.soft}>
           {month.customers} customers{month.best ? ` · best day ${C.shortDay(month.best.date).slice(0, 6)} ${inr(month.best.total)}` : ""}

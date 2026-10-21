@@ -19,7 +19,7 @@ import config from "../config/salon";
 import * as E from "../domain/engine";
 import { UserError } from "../domain/errors";
 import { priceItems } from "../domain/rules";
-import { commit, useData } from "../domain/store";
+import { commit, useData, useSession } from "../domain/store";
 import type { PaymentMethod } from "../domain/types";
 import { inr } from "../format";
 import { useNav } from "../nav/Navigator";
@@ -43,6 +43,7 @@ export function VisitScreen({ id }: { id: string }) {
   const [method, setMethod] = useState<PaymentMethod>("CASH");
   const [confirmCancel, setConfirmCancel] = useState(false);
   const [topUpOpen, setTopUpOpen] = useState(false);
+  const isOwner = useSession()?.role === "owner";
 
   if (!visit || !customer || visit.status !== "OPEN") {
     return (
@@ -133,7 +134,7 @@ export function VisitScreen({ id }: { id: string }) {
           </View>
         </Pressable>
       ) : null}
-      <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+      <View style={{ flexDirection: "row", justifyContent: "flex-end", display: isOwner ? "flex" : "none" }}>
         <Pressable onPress={() => setTopUpOpen(true)} accessibilityRole="button" accessibilityLabel="Top up wallet" hitSlop={8} style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
           <Icon name="wallet" color={glass.gold2} size={17} />
           <GT size={13} w="bold" c={glass.gold2}>

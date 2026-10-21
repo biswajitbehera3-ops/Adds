@@ -9,7 +9,7 @@ import config from "../config/salon";
 import * as E from "../domain/engine";
 import { UserError } from "../domain/errors";
 import { topUpBonus } from "../domain/rules";
-import { commit } from "../domain/store";
+import { commit, getSession } from "../domain/store";
 import type { Customer, PaymentMethod } from "../domain/types";
 import { inr } from "../format";
 import { glass, urbanist } from "../theme/tokens";
@@ -33,6 +33,8 @@ export function TopUpSheet({ customer, visible, onClose, onDone }: { customer: C
   const nextTier = config.topUpTiers.filter((t) => t.minDeposit > value).sort((a, b) => a.minDeposit - b.minDeposit)[0];
   const submit = () => {
     try {
+      // Only the owner takes wallet top-ups (user, 21 Oct); staff never see the button.
+      if (getSession()?.role !== "owner") throw new UserError("Only the owner can top up a wallet");
       const r = commit((d) => E.topUp(d, { customerId: customer.id, amount: value, method }));
       toast(`Added ${inr(r.deposit)}${r.bonus ? ` + ${inr(r.bonus)} bonus` : ""}`);
       onDone?.(r.balance, r.bonus);

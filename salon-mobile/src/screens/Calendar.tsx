@@ -32,7 +32,7 @@ import Animated, {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Circle } from "react-native-svg";
 import { BookSheet } from "../components/BookSheet";
-import { drawer, easeOut, GhostButton, GlassCard, GlassSheet, GlassSwitch, GoldButton, GT, StatusChip } from "../components/glass";
+import { drawer, easeOut, GhostButton, GlassCard, GlassSheet, GoldButton, GT, StatusChip } from "../components/glass";
 import { Press } from "../components/Press";
 import { useToast } from "../components/Toast";
 import config from "../config/salon";
@@ -76,7 +76,8 @@ export function Calendar() {
   const reduced = useReducedMotion();
   const today = istDate();
 
-  const [mode, setMode] = useState<Mode>(me ? "me" : "all");
+  // Staff see only their own bookings (user, 21 Oct); the whole-salon view is the owner's.
+  const mode: Mode = me ? "me" : "all";
   const [month, setMonth] = useState(today.slice(0, 7));
   const [sel, setSel] = useState(today);
   const [view, setView] = useState<"month" | "day">("month");
@@ -147,11 +148,6 @@ export function Calendar() {
     setSel(day);
   };
 
-  const changeMode = (m: Mode) => {
-    setSweep(true);
-    setMode(m);
-  };
-
   const changeMonth = (n: number) => {
     setSweep(true);
     setDir(n);
@@ -161,7 +157,6 @@ export function Calendar() {
   const onBooked = (appt: { id: string; at: string; staffId: string | null }, name: string) => {
     setBooking(null);
     const day = istDate(new Date(appt.at));
-    if (appt.staffId !== me?.id) setMode("all");
     setFresh(appt.id);
     const t = C.clock(new Date(Date.parse(appt.at) + 330 * 60000).toISOString().slice(11, 16));
     toast(`Booked · ${name}, ${t.time} ${t.ampm} ${C.shortDay(day)}`);
@@ -194,7 +189,7 @@ export function Calendar() {
             )}
             <Animated.View key={view === "day" ? sel : "cal"} entering={reduced ? undefined : FadeIn.duration(240)}>
               <GT size={28} w="heavy" accessibilityRole="header" style={{ lineHeight: 34, letterSpacing: -0.3 }}>
-                {view === "day" ? dayTitle : "Calendar"}
+                {view === "day" ? dayTitle : me ? "My calendar" : "Calendar"}
               </GT>
             </Animated.View>
           </View>
@@ -204,17 +199,6 @@ export function Calendar() {
             </GT>
           </Press>
         </View>
-
-        {me ? (
-          <GlassSwitch
-            options={[
-              { key: "me", label: "My bookings" },
-              { key: "all", label: "Whole salon" },
-            ]}
-            value={mode}
-            onChange={changeMode}
-          />
-        ) : null}
 
         <View style={{ flex: 1 }}>
           {view === "month" ? (

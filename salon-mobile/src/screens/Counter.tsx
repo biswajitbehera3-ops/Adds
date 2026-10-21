@@ -290,12 +290,14 @@ function StartVisit({ customerId, onTopUp }: { customerId: string; onTopUp: () =
           <WalletBadge amount={found.walletBalance} />
         </GlassCard>
       </Press>
-      <Pressable onPress={onTopUp} accessibilityRole="button" accessibilityLabel="Top up wallet" style={{ alignSelf: "flex-end", flexDirection: "row", alignItems: "center", gap: 6 }} hitSlop={8}>
-        <Icon name="wallet" color={glass.gold2} size={18} />
-        <GT size={13.5} w="bold" c={glass.gold2}>
-          Top up wallet
-        </GT>
-      </Pressable>
+      {!me ? (
+        <Pressable onPress={onTopUp} accessibilityRole="button" accessibilityLabel="Top up wallet" style={{ alignSelf: "flex-end", flexDirection: "row", alignItems: "center", gap: 6 }} hitSlop={8}>
+          <Icon name="wallet" color={glass.gold2} size={18} />
+          <GT size={13.5} w="bold" c={glass.gold2}>
+            Top up wallet
+          </GT>
+        </Pressable>
+      ) : null}
       {found.openVisit ? (
         <GlassCard style={{ padding: 14, gap: 10 }}>
           <GT size={15} w="heavy">

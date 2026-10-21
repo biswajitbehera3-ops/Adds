@@ -91,6 +91,10 @@ export function setSession(next: Session | null) {
   emit();
 }
 
+export function getSession(): Session | null {
+  return session;
+}
+
 export function useSession(): Session | null {
   return useSyncExternalStore(subscribe, () => session, () => session);
 }

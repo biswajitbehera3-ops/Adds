@@ -95,9 +95,14 @@ export function buildDemoData(now = Date.now()): Data {
     }
 
     const count = 1 + Math.floor(rand() * 6);
-    const times = Array.from({ length: count }, (_, v) =>
-      v === 0 && i < 7 ? now - Math.floor(rand() * 7) * 3600 * 1000 : now - (1 + Math.floor(rand() * 95)) * DAY,
-    ).sort((a, b) => a - b);
+    // Past days only: today starts at ₹0 and fills as customers are served. Visits fall in
+    // opening hours (10:30 to 19:30 IST) and never on the salon's closed days.
+    const times = Array.from({ length: count }, (_, v) => {
+      let d = v === 0 && i < 7 ? 1 + Math.floor(rand() * 3) : 1 + Math.floor(rand() * 95);
+      while (config.appointments.closedDays.includes(new Date(`${istDate(new Date(now - d * DAY))}T00:00:00Z`).getUTCDay())) d++;
+      const dayStart = new Date(`${istDate(new Date(now - d * DAY))}T00:00:00Z`).getTime() - 330 * 60000;
+      return dayStart + (10 * 60 + 30 + Math.floor(rand() * 540)) * 60000;
+    }).sort((a, b) => a - b);
     times.forEach((t) => {
       const service = pick(config.services);
       const upsells = config.addOns.filter((a) => a.suggestWith.includes(service.id));
