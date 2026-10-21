@@ -11,6 +11,11 @@ export function formatPhone(p: string): string {
   return p.length === 10 ? `${p.slice(0, 5)} ${p.slice(5)}` : p;
 }
 
+/** A customer's number as staff see it: only the last 4 digits (MISUSE-CHECKS, customer list). */
+export function maskPhone(p: string): string {
+  return p.length >= 4 ? `••••• •${p.slice(-4)}` : p;
+}
+
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export function shortDate(d: Date | string): string {

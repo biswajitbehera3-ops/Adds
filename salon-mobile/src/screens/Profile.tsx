@@ -23,7 +23,7 @@ import { UserError } from "../domain/errors";
 import { istDate } from "../domain/rules";
 import { commit, useData, useSession } from "../domain/store";
 import type { PaymentMethod, WalletTx } from "../domain/types";
-import { formatPhone, inr, relativeDays, shortDate } from "../format";
+import { formatPhone, inr, maskPhone, relativeDays, shortDate } from "../format";
 import { useNav } from "../nav/Navigator";
 import { glass } from "../theme/tokens";
 
@@ -88,7 +88,7 @@ export function Profile({ id }: { id: string }) {
               {p.name}
             </GT>
             <GT size={13} c={glass.soft}>
-              {formatPhone(p.phone)} · since {C.MONTHS[since.getMonth()].slice(0, 3)} {since.getFullYear()}
+              {isOwner ? formatPhone(p.phone) : maskPhone(p.phone)} · since {C.MONTHS[since.getMonth()].slice(0, 3)} {since.getFullYear()}
             </GT>
             {tag ? (
               <View style={{ alignSelf: "flex-start", marginTop: 3, paddingHorizontal: 8, paddingVertical: 2, borderRadius: 999, backgroundColor: "rgba(228,166,123,0.18)" }}>

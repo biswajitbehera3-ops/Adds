@@ -202,7 +202,7 @@ export function BookSheet({
 
         <Section n={2} title="Services" done={svcs.length > 0} locked={!unlocked(1)}>
           <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-            {config.services.map((s) => {
+            {config.services.filter((s) => s.active !== false).map((s) => {
               const on = svcs.includes(s.id);
               const last = found?.lastVisit?.serviceIds.includes(s.id);
               return (

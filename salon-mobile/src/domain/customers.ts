@@ -66,6 +66,7 @@ export function billOf(data: Data, visitId: string) {
       const a = config.addOns.find((x) => x.id === id);
       return { name: a?.name ?? id, price: a?.price ?? 0, addOn: true };
     }),
+    ...(visit.extras ?? []).map((x) => ({ name: `${x.name} (not in list, owner approved)`, price: x.price, addOn: false })),
   ];
   const rewards = data.walletTxs.filter((t) => t.visitId === visit.id && t.type === "REFERRAL_REWARD");
   const reward = rewards.reduce((s, t) => s + t.amount, 0);

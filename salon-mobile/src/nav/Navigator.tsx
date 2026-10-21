@@ -53,7 +53,9 @@ export type Route =
   | { name: "addStylist" }
   | { name: "staffAttendance"; id: string }
   | { name: "topSpenders" }
-  | { name: "bill"; visitId: string };
+  | { name: "bill"; visitId: string }
+  | { name: "services" }
+  | { name: "checkRules" };
 
 type Rect = { x: number; y: number; w: number; h: number };
 type Entry = { key: string; route: Route; origin: Rect | null; fromColor: string; toColor: string };

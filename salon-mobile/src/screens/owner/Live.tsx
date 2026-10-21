@@ -26,6 +26,7 @@ import { OwnerDock } from "../../nav/OwnerTabs";
 import { DOCK_SPACE } from "../../nav/StaffTabs";
 import { glass } from "../../theme/tokens";
 import { istTime } from "../Attendance";
+import { backUp, CashCountSheet, readBackupFile, TodayChecks } from "./Guard";
 
 // Plate coordinates are a 1000 × 565 space; people stand on their feet.
 const PLATE = require("../../../assets/live/plate2.webp");
@@ -122,6 +123,7 @@ export function Live() {
   const [desk, setDesk] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [menu, setMenu] = useState(false);
+  const [cashFor, setCashFor] = useState<number | null>(null);
   const [demo, setDemo] = useState<null | { chair: number; name: string; service: string; amount: number; minutes: number; since: number; seated: boolean }>(null);
 
   const say = (text: string, ms = 2600) => {
@@ -292,6 +294,7 @@ export function Live() {
             {desk ?? `${floor.visits} paid today`}
           </GT>
         </GlassCard>
+        <TodayChecks onCount={setCashFor} />
         {floor.chairs.length > CHAIRS.length ? (
           <GT size={12} c={glass.faint} style={{ paddingHorizontal: 20, paddingTop: 8 }}>
             The salon picture shows the first {CHAIRS.length} chairs; every chair is in the list.
@@ -305,6 +308,7 @@ export function Live() {
       </ScrollView>
       <OwnerDock />
       <OwnerMenu open={menu} onClose={() => setMenu(false)} demo={data.demo} />
+      <CashCountSheet open={cashFor !== null} onClose={() => setCashFor(null)} expected={cashFor ?? 0} />
     </View>
   );
 }
@@ -540,7 +544,8 @@ function FloorNote({ title, text }: { title: string; text: string }) {
 function OwnerMenu({ open, onClose, demo }: { open: boolean; onClose: () => void; demo: boolean }) {
   const nav = useNav();
   const toast = useToast();
-  const [confirm, setConfirm] = useState<"clear" | "demo" | "out" | null>(null);
+  const [confirm, setConfirm] = useState<"clear" | "demo" | "out" | "restore" | null>(null);
+  const [pending, setPending] = useState<Awaited<ReturnType<typeof readBackupFile>>>(null);
   const close = () => {
     setConfirm(null);
     onClose();
@@ -566,6 +571,8 @@ function OwnerMenu({ open, onClose, demo }: { open: boolean; onClose: () => void
             <GT size={15} w="bold" c={confirm === "out" ? glass.cream : glass.late}>
               {confirm === "out"
                 ? "Sign out of the owner area on this phone?"
+                : confirm === "restore"
+                  ? `Replace everything on this phone with the backup (${pending?.customers ?? 0} customers, ${pending?.visits ?? 0} visits)? Everyone signs in again.`
                 : confirm === "clear"
                   ? "Delete every customer, visit, wallet, staff account and attendance record on this phone, and the owner password? The app goes back to first-time setup. This can't be undone."
                   : "Replace everything with demo data? Real data will be lost."}
@@ -573,14 +580,15 @@ function OwnerMenu({ open, onClose, demo }: { open: boolean; onClose: () => void
             <View style={{ flexDirection: "row", gap: 8 }}>
               <GhostButton label="Keep" style={{ flex: 1 }} onPress={() => setConfirm(null)} />
               <GhostButton
-                label={confirm === "out" ? "Sign out" : confirm === "clear" ? "Delete all" : "Load demo"}
+                label={confirm === "out" ? "Sign out" : confirm === "restore" ? "Restore" : confirm === "clear" ? "Delete all" : "Load demo"}
                 tone={glass.late}
                 style={{ flex: 1 }}
                 onPress={() => {
                   if (confirm === "out") setSession(null);
+                  else if (confirm === "restore") pending?.apply();
                   else if (confirm === "clear") clearAll();
                   else resetToDemo();
-                  if (confirm !== "out") toast(confirm === "clear" ? "All data cleared" : "Demo data loaded");
+                  if (confirm !== "out") toast(confirm === "restore" ? "Backup restored" : confirm === "clear" ? "All data cleared" : "Demo data loaded");
                   close();
                 }}
               />
@@ -589,7 +597,14 @@ function OwnerMenu({ open, onClose, demo }: { open: boolean; onClose: () => void
         ) : (
           <>
             {row("Leave requests", () => (close(), nav.push({ name: "leaveRequests" })))}
+            {row("Services & prices", () => (close(), nav.push({ name: "services" })))}
+            {row("Check limits", () => (close(), nav.push({ name: "checkRules" })))}
             {row("Privacy & terms", () => (close(), nav.push({ name: "legal" })))}
+            {row("Back up data", () => backUp(toast))}
+            {row("Restore from a backup", async () => {
+              const b = await readBackupFile(toast);
+              if (b) (setPending(b), setConfirm("restore"));
+            })}
             <GT size={12} c={glass.soft} style={{ paddingTop: 12 }}>
               {demo ? "You're looking at demo data. Clear it before the salon starts using the app; you'll then set a new owner password and add your staff." : "All customer data lives only on this phone."}
             </GT>

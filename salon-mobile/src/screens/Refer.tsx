@@ -12,7 +12,7 @@ import { useToast } from "../components/Toast";
 import config from "../config/salon";
 import * as E from "../domain/engine";
 import { useData } from "../domain/store";
-import { formatPhone, inr, shortDate } from "../format";
+import { inr, maskPhone, shortDate } from "../format";
 import { useNav } from "../nav/Navigator";
 import { glass, urbanist } from "../theme/tokens";
 
@@ -46,7 +46,7 @@ export function Refer({ id }: { id?: string }) {
                       {c.name}
                     </GT>
                     <GT size={12} c={glass.soft}>
-                      {formatPhone(c.phone)}
+                      {maskPhone(c.phone)}
                     </GT>
                   </View>
                   <GT size={15} c={glass.soft}>

@@ -242,6 +242,11 @@ export function Bill({ visitId }: { visitId: string }) {
             Cancelled{v.voidedAt ? ` · ${C.shortDay(istDate(v.voidedAt))}, ${istTime(v.voidedAt)}` : ""}
           </GT>
           <GT size={14}>{v.voidReason ?? ""}</GT>
+          {v.voidedBy ? (
+            <GT size={12.5} c={glass.soft}>
+              {v.voidedBy === "owner" ? "Cancelled by the owner" : `Undone by ${data.staff.find((x) => x.id === v.voidedBy)?.name ?? "staff"}`}
+            </GT>
+          ) : null}
           <GT size={12.5} c={glass.soft}>
             Not counted in earnings. Any wallet money used went back to the wallet.
           </GT>

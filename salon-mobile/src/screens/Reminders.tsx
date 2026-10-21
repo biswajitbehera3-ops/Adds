@@ -15,7 +15,7 @@ import { useToast } from "../components/Toast";
 import * as E from "../domain/engine";
 import { UserError } from "../domain/errors";
 import { commit, useData } from "../domain/store";
-import { formatPhone, relativeDays, shortDate } from "../format";
+import { relativeDays, shortDate } from "../format";
 import { useNav } from "../nav/Navigator";
 import { glass, urbanist } from "../theme/tokens";
 import { useCurrentStaff } from "./Attendance";
@@ -176,7 +176,7 @@ function Row({ r, index, meId, meName, open, onToggle }: { r: R; index: number; 
         <Animated.View entering={FadeIn.duration(200)} style={{ paddingHorizontal: 14, paddingBottom: 14, gap: 10 }}>
           {isCall ? (
             <GT size={13} c={glass.soft}>
-              Two WhatsApp messages and no visit, so no more messages. {myCall ? `You served ${first} last: give them a call on ${formatPhone(r.phone)}.` : `${who(r.callerName)} served them last and makes the call.`} After the call they won't be reminded again until they come in.
+              Two WhatsApp messages and no visit, so no more messages. {myCall ? `You served ${first} last: give them a call (tap Call).` : `${who(r.callerName)} served them last and makes the call.`} After the call they won't be reminded again until they come in.
             </GT>
           ) : (
             <TextInput

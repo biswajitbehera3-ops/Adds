@@ -25,6 +25,7 @@ import { OwnerTabs } from "./src/nav/OwnerTabs";
 import { StylistEarnings } from "./src/screens/owner/Earnings";
 import { AddStylist, StaffAttendance, StaffCard } from "./src/screens/owner/Staff";
 import { Bill, TopSpenders } from "./src/screens/owner/TopSpenders";
+import { CheckRules, ServicesScreen } from "./src/screens/owner/Guard";
 import { Profile } from "./src/screens/Profile";
 import { Legal } from "./src/screens/Legal";
 import { Refer } from "./src/screens/Refer";
@@ -90,6 +91,10 @@ function render(route: Route) {
       return <TopSpenders />;
     case "bill":
       return <Bill visitId={route.visitId} />;
+    case "services":
+      return <ServicesScreen />;
+    case "checkRules":
+      return <CheckRules />;
   }
 }
 
@@ -133,7 +138,7 @@ function Root() {
 
 function StatusBarForRoute() {
   const { top } = useNav();
-  const dark = ["home", "login", "setup", "attendance", "calendar", "customers", "profile", "reminders", "me", "myAttendance", "myLeave", "changePassword", "staffPrivacy", "leaveRequests", "myCustomers", "todayBookings", "ownerStylist", "staffCard", "addStylist", "staffAttendance", "topSpenders", "bill", "counter", "visit", "receipt", "refer", "legal", "owner"].includes(top.name);
+  const dark = ["home", "login", "setup", "attendance", "calendar", "customers", "profile", "reminders", "me", "myAttendance", "myLeave", "changePassword", "staffPrivacy", "leaveRequests", "myCustomers", "todayBookings", "ownerStylist", "staffCard", "addStylist", "staffAttendance", "topSpenders", "bill", "services", "checkRules", "counter", "visit", "receipt", "refer", "legal", "owner"].includes(top.name);
   return <StatusBar style={dark ? "light" : "dark"} />;
 }
 

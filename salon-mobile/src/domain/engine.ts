@@ -348,7 +348,7 @@ export function getProfile(data: Data, id: string) {
   const customer = data.customers.find((c) => c.id === id);
   if (!customer) throw new UserError("Customer not found");
   const visits = data.visits
-    .filter((v) => v.customerId === id && v.status !== "OPEN")
+    .filter((v) => v.customerId === id && v.status !== "OPEN" && v.status !== "LEFT")
     .sort((a, b) => at(b).localeCompare(at(a)));
   const walletTxs = data.walletTxs.filter((t) => t.customerId === id).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   const dues = serviceDueDates(data, id);

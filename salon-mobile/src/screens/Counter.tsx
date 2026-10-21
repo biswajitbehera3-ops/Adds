@@ -15,6 +15,7 @@ import { Icon } from "../components/Icon";
 import { Press } from "../components/Press";
 import { ServicePicker } from "../components/ServicePicker";
 import { useToast } from "../components/Toast";
+import { WhatsAppCode } from "../components/Guards";
 import { TopUpSheet } from "../components/TopUpSheet";
 import config from "../config/salon";
 import * as E from "../domain/engine";
@@ -142,6 +143,7 @@ function NewCustomer({ phone }: { phone: string }) {
   const [marketing, setMarketing] = useState(false);
   const [minor, setMinor] = useState(false);
   const [guardian, setGuardian] = useState(false);
+  const [refOk, setRefOk] = useState(false);
   const data = useData();
   // Verify the friend's code or number as it's typed, so staff can check the name with the customer.
   const ref = referredBy.trim();
@@ -151,7 +153,7 @@ function NewCustomer({ phone }: { phone: string }) {
   const add = () => {
     try {
       commit((d) =>
-        E.createCustomer(d, { phone, name, consent, marketing, minor, guardianConsent: guardian, referredBy: referredBy || undefined, takenBy: session?.role === "staff" ? session.staffId : "owner" }),
+        E.createCustomer(d, { phone, name, consent, marketing, minor, guardianConsent: guardian, referredBy: referredBy || undefined, referralVerified: refOk, takenBy: session?.role === "staff" ? session.staffId : "owner" }),
       );
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});
       toast(`${name.trim().split(" ")[0]} added`);
@@ -183,6 +185,7 @@ function NewCustomer({ phone }: { phone: string }) {
           </GT>
         </View>
       ) : null}
+      {refState === "ok" ? <WhatsAppCode phone={phone} purpose="join with your friend's referral" verified={refOk} onVerified={setRefOk} /> : null}
       <GT size={12.5} c={glass.soft}>
         Read this to the customer: we keep your name, number, visits and wallet only to serve you here. You can ask us to stop messages or delete your data at any time.
       </GT>
@@ -195,7 +198,7 @@ function NewCustomer({ phone }: { phone: string }) {
           Full privacy notice
         </GT>
       </Pressable>
-      <GoldButton label="Add customer" onPress={add} disabled={!name.trim() || !consent || (minor && !guardian) || (ref !== "" && refState !== "ok")} />
+      <GoldButton label="Add customer" onPress={add} disabled={!name.trim() || !consent || (minor && !guardian) || (ref !== "" && (refState !== "ok" || !refOk))} />
     </GlassCard>
   );
 }

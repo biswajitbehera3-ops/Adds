@@ -26,14 +26,14 @@ export function ServicePicker({
 }) {
   const reduced = useReducedMotion();
   const suggested = upsellsForServices(serviceIds).map((a) => a.id);
-  const addOnList = [...config.addOns].sort((a, b) => Number(suggested.includes(b.id)) - Number(suggested.includes(a.id)));
+  const addOnList = config.addOns.filter((a) => a.active !== false).sort((a, b) => Number(suggested.includes(b.id)) - Number(suggested.includes(a.id)));
   const toggle = (list: string[], id: string) => (list.includes(id) ? list.filter((x) => x !== id) : [...list, id]);
 
   return (
     <View style={{ gap: 10 }}>
       <SectionLabel>Services</SectionLabel>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-        {config.services.map((s) => (
+        {config.services.filter((s) => s.active !== false || serviceIds.includes(s.id)).map((s) => (
           <Pill key={s.id} label={s.name} sub={inr(s.price)} on={serviceIds.includes(s.id)} onPress={() => onChange({ serviceIds: toggle(serviceIds, s.id), addOnIds, staffId })} />
         ))}
       </View>
