@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en-IN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Register · Salon app redesign (C)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Anek+Latin:wdth,wght@75..125,400..700&display=swap" rel="stylesheet">
+<!--
+  Direction C · "The Register"
+  Logic 3 (best designer): Ishan Khosla Design, New Delhi. Indian vernacular lettering + systems.
+  Structural idea: the salon's paper register (khata / bahi). Every staff page is a ruled page of it,
+  and money always lives in ONE fixed right-hand rupee column, behind a gold double rule, at the same x
+  on every screen. Totals are double-underlined (the book-keeper's sign for "this is the figure").
+  The register's cover (brown leather, gold stitch) is the login and the owner's chrome.
+-->
+<style>
+:root{
+  --leather:#2A1A15; --leather-2:#3A251E; --leather-3:#4B3128;
+  --paper:#FFF8F1; --paper-2:#F6EADC; --rule:#EBDCCB;
+  --ink:#2A1A15; --ink-2:#6A4E41; --ink-3:#7E6255;
+  --gold:#E4A67B; --gold-deep:#8F5630; --gold-line:#D9A57F;
+  --stamp:#A8361F; --ok:#2F6B3A;
+  --on-leather:#FFF8F1; --on-leather-2:#D6BFAF;
+  --col:140px;            /* the rupee column: 20px gutter + 120px figures, same x (250px) on every page */
+  --disp:"Rozha One", Georgia, serif;
+  --ui:"Anek Latin", system-ui, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#D9D5CF}
+body{font-family:var(--ui);color:var(--ink);-webkit-font-smoothing:antialiased;font-variation-settings:"wdth" 100}
+::selection{background:var(--gold);color:var(--ink)}
+.canvas{display:flex;gap:48px;padding:56px 64px 40px;align-items:flex-start;width:max-content}
+.unit{display:flex;flex-direction:column;align-items:center;gap:18px}
+.cap{font:500 15px/1.2 var(--ui);color:#4A403A;letter-spacing:.01em}
+.cap b{font-weight:700;color:#2A1A15;margin-right:6px}
+
+/* ---------- phone frame: ios_frame.jsx geometry (12px bezel, 60/48 radii, 140x5 indicator), Android furniture ---------- */
+.phone{display:inline-block;padding:12px;background:#15100E;border-radius:60px;
+  box-shadow:0 0 0 2px #2b2420,0 24px 60px rgba(42,26,21,.28),0 4px 12px rgba(42,26,21,.18);position:relative}
+.screen{position:relative;width:390px;height:844px;border-radius:48px;overflow:hidden;background:var(--paper)}
+.sb{position:absolute;top:0;left:0;right:0;height:40px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 26px 0 30px;font:600 14px/1 var(--ui);color:var(--ink);z-index:20}
+.sb.dark{color:var(--on-leather)}
+.cam{position:absolute;left:50%;top:13px;width:13px;height:13px;margin-left:-6.5px;border-radius:50%;background:#0b0807;box-shadow:inset 0 0 0 2px #1d1714}
+.sb-ic{display:flex;align-items:center;gap:6px}
+.batt{width:22px;height:11px;border:1.5px solid currentColor;border-radius:3px;padding:1px;position:relative;opacity:.9}
+.batt i{display:block;height:100%;width:80%;background:currentColor;border-radius:1px}
+.pct{font-size:12px;font-weight:600}
+.gest{position:absolute;bottom:9px;left:50%;width:120px;height:5px;margin-left:-60px;border-radius:9px;background:rgba(42,26,21,.42);z-index:30}
+.gest.dark{background:rgba(255,248,241,.55)}
+.body{position:absolute;top:40px;left:0;right:0;bottom:0}
+
+/* ---------- the page: ruled paper + the rupee column ---------- */
+.page{background:var(--paper)}
+.ledger{position:relative}
+.ledger::after{content:"";position:absolute;top:0;bottom:0;right:var(--col);width:4px;
+  border-left:1px solid var(--gold-line);border-right:1px solid var(--gold-line);pointer-events:none;opacity:.75}
+.row{display:flex;align-items:baseline;min-height:44px;padding:11px 20px 9px;border-bottom:1px solid var(--rule);position:relative}
+.row .lbl{flex:1;padding-right:calc(var(--col) - 8px);font:500 16px/1.3 var(--ui)}
+.row .lbl small{display:block;font:400 14px/1.35 var(--ui);color:var(--ink-2);margin-top:2px}
+.amt{position:absolute;right:20px;top:11px;width:110px;text-align:right;font:600 18px/1.25 var(--ui);font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.005em}
+.amt.disp{font-family:var(--disp);font-weight:400}
+.total .amt{border-bottom:3px double var(--ink);padding-bottom:1px}
+.page-head{padding:14px 20px 12px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.date{font:600 13px/1.2 var(--ui);color:var(--ink-2);letter-spacing:.02em}
+h1,h2{font-family:var(--disp);font-weight:400;letter-spacing:-.005em;color:var(--ink)}
+h1{font-size:30px;line-height:1.05;margin-top:4px}
+h2{font-size:20px;line-height:1.15}
+.mark{width:40px;height:40px;border-radius:50%;flex:none;box-shadow:0 0 0 1.5px var(--gold-line),0 2px 6px rgba(42,26,21,.25)}
+.sec{display:flex;align-items:baseline;justify-content:space-between;padding:18px 20px 6px;border-bottom:1.5px solid var(--ink)}
+.sec h2{font-size:19px}
+.sec .meta{font:500 14px/1 var(--ui);color:var(--ink-2)}
+
+/* buttons */
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;height:56px;border-radius:14px;background:var(--gold);color:var(--ink);
+  font:700 18px/1 var(--ui);letter-spacing:.005em;box-shadow:inset 0 -3px 0 rgba(143,86,48,.35),0 6px 14px -6px rgba(143,86,48,.6);border:0;width:100%}
+.btn .r{font-family:var(--disp);font-weight:400;font-size:22px;letter-spacing:0}
+.btn.sm{height:44px;border-radius:12px;font-size:16px;width:auto;padding:0 16px}
+.btn.sm .r{font-size:19px}
+.link{font:600 15px/1.2 var(--ui);color:var(--ink-2);text-decoration:underline;text-underline-offset:4px;text-decoration-color:var(--gold-line)}
+
+/* bottom bar: the register's leather spine */
+.bar{position:absolute;left:0;right:0;bottom:0;height:92px;padding:0 6px 26px;background:var(--leather);display:grid;grid-template-columns:repeat(5,1fr);align-items:end;
+  border-top:1px solid #000;box-shadow:inset 0 1px 0 rgba(228,166,123,.25)}
+.bar::before{content:"";position:absolute;left:10px;right:10px;top:6px;border-top:1.5px dashed rgba(228,166,123,.45)}
+.bar.owner{grid-template-columns:repeat(4,1fr)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:4px;color:var(--on-leather-2);font:500 12px/1 var(--ui);height:56px;justify-content:center}
+.tab.on{color:var(--gold)}
+.tab.on span{font-weight:700}
+.tab-walk{justify-self:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:68px;height:74px;margin-bottom:-2px;
+  background:var(--gold);color:var(--ink);border-radius:14px 14px 10px 10px;font:700 12px/1 var(--ui);
+  box-shadow:0 -6px 16px -6px rgba(0,0,0,.5),inset 0 -3px 0 rgba(143,86,48,.4);transform:translateY(-12px)}
+
+/* ---------- 1 · LOGIN: the register's cover ---------- */
+.cover{position:absolute;inset:0;background:
+  radial-gradient(120% 70% at 50% 18%,#4A3027 0%,#33211B 45%,#21140F 100%)}
+.cover::before{content:"";position:absolute;inset:0;opacity:.18;mix-blend-mode:overlay;
+  background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 1px,transparent 1px 3px),repeating-linear-gradient(25deg,rgba(0,0,0,.25) 0 1px,transparent 1px 4px)}
+.stitch{position:absolute;inset:52px 16px 22px;border:1.5px dashed rgba(228,166,123,.55);border-radius:30px;pointer-events:none}
+.login{position:absolute;inset:40px 0 0;display:flex;flex-direction:column;align-items:center;padding:52px 36px 0;color:var(--on-leather)}
+.emboss{width:112px;height:112px;border-radius:50%;box-shadow:0 0 0 3px #2A1A15,0 0 0 4.5px var(--gold),0 10px 28px rgba(0,0,0,.55)}
+.login h1{color:var(--on-leather);font-size:40px;margin-top:26px}
+.login .when{margin-top:10px;font:500 16px/1.3 var(--ui);color:var(--on-leather-2);text-align:center}
+.login .when b{color:var(--on-leather);font-weight:600}
+.slip{margin-top:30px;width:100%;background:var(--paper);border-radius:6px;padding:20px 18px 18px;color:var(--ink);position:relative;
+  box-shadow:0 18px 34px -12px rgba(0,0,0,.6),0 2px 0 rgba(0,0,0,.2)}
+.slip::before{content:"";position:absolute;left:12px;right:12px;top:8px;border-top:3px double var(--gold-line)}
+.field{display:block;margin-top:12px}
+.field:first-of-type{margin-top:8px}
+.field .fl{font:600 13px/1 var(--ui);color:var(--ink-2);letter-spacing:.02em;display:block;margin-bottom:7px}
+.inp{height:52px;border:1.5px solid #CDB7A4;border-radius:10px;background:#FFFDF9;display:flex;align-items:center;padding:0 14px;gap:10px;font:500 17px/1 var(--ui)}
+.inp .pre{color:var(--ink);font-weight:600;padding-right:10px;border-right:1px solid var(--rule)}
+.inp .ph{color:var(--ink-3)}
+.inp .dots{letter-spacing:3px;font-size:20px;flex:1}
+.inp .ic{color:var(--ink-2);margin-left:auto}
+.slip .btn{margin-top:18px}
+.login .alt{margin-top:22px;font:500 16px/1.3 var(--ui);color:var(--on-leather-2)}
+.login .alt a{color:var(--gold);font-weight:700;text-decoration:underline;text-underline-offset:4px}
+.login .legal{position:absolute;bottom:40px;font:500 13px/1 var(--ui);color:var(--on-leather-2);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(214,191,175,.5)}
+
+/* ---------- 2 · STAFF HOME ---------- */
+.walk{margin:2px 20px 0;padding:12px 12px 12px;background:var(--leather);border-radius:16px;color:var(--on-leather)}
+.walk .wl{font:600 14px/1.2 var(--ui);color:var(--on-leather-2);margin:0 2px 9px;display:flex;justify-content:space-between}
+.walk .wl b{color:var(--on-leather);font-weight:700}
+.walk .wrow{display:flex;gap:8px}
+.walk .inp{flex:1;background:var(--paper);border:0;height:54px}
+.walk .go{width:54px;height:54px;border-radius:10px;background:var(--gold);color:var(--ink);display:grid;place-items:center;flex:none}
+.earn .row .lbl{font-size:15px}
+.earn .total{border-bottom:0;padding-top:12px;padding-bottom:10px;min-height:72px;align-items:center}
+.earn .total .lbl{font:600 17px/1.2 var(--ui)}
+.earn .total .lbl small{font-size:14px}
+.earn .total .amt{font-family:var(--disp);font-weight:400;font-size:38px;line-height:1.05;top:14px;width:110px;letter-spacing:-.01em;padding-bottom:2px}
+.tally{display:grid;grid-template-columns:repeat(4,1fr);padding:4px 8px 6px;border-bottom:1px solid var(--rule)}
+.tally div{text-align:center;padding:8px 0 6px}
+.tally b{display:block;font:400 26px/1 var(--disp)}
+.tally span{font:500 13px/1.2 var(--ui);color:var(--ink-2)}
+.tally div+div{border-left:1px solid var(--rule)}
+.tally .hot b{color:var(--gold-deep)}
+.chair{position:relative;padding:12px 20px 14px;border-bottom:1px solid var(--rule)}
+.chair .who{font:700 18px/1.2 var(--ui)}
+.chair .what{font:400 15px/1.35 var(--ui);color:var(--ink-2);margin-top:2px}
+.chair .foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+.since{font:600 13px/1 var(--ui);color:var(--ink-2);display:flex;gap:6px;align-items:center}
+.since i{width:8px;height:8px;border-radius:50%;background:var(--gold-deep);box-shadow:0 0 0 3px rgba(143,86,48,.18)}
+.book{display:flex;align-items:center;gap:12px;padding:12px 20px;}
+.book .t{flex:1}
+.book .t b{font:600 16px/1.25 var(--ui);display:block}
+.book .t span{font:500 14px/1.35 var(--ui);color:var(--stamp)}
+.book .ic{color:var(--ink-2)}
+
+/* ---------- 3 · BILL ---------- */
+.cust{padding:6px 20px 14px;display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1.5px solid var(--ink)}
+.cust .nm{font:400 30px/1.05 var(--disp)}
+.cust .tag{display:inline-block;margin-top:8px;font:600 13px/1 var(--ui);color:var(--ok);background:#E7F0E2;padding:5px 8px;border-radius:6px}
+.wallet{text-align:right}
+.wallet .k{font:600 13px/1 var(--ui);color:var(--ink-2)}
+.wallet .v{font:400 24px/1.1 var(--disp);margin-top:4px}
+.stamp{display:inline-block;margin-top:7px;font:700 12px/1 var(--ui);letter-spacing:.08em;text-transform:uppercase;color:var(--stamp);
+  border:1.5px solid var(--stamp);border-radius:4px;padding:5px 7px 4px;transform:rotate(-3deg);opacity:.92;
+  box-shadow:inset 0 0 0 2px var(--paper),inset 0 0 0 3px rgba(168,54,31,.5)}
+.bill .total{min-height:74px;align-items:center;border-bottom:0;padding-top:12px}
+.bill .total .lbl{font:700 18px/1 var(--ui)}
+.bill .total .amt{font:400 38px/1.05 var(--disp);top:15px;width:110px}
+.after{margin-top:6px}.after .row{border-top:1px solid var(--rule)}.after .amt{color:var(--ink-2)}
+.switch{display:flex;align-items:center;gap:12px;margin:6px 20px 0;padding:14px 14px;border-radius:14px;background:var(--paper-2)}
+.switch .t{flex:1}
+.switch .t b{font:600 16px/1.25 var(--ui);display:block}
+.switch .t span{font:500 14px/1.3 var(--ui);color:var(--ink-2)}
+.tog{width:52px;height:32px;border-radius:20px;background:var(--leather);position:relative;flex:none}
+.tog::after{content:"";position:absolute;right:4px;top:4px;width:24px;height:24px;border-radius:50%;background:var(--gold)}
+.confirmed{display:flex;align-items:center;gap:10px;margin:16px 20px 0;padding:0 2px;font:600 15px/1.3 var(--ui);color:var(--ok)}
+.confirmed .ck{width:26px;height:26px;border-radius:50%;background:var(--ok);color:#fff;display:grid;place-items:center;flex:none}
+.confirmed .num{color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.confirmed small{display:block;font:500 13px/1.2 var(--ui);color:var(--ink-2)}
+.paybar{position:absolute;left:0;right:0;bottom:0;padding:16px 20px 34px;background:var(--paper);border-top:1px solid var(--rule);text-align:center}
+.paybar .btn{height:62px;font-size:19px}
+.paybar .btn .r{font-size:26px}
+.paybar .link{display:inline-block;margin-top:16px}
+.back{display:flex;align-items:center;gap:8px;font:600 14px/1 var(--ui);color:var(--ink-2)}
+.back .ic{transform:rotate(180deg)}
+
+/* ---------- 4 · CALENDAR: the appointment book ---------- */
+.mon{display:flex;justify-content:space-between;align-items:flex-end;padding:8px 20px 12px}
+.mon h1{font-size:32px}
+.mon .date{margin-bottom:2px}
+.grid{margin:0 14px;display:grid;grid-template-columns:repeat(7,1fr);border-top:1.5px solid var(--ink)}
+.wk{font:600 13px/1 var(--ui);color:var(--ink-2);text-align:center;padding:10px 0 8px;border-bottom:1px solid var(--rule)}
+.wk.off{color:#7A675B;text-decoration:line-through;text-decoration-color:rgba(168,150,138,.6)}
+.d{height:54px;position:relative;border-bottom:1px solid var(--rule);display:flex;align-items:flex-start;justify-content:space-between;padding:6px 5px 0 6px;overflow:hidden}
+.d:not(:nth-child(7n+1)){border-left:1px solid var(--rule)}
+.d::before{content:"";position:absolute;left:0;right:0;bottom:0;height:var(--f,0%);background:#F1D2B9;z-index:0}
+.d.full::before{background:var(--gold)}
+.d b{position:relative;z-index:1;font:600 15px/1 var(--ui);font-variant-numeric:tabular-nums}
+.d em{position:relative;z-index:1;font:600 12px/1 var(--ui);font-style:normal;color:var(--ink-2);margin-top:1px}
+.d.full em{color:var(--ink)}
+.d.past b{color:var(--ink-2);font-weight:500}
+.d.off{background:repeating-linear-gradient(135deg,#F3E9DE 0 4px,#FFF8F1 4px 8px)}
+.d.off b{color:#7A675B;font-weight:500}
+.d.today{outline:2.5px solid var(--ink);outline-offset:-2.5px;z-index:2}
+.d.today b{font-weight:800}
+.legend{display:flex;gap:16px;padding:10px 20px 0;font:500 13px/1.2 var(--ui);color:var(--ink-2);align-items:center}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
+.todaycard{margin:14px 14px 0;background:var(--leather);color:var(--on-leather);border-radius:16px;padding:14px 16px 14px}
+.todaycard .top{display:flex;justify-content:space-between;align-items:baseline}
+.todaycard h2{color:var(--on-leather);font-size:22px}
+.todaycard .cnt{font:600 14px/1.2 var(--ui);color:var(--on-leather-2);text-align:right}
+.todaycard .cnt b{color:var(--gold);font-weight:700}
+.next{display:flex;gap:12px;align-items:center;margin-top:12px;padding:10px 12px;background:rgba(255,248,241,.07);border-radius:10px;border:1px solid rgba(228,166,123,.25)}
+.next .tm{font:400 22px/1 var(--disp);color:var(--gold);white-space:nowrap}
+.next .tm small{font:600 12px/1 var(--ui);margin-left:3px}
+.next .p b{display:block;font:600 16px/1.2 var(--ui)}
+.next .p span{font:500 14px/1.2 var(--ui);color:var(--on-leather-2)}
+.dayline{margin-top:12px}
+.dayline .tr{height:8px;border-radius:4px;background:rgba(255,248,241,.14);position:relative;overflow:hidden}
+.dayline .tr i{position:absolute;left:0;top:0;bottom:0;width:35%;background:var(--gold);border-radius:4px}
+.dayline .lab{display:flex;justify-content:space-between;margin-top:7px;font:500 13px/1.2 var(--ui);color:var(--on-leather-2)}
+.dayline .lab b{color:var(--on-leather);font-weight:700}
+.fab{position:absolute;right:16px;bottom:108px;height:52px;padding:0 20px 0 16px;border-radius:14px;background:var(--gold);color:var(--ink);display:flex;align-items:center;gap:8px;font:700 17px/1 var(--ui);
+  box-shadow:0 10px 20px -8px rgba(42,26,21,.55),inset 0 -3px 0 rgba(143,86,48,.35)}
+
+/* ---------- 5 · OWNER LIVE ---------- */
+.olive{position:absolute;inset:0;background:var(--leather)}
+.ohead{position:relative;padding:12px 20px 12px;color:var(--on-leather);display:flex;justify-content:space-between;align-items:flex-end}
+.ohead h1{color:var(--on-leather);font-size:30px;display:flex;align-items:center;gap:10px}
+.livepill{display:inline-flex;align-items:center;gap:6px;font:700 12px/1 var(--ui);letter-spacing:.1em;color:#FFE9DA;background:#8E2F1E;padding:5px 8px 5px 7px;border-radius:6px;vertical-align:middle}
+.livepill i{width:7px;height:7px;border-radius:50%;background:#FFB79A;box-shadow:0 0 0 3px rgba(255,183,154,.25)}
+.ohead .date{color:var(--on-leather-2);margin-top:6px}
+.today-take{text-align:right}
+.today-take .k{font:600 13px/1 var(--ui);color:var(--on-leather-2)}
+.today-take .v{font:400 32px/1 var(--disp);color:var(--gold);margin-top:5px;border-bottom:3px double rgba(228,166,123,.8);padding-bottom:2px}
+.plate{position:relative;height:214px;overflow:hidden}
+.plate img.bg{position:absolute;left:-18px;top:-4px;width:430px;height:auto}
+.spr{position:absolute;height:44px;width:auto;filter:drop-shadow(0 3px 2px rgba(0,0,0,.35))}
+.ctag{position:absolute;display:flex;align-items:center;gap:6px;background:var(--paper);color:var(--ink);font:600 12px/1 var(--ui);padding:5px 8px 5px 5px;border-radius:6px;
+  box-shadow:0 4px 10px rgba(0,0,0,.35);white-space:nowrap}
+.ctag b{display:grid;place-items:center;width:18px;height:18px;border-radius:4px;background:var(--leather);color:var(--gold);font:400 13px/1 var(--disp)}
+.ctag.free{background:#E7F0E2;color:var(--ok)}
+.ctag.free b{background:var(--ok);color:#fff}
+.ctag::after{content:"";position:absolute;left:12px;bottom:-5px;border:5px solid transparent;border-bottom:0;border-top-color:var(--paper)}
+.ctag.free::after{border-top-color:#E7F0E2}
+.ctag.up::after{bottom:auto;top:-5px;border-top:0;border-bottom:5px solid var(--paper)}
+.ctag.free.up::after{border-bottom-color:#E7F0E2}
+.osheet{position:absolute;left:0;right:0;top:292px;bottom:0;background:var(--paper);border-radius:22px 22px 0 0;box-shadow:0 -10px 24px rgba(0,0,0,.35)}
+.osheet .grab{width:40px;height:4px;border-radius:2px;background:#D9C6B5;margin:8px auto 0}
+.crow{position:relative;display:flex;gap:12px;padding:10px 20px 9px;border-bottom:1px solid var(--rule);min-height:62px}
+.crow .no{width:26px;height:26px;border-radius:6px;background:var(--leather);color:var(--gold);font:400 16px/26px var(--disp);text-align:center;flex:none;margin-top:1px}
+.crow .no.free{background:#E7F0E2;color:var(--ok)}
+.crow .p{flex:1;padding-right:calc(var(--col) - 34px)}
+.crow .p b{font:600 16px/1.25 var(--ui);display:block}
+.crow .p span{font:400 14px/1.35 var(--ui);color:var(--ink-2)}
+.crow .amt{top:10px}
+.crow .left{position:absolute;right:20px;top:37px;font:600 13px/1 var(--ui);color:var(--ink-2);text-align:right;width:110px}
+.crow .free-amt{font:600 15px/1.25 var(--ui);color:var(--ok)}
+.checks{padding:0 0 0}
+.checks .sec{padding-top:14px}
+.checks .sec h2 .n{display:inline-grid;place-items:center;min-width:24px;height:24px;border-radius:12px;background:var(--stamp);color:#fff;font:700 13px/1 var(--ui);margin-left:8px;vertical-align:3px;padding:0 7px}
+.chk{display:flex;gap:12px;align-items:flex-start;padding:11px 20px 10px;border-bottom:1px solid var(--rule)}
+.chk .ic{color:var(--stamp);flex:none;margin-top:1px}
+.chk .t{flex:1;font:500 15px/1.35 var(--ui)}
+.chk .t>span:not(.r){display:block;color:var(--ink-2);font-size:14px}
+.chk .t .r{font-family:var(--disp);font-size:17px;white-space:nowrap}
+.chk .act{flex:none;height:36px;padding:0 12px;border-radius:9px;border:1.5px solid var(--ink);font:700 14px/33px var(--ui);color:var(--ink);align-self:center}
+</style></head><body>
+<main class="canvas">
+<section class="unit"><div class="phone"><div class="screen">
+<div class="cover"></div><div class="stitch"></div><div class="sb dark"><span class="sb-time">11:40</span><span class="cam"></span><span class="sb-ic"><svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 11h2V8H1zM5 11h2V6H5zM9 11h2V3.5H9zM13 11h2V1h-2z" fill="currentColor"/></svg><svg width="15" height="12" viewBox="0 0 15 12" aria-hidden="true"><path d="M7.5 11 .8 3.6a9.6 9.6 0 0 1 13.4 0z" fill="currentColor"/></svg><span class="batt"><i></i></span><span class="pct">82</span></span></div>
+<div class="login">
+  <img class="emboss" src="../../assets/brand/logo-clean.png" alt="Salon logo">
+  <h1>Welcome back</h1>
+  <p class="when"><b>Wednesday, 21 October</b><br>11:40 AM</p>
+  <form class="slip" onsubmit="return false">
+    <label class="field"><span class="fl">Mobile number</span>
+      <span class="inp"><span class="pre">+91</span><span class="ph">10-digit number</span></span></label>
+    <label class="field"><span class="fl">Password</span>
+      <span class="inp"><span class="dots">••••••••</span><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></svg></span></label>
+    <button class="btn">Log in</button>
+  </form>
+  <p class="alt">Owner? <a>Sign in here</a></p>
+  <a class="legal">Privacy &amp; terms</a>
+</div><div class="gest dark"></div>
+</div></div><p class="cap"><b>1</b>Login</p></section>
+<section class="unit"><div class="phone"><div class="screen"><div class="sb"><span class="sb-time">11:40</span><span class="cam"></span><span class="sb-ic"><svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 11h2V8H1zM5 11h2V6H5zM9 11h2V3.5H9zM13 11h2V1h-2z" fill="currentColor"/></svg><svg width="15" height="12" viewBox="0 0 15 12" aria-hidden="true"><path d="M7.5 11 .8 3.6a9.6 9.6 0 0 1 13.4 0z" fill="currentColor"/></svg><span class="batt"><i></i></span><span class="pct">82</span></span></div>
+<div class="body page">
+  <header class="page-head">
+    <div><p class="date">Wed 21 Oct · Chair 1</p><h1>Imran Khan</h1></div>
+    <img class="mark" src="../../assets/brand/logo-clean.png" alt="Salon logo">
+  </header>
+  <div class="walk">
+    <p class="wl"><b>Customer walked in</b><span>Type their mobile</span></p>
+    <div class="wrow"><span class="inp"><span class="pre">+91</span><span class="ph">Mobile number</span></span>
+    <span class="go" aria-label="Find customer"><svg class="ic" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+  </div>
+  <div class="ledger earn" style="margin-top:12px">
+    <div class="row"><span class="lbl">Cash, UPI, card</span><span class="amt">₹900</span></div>
+    <div class="row"><span class="lbl">Wallet</span><span class="amt">₹450</span></div>
+    <div class="row total"><span class="lbl">My earnings today<small>This month ₹8,150</small></span><span class="amt">₹1,350</span></div>
+  </div>
+  <div class="sec"><h2>My customers today</h2></div>
+  <div class="tally">
+    <div><b>4</b><span>handled</span></div><div><b>3</b><span>paid</span></div>
+    <div class="hot"><b>1</b><span>in chair</span></div><div><b>1</b><span>new</span></div>
+  </div>
+  <div class="sec"><h2>My chair</h2><span class="since"><i></i>since 11:10</span></div>
+  <div class="chair">
+    <p class="who">Karan Mehta</p><p class="what">Haircut + Beard trim</p>
+    <div class="foot" style="justify-content:flex-end;margin-top:-30px"><a class="btn sm">Pay <span class="r">₹450</span></a></div>
+  </div>
+  <div class="book"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><div class="t"><b>Your bookings today · 3</b><span>Salon: 2 on-the-day reminders to send</span></div><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></div>
+</div>
+<nav class="bar" aria-label="Staff"><a class="tab on"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H14.5v-5.5h-5V20H4z"/></svg><span>Home</span></a><a class="tab"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><path d="M15.5 5.6a3.1 3.1 0 0 1 0 5.8M17.6 14.8c1.6.7 2.6 2.300 2.900 4.700"/></svg><span>Customers</span></a><a class="tab-walk" aria-label="Walk-in"><svg class="ic" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Walk-in</span></a><a class="tab"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Calendar</span></a><a class="tab"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.7 3.700-5.6 7-5.6s6.2 1.9 7 5.6"/></svg><span>Profile</span></a></nav><div class="gest dark"></div>
+</div></div><p class="cap"><b>2</b>Staff home</p></section>
+<section class="unit"><div class="phone"><div class="screen"><div class="sb"><span class="sb-time">11:40</span><span class="cam"></span><span class="sb-ic"><svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 11h2V8H1zM5 11h2V6H5zM9 11h2V3.5H9zM13 11h2V1h-2z" fill="currentColor"/></svg><svg width="15" height="12" viewBox="0 0 15 12" aria-hidden="true"><path d="M7.5 11 .8 3.6a9.6 9.6 0 0 1 13.4 0z" fill="currentColor"/></svg><span class="batt"><i></i></span><span class="pct">82</span></span></div>
+<div class="body page">
+  <header class="page-head" style="padding-bottom:4px"><span class="back"><svg class="ic" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Bill</span><span class="date">Wed 21 Oct · 11:40 AM</span></header>
+  <div class="cust">
+    <div><p class="nm">Aditya Rao</p><span class="tag">Returning</span></div>
+    <div class="wallet"><p class="k">Wallet</p><p class="v">₹4,850</p></div>
+  </div>
+  <div class="ledger bill">
+    <div class="row"><span class="lbl">Hair colour</span><span class="amt">₹1,200</span></div>
+    <div class="row" style="min-height:70px"><span class="lbl">Keratin touch-up<br><span class="stamp">Owner approved</span></span><span class="amt">₹800</span></div>
+    <div class="row total"><span class="lbl">Total</span><span class="amt">₹2,000</span></div>
+  </div>
+  <div class="switch"><div class="t"><b>Pay from wallet</b><span>₹2,000 of ₹4,850</span></div><span class="tog" role="switch" aria-checked="true"></span></div>
+  <div class="ledger after"><div class="row"><span class="lbl">Wallet after this bill<small>₹4,850 less ₹2,000</small></span><span class="amt">₹2,850</span></div></div>
+  <p class="confirmed"><span class="ck"><svg class="ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17.5 19.5 7"/></svg></span><span>Number confirmed <span class="num">••••• •5028</span><small>WhatsApp code checked</small></span></p>
+  <div class="paybar"><a class="btn">Collect <span class="r">₹2,000</span></a><a class="link">Customer left without a service</a></div>
+</div><div class="gest"></div>
+</div></div><p class="cap"><b>3</b>Bill / Collect</p></section>
+<section class="unit"><div class="phone"><div class="screen"><div class="sb"><span class="sb-time">11:40</span><span class="cam"></span><span class="sb-ic"><svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 11h2V8H1zM5 11h2V6H5zM9 11h2V3.5H9zM13 11h2V1h-2z" fill="currentColor"/></svg><svg width="15" height="12" viewBox="0 0 15 12" aria-hidden="true"><path d="M7.5 11 .8 3.6a9.6 9.6 0 0 1 13.4 0z" fill="currentColor"/></svg><span class="batt"><i></i></span><span class="pct">82</span></span></div>
+<div class="body page">
+  <div class="mon"><div><p class="date">My calendar</p><h1>October 2026</h1></div><p class="date">Tuesdays off</p></div>
+  <div class="grid"><span class="wk">Mon</span><span class="wk off">Tue</span><span class="wk">Wed</span><span class="wk">Thu</span><span class="wk">Fri</span><span class="wk">Sat</span><span class="wk">Sun</span><span class="d empty"></span><span class="d empty"></span><span class="d empty"></span><span class="d past" style="--f:38%"><b>1</b><em>3</em></span><span class="d past" style="--f:50%"><b>2</b><em>4</em></span><span class="d past" style="--f:62%"><b>3</b><em>5</em></span><span class="d past" style="--f:62%"><b>4</b><em>5</em></span><span class="d past" style="--f:25%"><b>5</b><em>2</em></span><span class="d off"><b>6</b></span><span class="d past" style="--f:38%"><b>7</b><em>3</em></span><span class="d past" style="--f:50%"><b>8</b><em>4</em></span><span class="d past" style="--f:38%"><b>9</b><em>3</em></span><span class="d past" style="--f:62%"><b>10</b><em>5</em></span><span class="d past" style="--f:50%"><b>11</b><em>4</em></span><span class="d past" style="--f:25%"><b>12</b><em>2</em></span><span class="d off"><b>13</b></span><span class="d past" style="--f:38%"><b>14</b><em>3</em></span><span class="d past" style="--f:50%"><b>15</b><em>4</em></span><span class="d past" style="--f:62%"><b>16</b><em>5</em></span><span class="d full past" style="--f:100%"><b>17</b><em>8</em></span><span class="d past" style="--f:62%"><b>18</b><em>5</em></span><span class="d past" style="--f:25%"><b>19</b><em>2</em></span><span class="d off"><b>20</b></span><span class="d today" style="--f:38%"><b>21</b><em>3</em></span><span class="d" style="--f:50%"><b>22</b><em>4</em></span><span class="d" style="--f:62%"><b>23</b><em>5</em></span><span class="d full" style="--f:100%"><b>24</b><em>8</em></span><span class="d full" style="--f:88%"><b>25</b><em>7</em></span><span class="d" style="--f:38%"><b>26</b><em>3</em></span><span class="d off"><b>27</b></span><span class="d" style="--f:25%"><b>28</b><em>2</em></span><span class="d" style="--f:50%"><b>29</b><em>4</em></span><span class="d" style="--f:62%"><b>30</b><em>5</em></span><span class="d full" style="--f:88%"><b>31</b><em>7</em></span><span class="d empty"></span></div>
+  <p class="legend"><span><i style="background:#F1D2B9"></i>Shade = bookings</span><span><i style="background:var(--gold)"></i>7 or 8, full day</span></p>
+  <div class="todaycard">
+    <div class="top"><h2>Today · Wed 21</h2><p class="cnt"><b>3 bookings</b> · 3 left</p></div>
+    <div class="next"><span class="tm">10:30<small>AM</small></span><div class="p"><b>Varun Malhotra</b><span>Hair colour</span></div></div>
+    <div class="dayline"><div class="tr"><i></i></div><p class="lab"><span>Your day is <b>35% booked</b></span><span>10:00 am to 8:00 pm</span></p></div>
+  </div>
+  <a class="fab"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Book</a>
+</div>
+<nav class="bar" aria-label="Staff"><a class="tab"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5 12 4l8 6.5V20H14.5v-5.5h-5V20H4z"/></svg><span>Home</span></a><a class="tab"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><path d="M15.5 5.6a3.1 3.1 0 0 1 0 5.8M17.6 14.8c1.6.7 2.6 2.300 2.900 4.700"/></svg><span>Customers</span></a><a class="tab-walk" aria-label="Walk-in"><svg class="ic" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Walk-in</span></a><a class="tab on"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg><span>Calendar</span></a><a class="tab"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.6"/><path d="M5 20c.8-3.7 3.700-5.6 7-5.6s6.2 1.9 7 5.6"/></svg><span>Profile</span></a></nav><div class="gest dark"></div>
+</div></div><p class="cap"><b>4</b>My calendar</p></section>
+<section class="unit"><div class="phone"><div class="screen"><div class="olive"></div><div class="sb dark"><span class="sb-time">11:40</span><span class="cam"></span><span class="sb-ic"><svg width="16" height="12" viewBox="0 0 16 12" aria-hidden="true"><path d="M1 11h2V8H1zM5 11h2V6H5zM9 11h2V3.5H9zM13 11h2V1h-2z" fill="currentColor"/></svg><svg width="15" height="12" viewBox="0 0 15 12" aria-hidden="true"><path d="M7.5 11 .8 3.6a9.6 9.6 0 0 1 13.4 0z" fill="currentColor"/></svg><span class="batt"><i></i></span><span class="pct">82</span></span></div>
+<div class="body">
+  <header class="ohead">
+    <div><h1>Live floor <span class="livepill"><i></i>LIVE</span></h1><p class="date">Wed 21 Oct · 11:40 AM</p></div>
+    <div class="today-take"><p class="k">Today</p><p class="v">₹6,800</p></div>
+  </header>
+  <div class="plate">
+    <img class="bg" src="../../assets/live/plate2.webp" alt="Live salon floor">
+    <img class="spr" src="../../assets/live/s3.webp" style="left:196px;top:58px;height:40px" alt="">
+    <img class="spr" src="../../assets/live/s0.webp" style="left:228px;top:56px;height:44px" alt="">
+    <img class="spr" src="../../assets/live/s4.webp" style="left:246px;top:84px;height:40px" alt="">
+    <img class="spr" src="../../assets/live/s1.webp" style="left:280px;top:84px;height:44px" alt="">
+    <span class="ctag" style="left:203px;top:22px"><b>1</b>Karan · 18 min</span>
+    <span class="ctag up" style="left:246px;top:132px"><b>2</b>Priya · 33 min</span>
+    <span class="ctag free up" style="left:292px;top:174px"><b>3</b>Free</span>
+  </div>
+  <div class="osheet"><div class="grab"></div>
+    <div class="ledger">
+      <div class="crow"><span class="no">1</span><div class="p"><b>Karan Mehta</b><span>Haircut + Beard trim · Imran</span></div><span class="amt">₹450</span><span class="left">12 min left</span></div>
+      <div class="crow"><span class="no">2</span><div class="p"><b>Priya Patel</b><span>Facial · Sunita</span></div><span class="amt">₹900</span><span class="left">33 min left</span></div>
+      <div class="crow"><span class="no free">3</span><div class="p"><b>Free</b><span>next Dev Arora 12:30 · Rakesh</span></div><span class="amt free-amt">Free</span></div>
+    </div>
+    <div class="checks">
+      <div class="sec"><h2>Today's checks<span class="n">2</span></h2><span class="meta">2 to look at</span></div>
+      <div class="chk"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 21 19.5H3z"/><path d="M12 10v4.2M12 17h.01"/></svg><p class="t">Imran undid a <span class="r">₹300</span> bill<span>Rohan Gupta · ‘Wrong service’</span></p></div>
+      <div class="chk"><svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6.5" width="18" height="11" rx="1.5"/><circle cx="12" cy="12" r="2.4"/></svg><p class="t">Cash in the drawer should be <span class="r">₹2,400</span></p><a class="act">Count the cash</a></div>
+    </div>
+  </div>
+</div>
+<nav class="bar owner" aria-label="Owner"><a class="tab on"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.6"/><path d="M7.5 7.5a6.4 6.4 0 0 0 0 9M16.5 7.5a6.4 6.4 0 0 1 0 9M4.6 4.6a10.4 10.4 0 0 0 0 14.8M19.4 4.6a10.4 10.4 0 0 1 0 14.8"/></svg><span>Live</span></a><a class="tab"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4.5h10M7 9h10M7 4.5h3.5a4.5 4.5 0 0 1 0 9H7l8 6.5"/></svg><span>Earnings</span></a><a class="tab"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7.5" r="3.4"/><path d="M5 20.5c.7-4 3.600-6.200 7-6.2s6.3 2.2 7 6.2"/><path d="M9.5 14.6 12 18l2.5-3.4"/></svg><span>Staff</span></a><a class="tab"><svg class="ic" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><path d="M15.5 5.6a3.1 3.1 0 0 1 0 5.8M17.6 14.8c1.6.7 2.6 2.300 2.900 4.700"/></svg><span>Customers</span></a></nav><div class="gest dark"></div>
+</div></div><p class="cap"><b>5</b>Owner · Live floor</p></section>
+</main></body></html>
