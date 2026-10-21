@@ -142,6 +142,12 @@ function NewCustomer({ phone }: { phone: string }) {
   const [marketing, setMarketing] = useState(false);
   const [minor, setMinor] = useState(false);
   const [guardian, setGuardian] = useState(false);
+  const data = useData();
+  // Verify the friend's code or number as it's typed, so staff can check the name with the customer.
+  const ref = referredBy.trim();
+  const halfNumber = /^[\d +]+$/.test(ref) && ref.replace(/\D/g, "").length < 10;
+  const referrer = ref.length >= 4 && !halfNumber ? E.findReferrer(data, ref) : null;
+  const refState = !ref ? "none" : referrer ? (referrer.phone === phone ? "self" : "ok") : ref.length >= 4 && !halfNumber ? "unknown" : "typing";
   const add = () => {
     try {
       commit((d) =>
@@ -167,6 +173,16 @@ function NewCustomer({ phone }: { phone: string }) {
       </View>
       <Field label="Name" value={name} onChangeText={setName} autoFocus autoCapitalize="words" placeholder="Full name" />
       <Field label="Sent by a friend? Their code or mobile" value={referredBy} onChangeText={(t) => setReferredBy(/[a-z]/i.test(t) ? t.toUpperCase() : t)} autoCapitalize="characters" placeholder="e.g. PRI2337 or 98xxx xxxxx" />
+      {refState === "ok" || refState === "self" || refState === "unknown" ? (
+        <View accessibilityLiveRegion="polite" style={{ marginTop: -4, padding: 10, borderRadius: 14, backgroundColor: refState === "ok" ? "rgba(143,214,164,0.12)" : "rgba(240,160,138,0.12)", borderWidth: 1, borderColor: refState === "ok" ? "rgba(143,214,164,0.4)" : "rgba(240,160,138,0.45)" }}>
+          <GT size={13} w="bold" c={refState === "ok" ? glass.ok : glass.late}>
+            {refState === "ok" ? `✓ ${maskName(referrer!.name)} · mobile ending ${referrer!.phone.slice(-3)}` : refState === "self" ? "That's this customer's own number" : "No customer with this code or number"}
+          </GT>
+          <GT size={12} c={glass.soft}>
+            {refState === "ok" ? "Ask who sent them and check the name matches. Both get wallet credit after this first visit is paid." : refState === "self" ? "A customer can't refer themselves. Clear the box." : "Check it with the customer, or clear the box to add them without a referral."}
+          </GT>
+        </View>
+      ) : null}
       <GT size={12.5} c={glass.soft}>
         Read this to the customer: we keep your name, number, visits and wallet only to serve you here. You can ask us to stop messages or delete your data at any time.
       </GT>
@@ -179,10 +195,16 @@ function NewCustomer({ phone }: { phone: string }) {
           Full privacy notice
         </GT>
       </Pressable>
-      <GoldButton label="Add customer" onPress={add} disabled={!name.trim() || !consent || (minor && !guardian)} />
+      <GoldButton label="Add customer" onPress={add} disabled={!name.trim() || !consent || (minor && !guardian) || (ref !== "" && refState !== "ok")} />
     </GlassCard>
   );
 }
+
+/** "Priya Patel" → "Priya P.": enough to confirm with the customer without reading out a full name. */
+const maskName = (n: string) => {
+  const [first, ...rest] = n.split(" ");
+  return rest.length ? `${first} ${rest[rest.length - 1][0]}.` : first;
+};
 
 export function Field({ label, ...rest }: React.ComponentProps<typeof TextInput> & { label: string }) {
   const [focus, setFocus] = useState(false);

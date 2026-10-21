@@ -60,12 +60,37 @@ customer chose, and take payment. **[Built]**
 | C2.3 | Ask: "Can we save your number for wallet offers and WhatsApp reminders?" Tick the consent box only if they say yes. | Without consent the customer can't be saved (DPDP law). **[Built]** |
 | C2.4 | Tap **Add customer**. | Continues exactly like C1.4 onwards. |
 
-### C3. New customer sent by a friend
+### C3. Referrals: sharing a code, and checking one (user asked for the whole workflow, 21 Oct)
+
+**1. Every customer gets a code.** Made when they're added: first 3 letters of their name + 4 random characters (e.g. Priya Patel → `PPX2337`). Never repeats in the salon. Shown on their profile (Copy / Refer). **[Built]**
+
+**2. How the customer shares it with a friend.**
+| # | Who | What happens |
+|---|---|---|
+| C3.1 | Staff | After payment, **Send thank-you on WhatsApp**. Customers who agreed to messages get their code in it: "Share your code PPX2337 with friends: you both get wallet credit on their first visit." **[Built]** |
+| C3.2 | Customer | Forwards that WhatsApp to a friend, or just tells the friend the code. Or the friend simply says the customer's **mobile number**; that works too. **[Built]** |
+| C3.3 | Staff (if the customer asks) | Profile → **Refer** → **Share** opens the phone's share sheet (WhatsApp etc.) with the ready message, or **Copy**. **[Built]** |
+
+**3. The friend comes in, and staff check the code.**
 | # | Staff action | App response |
 |---|---|---|
-| C3.1 | Same as C2, but ask "Did a friend give you a code?" and type it in the Referral code box. | Wrong codes are rejected. **[Built]** |
-| C3.2 | Finish the visit as in C1. | On this **first paid visit**, ₹100 goes to the new customer and ₹100 to the friend, automatically. Receipt says so. **[Built]** |
-| C3.3 | Tell the customer: "You and your friend just got ₹100 in your wallets." | |
+| C3.4 | **+** → type the friend's mobile. | It must be a **new** number. A number already on file is an existing customer and can't be referred. **[Built]** |
+| C3.5 | Name, then ask "Did a friend send you? Their code or their mobile number" and type it in. | Checked as it's typed: **green** "✓ Priya P. · mobile ending 919" when it matches; **red** "No customer with this code or number" or "That's this customer's own number" when it doesn't. **[Built, 21 Oct]** |
+| C3.6 | Ask "Who sent you?" and check the name matches the green box. | Only the first name, last initial and last 3 digits are shown, so a full name and number are never read out at the counter. |
+| C3.7 | If the box is red, check the code with the customer, or clear it. | **Add customer** stays off while a wrong code is in the box, so a bad code can't be saved. **[Built]** |
+| C3.8 | Add customer, then serve and collect as normal. | The link "Priya referred Meena" is saved with the new customer. |
+
+**4. Rewards, and what stops cheating.**
+| # | Rule | **[Built]** |
+|---|---|---|
+| C3.9 | No reward at sign-up. On the friend's **first paid visit** (bill above ₹0), the friend gets ₹100 and the customer who referred gets ₹100, straight into their wallets. The receipt says so: tell them. | ✓ |
+| C3.10 | Once per new customer, ever. A customer can refer any number of new friends; each one pays out once. | ✓ |
+| C3.11 | Can't refer yourself (same number); can't refer someone already on file; a deleted customer's code stops working. | ✓ |
+| C3.12 | If that first bill is cancelled (undo, or the owner's Cancel bill), both rewards are taken back. If the reward was already spent, the app stops the automatic cancel and tells the owner. | ✓ |
+| C3.13 | Referral credit is promotional: usable on services, not paid back as cash if a wallet is closed. | ✓ |
+| C3.14 | The customer's profile lists who joined with their code and whether each reward is paid or "waiting for first visit". | ✓ |
+
+Later, with the online sync: the friend opens the code's link (`publicUrl/CODE`) and the booking or sign-up arrives with the code filled in. Until then the code is told at the counter. **[Needs sync]**
 
 ### C4. Customer wants to add money to their wallet
 | # | Staff action | App response |
@@ -129,7 +154,7 @@ customer chose, and take payment. **[Built]**
 | F1 | Top 20 customers by lifetime spend — thank them, give them offers. **[Built]** |
 | F2 | Wallet money held — money already paid for future visits. **[Built]** |
 | F3 | How many reminded customers came back. **[Proposed]** |
-| F4 | How many new customers came through referrals. **[Proposed]** |
+| F4 | How many new customers came through referrals, and which customers bring the most friends. **[Proposed]** |
 | F5 | Monthly bonus for the top-earning stylist. **[Ask the owner first]** |
 
 ---
