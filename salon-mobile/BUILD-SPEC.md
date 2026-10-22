@@ -61,7 +61,7 @@ Where things live:
 | 3.1 | **Every person installs the app on their own phone**: the owner, and each stylist | Decided |
 | 3.2 | Staff sign in with their own mobile number + password | Logic |
 | 3.3 | Owner signs in with the owner password into a **separate owner area** | Logic |
-| 3.4 | **Online sync**: all phones share the salon's data live; owner sees everything from anywhere; this is also the backup; works offline and catches up | Decided · not built |
+| 3.4 | **Online sync**: all phones share the salon's data live; owner sees everything from anywhere; this is also the backup; works offline and catches up. **Plan written 22 Oct: `SYNC-PLAN.md`** (Firebase Firestore in Mumbai, per-record documents, server checks, full numbers owner/server only, WhatsApp Cloud API from the salon's number); running costs in `../founder/RUNNING-COSTS.md` | Decided · planned · not built |
 | 3.5 | Each salon gets its **own app** (own name, logo, prices); no salon sees another's data | Decided |
 | 3.6 | Delivered as an **APK file** (Android); Play Store optional later | Decided |
 | 3.7 | **The built app is the frame (user, 20 Oct).** When a salon gives its data we fill the frame and make their live app. The looks and designs may still change, but the kinds of data the app keeps stay the same. What to collect from a salon and what stays fixed: `SALON-ONBOARDING.md` | Decided |
@@ -153,7 +153,9 @@ Where things live:
 | 10.4 | F5: monthly bonus for the top stylist? | Ask the owner |
 | 10.5 | Real prices, bonus tiers, referral amounts, service due-back days per salon | Per salon |
 | 10.6 | App name and referral link domain | Per salon |
-| 10.7 | Online sync provider (recommended: servers in India / Mumbai) | Decide at build |
+| 10.7 | Online sync provider (recommended: servers in India / Mumbai). **22 Oct recommendation: Firebase (Firestore asia-south1), see `SYNC-PLAN.md` decision B** | Waiting for user |
+| 10.9 | **One Play Store app for all salons (salon code at first launch, salon's name/logo inside) vs a listing per salon** — Google Play's spam policy disallows many near-identical apps; recommended: one app (`SYNC-PLAN.md` decision A) | Waiting for user |
+| 10.10 | **WhatsApp automatic (Cloud API, paid per message) vs one-tap from the salon phone (free), by plan** — `SYNC-PLAN.md` decision C, prices in `../founder/RUNNING-COSTS.md` | Waiting for user |
 | 10.8 | **Live floor ↔ real visits — DECIDED 19 Oct (user)**: staff enters customer + *Start visit* (or *Arrived*) → customer walks in to **that stylist's chair**; **timer starts then** and runs until **payment collected**; customer stays seated till paid → walks to desk, "₹ PAID", walks out → stylist's **next customer** arrives, and so on. Next customer entered while the chair is busy waits at the front desk. **All live, synced to the owner's app** (needs online sync 3.4). Uses existing visit fields `staffId`, `createdAt`, `paidAt`. Still to make: a matched set of customer figures (walk + seated) — to be quoted | Decided · needs sync + figure set |
 | 10.9 | **Empty salon (asked 19 Oct)**: open with no customers → receptionist at desk, stylists idle at their stations, chair labels "Free", desk line "Ready"; outside opening hours or closed day (Tue) → lights dimmed, "Closed · opens 10:00 AM", nobody inside, today's total still shown. Needs idle stylist poses + an empty, no-receptionist salon picture | Approved (19 Oct): include at build |
 | 10.10 | **Staff on leave (asked 19 Oct)**: owner marks leave (Staff/Attendance); that stylist's figure disappears and their chair shows "Off today", greyed, and no customer is sent there. No selfie by shift start + grace → chair shows "Not in yet". App has no leave record today (only check-in), so this adds one | Approved (19 Oct): include at build |
