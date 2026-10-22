@@ -45,7 +45,7 @@ Where things live:
 | 1.2 | Brand assets: salon logo + intro video (`assets/brand/`) | Have files; licence action pending (see 9.6) |
 | 1.3 | Other style boards (Vulcanico/Noturno, the bold styles) were **explorations only**; not used | Decided |
 | 1.4 | Text contrast passes WCAG AA (`node scripts/contrast-check.mjs`) | Logic |
-| 1.5 | **Liquid glass look (user, 22 Oct: "the glass is perfect")**: clear neutral glass with a bevelled rim over the blurred salon picture under a fading brown wash; white text, small CAPITAL labels with one big number per card, thin gold line charts, glass pills inside cards, gold-outline glass button for the main action, glass bottom menu with a brighter glass pill for the current page. Reference: `design-studies/glass-home/staff-home-liquid-v4.png`. Replaces the brown glass look and redesign directions A/B/C once the other screens are approved. Build later (11.0) | Approved (Home) · other screens to show |
+| 1.5 | **Liquid glass look (user, 22 Oct: "the glass is perfect")**: clear neutral glass with a bevelled rim over the blurred salon picture under a fading brown wash; white text, small CAPITAL labels with one big number per card, thin gold line charts, glass pills inside cards, gold-outline glass button for the main action, glass bottom menu with a brighter glass pill for the current page. Reference: `design-studies/glass-home/staff-home-liquid-v4.png`. Replaces the brown glass look and redesign directions A/B/C. **Full style guide: `LIQUID-GLASS-STYLE.md`.** Build later (11.0) | **Confirmed for the whole app (user, 22 Oct)** · build later |
 
 ## 2. Opening the app
 | # | Item | Status |

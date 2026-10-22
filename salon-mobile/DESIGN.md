@@ -1,5 +1,7 @@
 # Design system: grooming-tin label
 
+> **Superseded for the next build (22 Oct):** the user confirmed the liquid glass style for the whole app. See `LIQUID-GLASS-STYLE.md`. This file describes the build that ships today until then.
+
 Recorded from the shipped build (`src/theme/tokens.ts`, `src/components/*`), not from intentions.
 
 ## World
