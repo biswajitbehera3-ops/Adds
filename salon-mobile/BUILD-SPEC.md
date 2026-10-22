@@ -45,6 +45,7 @@ Where things live:
 | 1.2 | Brand assets: salon logo + intro video (`assets/brand/`) | Have files; licence action pending (see 9.6) |
 | 1.3 | Other style boards (Vulcanico/Noturno, the bold styles) were **explorations only**; not used | Decided |
 | 1.4 | Text contrast passes WCAG AA (`node scripts/contrast-check.mjs`) | Logic |
+| 1.5 | **Liquid glass look (user, 22 Oct: "the glass is perfect")**: clear neutral glass with a bevelled rim over the blurred salon picture under a fading brown wash; white text, small CAPITAL labels with one big number per card, thin gold line charts, glass pills inside cards, gold-outline glass button for the main action, glass bottom menu with a brighter glass pill for the current page. Reference: `design-studies/glass-home/staff-home-liquid-v4.png`. Replaces the brown glass look and redesign directions A/B/C once the other screens are approved. Build later (11.0) | Approved (Home) · other screens to show |
 
 ## 2. Opening the app
 | # | Item | Status |
@@ -164,7 +165,7 @@ Where things live:
 ## 11. After the app is built
 | # | Item | Status |
 |---|---|---|
-| 11.0 | **Build later, all together (user, 22 Oct: "do not build now, just plan and record; it will be built once after everything I told")**. Planned, not started; build only when the user says so: (a) live sync between phones, backup and server checks: `SYNC-PLAN.md` (decisions 10.7, 10.12, 10.13 first); (b) WhatsApp Cloud API sending and plans/prices: `../founder/RUNNING-COSTS.md`; (c) buyer-panel app changes: `../founder/PANEL-FEEDBACK.md` (quick bill, selfie on/off, bill without mobile number, Hindi, data import); (d) fresh-start fixes: `FRESH-START-CHECK.md`; (e) redesign once A, B or C is chosen: `design-studies/redesign/` | Planned · waiting for the user's go |
+| 11.0 | **Build later, all together (user, 22 Oct: "do not build now, just plan and record; it will be built once after everything I told")**. Planned, not started; build only when the user says so: (a) live sync between phones, backup and server checks: `SYNC-PLAN.md` (decisions 10.7, 10.12, 10.13 first); (b) WhatsApp Cloud API sending and plans/prices: `../founder/RUNNING-COSTS.md`; (c) buyer-panel app changes: `../founder/PANEL-FEEDBACK.md` (quick bill, selfie on/off, bill without mobile number, Hindi, data import); (d) fresh-start fixes: `FRESH-START-CHECK.md`; (e) liquid glass look across all screens (1.5): `design-studies/glass-home/` | Planned · waiting for the user's go |
 | 11.1 | **Launch / promo video** of the app to pitch salon owners (Remotion-style, dark and gold, real screens; see `design-studies/prompt-motion-notes.md`) | Decided: after the app |
 
 ---
