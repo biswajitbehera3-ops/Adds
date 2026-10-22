@@ -164,6 +164,7 @@ Where things live:
 ## 11. After the app is built
 | # | Item | Status |
 |---|---|---|
+| 11.0 | **Build later, all together (user, 22 Oct: "do not build now, just plan and record; it will be built once after everything I told")**. Planned, not started; build only when the user says so: (a) live sync between phones, backup and server checks: `SYNC-PLAN.md` (decisions 10.7, 10.12, 10.13 first); (b) WhatsApp Cloud API sending and plans/prices: `../founder/RUNNING-COSTS.md`; (c) buyer-panel app changes: `../founder/PANEL-FEEDBACK.md` (quick bill, selfie on/off, bill without mobile number, Hindi, data import); (d) fresh-start fixes: `FRESH-START-CHECK.md`; (e) redesign once A, B or C is chosen: `design-studies/redesign/` | Planned · waiting for the user's go |
 | 11.1 | **Launch / promo video** of the app to pitch salon owners (Remotion-style, dark and gold, real screens; see `design-studies/prompt-motion-notes.md`) | Decided: after the app |
 
 ---

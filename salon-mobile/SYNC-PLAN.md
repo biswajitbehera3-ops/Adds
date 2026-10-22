@@ -61,6 +61,24 @@ The engine (`src/domain/engine.ts`) stays as it is: pure rules, 83 tests. Only t
 4. Existing data on a phone (pilot salons) is uploaded once, on the owner's first online sign-in.
 5. A small "Synced" or "Offline: 3 bills waiting" line in the header, so nobody wonders whether a bill was saved.
 
+## How the live part works, step by step
+
+Example: Imran collects ₹450 from Karan on his phone while the owner watches the Live floor from home.
+
+1. Imran taps **Collect ₹450**. The engine checks the rules on his phone as today, the screen updates at once, and the bill is saved on his phone.
+2. The changed records (the visit and any wallet entry) go into a **waiting list** on the phone (saved, so a restart doesn't lose them) and are sent to the server straight away.
+3. The server stores them and checks them (paid once, wallet not below zero) and stamps the server time.
+4. Every phone signed in to that salon is listening for changes. Within about 1–2 seconds the owner's phone gets the new visit: Karan walks to the desk, "₹ PAID", today's total goes up by ₹450.
+5. **No signal:** steps 1 and 2 still happen; the bill waits in the list and the header shows "Offline · 1 bill waiting". When the network returns, the list is sent in order and the other phones catch up.
+6. **App closed for a day:** on opening, the phone asks for everything changed since its last sync time, then goes back to listening.
+7. **Two phones change the same thing:** separate records (two bills, two wallet entries) never clash. If the same record is changed on two phones, the later change wins, except money: a second payment of the same bill is refused by the server and listed in Today's checks.
+
+Technical choices for the build (to confirm then):
+- Firebase's web SDK (it runs in the app and in the web preview alike) with our own saved waiting list on the phone, instead of the native Firebase module. No extra native setup, and the same code runs in the web preview.
+- Listeners per salon on the collections each role may read; the owner hears everything, a stylist hears what the rules allow.
+- Every record gets `updatedAt` (server time) and `updatedBy`, so "changed since" and the owner's checks work.
+- Tested with the Firebase Emulator on two simulated phones (online, offline, both offline, restart) before any real salon uses it.
+
 ## What runs on the server (Cloud Functions)
 
 - **Bill paid once**: payment is confirmed in a transaction. If two offline phones paid the same visit, the second is marked a duplicate and shows in the owner's Today's checks.
