@@ -1,0 +1,13 @@
+{
+  "id": "P025",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My register has never lost a bill and I can read it myself. An English app on every phone, with selfies and wallets, is too much for a small shop like mine. One thousand rupees every month for something I don't need is a lot.",
+  "objection": "It is only in English. My boys and I will not use it properly, and then I have paid ₹5,000 setup for nothing. Also, if my stylists can see customer numbers in an app, what stops them taking my customers when they leave, like the two who went last year?",
+  "would_change_my_mind": "If it came in Hindi and someone like a nearby salon owner showed me it working for months, with no big setup fee, I might try it.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

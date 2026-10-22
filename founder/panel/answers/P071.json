@@ -1,0 +1,13 @@
+{
+  "id": "P071",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I already paid for salon software once and my girls never touched it, so it got cancelled. I count the drawer myself every night and the register works; I'm not paying ₹4,999 to learn the same lesson again.",
+  "objection": "Half my ladies won't give their mobile number, and my staff won't take a selfie and type numbers for every walk-in when the parlour is busy. The whole thing depends on that, so it will sit unused like last time.",
+  "would_change_my_mind": "No setup fee, and seeing it running in another small parlour like mine where the staff actually use it every day, with a way to bill a customer without taking her number.",
+  "price_too_cheap": 199,
+  "price_cheap": 399,
+  "price_expensive": 799,
+  "price_too_expensive": 1200
+}

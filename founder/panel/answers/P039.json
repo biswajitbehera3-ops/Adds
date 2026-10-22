@@ -1,0 +1,13 @@
+{
+  "id": "P039",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "I already count the drawer myself every night and the register works, so ₹4,999 upfront plus ₹999 every month for ever is money going out without new customers coming in. I don't do monthly subscriptions for something I can check with my own eyes.",
+  "objection": "A monthly fee that never stops, and my girls will feel I'm spying on them with the selfie check-in. If two of them leave over it, the app costs me far more than ₹999.",
+  "would_change_my_mind": "No monthly fee: one payment of about ₹3,000-4,000 with the setup included, and the selfie check-in made optional so I can switch it off.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

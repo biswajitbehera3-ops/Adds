@@ -1,0 +1,13 @@
+{
+  "id": "P003",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "need",
+  "reason": "With 8 staff I honestly don't know if the cash in the drawer matches the bills or if someone is doing customers off the book, and ₹999 a month is nothing next to that leak. The first month is free, so I'd try it, though the ₹4,999 setup only feels fair if they actually train my people in the salon.",
+  "objection": "My stylists are busy with customers and they won't type every walk-in into an app. If they skip it on a busy Saturday, the numbers are useless and I've paid for nothing.",
+  "would_change_my_mind": "If after two weeks my staff are still billing on WhatsApp and paper instead of the app, I'd stop before paying the monthly fee.",
+  "price_too_cheap": 299,
+  "price_cheap": 599,
+  "price_expensive": 1999,
+  "price_too_expensive": 3499
+}

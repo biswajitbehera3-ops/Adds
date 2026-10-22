@@ -1,0 +1,13 @@
+{
+  "id": "P094",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "The price is not the problem, ₹999 a month is nothing for my outlets, but I have never heard of this and no owner or distributor I know is using it. I will not move my billing and customer data onto something nobody around me has tried.",
+  "objection": "If the app stops billing on a busy Sunday with the chairs full, who picks up the phone and fixes it right then? A training visit at setup does not answer that.",
+  "would_change_my_mind": "Another salon owner I know, or my product distributor, running it for a few months and telling me support actually shows up on weekends.",
+  "price_too_cheap": 299,
+  "price_cheap": 699,
+  "price_expensive": 1999,
+  "price_too_expensive": 3499
+}

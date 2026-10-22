@@ -1,0 +1,13 @@
+{
+  "id": "P009",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "I have one or two chairs and I cut most of the hair myself, so selfie check-ins, stylist earnings and leave tracking are for a bigger salon. The WhatsApp reminders and wallet look modern, but paying ₹4,999 upfront plus ₹999 every month for a shop my size feels like too much when I already count the drawer myself every night.",
+  "objection": "If my phone breaks or gets stolen, do I lose all my customer list and wallet balances? And ₹999 a month is close to twelve thousand a year for features I mostly won't use.",
+  "would_change_my_mind": "A small-shop plan around ₹299-399 a month with no setup fee, just billing on WhatsApp, reminders and the wallet, with proof that my data is backed up online and comes back on a new phone.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}
