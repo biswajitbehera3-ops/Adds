@@ -1,0 +1,25 @@
+{
+  "business": "Salon app: ₹999 a month per salon (setup fee kept out; see note)",
+  "unit": "paying salon-day (₹999 a month / 30)",
+  "price": 33.3,
+  "variable": [
+    {"label": "Server and database share (estimate ₹40/salon/month, after online sync)", "cost": 1.33},
+    {"label": "WhatsApp messages sent by server (estimate ₹150/salon/month)", "cost": 5.0},
+    {"label": "Payment collection fee ~2% (estimate)", "cost": 0.67},
+    {"label": "Support time (estimate ₹100/salon/month)", "cost": 3.33}
+  ],
+  "fixed_monthly": [
+    {"label": "Founder pay (estimate)", "cost": 40000},
+    {"label": "Tools: build service, domain, email (estimate)", "cost": 3000},
+    {"label": "Phone, travel to salons (estimate)", "cost": 5000}
+  ],
+  "startup": [
+    {"label": "Google Play developer account (one-off $25)", "cost": 2100},
+    {"label": "Demo phone for salon visits (estimate)", "cost": 10000},
+    {"label": "5 free pilot salons: travel and setup (estimate)", "cost": 10000},
+    {"label": "Printed leaflets, first local ads (estimate)", "cost": 10000}
+  ],
+  "days_per_month": 30,
+  "plan_per_day": 80,
+  "ramp_per_day": [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+}
