@@ -1,7 +1,9 @@
 # Beating the competitors: their complaints fixed, their features bettered (24 Oct)
 
 Asked by the user: "The complaints that are received, we need to go by their reviews and make it correct in our app, and also the specs they and we have, we need to better it in our app, then we will go build the app."
-Status: **planned, build later** (BUILD-SPEC 11.0 g). Evidence: `../founder/competitors-complaints.md` (about 157 public reviews of Zylu, DINGG, Salonist, MioSalon and Invoay), `../founder/competitors-features.md`, `../founder/competitors.md`.
+Status: **planned, build later** (BUILD-SPEC 11.0 g).
+
+> **Update 24 Oct (founder, `PLAN-24-OCT.md`):** #1 Help is a small "?" tab on the Home screens only: screenshot + note → Claude answers, or forwards to the founder. #6 and every WhatsApp row: **one tap by staff only, never automatic**, so no add-on, no message meter; the 9 pm day summary becomes a phone notification and the Google review request is a line in the thank-you message. Evidence: `../founder/competitors-complaints.md` (about 157 public reviews of Zylu, DINGG, Salonist, MioSalon and Invoay), `../founder/competitors-features.md`, `../founder/competitors.md`.
 
 Release: **V1** = first version that goes to salons; **V2** = after the first salons run well (the board asked to keep version 1 focused on one promise: see your salon live from anywhere, with numbers you can trust).
 

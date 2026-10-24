@@ -1,5 +1,7 @@
 # What the app costs to run after it is published (22 Oct)
 
+> **Update 24 Oct (founder decisions, `salon-mobile/PLAN-24-OCT.md`):** WhatsApp is **only sent by staff tap, never automatic**, so WhatsApp costs **₹0** and no WhatsApp provider or Meta setup is needed. Distribution is by **APK, not Google Play** (no $25 Play fee now; Android developer verification needed before it reaches India in 2027). New cost: **Help with Claude**, about ₹6 per help request (Claude Opus 5.5). Cost per salon a month ≈ **₹32** (server ₹20 + payment fee ₹12 on ₹500).
+
 For setting the monthly price. Prices checked on 22 Oct 2026; sources at the end. Rates before GST unless said; Meta and Google add 18% GST on Indian bills (claimable if you are GST-registered). The sync plan these costs belong to is `salon-mobile/SYNC-PLAN.md`.
 
 ## 1. WhatsApp (the biggest cost per salon)

@@ -3,6 +3,8 @@
 Asked by the user, 22 Oct: "The app will be synced with each other, so make a plan to do the live syncing." BUILD-SPEC 3.4 (decided, not built) and 10.7 (provider).
 Running costs and the monthly price are in `../founder/RUNNING-COSTS.md`.
 
+> **Update 24 Oct (founder, `PLAN-24-OCT.md`):** decision A → APK files with a branded APK per salon (not the Play Store); decision C → WhatsApp only by staff tap, never automatic, so the server does not send WhatsApp messages and no Meta setup is needed. A free Firebase project runs live sync in the demo.
+
 ## What "synced" means for this app
 
 - The owner's phone and every stylist's phone show the same salon: a bill paid on Imran's phone appears on the owner's Live floor and Earnings within a second or two.
