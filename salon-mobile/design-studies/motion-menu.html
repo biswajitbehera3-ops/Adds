@@ -1,0 +1,428 @@
+<title>Salon Motion Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=Yellowtail&display=swap">
+<style>
+  /* Layout: a study sheet — the front-page proposal on top, then a menu of motion cards, each a tiny live stage. */
+  :root {
+    --plaster: #F1E6CB;
+    --plaster-deep: #E6D7B4;
+    --vermilion: #DB4A2B;
+    --vermilion-deep: #B9381E;
+    --ink: #2C2420;
+    --ink-soft: #6A5A4E;
+    --cream-on-red: #F6E9CF;
+    --wood: #6B3A1F;
+    --steel: #C9CDD0;
+    --display: "Archivo", "Arial Narrow", sans-serif;
+    --script: "Yellowtail", "Brush Script MT", cursive;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--plaster);
+    color: var(--ink);
+    font-family: var(--display);
+    font-variation-settings: "wdth" 100;
+    padding-inline: 16px;
+  }
+  /* Plaster grain (inline SVG noise) — the reference's textured wall */
+  .grain { position: relative; isolation: isolate; }
+  .grain::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .35; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .55  0 0 0 0 .45  0 0 0 0 .3  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding-block: 48px 96px; display: grid; gap: 56px; }
+  .tracked { font-weight: 700; letter-spacing: .22em; text-transform: uppercase; font-size: 12px; }
+  h1 { font-weight: 850; font-variation-settings: "wdth" 118; font-size: clamp(40px, 7vw, 76px); line-height: .95; letter-spacing: .01em; margin: 6px 0 12px; text-transform: uppercase; text-wrap: balance; }
+  h2 { font-weight: 800; font-variation-settings: "wdth" 115; text-transform: uppercase; letter-spacing: .04em; font-size: 26px; margin: 0 0 6px; }
+  p { line-height: 1.55; max-width: 66ch; margin: 0; color: var(--ink-soft); font-size: 16px; }
+  .lede { font-size: 18px; color: var(--ink); }
+  .notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px; }
+  .note { border-top: 2px solid var(--ink); padding-top: 10px; min-width: 0; }
+  .note b { display: block; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 4px; }
+  .note p { font-size: 14.5px; }
+
+  /* ── Front page proposal ───────────────────────────── */
+  .proposal { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 40px; align-items: start; }
+  @media (max-width: 760px) { .proposal { grid-template-columns: 1fr; justify-items: center; } }
+  .phone {
+    width: 100%; max-width: 360px; aspect-ratio: 360 / 760; border-radius: 44px; padding: 10px;
+    background: #1b1715; box-shadow: 0 30px 60px -20px rgba(44,36,32,.55), 0 2px 0 rgba(255,255,255,.08) inset;
+  }
+  .screen { position: relative; height: 100%; border-radius: 34px; overflow: hidden; background: var(--plaster); display: flex; flex-direction: column; }
+  .top { position: relative; flex: 0 0 47%; display: grid; place-items: center; padding: 28px 18px 18px; }
+  .razor { position: absolute; left: 7%; top: 7%; width: 64%; transform-origin: 64% 30%; }
+  .brandblock { text-align: center; margin-top: 44%; }
+  .brandblock .estd { font-size: 10.5px; letter-spacing: .3em; font-weight: 700; color: var(--ink); }
+  .wordmark { font-weight: 900; font-variation-settings: "wdth" 120; font-size: 46px; line-height: 1; letter-spacing: .02em; color: var(--ink); display: flex; justify-content: center; }
+  .wordmark span { display: inline-block; }
+  .brandblock .sub { font-size: 11px; letter-spacing: .32em; font-weight: 700; margin-top: 6px; }
+  .bottom { position: relative; flex: 1; background: var(--vermilion); color: var(--cream-on-red); padding: 18px 16px 16px; display: grid; grid-template-rows: auto auto 1fr; gap: 12px; }
+  .hello { display: flex; justify-content: space-between; align-items: baseline; }
+  .hello .script { font-family: var(--script); font-size: 30px; line-height: 1; }
+  .hello .date { font-size: 10px; letter-spacing: .2em; font-weight: 700; opacity: .85; }
+  .counter-btn {
+    display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; border-radius: 999px; background: var(--cream-on-red); color: var(--vermilion-deep);
+    border: 0; font: inherit; cursor: pointer; text-align: left;
+  }
+  .counter-btn .ring { flex: none; width: 46px; height: 46px; }
+  .counter-btn b { display: block; font-weight: 850; font-variation-settings: "wdth" 115; letter-spacing: .08em; font-size: 15px; text-transform: uppercase; color: var(--ink); }
+  .counter-btn small { font-size: 12px; color: var(--ink-soft); }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-content: start; }
+  .tile { border: 1.5px solid rgba(246,233,207,.75); border-radius: 14px; padding: 10px 12px; min-width: 0; }
+  .tile .k { font-size: 9.5px; letter-spacing: .22em; font-weight: 700; opacity: .9; }
+  .tile .v { font-weight: 850; font-variation-settings: "wdth" 112; font-size: 24px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .tile.wide { grid-column: span 2; display: flex; justify-content: space-between; align-items: center; }
+  .proposal-copy { display: grid; gap: 14px; }
+  .proposal-copy ul { margin: 0; padding-left: 18px; color: var(--ink-soft); line-height: 1.6; max-width: 60ch; }
+
+  /* ── Motion menu ───────────────────────────────────── */
+  .menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+  .card { background: rgba(255,255,255,.35); border: 1.5px solid var(--ink); border-radius: 18px; padding: 14px; display: grid; gap: 12px; min-width: 0; }
+  .card header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .card h3 { margin: 0; font-weight: 850; font-variation-settings: "wdth" 112; text-transform: uppercase; letter-spacing: .05em; font-size: 17px; }
+  .num { font-size: 11px; letter-spacing: .2em; font-weight: 700; color: var(--vermilion-deep); }
+  .stage { position: relative; height: 210px; border-radius: 12px; overflow: hidden; background: var(--plaster-deep); display: grid; place-items: center; }
+  .stage.red { background: var(--vermilion); color: var(--cream-on-red); }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 11px; letter-spacing: .08em; font-weight: 700; text-transform: uppercase; border: 1.25px solid var(--ink); border-radius: 999px; padding: 3px 9px; }
+  .chip.hot { background: var(--vermilion); color: var(--cream-on-red); border-color: var(--vermilion); }
+  .card p { font-size: 14.5px; }
+  .play {
+    justify-self: start; display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 999px; background: var(--ink); color: var(--plaster);
+    font: inherit; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: 12px; padding: 10px 16px; cursor: pointer;
+  }
+  .play:hover { background: var(--vermilion-deep); }
+  .play:focus-visible, .counter-btn:focus-visible { outline: 3px solid var(--vermilion); outline-offset: 3px; }
+  .play svg { width: 14px; height: 14px; }
+
+  /* demo internals */
+  .mini-screen { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; }
+  .mini-screen .big { font-weight: 900; font-variation-settings: "wdth" 120; font-size: 30px; letter-spacing: .04em; text-transform: uppercase; }
+  .mini-screen.cream { background: var(--plaster); color: var(--ink); }
+  .mini-screen.red { background: var(--vermilion); color: var(--cream-on-red); }
+  .wipe { position: absolute; inset: 0; background: var(--vermilion); clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); display: grid; place-items: center; color: var(--cream-on-red); }
+  .blade { position: absolute; top: -10%; bottom: -10%; width: 10px; left: -40px; background: linear-gradient(90deg, #f5f7f8, #9aa1a6); transform: skewX(-14deg); box-shadow: 0 0 18px rgba(255,255,255,.7); }
+  .lift-red { position: absolute; left: 0; right: 0; bottom: 0; height: 46%; background: var(--vermilion); border-radius: 0; }
+  .lift-badge { position: absolute; width: 64px; height: 64px; left: 50%; bottom: 14%; margin-left: -32px; }
+  .odo { display: flex; font-weight: 900; font-variation-settings: "wdth" 118; font-size: 52px; line-height: 1; height: 1em; overflow: hidden; font-variant-numeric: tabular-nums; }
+  .odo .col { display: flex; flex-direction: column; }
+  .odo .col span { height: 1em; }
+  .receipt { width: 60%; margin-bottom: 34px; background: #FBF6EA; color: var(--ink); padding: 12px 14px; border-radius: 4px; font-size: 12px; box-shadow: 0 6px 14px -6px rgba(0,0,0,.3); position: relative; }
+  .receipt .row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px dashed #cdbf9f; }
+  .receipt .row:last-of-type { border-bottom: 0; font-weight: 800; }
+  .stamp { position: absolute; right: -30px; bottom: -58px; width: 84px; height: 84px; }
+  .coupon { display: flex; width: 80%; height: 92px; filter: drop-shadow(0 6px 10px rgba(0,0,0,.25)); }
+  .coupon .main { flex: 1; background: var(--cream-on-red); color: var(--ink); border-radius: 10px 0 0 10px; display: grid; place-items: center; text-align: center; }
+  .coupon .main b { font-weight: 900; font-variation-settings: "wdth" 120; letter-spacing: .12em; font-size: 22px; display: block; }
+  .coupon .main small { font-size: 10px; letter-spacing: .2em; font-weight: 700; color: var(--ink-soft); }
+  .coupon .stub { width: 78px; background: var(--cream-on-red); border-left: 2px dashed var(--vermilion); border-radius: 0 10px 10px 0; display: grid; place-items: center; color: var(--vermilion-deep); font-weight: 900; font-size: 18px; transform-origin: 0 100%; }
+  .pole { width: 78%; height: 16px; border-radius: 999px; border: 2px solid var(--ink); overflow: hidden; background: var(--plaster); }
+  .pole i { display: block; height: 100%; width: 0%; background: repeating-linear-gradient(-45deg, var(--vermilion) 0 10px, var(--plaster) 10px 16px, #2f4a7a 16px 26px, var(--plaster) 26px 32px); background-size: 45px 100%; }
+  .pole-label { margin-top: 10px; font-size: 11px; letter-spacing: .2em; font-weight: 700; text-align: center; }
+  #sealRing { transform-box: view-box; transform-origin: 50px 50px; }
+  .keypad { display: grid; grid-template-columns: repeat(3, 52px); gap: 8px; }
+  .keypad button { height: 44px; border-radius: 10px; border: 1.5px solid var(--ink); background: var(--plaster); font: inherit; font-weight: 800; font-size: 18px; color: var(--ink); cursor: pointer; }
+  .keypad button:active { background: var(--vermilion); color: var(--cream-on-red); border-color: var(--vermilion); }
+  .typed { font-weight: 900; font-variation-settings: "wdth" 118; font-size: 22px; letter-spacing: .08em; min-height: 28px; margin-bottom: 8px; text-align: center; font-variant-numeric: tabular-nums; }
+  footer p { font-size: 13px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+</style>
+
+<div class="wrap">
+  <section class="grain">
+    <div class="tracked">Study 02 · Salon app redesign</div>
+    <h1>Barber-shop badge, rebuilt as an app</h1>
+    <p class="lede">The look follows your reference: a cream plaster wall on top, a vermilion panel below, wide tracked capitals, a script greeting, and circular badges with curved lettering. Below the front-page proposal is a menu of nine motions. Tap Replay on each and tell me which ones you want.</p>
+    <div class="notes">
+      <div class="note"><b>From your reference</b><p>Two-tone split, stamped wide capitals, arced-text badges, “ESTD” lockup, one script accent, real-object hero (the razor).</p></div>
+      <div class="note"><b>From Dribbble barber apps</b><p>Big single numbers for today's stats, pill-shaped main buttons, bold photo or object heroes, and date strips for bookings.</p></div>
+      <div class="note"><b>Pinterest</b><p>My research tool can't open Pinterest pages, so these ideas come from Dribbble's barbershop-app results plus your image. Send me Pinterest links or screenshots if you have favourites.</p></div>
+    </div>
+  </section>
+
+  <section class="proposal">
+    <div class="phone" aria-label="Front page proposal">
+      <div class="screen grain" id="front">
+        <div class="top">
+          <svg class="razor" id="razor" viewBox="0 0 220 140" aria-hidden="true">
+            <defs>
+              <linearGradient id="steel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f6f7"/><stop offset=".55" stop-color="#b9bfc3"/><stop offset="1" stop-color="#868d92"/></linearGradient>
+              <linearGradient id="wood" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8a4b25"/><stop offset=".5" stop-color="#6B3A1F"/><stop offset="1" stop-color="#4a2512"/></linearGradient>
+            </defs>
+            <g id="blade"><path d="M18 52 L132 36 Q140 35 141 43 L143 60 Q143 66 136 67 L22 82 Q12 83 12 72 L12 60 Q12 53 18 52Z" fill="url(#steel)" stroke="#6f767b" stroke-width="1"/><path d="M132 36 Q150 30 158 18 Q161 14 165 17" fill="none" stroke="#9aa1a6" stroke-width="5" stroke-linecap="round"/></g>
+            <g id="handle"><path d="M136 46 Q170 54 205 118 Q209 128 199 130 Q190 131 186 122 Q160 74 132 62Z" fill="url(#wood)"/><circle cx="138" cy="54" r="3" fill="#d9d4cc"/><circle cx="194" cy="121" r="2.5" fill="#d9d4cc"/></g>
+          </svg>
+          <div class="brandblock">
+            <div class="estd" id="estd">ESTD 2026</div>
+            <div class="wordmark" id="wordmark" aria-label="Salon"></div>
+            <div class="sub" id="sub">HAIR · BEARD · SPA</div>
+          </div>
+        </div>
+        <div class="bottom" id="bottom">
+          <div class="hello"><span class="script">Good evening</span><span class="date">SAT · 10 OCT</span></div>
+          <button class="counter-btn" type="button" id="counterBtn">
+            <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
+              <defs><path id="arc0" d="M18 50 A32 32 0 0 1 82 50"/></defs>
+              <circle cx="50" cy="50" r="48" fill="var(--vermilion)"/>
+              <circle cx="50" cy="50" r="41" fill="none" stroke="var(--cream-on-red)" stroke-width="1.5"/>
+              <text font-family="Archivo" font-weight="800" font-size="11" letter-spacing="3" fill="var(--cream-on-red)"><textPath href="#arc0" startOffset="50%" text-anchor="middle">COUNTER</textPath></text>
+              <path d="M38 64 L62 46 M38 46 L62 64" stroke="var(--cream-on-red)" stroke-width="3.5" stroke-linecap="round"/>
+              <circle cx="34" cy="43" r="5" fill="none" stroke="var(--cream-on-red)" stroke-width="3"/><circle cx="34" cy="67" r="5" fill="none" stroke="var(--cream-on-red)" stroke-width="3"/>
+            </svg>
+            <span><b>Next customer</b><small>Phone number in, visit logged</small></span>
+          </button>
+          <div class="tiles">
+            <div class="tile"><div class="k">TODAY</div><div class="v">₹6,800</div></div>
+            <div class="tile"><div class="k">DUE BACK</div><div class="v">27</div></div>
+            <div class="tile"><div class="k">CUSTOMERS</div><div class="v">124</div></div>
+            <div class="tile"><div class="k">REFER</div><div class="v">₹100</div></div>
+            <div class="tile wide"><div><div class="k">OWNER</div><div class="v" style="font-size:18px">DASHBOARD</div></div><span aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="proposal-copy">
+      <div class="tracked">The front page</div>
+      <h2>Wall on top, counter below</h2>
+      <p>The top half carries the salon's identity: the razor, ESTD year and wordmark, which change per salon. The vermilion half is the working area, with the one big “Next customer” button and today's numbers as stamped tiles.</p>
+      <ul>
+        <li>Placeholder name and year. Each salon gets its own wordmark and year from its config.</li>
+        <li>Fonts: Archivo (wide, stamped capitals) plus Yellowtail script for the greeting only.</li>
+        <li>The razor is drawn in code here. For the final app we can use a real photographed razor like your reference.</li>
+        <li>Plays motion <b>01 Badge &amp; razor intro</b> on load.</li>
+      </ul>
+      <button class="play" type="button" data-play="intro"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>Replay intro</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="tracked">The motion menu</div>
+    <h2>Pick the ones you like</h2>
+    <p>Each card names where the motion would live in the app and how often staff would see it. Motions staff see hundreds of times a day are kept tiny on purpose, so they never slow down a walk-in.</p>
+  </section>
+
+  <section class="menu" aria-label="Motion options">
+    <article class="card">
+      <header><h3>Badge &amp; razor intro</h3><span class="num">01</span></header>
+      <div class="stage" id="s-intro-mini"><div class="mini-screen cream" style="font-size:13px;letter-spacing:.2em;font-weight:700">PLAYS ON THE PHONE ABOVE</div></div>
+      <div class="meta"><span class="chip hot">Signature</span><span class="chip">App launch</span><span class="chip">Once a day</span><span class="chip">1.4s</span></div>
+      <p>The razor swings open on its pivot, the wordmark letters press in one by one like a stamp, and the vermilion panel rises from below.</p>
+      <button class="play" type="button" data-play="intro"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>Replay</button>
+    </article>
+
+    <article class="card">
+      <header><h3>Razor wipe</h3><span class="num">02</span></header>
+      <div class="stage" id="s-wipe">
+        <div class="mini-screen cream"><div class="big">Home</div></div>
+        <div class="wipe"><div class="big" style="font-weight:900;font-variation-settings:'wdth' 120;font-size:30px;letter-spacing:.04em">COUNTER</div></div>
+        <div class="blade"></div>
+      </div>
+      <div class="meta"><span class="chip">Page change</span><span class="chip">Often</span><span class="chip">420ms</span></div>
+      <p>A steel edge sweeps diagonally across the screen and the next page is revealed behind it, like a clean razor stroke.</p>
+      <button class="play" type="button" data-play="wipe"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>Replay</button>
+    </article>
+
+    <article class="card">
+      <header><h3>Split lift</h3><span class="num">03</span></header>
+      <div class="stage" id="s-lift" style="background:var(--plaster)">
+        <div class="lift-red"></div>
+        <svg class="lift-badge" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="var(--cream-on-red)"/><path d="M38 64 L62 46 M38 46 L62 64" stroke="var(--vermilion)" stroke-width="5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="meta"><span class="chip hot">Recommended</span><span class="chip">Opening Counter</span><span class="chip">Often</span><span class="chip">450ms</span></div>
+      <p>The vermilion half of the front page rises to fill the screen and the tapped badge travels up into the header, so staff feel they've stepped into the counter.</p>
+      <button class="play" type="button" data-play="lift"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>Replay</button>
+    </article>
+
+    <article class="card">
+      <header><h3>Spinning wallet seal</h3><span class="num">04</span></header>
+      <div class="stage red" id="s-seal">
+        <svg id="sealSvg" width="150" height="150" viewBox="0 0 100 100" aria-hidden="true">
+          <defs><path id="arc1" d="M14 50 A36 36 0 1 1 86 50 A36 36 0 1 1 14 50"/></defs>
+          <circle cx="50" cy="50" r="49" fill="var(--cream-on-red)"/>
+          <circle cx="50" cy="50" r="44" fill="none" stroke="var(--vermilion)" stroke-width="1.2"/>
+          <g id="sealRing"><text font-family="Archivo" font-weight="800" font-size="7.5" letter-spacing="2.4" fill="var(--vermilion)"><textPath href="#arc1">WALLET · BALANCE · WALLET · BALANCE ·</textPath></text></g>
+          <circle cx="50" cy="50" r="27" fill="var(--vermilion)"/>
+          <text id="sealAmt" x="50" y="55" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="13" fill="var(--cream-on-red)">₹0</text>
+        </svg>
+      </div>
+      <div class="meta"><span class="chip hot">Signature</span><span class="chip">Wallet top-up</span><span class="chip">Few a day</span><span class="chip">800ms</span></div>
+      <p>The curved lettering on the wallet badge turns half a turn and settles as the balance counts up. It plays when money goes into the wallet.</p>
+      <button class="play" type="button" data-play="seal"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>Replay</button>
+    </article>
+
+    <article class="card">
+      <header><h3>Odometer takings</h3><span class="num">05</span></header>
+      <div class="stage" id="s-odo"><div><div class="tracked" style="text-align:center;margin-bottom:6px">Today</div><div class="odo" id="odo" aria-label="₹6,800"></div></div></div>
+      <div class="meta"><span class="chip">Dashboard</span><span class="chip">Few a day</span><span class="chip">900ms</span></div>
+      <p>Each digit of today's takings rolls into place like an old shop counter, the left digits settling last.</p>
+      <button class="play" type="button" data-play="odo"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>Replay</button>
+    </article>
+
+    <article class="card">
+      <header><h3>Ink-press receipt</h3><span class="num">06</span></header>
+      <div class="stage" id="s-receipt">
+        <div class="receipt" id="receipt">
+          <div class="row"><span>Haircut</span><span>₹300</span></div>
+          <div class="row"><span>Head massage</span><span>₹150</span></div>
+          <div class="row"><span>Total</span><span>₹450</span></div>
+          <svg class="stamp" id="stamp" viewBox="0 0 100 100" aria-hidden="true">
+            <defs><path id="arc2" d="M16 50 A34 34 0 1 1 84 50 A34 34 0 1 1 16 50"/></defs>
+            <circle cx="50" cy="50" r="46" fill="none" stroke="var(--vermilion)" stroke-width="3"/>
+            <circle cx="50" cy="50" r="39" fill="none" stroke="var(--vermilion)" stroke-width="1"/>
+            <text font-family="Archivo" font-weight="800" font-size="8" letter-spacing="2.2" fill="var(--vermilion)"><textPath href="#arc2">PAID · THANK YOU · PAID · THANK YOU ·</textPath></text>
+            <text x="50" y="56" text-anchor="middle" font-family="Archivo" font-weight="900" font-size="16" fill="var(--vermilion)">PAID</text>
+          </svg>
+        </div>
+      </div>
+      <div class="meta"><span class="chip hot">Signature</span><span class="chip">Visit logged</span><span class="chip">Per customer</span><span class="chip">700ms</span></div>
+      <p>The receipt prints top to bottom, then a round PAID badge is stamped onto it with a small ink spread and a buzz on the phone.</p>
+      <button class="play" type="button" data-play="receipt"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>Replay</button>
+    </article>
+
+    <article class="card">
+      <header><h3>Coupon tear</h3><span class="num">07</span></header>
+      <div class="stage red" id="s-coupon">
+        <div class="coupon"><div class="main"><div><small>PRIYA'S CODE</small><b>PPX2337</b><small>₹100 EACH</small></div></div><div class="stub" id="stub">SHARE</div></div>
+      </div>
+      <div class="meta"><span class="chip">Refer &amp; Earn</span><span class="chip">Rare</span><span class="chip">650ms</span></div>
+      <p>Tapping Share tears the stub off along the dotted line and drops it away, as if handing the friend a paper coupon.</p>
+      <button class="play" type="button" data-play="coupon"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>Replay</button>
+    </article>
+
+    <article class="card">
+      <header><h3>Barber-pole progress</h3><span class="num">08</span></header>
+      <div class="stage" id="s-pole"><div style="width:100%;display:grid;justify-items:center"><div class="pole"><i id="poleFill"></i></div><div class="pole-label" id="poleLabel">BACKING UP 0%</div></div></div>
+      <div class="meta"><span class="chip">Backup / sync</span><span class="chip">Rare</span><span class="chip">While waiting</span></div>
+      <p>A red, cream and blue barber-pole stripe fills the bar while the salon's data backs up. It moves only while something is actually loading.</p>
+      <button class="play" type="button" data-play="pole"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg>Replay</button>
+    </article>
+
+    <article class="card">
+      <header><h3>Instant keypad</h3><span class="num">09</span></header>
+      <div class="stage" id="s-keys" style="height:268px"><div><div class="typed" id="typed">98765</div><div class="keypad" id="keypad"></div></div></div>
+      <div class="meta"><span class="chip hot">Always on</span><span class="chip">Counter keypad</span><span class="chip">Hundreds a day</span><span class="chip">0ms</span></div>
+      <p>The deliberate non-motion. Keys flash vermilion the instant they're touched and nothing else moves, so a walk-in still takes under 15 seconds. Try typing.</p>
+    </article>
+  </section>
+
+  <footer><p>All motion here respects your phone's reduce-motion setting: with it on, everything appears in its final state. Motion names follow the design-motion-principles skill: polished springs for occasional moments, instant feedback for anything used all day.</p></footer>
+</div>
+
+<script>
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const expo = "cubic-bezier(0.16, 1, 0.3, 1)";
+  const springy = "cubic-bezier(0.34, 1.56, 0.64, 1)";
+  const $ = (s) => document.querySelector(s);
+  const run = (el, kf, opts) => (reduce ? null : el.animate(kf, { fill: "both", ...opts }));
+
+  // Wordmark letters
+  const NAME = "SALON";
+  const wm = $("#wordmark");
+  wm.innerHTML = [...NAME].map((c) => `<span>${c}</span>`).join("");
+
+  const demos = {
+    intro() {
+      const letters = [...wm.children];
+      run($("#bottom"), [{ transform: "translateY(100%)" }, { transform: "translateY(0)" }], { duration: 700, easing: expo, delay: 100 });
+      run($("#razor"), [{ transform: "rotate(-62deg)", opacity: 0 }, { opacity: 1, offset: 0.25 }, { transform: "rotate(0deg)", opacity: 1 }], { duration: 900, easing: springy, delay: 250 });
+      run($("#estd"), [{ opacity: 0, letterSpacing: ".6em" }, { opacity: 1, letterSpacing: ".3em" }], { duration: 700, easing: expo, delay: 450 });
+      letters.forEach((l, i) =>
+        run(l, [{ transform: "scale(1.6)", opacity: 0, filter: "blur(4px)" }, { transform: "scale(0.96)", opacity: 1, filter: "blur(0)", offset: 0.7 }, { transform: "scale(1)", opacity: 1 }], { duration: 420, easing: expo, delay: 550 + i * 70 }),
+      );
+      run($("#sub"), [{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "none" }], { duration: 500, easing: expo, delay: 1000 });
+      run($("#counterBtn"), [{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 500, easing: expo, delay: 700 });
+      [...document.querySelectorAll(".tile")].forEach((t, i) => run(t, [{ opacity: 0, transform: "translateY(10px)" }, { opacity: 1, transform: "none" }], { duration: 450, easing: expo, delay: 820 + i * 45 }));
+    },
+    wipe() {
+      const st = $("#s-wipe");
+      run(st.querySelector(".wipe"), [{ clipPath: "polygon(0 0, 0 0, -20% 100%, -20% 100%)" }, { clipPath: "polygon(0 0, 120% 0, 100% 100%, -20% 100%)" }], { duration: 420, easing: "cubic-bezier(0.65, 0, 0.35, 1)" });
+      run(st.querySelector(".blade"), [{ left: "-6%" }, { left: "112%" }], { duration: 420, easing: "cubic-bezier(0.65, 0, 0.35, 1)" });
+    },
+    lift() {
+      const st = $("#s-lift");
+      run(st.querySelector(".lift-red"), [{ height: "46%" }, { height: "100%" }], { duration: 450, easing: expo });
+      run(st.querySelector(".lift-badge"), [{ bottom: "14%", transform: "scale(1)" }, { bottom: "68%", transform: "scale(.62)" }], { duration: 450, easing: expo });
+    },
+    seal() {
+      run($("#sealRing"), [{ transform: "rotate(-180deg)" }, { transform: "rotate(0deg)" }], { duration: 800, easing: springy });
+      countTo($("#sealAmt"), 2200, 800, (v) => "₹" + v.toLocaleString("en-IN"));
+    },
+    odo() {
+      const target = "6800";
+      const odo = $("#odo");
+      odo.innerHTML = '<span>₹</span>' + [...target].map((d) => `<div class="col">${Array.from({ length: 10 }, (_, n) => `<span>${n}</span>`).join("")}</div>`).join("");
+      const cols = [...odo.querySelectorAll(".col")];
+      cols.forEach((c, i) => {
+        const d = +target[i];
+        const end = `translateY(-${d}em)`;
+        if (reduce) c.style.transform = end;
+        else c.animate([{ transform: "translateY(0)" }, { transform: end }], { duration: 600 + (cols.length - i) * 120, easing: expo, fill: "both" });
+      });
+      // comma after first digit
+      cols[0].insertAdjacentHTML("afterend", "<span>,</span>");
+    },
+    receipt() {
+      const r = $("#receipt");
+      run(r, [{ clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0 0)" }], { duration: 420, easing: "steps(6, end)" });
+      run($("#stamp"), [
+        { transform: "scale(1.9) rotate(-24deg)", opacity: 0 },
+        { transform: "scale(0.94) rotate(-10deg)", opacity: 1, offset: 0.72 },
+        { transform: "scale(1) rotate(-12deg)", opacity: 1 },
+      ], { duration: 420, easing: "cubic-bezier(0.5, 0, 0.75, 0)", delay: 460 });
+      if (!reduce && navigator.vibrate) setTimeout(() => navigator.vibrate(18), 760);
+    },
+    coupon() {
+      run($("#stub"), [
+        { transform: "none", opacity: 1 },
+        { transform: "rotate(10deg) translate(6px,-4px)", opacity: 1, offset: 0.3 },
+        { transform: "rotate(38deg) translate(40px,90px)", opacity: 0 },
+      ], { duration: 650, easing: "cubic-bezier(0.55, 0, 1, 0.45)", delay: 120 });
+    },
+    pole() {
+      const fill = $("#poleFill");
+      const label = $("#poleLabel");
+      if (reduce) { fill.style.width = "100%"; label.textContent = "BACKED UP"; return; }
+      fill.animate([{ width: "0%" }, { width: "100%" }], { duration: 2400, easing: "cubic-bezier(0.4, 0, 0.2, 1)", fill: "both" });
+      const stripes = fill.animate([{ backgroundPosition: "0 0" }, { backgroundPosition: "45px 0" }], { duration: 600, iterations: 4, easing: "linear" });
+      countTo(label, 100, 2400, (v) => (v < 100 ? `BACKING UP ${v}%` : "BACKED UP"));
+    },
+  };
+
+  function countTo(el, to, ms, fmt) {
+    if (reduce) { el.textContent = fmt(to); return; }
+    const t0 = performance.now();
+    const tick = (t) => {
+      const p = Math.min(1, (t - t0) / ms);
+      const e = 1 - Math.pow(2, -10 * p);
+      el.textContent = fmt(Math.round(to * (p === 1 ? 1 : e)));
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }
+
+  document.querySelectorAll("[data-play]").forEach((b) => b.addEventListener("click", () => demos[b.dataset.play]()));
+
+  // Keypad: instant feedback only.
+  const kp = $("#keypad");
+  const typed = $("#typed");
+  ["1","2","3","4","5","6","7","8","9","DEL","0","CLR"].forEach((k) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.textContent = k; b.setAttribute("aria-label", k === "DEL" ? "Delete" : k === "CLR" ? "Clear" : k);
+    if (k.length > 1) b.style.fontSize = "12px";
+    b.addEventListener("click", () => {
+      if (k === "DEL") typed.textContent = typed.textContent.slice(0, -1);
+      else if (k === "CLR") typed.textContent = "";
+      else if (typed.textContent.length < 10) typed.textContent += k;
+    });
+    kp.appendChild(b);
+  });
+
+  // First paint: everything visible at rest, then play the openers once.
+  requestAnimationFrame(() => { demos.intro(); demos.odo(); demos.seal(); });
+</script>

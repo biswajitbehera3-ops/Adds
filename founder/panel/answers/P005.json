@@ -1,0 +1,13 @@
+{
+  "id": "P005",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "Five thousand rupees up front and then a thousand every month, forever, for something my register and WhatsApp already do for free. I avoid monthly payments, and twelve thousand a year is real money for a small parlour like mine.",
+  "objection": "Who will help me when the app stops working on a busy Sunday or in Diwali week, with customers waiting and staff not able to bill? And my staff are not all comfortable in English.",
+  "would_change_my_mind": "No setup fee, a one-time price or a yearly plan under ₹5,000, a Hindi/local-language option, and a phone number that is actually answered on Sundays.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

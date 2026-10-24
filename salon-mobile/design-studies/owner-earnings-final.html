@@ -1,0 +1,322 @@
+<title>Owner Earnings Screen</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: three earnings layouts, each a pair of phones (main screen + what a tap on a stylist opens). Brown glass, single dark look by design. */
+:root{
+  --glow:#8E5B4E; --mid:#4A3029; --deep:#1A1210; --page:#140d0b;
+  --gold:#E4A67B; --cream:#FFF8F1; --soft:rgba(255,248,241,.72); --faint:rgba(255,248,241,.42);
+  --rose:#B98E78; --glass:rgba(255,244,236,.11); --glass2:rgba(255,244,236,.18); --line:rgba(255,244,236,.22);
+  --ok:#9CCB8F; --down:#F08C6A; --ink:#2a1a12;
+  --font:Urbanist,"Avenir Next","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--page);color:var(--cream);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto}
+header.page h1{font-size:28px;font-weight:700;text-wrap:balance}
+header.page p{color:var(--soft);font-size:15px;max-width:70ch;margin-top:8px;line-height:1.5}
+section.opt{margin-top:40px;padding-top:28px;border-top:1px solid var(--line)}
+section.opt h2{font-size:22px;font-weight:700}
+section.opt .tag{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:700}
+section.opt p.desc{color:var(--soft);font-size:15px;line-height:1.5;max-width:75ch;margin:6px 0 20px}
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,360px));gap:28px;justify-content:start}
+.pair figcaption{font-size:13px;color:var(--soft);text-align:center;margin-top:10px}
+
+.phone{position:relative;width:100%;aspect-ratio:390/820;border-radius:40px;overflow:hidden;
+  background:radial-gradient(120% 70% at 12% 0%,var(--glow) 0%,var(--mid) 46%,var(--deep) 100%);
+  box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,244,236,.08);container-type:inline-size}
+.scr{position:absolute;inset:0;padding:6cqw 4.6cqw 23cqw;display:flex;flex-direction:column;gap:3.2cqw;overflow-y:auto;scrollbar-width:none}
+.scr::-webkit-scrollbar{display:none}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:2cqw}
+.who{font-size:3.2cqw;color:var(--soft)}
+.ttl{font-size:6.4cqw;font-weight:700;letter-spacing:-.01em}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:5cqw;padding:3.6cqw 4cqw;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.lbl{font-size:2.8cqw;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+.big{font-weight:800;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.delta{display:inline-flex;align-items:center;gap:.8cqw;font-size:3cqw;font-weight:700;border-radius:999px;padding:.9cqw 2.2cqw;white-space:nowrap}
+.delta.up{color:var(--ok);background:rgba(156,203,143,.14)}
+.delta.dn{color:var(--down);background:rgba(240,140,106,.14)}
+.sm{font-size:3.1cqw;color:var(--soft)}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);padding:1cqw;border-radius:999px;background:rgba(26,18,16,.5);border:1px solid var(--line)}
+.seg button{font:600 3.4cqw var(--font);color:var(--soft);background:none;border:0;border-radius:999px;padding:2cqw 0;cursor:pointer}
+.seg button.on{background:var(--gold);color:var(--ink)}
+button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--cream);outline-offset:2px}
+.av{width:9.6cqw;height:9.6cqw;flex:0 0 auto;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:3.2cqw;color:var(--ink)}
+.row{display:flex;align-items:center;gap:3cqw}
+.grow{flex:1;min-width:0}
+.nm{font-weight:700;font-size:3.8cqw}
+.bar{height:1.5cqw;border-radius:999px;background:rgba(255,244,236,.1);overflow:hidden;margin-top:1.4cqw}
+.bar i{display:block;height:100%;border-radius:inherit;background:var(--gold);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.chev{width:4cqw;height:4cqw;stroke:var(--soft);fill:none;stroke-width:2;transition:transform .25s}
+.cust{display:grid;grid-template-columns:11cqw 1fr auto;gap:2.4cqw;align-items:center;padding:2.4cqw 0;border-top:1px solid rgba(255,244,236,.1);font-size:3.3cqw}
+.cust .t{color:var(--soft);font-variant-numeric:tabular-nums}
+.cust .c{font-weight:600}
+.cust .s{color:var(--soft);font-size:3cqw;margin-top:.4cqw}
+.cust .a{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.cust .m{display:block;font-size:2.6cqw;font-weight:600;color:var(--soft);text-transform:uppercase;letter-spacing:.06em;margin-top:.4cqw}
+.dock{position:absolute;left:3.5cqw;right:3.5cqw;bottom:3.5cqw;display:grid;grid-template-columns:repeat(5,1fr);padding:2cqw;border-radius:6cqw;background:rgba(38,22,17,.65);border:1px solid var(--line);z-index:5}
+.dock span{display:flex;flex-direction:column;align-items:center;gap:.8cqw;font-size:2.7cqw;color:var(--soft);padding:1.6cqw 0;border-radius:4cqw}
+.dock span.on{background:var(--gold);color:var(--ink);font-weight:700}
+.dock svg{width:5cqw;height:5cqw;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.back{display:inline-flex;align-items:center;gap:1.4cqw;font:600 3.4cqw var(--font);color:var(--soft);background:none;border:0;cursor:pointer;padding:0}
+.chip{font-size:2.8cqw;padding:.8cqw 2.2cqw;border-radius:999px;background:var(--glass2);color:var(--soft);white-space:nowrap}
+.tops{display:flex;flex-wrap:wrap;gap:1.6cqw}
+
+/* compare bars (layout 1) */
+.cmp{display:grid;gap:2cqw;margin-top:3cqw}
+.cmp .r{display:grid;grid-template-columns:22cqw 1fr 18cqw;gap:2cqw;align-items:center;font-size:3cqw;color:var(--soft)}
+.cmp .r b{color:var(--cream);text-align:right;font-variant-numeric:tabular-nums}
+.cmp .track{height:3cqw;border-radius:999px;background:rgba(255,244,236,.08);overflow:hidden}
+.cmp .track i{display:block;height:100%;border-radius:inherit;transition:width .7s cubic-bezier(.2,.8,.2,1)}
+
+/* layout 3 */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.kpi{border-radius:4.4cqw;padding:2.8cqw 2.6cqw;background:var(--glass);border:1px solid var(--line);cursor:pointer;text-align:left;color:var(--cream);font-family:var(--font);display:grid;gap:1cqw}
+.kpi.on{background:linear-gradient(160deg,rgba(228,166,123,.32),rgba(228,166,123,.1));border-color:rgba(228,166,123,.7)}
+.kpi .k{font-size:2.6cqw;color:var(--soft);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.kpi .v{font-size:4.6cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.kpi svg{width:100%;height:7cqw}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:2.6cqw}
+.tile{border-radius:5cqw;padding:3.4cqw;background:var(--glass);border:1px solid var(--line);cursor:pointer;color:var(--cream);font-family:var(--font);text-align:left;display:grid;gap:1.6cqw}
+.tile .v{font-size:5.4cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.tile .delta{justify-self:start}
+.sheetbg{position:absolute;inset:0;background:rgba(10,6,5,.55);z-index:6;opacity:0;pointer-events:none;transition:opacity .3s}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:78%;z-index:7;border-radius:7cqw 7cqw 0 0;background:linear-gradient(180deg,#5a3b32,#2b1c17);border-top:1px solid var(--line);padding:3cqw 4.6cqw 6cqw;transform:translateY(102%);transition:transform .4s cubic-bezier(.2,.8,.2,1);overflow-y:auto;scrollbar-width:none}
+.sheet .grab{width:12cqw;height:1.2cqw;border-radius:999px;background:rgba(255,244,236,.35);margin:0 auto 3cqw}
+.phone.open .sheetbg{opacity:1;pointer-events:auto}
+.phone.open .sheet{transform:none}
+svg text{font-family:var(--font)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="page">
+    <h1>Owner earnings: Layout 2 with Layout 3's cards</h1>
+    <p>The three comparison cards from Layout 3 sit at the top: Today, 7 days and Month, each with its change and its own trend line. Tap a card to switch. Everything below is Layout 2 as it was: the total, the bar chart of the last 7 days, 8 weeks or 6 months, the stylists ranked, and a full page for a stylist when tapped. The left phone works; the right phone shows Sunita's page.</p>
+  </header>
+  <section class="opt" style="border-top:0;padding-top:0;margin-top:28px">
+    <div class="pair"><figure><div class="phone" id="ma"></div><figcaption>Earnings · tap a card, tap a stylist</figcaption></figure><figure><div class="phone" id="mb"></div><figcaption>Sunita's page</figcaption></figure></div>
+  </section>
+</div>
+
+<script>
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const inr=n=>'₹'+Math.round(n).toLocaleString('en-IN');
+const lakh=n=>n>=100000?'₹'+(n/100000).toFixed(2).replace(/\.?0+$/,'')+'L':'₹'+(n/1000).toFixed(1).replace(/\.0$/,'')+'k';
+const pct=(a,b)=>Math.round((a-b)/b*100);
+const DOCK='<span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M5 12a7 7 0 0 1 14 0"/></svg>Live</span><span class="on"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>Earnings</span><span><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4"/></svg>Attendance</span><span><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/></svg>Staff</span><span><svg viewBox="0 0 24 24"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2z"/></svg>Visits</span>';
+const CHEV='<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>';
+
+/* ---------- sample data (example salon) ---------- */
+const STAFF=[{id:'s',name:'Sunita',ini:'SD',col:'#E4A67B'},{id:'r',name:'Rakesh',ini:'RK',col:'#F3E6D8'},{id:'i',name:'Imran',ini:'IK',col:'#B98E78'}];
+const P={
+  day:{label:'Today so far',prevLabel:'Last Wed by 4 PM',short:'Today',cmpWord:'vs last Wed',
+    tot:6800,prev:6070,staff:{s:[4,4100,3600],r:[3,1650,1520],i:[3,1050,950]},
+    trend:{labels:['Th','Fr','Sa','Su','Mo','Tu','We'],vals:[7900,9100,11600,12800,7200,0,6800],prevIdx:null,note:'Last 7 days · Tue closed'}},
+  week:{label:'Last 7 days',prevLabel:'Previous 7 days',short:'7 days',cmpWord:'vs previous 7 days',
+    tot:63500,prev:58200,staff:{s:[27,31200,28900],r:[23,18900,17100],i:[22,13400,12200]},
+    trend:{labels:['W35','W36','W37','W38','W39','W40','W41','Now'],vals:[52100,55400,49800,60300,57000,61200,58200,63500],prevIdx:6,note:'Last 8 weeks'}},
+  month:{label:'October 1–14',prevLabel:'September 1–14',short:'Month',cmpWord:'vs Sep 1–14',
+    tot:106000,prev:97500,staff:{s:[52,52800,48600],r:[45,31100,28700],i:[41,22100,20200]},
+    trend:{labels:['May','Jun','Jul','Aug','Sep','Oct'],vals:[205000,192000,210000,224000,218000,106000],prevIdx:4,note:'Last 6 months · October so far'}}
+};
+const TODAY={
+  s:[['10:40','Aarti Kapoor','Hair spa',900,'Wallet'],['12:05','Meghna Rao','Keratin smoothening',1200,'Wallet'],['2:20','Sana Khan','Haircut + Blow-dry',1100,'UPI'],['3:55','Kavya Iyer','Facial',900,'Cash']],
+  r:[['10:15','Vikram Shah','Haircut + Beard trim',450,'Cash'],['1:35','Arjun Mehta','Hair colour',1000,'Cash'],['3:30','Rohit Das','Beard trim',200,'Wallet']],
+  i:[['11:20','Sameer Ali','Beard trim',150,'Cash'],['12:50','Nikhil Jain','Haircut',300,'UPI'],['3:00','Farhan Qureshi','Haircut + Head massage',600,'UPI']]
+};
+const TOPSV={s:['Hair spa','Facial','Keratin','Blow-dry'],r:['Haircut','Beard trim','Hair colour'],i:['Haircut','Beard trim','Head massage']};
+const WEEKDAYS=[['Wed 14 Oct',.107],['Tue 13 Oct',0],['Mon 12 Oct',.113],['Sun 11 Oct',.202],['Sat 10 Oct',.183],['Fri 9 Oct',.143],['Thu 8 Oct',.252]];
+const MONTHWEEKS=[['8–14 Oct',.6],['1–7 Oct',.4]];
+// customer + earning rows for a stylist in a period
+function rows(pk,sid){
+  if(pk==='day') return {kind:'cust',list:TODAY[sid]};
+  const [c,e]=P[pk].staff[sid], parts=pk==='week'?WEEKDAYS:MONTHWEEKS;
+  if(pk==='week'){const amt=[...SERIES.day[sid]].reverse();return {kind:'sum',list:parts.map(([d,w],k)=>[d,Math.round(c*w),amt[k]||0])};}
+  return {kind:'sum',list:parts.map(([d,w])=>[d,Math.round(c*w),Math.round(e*w/50)*50])};
+}
+function detailRows(pk,sid){
+  const R=rows(pk,sid);
+  if(R.kind==='cust') return R.list.map(([t,n,s,a,m])=>`<div class="cust"><div class="t">${t}</div><div><div class="c">${n}</div><div class="s">${s}</div></div><div class="a">${inr(a)}<span class="m">${m}</span></div></div>`).join('');
+  return R.list.map(([d,c,e])=>`<div class="cust"><div class="t" style="grid-column:1/3">${d}<div class="s">${c?c+' customers':'Closed'}</div></div><div class="a">${c?inr(e):'—'}</div></div>`).join('')+
+    `<div style="margin-top:2.6cqw"><div class="lbl" style="margin-bottom:1.6cqw">Top services</div><div class="tops">${TOPSV[sid].map(x=>`<span class="chip">${x}</span>`).join('')}</div></div>`;
+}
+const deltaPill=(a,b,word)=>{const d=pct(a,b);return `<span class="delta ${d>=0?'up':'dn'}">${d>=0?'▲':'▼'} ${Math.abs(d)}% ${word||''}</span>`;};
+const segHTML=pk=>`<div class="seg" role="tablist">${['day','week','month'].map(k=>`<button role="tab" data-p="${k}" class="${k===pk?'on':''}" aria-selected="${k===pk}">${k==='day'?'Day':k==='week'?'Week':'Month'}</button>`).join('')}</div>`;
+const shell=(inner,extra='')=>`<div class="scr">${inner}</div>${extra}<div class="dock" aria-hidden="true">${DOCK}</div>`;
+const staffSorted=pk=>[...STAFF].sort((a,b)=>P[pk].staff[b.id][1]-P[pk].staff[a.id][1]);
+
+/* ---------- Layout 1: ledger, rows open in place ---------- */
+function L1(el,state){
+  const pk=state.p, d=P[pk], max=Math.max(d.tot,d.prev);
+  el.innerHTML=shell(`
+    <div class="top"><div><div class="who">Owner · Wed 14 Oct</div><div class="ttl">Earnings</div></div></div>
+    ${segHTML(pk)}
+    <div class="glass">
+      <div class="lbl">${d.label}</div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:2cqw;margin-top:1.6cqw"><div class="big" style="font-size:11cqw">${inr(d.tot)}</div>${deltaPill(d.tot,d.prev)}</div>
+      <div class="cmp">
+        <div class="r"><span>${d.short==='Today'?'Today':'This period'}</span><div class="track"><i style="width:${d.tot/max*100}%;background:var(--gold)"></i></div><b>${lakh(d.tot)}</b></div>
+        <div class="r"><span>${d.prevLabel}</span><div class="track"><i style="width:${d.prev/max*100}%;background:rgba(255,244,236,.4)"></i></div><b>${lakh(d.prev)}</b></div>
+      </div>
+    </div>
+    <div class="lbl" style="margin-top:.6cqw">Stylists · tap for customers</div>
+    ${staffSorted(pk).map(s=>{const [c,e,pe]=d.staff[s.id];const open=state.open===s.id;return `
+      <div class="glass" style="padding:3cqw 3.6cqw">
+        <div class="row" role="button" tabindex="0" data-s="${s.id}" style="cursor:pointer">
+          <div class="av" style="background:${s.col}">${s.ini}</div>
+          <div class="grow"><div style="display:flex;justify-content:space-between"><span class="nm">${s.name}</span><span class="nm num">${inr(e)}</span></div>
+            <div style="display:flex;justify-content:space-between;margin-top:.6cqw"><span class="sm">${c} customers</span>${deltaPill(e,pe)}</div></div>
+          <svg class="chev" viewBox="0 0 24 24" style="transform:rotate(${open?90:0}deg)"><path d="M9 6l6 6-6 6"/></svg>
+        </div>
+        ${open?`<div style="margin-top:2cqw">${detailRows(pk,s.id)}</div>`:''}
+      </div>`;}).join('')}
+  `);
+  el.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{state.p=b.dataset.p;L1(el,state);});
+  el.querySelectorAll('[data-s]').forEach(r=>{const go=()=>{state.open=state.open===r.dataset.s?null:r.dataset.s;L1(el,state);};r.onclick=go;r.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};});
+}
+
+/* ---------- Layout 2: trend chart + full stylist page ---------- */
+// Each stylist's graph follows the period on their page (example data).
+// Day: each day of the last 7 days (Tue closed). Week: each week of October, September dashed behind.
+// Month: the last 12 months (October so far).
+const SERIES={
+  day:{title:'Last 7 days',unit:'day',labels:['Thu 8','Fri 9','Sat 10','Sun 11','Mon 12','Tue 13','Today'],closed:[5],partial:6,
+    s:[6900,4500,5800,6600,3300,null,4100], r:[3900,2800,3600,4300,2650,null,1650], i:[2700,1900,2600,3050,2100,null,1050]},
+  week:{title:'Weeks of October',unit:'week',labels:['1–7','8–14','15–21','22–28','29–31'],partial:1,ghostName:'September',
+    s:[21600,31200,null,null,null], r:[12200,18900,null,null,null], i:[8700,13400,null,null,null],
+    ghost:{s:[22400,26200,24900,27300,7800], r:[13100,15600,14800,16200,4600], i:[9400,10800,10300,11500,3300]}},
+  month:{title:'Last 12 months',unit:'month',labels:['N','D','J','F','M','A','M','J','J','A','S','O'],partial:11,
+    s:[98000,112000,95000,92000,101000,99000,103000,96000,105000,110000,108600,52800],
+    r:[58000,66000,55000,53000,60000,58000,61000,57000,63000,66000,64300,31100],
+    i:[41000,47000,39000,38000,43000,42000,44000,41000,45000,47000,45300,22100]}
+};
+function stylistLine(sid,pk){
+  const S=SERIES[pk], v=S[sid], g0=S.ghost?S.ghost[sid]:null, L=S.labels, n=v.length;
+  const W=300, H=124, padL=8, padR=10, top=22, bot=98, closed=S.closed||[];
+  const all=[...v,...(g0||[])].filter(x=>x!==null), hi=Math.max(...all)*1.14;
+  const X=i=>padL+i*(W-padL-padR)/(n-1), Y=x=>bot-x/hi*(bot-top);
+  const full=v.filter((x,i)=>x!==null&&i!==S.partial), avg=full.length?full.reduce((a,b)=>a+b,0)/full.length:null;
+  const uid='sl'+sid+pk+Math.random().toString(36).slice(2,6);
+  const runs=[];let cur=[];v.forEach((x,i)=>{if(x===null){if(cur.length)runs.push(cur);cur=[];}else cur.push(i);});if(cur.length)runs.push(cur);
+  const head=S.ghost?`<span class="sm"><span style="color:#F5C9A0">━</span> Oct &nbsp;<span style="color:rgba(255,248,241,.5)">┅</span> Sep</span>`
+                    :`<span class="sm">avg ${lakh(Math.round(avg/50)*50)} / ${S.unit}</span>`;
+  let g=`<div style="display:flex;justify-content:space-between;align-items:baseline;margin-top:3cqw"><span class="lbl">${S.title}</span>${head}</div>
+  <svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block;margin-top:1.4cqw" role="img" aria-label="${S.title}: earnings per ${S.unit}">
+  <defs><linearGradient id="${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E4A67B" stop-opacity=".38"/><stop offset="1" stop-color="#E4A67B" stop-opacity="0"/></linearGradient></defs>
+  <line x1="${padL}" x2="${W-padR}" y1="${bot}" y2="${bot}" stroke="rgba(255,244,236,.12)"/>`;
+  if(avg!==null&&!S.ghost)g+=`<line x1="${padL}" x2="${W-padR}" y1="${Y(avg)}" y2="${Y(avg)}" stroke="rgba(255,248,241,.35)" stroke-dasharray="3 4"/>`;
+  if(g0){g+=`<path d="${g0.map((x,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(x).toFixed(1)).join(' ')}" fill="none" stroke="rgba(255,248,241,.45)" stroke-width="1.5" stroke-dasharray="3 4"/>`;
+    g0.forEach((x,i)=>g+=`<circle cx="${X(i)}" cy="${Y(x)}" r="2" fill="rgba(255,248,241,.5)"/>`);}
+  runs.forEach(r=>{const d=r.map((i,k)=>(k?'L':'M')+X(i).toFixed(1)+' '+Y(v[i]).toFixed(1)).join(' ');
+    if(r.length>1)g+=`<path d="${d} L${X(r[r.length-1])} ${bot} L${X(r[0])} ${bot} Z" fill="url(#${uid})"/>`;
+    g+=`<path d="${d}" fill="none" stroke="#F5C9A0" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>`;});
+  closed.forEach(ci=>{if(ci>0&&ci<n-1&&v[ci-1]!==null&&v[ci+1]!==null)g+=`<path d="M${X(ci-1)} ${Y(v[ci-1])} L${X(ci+1)} ${Y(v[ci+1])}" stroke="rgba(245,201,160,.35)" stroke-width="1.4" stroke-dasharray="2 4" fill="none"/>`;});
+  const dense=n>8;
+  v.forEach((x,i)=>{const last=i===S.partial, fut=x===null&&!closed.includes(i);
+    if(closed.includes(i)){g+=`<circle cx="${X(i)}" cy="${bot}" r="3" fill="none" stroke="rgba(255,248,241,.45)"/><text x="${X(i)}" y="${bot-8}" text-anchor="middle" font-size="8" fill="rgba(255,248,241,.5)">Closed</text>`;}
+    else if(fut){g+=`<circle cx="${X(i)}" cy="${bot}" r="2.4" fill="none" stroke="rgba(255,248,241,.25)" stroke-dasharray="1.5 1.5"/>`;}
+    else{g+=`<circle cx="${X(i)}" cy="${Y(x)}" r="${last?4.6:dense?2.2:2.8}" fill="${last?'#FFF8F1':'#E4A67B'}" stroke="#3a2620" stroke-width="1.2"/>`;
+      if(!dense||last)g+=`<text x="${X(i)}" y="${last&&!g0?Y(x)+15:Y(x)-(last?9:7)}" text-anchor="${i===n-1?'end':i===0?'start':'middle'}" font-size="${last?9.5:8}" font-weight="${last?700:600}" fill="${last?'#F5C9A0':'rgba(255,248,241,.7)'}">${lakh(x)}${last?' so far':''}</text>`;}
+    g+=`<text x="${X(i)}" y="${H-5}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}" font-size="8.5" fill="${last?'#F5C9A0':fut?'rgba(255,248,241,.3)':'rgba(255,248,241,.5)'}">${L[i]}</text>`;});
+  if(dense){const mi=v.indexOf(Math.max(...v.filter(x=>x!==null)));g+=`<text x="${X(mi)}" y="${Y(v[mi])-8}" text-anchor="middle" font-size="8.5" font-weight="700" fill="rgba(255,248,241,.8)">best ${lakh(v[mi])}</text>`;}
+  return g+'</svg>';
+}
+function chartSVG(pk){
+  const t=P[pk].trend, n=t.vals.length, max=Math.max(...t.vals)*1.12, W=300,H=120,bw=W/n*.56;
+  let s=`<svg viewBox="0 0 ${W} ${H+18}" style="width:100%;display:block" role="img" aria-label="${t.note}">`;
+  [.25,.5,.75,1].forEach(f=>s+=`<line x1="0" x2="${W}" y1="${H-H*f}" y2="${H-H*f}" stroke="rgba(255,244,236,.07)"/>`);
+  t.vals.forEach((v,i)=>{const x=(i+.5)*W/n-bw/2,h=Math.max(v?3:1.5,v/max*H),cur=i===n-1,prev=i===t.prevIdx;
+    s+=`<rect x="${x}" y="${H-h}" width="${bw}" height="${h}" rx="${Math.min(5,bw/2)}" fill="${cur?'#E4A67B':prev?'rgba(255,244,236,.55)':'rgba(255,244,236,.2)'}"/>`;
+    if(cur||prev)s+=`<text x="${x+bw/2}" y="${H-h-4}" text-anchor="middle" font-size="9" font-weight="700" fill="${cur?'#F5C9A0':'rgba(255,248,241,.75)'}">${lakh(v)}</text>`;
+    s+=`<text x="${x+bw/2}" y="${H+13}" text-anchor="middle" font-size="9" fill="${cur?'#F5C9A0':'rgba(255,248,241,.5)'}">${t.labels[i]}</text>`;});
+  if(pk==='month'){const x=(n-.5)*W/n-bw/2,h=t.vals[n-2]/max*H;s+=`<rect x="${x}" y="${H-h}" width="${bw}" height="${h}" rx="5" fill="none" stroke="rgba(228,166,123,.6)" stroke-dasharray="3 3"/>`;}
+  return s+'</svg>';
+}
+function L2(el,state){
+  const pk=state.p, d=P[pk];
+  if(state.page){const s=STAFF.find(x=>x.id===state.page),[c,e,pe]=d.staff[s.id],max=Math.max(e,pe);
+    el.innerHTML=shell(`
+      <button class="back" data-back><svg class="chev" viewBox="0 0 24 24" style="transform:rotate(180deg)"><path d="M9 6l6 6-6 6"/></svg>Earnings</button>
+      <div class="row"><div class="av" style="background:${s.col};width:13cqw;height:13cqw;font-size:4.2cqw">${s.ini}</div><div><div class="ttl" style="font-size:6cqw">${s.name}</div><div class="sm">${d.label} · ${c} customers</div></div></div>
+      ${segHTML(pk)}
+      <div class="glass">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end"><div class="big" style="font-size:9.6cqw">${inr(e)}</div>${pk==='week'?deltaPill(e,SERIES.week.ghost[s.id][1],'vs September'):deltaPill(e,pe,d.cmpWord)}</div>
+        ${pk==='week'?'<div class="sm" style="margin-top:1.4cqw">This week (8–14 Oct) vs the same week in September (8–14 Sep)</div>':''}
+        ${stylistLine(s.id,pk)}
+      </div>
+      <div class="glass"><div class="lbl" style="margin-bottom:1cqw">${pk==='day'?'Customers today':pk==='week'?'Day by day':'Week by week'}</div>${detailRows(pk,s.id)}</div>`);
+    el.querySelector('[data-back]').onclick=()=>{state.page=null;L2(el,state);};
+    el.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{state.p=b.dataset.p;L2(el,state);});
+    return;}
+  const top=staffSorted(pk), best=d.staff[top[0].id][1];
+  el.innerHTML=shell(`
+    <div class="top"><div><div class="who">Owner · Wed 14 Oct</div><div class="ttl">Earnings</div></div></div>
+    ${segHTML(pk)}
+    <div class="glass" style="display:grid;gap:2.4cqw">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="lbl">${d.label}</div><div class="big" style="font-size:10.4cqw;margin-top:1.4cqw">${inr(d.tot)}</div></div>
+        <div style="text-align:right">${deltaPill(d.tot,d.prev)}<div class="sm" style="margin-top:1cqw">${d.prevLabel}: ${inr(d.prev)}</div></div></div>
+      ${chartSVG(pk)}
+      <div class="sm" style="text-align:center">${d.trend.note}</div>
+    </div>
+    <div class="glass">
+      <div style="display:flex;justify-content:space-between"><span class="lbl">Stylists</span><span class="sm">tap for customers</span></div>
+      ${top.map((s,i)=>{const [c,e,pe]=d.staff[s.id];return `<div class="row" role="button" tabindex="0" data-s="${s.id}" style="cursor:pointer;padding:2.4cqw 0;${i?'border-top:1px solid rgba(255,244,236,.1)':''}">
+        <div class="av" style="background:${s.col}">${s.ini}</div>
+        <div class="grow"><div style="display:flex;justify-content:space-between"><span class="nm">${s.name} <span class="sm" style="font-weight:500">· ${c}</span></span><span class="nm num">${inr(e)}</span></div>
+          <div class="bar"><i style="width:${e/best*100}%;background:${i?'var(--cream)':'var(--gold)'}"></i></div></div>${CHEV}</div>`;}).join('')}
+    </div>`);
+  el.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>{state.p=b.dataset.p;L2(el,state);});
+  el.querySelectorAll('[data-s]').forEach(r=>{const go=()=>{state.page=r.dataset.s;L2(el,state);};r.onclick=go;r.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};});
+}
+
+/* ---------- Layout 3: comparison cards + tiles + bottom sheet ---------- */
+function spark(pk,on){const v=P[pk].trend.vals,mx=Math.max(...v);const pts=v.map((x,i)=>`${(i/(v.length-1)*100).toFixed(1)},${(26-x/mx*22).toFixed(1)}`).join(' ');
+  return `<svg viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="${pts}" fill="none" stroke="${on?'#F5C9A0':'rgba(255,248,241,.5)'}" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/></svg>`;}
+function L3(el,state){
+  const pk=state.p, d=P[pk];
+  const sheet=state.sheet?(()=>{const s=STAFF.find(x=>x.id===state.sheet),[c,e,pe]=d.staff[s.id];return `
+    <div class="grab"></div>
+    <div class="row"><div class="av" style="background:${s.col}">${s.ini}</div><div class="grow"><div class="nm" style="font-size:4.6cqw">${s.name}</div><div class="sm">${d.label} · ${c} customers</div></div>
+      <button class="back" data-close aria-label="Close">Close</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin:3cqw 0 1cqw"><div class="big" style="font-size:9cqw">${inr(e)}</div>${deltaPill(e,pe,d.cmpWord)}</div>
+    ${detailRows(pk,s.id)}`;})():'';
+  el.innerHTML=shell(`
+    <div class="top"><div><div class="who">Owner · Wed 14 Oct</div><div class="ttl">Earnings</div></div></div>
+    <div class="kpis">${['day','week','month'].map(k=>{const x=P[k],dd=pct(x.tot,x.prev);return `<button class="kpi ${k===pk?'on':''}" data-p="${k}" aria-pressed="${k===pk}">
+      <span class="k">${x.short}</span><span class="v">${lakh(x.tot)}</span><span class="delta ${dd>=0?'up':'dn'}" style="justify-self:start;font-size:2.6cqw;padding:.6cqw 1.6cqw">${dd>=0?'▲':'▼'} ${Math.abs(dd)}%</span>${spark(k,k===pk)}</button>`;}).join('')}</div>
+    <div class="glass" style="display:flex;justify-content:space-between;align-items:center;padding:3cqw 4cqw">
+      <div><div class="lbl">${d.label}</div><div class="big" style="font-size:9cqw;margin-top:1.2cqw">${inr(d.tot)}</div></div>
+      <div style="text-align:right"><div class="sm">${d.prevLabel}</div><div class="nm num" style="margin-top:.6cqw">${inr(d.prev)}</div></div>
+    </div>
+    <div style="display:flex;justify-content:space-between"><span class="lbl">Stylists</span><span class="sm">tap for customers</span></div>
+    <div class="tiles">${staffSorted(pk).map(s=>{const [c,e,pe]=d.staff[s.id];return `<button class="tile" data-s="${s.id}">
+      <div class="row" style="gap:2cqw"><div class="av" style="background:${s.col};width:8cqw;height:8cqw;font-size:2.8cqw">${s.ini}</div><span class="nm">${s.name}</span></div>
+      <span class="v">${inr(e)}</span><span class="sm">${c} customers</span>${deltaPill(e,pe)}</button>`;}).join('')}
+      <div class="tile" style="cursor:default;background:transparent;border-style:dashed;place-content:center;text-align:center"><span class="sm">Avg per customer</span><span class="v" style="font-size:4.6cqw">${inr(d.tot/Object.values(d.staff).reduce((a,x)=>a+x[0],0))}</span></div>
+    </div>`,
+    `<div class="sheetbg" data-close></div><div class="sheet" role="dialog" aria-label="Stylist customers">${sheet}</div>`);
+  el.classList.toggle('open',!!state.sheet);
+  el.querySelectorAll('.kpi').forEach(b=>b.onclick=()=>{state.p=b.dataset.p;L3(el,state);});
+  el.querySelectorAll('.tile[data-s]').forEach(b=>b.onclick=()=>{state.sheet=b.dataset.s;L3(el,state);});
+  el.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{state.sheet=null;L3(el,state);});
+}
+
+function KPIS(pk){return `<div class="kpis">${['day','week','month'].map(k=>{const x=P[k],dd=pct(x.tot,x.prev);return `<button class="kpi ${k===pk?'on':''}" data-p="${k}" aria-pressed="${k===pk}">
+      <span class="k">${x.short}</span><span class="v">${lakh(x.tot)}</span><span class="delta ${dd>=0?'up':'dn'}" style="justify-self:start;font-size:2.6cqw;padding:.6cqw 1.6cqw">${dd>=0?'▲':'▼'} ${Math.abs(dd)}%</span>${spark(k,k===pk)}</button>`;}).join('')}</div>`;}
+function M(el,state){
+  L2(el,state);
+  if(state.page) return;                      // stylist page stays exactly as Layout 2
+  const seg=el.querySelector('.seg'); seg.outerHTML=KPIS(state.p);
+  el.querySelectorAll('.kpi').forEach(b=>b.onclick=()=>{state.p=b.dataset.p;M(el,state);});
+  el.querySelectorAll('[data-s]').forEach(r=>{const go=()=>{state.page=r.dataset.s;M(el,state);};r.onclick=go;r.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go();}};});
+  const back=()=>{};                          // back button handled inside L2 page
+}
+// L2's stylist page "back" returns to the mixed screen
+const _L2=L2; L2=function(el,state){_L2(el,state);if(state.page){const b=el.querySelector('[data-back]');if(b)b.onclick=()=>{state.page=null;M(el,state);};}};
+M(document.getElementById('ma'),{p:'day',page:null});
+M(document.getElementById('mb'),{p:'day',page:'s'});
+</script>

@@ -1,0 +1,13 @@
+{
+  "id": "P059",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I have one or two chairs and I cut hair myself, so I already know who is in which chair and what is in the drawer. Nobody I know uses this, it is only in English, and ₹999 every month plus ₹4,999 is too much for a shop my size.",
+  "objection": "No other salon owner I know uses it, and it is only in English. My stylists and I want it in Hindi. I won't pay every month for something I have never seen working in another shop.",
+  "would_change_my_mind": "If an owner I know near me was using it and told me it brings customers back, and it came in Hindi for around ₹300 a month with no setup fee.",
+  "price_too_cheap": 99,
+  "price_cheap": 199,
+  "price_expensive": 499,
+  "price_too_expensive": 999
+}

@@ -1,0 +1,13 @@
+{
+  "id": "P054",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "I have one or two chairs and I am cutting hair myself all day, so I already see who is in the chair and I count the drawer every night. I paid for salon software once and nobody used it, and ₹999 a month plus ₹4,999 setup is a lot of haircuts for something I don't need.",
+  "objection": "My staff are busy with customers; they won't type every walk-in's number and bill into an app, same as last time, and I'll be paying for something that sits unused.",
+  "would_change_my_mind": "No setup fee and a much lower monthly price, and seeing another small barber like me whose staff actually still use it after three months.",
+  "price_too_cheap": 99,
+  "price_cheap": 199,
+  "price_expensive": 399,
+  "price_too_expensive": 699
+}

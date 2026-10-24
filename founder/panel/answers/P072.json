@@ -1,0 +1,13 @@
+{
+  "id": "P072",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "need",
+  "reason": "I'm away at the other outlet half the time and only find out about missing cash or skipped bills when I count the drawer at night; seeing cancelled bills and expected cash from my phone is worth ₹999 a month to me. First month is free, so I'll try it and see if the staff actually use it.",
+  "objection": "My stylists are busy with customers and will skip typing the bill when it's rush hour, so the cash figure in the app will be wrong and I'll still be counting by hand. ₹4,999 setup is gone even if they never use it.",
+  "would_change_my_mind": "If in the free month my staff are skipping entries and the app's cash number doesn't match my drawer, I'll stop paying.",
+  "price_too_cheap": 299,
+  "price_cheap": 699,
+  "price_expensive": 1999,
+  "price_too_expensive": 3500
+}

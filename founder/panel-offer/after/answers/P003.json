@@ -1,0 +1,13 @@
+{
+  "id": "P003",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "need",
+  "reason": "I am not at the salon half the time, and seeing who is in which chair, cancelled bills and the cash that should be in the drawer from my phone is exactly what I worry about. With the second ₹5,000 only due if my stylists actually use it, the risk for me is small.",
+  "objection": "The training is in Odia or Hindi, but nothing says the app screens and the WhatsApp bills are in Hindi or Odia. My senior stylists will not bill in an English-only app, and then they go back to the register when I am away.",
+  "would_change_my_mind": "If I see the app itself is only in English and my staff cannot use it in Hindi or Odia, I would not go ahead.",
+  "price_too_cheap": 2000,
+  "price_cheap": 5000,
+  "price_expensive": 20000,
+  "price_too_expensive": 40000
+}

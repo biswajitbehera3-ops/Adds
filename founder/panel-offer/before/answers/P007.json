@@ -1,0 +1,13 @@
+{
+  "id": "P007",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "other",
+  "reason": "The money is nothing for me and I like that it makes the salon look modern, but my stylists work in Odia and Hindi. An English-only app means they won't use it properly, and I can't afford to annoy staff after losing two good stylists last year.",
+  "objection": "It is only in English. If my stylists find it hard, they will skip billing in it or quietly resent being watched, and then the live view and drawer checks are worthless.",
+  "would_change_my_mind": "An Odia/Hindi version of the stylist screens and the WhatsApp bills, plus a free trial month at my main outlet so I can see the staff actually use it before I pay for both branches.",
+  "price_too_cheap": 2000,
+  "price_cheap": 5000,
+  "price_expensive": 20000,
+  "price_too_expensive": 40000
+}

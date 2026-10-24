@@ -1,0 +1,289 @@
+<title>Salon Front Page Directions</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..900&family=Yellowtail&display=swap">
+<style>
+  /* Layout: three phones side by side (stacked on narrow screens), each a complete front-page direction with the approved motions wired in. */
+  :root {
+    --page: #EFE9DF;
+    --ink: #221C18;
+    --muted: #6B6159;
+    --line: #D8CFC2;
+    --plaster: #F1E6CB;
+    --vermilion: #DB4A2B;
+    --vermilion-deep: #B53A1F;
+    --cream: #F6E9CF;
+    --espresso: #17110E;
+    --espresso-2: #241A15;
+    --display: "Archivo", "Arial Narrow", sans-serif;
+    --script: "Yellowtail", "Brush Script MT", cursive;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); color: var(--ink); font-family: var(--display); padding-inline: 16px; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding-block: 40px 80px; display: grid; gap: 36px; }
+  .kicker { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--vermilion-deep); }
+  h1 { font-weight: 850; font-variation-settings: "wdth" 116; font-size: clamp(32px, 5vw, 52px); line-height: 1; margin: 6px 0 10px; text-wrap: balance; }
+  p { margin: 0; color: var(--muted); line-height: 1.55; max-width: 70ch; }
+  .dirs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: start; }
+  @media (max-width: 1020px) { .dirs { grid-template-columns: 1fr; justify-items: center; } }
+  .dir { display: grid; gap: 14px; width: 100%; max-width: 360px; min-width: 0; }
+  .dir h2 { margin: 0; font-weight: 850; font-variation-settings: "wdth" 112; font-size: 22px; text-transform: uppercase; letter-spacing: .03em; }
+  .dir .tag { font-size: 12px; font-weight: 800; color: var(--vermilion-deep); letter-spacing: .1em; }
+  .dir p { font-size: 14.5px; }
+  .dir ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+  .replay { justify-self: start; border: 0; border-radius: 999px; background: var(--ink); color: #fff; font: inherit; font-weight: 700; font-size: 12.5px; letter-spacing: .08em; text-transform: uppercase; padding: 9px 15px; cursor: pointer; }
+  .replay:hover { background: var(--vermilion-deep); }
+  button:focus-visible { outline: 3px solid var(--vermilion); outline-offset: 3px; }
+
+  .phone { width: 100%; aspect-ratio: 360 / 760; border-radius: 42px; padding: 9px; background: #120e0c; box-shadow: 0 28px 56px -22px rgba(34,28,24,.6); }
+  .screen { position: relative; height: 100%; border-radius: 33px; overflow: hidden; display: flex; flex-direction: column; container-type: inline-size; }
+  .tap { cursor: pointer; border: 0; font: inherit; color: inherit; text-align: left; }
+  .num { font-weight: 850; font-variation-settings: "wdth" 112; font-variant-numeric: tabular-nums; line-height: 1.05; }
+  .lbl { font-size: 9.5px; letter-spacing: .22em; font-weight: 700; text-transform: uppercase; }
+  .chars span { display: inline-block; }
+  /* morph overlay */
+  .morph { position: absolute; z-index: 20; overflow: hidden; display: none; }
+  .morph .inner { position: absolute; inset: 0; padding: 22px 18px; opacity: 0; display: grid; align-content: start; gap: 12px; }
+  .morph .back { justify-self: start; border: 0; background: none; font: inherit; font-weight: 700; font-size: 13px; letter-spacing: .08em; cursor: pointer; padding: 6px 0; color: inherit; }
+  .morph .big { font-weight: 900; font-variation-settings: "wdth" 120; font-size: 34px; text-transform: uppercase; }
+  .morph .bar { height: 48px; border-radius: 12px; opacity: .18; background: currentColor; }
+
+  /* ── A · Badge wall ─────────────── */
+  .a { background: var(--plaster); color: var(--ink); }
+  .a .hero { flex: 0 0 50%; display: grid; place-items: center; position: relative; }
+  .a .badge { width: 62cqw; aspect-ratio: 1; }
+  .a .badge .chars { position: absolute; }
+  .a .panel { flex: 1; background: var(--vermilion); color: var(--cream); padding: 16px 14px 14px; display: grid; grid-template-rows: auto auto 1fr; gap: 10px; border-radius: 26px 26px 0 0; }
+  .a .greet { display: flex; justify-content: space-between; align-items: baseline; }
+  .a .greet .script { font-family: var(--script); font-size: 28px; line-height: 1; }
+  .a .cta { display: flex; align-items: center; justify-content: space-between; background: var(--cream); color: var(--ink); border-radius: 999px; padding: 12px 12px 12px 18px; }
+  .a .cta b { font-weight: 850; font-variation-settings: "wdth" 115; letter-spacing: .08em; text-transform: uppercase; font-size: 15px; }
+  .a .cta i { width: 34px; height: 34px; border-radius: 50%; background: var(--vermilion); display: grid; place-items: center; }
+  .a .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-content: start; }
+  .a .tile { background: transparent; border: 1.5px solid rgba(246,233,207,.7); border-radius: 14px; padding: 9px 11px; color: var(--cream); }
+  .a .tile .num { font-size: 23px; }
+
+  /* ── B · Dark lounge ─────────────── */
+  .b { background: var(--espresso); color: var(--cream); padding: 22px 16px 14px; gap: 12px; }
+  .b .top { display: flex; justify-content: space-between; align-items: center; }
+  .b .mark { font-weight: 900; font-variation-settings: "wdth" 120; letter-spacing: .14em; font-size: 13px; }
+  .b .mark small { display: block; font-size: 8.5px; letter-spacing: .3em; color: rgba(246,233,207,.6); font-weight: 700; }
+  .b .avatar { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--vermilion); display: grid; place-items: center; font-weight: 800; font-size: 12px; }
+  .b .hello { font-family: var(--script); font-size: 30px; color: var(--vermilion); line-height: 1; margin-top: 4px; }
+  .b .headline { font-weight: 900; font-variation-settings: "wdth" 118; font-size: 30px; line-height: 1; text-transform: uppercase; }
+  .b .today { background: var(--espresso-2); border-radius: 22px; padding: 16px; display: grid; gap: 4px; position: relative; overflow: hidden; }
+  .b .today .num { font-size: 46px; color: var(--cream); }
+  .b .today .sub { font-size: 12px; color: rgba(246,233,207,.65); }
+  .b .today svg { position: absolute; right: -14px; bottom: -10px; width: 110px; opacity: .9; }
+  .b .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .b .tile { background: var(--espresso-2); border-radius: 18px; padding: 12px; color: var(--cream); }
+  .b .tile .num { font-size: 26px; }
+  .b .tile.hot { background: var(--vermilion); }
+  .b .due { display: grid; gap: 6px; }
+  .b .duerow { display: flex; justify-content: space-between; align-items: center; background: transparent; border-bottom: 1px solid rgba(246,233,207,.14); padding: 8px 2px; color: var(--cream); }
+  .b .duerow span { font-weight: 700; font-size: 14px; }
+  .b .duerow small { display: block; font-weight: 500; font-size: 11.5px; color: rgba(246,233,207,.6); }
+  .b .duerow b { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--vermilion); }
+  .b .cta { margin-top: auto; background: var(--vermilion); color: var(--cream); border-radius: 999px; padding: 15px; text-align: center; font-weight: 850; font-variation-settings: "wdth" 115; letter-spacing: .1em; text-transform: uppercase; font-size: 15px; }
+
+  /* ── C · Vermilion poster ─────────────── */
+  .c { background: var(--vermilion); color: var(--cream); }
+  .c .head { padding: 24px 18px 0; position: relative; flex: 0 0 auto; }
+  .c .estd { font-size: 9.5px; letter-spacing: .3em; font-weight: 700; }
+  .c .stack { font-weight: 900; font-variation-settings: "wdth" 120; font-size: 22cqw; line-height: .86; letter-spacing: .01em; margin-top: 6px; }
+  .c .sub { font-size: 10px; letter-spacing: .3em; font-weight: 700; margin-top: 8px; }
+  .c .round { position: absolute; right: 14px; top: 22px; width: 25cqw; aspect-ratio: 1; }
+  .c .sheet { margin-top: 16px; flex: 1; background: var(--cream); color: var(--ink); border-radius: 26px 26px 0 0; padding: 16px 14px; display: grid; grid-template-rows: auto auto 1fr; gap: 10px; }
+  .c .sheet .script { font-family: var(--script); font-size: 26px; color: var(--vermilion-deep); line-height: 1; }
+  .c .cta { display: flex; align-items: center; gap: 12px; background: var(--ink); color: var(--cream); border-radius: 18px; padding: 12px 14px; }
+  .c .cta b { font-weight: 850; font-variation-settings: "wdth" 115; text-transform: uppercase; letter-spacing: .08em; font-size: 15px; display: block; }
+  .c .cta small { font-size: 11.5px; opacity: .7; }
+  .c .list { display: grid; align-content: start; }
+  .c .item { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 2px; border-bottom: 1.5px solid var(--line); background: none; }
+  .c .item .lbl { color: var(--muted); }
+  .c .item .num { font-size: 22px; }
+  .c .item.hot .num { color: var(--vermilion-deep); }
+
+  footer p { font-size: 13px; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="kicker">Front page · 3 directions</div>
+    <h1>Pick the front page</h1>
+    <p>Same app, same buttons, three different looks. Each phone runs the approved motions: the greeting and tiles animate in on open, buttons squeeze when pressed, and tapping a tile or the main button grows it into its screen (tap the back link to return). The salon name, year and numbers are placeholders.</p>
+  </header>
+
+  <div class="dirs">
+    <!-- A -->
+    <section class="dir" data-dir="a">
+      <div class="phone"><div class="screen a" id="scr-a">
+        <div class="hero">
+          <svg class="badge" viewBox="0 0 200 200" aria-label="Salon, established 2026">
+            <defs><path id="arcA" d="M30 100 A70 70 0 0 1 170 100"/><path id="arcA2" d="M24 104 A76 76 0 0 0 176 104"/></defs>
+            <circle cx="100" cy="100" r="96" fill="none" stroke="#221C18" stroke-width="2"/>
+            <circle cx="100" cy="100" r="88" fill="none" stroke="#221C18" stroke-width="1"/>
+            <text font-family="Archivo" font-weight="900" font-size="26" letter-spacing="6" fill="#221C18"><textPath href="#arcA" startOffset="50%" text-anchor="middle">SALON</textPath></text>
+            <text font-family="Archivo" font-weight="700" font-size="11" letter-spacing="4" fill="#221C18"><textPath href="#arcA2" startOffset="50%" text-anchor="middle">HAIR · BEARD · SPA</textPath></text>
+            <g transform="translate(100 104) rotate(-28)"><rect x="-44" y="-7" width="54" height="14" rx="4" fill="#b9bfc3" stroke="#6f767b"/><rect x="6" y="-6" width="44" height="12" rx="6" fill="#6B3A1F"/></g>
+            <text x="58" y="128" font-family="Archivo" font-weight="700" font-size="9" letter-spacing="2" fill="#221C18">ESTD</text>
+            <text x="120" y="128" font-family="Archivo" font-weight="700" font-size="9" letter-spacing="2" fill="#221C18">2026</text>
+          </svg>
+        </div>
+        <div class="panel">
+          <div class="greet"><span class="script chars" data-chars>Good evening</span><span class="lbl">Sat · 10 Oct</span></div>
+          <button class="tap cta press tile-in" data-open="Counter"><b>Next customer</b><i aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F6E9CF" stroke-width="2.5" stroke-linecap="round"><path d="m9 5 7 7-7 7"/></svg></i></button>
+          <div class="tiles">
+            <button class="tap tile press tile-in" data-open="Today"><div class="lbl">Today</div><div class="num">₹6,800</div></button>
+            <button class="tap tile press tile-in" data-open="Due back"><div class="lbl">Due back</div><div class="num">27</div></button>
+            <button class="tap tile press tile-in" data-open="Customers"><div class="lbl">Customers</div><div class="num">124</div></button>
+            <button class="tap tile press tile-in" data-open="Refer"><div class="lbl">Refer</div><div class="num">₹100</div></button>
+          </div>
+        </div>
+      </div></div>
+      <div class="tag">A · Badge wall</div>
+      <h2>The round badge is the hero</h2>
+      <p>Closest to your reference: the salon's round badge (name in curved letters, razor, ESTD year) sits on the cream wall, with the working area on a vermilion panel that curves up from below.</p>
+      <ul><li>Feels like the salon's own signboard.</li><li>Easy to rebrand per salon: just the badge text.</li><li>Shows less data at a glance than B.</li></ul>
+      <button class="replay" data-replay="a">Replay opening</button>
+    </section>
+
+    <!-- B -->
+    <section class="dir" data-dir="b">
+      <div class="phone"><div class="screen b" id="scr-b">
+        <div class="top"><div class="mark">SALON<small>ESTD 2026</small></div><div class="avatar">S1</div></div>
+        <div><div class="hello">Good evening</div><div class="headline chars" data-chars>Ready for the next</div></div>
+        <button class="tap today press tile-in" data-open="Today">
+          <div class="lbl" style="color:rgba(246,233,207,.65)">Today's takings</div>
+          <div class="num">₹6,800</div>
+          <div class="sub">7 visits · ₹2,300 from wallets</div>
+          <svg viewBox="0 0 120 60" aria-hidden="true"><g transform="rotate(-18 60 30)"><rect x="6" y="22" width="62" height="16" rx="4" fill="#b9bfc3"/><rect x="62" y="23" width="52" height="14" rx="7" fill="#6B3A1F"/></g></svg>
+        </button>
+        <div class="row">
+          <button class="tap tile hot press tile-in" data-open="Due back"><div class="lbl">Due back</div><div class="num">27</div></button>
+          <button class="tap tile press tile-in" data-open="Customers"><div class="lbl" style="color:rgba(246,233,207,.65)">Customers</div><div class="num">124</div></button>
+        </div>
+        <div class="row">
+          <button class="tap tile press tile-in" data-open="Refer"><div class="lbl" style="color:rgba(246,233,207,.65)">Refer & earn</div><div class="num">₹100</div></button>
+          <button class="tap tile press tile-in" data-open="Dashboard"><div class="lbl" style="color:rgba(246,233,207,.65)">Dashboard</div><div class="num"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-label="Open"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></button>
+        </div>
+        <div class="due">
+          <div class="lbl" style="color:rgba(246,233,207,.65)">Due back today</div>
+          <button class="tap duerow press tile-in" data-open="Aditya Rao"><span>Aditya Rao<small>Haircut · 62 days</small></span><b>Remind</b></button>
+          <button class="tap duerow press tile-in" data-open="Diya Kapoor"><span>Diya Kapoor<small>Beard trim · 56 days</small></span><b>Remind</b></button>
+        </div>
+        <button class="tap cta press tile-in" data-open="Counter">Next customer</button>
+      </div></div>
+      <div class="tag">B · Dark lounge</div>
+      <h2>Numbers first, after hours</h2>
+      <p>Inspired by the dark, premium barber apps on Dribbble: espresso-black ground, vermilion for urgent things, today's takings as one huge number, and the main button pinned at the bottom where the thumb rests.</p>
+      <ul><li>Most premium and modern feel.</li><li>Big numbers suit the owner.</li><li>Darker screens can be harder to read in a brightly lit shop.</li></ul>
+      <button class="replay" data-replay="b">Replay opening</button>
+    </section>
+
+    <!-- C -->
+    <section class="dir" data-dir="c">
+      <div class="phone"><div class="screen c" id="scr-c">
+        <div class="head">
+          <div class="estd">ESTD 2026</div>
+          <div class="stack chars" data-chars aria-label="Salon">SAL<br>ON</div>
+          <div class="sub">HAIR · BEARD · SPA</div>
+          <svg class="round" viewBox="0 0 100 100" aria-hidden="true">
+            <defs><path id="arcC" d="M16 50 A34 34 0 1 1 84 50 A34 34 0 1 1 16 50"/></defs>
+            <circle cx="50" cy="50" r="47" fill="none" stroke="#F6E9CF" stroke-width="1.5"/>
+            <text font-family="Archivo" font-weight="800" font-size="8.5" letter-spacing="2.6" fill="#F6E9CF"><textPath href="#arcC">BARBER · SALON · SINCE 2026 ·</textPath></text>
+            <path d="M38 62 L62 40 M38 40 L62 62" stroke="#F6E9CF" stroke-width="3.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="sheet">
+          <div class="script">Good evening</div>
+          <button class="tap cta press tile-in" data-open="Counter">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F6E9CF" stroke-width="1.8" stroke-linecap="round"><circle cx="6" cy="6" r="2.7"/><circle cx="6" cy="18" r="2.7"/><path d="M8.2 7.6 20 17M8.2 16.4 20 7"/></svg>
+            <span><b>Next customer</b><small>Phone number in, visit logged</small></span>
+          </button>
+          <div class="list">
+            <button class="tap item press tile-in" data-open="Today"><span class="lbl">Today</span><span class="num">₹6,800</span></button>
+            <button class="tap item hot press tile-in" data-open="Due back"><span class="lbl">Due back</span><span class="num">27</span></button>
+            <button class="tap item press tile-in" data-open="Customers"><span class="lbl">Customers</span><span class="num">124</span></button>
+            <button class="tap item press tile-in" data-open="Refer"><span class="lbl">Refer & earn</span><span class="num">₹100</span></button>
+          </div>
+        </div>
+      </div></div>
+      <div class="tag">C · Vermilion poster</div>
+      <h2>A poster you can work from</h2>
+      <p>Takes the vermilion half of your reference and makes it the whole screen: the salon name stacked huge like a shop poster, a round stamp in the corner, and a cream sheet holding the button and today's numbers as a clean list.</p>
+      <ul><li>Boldest, most memorable.</li><li>The list reads fastest in bright light.</li><li>The giant name takes space on small phones.</li></ul>
+      <button class="replay" data-replay="c">Replay opening</button>
+    </section>
+  </div>
+
+  <footer><p>Motions used: #9 letter-by-letter headline and #8 grid pop-in on open, R6 press squeeze on every button, #12 shared-element morph when a tile opens, R1 materialize for the opened screen's content. With your phone's reduce-motion setting on, everything appears without animation.</p></footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduced) gsap.globalTimeline.timeScale(1000);
+
+  // Split headline text into chars once (for #9).
+  document.querySelectorAll("[data-chars]").forEach((el) => {
+    const html = el.innerHTML;
+    el.setAttribute("aria-label", el.textContent.replace(/\s+/g, " ").trim());
+    el.innerHTML = html.split(/(<br>)/).map((part) => (part === "<br>" ? part : [...part].map((c) => `<span aria-hidden="true">${c === " " ? "&nbsp;" : c}</span>`).join(""))).join("");
+  });
+
+  function opening(dir) {
+    const scr = document.getElementById("scr-" + dir);
+    closeMorph(scr, true);
+    // #9 Letter-by-letter headline
+    gsap.fromTo(scr.querySelectorAll("[data-chars] span"), { opacity: 0, y: 20, rotateX: -40 }, { opacity: 1, y: 0, rotateX: 0, duration: 0.6, stagger: 0.015, ease: "expo.out", delay: 0.1 });
+    // #8 Grid pop-in
+    gsap.fromTo(scr.querySelectorAll(".tile-in"), { opacity: 0, scale: 0.92, y: 16 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, stagger: { each: 0.06, from: "start" }, ease: "back.out(1.4)", delay: 0.25 });
+    if (dir === "a") gsap.fromTo(scr.querySelector(".panel"), { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "expo.out" });
+    if (dir === "c") gsap.fromTo(scr.querySelector(".sheet"), { yPercent: 100 }, { yPercent: 0, duration: 0.6, ease: "expo.out" });
+  }
+
+  // R6 Press squeeze
+  document.querySelectorAll(".press").forEach((b) => {
+    b.addEventListener("pointerdown", () => gsap.to(b, { scale: 0.97, duration: 0.1 }));
+    ["pointerup", "pointerleave", "pointercancel"].forEach((ev) => b.addEventListener(ev, () => gsap.to(b, { scale: 1, duration: 0.16 })));
+  });
+
+  // #12 Shared-element morph: the tapped element grows into a full screen; R1 materializes its content.
+  function morphLayer(scr) {
+    let m = scr.querySelector(".morph");
+    if (!m) {
+      m = document.createElement("div");
+      m.className = "morph";
+      m.innerHTML = `<div class="inner"><button class="back" type="button">Back</button><div class="big"></div><div class="bar"></div><div class="bar"></div><div class="bar" style="width:70%"></div></div>`;
+      scr.appendChild(m);
+      m.querySelector(".back").addEventListener("click", () => closeMorph(scr));
+    }
+    return m;
+  }
+  function openMorph(scr, el, title) {
+    const m = morphLayer(scr);
+    const sr = scr.getBoundingClientRect(), r = el.getBoundingClientRect();
+    const cs = getComputedStyle(el);
+    m.dataset.from = JSON.stringify({ l: r.left - sr.left, t: r.top - sr.top, w: r.width, h: r.height, br: cs.borderRadius });
+    m.style.background = cs.backgroundColor === "rgba(0, 0, 0, 0)" ? getComputedStyle(scr).backgroundColor : cs.backgroundColor;
+    m.style.color = cs.color;
+    m.querySelector(".big").textContent = title;
+    m.style.display = "block";
+    gsap.fromTo(m, { left: r.left - sr.left, top: r.top - sr.top, width: r.width, height: r.height, borderRadius: cs.borderRadius },
+      { left: 0, top: 0, width: sr.width, height: sr.height, borderRadius: 0, duration: 0.6, ease: "expo.inOut" });
+    gsap.fromTo(m.querySelector(".inner"), { opacity: 0, y: 8, filter: "blur(4px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.45, ease: "expo.out", delay: 0.4 });
+  }
+  function closeMorph(scr, instant) {
+    const m = scr.querySelector(".morph");
+    if (!m || m.style.display !== "block") return;
+    if (instant) { m.style.display = "none"; return; }
+    const f = JSON.parse(m.dataset.from);
+    gsap.to(m.querySelector(".inner"), { opacity: 0, y: 4, filter: "blur(2px)", duration: 0.2 });
+    gsap.to(m, { left: f.l, top: f.t, width: f.w, height: f.h, borderRadius: f.br, duration: 0.5, ease: "expo.inOut", delay: 0.1, onComplete: () => (m.style.display = "none") });
+  }
+  document.querySelectorAll("[data-open]").forEach((el) => el.addEventListener("click", () => openMorph(el.closest(".screen"), el, el.dataset.open)));
+
+  document.querySelectorAll("[data-replay]").forEach((b) => b.addEventListener("click", () => opening(b.dataset.replay)));
+  requestAnimationFrame(() => ["a", "b", "c"].forEach(opening));
+</script>

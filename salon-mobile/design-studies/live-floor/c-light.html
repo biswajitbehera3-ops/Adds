@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Live floor</title>
+<style>
+:root{
+  --cream:#FFF8F1;
+  --soft:rgba(255,248,241,.72);
+  --faint:rgba(255,248,241,.68);
+  --gold:#E4A67B;
+  --ok:#9CCB8F;
+  --late:#F08C6A;
+  --glass:rgba(255,244,236,.14);
+  --glass-line:rgba(255,244,236,.28);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#1A1210}
+body{
+  font-family:"Urbanist",-apple-system,"SF Pro Display","Inter",system-ui,"Segoe UI",sans-serif;
+  color:var(--cream);
+  -webkit-font-smoothing:antialiased;
+  display:flex;justify-content:center;
+}
+.screen{
+  position:relative;width:390px;height:844px;overflow:hidden;
+  /* brand studio backdrop, lights turned down for night */
+  background:
+    radial-gradient(120% 70% at 0% 0%, #8E5B4E 0%, #4A3029 42%, #1A1210 100%);
+  font-variant-numeric:tabular-nums;
+  user-select:none;-webkit-user-select:none;
+}
+.screen::before{ /* night: the room lights are off, only the pools remain */
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(140% 90% at 30% 40%, rgba(16,10,8,.52), rgba(12,8,6,.74));
+  pointer-events:none;
+}
+.grain{
+  position:absolute;inset:0;pointer-events:none;opacity:.10;mix-blend-mode:overlay;z-index:30;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+}
+svg.floor{position:absolute;inset:0;width:390px;height:844px;display:block}
+
+/* ---------- top line ---------- */
+header{position:absolute;left:0;right:0;top:0;padding:14px 20px 0;z-index:20;pointer-events:none}
+.row{display:flex;align-items:baseline;justify-content:space-between}
+.eyebrow{font-size:12px;letter-spacing:.06em;color:var(--soft)}
+.live{display:flex;align-items:center;gap:7px;font-size:12px;letter-spacing:.14em;font-weight:600;color:var(--cream)}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(156,203,143,.6);animation:pulse 2.4s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(156,203,143,.55)}70%{box-shadow:0 0 0 8px rgba(156,203,143,0)}100%{box-shadow:0 0 0 0 rgba(156,203,143,0)}}
+.title{font-size:24px;font-weight:600;letter-spacing:-.01em;margin-top:4px}
+.quiet{font-size:13px;color:var(--soft);white-space:nowrap}
+.quiet b{font-weight:600;color:var(--gold);font-size:15px;letter-spacing:.01em}
+.quiet .sep{opacity:.85;margin:0 6px}
+
+/* ---------- floating labels ---------- */
+.lbl{position:absolute;z-index:10;pointer-events:none;transition:opacity .35s}
+.chairlbl{left:152px;width:220px;height:88px}
+.chairlbl .k{font-size:12px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
+.chairlbl .n{font-size:17px;font-weight:600;margin-top:3px;white-space:nowrap}
+.chairlbl .s{font-size:13px;color:var(--soft);margin-top:2px;white-space:nowrap}
+.chairlbl .m{font-size:13px;color:var(--soft);margin-top:2px;white-space:nowrap}
+.chairlbl .r{position:absolute;right:0;top:15px;text-align:right}
+.chairlbl .big{font-size:28px;font-weight:300;line-height:1;color:var(--ok);letter-spacing:-.02em}
+.chairlbl .big.free{color:var(--soft);font-size:15px;font-weight:500;line-height:28px;letter-spacing:.02em}
+.chairlbl .unit{font-size:12px;color:var(--soft);margin-top:3px}
+.chairlbl .amt{font-size:13px;color:var(--soft);margin-top:7px}
+.chairlbl .inner{transition:opacity .3s}
+.chairlbl.sel .n{color:#fff}
+.dimmed{opacity:.62}
+
+.benchlbl{left:150px;top:666px;width:150px}
+.benchlbl .k{font-size:12px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
+.benchlbl .n{font-size:16px;font-weight:600;margin-top:3px;white-space:nowrap}
+.benchlbl .s{font-size:13px;color:var(--soft);margin-top:2px;white-space:nowrap}
+
+.counterlbl{right:20px;top:528px;text-align:right;width:140px}
+.counterlbl .k{font-size:12px;letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
+.paid{position:absolute;right:20px;top:500px;text-align:right;z-index:11;pointer-events:none;opacity:0}
+.paid .v{font-size:26px;font-weight:600;color:var(--gold);letter-spacing:.01em;text-shadow:0 0 18px rgba(228,166,123,.45)}
+.paid .t{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:600;margin-top:2px}
+
+/* ---------- tap targets ---------- */
+.hit{position:absolute;left:0;right:0;height:132px;z-index:12;cursor:pointer;background:transparent;border:0;-webkit-tap-highlight-color:transparent}
+.hit:focus-visible{outline:1px solid rgba(255,244,236,.5);outline-offset:-6px;border-radius:22px}
+
+/* ---------- veil (loop breath) ---------- */
+.veil{position:absolute;inset:0;background:#0d0807;opacity:0;pointer-events:none;z-index:15}
+
+/* ---------- glass sheet ---------- */
+.sheet{
+  position:absolute;left:12px;right:12px;bottom:92px;z-index:25;
+  border-radius:24px;padding:16px 18px 18px;
+  background:rgba(58,38,32,.72);
+  backdrop-filter:blur(22px) saturate(130%);-webkit-backdrop-filter:blur(22px) saturate(130%);
+  border:1px solid var(--glass-line);
+  box-shadow:inset 0 1px 0 rgba(255,250,244,.22), 0 20px 50px rgba(0,0,0,.45);
+  transform:translateY(calc(100% + 110px));
+  transition:transform .5s cubic-bezier(.2,.8,.2,1);
+}
+.sheet.open{transform:none}
+.sheet .grab{width:36px;height:4px;border-radius:2px;background:rgba(255,244,236,.35);margin:-6px auto 12px}
+.sheet .top{display:flex;justify-content:space-between;align-items:baseline}
+.sheet .k{font-size:12px;letter-spacing:.14em;color:var(--soft);text-transform:uppercase}
+.sheet .x{pointer-events:auto;background:none;border:0;color:var(--soft);font:inherit;font-size:13px;padding:6px 0 6px 12px;cursor:pointer}
+.sheet .n{font-size:22px;font-weight:600;margin-top:6px}
+.sheet .s{font-size:14px;color:var(--soft);margin-top:2px}
+.sheet .bar{height:3px;border-radius:2px;background:rgba(255,244,236,.14);margin:16px 0 10px;position:relative;overflow:visible}
+.sheet .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:2px;background:linear-gradient(90deg,rgba(255,214,170,.35),#FFE6C8);box-shadow:0 0 10px rgba(255,214,170,.6)}
+.sheet .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.sheet .grid div{font-size:12px;color:var(--soft)}
+.sheet .grid b{display:block;font-size:16px;font-weight:600;color:var(--cream);margin-top:3px}
+.sheet .grid b.ok{color:var(--ok)}
+.sheet .grid b.gold{color:var(--gold)}
+
+/* ---------- bottom bar ---------- */
+nav{
+  position:absolute;left:0;right:0;bottom:0;height:80px;z-index:22;
+  display:grid;grid-template-columns:repeat(5,1fr);padding:10px 8px 22px;
+  background:rgba(40,26,22,.62);
+  backdrop-filter:blur(20px) saturate(130%);-webkit-backdrop-filter:blur(20px) saturate(130%);
+  border-top:1px solid rgba(255,244,236,.18);
+}
+nav a{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:12px;color:var(--soft);text-decoration:none}
+nav a svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+nav a.on{color:var(--cream);font-weight:600}
+nav a.on svg{filter:drop-shadow(0 0 6px rgba(255,220,180,.55))}
+
+@media (prefers-reduced-motion: reduce){
+  .live i{animation:none}
+  .sheet{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="screen" id="screen">
+
+<svg class="floor" viewBox="0 0 390 844" aria-hidden="true">
+  <defs>
+    <radialGradient id="pool" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#FFC992" stop-opacity=".78"/>
+      <stop offset=".3" stop-color="#E89A62" stop-opacity=".42"/>
+      <stop offset=".62" stop-color="#B8683E" stop-opacity=".13"/>
+      <stop offset="1" stop-color="#8E5B4E" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="goldpool" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#FFD9A8" stop-opacity=".75"/>
+      <stop offset=".4" stop-color="#E4A67B" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#E4A67B" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="skin" cx="40%" cy="40%" r="65%">
+      <stop offset="0" stop-color="#FFFBF6"/>
+      <stop offset="1" stop-color="#F3D9C2"/>
+    </radialGradient>
+    <filter id="soft" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="softer" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="halo" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="mirror" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFF1E2" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#FFF1E2" stop-opacity=".95"/>
+      <stop offset="1" stop-color="#FFF1E2" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- walls: a hairline plan of the room -->
+  <g fill="none" stroke="rgba(255,244,236,.13)" stroke-width="1">
+    <path d="M306 752 H10 V92 H380 V752 H362"/>
+    <!-- door leaf, swung open -->
+    <path d="M362 752 A56 56 0 0 0 306 696" stroke-dasharray="2 4" stroke="rgba(255,244,236,.12)"/>
+    <path d="M362 752 L362 696" stroke="rgba(255,244,236,.16)"/>
+    <!-- threshold light spilling in from outside -->
+    <ellipse cx="334" cy="752" rx="30" ry="6" fill="#FFE3C4" opacity=".10" filter="url(#soft)"/>
+  </g>
+
+  <g id="chairs"></g>
+
+  <!-- counter along right wall -->
+  <g id="counter">
+    <circle id="counterGlow" cx="356" cy="626" r="78" fill="url(#goldpool)" opacity="0"/>
+    <rect x="336" y="566" width="36" height="96" rx="6" fill="#2A1C18" stroke="rgba(255,244,236,.2)"/>
+    <rect id="counterEdge" x="335" y="568" width="2" height="92" rx="1" fill="#E4A67B" opacity=".25" filter="url(#halo)"/>
+    <!-- payment terminal -->
+    <rect x="346" y="600" width="14" height="20" rx="3" fill="none" stroke="rgba(255,244,236,.28)"/>
+  </g>
+
+  <!-- waiting bench along bottom-left wall -->
+  <g id="bench">
+    <ellipse id="benchPool" cx="84" cy="712" rx="80" ry="44" fill="url(#pool)" opacity=".45"/>
+    <rect x="26" y="724" width="116" height="20" rx="6" fill="#2A1C18" stroke="rgba(255,244,236,.2)"/>
+    <line x1="84" y1="726" x2="84" y2="742" stroke="rgba(255,244,236,.1)"/>
+  </g>
+
+  <g id="trails" filter="url(#soft)"></g>
+  <g id="people"></g>
+</svg>
+
+<div class="veil" id="veil"></div>
+
+<header>
+  <div class="row">
+    <span class="eyebrow">Owner · from anywhere</span>
+    <span class="live"><i></i>LIVE</span>
+  </div>
+  <div class="row">
+    <h1 class="title">Live floor</h1>
+    <span class="quiet"><b id="total">₹6,800</b> today<span class="sep">·</span><span id="waitCount">1 waiting</span></span>
+  </div>
+</header>
+
+<div id="labels"></div>
+
+<div class="lbl counterlbl" id="counterLbl"><div class="k">Counter</div></div>
+<div class="paid" id="paid"><div class="v">₹300</div><div class="t">PAID · UPI</div></div>
+
+<div class="lbl benchlbl" id="benchLbl">
+  <div class="k" id="benchK">Waiting</div>
+  <div class="inner" id="benchInner">
+    <div class="n" id="benchN">Dev Arora</div>
+    <div class="s" id="benchS">Beard trim · booked 11:40</div>
+  </div>
+</div>
+
+<div id="hits"></div>
+
+<section class="sheet" id="sheet" aria-live="polite">
+  <div class="grab"></div>
+  <div class="top"><span class="k" id="shK">Chair 1 · Imran</span><button class="x" id="shX" aria-label="Close">Close</button></div>
+  <div class="n" id="shN">Karan Mehta</div>
+  <div class="s" id="shS">Haircut + Beard trim</div>
+  <div class="bar"><i id="shBar" style="width:60%"></i></div>
+  <div class="grid">
+    <div>Done<b id="shDone">18 of 30 min</b></div>
+    <div>Left<b class="ok" id="shLeft">12 min</b></div>
+    <div>Bill<b class="gold" id="shAmt">₹450</b></div>
+  </div>
+</section>
+
+<nav aria-label="Owner tabs">
+  <a class="on" href="#" aria-current="page"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></svg>Live</a>
+  <a href="#"><svg viewBox="0 0 24 24"><path d="M7 5h10M7 9h10M10 5c3 0 5 1.6 5 4s-2 4-5 4H8l7 6"/></svg>Earnings</a>
+  <a href="#"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M8.5 13l2.5 2.5 4.5-5"/></svg>Attendance</a>
+  <a href="#"><svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="3.2"/><path d="M3.5 19c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5"/><circle cx="17" cy="8" r="2.4"/><path d="M16 13.2c2.2 0 3.8 1.3 4.5 3.8"/></svg>Staff</a>
+  <a href="#"><svg viewBox="0 0 24 24"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 9h6M9 13h4"/></svg>Visits</a>
+</nav>
+
+<div class="grain"></div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const NS = "http://www.w3.org/2000/svg";
+  const L = 25;          // loop length, seconds
+  const RATE = 0.5;      // service minutes per second
+  const CX = 74;         // chair column x
+  const STX = 120;       // stylist x
+
+  // ---- the salon, exactly as given ----
+  const chairs = [
+    { no:1, y:170, stylist:"Imran",  cust:"Karan Mehta", svc:"Haircut + Beard trim", amt:450, done0:18, dur:30 },
+    { no:2, y:316, stylist:"Sunita", cust:"Priya Patel", svc:"Facial",               amt:900, done0:12, dur:45 },
+    { no:3, y:462, stylist:"Rakesh", cust:"Rahul Jain",  svc:"Haircut",              amt:300, done0:26, dur:30 },
+  ];
+
+  // ---- timeline (seconds) ----
+  const T = {
+    c3Done: 8, riseR: 8.3, walk1: [8.7, 11.8], pay: [11.8, 13.6], tick: [12.0, 12.9],
+    walk2: [13.6, 16.2], riseD: 15.4, walkD: [15.8, 18.6], seatD: 19.2,
+    walkN: [19.0, 21.8], seatN: 22.4, veil: [23.6, 25],
+  };
+  const SEAT = { x: 56, y: 716 };      // bench seat
+  const PAY  = { x: 304, y: 614 };     // standing at counter
+  const DOOR = { x: 334, y: 800 };     // beyond the door gap
+
+  // ---- maths ----
+  const clamp = (v, a=0, b=1) => Math.max(a, Math.min(b, v));
+  const lin = (t, a, b) => clamp((t - a) / (b - a));
+  const ease = x => x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3) / 2;
+  const sine = x => -(Math.cos(Math.PI * x) - 1) / 2;
+  const bez = (p, u) => {
+    const v = 1 - u;
+    return {
+      x: v*v*v*p[0][0] + 3*v*v*u*p[1][0] + 3*v*u*u*p[2][0] + u*u*u*p[3][0],
+      y: v*v*v*p[0][1] + 3*v*v*u*p[1][1] + 3*v*u*u*p[2][1] + u*u*u*p[3][1],
+    };
+  };
+  const bezAngle = (p, u) => {
+    const a = bez(p, Math.max(0, u - .01)), b = bez(p, Math.min(1, u + .01));
+    return Math.atan2(b.y - a.y, b.x - a.x);
+  };
+  const lerpAng = (a, b, k) => { let d = b - a; while (d > Math.PI) d -= 2*Math.PI; while (d < -Math.PI) d += 2*Math.PI; return a + d*k; };
+  const rupee = n => "₹" + n.toLocaleString("en-IN");
+  const bell = (t, a, b, inK=.25, outK=.35) => {
+    const span = b - a; if (t < a || t > b) return 0;
+    const x = (t - a) / span;
+    return x < inK ? sine(x / inK) : x > 1 - outK ? sine((1 - x) / outK) : 1;
+  };
+
+  // ---- paths (cubic, page coords) ----
+  const C3 = { x: CX, y: chairs[2].y };
+  const P_R1 = [[C3.x, C3.y], [92, 560], [214, 622], [PAY.x, PAY.y]];
+  const P_R2 = [[PAY.x, PAY.y], [290, 668], [330, 712], [DOOR.x, DOOR.y]];
+  const P_D  = [[SEAT.x, SEAT.y], [30, 640], [32, 520], [C3.x, C3.y]];
+  const P_N  = [[DOOR.x, DOOR.y], [326, 690], [170, 650], [SEAT.x + 2, SEAT.y]];
+
+  // ---- people state as a pure function of t ----
+  function walker(t, path, win, before, after) {
+    if (t <= win[0]) return null;
+    if (t >= win[1]) return null;
+    const u = ease(lin(t, win[0], win[1]));
+    const p = bez(path, u);
+    return { x: p.x, y: p.y, a: bezAngle(path, u) };
+  }
+  function rahul(t) {
+    if (t < T.walk1[0]) {
+      const r = lin(t, T.riseR, T.walk1[0]);
+      return { x: C3.x, y: C3.y, a: Math.PI, s: 1 + .07*sine(r), o: 1, walking:false };
+    }
+    let w = walker(t, P_R1, T.walk1);
+    if (w) return { ...w, s: 1.07, o: 1, walking:true };
+    if (t < T.pay[1]) {
+      const k = sine(lin(t, T.walk1[1], T.walk1[1] + .5));
+      return { x: PAY.x, y: PAY.y, a: lerpAng(bezAngle(P_R1, 1), 0, k), s: 1.07, o: 1, walking:false };
+    }
+    w = walker(t, P_R2, T.walk2);
+    if (w) return { ...w, s: 1.07, o: 1 - lin(w.y, 735, 770), walking:true };
+    return null;
+  }
+  function dev(t) {
+    if (t < T.walkD[0]) {
+      const r = lin(t, T.riseD, T.walkD[0]);
+      return { x: SEAT.x, y: SEAT.y, a: -Math.PI/2, s: 1 + .07*sine(r), o: 1, walking:false };
+    }
+    const w = walker(t, P_D, T.walkD);
+    if (w) return { ...w, s: 1.07, o: 1, walking:true };
+    const k = sine(lin(t, T.walkD[1], T.seatD));
+    return { x: C3.x, y: C3.y, a: lerpAng(bezAngle(P_D, 1), Math.PI, k), s: 1.07 - .07*k, o: 1, walking:false };
+  }
+  function neha(t) {
+    if (t < T.walkN[0]) return null;
+    const w = walker(t, P_N, T.walkN);
+    if (w) return { ...w, s: 1.07, o: lin(w.y, 772, 738), walking:true };
+    const k = sine(lin(t, T.walkN[1], T.seatN));
+    return { x: SEAT.x + 2, y: SEAT.y, a: lerpAng(bezAngle(P_N, 1), -Math.PI/2, k), s: 1.07 - .07*k, o: 1, walking:false };
+  }
+  const seated = i => t => ({ x: CX + .6 * Math.sin(t * .7 + i), y: chairs[i].y + .8 * Math.sin(t * .5 + i * 2), a: Math.PI + .05 * Math.sin(t * .6 + i), s: 1, o: 1, walking:false });
+  const people = [
+    { id:"karan", fn: seated(0), from: 0 },
+    { id:"priya", fn: seated(1), from: 0 },
+    { id:"rahul", fn: rahul, from: 0 },
+    { id:"dev",   fn: dev,   from: 0 },
+    { id:"neha",  fn: neha,  from: T.walkN[0] },
+  ];
+
+  // ---- chair state ----
+  function chairState(i, t) {
+    const c = chairs[i];
+    if (i < 2) {
+      const done = c.done0 + t*RATE;
+      return { occ:1, cust:c.cust, svc:c.svc, amt:c.amt, stylist:c.stylist, done, dur:c.dur, phase:"busy" };
+    }
+    if (t < T.c3Done) return { occ:1, cust:c.cust, svc:c.svc, amt:c.amt, stylist:c.stylist, done:c.done0 + t*RATE, dur:30, phase:"busy" };
+    if (t < T.walk1[0]) return { occ:1, cust:c.cust, svc:c.svc, amt:c.amt, stylist:c.stylist, done:30, dur:30, phase:"done" };
+    if (t < T.walkD[1]) {
+      return { occ:0, stylist:c.stylist, phase: t >= T.riseD ? "coming" : "free", done:0, dur:15 };
+    }
+    return { occ:1, cust:"Dev Arora", svc:"Beard trim", amt:150, stylist:c.stylist, done: Math.max(0, (t - T.seatD) * RATE), dur:15, phase:"busy" };
+  }
+  // pool light 0..1 — eases between ember (free) and full (occupied)
+  function poolLight(i, t) {
+    if (i < 2) return 1;
+    if (t < T.walk1[0]) return 1;
+    const down = 1 - sine(lin(t, T.walk1[0], T.walk1[0] + 1.6));
+    const up = sine(lin(t, T.walkD[1] - .4, T.seatD + .6));
+    return Math.max(down, up);
+  }
+
+  // ---- build static SVG for chairs ----
+  const gChairs = document.getElementById("chairs");
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const RR = 31; // ring radius
+  const CIRC = 2 * Math.PI * RR;
+  const chairEls = chairs.map((c, i) => {
+    const g = el("g", {}, gChairs);
+    const pool = el("circle", { cx: CX, cy: c.y, r: 78, fill: "url(#pool)" }, g);
+    const mirrorGlow = el("rect", { x: 10, y: c.y - 46, width: 10, height: 92, rx: 5, fill: "url(#mirror)", filter: "url(#softer)" }, g);
+    const mirror = el("rect", { x: 13, y: c.y - 36, width: 3, height: 72, rx: 1.5, fill: "url(#mirror)" }, g);
+    // chair seen from above: seat + backrest on the right (customer faces the mirror)
+    const seat = el("rect", { x: CX - 15, y: c.y - 15, width: 30, height: 30, rx: 9, fill: "#3A2621", stroke: "rgba(255,236,214,.28)" }, g);
+    el("path", { d: `M${CX + 12} ${c.y - 17} q9 17 0 34`, fill: "none", stroke: "rgba(255,244,236,.22)", "stroke-width": 4, "stroke-linecap": "round" }, g);
+    // ring of light: faint track, closing arc, and a glowing head
+    el("circle", { cx: CX, cy: c.y, r: RR, fill: "none", stroke: "rgba(255,236,214,.09)", "stroke-width": 1 }, g);
+    const arcGlow = el("circle", { cx: CX, cy: c.y, r: RR, fill: "none", stroke: "#FFCF9E", "stroke-width": 4, "stroke-linecap": "round", opacity: .35, filter: "url(#soft)", transform: `rotate(-90 ${CX} ${c.y})`, "stroke-dasharray": `0 ${CIRC}` }, g);
+    const arc = el("circle", { cx: CX, cy: c.y, r: RR, fill: "none", stroke: "#FFEBD6", "stroke-width": 1.4, "stroke-linecap": "round", transform: `rotate(-90 ${CX} ${c.y})`, "stroke-dasharray": `0 ${CIRC}` }, g);
+    const headGlow = el("circle", { r: 6, fill: "#FFD9B0", opacity: .7, filter: "url(#soft)" }, g);
+    const head = el("circle", { r: 1.9, fill: "#FFF8F1" }, g);
+    const bloom = el("circle", { cx: CX, cy: c.y, r: RR, fill: "none", stroke: "#FFE3C4", "stroke-width": 2, opacity: 0, filter: "url(#soft)" }, g);
+    const sel = el("circle", { cx: CX, cy: c.y, r: 44, fill: "none", stroke: "rgba(255,244,236,.55)", "stroke-width": 1, "stroke-dasharray": "1 5", "stroke-linecap": "round", opacity: 0 }, g);
+    return { seat, pool, mirror, mirrorGlow, arc, arcGlow, head, headGlow, bloom, sel };
+  });
+
+  // ---- people tokens (top-down head + shoulders) ----
+  const gPeople = document.getElementById("people");
+  const gTrails = document.getElementById("trails");
+  function token(kind) {
+    const g = el("g", {}, gPeople);
+    if (kind === "customer") {
+      el("ellipse", { cx: 0, cy: 0, rx: 15, ry: 15, fill: "#FFE7CF", opacity: .22, filter: "url(#softer)" }, g);
+      el("ellipse", { cx: -1, cy: 0, rx: 6.5, ry: 12.5, fill: "url(#skin)", opacity: .92 }, g);
+      el("circle", { cx: 2.5, cy: 0, r: 6.2, fill: "#FFFBF6" }, g);
+    } else {
+      el("ellipse", { cx: -1, cy: 0, rx: 6.5, ry: 12.5, fill: "#1E1412", stroke: "rgba(255,244,236,.62)", "stroke-width": 1.2 }, g);
+      el("circle", { cx: 2.5, cy: 0, r: 5.6, fill: "#3A2822", stroke: "rgba(255,244,236,.72)", "stroke-width": 1.2 }, g);
+    }
+    return g;
+  }
+  const stylistEls = chairs.map(() => token("stylist"));
+  const personEls = {};
+  people.forEach(p => { personEls[p.id] = token("customer"); });
+  const trailDots = {};
+  people.forEach(p => {
+    trailDots[p.id] = Array.from({ length: 28 }, () => el("circle", { r: 4, fill: "#FFE7CF", opacity: 0 }, gTrails));
+  });
+  const place = (g, s) => {
+    if (!s) { g.setAttribute("opacity", 0); return; }
+    g.setAttribute("opacity", s.o == null ? 1 : s.o.toFixed(3));
+    g.setAttribute("transform", `translate(${s.x.toFixed(2)} ${s.y.toFixed(2)}) rotate(${(s.a * 180 / Math.PI).toFixed(2)}) scale(${(s.s || 1).toFixed(3)})`);
+  };
+
+  // ---- labels ----
+  const labelsBox = document.getElementById("labels");
+  const hitsBox = document.getElementById("hits");
+  const lbls = chairs.map((c, i) => {
+    const d = document.createElement("div");
+    d.className = "lbl chairlbl";
+    d.style.top = (c.y - 40) + "px";
+    d.innerHTML = `<div class="k">Chair ${c.no}</div><div class="inner"><div class="n"></div><div class="s"></div><div class="m"></div><div class="r"><div class="big"></div><div class="unit"></div><div class="amt"></div></div></div>`;
+    labelsBox.appendChild(d);
+    const h = document.createElement("button");
+    h.className = "hit"; h.style.top = (c.y - 66) + "px";
+    h.setAttribute("aria-label", `Chair ${c.no} details`);
+    h.addEventListener("click", e => { e.stopPropagation(); select(selected === i ? -1 : i); });
+    hitsBox.appendChild(h);
+    const q = s => d.querySelector(s);
+    return { d, inner: q(".inner"), n: q(".n"), s: q(".s"), m: q(".m"), big: q(".big"), unit: q(".unit"), amt: q(".amt") };
+  });
+
+  const $ = id => document.getElementById(id);
+  const total = $("total"), waitCount = $("waitCount"), veil = $("veil"), paid = $("paid"), counterLbl = $("counterLbl");
+  const counterGlow = $("counterGlow"), counterEdge = $("counterEdge"), benchPool = $("benchPool");
+  const benchK = $("benchK"), benchN = $("benchN"), benchS = $("benchS"), benchInner = $("benchInner");
+  const sheet = $("sheet");
+
+  let selected = -1;
+  function select(i) {
+    selected = i;
+    sheet.classList.toggle("open", i >= 0);
+    render(curT);
+  }
+  $("shX").addEventListener("click", e => { e.stopPropagation(); select(-1); });
+  $("screen").addEventListener("click", e => { if (selected >= 0 && !sheet.contains(e.target)) select(-1); });
+
+  // label swap fade: dips to 0 around each change time
+  const swapFade = (t, times, w = .28) => times.reduce((o, s) => Math.min(o, clamp(Math.abs(t - s) / w)), 1);
+
+  // ---- render(t) — everything is a pure function of t ----
+  let curT = 0;
+  function render(tRaw) {
+    let t = ((tRaw % L) + L) % L;
+    // the loop "breath": the floor dims, and returns at the start state
+    let vOp = 0;
+    if (t >= T.veil[0]) { const x = lin(t, T.veil[0], T.veil[1]); vOp = x < .55 ? sine(x / .55) * .9 : .9; }
+    if (t < .7) vOp = Math.max(vOp, .9 * (1 - sine(t / .7)));
+    veil.style.opacity = vOp.toFixed(3);
+    if (t >= 24.6) t = 0; // under the deepest point of the breath, return to the start
+    curT = tRaw;
+
+    // chairs
+    chairs.forEach((c, i) => {
+      const st = chairState(i, t), E = chairEls[i], Lb = lbls[i];
+      const light = poolLight(i, t);
+      const breath = 1 + .035 * Math.sin(t * 2 * Math.PI / 6 + i * 1.7);
+      const doneFlash = i === 2 ? bell(t, T.c3Done - .1, T.c3Done + 1.4, .15, .7) : 0;
+      E.pool.setAttribute("opacity", ((.16 + .84 * light) * breath + .25 * doneFlash).toFixed(3));
+      E.pool.setAttribute("r", (62 + 30 * light).toFixed(2));
+      E.seat.setAttribute("fill-opacity", (.55 + .45 * light).toFixed(3));
+      E.mirror.setAttribute("opacity", (.18 + .62 * light).toFixed(3));
+      E.mirrorGlow.setAttribute("opacity", (.08 + .42 * light).toFixed(3));
+
+      // ring of light
+      const fr = st.phase === "busy" || st.phase === "done" ? clamp(st.done / st.dur) : 0;
+      const ringOp = i === 2 ? light : 1;
+      const len = fr * CIRC;
+      E.arc.setAttribute("stroke-dasharray", `${len.toFixed(2)} ${CIRC}`);
+      E.arcGlow.setAttribute("stroke-dasharray", `${len.toFixed(2)} ${CIRC}`);
+      E.arc.setAttribute("opacity", (.9 * ringOp).toFixed(3));
+      E.arcGlow.setAttribute("opacity", (.38 * ringOp).toFixed(3));
+      const ang = -Math.PI / 2 + fr * 2 * Math.PI;
+      const hx = CX + RR * Math.cos(ang), hy = c.y + RR * Math.sin(ang);
+      const flick = .82 + .18 * Math.sin(t * 5.1 + i * 2);
+      [E.head, E.headGlow].forEach(h => { h.setAttribute("cx", hx.toFixed(2)); h.setAttribute("cy", hy.toFixed(2)); });
+      const headOn = (st.phase === "busy" && fr > 0.002) ? ringOp : 0;
+      E.head.setAttribute("opacity", headOn.toFixed(3));
+      E.headGlow.setAttribute("opacity", (.75 * flick * headOn).toFixed(3));
+      E.bloom.setAttribute("opacity", (doneFlash * .9).toFixed(3));
+      E.bloom.setAttribute("r", (RR + 10 * lin(t, T.c3Done, T.c3Done + 1.4)).toFixed(2));
+      E.sel.setAttribute("opacity", selected === i ? 1 : 0);
+      E.sel.setAttribute("transform", `rotate(${(t * 6) % 360} ${CX} ${c.y})`);
+
+      // stylist: stands behind the chair, small working sway
+      const working = i === 2 ? light : 1;
+      const sx = STX + 6 * (1 - working) + 2.2 * working * Math.sin(t * 1.1 + i * 2.1);
+      const sy = c.y + 4.5 * working * Math.sin(t * .8 + i);
+      const sa = Math.PI + .22 * working * Math.sin(t * .9 + i * 1.3);
+      place(stylistEls[i], { x: sx, y: sy, a: sa, s: 1, o: .55 + .45 * working });
+
+      // label text
+      const k = i === 2 ? swapFade(t, [T.walk1[0], T.riseD, T.walkD[1]]) : 1;
+      Lb.inner.style.opacity = k.toFixed(3);
+      Lb.d.classList.toggle("dimmed", selected >= 0 && selected !== i);
+      Lb.d.classList.toggle("sel", selected === i);
+      if (st.phase === "busy" || st.phase === "done") {
+        const doneMin = Math.min(st.dur, Math.floor(st.done + 1e-6));
+        const left = st.dur - doneMin;
+        Lb.n.textContent = st.cust;
+        Lb.s.textContent = st.svc;
+        Lb.m.textContent = `${st.stylist} · ${doneMin} of ${st.dur} min`;
+        Lb.big.className = "big";
+        Lb.big.textContent = st.phase === "done" ? "Done" : left;
+        if (st.phase === "done") { Lb.big.className = "big"; Lb.big.style.fontSize = "20px"; Lb.big.style.lineHeight = "28px"; Lb.big.style.fontWeight = "500"; }
+        else { Lb.big.style.fontSize = Lb.big.style.lineHeight = Lb.big.style.fontWeight = ""; }
+        Lb.unit.textContent = st.phase === "done" ? "to counter" : "min left";
+        Lb.amt.textContent = rupee(st.amt);
+      } else {
+        Lb.big.style.fontSize = Lb.big.style.lineHeight = Lb.big.style.fontWeight = "";
+        Lb.n.textContent = st.phase === "coming" ? "Dev Arora" : "Free";
+        Lb.s.textContent = st.phase === "coming" ? "Beard trim · on the way" : `${st.stylist} is ready`;
+        Lb.m.textContent = st.phase === "coming" ? `with ${st.stylist}` : "next: Dev Arora, 11:40";
+        Lb.big.className = "big free";
+        Lb.big.textContent = st.phase === "coming" ? "" : "free";
+        Lb.unit.textContent = "";
+        Lb.amt.textContent = st.phase === "coming" ? rupee(150) : "";
+      }
+    });
+
+    // customers + trails
+    people.forEach(p => {
+      const s = p.fn(t);
+      place(personEls[p.id], s);
+      trailDots[p.id].forEach((dot, k) => {
+        const tt = t - (k + 1) * .05;
+        const q = tt >= p.from ? p.fn(tt) : null;
+        if (!s || !q || !s.walking && Math.hypot(q.x - s.x, q.y - s.y) < 1) { dot.setAttribute("opacity", 0); return; }
+        const f = 1 - (k + 1) / 29;
+        dot.setAttribute("cx", q.x.toFixed(2)); dot.setAttribute("cy", q.y.toFixed(2));
+        dot.setAttribute("r", (1.5 + 5.5 * f).toFixed(2));
+        dot.setAttribute("opacity", (.32 * f * f * (q.o == null ? 1 : q.o)).toFixed(3));
+      });
+    });
+
+    // counter: gold flare when payment lands
+    const pk = bell(t, T.pay[0] + .1, T.pay[1] + .5, .18, .55);
+    counterGlow.setAttribute("opacity", (pk * .95).toFixed(3));
+    counterEdge.setAttribute("opacity", (.25 + .75 * pk).toFixed(3));
+    paid.style.opacity = pk.toFixed(3);
+    paid.style.transform = `translateY(${(1 - pk) * 6}px)`;
+    counterLbl.style.opacity = (1 - pk).toFixed(3);
+
+    // today's total ticks
+    const tk = ease(lin(t, T.tick[0], T.tick[1]));
+    total.textContent = rupee(6800 + Math.round(300 * tk / 10) * 10);
+
+    // bench + waiting
+    let waiting, bk, bn, bs;
+    if (t < T.riseD) { waiting = 1; bk = "Waiting"; bn = "Dev Arora"; bs = "Beard trim · booked 11:40"; }
+    else if (t < T.walkN[0]) { waiting = 0; bk = "Waiting"; bn = "No one"; bs = "Bench is free"; }
+    else if (t < T.walkN[1]) { waiting = 0; bk = "At the door"; bn = "Neha Singh"; bs = "Walk-in · coming in"; }
+    else { waiting = 1; bk = "Waiting"; bn = "Neha Singh"; bs = "Walk-in · just arrived"; }
+    benchK.textContent = bk; benchN.textContent = bn; benchS.textContent = bs;
+    benchInner.style.opacity = swapFade(t, [T.riseD, T.walkN[0], T.walkN[1]]).toFixed(3);
+    benchPool.setAttribute("opacity", (waiting ? .5 : .28 + .1 * Math.sin(t)).toFixed(3));
+    waitCount.textContent = waiting ? "1 waiting" : "none waiting";
+
+    // detail sheet follows the live state
+    if (selected >= 0) {
+      const st = chairState(selected, t), c = chairs[selected];
+      $("shK").textContent = `Chair ${c.no} · ${c.stylist}`;
+      if (st.occ || st.phase === "done") {
+        const dm = Math.min(st.dur, Math.floor(st.done + 1e-6));
+        $("shN").textContent = st.cust; $("shS").textContent = st.svc;
+        $("shBar").style.width = (100 * clamp(st.done / st.dur)).toFixed(1) + "%";
+        $("shDone").textContent = `${dm} of ${st.dur} min`;
+        $("shLeft").textContent = st.phase === "done" ? "Done" : `${st.dur - dm} min`;
+        $("shAmt").textContent = rupee(st.amt);
+      } else {
+        $("shN").textContent = st.phase === "coming" ? "Dev Arora" : "Chair free";
+        $("shS").textContent = st.phase === "coming" ? "Beard trim · walking over" : `${c.stylist} is ready · next Dev Arora`;
+        $("shBar").style.width = "0%";
+        $("shDone").textContent = "—"; $("shLeft").textContent = st.phase === "coming" ? "15 min" : "—";
+        $("shAmt").textContent = st.phase === "coming" ? rupee(150) : "—";
+      }
+    }
+  }
+
+  // ---- clock ----
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let base = performance.now(), offset = 0, frozen = false;
+  window.__seek = s => { frozen = true; offset = s; render(s); return s; };
+  window.__play = () => { frozen = false; base = performance.now() - offset * 1000; };
+  if (reduce) { render(0.8); }
+  else {
+    render(0);
+    const loop = now => { if (!frozen) { offset = (now - base) / 1000; render(offset); } requestAnimationFrame(loop); };
+    requestAnimationFrame(loop);
+  }
+})();
+</script>
+</body>
+</html>

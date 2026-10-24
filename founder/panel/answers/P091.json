@@ -1,0 +1,13 @@
+{
+  "id": "P091",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I already paid for salon software once and my girls never touched it, we went back to the register within weeks. An English-only app on their phones will go the same way, and I am not paying ₹4,999 to learn that lesson twice.",
+  "objection": "It is only in English. My staff will not type numbers and bill in an English app on a busy Sunday or in Diwali week, they will just write it in the register like always.",
+  "would_change_my_mind": "The app in Hindi, and letting me pay the ₹4,999 setup only after the first free month if my staff are actually billing on it every day.",
+  "price_too_cheap": 199,
+  "price_cheap": 399,
+  "price_expensive": 799,
+  "price_too_expensive": 1500
+}

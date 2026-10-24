@@ -1,0 +1,383 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>Salon app · liquid glass</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+  :root {
+    --ink: #24170F;
+    --ink-2: rgba(36, 23, 15, .66);
+    --cream: #FFF7F0;
+    --cream-2: rgba(255, 247, 240, .74);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Urbanist, system-ui, sans-serif;
+    min-height: 100vh; display: grid; place-items: center; padding: 56px 16px;
+    background:
+      radial-gradient(70% 60% at 30% 25%, rgba(196, 160, 140, .55) 0%, rgba(196,160,140,0) 70%),
+      radial-gradient(60% 50% at 80% 80%, rgba(120, 80, 62, .6) 0%, rgba(120,80,62,0) 70%),
+      linear-gradient(160deg, #7A5E52 0%, #5A4239 50%, #35251F 100%);
+  }
+
+  /* ---------- Liquid Glass recipe: clear, lensing edges, specular rim ---------- */
+  .glass {
+    position: relative; isolation: isolate;
+    background: linear-gradient(150deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.05) 45%, rgba(255,255,255,.02) 70%, rgba(255,255,255,.08) 100%);
+    backdrop-filter: url(#lens) blur(3px) saturate(160%) brightness(1.06);
+    -webkit-backdrop-filter: blur(3px) saturate(160%) brightness(1.06);
+    box-shadow:
+      inset 0 1.5px 0 rgba(255,255,255,.85),            /* top lip catching light */
+      inset 0 -1px 0 rgba(255,255,255,.35),             /* bottom lip */
+      inset 3px 3px 10px rgba(255,255,255,.22),         /* thickness: inner glow top-left */
+      inset -4px -6px 14px rgba(255,236,220,.16),       /* thickness: inner glow bottom-right */
+      inset 0 0 22px rgba(255,255,255,.06),
+      0 14px 34px rgba(24,12,6,.28), 0 2px 6px rgba(24,12,6,.14);
+  }
+  /* specular rim: bright arcs at two corners, almost gone in between */
+  .glass::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 2;
+    background:
+      linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,.55) 14%, rgba(255,255,255,0) 34%,
+                              rgba(255,255,255,0) 64%, rgba(255,255,255,.5) 86%, rgba(255,255,255,.95) 100%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+  }
+  /* curved gloss across the top, like light sliding over a droplet */
+  .glass::after {
+    content: ""; position: absolute; left: 6%; right: 6%; top: 2px; height: 46%; border-radius: inherit; pointer-events: none; z-index: 1;
+    background: linear-gradient(180deg, rgba(255,255,255,.30) 0%, rgba(255,255,255,.06) 55%, rgba(255,255,255,0) 100%);
+    -webkit-mask: radial-gradient(120% 100% at 50% 0%, #000 55%, transparent 75%); mask: radial-gradient(120% 100% at 50% 0%, #000 55%, transparent 75%);
+    opacity: .9;
+  }
+  /* cards that carry dark numbers get a light tint, still clear */
+  .glass.bright {
+    background: linear-gradient(150deg, rgba(255,253,250,.62) 0%, rgba(255,250,246,.38) 50%, rgba(255,248,242,.26) 100%);
+    backdrop-filter: url(#lens) blur(5px) saturate(160%) brightness(1.08);
+  }
+  .dock.bright { background: linear-gradient(150deg, rgba(255,255,255,.26), rgba(255,255,255,.10)); backdrop-filter: url(#lensStrong) blur(2px) saturate(200%) brightness(1.08); }
+
+  .stage { text-align: center; }
+  .phone {
+    width: 412px; height: 866px; border-radius: 60px; padding: 11px; position: relative;
+    background: linear-gradient(150deg, rgba(255,255,255,.7), rgba(255,255,255,.18) 45%, rgba(255,255,255,.42));
+    box-shadow: 0 50px 90px rgba(20, 10, 6, .5), 0 0 0 1px rgba(255,255,255,.35), inset 0 0 0 1px rgba(255,255,255,.5);
+  }
+  .screen {
+    position: relative; width: 100%; height: 100%; border-radius: 50px; overflow: hidden;
+    background: linear-gradient(175deg, #9C7867 0%, #7D5A4C 34%, #5E4136 70%, #3F2A23 100%);
+  }
+  .glow { position: absolute; border-radius: 50%; filter: blur(26px); pointer-events: none; }
+  .g1 { width: 320px; height: 300px; left: -100px; top: -90px; background: rgba(255, 222, 200, .55); }
+  .g2 { width: 230px; height: 230px; right: -70px; top: 250px; background: radial-gradient(circle at 40% 40%, rgba(255,196,150,.95), rgba(214,136,86,.75) 60%, rgba(214,136,86,0) 72%); }
+  .g5 { width: 150px; height: 150px; left: 40px; top: 760px; background: radial-gradient(circle, rgba(255,214,186,.8), rgba(255,214,186,0) 70%); }
+  .g6 { width: 120px; height: 120px; left: 210px; top: 120px; background: radial-gradient(circle, rgba(255,240,228,.55), rgba(255,240,228,0) 70%); }
+  .g3 { width: 280px; height: 240px; left: -130px; top: 500px; background: rgba(190, 120, 100, .75); }
+  .g4 { width: 300px; height: 260px; right: -110px; bottom: -60px; background: rgba(222, 150, 100, .5); }
+  .grain { position: absolute; inset: 0; opacity: .14; mix-blend-mode: overlay; pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+
+  .lines { position: absolute; inset: 0; pointer-events: none; opacity: .5;
+    background: repeating-linear-gradient(118deg, rgba(255,240,230,0) 0 46px, rgba(255,240,230,.10) 46px 48px, rgba(255,240,230,0) 48px 92px);
+    -webkit-mask: linear-gradient(180deg, #000, rgba(0,0,0,.35)); mask: linear-gradient(180deg, #000, rgba(0,0,0,.35)); }
+  .content { position: relative; z-index: 1; }
+  .status { display: flex; justify-content: space-between; align-items: center; padding: 18px 30px 0; color: var(--cream); font-weight: 700; font-size: 15px; }
+  .status .icons { display: flex; gap: 6px; align-items: center; }
+  .scroll { padding: 12px 22px 130px; }
+
+  .top { display: flex; align-items: center; justify-content: space-between; }
+  .logo { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 2px rgba(255,255,255,.5), 0 8px 18px rgba(28,14,8,.3); }
+  .logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .top-right { display: flex; gap: 10px; align-items: center; }
+  .round { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; color: var(--cream); }
+  .dot { position: absolute; top: 12px; right: 13px; width: 8px; height: 8px; border-radius: 50%; background: #F0704E; box-shadow: 0 0 0 2px rgba(255,255,255,.9); z-index: 3; }
+  .avatar { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: var(--cream); font-size: 16px;
+    background: radial-gradient(circle at 30% 25%, #E9B48C, #9C6040 70%); box-shadow: 0 0 0 2px rgba(255,255,255,.7), 0 8px 18px rgba(28,14,8,.3); }
+
+  .hello { margin-top: 16px; color: var(--cream); font-size: 26px; line-height: 1.22; font-weight: 400; letter-spacing: -.3px; text-align: left; }
+  .hello b { font-weight: 800; }
+  .date { margin-top: 8px; color: var(--cream-2); font-size: 14px; font-weight: 500; text-align: left; }
+
+  .walkin { margin-top: 16px; display: flex; align-items: center; gap: 12px; height: 58px; padding: 0 7px; border-radius: 29px; }
+  .walkin .ic { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; color: var(--ink);
+    background: linear-gradient(150deg, rgba(255,255,255,.95), rgba(255,255,255,.68)); }
+  .walkin .ph { flex: 1; color: var(--cream); font-size: 15px; font-weight: 600; text-align: left; }
+  .walkin .go { height: 44px; padding: 0 18px; border-radius: 22px; background: var(--ink); color: var(--cream); font-weight: 700; font-size: 14px; display: flex; align-items: center; box-shadow: 0 6px 14px rgba(28,14,8,.35); }
+
+  .sec { margin: 18px 2px 10px; display: flex; justify-content: space-between; align-items: baseline; }
+  .sec h3 { color: var(--cream); font-size: 18px; font-weight: 700; }
+  .sec a { color: var(--cream-2); font-size: 13px; font-weight: 600; text-decoration: none; }
+
+  .row { display: flex; gap: 12px; }
+  .stat { flex: 0 0 156px; border-radius: 28px; padding: 14px 14px 13px; text-align: left; color: var(--ink); }
+  .stat .label { font-size: 13px; color: var(--ink-2); font-weight: 700; padding-right: 36px; white-space: nowrap; }
+  .stat .num { margin-top: 8px; font-size: 27px; font-weight: 800; letter-spacing: -.5px; }
+  .stat .num small { font-size: 13px; font-weight: 700; color: var(--ink-2); margin-left: 3px; }
+  .stat .split { margin-top: 4px; font-size: 12px; color: var(--ink-2); font-weight: 600; line-height: 1.5; }
+  .stat .foot { margin-top: 10px; display: flex; }
+  .chip { display: inline-flex; align-items: center; height: 26px; padding: 0 11px; border-radius: 13px; background: var(--ink); color: var(--cream); font-size: 11px; font-weight: 700; }
+  .ring { position: absolute; right: 10px; top: 10px; width: 38px; height: 38px; z-index: 3; }
+  .peek { flex: 0 0 100px; border-radius: 28px; padding: 15px; text-align: left; color: var(--ink); }
+
+  .chair { border-radius: 30px; padding: 16px 18px; text-align: left; overflow: hidden; min-height: 128px; color: var(--cream); }
+  .chair, .bookings, .walkin .ph { text-shadow: 0 1px 2px rgba(24,12,6,.35); }
+  .chair .who { font-size: 23px; font-weight: 800; letter-spacing: -.3px; }
+  .chair .what { margin-top: 4px; font-size: 13px; color: var(--cream-2); font-weight: 600; max-width: 230px; }
+  .chair .chips { margin-top: 12px; display: flex; gap: 8px; }
+  .tag { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 15px; font-size: 12px; font-weight: 700; color: var(--cream); }
+  .tag i { width: 7px; height: 7px; border-radius: 50%; background: #7FD8A2; box-shadow: 0 0 8px #7FD8A2; }
+  .spot { position: absolute; right: -30px; bottom: -50px; width: 220px; height: 220px; border-radius: 50%; background: radial-gradient(circle, rgba(255,226,200,.5), rgba(255,226,200,0) 65%); z-index: 0; }
+  .chair img { position: absolute; right: 6px; bottom: 0; height: 118px; z-index: 1; filter: drop-shadow(0 10px 16px rgba(28,14,8,.35)); }
+  .pay { position: absolute; right: 14px; bottom: 14px; z-index: 3; height: 46px; padding: 0 20px; border-radius: 23px; background: var(--ink); color: var(--cream); font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 22px rgba(28,14,8,.4); }
+
+  .bookings { margin-top: 12px; border-radius: 24px; padding: 13px 15px; display: flex; align-items: center; gap: 12px; text-align: left; color: var(--cream); }
+  .bookings .ic { width: 42px; height: 42px; border-radius: 15px; display: grid; place-items: center; color: var(--ink); background: linear-gradient(150deg, rgba(255,255,255,.95), rgba(255,255,255,.68)); }
+  .bookings .t { flex: 1; }
+  .bookings .t b { display: block; font-size: 15px; font-weight: 800; }
+  .bookings .t span { font-size: 12px; color: var(--cream-2); font-weight: 600; }
+
+  .dock { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 5;
+    display: flex; align-items: center; gap: 8px; padding: 7px; border-radius: 38px; }
+  .tab { width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center; color: var(--ink);
+    background: linear-gradient(150deg, rgba(255,255,255,.9), rgba(255,255,255,.58));
+    box-shadow: inset 0 1px 0 #fff, 0 4px 10px rgba(28,14,8,.12); }
+  .tab.on { width: auto; padding: 0 22px 0 18px; border-radius: 27px; background: var(--ink); color: var(--cream); display: flex; gap: 8px; font-weight: 800; font-size: 15px; box-shadow: 0 8px 18px rgba(28,14,8,.35); }
+  .tab.plus { background: radial-gradient(circle at 30% 25%, #F2C29C, #C27F51 75%); color: var(--ink); }
+  .homebar { position: absolute; left: 50%; bottom: 9px; transform: translateX(-50%); width: 134px; height: 5px; border-radius: 3px; background: rgba(255,247,240,.7); z-index: 5; }
+
+  .caption { margin-top: 22px; color: rgba(255,247,240,.82); font-size: 14px; font-weight: 600; letter-spacing: .2px; }
+  svg { display: block; }
+
+  body { padding: 0; display: block; min-height: 0; background: #3a2822; }
+  .scene { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+    background:
+      radial-gradient(45% 55% at 50% 42%, rgba(255,214,186,.38) 0%, rgba(255,214,186,0) 70%),
+      radial-gradient(35% 45% at 12% 85%, rgba(200,130,95,.45) 0%, rgba(200,130,95,0) 70%),
+      radial-gradient(35% 45% at 90% 15%, rgba(230,170,125,.40) 0%, rgba(230,170,125,0) 70%),
+      linear-gradient(150deg, #8C6B5C 0%, #5E4338 45%, #2F201B 100%); }
+  .orb { position: absolute; border-radius: 50%; filter: blur(70px); }
+  .o1 { width: 520px; height: 520px; left: 640px; top: 160px; background: rgba(255, 200, 160, .35); }
+  .o2 { width: 380px; height: 380px; left: 80px; top: 600px; background: rgba(214, 140, 96, .45); }
+  .o3 { width: 420px; height: 420px; right: 60px; top: -80px; background: rgba(240, 186, 140, .4); }
+  .sgrain { position: absolute; inset: 0; opacity: .10; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .slot { position: absolute; top: 50%; }
+  .slot.c { left: 50%; transform: translate(-50%, -50%) scale(1.08); z-index: 3; }
+  .slot.l { left: 340px; transform: translate(-50%, -46%) scale(.9) rotate(-4deg); z-index: 2; filter: saturate(.95); }
+  .slot.r { left: 1580px; transform: translate(-50%, -46%) scale(.9) rotate(4deg); z-index: 2; filter: saturate(.95); }
+  .phone.side .screen { background: linear-gradient(175deg, #9C7867 0%, #7D5A4C 34%, #5E4136 70%, #3F2A23 100%); }
+
+  .seg { margin-top: 16px; display: flex; gap: 4px; padding: 5px; border-radius: 22px; }
+  .seg .s { flex: 1; height: 36px; border-radius: 18px; display: grid; place-items: center; color: var(--cream); font-weight: 700; font-size: 13px; position: relative; z-index: 3; }
+  .seg .s.on { background: var(--ink); }
+  .big { margin-top: 14px; border-radius: 28px; padding: 16px; text-align: left; color: var(--ink); }
+  .label2 { font-size: 13px; font-weight: 700; color: var(--ink-2); }
+  .bignum { margin-top: 4px; font-size: 32px; font-weight: 800; letter-spacing: -.6px; }
+  .bignum em { font-style: normal; font-size: 12px; font-weight: 700; color: #2F7A4E; margin-left: 6px; letter-spacing: 0; }
+  .bars { margin-top: 14px; display: flex; align-items: flex-end; justify-content: space-between; height: 140px; }
+  .bcol { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 34px; }
+  .bcol span { font-size: 11px; font-weight: 700; color: var(--ink-2); }
+  .bar { width: 30px; border-radius: 12px; background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.55)); box-shadow: inset 0 1px 0 #fff, 0 4px 10px rgba(28,14,8,.12); }
+  .bar.on { background: linear-gradient(180deg, #3A2A20, #24170F); }
+  .bar.off { background: rgba(36,23,15,.12); box-shadow: none; }
+  .list { border-radius: 26px; padding: 6px 14px; text-align: left; color: var(--cream); }
+  .li { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.12); position: relative; z-index: 3; }
+  .li:last-child { border-bottom: 0; }
+  .li .t { flex: 1; } .li .t b { display: block; font-size: 14px; } .li .t span { font-size: 12px; color: var(--cream-2); font-weight: 600; }
+  .li .amt { font-weight: 800; font-size: 15px; }
+  .av { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 13px; color: var(--cream); box-shadow: 0 0 0 2px rgba(255,255,255,.6); }
+  .av.big { width: 52px; height: 52px; font-size: 16px; }
+  .a1 { background: radial-gradient(circle at 30% 25%, #E9B48C, #9C6040 70%); }
+  .a2 { background: radial-gradient(circle at 30% 25%, #D9A9A0, #8A5048 70%); }
+  .a3 { background: radial-gradient(circle at 30% 25%, #CDB08E, #7C5E3E 70%); }
+  .cust { margin-top: 20px; border-radius: 26px; padding: 14px; display: flex; align-items: center; gap: 12px; text-align: left; color: var(--cream); }
+  .cust > * { position: relative; z-index: 3; }
+  .cust .t { flex: 1; } .cust .t b { display: block; font-size: 17px; } .cust .t span { font-size: 12px; color: var(--cream-2); font-weight: 600; }
+  .wal { text-align: right; } .wal small { display: block; font-size: 11px; color: var(--cream-2); font-weight: 700; } .wal b { font-size: 17px; }
+  .receipt { margin-top: 12px; border-radius: 26px; padding: 16px; color: var(--ink); text-align: left; }
+  .rl { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; font-size: 14px; font-weight: 600; position: relative; z-index: 3; }
+  .rl b { font-weight: 800; }
+  .ok { font-style: normal; font-size: 10px; font-weight: 800; color: #2F7A4E; background: rgba(47,122,78,.12); padding: 3px 7px; border-radius: 8px; margin-left: 4px; }
+  .dash { border-top: 1.5px dashed rgba(36,23,15,.25); margin: 6px 0; }
+  .rl.tot { font-size: 18px; } .rl.tot b { font-size: 22px; }
+  .opt { margin-top: 10px; border-radius: 22px; padding: 12px 14px; display: flex; align-items: center; text-align: left; color: var(--cream); }
+  .opt > * { position: relative; z-index: 3; }
+  .opt .t { flex: 1; } .opt .t b { display: block; font-size: 14px; } .opt .t span { font-size: 12px; color: var(--cream-2); font-weight: 600; }
+  .switch { width: 52px; height: 30px; border-radius: 15px; background: var(--ink); position: relative; } .switch i { position: absolute; right: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: radial-gradient(circle at 30% 25%, #F2C29C, #C27F51 75%); }
+  .tick { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: #7FD8A2; color: #0f3a22; font-weight: 900; }
+  .collect { margin-top: 16px; height: 58px; border-radius: 29px; background: var(--ink); color: var(--cream); display: grid; place-items: center; font-weight: 800; font-size: 17px; box-shadow: 0 12px 26px rgba(28,14,8,.4); }
+  .left { margin-top: 14px; text-align: center; color: var(--cream-2); font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+  .float { position: absolute; z-index: 4; border-radius: 24px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; color: var(--cream); font-weight: 700; }
+  .float > * { position: relative; z-index: 3; }
+  .float .ic { width: 40px; height: 40px; border-radius: 14px; display: grid; place-items: center; color: var(--ink); background: linear-gradient(150deg, rgba(255,255,255,.95), rgba(255,255,255,.7)); font-weight: 900; }
+  .float b { display: block; font-size: 15px; } .float span { font-size: 12px; color: var(--cream-2); font-weight: 600; }
+  .f1 { left: 430px; top: 70px; transform: rotate(-3deg); }
+  .f2 { left: 1180px; top: 860px; transform: rotate(2deg); }
+  .f3 { left: 1230px; top: 150px; transform: rotate(3deg); padding: 10px 16px; }
+</style></head><body>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="lens" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="1" seed="7" result="n"/>
+    <feGaussianBlur in="n" stdDeviation="2" result="nb"/>
+    <feDisplacementMap in="SourceGraphic" in2="nb" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="lensStrong" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.01 0.03" numOctaves="1" seed="3" result="n"/>
+    <feGaussianBlur in="n" stdDeviation="1.5" result="nb"/>
+    <feDisplacementMap in="SourceGraphic" in2="nb" scale="28" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+<div class="scene"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="sgrain"></div>
+<div class="slot l"><div class="phone side"><div class="screen"><div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div><div class="glow g4"></div><div class="glow g5"></div><div class="glow g6"></div><div class="lines"></div><div class="grain"></div>
+<div class="content"><div class="status"><span>11:40</span>
+        <span class="icons">
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 4a10 10 0 0 1 14 0"/><path d="M3.5 6.8a6.5 6.5 0 0 1 9 0"/><circle cx="8" cy="10" r="1.3" fill="currentColor" stroke="none"/></svg>
+          <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x=".5" y=".5" width="22" height="11" rx="3" stroke="currentColor" opacity=".6"/><rect x="2" y="2" width="16" height="8" rx="2" fill="currentColor"/><rect x="24" y="4" width="2" height="4" rx="1" fill="currentColor" opacity=".6"/></svg>
+        </span>
+      </div>
+<div class="scroll">
+  <div class="top"><div class="logo"><img src="../../assets/brand/logo-clean.png" alt=""></div><div class="top-right"><div class="round glass"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/></svg></div><div class="avatar">SB</div></div></div>
+  <div class="hello" style="font-size:24px">Earnings, <b>this week</b></div>
+  <div class="date">Owner · Thu 15 – Wed 21 Oct</div>
+  <div class="seg glass"><span class="s on">Today</span><span class="s">7 days</span><span class="s">Month</span></div>
+  <div class="big glass bright">
+    <div class="label2">Today so far</div>
+    <div class="bignum">₹6,800 <em>+12% vs last Wed</em></div>
+    <div class="bars"><div class="bcol"><div class="bar" style="height:47px"></div><span>Thu</span></div><div class="bcol"><div class="bar" style="height:63px"></div><span>Fri</span></div><div class="bcol"><div class="bar" style="height:103px"></div><span>Sat</span></div><div class="bcol"><div class="bar" style="height:118px"></div><span>Sun</span></div><div class="bcol"><div class="bar" style="height:44px"></div><span>Mon</span></div><div class="bcol"><div class="bar off" style="height:6px"></div><span>Tue</span></div><div class="bcol"><div class="bar on" style="height:77px"></div><span>Wed</span></div></div>
+  </div>
+  <div class="sec"><h3>Stylists today</h3><a href="#">All</a></div>
+  <div class="list glass">
+    <div class="li"><div class="av a1">IK</div><div class="t"><b>Imran Khan</b><span>4 customers · Chair 1</span></div><div class="amt">₹1,350</div></div>
+    <div class="li"><div class="av a2">SU</div><div class="t"><b>Sunita</b><span>3 customers · Chair 2</span></div><div class="amt">₹2,900</div></div>
+    <div class="li"><div class="av a3">RA</div><div class="t"><b>Rakesh</b><span>2 customers · Chair 3</span></div><div class="amt">₹2,550</div></div>
+  </div>
+</div></div>
+<div class="dock glass bright"><div class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M5 12a7 7 0 0 1 14 0M2 12a10 10 0 0 1 20 0"/></svg></div><div class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Earnings</div><div class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/></svg></div><div class="tab"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div></div><div class="homebar"></div>
+</div></div></div>
+<div class="slot c"><div class="phone"><div class="screen">
+    <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div><div class="glow g4"></div><div class="glow g5"></div><div class="glow g6"></div>
+    <div class="lines"></div><div class="grain"></div>
+
+    <div class="content">
+      <div class="status"><span>11:40</span>
+        <span class="icons">
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 4a10 10 0 0 1 14 0"/><path d="M3.5 6.8a6.5 6.5 0 0 1 9 0"/><circle cx="8" cy="10" r="1.3" fill="currentColor" stroke="none"/></svg>
+          <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x=".5" y=".5" width="22" height="11" rx="3" stroke="currentColor" opacity=".6"/><rect x="2" y="2" width="16" height="8" rx="2" fill="currentColor"/><rect x="24" y="4" width="2" height="4" rx="1" fill="currentColor" opacity=".6"/></svg>
+        </span>
+      </div>
+
+      <div class="scroll">
+        <div class="top">
+          <div class="logo"><img src="../../assets/brand/logo-clean.png" alt="Salon logo"></div>
+          <div class="top-right">
+            <div class="round glass" title="Reminders">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+              <span class="dot"></span>
+            </div>
+            <div class="round glass" title="WhatsApp">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5z"/></svg>
+            </div>
+            <div class="avatar">IK</div>
+          </div>
+        </div>
+
+        <div class="hello">Good morning, <b>Imran!</b> here's your <b>day at the salon.</b></div>
+        <div class="date">Wednesday, 21 October · Chair 1</div>
+
+        <div class="walkin glass">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
+          <div class="ph">Walk-in? Mobile number</div>
+          <div class="go">Start</div>
+        </div>
+
+        <div class="sec"><h3>My day so far</h3><a href="#">This month ₹8,150</a></div>
+        <div class="row">
+          <div class="stat glass bright">
+            <svg class="ring" viewBox="0 0 42 42"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2C29C"/><stop offset="1" stop-color="#B8764A"/></linearGradient></defs><circle cx="21" cy="21" r="16" fill="rgba(255,255,255,.85)"/><circle cx="21" cy="21" r="16" fill="none" stroke="rgba(36,23,15,.1)" stroke-width="4.5"/><circle cx="21" cy="21" r="16" fill="none" stroke="url(#gg)" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="67 101" transform="rotate(-90 21 21)"/><text x="21" y="25.5" text-anchor="middle" font-family="Urbanist" font-weight="800" font-size="12" fill="#24170F">₹</text></svg>
+            <div class="label">Earnings today</div>
+            <div class="num">₹1,350</div>
+            <div class="split">Cash/UPI/card ₹900<br>Wallet ₹450</div>
+            <div class="foot"><span class="chip">Good day</span></div>
+          </div>
+          <div class="stat glass bright">
+            <svg class="ring" viewBox="0 0 42 42"><circle cx="21" cy="21" r="16" fill="rgba(255,255,255,.85)"/><circle cx="21" cy="21" r="16" fill="none" stroke="rgba(36,23,15,.1)" stroke-width="4.5"/><circle cx="21" cy="21" r="16" fill="none" stroke="#24170F" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="75 101" transform="rotate(-90 21 21)"/><text x="21" y="25" text-anchor="middle" font-family="Urbanist" font-weight="800" font-size="10.5" fill="#24170F">3/4</text></svg>
+            <div class="label">Customers</div>
+            <div class="num">4<small>handled</small></div>
+            <div class="split">3 paid · 1 in chair<br>1 new today</div>
+            <div class="foot"><span class="chip">On track</span></div>
+          </div>
+          <div class="peek glass bright">
+            <div style="font-size:13px;color:rgba(36,23,15,.66);font-weight:700">Bookings</div>
+            <div style="margin-top:12px;font-size:27px;font-weight:800">3</div>
+          </div>
+        </div>
+
+        <div class="sec"><h3>My chair</h3><a href="#">Chair 1</a></div>
+        <div class="chair glass">
+          <div class="spot"></div>
+          <div class="who">Karan Mehta</div>
+          <div class="what">Haircut + Beard trim · since 11:10</div>
+          <div class="chips"><span class="tag glass"><i></i>In chair · 30 min</span></div>
+          <img src="../../assets/live/s3.webp" alt="">
+          <div class="pay">Pay ₹450
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </div>
+        </div>
+
+        <div class="bookings glass">
+          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+          <div class="t"><b>Your bookings today · 3</b><span>Salon: 2 on-the-day reminders to send</span></div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="dock glass bright">
+      <div class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</div>
+      <div class="tab" title="Customers"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/></svg></div>
+      <div class="tab plus" title="Walk-in"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+      <div class="tab" title="Calendar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+      <div class="tab" title="Profile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
+    </div>
+    <div class="homebar"></div>
+  </div></div></div>
+<div class="slot r"><div class="phone side"><div class="screen"><div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div><div class="glow g4"></div><div class="glow g5"></div><div class="glow g6"></div><div class="lines"></div><div class="grain"></div>
+<div class="content"><div class="status"><span>11:40</span>
+        <span class="icons">
+          <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 4a10 10 0 0 1 14 0"/><path d="M3.5 6.8a6.5 6.5 0 0 1 9 0"/><circle cx="8" cy="10" r="1.3" fill="currentColor" stroke="none"/></svg>
+          <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x=".5" y=".5" width="22" height="11" rx="3" stroke="currentColor" opacity=".6"/><rect x="2" y="2" width="16" height="8" rx="2" fill="currentColor"/><rect x="24" y="4" width="2" height="4" rx="1" fill="currentColor" opacity=".6"/></svg>
+        </span>
+      </div>
+<div class="scroll">
+  <div class="top"><div class="round glass"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></div><div style="color:#FFF7F0;font-weight:800;font-size:18px">Collect</div><div class="round glass"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></div></div>
+  <div class="cust glass">
+    <div class="av big a2">AR</div>
+    <div class="t"><b>Aditya Rao</b><span>Returning · ••••• •5028</span></div>
+    <div class="wal"><small>Wallet</small><b>₹4,850</b></div>
+  </div>
+  <div class="receipt glass bright">
+    <div class="rl"><span>Hair colour</span><b>₹1,200</b></div>
+    <div class="rl"><span>Keratin touch-up <i class="ok">owner approved</i></span><b>₹800</b></div>
+    <div class="dash"></div>
+    <div class="rl tot"><span>Total</span><b>₹2,000</b></div>
+  </div>
+  <div class="opt glass">
+    <div class="t"><b>Pay from wallet</b><span>₹2,000 of ₹4,850</span></div>
+    <div class="switch"><i></i></div>
+  </div>
+  <div class="opt glass">
+    <div class="t"><b>Number confirmed</b><span>WhatsApp code · ••••• •5028</span></div>
+    <div class="tick">✓</div>
+  </div>
+  <div class="collect">Collect ₹2,000</div>
+  <div class="left">Customer left without a service</div>
+</div></div>
+</div></div></div>
+
+<div class="float glass f1"><div class="ic">₹</div><div><b>Imran collected ₹450</b><span>Karan Mehta · Chair 1 · just now</span></div></div>
+<div class="float glass f2"><div class="ic">✓</div><div><b>Cash matches the drawer</b><span>₹2,400 counted · 8:52 PM</span></div></div>
+<div class="float glass f3"><span style="width:8px;height:8px;border-radius:50%;background:#7FD8A2;box-shadow:0 0 10px #7FD8A2;display:inline-block"></span><b style="font-size:13px">LIVE · 3 chairs busy</b></div>
+
+</div></body></html>

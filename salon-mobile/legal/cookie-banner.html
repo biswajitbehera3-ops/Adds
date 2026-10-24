@@ -1,0 +1,31 @@
+<!--
+  Cookie consent banner for the legal web pages. NOT ACTIVE: the pages currently set no cookies,
+  so no banner is needed. Paste before </body> only if non-essential cookies/analytics are added,
+  and load those scripts only inside loadOptional().
+  No dark patterns: Accept and Reject look the same and sit side by side; nothing is pre-ticked;
+  closing the banner = reject; the choice can be changed via the "Cookie settings" link.
+-->
+<div id="cc" role="dialog" aria-live="polite" aria-label="Cookie choice" hidden
+  style="position:fixed;left:16px;right:16px;bottom:16px;max-width:560px;margin:auto;background:#001621;color:#FF4103;border:2px solid #FF4103;border-radius:16px;padding:16px;font:15px/1.5 system-ui,sans-serif;z-index:9999">
+  <p style="margin:0 0 12px">We'd like to use optional cookies to count page visits. They are off unless you accept. <a href="/cookie-policy" style="color:#FF4103">Cookie policy</a></p>
+  <div style="display:flex;gap:12px">
+    <button type="button" data-cc="reject" style="flex:1;min-height:44px;border-radius:999px;border:2px solid #FF4103;background:#001621;color:#FF4103;font-weight:700">Reject</button>
+    <button type="button" data-cc="accept" style="flex:1;min-height:44px;border-radius:999px;border:2px solid #FF4103;background:#001621;color:#FF4103;font-weight:700">Accept</button>
+  </div>
+</div>
+<button type="button" id="cc-open" style="position:fixed;left:16px;bottom:16px;font:13px system-ui;background:none;border:0;color:inherit;text-decoration:underline">Cookie settings</button>
+<script>
+  (() => {
+    const KEY = "cookie-choice";
+    const box = document.getElementById("cc");
+    const get = () => { try { return localStorage.getItem(KEY); } catch { return null; } };
+    const set = (v) => { try { localStorage.setItem(KEY, v); } catch {} };
+    function loadOptional() { /* load analytics here, only after Accept */ }
+    function choose(v) { set(v); box.hidden = true; if (v === "accept") loadOptional(); }
+    box.addEventListener("click", (e) => { const v = e.target.getAttribute && e.target.getAttribute("data-cc"); if (v) choose(v); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !box.hidden) choose("reject"); });
+    document.getElementById("cc-open").onclick = () => { box.hidden = false; box.querySelector("button").focus(); };
+    const c = get();
+    if (c === "accept") loadOptional(); else if (!c) box.hidden = false;
+  })();
+</script>

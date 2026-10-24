@@ -1,0 +1,13 @@
+{
+  "id": "P018",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "other",
+  "reason": "It's only in English. My stylists won't use an English app to bill customers in front of them, so I'd pay ₹10,000 and still be writing in the register. And another ₹500 every month on top of that, for something they might not even use.",
+  "objection": "English only. If my staff can't comfortably use it in Odia or Hindi, the whole thing is wasted money, and I don't want another monthly payment.",
+  "would_change_my_mind": "An Odia or Hindi version my stylists can use without help, with the monthly fee dropped or turned into one yearly payment at a discount.",
+  "price_too_cheap": 2000,
+  "price_cheap": 4000,
+  "price_expensive": 8000,
+  "price_too_expensive": 12000
+}

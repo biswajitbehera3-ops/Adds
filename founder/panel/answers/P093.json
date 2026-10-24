@@ -1,0 +1,13 @@
+{
+  "id": "P093",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "The cash-drawer check and cancelled-bill report are exactly what I worry about when I'm away, but I already run billing on an app and moving 5 to 10 staff and all my customer data to something new is a headache I don't want this month. The rest, WhatsApp bills, reminders, wallet, I mostly have already.",
+  "objection": "Why switch? My staff already know the current app, and I don't know who you are or whether you'll still be around in a year with my customer list in your system.",
+  "would_change_my_mind": "If you moved my existing customer data and wallet balances over for free and let me run the cash and staff checks for a full month alongside my current app, and it caught real leakage, I would switch.",
+  "price_too_cheap": 299,
+  "price_cheap": 599,
+  "price_expensive": 1499,
+  "price_too_expensive": 2500
+}

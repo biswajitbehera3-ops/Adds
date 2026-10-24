@@ -1,0 +1,13 @@
+{
+  "id": "P055",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "The cash-drawer check and seeing attendance while I'm at my other outlet does speak to my real worry, but I already pay for a billing app my staff know. Paying ₹4,999 up front to move everything over and retrain the team isn't something I'll do in a normal week.",
+  "objection": "I already use a billing app, so why switch and pay setup again? Changing the system could upset my stylists, and I can't afford to lose more of them.",
+  "would_change_my_mind": "If you moved my existing customer and billing data over for free with no setup fee, and showed me in the free month that it catches cash leakage my current app misses.",
+  "price_too_cheap": 299,
+  "price_cheap": 599,
+  "price_expensive": 1499,
+  "price_too_expensive": 2500
+}

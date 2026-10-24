@@ -1,0 +1,13 @@
+{
+  "id": "P009",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My register has never failed me in years, and I know every bill in it. Making 5 to 10 stylists type numbers on their phones and check in every morning, right before Puja and wedding season, sounds like more trouble and bad feeling than it is worth.",
+  "objection": "The attendance check-in and the drawer-cash checks will make my staff feel I am watching them and don't trust them, and good stylists in Bhubaneswar can walk to another salon easily.",
+  "would_change_my_mind": "If I could try it free for a month in a slow period, without the attendance part, and see it actually bring customers back through the WhatsApp reminders while my register stays as backup.",
+  "price_too_cheap": 2000,
+  "price_cheap": 4000,
+  "price_expensive": 8000,
+  "price_too_expensive": 15000
+}

@@ -1,0 +1,615 @@
+<title>Staff Calendar Flow</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: intro, then one live phone beside the six-step flow. Single dark look by design, matching the other salon studies. */
+:root{
+  --glow:#8E5B4E; --mid:#4A3029; --deep:#1A1210; --page:#120c0a;
+  --gold:#E4A67B; --gold2:#F5C9A0; --cream:#FFF8F1; --soft:rgba(255,248,241,.72); --faint:rgba(255,248,241,.45);
+  --glass:rgba(255,244,236,.10); --glass2:rgba(255,244,236,.16); --line:rgba(255,244,236,.20); --ink:#2a1a12; --ok:#8FD6A4;
+  --out:cubic-bezier(.23,1,.32,1); --drawer:cubic-bezier(.32,.72,0,1);
+  --font:Urbanist,"Avenir Next","Segoe UI",system-ui,sans-serif; color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--page);color:var(--cream);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{padding-block:30px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:2px solid var(--cream);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto}
+h1{font-size:30px;font-weight:700;text-wrap:balance}
+.lead{color:var(--soft);font-size:15px;line-height:1.55;max-width:74ch;margin-top:8px}
+.pick{margin-top:18px;padding:16px 18px;border-radius:20px;background:linear-gradient(135deg,rgba(228,166,123,.22),rgba(228,166,123,.06));border:1px solid rgba(228,166,123,.45);max-width:860px;font-size:14.5px;line-height:1.55;color:var(--soft)}
+.pick b{color:var(--cream)}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px;margin-top:30px;justify-items:center}
+figure{display:flex;flex-direction:column;gap:12px;width:100%;max-width:340px}
+figcaption b{display:flex;align-items:center;gap:8px;font-size:16px}
+figcaption b em{font-style:normal;font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--gold);border-radius:999px;padding:2px 8px}
+figcaption p{color:var(--soft);font-size:13.5px;line-height:1.5;margin-top:4px}
+figcaption ul{margin:6px 0 0 18px;color:var(--soft);font-size:13px;line-height:1.5}
+h2{font-size:21px;font-weight:700;margin:46px 0 10px}
+.spec{width:100%;max-width:900px;border-collapse:collapse;font-size:13.5px}
+.spec th,.spec td{text-align:left;padding:9px 10px;border-bottom:1px solid rgba(255,244,236,.1);vertical-align:top}
+.spec th{color:var(--gold2);font-weight:700;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase}
+.spec td{color:var(--soft)} .spec td:first-child{color:var(--cream);font-weight:600}
+.tablewrap{overflow-x:auto}
+
+/* phone shell: a 390×844 screen scaled to fit */
+.phone{position:relative;width:100%;aspect-ratio:390/844;border-radius:44px;overflow:hidden;background:var(--deep);
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,244,236,.1),0 0 0 8px #0b0807,0 0 0 9px rgba(255,244,236,.08)}
+.inner{position:absolute;left:0;top:0;width:390px;height:844px;transform-origin:0 0;transform:scale(var(--k,1))}
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;gap:12px;padding:50px 18px 0;overflow:hidden;
+  background:radial-gradient(120% 70% at 12% 0%,var(--glow) 0%,var(--mid) 46%,var(--deep) 100%)}
+.sb{position:absolute;top:16px;left:30px;right:30px;display:flex;justify-content:space-between;font-size:14px;font-weight:700}
+.top{display:flex;justify-content:space-between;align-items:flex-end}
+.who{font-size:13px;color:var(--soft);font-weight:600;display:flex;align-items:center;gap:6px}
+.ttl{font-size:28px;font-weight:800;letter-spacing:-.01em}
+.book{font-weight:800;font-size:14px;color:var(--ink);background:var(--gold);border-radius:999px;padding:9px 15px}
+.press{transition:transform 160ms var(--out)} .press:active{transform:scale(.97)}
+.arw{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--glass);border:1px solid var(--line);font-size:16px}
+
+/* segmented control with sliding thumb */
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;padding:4px;border-radius:999px;background:rgba(26,18,16,.45);border:1px solid var(--line)}
+.seg .thumb{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:999px;background:var(--gold);transition:transform 240ms var(--out)}
+.seg[data-v="all"] .thumb{transform:translateX(100%)}
+.seg button{position:relative;z-index:1;padding:8px 0;font-size:13.5px;font-weight:700;color:var(--soft);transition:color 200ms var(--out)}
+.seg button[aria-pressed="true"]{color:var(--ink)}
+
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:22px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+
+/* month grid with one gliding selection pill */
+.mg{position:relative;padding:10px}
+.mg .heads,.mg .cells{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.mg .heads span{font-size:11px;font-weight:700;color:var(--faint);padding-bottom:6px}
+.mg .cell{position:relative;z-index:1;height:42px;border-radius:13px;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;transition:color 200ms var(--out)}
+.mg .cell.off{color:var(--faint);opacity:.45}
+.mg .cell.today{box-shadow:inset 0 0 0 1.5px var(--gold2)}
+.mg .cell.sel{color:var(--ink);font-weight:800}
+.mg .cell i{font-style:normal;font-size:10px;font-weight:800;color:var(--gold2);min-height:12px;line-height:12px}
+.mg .cell.sel i{color:var(--ink)}
+.pill{position:absolute;z-index:0;left:0;top:0;border-radius:13px;background:var(--gold);transition:transform 260ms var(--out),opacity 160ms var(--out);will-change:transform}
+.pill.jump{transition:none}
+
+/* enter recipes: opacity + small translate + blur (exits are instant) */
+@keyframes inR{from{opacity:0;transform:translateX(18px);filter:blur(4px)}}
+@keyframes inL{from{opacity:0;transform:translateX(-18px);filter:blur(4px)}}
+@keyframes inU{from{opacity:0;transform:translateY(8px);filter:blur(4px)}}
+.enR{animation:inR 280ms var(--out) both}.enL{animation:inL 280ms var(--out) both}
+.enU{animation:inU 260ms var(--out) both;animation-delay:calc(var(--i,0) * 35ms)}
+
+/* booking rows */
+.dayhd{display:flex;justify-content:space-between;align-items:baseline;padding:2px 4px}
+.dayhd b{font-size:16px}.dayhd span{font-size:12.5px;color:var(--soft)}
+.list{display:flex;flex-direction:column;gap:8px;overflow-y:auto;padding-bottom:110px;scrollbar-width:none}
+.list::-webkit-scrollbar{display:none}
+.bk{display:grid;grid-template-columns:58px 1fr auto;gap:10px;align-items:center;text-align:left;width:100%;padding:11px 12px;border-radius:16px;background:var(--glass);border:1px solid var(--line);transition:transform 160ms var(--out),background-color 200ms var(--out)}
+.bk:active{transform:scale(.98)}
+.bk .t{font-size:13px;font-weight:800;font-variant-numeric:tabular-nums}
+.bk .t small{display:block;font-size:11px;font-weight:600;color:var(--faint)}
+.bk .n{font-size:15px;font-weight:700}.bk .s{font-size:12.5px;color:var(--soft);margin-top:1px}
+.bk.done{opacity:.55}
+.empty{padding:26px 10px;text-align:center;color:var(--faint);font-size:14px;line-height:1.5}
+
+/* status chip; swaps with scale + blur */
+.chip{display:inline-block;font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.chip.booked{color:var(--gold2);box-shadow:inset 0 0 0 1.3px rgba(245,201,160,.7)}
+.chip.arrived{color:#10291a;background:var(--ok)}
+.chip.inchair{color:var(--ink);background:var(--gold)}
+.chip.done{color:var(--faint);box-shadow:inset 0 0 0 1px rgba(255,248,241,.25)}
+@keyframes swap{from{opacity:0;transform:scale(.85);filter:blur(3px)}}
+.chip.sw{animation:swap 220ms var(--out) both}
+
+/* week strip */
+.strip{position:relative;display:grid;grid-template-columns:repeat(7,1fr);padding:6px;touch-action:pan-y}
+.strip .wd{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 0 6px;border-radius:14px;transition:color 200ms var(--out)}
+.strip .wd small{font-size:11px;font-weight:700;color:var(--faint);transition:color 200ms var(--out)}
+.strip .wd b{font-size:17px;font-variant-numeric:tabular-nums}
+.strip .wd .dots{display:flex;gap:2px;height:5px}
+.strip .wd .dots i{width:4px;height:4px;border-radius:50%;background:var(--gold2)}
+.strip .wd.off{opacity:.4}
+.strip .wd.today b{color:var(--gold2)}
+.strip .wd.sel,.strip .wd.sel small,.strip .wd.sel b{color:var(--ink)}
+.strip .wd.sel .dots i{background:var(--ink)}
+.strip .pill{border-radius:14px}
+.chev{display:inline-block;transition:transform 260ms var(--out)}
+.open .chev{transform:rotate(180deg)}
+
+/* timeline */
+.tl{position:relative;flex:1;overflow:auto;border-radius:22px 22px 0 0;scrollbar-width:none;touch-action:pan-y}
+.tl.wide{touch-action:auto}
+.tl::-webkit-scrollbar{display:none}
+.tlb{position:relative;padding-bottom:110px}
+.hr{position:absolute;left:0;right:0;height:0;border-top:1px solid rgba(255,244,236,.08)}
+.hr span{position:absolute;left:0;top:-8px;width:40px;font-size:11px;font-weight:700;color:var(--faint);text-align:right}
+.blk{position:absolute;overflow:hidden;text-align:left;padding:6px 9px;border-radius:12px;background:rgba(228,166,123,.18);border-left:3px solid var(--gold);transition:background-color 220ms var(--out),border-color 220ms var(--out),transform 160ms var(--out)}
+.blk:active{transform:scale(.98)}
+.blk b{display:block;font-size:13.5px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.blk span{display:block;font-size:11.5px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.blk .chip{position:absolute;right:6px;top:6px;font-size:10.5px;padding:3px 7px}
+.blk.done{background:rgba(255,244,236,.06);border-color:rgba(255,248,241,.25)}
+.blk.done b,.blk.done span{color:var(--faint)}
+.blk.arrived{background:rgba(143,214,164,.18);border-color:var(--ok)}
+.blk.inchair{background:rgba(228,166,123,.34)}
+.blk.mine{box-shadow:inset 0 0 0 1px rgba(245,201,160,.35)}
+.now{position:absolute;left:42px;right:0;height:0;border-top:2px solid var(--gold2);z-index:3;pointer-events:none}
+.now::before{content:"";position:absolute;left:-5px;top:-6px;width:10px;height:10px;border-radius:50%;background:var(--gold2)}
+.cols{position:sticky;top:0;z-index:4;display:flex;padding:8px 0 8px 46px;background:rgba(40,25,20,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.cols div{flex:0 0 96px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;font-weight:700;color:var(--soft)}
+.cols div i{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:800;color:var(--ink)}
+.cols div.me{color:var(--gold2)}
+
+/* month panel over the timeline: clip-path reveal from the top */
+.mpanel{position:absolute;left:18px;right:18px;z-index:6;clip-path:inset(0 0 100% 0 round 22px);transition:clip-path 320ms var(--out);background:#3a261f;border:1px solid var(--line);border-radius:22px;box-shadow:0 20px 40px rgba(0,0,0,.45)}
+.open .mpanel{clip-path:inset(0 0 0 0 round 22px)}
+.mpanel .mtop{display:flex;justify-content:space-between;align-items:center;padding:12px 12px 0}
+.mpanel .mtop b{font-size:15px}
+
+/* schedule list (C) */
+.sched{flex:1;overflow-y:auto;padding-bottom:110px;scrollbar-width:none;scroll-behavior:smooth}
+.sched::-webkit-scrollbar{display:none}
+.sgrp{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.shd{position:sticky;top:0;z-index:2;display:flex;justify-content:space-between;align-items:baseline;padding:8px 6px;background:linear-gradient(rgba(40,25,20,.97) 70%,rgba(40,25,20,0));}
+.shd b{font-size:15px}.shd span{font-size:12px;color:var(--soft)}
+.shd.today b{color:var(--gold2)}
+.closed{padding:12px;border-radius:16px;border:1px dashed var(--line);text-align:center;font-size:13px;color:var(--faint)}
+.jump{position:absolute;left:50%;top:150px;z-index:7;transform:translate(-50%,-8px);opacity:0;pointer-events:none;font-size:13px;font-weight:800;color:var(--ink);background:var(--gold);padding:8px 14px;border-radius:999px;box-shadow:0 8px 20px rgba(0,0,0,.4);transition:opacity 200ms var(--out),transform 200ms var(--out)}
+.jump.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+
+/* bottom sheet */
+.scrim{position:absolute;inset:0;z-index:20;background:rgba(8,5,4,.55);opacity:0;pointer-events:none;transition:opacity 260ms var(--out)}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:21;padding:10px 20px 34px;border-radius:30px 30px 0 0;background:linear-gradient(180deg,#4a3029,#2a1b16);border-top:1px solid var(--line);transform:translateY(105%);transition:transform 420ms var(--drawer);touch-action:none}
+.sheet.on{transform:translateY(0)}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet.drag{transition:none}
+.handle{width:40px;height:5px;border-radius:9px;background:rgba(255,244,236,.3);margin:0 auto 14px}
+.sh1{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sh1 h3{font-size:22px;font-weight:800}
+.sh1 p{font-size:13.5px;color:var(--soft);margin-top:3px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:16px 0}
+.facts div{padding:10px;border-radius:14px;background:var(--glass);border:1px solid var(--line)}
+.facts small{display:block;font-size:11px;color:var(--faint);font-weight:700}
+.facts b{font-size:15px}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.acts button{padding:12px;border-radius:999px;font-weight:800;font-size:14px;background:var(--glass2);border:1px solid var(--line)}
+.acts .main{grid-column:1/-1;background:var(--gold);color:var(--ink);border:0;transition:background-color 220ms var(--out),color 220ms var(--out),transform 160ms var(--out)}
+.acts .main:disabled{background:rgba(143,214,164,.22);color:var(--ok);cursor:default}
+.note{font-size:12px;color:var(--faint);text-align:center;margin-top:10px}
+
+/* dock */
+.dock{position:absolute;left:14px;right:14px;bottom:14px;z-index:10;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;padding:8px;border-radius:24px;background:rgba(38,22,17,.82);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.dock span{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;font-weight:600;color:var(--soft);padding:6px 0;border-radius:16px}
+.dock span.on{background:var(--gold);color:var(--ink);font-weight:800}
+.dock svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dock .plus{width:52px;height:52px;margin:-26px auto 0;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;padding:0;box-shadow:0 8px 20px rgba(0,0,0,.45),0 0 0 10px rgba(38,22,17,.82)}
+.dock .plus svg{width:24px;height:24px;stroke-width:2.6}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+/* final flow: month first, tap a day → it folds into the week strip and the day timeline opens */
+.solo{display:grid;grid-template-columns:minmax(280px,360px) minmax(0,1fr);gap:40px;align-items:start;margin-top:30px}
+@media (max-width:760px){.solo{grid-template-columns:1fr;justify-items:center}}
+.steps{display:grid;gap:14px;max-width:520px}
+.steps div{padding:14px 16px;border-radius:18px;background:rgba(255,244,236,.05);border:1px solid rgba(255,244,236,.12)}
+.steps b{display:flex;align-items:center;gap:8px;font-size:15px}
+.steps b i{font-style:normal;display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--ink);font-size:12.5px}
+.steps p{color:var(--soft);font-size:13.5px;line-height:1.5;margin-top:5px}
+.stage{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
+.mv,.dv{display:flex;flex-direction:column;gap:12px;flex:1;min-height:0}
+[hidden]{display:none!important}
+.mv .mg{transition:clip-path 340ms var(--drawer),transform 340ms var(--drawer)}
+.mv .mg .bar,.mv .mg .heads,.mv .mg .cell{transition:opacity 160ms var(--out)}
+.mv.col .mg .bar,.mv.col .mg .heads,.mv.col .mg .cell:not(.wk){opacity:0}
+.mv .tcard{transition:opacity 160ms var(--out),transform 200ms var(--out)}
+.mv.col .tcard{opacity:0;transform:translateY(8px)}
+.mv.nt *{transition:none!important}
+.bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.bar b{font-size:15px}
+.tcard{padding:14px 16px;display:grid;gap:10px;text-align:left;width:100%}
+.tcard .r1{display:flex;justify-content:space-between;align-items:baseline}
+.tcard .r1 b{font-size:16px}.tcard .r1 span{font-size:12.5px;color:var(--soft)}
+.tcard .nx{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:rgba(26,18,16,.4);border:1px solid var(--line)}
+.tcard .nx small{display:block;font-size:11px;color:var(--faint);font-weight:700}
+.tcard .nx .tm{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+.tcard .go{font-size:13px;font-weight:800;color:var(--gold2)}
+.legend{display:flex;gap:14px;justify-content:center;font-size:11.5px;color:var(--faint)}
+.legend span{display:flex;align-items:center;gap:5px}
+.legend i{width:12px;height:12px;border-radius:4px;display:inline-block}
+.back{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;color:var(--gold2);padding:2px 0}
+.ttl.sw{animation:inU 240ms var(--out) both}
+
+/* booking effects: a ring around each day fills to how booked it is, a warm glow by load; both sweep in once, rippling out from today */
+@property --p{syntax:'<number>';inherits:false;initial-value:0}
+.mg .cell b{position:relative;z-index:1;font-weight:inherit}
+.mg .cell i{position:absolute;z-index:1;top:0;right:1px;font-size:9.5px;line-height:13px;min-height:0;padding:0 3px;border-radius:999px}
+.mg .cell .ring{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;
+  background:conic-gradient(var(--gold2) calc(var(--p)*1turn),rgba(255,244,236,.09) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.6px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.6px),#000 calc(100% - 2px))}
+.mg .cell.has::before{content:"";position:absolute;inset:3px;border-radius:12px;background:radial-gradient(circle,rgba(228,166,123,calc(.06 + var(--h)*.55)),transparent 72%)}
+.mg .cell.full i{background:var(--gold);color:var(--ink)}
+.mg .cell.full .ring{background:conic-gradient(var(--gold) calc(var(--p)*1turn),rgba(255,244,236,.09) 0)}
+.mg .cell.sel::before{opacity:0}
+.mg .cell.sel .ring{background:conic-gradient(var(--ink) calc(var(--p)*1turn),rgba(42,26,18,.22) 0)}
+.mg .cell.sel i{color:var(--ink);background:none}
+@keyframes sweep{from{--p:0}}
+@keyframes glow{from{opacity:0;transform:scale(.7)}}
+.cells.fx .ring{animation:sweep 700ms var(--out) both;animation-delay:calc(var(--d,0) * 24ms)}
+.cells.fx .cell.has::before{animation:glow 520ms var(--out) both;animation-delay:calc(var(--d,0) * 24ms)}
+.strip .wd .lb{width:22px;height:3px;border-radius:3px;background:rgba(255,244,236,.12);overflow:hidden;margin-top:2px}
+.strip .wd .lb i{display:block;height:100%;border-radius:3px;background:var(--gold2);transform-origin:left;transform:scaleX(var(--p));animation:fill 520ms var(--out) both;animation-delay:calc(var(--d,0) * 40ms)}
+.strip .wd.sel .lb{background:rgba(42,26,18,.2)}.strip .wd.sel .lb i{background:var(--ink)}
+@keyframes fill{from{transform:scaleX(0)}}
+.lbar{height:6px;border-radius:6px;background:rgba(255,244,236,.1);overflow:hidden}
+.lbar i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,var(--gold),var(--gold2));transform-origin:left;transform:scaleX(var(--p));animation:fill 700ms var(--out) 150ms both}
+.lrow{display:flex;justify-content:space-between;font-size:12px;color:var(--soft);margin-top:-4px}
+/* + Book: a tall sheet; sections unlock top to bottom as each is answered */
+.nb{position:absolute;left:0;right:0;top:44px;bottom:0;z-index:30;display:flex;flex-direction:column;border-radius:30px 30px 0 0;background:linear-gradient(180deg,#4d322a,#221612 70%);border-top:1px solid var(--line);box-shadow:0 -20px 50px rgba(0,0,0,.5);transform:translateY(102%);transition:transform 420ms var(--drawer)}
+.nb.on{transform:none}
+.nbscrim{position:absolute;inset:0;z-index:29;background:rgba(8,5,4,.55);opacity:0;pointer-events:none;transition:opacity 260ms var(--out)}
+.nbscrim.on{opacity:1;pointer-events:auto}
+.nbh{display:flex;justify-content:space-between;align-items:center;padding:14px 20px 6px}
+.nbh h3{font-size:22px;font-weight:800}
+.nbh button{width:34px;height:34px;border-radius:50%;background:var(--glass);border:1px solid var(--line);font-size:16px}
+.nbb{flex:1;overflow-y:auto;padding:6px 20px 18px;display:flex;flex-direction:column;gap:20px;scrollbar-width:none}
+.nbb::-webkit-scrollbar{display:none}
+.sec{transition:opacity 260ms var(--out),filter 260ms var(--out)}
+.sec.lock{opacity:.32;filter:saturate(.4);pointer-events:none}
+.sec h4{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--gold2);margin-bottom:9px}
+.sec h4 i{font-style:normal;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:rgba(228,166,123,.2);color:var(--gold2);font-size:11px;letter-spacing:0;transition:background-color 200ms var(--out),color 200ms var(--out)}
+.sec.ok h4 i{background:var(--gold);color:var(--ink)}
+.fld{width:100%;font:600 16px var(--font);color:var(--cream);background:rgba(26,18,16,.55);border:1px solid var(--line);border-radius:14px;padding:12px 14px;outline:none;transition:border-color 200ms var(--out)}
+.fld:focus{border-color:var(--gold)}
+.fld.num{font-size:20px;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+.hint{font-size:11.5px;color:var(--faint);margin-top:6px}
+.who2{margin-top:10px;padding:12px 14px;border-radius:16px;background:var(--glass);border:1px solid var(--line);display:grid;gap:4px}
+.who2 b{font-size:16px}.who2 span{font-size:12.5px;color:var(--soft)}
+.who2 .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.who2 .tags em{font-style:normal;font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;background:rgba(228,166,123,.18);color:var(--gold2)}
+.consent{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:var(--soft);line-height:1.4;margin-top:8px}
+.consent input{accent-color:var(--gold);width:18px;height:18px;margin-top:1px;flex:none}
+.svcs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.svcs button{position:relative;text-align:left;padding:10px 12px;border-radius:14px;background:var(--glass);border:1px solid var(--line);transition:background-color 200ms var(--out),color 200ms var(--out),transform 160ms var(--out)}
+.svcs button:active,.stys button:active,.slots button:active,.days button:active{transform:scale(.96)}
+.svcs b{display:block;font-size:14px}.svcs span{font-size:11.5px;color:var(--soft)}
+.svcs button.on{background:var(--gold);color:var(--ink);border-color:var(--gold)}.svcs button.on span{color:rgba(42,26,18,.75)}
+.svcs em{position:absolute;right:8px;top:8px;font-style:normal;font-size:9.5px;font-weight:800;color:var(--gold2)}
+.svcs button.on em{color:var(--ink)}
+.tot{margin-top:8px;font-size:12.5px;color:var(--soft)}
+.stys{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.stys button{flex:none;display:flex;flex-direction:column;align-items:center;gap:5px;width:58px;font-size:11.5px;font-weight:700;color:var(--soft);transition:opacity 200ms var(--out),transform 160ms var(--out)}
+.stys button i{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:15px;font-weight:800;color:var(--ink);box-shadow:0 0 0 2px transparent;transition:box-shadow 200ms var(--out)}
+.stys button.on{color:var(--cream)}.stys button.on i{box-shadow:0 0 0 2px #2b1c17,0 0 0 4px var(--gold)}
+.stys button:disabled{opacity:.3}
+.days{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0 10px}
+.days button{flex:none;width:46px;padding:7px 0;border-radius:14px;background:var(--glass);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;transition:background-color 200ms var(--out),transform 160ms var(--out)}
+.days small{font-size:10.5px;color:var(--faint);font-weight:700}.days b{font-size:16px}
+.days button.on{background:var(--gold);color:var(--ink);border-color:var(--gold)}.days button.on small{color:var(--ink)}
+.days button:disabled{opacity:.3}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.slots button{padding:9px 0;border-radius:12px;font-size:13.5px;font-weight:700;font-variant-numeric:tabular-nums;background:var(--glass);border:1px solid var(--line);transition:background-color 200ms var(--out),transform 160ms var(--out)}
+.slots button.on{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.slots button:disabled{opacity:.28;text-decoration:line-through;background:none}
+.sw2{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13.5px;color:var(--soft);margin-top:10px}
+.tog{position:relative;flex:none;width:44px;height:26px;border-radius:999px;background:rgba(255,244,236,.18);transition:background-color 200ms var(--out)}
+.tog::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--cream);transition:transform 220ms var(--out)}
+.tog[aria-checked="true"]{background:var(--gold)}.tog[aria-checked="true"]::after{transform:translateX(18px)}
+.msgp{margin-top:8px;padding:10px 12px;border-radius:14px 14px 14px 4px;background:rgba(37,77,52,.55);font-size:12.5px;line-height:1.45;color:#dff3e4}
+.nbf{padding:12px 20px 30px;border-top:1px solid var(--line);background:#221612;display:grid;gap:10px}
+.nbf .sum{font-size:13px;color:var(--soft);min-height:18px}
+.nbf .sum b{color:var(--cream)}
+.nbf .go2{padding:14px;border-radius:999px;font-weight:800;font-size:16px;background:var(--gold);color:var(--ink);transition:opacity 200ms var(--out),transform 160ms var(--out)}
+.nbf .go2:active{transform:scale(.97)}
+.nbf .go2:disabled{opacity:.35}
+.toast{position:absolute;left:18px;right:18px;top:46px;z-index:40;padding:12px 14px;border-radius:18px;background:#2f4a37;color:#e3f6e8;font-size:13px;line-height:1.4;box-shadow:0 12px 30px rgba(0,0,0,.45);opacity:0;transform:translateY(-14px);transition:opacity 220ms var(--out),transform 260ms var(--out);pointer-events:none}
+.toast.on{opacity:1;transform:none}
+.toast b{display:block;font-size:14.5px}
+@keyframes fresh{0%{opacity:0;transform:scale(.9);filter:blur(4px)}40%{opacity:1;transform:scale(1.02);filter:blur(0)}100%{transform:none}}
+@keyframes halo{from{box-shadow:0 0 0 2px var(--gold2),0 0 22px rgba(245,201,160,.7)}to{box-shadow:0 0 0 0 transparent,0 0 0 transparent}}
+.blk.fresh{animation:fresh 520ms var(--out) both,halo 1600ms var(--out) 400ms both}
+</style>
+
+<div class="wrap">
+  <h1>Staff Calendar: month first, then the day</h1>
+  <p class="lead">The Calendar tab opens on the month. Tap a day and the month folds down into that week's strip, and the day opens as a timeline (setup B). "‹ October" unfolds the month again. Example data for Imran, Wednesday 14 Oct 2026, 2:10 PM; Tuesdays closed.</p>
+  <div class="solo">
+    <figure style="max-width:360px"><div class="phone" id="pF"></div></figure>
+    <div class="steps">
+      <div><b><i>1</i>Opens on the month</b><p>Every day with bookings gets a glow and a gold ring that fills to how booked it is, with the booking count in the corner; nearly full days (75%+) turn solid gold. When the month opens, the rings sweep in once, rippling out from today. Tuesdays are faded. Below, the Today card shows who's next and how full the day is. ‹ › changes month.</p></div>
+      <div><b><i>2</i>Tap a day</b><p>The gold highlight moves to the day. The other weeks fade out and the month folds up into a single row: that week. The day's timeline fades in under it. Tapping the Today card does the same for today.</p></div>
+      <div><b><i>3</i>The day (setup B)</b><p>Hours down the side, bookings as blocks sized to their length, a gold line at the current time. Tap another day in the strip; swipe the strip for the next week, or the timeline for the next day.</p></div>
+      <div><b><i>4</i>Whole salon</b><p>The same switch as before. In the day view it shows one column per stylist, so they can see who is free for a walk-in. On the month it changes the counts.</p></div>
+      <div><b><i>5</i>Tap a booking</b><p>A card rises from the bottom: time, bill, visit number, Call, WhatsApp, and on the day, <b>Mark arrived · start visit</b>. Flick down to close.</p></div>
+      <div><b><i>6</i>Back to the month</b><p>"‹ October 2026" at the top unfolds the month again, with the day you were on still highlighted.</p></div>
+      <div><b><i>7</i>+ Book</b><p>One sheet, five parts that unlock in order: <b>customer</b> (10-digit mobile; a returning customer shows visits, last service and wallet, a new one needs a name and a reminders yes/no), <b>services</b> (time and price add up), <b>stylist</b> (you by default; anyone who can't do those services is greyed; or "Any free"), <b>day and time</b> (next 14 days, Tuesdays off; only times where the whole service fits are open), and an optional <b>note</b> with the WhatsApp confirmation preview. Book → the day opens and the new booking glows into place. You can also tap an empty spot on your own timeline to book that time.</p></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ME='Imran', TODAY=new Date(2026,9,14), NOW=14*60+10, H0=10, H1=20, PX=64;
+const STY=[
+  {n:'Imran',c:'#E4A67B',svc:['Haircut','Haircut','Beard trim','Hair spa']},
+  {n:'Sunita',c:'#E9B7C4',svc:['Facial','Threading','Manicure']},
+  {n:'Rakesh',c:'#B9D3A0',svc:['Haircut','Beard trim','Hair colour']},
+  {n:'Pooja',c:'#B5C6EC',svc:['Hair colour','Blow-dry','Hair spa']},
+  {n:'Arjun',c:'#E9D59A',svc:['Haircut','Beard trim']}];
+const SVC={'Haircut':[45,350],'Beard trim':[20,150],'Hair spa':[60,900],'Facial':[60,1200],'Threading':[15,80],'Manicure':[45,600],'Hair colour':[90,1800],'Blow-dry':[30,400]};
+const CUST=['Aarav Sharma','Neha Singh','Dev Arora','Farhan Qureshi','Rohit Verma','Kabir Mehta','Ananya Iyer','Ishaan Gupta','Meera Nair','Vikram Rao','Sana Khan','Aditya Joshi','Priya Menon','Rahul Das','Tanvi Shah','Karan Malhotra','Zoya Ali','Nikhil Bose','Riya Kapoor','Arjun Pillai','Divya Reddy','Harsh Patel','Simran Kaur','Yash Thakur'];
+const MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], WDL=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const arrived={}, cache={};
+const key=d=>d.getFullYear()*10000+(d.getMonth()+1)*100+d.getDate();
+const same=(a,b)=>key(a)===key(b);
+const addD=(d,n)=>new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);
+const fmt=m=>{const h=Math.floor(m/60),mm=m%60,h12=h%12||12;return h12+':'+String(mm).padStart(2,'0')};
+const ap=m=>m>=720?'PM':'AM';
+function rng(s){return()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296}}
+function day(d){
+  const k=key(d); if(cache[k])return cache[k];
+  const out=[]; if(d.getDay()===2)return cache[k]=out;
+  const r=rng(k);
+  STY.forEach((s,si)=>{
+    let t=600+Math.floor(r()*5)*15; const we=d.getDay()===0||d.getDay()===6,n=si===0?(we?8+Math.floor(r()*3):3+Math.floor(r()*5)):(we?4:2)+Math.floor(r()*3);
+    for(let i=0;i<n;i++){
+      const sv=s.svc[Math.floor(r()*s.svc.length)], [dur,price]=SVC[sv];
+      if(t+dur>1185)break;
+      out.push({id:k+'-'+si+'-'+i,date:d,start:t,dur,svc:sv,price,sty:s.n,cust:CUST[Math.floor(r()*CUST.length)],visit:1+Math.floor(r()*12)});
+      t+=dur+15*(we?Math.floor(r()*2):si===0?1+Math.floor(r()*4):1+Math.floor(r()*6));
+    }
+  });
+  return cache[k]=out.sort((a,b)=>a.start-b.start);
+}
+function status(b){
+  const kd=key(b.date),kt=key(TODAY);
+  if(kd<kt)return'done';
+  if(kd===kt){ if(b.start+b.dur<=NOW)return'done'; if(b.start<=NOW)return'inchair'; }
+  return arrived[b.id]?'arrived':'booked';
+}
+const LBL={done:'Done',inchair:'In chair',arrived:'Arrived',booked:'Booked'};
+const list=(d,mode)=>day(d).filter(b=>mode==='all'||b.sty===ME);
+const chip=b=>{const s=status(b);return`<span class="chip ${s}">${LBL[s]}</span>`};
+const byId={};
+const reg=b=>(byId[b.id]=b,b.id);
+
+// shared bits
+const ICON={home:'<path d="M4 11l8-7 8 7v9H4z"/>',cust:'<circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.6 7-5.6s6.2 2 7 5.6"/>',cal:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/>',me:'<circle cx="12" cy="9" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/>'};
+const svg=p=>`<svg viewBox="0 0 24 24">${p}</svg>`;
+const DOCK=`<nav class="dock" aria-hidden="true"><span>${svg(ICON.home)}Home</span><span>${svg(ICON.cust)}Customers</span><span class="plus">${svg('<path d="M12 5v14M5 12h14"/>')}</span><span class="on">${svg(ICON.cal)}Calendar</span><span>${svg(ICON.me)}Profile</span></nav>`;
+const SEG=`<div class="seg" data-v="me"><span class="thumb"></span><button aria-pressed="true" data-m="me">My bookings</button><button aria-pressed="false" data-m="all">Whole salon</button></div>`;
+function shell(id,body){
+  const ph=document.getElementById(id);
+  ph.innerHTML=`<div class="inner"><div class="scr"><div class="sb"><span>9:41</span><span>●●● ▮</span></div>${body}</div>${DOCK}<div class="scrim"></div><div class="sheet" role="dialog" aria-label="Booking details"></div></div>`;
+  const inner=ph.firstChild; new ResizeObserver(()=>inner.style.setProperty('--k',ph.clientWidth/390)).observe(ph);
+  sheetize(inner); return inner;
+}
+function bindSeg(root,cb){
+  const seg=root.querySelector('.seg');
+  seg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||seg.dataset.v===b.dataset.m)return;
+    seg.dataset.v=b.dataset.m; seg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b)); cb(b.dataset.m);});
+}
+function placePill(pill,cell,instant){
+  if(!cell){pill.style.opacity=0;return}
+  if(instant)pill.classList.add('jump');
+  pill.style.width=cell.offsetWidth+'px';pill.style.height=cell.offsetHeight+'px';
+  pill.style.transform=`translate(${cell.offsetLeft}px,${cell.offsetTop}px)`;pill.style.opacity=1;
+  if(instant){pill.offsetWidth;pill.classList.remove('jump')}
+}
+const load=(d,mode)=>Math.min(1,list(d,mode).reduce((a,b)=>a+b.dur,0)/((H1-H0)*60*(mode==='all'?STY.length:1)));
+function monthCells(m,mode,sel){
+  const first=new Date(m.getFullYear(),m.getMonth(),1), lead=(first.getDay()+6)%7, n=new Date(m.getFullYear(),m.getMonth()+1,0).getDate();
+  let h='';for(let i=0;i<lead;i++)h+='<span></span>';
+  for(let d=1;d<=n;d++){const dt=new Date(m.getFullYear(),m.getMonth(),d),off=dt.getDay()===2,c=off?0:list(dt,mode).length;
+    const L=off?0:load(dt,mode),dist=m.getMonth()===TODAY.getMonth()?Math.abs(d-TODAY.getDate()):d;
+    h+=`<button class="cell${off?' off':''}${c?' has':''}${L>=.75?' full':''}${same(dt,TODAY)?' today':''}${sel&&same(dt,sel)?' sel':''}" style="--d:${dist};--h:${L.toFixed(2)}" data-k="${key(dt)}" aria-label="${d} ${MON[m.getMonth()]}${off?', closed':', '+c+' bookings, '+Math.round(L*100)+'% booked'}">${off?'':`<span class="ring" style="--p:${L.toFixed(3)}"></span>`}<b>${d}</b><i>${off?'':c||''}</i></button>`}
+  return h;
+}
+const HEADS=`<div class="heads">${['M','T','W','T','F','S','S'].map(x=>`<span>${x}</span>`).join('')}</div>`;
+const fromKey=k=>new Date(Math.floor(k/10000),Math.floor(k/100)%100-1,k%100);
+function rowHTML(b,i,mode){const s=status(b);return`<button class="bk enU ${s==='done'?'done':''}" style="--i:${Math.min(i,6)}" data-id="${reg(b)}"><span class="t">${fmt(b.start)}<small>${ap(b.start)} · ${b.dur}m</small></span><span><div class="n">${b.cust}</div><div class="s">${b.svc}${mode==='all'?' · '+b.sty:''}</div></span>${chip(b)}</button>`}
+const dayTitle=d=>(same(d,TODAY)?'Today · ':'')+WD[d.getDay()]+' '+d.getDate()+' '+MON[d.getMonth()].slice(0,3);
+
+// bottom sheet, with flick-to-dismiss
+function sheetize(inner){
+  const sh=inner.querySelector('.sheet'),sc=inner.querySelector('.scrim');
+  const close=()=>{sh.classList.remove('on');sc.classList.remove('on');sh.style.transform=''};
+  sc.addEventListener('click',close);
+  inner.addEventListener('click',e=>{const t=e.target.closest('[data-id]');if(!t||!inner.contains(t)||t.closest('.sheet'))return;open(byId[t.dataset.id])});
+  function open(b){
+    const s=status(b),mine=b.sty===ME,today=same(b.date,TODAY);
+    sh.innerHTML=`<div class="handle"></div><div class="sh1"><div><h3>${b.cust}</h3><p>${b.svc} · ${b.dur} min · with ${b.sty}</p></div><span data-chip="${b.id}">${chip(b)}</span></div>
+      <div class="facts"><div><small>Time</small><b>${fmt(b.start)} ${ap(b.start)}</b></div><div><small>Bill</small><b>₹${b.price}</b></div><div><small>Visit</small><b>${b.visit}${['th','st','nd','rd'][b.visit%10>3||[11,12,13].includes(b.visit)?0:b.visit%10]}</b></div></div>
+      <div class="acts"><button class="press">Call</button><button class="press">WhatsApp</button>${today&&mine&&s!=='done'?`<button class="main press" ${s!=='booked'?'disabled':''}>${s==='booked'?'Mark arrived · start visit':s==='arrived'?'Arrived ✓':'In chair now'}</button>`:''}</div>
+      <p class="note">${!mine?b.sty+"'s booking: only "+b.sty+' can start it.':!today&&s==='booked'?'Mark arrived opens on the day.':s==='done'?'Visit finished and paid.':'Drag down to close.'}</p>`;
+    const mb=sh.querySelector('.main');
+    if(mb&&s==='booked')mb.onclick=()=>{arrived[b.id]=1;mb.disabled=true;mb.textContent='Arrived ✓';refresh(b)};
+    sc.classList.add('on');requestAnimationFrame(()=>sh.classList.add('on'));
+  }
+  let y0=0,t0=0,dy=0,drag=false;
+  sh.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;drag=true;y0=e.clientY;t0=performance.now();dy=0;sh.classList.add('drag');sh.setPointerCapture(e.pointerId)});
+  sh.addEventListener('pointermove',e=>{if(!drag)return;dy=(e.clientY-y0)/(parseFloat(inner.style.getPropertyValue('--k'))||1);sh.style.transform=`translateY(${dy>0?dy:dy*.2}px)`});
+  const end=()=>{if(!drag)return;drag=false;sh.classList.remove('drag');const v=dy/(performance.now()-t0);if(dy>110||v>.45)close();else sh.style.transform=''};
+  sh.addEventListener('pointerup',end);sh.addEventListener('pointercancel',end);
+}
+// one status change updates every phone in place
+function refresh(b){
+  const s=status(b);
+  document.querySelectorAll(`[data-id="${b.id}"], [data-chip="${b.id}"]`).forEach(el=>{
+    const c=el.querySelector('.chip');if(c){c.className='chip '+s+' sw';c.textContent=LBL[s]}
+    if(el.classList.contains('blk')){el.classList.remove('booked','arrived','inchair','done');el.classList.add(s)}
+  });
+}
+
+/* ---------- final: month → day ---------- */
+(function(){
+  let m=new Date(2026,9,1),sel=new Date(TODAY),mode='me',view='month';
+  const inner=shell('pF',`<div class="top"><div><button class="back press" id="fB" hidden>‹ <span></span></button><div class="who" id="fS"></div><div class="ttl" id="fT">Calendar</div></div><button class="book press">+ Book</button></div>${SEG}
+    <div class="stage">
+      <div class="mv" id="fM"><div class="glass mg"><div class="bar"><button class="arw press" data-d="-1" aria-label="Previous month">‹</button><b></b><button class="arw press" data-d="1" aria-label="Next month">›</button></div>${HEADS}<div class="cw" style="position:relative"><span class="pill"></span><div class="cells"></div></div></div>
+        <button class="glass tcard press" id="fC"></button>
+        <div class="legend"><span><i style="box-shadow:inset 0 0 0 1.5px var(--gold2)"></i>Today</span><span><i style="background:var(--gold)"></i>Selected</span><span><i style="border-radius:50%;background:conic-gradient(var(--gold2) 65%,rgba(255,244,236,.15) 0)"></i>Ring = how booked</span><span><b style="color:var(--gold2);font-size:11px">5</b>&nbsp;bookings</span></div></div>
+      <div class="dv" id="fD" hidden><div class="glass strip"><span class="pill"></span><div class="sd" style="display:contents"></div></div><div class="tl glass"><div class="tlb"></div></div></div>
+    </div>`);
+  const $=s=>inner.querySelector(s);
+  const mv=$('#fM'),dv=$('#fD'),card=mv.querySelector('.mg'),cells=mv.querySelector('.cells'),mpill=mv.querySelector('.pill'),
+        strip=dv.querySelector('.strip'),S=dv.querySelector('.sd'),spill=strip.querySelector('.pill'),tl=dv.querySelector('.tl'),
+        T=$('#fT'),sub=$('#fS'),back=$('#fB');
+  const mon=d=>addD(d,-((d.getDay()+6)%7));
+  function title(t){if(T.textContent===t)return;T.textContent=t;T.classList.remove('sw');T.offsetWidth;T.classList.add('sw')}
+  // month view
+  function grid(dir){
+    cells.innerHTML=monthCells(m,mode,sel);cells.className='cells fx'+(dir>0?' enR':dir<0?' enL':'');
+    mv.querySelector('.bar b').textContent=MON[m.getMonth()]+' '+m.getFullYear();
+    requestAnimationFrame(()=>placePill(mpill,cells.querySelector('.sel'),true));
+    todayCard();
+  }
+  function todayCard(){
+    const bs=list(TODAY,mode),left=bs.filter(b=>status(b)!=='done'),nx=left.find(b=>status(b)==='booked'||status(b)==='arrived')||left[0];
+    $('#fC').innerHTML=`<div class="r1"><b>Today · Wed 14</b><span>${bs.length} bookings · ${left.length} left</span></div>`+
+      (nx?`<div class="nx"><span class="tm">${fmt(nx.start)}<small>${ap(nx.start)}</small></span><span><b style="font-size:14.5px">${nx.cust}</b><div style="font-size:12px;color:var(--soft)">${nx.svc}${mode==='all'?' · '+nx.sty:''}</div></span>${chip(nx)}</div>`:'')+
+      `<div class="lbar"><i style="--p:${load(TODAY,mode).toFixed(3)}"></i></div><div class="lrow"><span>${mode==='all'?'Salon':'Your day'} is ${Math.round(load(TODAY,mode)*100)}% booked</span><span>10a – 8p</span></div><span class="go">Open today's timeline →</span>`;
+  }
+  function headMonth(){back.hidden=true;sub.hidden=false;sub.textContent=WDL[TODAY.getDay()]+' '+TODAY.getDate()+' Oct';title('Calendar')}
+  function headDay(){back.hidden=false;sub.hidden=true;back.querySelector('span').textContent=MON[sel.getMonth()]+' '+sel.getFullYear();
+    title((same(sel,TODAY)?'Today, ':'')+WDL[sel.getDay()].slice(0,3)+' '+sel.getDate())}
+  // fold geometry: the selected row becomes a strip-sized band at the top of the stage
+  function fold(on){
+    const c=cells.querySelector('.sel');if(!c)return;
+    const wk=key(mon(sel));cells.querySelectorAll('.cell').forEach(x=>x.classList.toggle('wk',key(mon(fromKey(+x.dataset.k)))===wk));
+    const top=mv.querySelector('.cw').offsetTop+c.offsetTop,h=c.offsetHeight,H=card.offsetHeight,pad=10;
+    card.style.clipPath=on?`inset(${top-pad}px 0 ${H-top-h-pad}px 0 round 22px)`:'';
+    card.style.transform=on?`translateY(${-(top-pad)}px)`:'';
+    mv.classList.toggle('col',on);
+  }
+  function openDay(d){
+    if(view!=='month')return;view='anim';
+    sel=d;const c=cells.querySelector(`[data-k="${key(d)}"]`);
+    cells.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));
+    if(c){c.classList.add('sel');placePill(mpill,c)}else{m=new Date(d.getFullYear(),d.getMonth(),1);grid(0)}
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setTimeout(()=>{fold(true);setTimeout(()=>{mv.hidden=true;dv.hidden=false;view='day';week(0,true);timeline(0);headDay()},reduce?0:340)},reduce?0:90);
+  }
+  function closeDay(){
+    if(view!=='day')return;
+    m=new Date(sel.getFullYear(),sel.getMonth(),1);
+    mv.classList.add('nt');dv.hidden=true;mv.hidden=false;grid(0);cells.className='cells';
+    fold(true);mv.offsetWidth;mv.classList.remove('nt');
+    requestAnimationFrame(()=>{fold(false);placePill(mpill,cells.querySelector('.sel'),true)});
+    view='month';headMonth();
+  }
+  cells.addEventListener('click',e=>{const c=e.target.closest('.cell');if(c)openDay(fromKey(+c.dataset.k))});
+  $('#fC').addEventListener('click',()=>openDay(new Date(TODAY)));
+  mv.querySelectorAll('.arw').forEach(b=>b.onclick=()=>{const d=+b.dataset.d;m=new Date(m.getFullYear(),m.getMonth()+d,1);grid(d)});
+  back.onclick=closeDay;
+  // day view (setup B)
+  function week(dir,instant){
+    const w0=mon(sel);let h='';
+    for(let i=0;i<7;i++){const d=addD(w0,i),off=d.getDay()===2,n=off?0:list(d,mode).length;
+      h+=`<button class="wd${off?' off':''}${same(d,TODAY)?' today':''}${same(d,sel)?' sel':''}${dir?(dir>0?' enR':' enL'):''}" data-k="${key(d)}" aria-label="${WDL[d.getDay()]} ${d.getDate()}"><small>${WD[d.getDay()][0]}</small><b>${d.getDate()}</b><span class="lb">${off?'':`<i style="--p:${load(d,mode).toFixed(3)};--d:${i}"></i>`}</span></button>`}
+    S.innerHTML=h;requestAnimationFrame(()=>placePill(spill,S.querySelector('.sel'),instant||!!dir));
+  }
+  function timeline(dir){
+    const wide=mode==='all',bs=list(sel,mode),cw=96,H=(H1-H0)*PX,top=14;
+    let h=`<div class="tlb ${dir>0?'enR':dir<0?'enL':'enU'}" style="${wide?'width:'+(46+cw*STY.length)+'px':''}">`;
+    if(wide)h+=`<div class="cols">${STY.map(s=>`<div class="${s.n===ME?'me':''}"><i style="background:${s.c}">${s.n[0]}</i>${s.n===ME?'You':s.n}</div>`).join('')}</div>`;
+    h+=`<div style="position:relative;height:${H+top}px">`;
+    for(let x=H0;x<=H1;x++)h+=`<div class="hr" style="top:${top+(x-H0)*PX}px"><span>${x%12||12}${x<12?'a':'p'}</span></div>`;
+    if(sel.getDay()===2)h+=`<div class="empty" style="position:absolute;left:46px;right:10px;top:${top+60}px">Closed. Tuesday is the weekly off.</div>`;
+    else if(!bs.length)h+=`<div class="empty" style="position:absolute;left:46px;right:10px;top:${top+60}px">No bookings yet. Tap + Book to add one.</div>`;
+    bs.forEach(b=>{const s=status(b),col=wide?STY.findIndex(x=>x.n===b.sty):0,y=top+(b.start-H0*60)/60*PX,hh=Math.max(b.dur/60*PX-4,24);
+      h+=`<button class="blk ${s}${b.sty===ME?' mine':''}" data-id="${reg(b)}" style="top:${y}px;height:${hh}px;left:${wide?46+col*cw+3:50}px;${wide?'width:'+(cw-6)+'px':'right:10px'};${wide&&b.sty!==ME?'border-left-color:'+STY[col].c:''}"><b>${b.cust}</b>${hh>34?`<span>${fmt(b.start)} · ${b.svc}</span>`:''}${!wide&&hh>30?chip(b):''}</button>`});
+    if(same(sel,TODAY))h+=`<div class="now" style="top:${top+(NOW-H0*60)/60*PX}px"></div>`;
+    h+='</div></div>';
+    const sx=tl.scrollTop;tl.innerHTML=h;tl.classList.toggle('wide',wide);
+    tl.scrollTop=dir||!sx?(same(sel,TODAY)?(NOW-H0*60)/60*PX-60:0):sx;
+  }
+  function go(d,dir){const wk=key(mon(d))!==key(mon(sel));sel=d;week(wk?dir:0);timeline(dir);headDay()}
+  S.addEventListener('click',e=>{const c=e.target.closest('.wd');if(!c)return;const d=fromKey(+c.dataset.k);if(same(d,sel))return;
+    S.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));c.classList.add('sel');const dir=Math.sign(d-sel);sel=d;placePill(spill,c);timeline(dir);headDay()});
+  function swipe(el,fn){let x0,y0,on=false;el.addEventListener('pointerdown',e=>{x0=e.clientX;y0=e.clientY;on=true});
+    el.addEventListener('pointerup',e=>{if(!on)return;on=false;const dx=e.clientX-x0,dy=e.clientY-y0;if(Math.abs(dx)>40&&Math.abs(dx)>Math.abs(dy)*1.5)fn(dx<0?1:-1)})}
+  swipe(strip,d=>go(addD(sel,7*d),d));
+  swipe(tl,d=>{if(mode==='me')go(addD(sel,d),d)});
+  bindSeg(inner,v=>{mode=v;if(view==='day'){week(0);timeline(0)}else grid(0)});
+  /* ---------- + Book ---------- */
+  const NB=document.createElement('div');NB.innerHTML=`<div class="nbscrim"></div><div class="nb" role="dialog" aria-label="New booking">
+    <div class="nbh"><h3>New booking</h3><button class="press" data-x aria-label="Close">✕</button></div>
+    <div class="nbb">
+      <div class="sec" data-s="1"><h4><i>1</i>Customer</h4><input class="fld num" inputmode="numeric" maxlength="10" placeholder="10-digit mobile" aria-label="Customer mobile number"><p class="hint">Demo: 9876543210 is a returning customer; any other 10 digits is new.</p><div class="cbox"></div></div>
+      <div class="sec lock" data-s="2"><h4><i>2</i>Services</h4><div class="svcs"></div><p class="tot"></p></div>
+      <div class="sec lock" data-s="3"><h4><i>3</i>Stylist</h4><div class="stys"></div></div>
+      <div class="sec lock" data-s="4"><h4><i>4</i>Day and time</h4><div class="days"></div><div class="slots"></div><p class="hint">Greyed-out times are taken or too short for the services picked.</p></div>
+      <div class="sec lock" data-s="5"><h4><i>5</i>Note and confirmation</h4><input class="fld note" placeholder="Note (optional), e.g. wants a short fade"><div class="sw2"><span>Send WhatsApp confirmation</span><button class="tog" role="switch" aria-checked="true" aria-label="Send WhatsApp confirmation"></button></div><div class="msgp"></div></div>
+    </div>
+    <div class="nbf"><div class="sum">Fill in the customer's number to start.</div><button class="go2" disabled>Book</button></div></div><div class="toast" role="status"></div>`;
+  [...NB.children].forEach(x=>inner.appendChild(x));
+  const nb=inner.querySelector('.nb'),nbs=inner.querySelector('.nbscrim'),toast=inner.querySelector('.toast'),q=s=>nb.querySelector(s);
+  const NSVC=['Haircut','Beard trim','Hair spa','Hair colour','Blow-dry','Facial','Threading','Manicure'];
+  let F={};
+  const can=(s,svcs)=>svcs.every(v=>STY.find(x=>x.n===s).svc.includes(v));
+  const busy=(d,s,t,dur)=>list(d,'all').some(b=>b.sty===s&&t<b.start+b.dur&&b.start<t+dur);
+  const dur=()=>F.svcs.reduce((a,v)=>a+SVC[v][0],0), price=()=>F.svcs.reduce((a,v)=>a+SVC[v][1],0);
+  const freeSty=(d,t)=>F.sty!=='any'?(busy(d,F.sty,t,dur())?null:F.sty):(STY.map(s=>s.n).find(n=>can(n,F.svcs)&&!busy(d,n,t,dur()))||null);
+  function lockFrom(){const st=[!!(F.cust&&F.cust.name),F.svcs.length>0,!!F.sty,F.time!=null];
+    nb.querySelectorAll('.sec').forEach((s,i)=>{const was=s.classList.contains('lock'),lk=i>0&&!st.slice(0,i).every(Boolean);s.classList.toggle('lock',lk);s.classList.toggle('ok',i<4&&st[i]);if(was&&!lk){s.classList.remove('enU');s.offsetWidth;s.classList.add('enU')}});
+    const ok=st.every(Boolean),d=F.day,a=F.time!=null?freeSty(d,F.time):null;
+    q('.go2').disabled=!ok;
+    q('.sum').innerHTML=!F.cust?'Fill in the customer\'s number to start.':!F.cust.name?'Add the new customer\'s name.':`<b>${F.cust.name}</b>${F.svcs.length?' · '+F.svcs.join(' + ')+' · '+dur()+' min · ₹'+price():''}${F.time!=null?`<br><b>${WD[d.getDay()]} ${d.getDate()} ${MON[d.getMonth()].slice(0,3)}, ${fmt(F.time)} ${ap(F.time)}</b> with ${a===ME?'you':a}`:''}`;
+    q('.msgp').textContent=F.time!=null?`Booked! ${F.svcs.join(' + ')} at ${MON[d.getMonth()].slice(0,3)} ${d.getDate()}, ${fmt(F.time)} ${ap(F.time)} with ${a}. See you then. Reply C to cancel.`:'The confirmation preview appears once a time is picked.';
+  }
+  function custBox(){const v=q('.num').value.replace(/\D/g,'');q('.num').value=v;const box=q('.cbox');
+    if(v.length<10){F.cust=null;box.innerHTML='';lockFrom();return}
+    if(v==='9876543210'){F.cust={name:'Aarav Sharma',ret:true};box.innerHTML=`<div class="who2 enU"><b>Aarav Sharma</b><span>8th visit · last: Haircut with you, 12 Sep</span><div class="tags"><em>Wallet ₹350</em><em>Reminders on</em></div></div>`;
+      if(!F.svcs.length){F.svcs=['Haircut'];}}
+    else{box.innerHTML=`<div class="who2 enU"><b>New customer</b><input class="fld nm" placeholder="Name" style="margin-top:6px"><label class="consent"><input type="checkbox" class="cs">Customer agreed to get visit reminders on WhatsApp (can reply STOP any time)</label></div>`;
+      F.cust={name:'',ret:false};box.querySelector('.nm').oninput=e=>{F.cust.name=e.target.value.trim();lockFrom()}}
+    svcs();lockFrom();
+  }
+  function svcs(){q('.svcs').innerHTML=NSVC.map(v=>`<button class="${F.svcs.includes(v)?'on':''}" data-v="${v}"><b>${v}</b><span>${SVC[v][0]} min · ₹${SVC[v][1]}</span>${F.cust&&F.cust.ret&&v==='Haircut'?'<em>LAST TIME</em>':''}</button>`).join('');
+    q('.tot').textContent=F.svcs.length?`Total ${dur()} min · ₹${price()}`:'Pick one or more.';stys();}
+  function stys(){if(F.sty&&F.sty!=='any'&&!can(F.sty,F.svcs))F.sty=null;
+    q('.stys').innerHTML=STY.map(s=>`<button class="${F.sty===s.n?'on':''}" data-v="${s.n}" ${F.svcs.length&&!can(s.n,F.svcs)?'disabled':''}><i style="background:${s.c}">${s.n[0]}</i>${s.n===ME?'You':s.n}</button>`).join('')+`<button class="${F.sty==='any'?'on':''}" data-v="any"><i style="background:rgba(255,244,236,.18);color:var(--cream)">★</i>Any free</button>`;
+    slots();}
+  function days(){let h='';for(let i=0;i<14;i++){const d=addD(TODAY,i),off=d.getDay()===2;h+=`<button class="${same(d,F.day)?'on':''}" data-k="${key(d)}" ${off?'disabled':''}><small>${i===0?'Today':WD[d.getDay()]}</small><b>${d.getDate()}</b></button>`}q('.days').innerHTML=h}
+  function slots(){const d=F.day,n=dur()||30;let h='';
+    for(let t=600;t<1200;t+=30){const past=same(d,TODAY)&&t<NOW,fits=t+n<=1200,free=F.sty&&F.svcs.length&&!past&&fits&&freeSty(d,t);
+      h+=`<button class="${F.time===t?'on':''}" data-t="${t}" ${free?'':'disabled'}>${fmt(t)}</button>`}
+    q('.slots').innerHTML=h;const none=F.sty&&F.svcs.length&&!q('.slots button:not([disabled])');
+    q('[data-s="4"] .hint').innerHTML=none?`<b style="color:var(--gold2)">No room on ${WD[d.getDay()]} ${d.getDate()}${F.sty==='any'?'':' for '+(F.sty===ME?'you':F.sty)}.</b> Try another day${F.sty==='any'?'':' or “Any free”'}.`:'Greyed-out times are taken or too short for the services picked.';
+    if(F.time!=null&&q(`.slots [data-t="${F.time}"]`).disabled)F.time=null;lockFrom()}
+  function openBook(day,time){
+    let d=day&&key(day)>=key(TODAY)&&day.getDay()!==2?day:new Date(TODAY);if(d.getDay()===2)d=addD(d,1);
+    F={cust:null,svcs:[],sty:ME,day:d,time:time??null,wa:true};
+    q('.num').value='';q('.cbox').innerHTML='';q('.note').value='';q('.tog').setAttribute('aria-checked','true');
+    svcs();days();q('.nbb').scrollTop=0;
+    nbs.classList.add('on');requestAnimationFrame(()=>nb.classList.add('on'));setTimeout(()=>q('.num').focus({preventScroll:true}),420);
+  }
+  const closeBook=()=>{nb.classList.remove('on');nbs.classList.remove('on')};
+  q('[data-x]').onclick=closeBook;nbs.onclick=closeBook;
+  q('.num').addEventListener('input',custBox);
+  q('.svcs').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const v=b.dataset.v;F.svcs=F.svcs.includes(v)?F.svcs.filter(x=>x!==v):[...F.svcs,v];
+    b.classList.toggle('on');q('.tot').textContent=F.svcs.length?`Total ${dur()} min · ₹${price()}`:'Pick one or more.';stys()});
+  q('.stys').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;F.sty=b.dataset.v;q('.stys').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));slots()});
+  q('.days').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;F.day=fromKey(+b.dataset.k);q('.days').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    q('.slots').classList.remove('enR');q('.slots').offsetWidth;q('.slots').classList.add('enR');slots()});
+  q('.slots').addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled)return;F.time=+b.dataset.t;q('.slots').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));lockFrom()});
+  q('.tog').onclick=e=>{F.wa=e.currentTarget.getAttribute('aria-checked')!=='true';e.currentTarget.setAttribute('aria-checked',F.wa)};
+  q('.go2').onclick=()=>{
+    const d=F.day,s=freeSty(d,F.time);if(!s)return;
+    const b={id:'new'+Date.now(),date:d,start:F.time,dur:dur(),svc:F.svcs.join(' + '),price:price(),sty:s,cust:F.cust.name,visit:F.cust.ret?8:1};
+    day(d).push(b);day(d).sort((x,y)=>x.start-y.start);
+    closeBook();
+    if(s!==ME&&mode==='me'){mode='all';const sg=inner.querySelector('.seg');sg.dataset.v='all';sg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x.dataset.m==='all'))}
+    setTimeout(()=>{
+      const wasM=view==='month';if(wasM)openDay(d);else{const dir=Math.sign(d-sel);go(d,dir)}
+      setTimeout(()=>{const el=tl.querySelector(`[data-id="${b.id}"]`);if(el){el.classList.add('fresh');tl.scrollTop=Math.max(0,el.offsetTop-90)}
+        toast.innerHTML=`<b>Booked · ${b.cust}</b>${fmt(b.start)} ${ap(b.start)}, ${WD[d.getDay()]} ${d.getDate()} with ${s===ME?'you':s}${F.wa?' · WhatsApp confirmation sent':''}`;
+        toast.classList.add('on');setTimeout(()=>toast.classList.remove('on'),2800)},wasM?620:80);
+    },360);
+  };
+  inner.querySelector('.top .book').onclick=()=>openBook(view==='day'?sel:null);
+  // tap an empty spot on your own timeline to book that time
+  tl.addEventListener('click',e=>{if(mode!=='me'||e.target.closest('.blk')||sel.getDay()===2)return;const r=tl.querySelector('.tlb > div');if(!r)return;
+    const k=parseFloat(inner.style.getPropertyValue('--k'))||1,y=(e.clientY-r.getBoundingClientRect().top)/k-14,t=600+Math.floor(y/PX*2)*30;
+    if(t>=600&&t<1200)openBook(sel,t)});
+  grid(0);headMonth();
+})();
+</script>

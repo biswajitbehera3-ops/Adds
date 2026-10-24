@@ -1,0 +1,13 @@
+{
+  "id": "P086",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "The money is not the problem, ₹999 a month is nothing for my salon. But I have never heard of this company and no owner I know or my distributor uses it, so I am not putting my staff and customer data on it just because an ad says so.",
+  "objection": "Many of my customers won't give their mobile number, and my stylists will not like checking in with a selfie and being watched on every bill. I already lost two good stylists, I don't want to push more out over some app nobody I know has tried.",
+  "would_change_my_mind": "Another salon owner I know, or my product distributor, using it for a few months and telling me it actually stopped cash leakage without staff complaining.",
+  "price_too_cheap": 199,
+  "price_cheap": 599,
+  "price_expensive": 1999,
+  "price_too_expensive": 3500
+}
