@@ -6,7 +6,7 @@ Made with the **earshot** skill's sound bank (installed 24 Oct, `.claude/skills/
 
 | Moment | Sound | earshot id | Level (peak) |
 |---|---|---|---|
-| Payment collected (PAID stamp) | **one of A/B/C, founder to pick** | mallet/marimba · mallet/up4 · mallet/flourish | −8 / −13 / −9 dBFS |
+| Payment collected (PAID stamp) | **short chime run (option C, picked by the founder 24 Oct)** | mallet/flourish | −9 |
 | Walk-in customer saved | soft rounded pop | ui_pop/soft | −12 |
 | Morning check-in done | warm wooden ding | notify/mid_wood | −10 |
 | Owner: new item in Today's checks | mid tine ding | notify/mid_tine | −9 |

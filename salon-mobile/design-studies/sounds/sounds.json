@@ -1,19 +1,7 @@
 [
  {
-  "file": "app/paid-a-marimba.wav",
-  "moment": "Payment collected (option A: one warm marimba note)",
-  "source": "mallet/marimba",
-  "peak_dbfs": -8
- },
- {
-  "file": "app/paid-b-rising.wav",
-  "moment": "Payment collected (option B: four rising notes)",
-  "source": "mallet/up4",
-  "peak_dbfs": -13
- },
- {
-  "file": "app/paid-c-flourish.wav",
-  "moment": "Payment collected (option C: short chime run)",
+  "file": "app/paid.wav",
+  "moment": "Payment collected (chosen: short chime run)",
   "source": "mallet/flourish",
   "peak_dbfs": -9
  },
