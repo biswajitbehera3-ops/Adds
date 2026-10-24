@@ -46,9 +46,11 @@ Status: **decided, build later** (BUILD-SPEC 10.12, 10.13, 10.14 and 11.0 h).
 - **Android developer verification (Google):** from 30 Sep 2026 Google requires apps installed outside the Play Store to come from verified developers in Brazil, Indonesia, Singapore and Thailand, and **expands this globally in 2027**. Before it reaches India we must sign up as a developer distributing outside Google Play, verify identity, and register each app with its signing key ([developer.android.com/developer-verification/guides](https://developer.android.com/developer-verification/guides)). Sideloading still works for verified developers.
 
 ### Demo first
-**Phase 1: Demo APK** (what we build first), shown to owners on 2–3 phones:
+> **Update 24 Oct (founder):** "we do not need to sync with 2 phones, later we can do; we need to build it on one phone just to showcase the owner." So the demo runs on **one phone, no Firebase, no accounts**: owner and stylist views on the same phone (switch with sign-out/sign-in or a demo switch), data kept on the phone as the app does today. Live sync between phones moves to Phase 2.
+
+**Phase 1: Demo APK** (what we build first), shown to owners on one phone:
 - Everything in V1 working smoothly with a demo salon (demo name, prices, stylists, customers) in the confirmed liquid glass design.
-- **Live sync between the phones:** a stylist bills on one phone and the owner's live salon moves on the other. This needs a free Firebase project (just a Google login, no card, free "Spark" plan).
+- ~~Live sync between the phones~~ moved to Phase 2: on the demo phone, a bill entered in the stylist view moves the owner's live salon in the owner view.
 - One-tap WhatsApp working, Help sending to the founder's WhatsApp, demo reset button for the next visit.
 
 **Phase 2: per salon, after the owner says yes:**
