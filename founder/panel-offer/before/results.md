@@ -1,0 +1,68 @@
+# Buyer panel: A salon's own phone app for 5+ chair salons (billing, walk-ins, wallet, one-tap WhatsApp bills and reminders, staff attendance, cash checks, a live salon view for the owner), set up in person per salon
+
+**3 buy · 17 pass** (15% buy) out of 20 simulated buyers. Seed 339387, so the same cards can be dealt again.
+
+These are simulated buyers, not customers. Use this to find objections and weak spots, then confirm the big ones with real people before you spend.
+
+## By segment
+
+| group | buyers | buy rate |
+| --- | ---: | ---: |
+| Large salon or bridal studio with 9 or more chairs and 10 to 20 staff | 5 | 40%  (thin) |
+| Established unisex salon with 5 to 8 chairs and 5 to 10 staff | 12 | 8% |
+| Owner of 2 outlets (one 5+ chair salon plus a second branch) | 3 | 0%  (thin) |
+
+## By buying behaviour
+
+| group | buyers | buy rate |
+| --- | ---: | ---: |
+| Owner who isn't always at the salon | 2 | 100%  (thin) |
+| Young owner who likes tech | 3 | 33%  (thin) |
+| Tried an app before and stopped | 3 | 0%  (thin) |
+| Runs everything on WhatsApp | 3 | 0%  (thin) |
+| Paper register loyalist | 4 | 0%  (thin) |
+| Asks other owners first | 2 | 0%  (thin) |
+| Counts every rupee | 3 | 0%  (thin) |
+
+## By income
+
+| group | buyers | buy rate |
+| --- | ---: | ---: |
+| under ₹2,418,000 | 6 | 17%  (thin) |
+| ₹3,012,000 and up | 7 | 14%  (thin) |
+| ₹2,418,000 to ₹3,012,000 | 7 | 14%  (thin) |
+
+## Why they pass
+
+| reason | buyers | in their words |
+| --- | ---: | --- |
+| habit | 8 | "My salon already runs on a billing app, and my staff know it, my customer data is in it and the WhatsApp bills already go out. Having my own logo on the app is nice, but it isn't worth ₹10,000 upfront plus the hassle of moving everything over and retraining eight people." (P001) · "I already paid for salon software once and my staff simply never used it, so it got cancelled. The money is not the problem, but I am not putting my stylists through another app they will ignore after the first week, especially when I can't afford to annoy the good ones I still have." (P002) |
+| trust | 5 | "The money is not the problem, ₹10,000 and ₹500 a month I can manage. But nobody tells me where my customer data actually lives, and the app is only in English while my stylists are comfortable in Odia and Hindi. WhatsApp already works for me, so I am not moving everything for an app from someone I don't know." (P004) · "The price isn't the issue for a salon my size, but I've never heard of these people and no owner or distributor I know uses it. I won't put 15 staff and all my billing on an unknown app just because it has my logo on it." (P006) |
+| other | 2 | "The money is nothing for me and I like that it makes the salon look modern, but my stylists work in Odia and Hindi. An English-only app means they won't use it properly, and I can't afford to annoy staff after losing two good stylists last year." (P007) · "It's only in English. My stylists won't use an English app to bill customers in front of them, so I'd pay ₹10,000 and still be writing in the register. And another ₹500 every month on top of that, for something they might not even use." (P018) |
+| convenience | 2 | "The whole thing runs on typing the customer's mobile number, and many of my customers won't give it, and my stylists are more comfortable in Odia and Hindi than in an English app. I'd pay ₹10,000 and then ₹500 every month, and in six months I'd find my staff back on the register book." (P010) · "Half my stylists are not comfortable typing in English, so an English-only app means I end up doing the billing myself or it sits unused. And I don't like paying ₹10,000 upfront plus another monthly bill on top of what I already pay for." (P019) |
+
+## Why they buy
+
+| reason | buyers | in their words |
+| --- | ---: | --- |
+| need | 2 | "When I am at my other work I have no idea who is in which chair or how much cash should be in the drawer, and cancelled bills and walkouts are exactly where money goes missing. For ₹10,000 and ₹500 a month that is nothing next to what one dishonest day costs me, so I would try it." (P003) · "I'm away at my other work half the week, and the live chair view, cancelled-bill check and drawer-cash figure are exactly what I worry about. At ₹10,000 plus ₹500 a month, one leak caught pays for it, so I'd try it, as long as I can set up the attendance part my way." (P013) |
+| convenience | 1 | "An app with my salon's own name and logo, WhatsApp bills and a prepaid wallet makes us look modern, and seeing cancelled bills, walk-outs and the drawer cash from my phone is worth far more than ₹500 a month. ₹10,000 with setup and training done at the salon is easy money for me to risk." (P017) |
+
+## What would flip a no
+
+- If they moved all my existing customer data and wallet balances over for free, dropped the ₹10,000 setup, and let me run it alongside my current app for a month to see whether the live chair view and cash-drawer checks really catch leaks.
+- A free one-month trial at one outlet where my own staff actually bill every walk-in on it, plus proof that the customer data is backed up somewhere safe and stays mine if a phone is lost or a stylist quits.
+- A written guarantee that all data is backed up online and I can download it anytime, plus the app in Odia and Hindi so my stylists actually use it, ideally with a free trial month at my salon first.
+- Seeing it run for a month in my own salon for free, side by side with my register, and catching a real leak in cash or cancelled bills that my register missed.
+- If two or three established salon owners I know in Bhubaneswar were already running it happily for a few months and told me so themselves.
+- An Odia/Hindi version of the stylist screens and the WhatsApp bills, plus a free trial month at my main outlet so I can see the staff actually use it before I pay for both branches.
+- A named local person in Bhubaneswar who comes to the salon the same day when something breaks, plus a free month where I keep my register alongside the app and can see the drawer cash really matches.
+- If I could try it free for a month in a slow period, without the attendance part, and see it actually bring customers back through the WhatsApp reminders while my register stays as backup.
+- An Odia/Hindi version that also bills walk-ins without a number, with a free one-month trial in my salon before I pay anything, and no monthly fee, or one I can stop any time.
+- A free trial of one month where you come back after two weeks and show me my staff actually billed most walk-ins through it, with no upfront fee until it is proven.
+- Seeing it running in another big salon here, with the owner telling me herself that her data was safe when a phone was lost and that the cash check matched the drawer.
+- A named support person in Bhubaneswar who answers the phone on Sundays, plus one month free so I can run it next to my current way and see that my staff actually use it.
+
+Buyers say they would buy **1.0 times** in the first month on average.
+
+20 buyers gave all four price answers. Run founder-pricing's van_westendorp.py on the answers folder.

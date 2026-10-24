@@ -1,0 +1,13 @@
+{
+  "id": "P004",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "The money is not the problem, ₹10,000 and ₹500 a month I can manage. But nobody tells me where my customer data actually lives, and the app is only in English while my stylists are comfortable in Odia and Hindi. WhatsApp already works for me, so I am not moving everything for an app from someone I don't know.",
+  "objection": "If the phone breaks or your company shuts down, do I lose all my customers and billing history? Nothing here says it is backed up or that I can export it.",
+  "would_change_my_mind": "A written guarantee that all data is backed up online and I can download it anytime, plus the app in Odia and Hindi so my stylists actually use it, ideally with a free trial month at my salon first.",
+  "price_too_cheap": 2000,
+  "price_cheap": 5000,
+  "price_expensive": 15000,
+  "price_too_expensive": 25000
+}

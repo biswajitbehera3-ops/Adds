@@ -1,0 +1,144 @@
+{
+  "business": "A salon's own phone app for 5+ chair salons (billing, walk-ins, wallet, one-tap WhatsApp bills and reminders, staff attendance, cash checks, a live salon view for the owner), set up in person per salon",
+  "target": "Owners of established salons with 5 or more chairs in Bhubaneswar (Odisha) that have good Google reviews and are popular in local search",
+  "where": "Bhubaneswar, Odisha (tier-2 city)",
+  "currency": "₹",
+  "age": [
+    24,
+    55
+  ],
+  "segments": [
+    {
+      "name": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+      "share": 0.6,
+      "income": [
+        1200000,
+        3000000
+      ]
+    },
+    {
+      "name": "Large salon or bridal studio with 9 or more chairs and 10 to 20 staff",
+      "share": 0.25,
+      "income": [
+        2500000,
+        6000000
+      ]
+    },
+    {
+      "name": "Owner of 2 outlets (one 5+ chair salon plus a second branch)",
+      "share": 0.15,
+      "income": [
+        2500000,
+        6000000
+      ]
+    }
+  ],
+  "behaviours": [
+    {
+      "name": "Paper register loyalist",
+      "share": 0.2,
+      "how": "Has written every bill in a register for years and trusts it more than any app."
+    },
+    {
+      "name": "Runs everything on WhatsApp",
+      "share": 0.15,
+      "how": "Customers, staff groups and bookings all live in WhatsApp chats on one phone."
+    },
+    {
+      "name": "Counts every rupee",
+      "share": 0.15,
+      "how": "Compares prices, asks for discounts, avoids monthly subscriptions."
+    },
+    {
+      "name": "Tried an app before and stopped",
+      "share": 0.12,
+      "how": "Paid for salon software once; the staff never used it and it was cancelled."
+    },
+    {
+      "name": "Owner who isn't always at the salon",
+      "share": 0.12,
+      "how": "Has another job or a second outlet and worries about cash and staff when away."
+    },
+    {
+      "name": "Asks other owners first",
+      "share": 0.12,
+      "how": "Buys only what a product distributor or another salon owner already uses."
+    },
+    {
+      "name": "Young owner who likes tech",
+      "share": 0.14,
+      "how": "Uses UPI, Instagram and Google reviews; looks for tools that make the salon look modern."
+    }
+  ],
+  "objections": [
+    "₹999 a month is one more fixed cost, and some months are slow",
+    "My staff are busy with customers; they won't type everything into an app",
+    "I already use a billing app or Zylu/MioSalon, why switch",
+    "What if the phone breaks and I lose all my customer data?",
+    "A selfie check-in will make my staff feel I don't trust them",
+    "Many of my customers won't give their mobile number",
+    "I want it in Hindi or my own language, not only English",
+    "Who will help me when something stops working on a busy Sunday?"
+  ],
+  "habits": [
+    "Durga Puja, Raja, Diwali and the wedding season are your busiest weeks",
+    "you count the cash drawer yourself every night",
+    "you get product supplies from a local distributor who visits monthly",
+    "your customers mostly pay by UPI now",
+    "you lost two good stylists to a nearby salon last year",
+    "your salon has a 4.5-star Google rating and you reply to reviews yourself",
+    "your stylists speak Odia and Hindi more comfortably than English"
+  ],
+  "names": [
+    "Subrat",
+    "Debasis",
+    "Pradeep",
+    "Sasmita",
+    "Itishree",
+    "Lipsa",
+    "Bikash",
+    "Manas",
+    "Prasant",
+    "Smruti",
+    "Ranjita",
+    "Sanjay",
+    "Ashok",
+    "Rashmita",
+    "Biswajit",
+    "Sangram",
+    "Jyotirmayee",
+    "Soumya",
+    "Rakesh",
+    "Pratima",
+    "Chinmay",
+    "Sibani",
+    "Tapan",
+    "Mamata",
+    "Sushant",
+    "Archana",
+    "Niranjan",
+    "Banita",
+    "Ajit",
+    "Sunita",
+    "Saroj",
+    "Puspanjali",
+    "Dillip",
+    "Nibedita",
+    "Ramakanta",
+    "Lopamudra",
+    "Anupam",
+    "Swarna",
+    "Bijay",
+    "Monalisa",
+    "Ranjan",
+    "Sabita",
+    "Asish",
+    "Priyanka",
+    "Sudhir",
+    "Madhusmita",
+    "Kailash",
+    "Arpita",
+    "Manoranjan",
+    "Subhashree"
+  ]
+}

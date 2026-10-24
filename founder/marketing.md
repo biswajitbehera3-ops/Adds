@@ -3,7 +3,7 @@
 Question from the founder: "How will the app be distributed to the owners, how will we find them, and on what media?"
 
 **Evidence used:** `panel/results.md` (100 simulated owners, old ₹4,999 + ₹999 price: research, not customers), `competitors.md` and `competitors-complaints.md` (~157 real public reviews), `board.md` (round 2), `RUNNING-COSTS.md` (24 Oct update), `salon-mobile/PLAN-24-OCT.md`.
-**Missing:** `offer.md` and `pricing.md` (no guarantee or launch offer decided yet) → run `/founder-offer` before the first visit. Prices here are the founder's current ones: **₹10,000 upfront + ₹500 a month**.
+**Update 24 Oct:** city = **Bhubaneswar**; offer = `offer.md` (the Bhubaneswar Founding Salon Plan: ₹5,000 now, ₹5,000 at day 30 only if staff use it, ₹500 a month locked 2 years, first 5 salons get 3 months free as references). `pricing.md` still missing.
 **Launch date:** not set. "Day 0" below = the day the one-phone demo APK is ready; dates are counted from it.
 
 ## 1. Who we go after first
@@ -95,7 +95,7 @@ No Play Store: the founder installs it. That's part of the promise ("we come to 
 
 **When there is nothing new to post:** a setup visit (with permission), the making of a screen, a sound or design choice, "what the cash-drawer check caught today" (only real, with permission), a tip for owners (how to count the drawer, how to remind customers to come back).
 
-**Launch offer:** none decided yet. `/founder-offer` should decide one before Day 0 (for example: setup at a lower price for the first 5 salons in exchange for being a reference). Don't announce a deadline that isn't real.
+**Launch offer:** the Founding Salon Plan (`offer.md`): first 5 Bhubaneswar salons, ends when 5 are set up. Don't announce a deadline that isn't real.
 
 ## 6. Ten hooks
 
