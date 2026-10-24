@@ -1,15 +1,15 @@
 {
-  "business": "Salon app, Bhubaneswar Founding Salon Plan: ₹500 a month per salon (setup fee shown separately in the CFO note)",
-  "unit": "paying salon-day (₹500 a month / 30)",
-  "price": 16.67,
+  "business": "Salon app, Bhubaneswar: ₹10,000 setup (two halves) + ₹699 a month per salon (setup fee shown separately in the CFO note)",
+  "unit": "paying salon-day (₹699 a month / 30)",
+  "price": 23.3,
   "variable": [
     {
       "label": "Server and database, Firebase (₹20/salon/month; RUNNING-COSTS.md)",
       "cost": 0.67
     },
     {
-      "label": "Payment collection fee ~2.36% incl. GST (₹12/month)",
-      "cost": 0.4
+      "label": "Payment collection fee ~2.36% incl. GST (₹16.5/month on ₹699)",
+      "cost": 0.55
     },
     {
       "label": "Help with Claude, ~5 requests/salon/month at ~₹6 (estimate; PLAN-24-OCT.md)",

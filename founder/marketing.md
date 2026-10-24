@@ -3,7 +3,7 @@
 Question from the founder: "How will the app be distributed to the owners, how will we find them, and on what media?"
 
 **Evidence used:** `panel/results.md` (100 simulated owners, old ₹4,999 + ₹999 price: research, not customers), `competitors.md` and `competitors-complaints.md` (~157 real public reviews), `board.md` (round 2), `RUNNING-COSTS.md` (24 Oct update), `salon-mobile/PLAN-24-OCT.md`.
-**Update 24 Oct:** city = **Bhubaneswar**; offer = `offer.md` (the Bhubaneswar Founding Salon Plan: ₹5,000 now, ₹5,000 at day 30 only if staff use it, ₹500 a month locked 2 years, first 5 salons get 3 months free as references). `pricing.md` still missing.
+**Update 24 Oct:** city = **Bhubaneswar**; offer = `offer.md` (the Bhubaneswar Founding Salon Plan: ₹5,000 now, ₹5,000 at day 30 only if staff use it, ₹699 a month locked 2 years, first 5 salons get 3 months free as references); prices in `pricing.md`.
 **Launch date:** not set. "Day 0" below = the day the one-phone demo APK is ready; dates are counted from it.
 
 ## 1. Who we go after first
@@ -112,7 +112,7 @@ Each answers a real complaint or a panel objection. Never quote panel answers as
 | 7 | Post headline | "Press '?' and we pick up. Sundays too." | Who helps on a busy Sunday (panel) |
 | 8 | WhatsApp | "Cash in the drawer should be ₹2,400. Your app tells you before you count." | Cash leakage (most-liked feature) |
 | 9 | Video, first 3 seconds | "What setup looks like: half a day, every stylist trained." | Setup never finishes (10 reviews) |
-| 10 | Sign / one-pager | "₹500 a month. No WhatsApp charges, no staff limits, cancel in the app." | Hidden charges, price rises, staff limits (reviews) |
+| 10 | Sign / one-pager | "₹699 a month. No WhatsApp charges, no staff limits, cancel in the app." | Hidden charges, price rises, staff limits (reviews) |
 
 ## 7. Budget and numbers
 
@@ -120,7 +120,7 @@ Each answers a real complaint or a panel objection. Never quote panel answers as
 
 **The most we can pay to win one salon:**
 - Each salon pays ₹10,000 upfront; setup visit and travel cost us about ₹1,500 (estimate) → **₹8,500 left on day one**.
-- Each month after: ₹500 − ₹32 running cost = **₹468**.
+- Each month after: ₹699 − ₹167 running cost = **₹532** (cfo.md, 24 Oct).
 - The panel's buyers bought 1.0 time in the first month (one salon = one sale).
 - So winning a salon can cost **up to ₹8,500 and still be cash-positive on the day it starts**. Aim for **under ₹3,000** (travel for ~10 visits + print + a ₹1,000 distributor fee), leaving room to discount the first 5.
 

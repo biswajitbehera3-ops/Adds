@@ -66,7 +66,7 @@ New pitch: `pitch.md` (old one kept as `pitch-v1.md`; today's plain offer before
 - **Bonus 2: Your stylists, trained in their language.** Odia, Hindi or English training at the salon + a one-page guide. Kills: "staff won't use it", "English only".
 - **Bonus 3: A person who answers.** Named, 7 days, festival weeks included. Kills: support disappears.
 - **Guarantee: Pay half when it works.** ₹5,000 on setup day; ₹5,000 at day 30 only if stylists billed on 20+ working days; if not, we come back to fix it, or you stop and get your ₹5,000 back.
-- **Promises:** ₹500 a month locked 2 years; no WhatsApp charges; cancel in the app; take all your data any time.
+- **Promises:** ₹699 a month locked 2 years (founder, 24 Oct: "use 10000 for app, 699 monthly"; the re-test below was run at ₹500); no WhatsApp charges; cancel in the app; take all your data any time.
 - **True scarcity:** the first 5 Bhubaneswar salons (as many as one person can set up and support well in a month) get the first 3 months' monthly fee free, in return for letting 1–2 nearby owners see it running. No countdown; when 5 are set up, it ends.
 
 ## 4. What it costs us
