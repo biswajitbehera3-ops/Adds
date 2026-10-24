@@ -1,6 +1,6 @@
 # Review: the "apple-design" skill vs our app (24 Oct)
 
-Skill: https://github.com/emilkowalski/skills/blob/main/skills/apple-design/SKILL.md (MIT, Emil Kowalski; one Markdown file, no scripts). Read in full; not installed.
+Skill: https://github.com/emilkowalski/skills/blob/main/skills/apple-design/SKILL.md (MIT, Emil Kowalski; one Markdown file, no scripts). Read in full. **Installed 24 Oct (founder: "Install it and do not add any Hindi fonts")** at `.claude/skills/apple-design/` with its MIT licence and source commit.
 
 ## What the skill is
 
@@ -29,7 +29,7 @@ Apple's WWDC design talks turned into rules for **how an interface feels**: moti
 | 3 | **Springs for anything touched**: interruptible, start from where it is, carry the finger's speed, project the flick, rubber-band at edges | Most motion uses fixed-time animations (13 files use timing, 2 use springs); sheets close on a fixed threshold | All sheets (top-up, book, cash count, Help, bill) become spring sheets: follow the finger 1:1, can be grabbed mid-way, land where the flick throws them, soft resistance at the top. Defaults: no bounce; a little bounce only after a flick |
 | 4 | **Sound and haptics in the same frame as the visual, only for meaningful moments** | Haptics used in 3 files, no list of when | Haptic on: payment collected (PAID stamp), bill undone, walk-in saved, check-in done, error. Nothing on ordinary taps |
 | 5 | **Respect the phone's text size** and scale layout with it | Not tested at large text; many owners aged 40–55 use large text | Test every screen at 1.3× text; cap the giant ₹ numbers so they don't break cards |
-| 6 | **Default to the system font unless there's a reason** | Urbanist has no Hindi letters, and Hindi is planned for V1 | Keep Urbanist for English (brand reason), add Noto Sans Devanagari for Hindi |
+| 6 | **Default to the system font unless there's a reason** | Urbanist has no Hindi letters | **Founder, 24 Oct: do not add any Hindi fonts.** Keep Urbanist. (If Hindi words are ever shown, Android draws them with the phone's own built-in Hindi font.) |
 | 7 | **Scroll edge effect, not hard lines** | Content can meet the header and the dock with a hard edge | A soft blur fade where lists slide under the glass header and dock |
 | 8 | **Sheets grow from the button that opened them and leave the same way** | Sheets slide up from the bottom whatever opened them | Popups (bell, Help "?", chair details on the live floor) open from their button and close back into it |
 | 9 | **Specific labels beat generic ones** ("Home" is vague) | Staff tab "Home" | Rename to **"My day"**; owner tabs (Live, Earnings, Staff, Customers) are already specific |
@@ -38,5 +38,5 @@ Apple's WWDC design talks turned into rules for **how an interface feels**: moti
 
 ## Verdict
 
-- **Better design?** It does not give a better *look*; our liquid glass look stays. It gives a better *feel*: interruptible spring sheets, readable glass-on-glass, a solid mode for slow phones, haptics at the right moments, Hindi-ready type and large-text support. Points 1, 2 and 6 fix real problems in what we've designed.
+- **Better design?** It does not give a better *look*; our liquid glass look stays. It gives a better *feel*: interruptible spring sheets, readable glass-on-glass, a solid mode for slow phones, haptics at the right moments, Hindi-ready type and large-text support. Points 1 and 2 fix real problems in what we've designed.
 - **Install?** Worth installing as a reference skill (one file, MIT, nothing runs) so it guides every screen during the build.
