@@ -1,71 +1,68 @@
 {
-  "business": "Salon app: ₹999 a month per salon (setup fee kept out; see note)",
-  "unit": "paying salon-day (₹999 a month / 30)",
-  "price": 33.3,
+  "business": "Salon app, Bhubaneswar Founding Salon Plan: ₹500 a month per salon (setup fee shown separately in the CFO note)",
+  "unit": "paying salon-day (₹500 a month / 30)",
+  "price": 16.67,
   "variable": [
     {
-      "label": "WhatsApp automatic, 2-4 chair salon, with GST (₹308/month; RUNNING-COSTS.md)",
-      "cost": 10.27
-    },
-    {
-      "label": "Server and sync, Firebase Mumbai (₹20/month; RUNNING-COSTS.md)",
+      "label": "Server and database, Firebase (₹20/salon/month; RUNNING-COSTS.md)",
       "cost": 0.67
     },
     {
-      "label": "Razorpay fee 2% + GST (₹24/month)",
-      "cost": 0.8
+      "label": "Payment collection fee ~2.36% incl. GST (₹12/month)",
+      "cost": 0.4
     },
     {
-      "label": "Support time (estimate ₹100/salon/month)",
+      "label": "Help with Claude, ~5 requests/salon/month at ~₹6 (estimate; PLAN-24-OCT.md)",
+      "cost": 1.0
+    },
+    {
+      "label": "Support helper time (estimate ₹100/salon/month)",
       "cost": 3.33
     }
   ],
   "fixed_monthly": [
     {
-      "label": "Founder pay (estimate)",
+      "label": "Founder pay (estimate; founder to confirm)",
       "cost": 40000
     },
     {
-      "label": "Domain, email, support number; builds free until ~200 salons (RUNNING-COSTS.md)",
+      "label": "Domain, email, support phone number (RUNNING-COSTS.md)",
       "cost": 600
     },
     {
-      "label": "Phone, travel to salons (estimate)",
-      "cost": 5000
+      "label": "Phone and local travel in Bhubaneswar, not counting setup visits (estimate)",
+      "cost": 3000
     }
   ],
   "startup": [
     {
-      "label": "Google Play developer account (one-off $25)",
-      "cost": 2100
-    },
-    {
-      "label": "Demo phone for salon visits (estimate)",
+      "label": "Demo phone (estimate; ₹0 if the founder's own phone is used)",
       "cost": 10000
     },
     {
-      "label": "5 free pilot salons: travel and setup (estimate)",
-      "cost": 10000
+      "label": "First month of marketing: print + travel (marketing.md)",
+      "cost": 8000
     },
     {
-      "label": "Printed leaflets, first local ads (estimate)",
-      "cost": 10000
+      "label": "Contingency for tools and test devices (estimate)",
+      "cost": 2000
     }
   ],
   "days_per_month": 30,
-  "plan_per_day": 80,
+  "capacity_per_day": 60,
+  "plan_per_day": 60,
   "ramp_per_day": [
-    0,
-    2,
-    4,
-    6,
-    8,
-    10,
-    12,
-    14,
-    16,
-    18,
-    20,
-    22
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    2.4,
+    6.2,
+    10.6,
+    12.7,
+    14.7,
+    16.7,
+    18.6,
+    20.4
   ]
 }

@@ -1,70 +1,80 @@
-# CFO note (updated 22 Oct with researched running costs)
+# CFO note (24 Oct): Bhubaneswar Founding Salon Plan
 
-**Running costs per salon now come from `founder/RUNNING-COSTS.md` (WhatsApp, Firebase, Razorpay, checked 22 Oct). Your pay (₹40,000), support time and the pace of new salons are still my estimates; send yours and I'll re-run.** Setup fee (₹4,999) is kept out: it roughly pays for the setup visit. One "unit" is one paying salon for one day, so "84 a day" means 84 paying salons. Not financial, tax or legal advice; an accountant should check structure and GST (18% on software is added on top of these prices).
+**Inputs** (`numbers.json`, sources in `cfo-sources.md`): ₹500 a month per salon; setup ₹10,000 paid in two halves (`offer.md`); first 5 salons get 3 months free; WhatsApp by one tap (₹0); running cost ₹162 per salon a month (server ₹20, payment fee ₹12, Help with Claude ~₹30, support helper ₹100). **Estimates, to replace with real numbers:** founder pay ₹40,000 a month, 3 new salons a month from month 3 (`marketing.md`: ~40 visits × 40% demos × 15% yes ≈ 2.4, rounded up because the re-test was strong), 1 in 5 new salons fails the 20-day check and gets the first ₹5,000 back, 3% of salons leave each month, setup visit ₹1,500. Not financial, tax or legal advice: a CA should check the structure, GST (18% on software and setup is added on top of these prices) and how refunds are invoiced before money moves.
 
-- **The margin:** a 2-4 chair salon on ₹999 with automatic WhatsApp leaves about ₹547 a month (55%) after WhatsApp ₹308, server ₹20, payment fee ₹24 and support ₹100. WhatsApp is the biggest cost; one-tap sending from the salon phone makes it ₹0.
-- **Break-even: about 84 paying salons** at ₹999 if the founder takes ₹40,000 a month; **about 11** without founder pay (year 1 then ends about ₹5,000 up).
-- **The line to watch: the ramp.** At 2 new salons a month, year 1 ends at 22 salons and loses about ₹4.75 lakh; about ₹5.1 lakh needed before it pays for itself.
+The tool below counts only the monthly fee. The setup fee is added by hand in the year-1 table (same inputs).
+
+- **The margin:** each paying salon leaves **₹338 a month (68%)** after its own costs at ₹500. Each new salon's setup leaves about **₹7,500** (₹9,000 expected after refunds − ₹1,500 visit).
+- **What the business really is at ₹500:** a **setup-fee business**. In year 1, setup fees bring ₹2.88 lakh and monthly fees only ₹51,000. If sales stopped at month 12, ~23 salons at ₹500 would leave **₹4,100 a month** after running costs, before any founder pay.
+- **Year 1:**
+  - Without founder pay: profit **₹2.29 lakh**; cash never goes below **−₹23,600** (startup ₹20,000 + month 1). That is the cash needed.
+  - With ₹40,000 a month founder pay: loss **₹2.51 lakh**; cash needed **₹2.71 lakh**.
+- **Break-even on monthly fees alone** (fixed ₹43,600 with founder pay): **129 salons at ₹500**; 68 at ₹799; 52 at ₹999. Without founder pay: 11 salons at ₹500.
+- **The line to watch: the monthly price and the pace of new salons.** ₹500 → ₹999 drops break-even from 129 to 52 salons (tool what-if). Selling 20% fewer salons removes about ₹58,000 of year-1 setup income.
 - **Three ways to improve:**
-  1. ₹1,499 for 5-8 chair / two-branch salons: break-even 84 → about 44.
-  2. Count due-back reminders (marketing, ₹0.86 each) inside an allowance and charge extra beyond it, so big salons don't eat the margin.
-  3. Keep founder pay low in year 1 and win salons faster through a distributor or pilot referrals.
-- **Board money conditions:** running cost per salon now known (estimate until pilot salons give real message counts); churn, cost to win a salon and your budget still unknown.
+  1. **Price by salon size** (pricing.md): Salon ₹799 and Salon Plus ₹1,299 after the founding 5 → year-1 profit without pay ₹2.29 L → ₹3.02 L; 3-year cash with ₹40,000 pay −₹4.66 L → **+₹0.63 L**.
+  2. **Keep founder pay low in year 1** (side income from setup fees): −₹2.51 L → +₹2.29 L in year 1.
+  3. **Yearly prepay** (10 months' price for 12): cash up front, fewer salons leave in slow months; costs 2 months' fee per yearly salon.
+- **Board money conditions (board.md):** "monthly price covers monthly cost" → **met** (₹500 vs ₹162 a salon, because WhatsApp is one-tap). Still open: real cost to win a salon, churn, the founder's budget.
 
-# Unit economics: Salon app: ₹999 a month per salon (setup fee kept out; see note)
+---
+
+# Unit economics: Salon app, Bhubaneswar Founding Salon Plan: ₹500 a month per salon (setup fee shown separately in the CFO note)
 
 Every number below comes from the input file. Nothing is looked up or guessed.
 
-## One paying salon-day (₹999 a month / 30)
+## One paying salon-day (₹500 a month / 30)
 
-| line | per paying salon-day (₹999 a month / 30) |
+| line | per paying salon-day (₹500 a month / 30) |
 | --- | ---: |
-| Price | ₹33.30 |
-| WhatsApp automatic, 2-4 chair salon, with GST (₹308/month; RUNNING-COSTS.md) | -₹10.27 |
-| Server and sync, Firebase Mumbai (₹20/month; RUNNING-COSTS.md) | -₹0.67 |
-| Razorpay fee 2% + GST (₹24/month) | -₹0.80 |
-| Support time (estimate ₹100/salon/month) | -₹3.33 |
-| **Contribution** (what each paying salon-day (₹999 a month / 30) leaves to pay the fixed costs) | **₹18.23** (55%) |
+| Price | ₹16.67 |
+| Server and database, Firebase (₹20/salon/month; RUNNING-COSTS.md) | -₹0.67 |
+| Payment collection fee ~2.36% incl. GST (₹12/month) | -₹0.40 |
+| Help with Claude, ~5 requests/salon/month at ~₹6 (estimate; PLAN-24-OCT.md) | -₹1.00 |
+| Support helper time (estimate ₹100/salon/month) | -₹3.33 |
+| **Contribution** (what each paying salon-day (₹500 a month / 30) leaves to pay the fixed costs) | **₹11.27** (68%) |
 
 ## The margin that matters
 
-Fixed costs: ₹45,600 a month (Founder pay (estimate) ₹40,000, Domain, email, support number; builds free until ~200 salons (RUNNING-COSTS.md) ₹600, Phone, travel to salons (estimate) ₹5,000).
+Fixed costs: ₹43,600 a month (Founder pay (estimate; founder to confirm) ₹40,000, Domain, email, support phone number (RUNNING-COSTS.md) ₹600, Phone and local travel in Bhubaneswar, not counting setup visits (estimate) ₹3,000).
 
-- **Break-even: 84 paying salon-day (₹999 a month / 30)s a day.** Below that you lose money every month.
-- **Profit margin at your plan** (80 a day): **-2%** of every sale, after every cost.
+- **Break-even: 129 paying salon-day (₹500 a month / 30)s a day.** Below that you lose money every month.
+- **Profit margin at your plan** (60 a day): **-78%** of every sale, after every cost.
+- Capacity: 60 a day.
 
 ## Year 1, month by month
 
-| month | paying salon-day (₹999 a month / 30)s a day | revenue | profit | cumulative (after ₹32,100 startup) |
+| month | paying salon-day (₹500 a month / 30)s a day | revenue | profit | cumulative (after ₹20,000 startup) |
 | ---: | ---: | ---: | ---: | ---: |
-| 1 | 0 | ₹0 | -₹45,600 | -₹77,700 |
-| 2 | 2 | ₹1,998 | -₹44,506 | -₹122,206 |
-| 3 | 4 | ₹3,996 | -₹43,412 | -₹165,619 |
-| 4 | 6 | ₹5,994 | -₹42,319 | -₹207,937 |
-| 5 | 8 | ₹7,992 | -₹41,225 | -₹249,162 |
-| 6 | 10 | ₹9,990 | -₹40,131 | -₹289,293 |
-| 7 | 12 | ₹11,988 | -₹39,037 | -₹328,330 |
-| 8 | 14 | ₹13,986 | -₹37,943 | -₹366,274 |
-| 9 | 16 | ₹15,984 | -₹36,850 | -₹403,123 |
-| 10 | 18 | ₹17,982 | -₹35,756 | -₹438,879 |
-| 11 | 20 | ₹19,980 | -₹34,662 | -₹473,541 |
-| 12 | 22 | ₹21,978 | -₹33,568 | -₹507,109 |
+| 1 | 0 | ₹0 | -₹43,600 | -₹63,600 |
+| 2 | 0 | ₹0 | -₹43,600 | -₹107,200 |
+| 3 | 0 | ₹0 | -₹43,600 | -₹150,800 |
+| 4 | 0 | ₹0 | -₹43,600 | -₹194,400 |
+| 5 | 2 | ₹1,200 | -₹42,789 | -₹237,189 |
+| 6 | 6 | ₹3,101 | -₹41,504 | -₹278,692 |
+| 7 | 11 | ₹5,301 | -₹40,016 | -₹318,708 |
+| 8 | 13 | ₹6,351 | -₹39,306 | -₹358,015 |
+| 9 | 15 | ₹7,351 | -₹38,630 | -₹396,645 |
+| 10 | 17 | ₹8,352 | -₹37,954 | -₹434,598 |
+| 11 | 19 | ₹9,302 | -₹37,311 | -₹471,910 |
+| 12 | 20 | ₹10,202 | -₹36,703 | -₹508,612 |
 
-- **Year 1 operating profit: -₹475,009** on ₹131,868 of revenue.
-- After the ₹32,100 startup spend: -₹507,109.
+- **Year 1 operating profit: -₹488,612** on ₹51,160 of revenue.
+- After the ₹20,000 startup spend: -₹508,612.
 - Startup money earned back: not within year 1.
-- Cash you need before it pays for itself: **₹507,109**.
+- Cash you need before it pays for itself: **₹508,612**.
 
 ## What if
 
 | scenario | margin at plan | break-even a day | year 1 profit |
 | --- | ---: | ---: | ---: |
-| Base plan | -2% | 84 | -₹475,009 |
-| Price -10% | -14% | 103 | -₹488,196 |
-| Volume -20% | -17% | 84 | -₹489,447 |
-| Unit costs +15% | -9% | 96 | -₹483,961 |
+| Base plan | -78% | 129 | -₹488,612 |
+| Price -10% | -97% | 152 | -₹493,728 |
+| Volume -20% | -114% | 129 | -₹495,530 |
+| Unit costs +15% | -83% | 139 | -₹491,098 |
 
 ## Red flags
 
-- Year 1 loses money on operations (-₹475,009).
+- Break-even needs 129 paying salon-day (₹500 a month / 30)s a day but capacity is 60.
+- Year 1 loses money on operations (-₹488,612).
 - The startup spend is not earned back within year 1.
