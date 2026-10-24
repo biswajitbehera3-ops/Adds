@@ -1,0 +1,68 @@
+[
+ {
+  "file": "app/paid-a-marimba.wav",
+  "moment": "Payment collected (option A: one warm marimba note)",
+  "source": "mallet/marimba",
+  "peak_dbfs": -8
+ },
+ {
+  "file": "app/paid-b-rising.wav",
+  "moment": "Payment collected (option B: four rising notes)",
+  "source": "mallet/up4",
+  "peak_dbfs": -13
+ },
+ {
+  "file": "app/paid-c-flourish.wav",
+  "moment": "Payment collected (option C: short chime run)",
+  "source": "mallet/flourish",
+  "peak_dbfs": -9
+ },
+ {
+  "file": "app/walkin-saved.wav",
+  "moment": "Walk-in customer saved",
+  "source": "ui_pop/soft",
+  "peak_dbfs": -12
+ },
+ {
+  "file": "app/checkin-done.wav",
+  "moment": "Morning check-in done",
+  "source": "notify/mid_wood",
+  "peak_dbfs": -10
+ },
+ {
+  "file": "app/owner-alert.wav",
+  "moment": "Owner: new item in Today's checks",
+  "source": "notify/mid_tine",
+  "peak_dbfs": -9
+ },
+ {
+  "file": "app/undo.wav",
+  "moment": "Bill undone",
+  "source": "knock/wood",
+  "peak_dbfs": -12
+ },
+ {
+  "file": "app/error.wav",
+  "moment": "Not allowed / error",
+  "source": "knock/double",
+  "peak_dbfs": -11
+ },
+ {
+  "file": "app/toggle-on.wav",
+  "moment": "Wallet switch on",
+  "source": "toggle/on",
+  "peak_dbfs": -16
+ },
+ {
+  "file": "app/toggle-off.wav",
+  "moment": "Wallet switch off",
+  "source": "toggle/off",
+  "peak_dbfs": -16
+ },
+ {
+  "file": "app/reminder-sent.wav",
+  "moment": "Reminder or bill sent on WhatsApp",
+  "source": "pro_tap/soft",
+  "peak_dbfs": -14
+ }
+]
