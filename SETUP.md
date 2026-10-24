@@ -23,7 +23,7 @@ claude
 ## 3. Skills load themselves
 
 `.claude/skills/` is read automatically on startup — nothing to install. Confirm with
-`/skills`. Nine should be listed:
+`/skills`. Twelve should be listed:
 
 | Skill | Job |
 |---|---|
@@ -36,6 +36,9 @@ claude
 | `seedance-clean` | single-shot Seedance prompts |
 | `seedance-multishot-prompter` | multi-reference Seedance sequences |
 | `yt-dlp` | downloads competitor ad videos for transcription |
+| `ad-teardown` | reverse-engineers a competitor video ad from its URL |
+| `whoop-clipper` | cuts long video into short vertical clips |
+| `openfilm` | builds, edits and renders videos as HTML pages (needs Node 22.2+ and ffmpeg) |
 
 `CLAUDE.md` is read automatically too, so the pipeline order and the
 generation cost policy apply from the first message.
