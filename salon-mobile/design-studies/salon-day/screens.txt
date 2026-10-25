@@ -1,0 +1,2315 @@
+
+===== 2026-10-31 09:15 owner-first-launch-demo-data (shots/000-owner-first-launch-demo-data.jpg) =====
+SALON · OWNER
+Live floor
+LIVE
+Sat 31 Oct · 9:15 AM
+Today
+₹0
+No one in yet
+Shift starts 10:00
+Chairs
+0 of 3 busy
+1
+Not in yet
+Imran · no check-in yet
+—
+2
+Not in yet
+Sunita · no check-in yet
+—
+3
+Not in yet
+Rakesh · no check-in yet
+—
+Front desk
+0 paid today
+TODAY'S CHECKS
+All clear
+Cash in the drawer should be ₹0
+0 cash bills ₹0
+Count the cash
+Demo data: watch a customer come and pay
+Live
+Earnings
+1
+Staff
+Customers
+
+===== 2026-10-31 09:15 owner-menu (shots/001-owner-menu.jpg) =====
+SALON · OWNER
+Live floor
+LIVE
+Sat 31 Oct · 9:15 AM
+Today
+₹0
+No one in yet
+Shift starts 10:00
+Chairs
+0 of 3 busy
+1
+Not in yet
+Imran · no check-in yet
+—
+2
+Not in yet
+Sunita · no check-in yet
+—
+3
+Not in yet
+Rakesh · no check-in yet
+—
+Front desk
+0 paid today
+TODAY'S CHECKS
+All clear
+Cash in the drawer should be ₹0
+0 cash bills ₹0
+Count the cash
+Demo data: watch a customer come and pay
+Live
+Earnings
+1
+Staff
+Customers
+Owner
+Leave requests
+›
+Services & prices
+›
+Check limits
+›
+Privacy & terms
+›
+Back up data
+›
+Restore from a backup
+›
+You're looking at demo data. Clear it before the salon starts using the app; you'll then set a new owner password and add your staff.
+Clear all data
+›
+Load demo data
+›
+Sign out
+›
+
+===== 2026-10-31 09:15 clear-confirm (shots/002-clear-confirm.jpg) =====
+SALON · OWNER
+Live floor
+LIVE
+Sat 31 Oct · 9:15 AM
+Today
+₹0
+No one in yet
+Shift starts 10:00
+Chairs
+0 of 3 busy
+1
+Not in yet
+Imran · no check-in yet
+—
+2
+Not in yet
+Sunita · no check-in yet
+—
+3
+Not in yet
+Rakesh · no check-in yet
+—
+Front desk
+0 paid today
+TODAY'S CHECKS
+All clear
+Cash in the drawer should be ₹0
+0 cash bills ₹0
+Count the cash
+Demo data: watch a customer come and pay
+Live
+Earnings
+1
+Staff
+Customers
+Owner
+Delete every customer, visit, wallet, staff account and attendance record on this phone, and the owner password? The app goes back to first-time setup. This can't be undone.
+Keep
+Delete all
+
+===== 2026-10-31 09:15 owner-empty-salon (shots/003-owner-empty-salon.jpg) =====
+SALON · OWNER
+Live floor
+LIVE
+Sat 31 Oct · 9:15 AM
+Today
+₹0
+No stylists yet
+Add your stylists in the Staff tab
+Chairs
+0 of 0 busy
+Front desk
+0 paid today
+TODAY'S CHECKS
+All clear
+Cash in the drawer should be ₹0
+0 cash bills ₹0
+Count the cash
+Live
+Earnings
+Staff
+Customers
+
+===== 2026-10-31 09:15 add-stylist-form (shots/004-add-stylist-form.jpg) =====
+Owner · Sat 31 Oct
+Staff
+0 of 0 in
+No stylists yet
+Tap the gold + to add the first one. They sign in on their own phone with their mobile number.
+Live
+Earnings
+Staff
+Customers
+‹ Staff
+Add a stylist
+Upload photo
+Name
+Mobile (their login)
+Chair
+Shift starts
+Weekly off
+M
+T
+W
+T
+F
+S
+S
+First password (they can change it)
+They log in on their own phone with this mobile number and password, then check in with a selfie each day.
+Add stylist
+
+===== 2026-10-31 09:15 owner-staff-after-adding (shots/005-owner-staff-after-adding.jpg) =====
+Owner · Sat 31 Oct
+Staff
+0 of 4 in
+BN
+Not in yet
+Bikash
+Chair 1
+0 customers
+₹0
+LM
+Not in yet
+Lipsa
+Chair 2
+0 customers
+₹0
+MS
+Not in yet
+Manas
+Chair 3
+0 customers
+₹0
+RD
+Not in yet
+Rashmita
+Chair 4
+0 customers
+₹0
+Live
+Earnings
+Staff
+Customers
+Rashmita added. They log in with 98610 00004.
+
+===== 2026-10-31 09:15 owner-live-4-stylists (shots/006-owner-live-4-stylists.jpg) =====
+SALON · OWNER
+Live floor
+LIVE
+Sat 31 Oct · 9:15 AM
+Today
+₹0
+No one in yet
+Shift starts 10:00
+Chairs
+0 of 4 busy
+1
+Not in yet
+Bikash · no check-in yet
+—
+2
+Not in yet
+Lipsa · no check-in yet
+—
+3
+Not in yet
+Manas · no check-in yet
+—
+4
+Not in yet
+Rashmita · no check-in yet
+—
+Front desk
+0 paid today
+TODAY'S CHECKS
+All clear
+Cash in the drawer should be ₹0
+0 cash bills ₹0
+Count the cash
+The salon picture shows the first 3 chairs; every chair is in the list.
+Live
+Earnings
+Staff
+Customers
+
+===== 2026-10-31 09:45 Bikash-home-after-checkin (shots/007-Bikash-home-after-checkin.jpg) =====
+Hi Bikash
+Saturday 31 Oct · Chair 1
+Customer's mobile number
+MY EARNINGS
+₹0
+Today · Bikash
+Cash/UPI/card ₹0
+Wallet ₹0
+Month ₹0
+MY CUSTOMERS TODAY
+See all ›
+0
+Handled
+0
+Paid
+0
+In chair
+0
+New
+MY CHAIR · CHAIR 1
+Free. Tap the gold + when the next customer walks in.
+Salon now: 0 of 4 chairs busy
+Your bookings today · 0
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+
+===== 2026-10-31 09:52 Lipsa-home-after-checkin (shots/008-Lipsa-home-after-checkin.jpg) =====
+Hi Lipsa
+Saturday 31 Oct · Chair 2
+Customer's mobile number
+MY EARNINGS
+₹0
+Today · Lipsa
+Cash/UPI/card ₹0
+Wallet ₹0
+Month ₹0
+MY CUSTOMERS TODAY
+See all ›
+0
+Handled
+0
+Paid
+0
+In chair
+0
+New
+MY CHAIR · CHAIR 2
+Free. Tap the gold + when the next customer walks in.
+Salon now: 0 of 4 chairs busy
+Your bookings today · 0
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+
+===== 2026-10-31 09:58 Manas-home-after-checkin (shots/009-Manas-home-after-checkin.jpg) =====
+Hi Manas
+Saturday 31 Oct · Chair 3
+Customer's mobile number
+MY EARNINGS
+₹0
+Today · Manas
+Cash/UPI/card ₹0
+Wallet ₹0
+Month ₹0
+MY CUSTOMERS TODAY
+See all ›
+0
+Handled
+0
+Paid
+0
+In chair
+0
+New
+MY CHAIR · CHAIR 3
+Free. Tap the gold + when the next customer walks in.
+Salon now: 0 of 4 chairs busy
+Your bookings today · 0
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+
+===== 2026-10-31 10:20 book-sheet (shots/010-book-sheet.jpg) =====
+Saturday 31 Oct
+My calendar
++ Book
+‹
+October 2026
+›
+M
+T
+W
+T
+F
+S
+S
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+Today · Sat 31
+0 bookings · 0 left
+Nothing left today.
+Your day is 0% booked
+10:00am – 8:00pm
+Open today's timeline →
+Today
+Selected
+Ring = how booked
+Home
+Customers
+Calendar
+Profile
+New booking
+✕
+1
+CUSTOMER
+2
+SERVICES
+Haircut
+30 min · ₹300
+Beard trim
+15 min · ₹150
+Hair colour
+90 min · ₹1,200
+Facial
+45 min · ₹900
+Hair spa
+60 min · ₹1,000
+Pick one or more.
+3
+STYLIST
+B
+You
+L
+Lipsa
+M
+Manas
+R
+Rashmita
+★
+Any free
+4
+DAY AND TIME
+Today
+31
+Sun
+1
+Mon
+2
+Tue
+3
+Wed
+4
+Thu
+5
+Fri
+6
+Sat
+7
+Sun
+8
+Mon
+9
+Tue
+10
+Wed
+11
+Thu
+12
+Fri
+13
+Crossed-out times are taken or too short for the services picked.
+5
+NOTE AND CONFIRMATION
+Phone call
+WhatsApp
+In person
+Send WhatsApp confirmation
+The message preview appears once a time is picked.
+Fill in the customer's number to start.
+Book
+
+===== 2026-10-31 10:20 book-sheet-filled (shots/011-book-sheet-filled.jpg) =====
+Saturday 31 Oct
+My calendar
++ Book
+‹
+October 2026
+›
+M
+T
+W
+T
+F
+S
+S
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+Today · Sat 31
+0 bookings · 0 left
+Nothing left today.
+Your day is 0% booked
+10:00am – 8:00pm
+Open today's timeline →
+Today
+Selected
+Ring = how booked
+Home
+Customers
+Calendar
+Profile
+New booking
+✕
+1
+CUSTOMER
+New customer
+✓
+Customer agrees we keep their name and number for bookings and visits (needed)
+Customer wants visit reminders and offers on WhatsApp (optional; reply STOP any time)
+2
+SERVICES
+Haircut
+30 min · ₹300
+Beard trim
+15 min · ₹150
+Hair colour
+90 min · ₹1,200
+Facial
+45 min · ₹900
+Hair spa
+60 min · ₹1,000
+Total 90 min · ₹1,200
+3
+STYLIST
+B
+You
+L
+Lipsa
+M
+Manas
+R
+Rashmita
+★
+Any free
+4
+DAY AND TIME
+Today
+31
+Sun
+1
+Mon
+2
+Tue
+3
+Wed
+4
+Thu
+5
+Fri
+6
+Sat
+7
+Sun
+8
+Mon
+9
+Tue
+10
+Wed
+11
+Thu
+12
+Fri
+13
+10:30
+11:00
+11:30
+12:00
+12:30
+1:00
+1:30
+2:00
+2:30
+3:00
+3:30
+4:00
+4:30
+5:00
+5:30
+6:00
+6:30
+Crossed-out times are taken or too short for the services picked.
+5
+NOTE AND CONFIRMATION
+Phone call
+WhatsApp
+In person
+Send WhatsApp confirmation
+Booked! Dev, your hair colour at Salon is on Sat 31 Oct at 11:00 AM with Bikash. Reply C to cancel.
+Dev Mohanty · 90 min · ₹1,200 · Sat 31 Oct, 11:00 AM with you
+Book
+
+===== 2026-10-31 10:25 Rashmita-home-after-checkin (shots/012-Rashmita-home-after-checkin.jpg) =====
+Hi Rashmita
+Saturday 31 Oct · Chair 4
+Customer's mobile number
+MY EARNINGS
+₹0
+Today · Rashmita
+Cash/UPI/card ₹0
+Wallet ₹0
+Month ₹0
+MY CUSTOMERS TODAY
+See all ›
+0
+Handled
+0
+Paid
+0
+In chair
+0
+New
+MY CHAIR · CHAIR 4
+Free. Tap the gold + when the next customer walks in.
+Salon now: 2 of 4 chairs busy
+Your bookings today · 0
+Salon: 1 on-the-day reminder to send
+›
+Home
+Customers
+Calendar
+Profile
+
+===== 2026-10-31 10:25 rashmita-home (shots/013-rashmita-home.jpg) =====
+Hi Rashmita
+Saturday 31 Oct · Chair 4
+Customer's mobile number
+MY EARNINGS
+₹0
+Today · Rashmita
+Cash/UPI/card ₹0
+Wallet ₹0
+Month ₹0
+MY CUSTOMERS TODAY
+See all ›
+0
+Handled
+0
+Paid
+0
+In chair
+0
+New
+MY CHAIR · CHAIR 4
+Free. Tap the gold + when the next customer walks in.
+Salon now: 2 of 4 chairs busy
+Your bookings today · 0
+Salon: 1 on-the-day reminder to send
+›
+Home
+Customers
+Calendar
+Profile
+
+===== 2026-10-31 10:35 bill-before-collect (shots/014-bill-before-collect.jpg) =====
+Hi Bikash
+Saturday 31 Oct · Chair 1
+Customer's mobile number
+MY EARNINGS
+₹0
+Today · Bikash
+Cash/UPI/card ₹0
+Wallet ₹0
+Month ₹0
+MY CUSTOMERS TODAY
+See all ›
+1
+Handled
+0
+Paid
+1
+In chair
+1
+New
+MY CHAIR · CHAIR 1
+Amit Panda
+since 10:05 AM · Haircut
+Pay ₹300
+Salon now: 2 of 4 chairs busy
+Your bookings today · 1
+Salon: 1 on-the-day reminder to send
+›
+Home
+Customers
+Calendar
+Profile
+‹ Home
+Amit
+In the chair since 10:05 AM · Amit Panda
+WALLET
+₹0
+Haircut
+₹300
+Total
+₹300
++ Add or change services
+Not in the list?
+Cash
+UPI
+Card
+₹300 by cash
+Collect ₹300
+Customer left without a service
+
+===== 2026-10-31 10:35 receipt (shots/015-receipt.jpg) =====
+Hi Bikash
+Saturday 31 Oct · Chair 1
+Customer's mobile number
+MY EARNINGS
+₹300
+Today · Bikash
+Cash/UPI/card ₹300
+Wallet ₹0
+Month ₹300
+MY CUSTOMERS TODAY
+See all ›
+1
+Handled
+1
+Paid
+0
+In chair
+1
+New
+MY CHAIR · CHAIR 1
+Free. Tap the gold + when the next customer walks in.
+Salon now: 1 of 4 chairs busy
+Your bookings today · 1
+Salon: 1 on-the-day reminder to send
+›
+Home
+Customers
+Calendar
+Profile
+‹ Home
+Amit Panda
+Paid · 10:35 AM · Bikash · Chair 1
+Haircut
+₹300
+Total
+₹300
+By cash
+₹300
+Wallet now
+₹0
+PAID
+Send thank-you on WhatsApp
+Next customer
+Undo this visit · 1:58
+
+===== 2026-10-31 10:40 no-number-counter (shots/016-no-number-counter.jpg) =====
+Hi Rashmita
+Saturday 31 Oct · Chair 4
+Customer's mobile number
+MY EARNINGS
+₹0
+Today · Rashmita
+Cash/UPI/card ₹0
+Wallet ₹0
+Month ₹0
+MY CUSTOMERS TODAY
+See all ›
+0
+Handled
+0
+Paid
+0
+In chair
+0
+New
+MY CHAIR · CHAIR 4
+Free. Tap the gold + when the next customer walks in.
+Salon now: 1 of 4 chairs busy
+Your bookings today · 0
+Salon: 1 on-the-day reminder to send
+›
+Home
+Customers
+Calendar
+Profile
+‹ Home
++91
+····· ·····
+1
+2
+3
+4
+5
+6
+7
+8
+9
+0
+
+===== 2026-10-31 10:40 no-number-zeros (shots/017-no-number-zeros.jpg) =====
+Hi Rashmita
+Saturday 31 Oct · Chair 4
+Customer's mobile number
+MY EARNINGS
+₹0
+Today · Rashmita
+Cash/UPI/card ₹0
+Wallet ₹0
+Month ₹0
+MY CUSTOMERS TODAY
+See all ›
+0
+Handled
+0
+Paid
+0
+In chair
+0
+New
+MY CHAIR · CHAIR 4
+Free. Tap the gold + when the next customer walks in.
+Salon now: 1 of 4 chairs busy
+Your bookings today · 0
+Salon: 1 on-the-day reminder to send
+›
+Home
+Customers
+Calendar
+Profile
+‹ Home
+Clear
++91
+00000 00000
+That isn't a valid Indian mobile number. Tap Clear and re-enter it.
+
+===== 2026-10-31 10:40 FAIL-Rashmita-C04 (shots/018-FAIL-Rashmita-C04.jpg) =====
+Hi Rashmita
+Saturday 31 Oct · Chair 4
+Customer's mobile number
+MY EARNINGS
+₹0
+Today · Rashmita
+Cash/UPI/card ₹0
+Wallet ₹0
+Month ₹0
+MY CUSTOMERS TODAY
+See all ›
+0
+Handled
+0
+Paid
+0
+In chair
+0
+New
+MY CHAIR · CHAIR 4
+Free. Tap the gold + when the next customer walks in.
+Salon now: 1 of 4 chairs busy
+Your bookings today · 0
+Salon: 1 on-the-day reminder to send
+›
+Home
+Customers
+Calendar
+Profile
+‹ Home
+Clear
++91
+00000 00000
+That isn't a valid Indian mobile number. Tap Clear and re-enter it.
+
+===== 2026-10-31 11:00 C03-visit-from-booking (shots/019-C03-visit-from-booking.jpg) =====
+‹ October 2026
+Today, Sat 31
++ Book
+M
+26
+T
+27
+W
+28
+T
+29
+F
+30
+S
+31
+S
+1
+10a
+11a
+12p
+1p
+2p
+3p
+4p
+5p
+6p
+7p
+8p
+Dev Mohanty
+11:00 · Hair colour
+In chair
+Home
+Customers
+Calendar
+Profile
+‹ Home
+Dev
+In the chair since 11:00 AM · Dev Mohanty
+WALLET
+₹0
+Hair colour
+₹1,200
+Total
+₹1,200
++ Add or change services
+Not in the list?
+Cash
+UPI
+Card
+₹1,200 by cash
+Collect ₹1,200
+Customer left without a service
+
+===== 2026-10-31 11:30 staff-sees-new-customer-no-topup (shots/020-staff-sees-new-customer-no-topup.jpg) =====
+Hi Lipsa
+Saturday 31 Oct · Chair 2
+Customer's mobile number
+MY EARNINGS
+₹900
+Today · Lipsa
+Cash/UPI/card ₹900
+Wallet ₹0
+Month ₹900
+MY CUSTOMERS TODAY
+See all ›
+1
+Handled
+1
+Paid
+0
+In chair
+1
+New
+MY CHAIR · CHAIR 2
+Free. Tap the gold + when the next customer walks in.
+Salon now: 2 of 4 chairs busy
+Your bookings today · 0
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+‹ Home
+Clear
++91
+99371 00006
+On file · first visit
+Pooja Jena
+99371 00006
+WALLET
+₹0
+SERVICES
+Haircut
+₹300
+Beard trim
+₹150
+Hair colour
+₹1,200
+Facial
+₹900
+Hair spa
+₹1,000
+STYLIST
+Bikash
+Chair 1
+Lipsa
+Chair 2
+Manas
+Chair 3
+Rashmita
+Chair 4
+Payment is taken after the service. You can add more then.
+Pick a service
+Pooja added
+
+===== 2026-10-31 12:25 undo-sheet (shots/021-undo-sheet.jpg) =====
+Hi Rashmita
+Saturday 31 Oct · Chair 4
+Customer's mobile number
+MY EARNINGS
+₹150
+Today · Rashmita
+Cash/UPI/card ₹150
+Wallet ₹0
+Month ₹150
+MY CUSTOMERS TODAY
+See all ›
+1
+Handled
+1
+Paid
+0
+In chair
+1
+New
+MY CHAIR · CHAIR 4
+Free. Tap the gold + when the next customer walks in.
+Salon now: 1 of 4 chairs busy
+Your bookings today · 0
+Salon: 1 on-the-day reminder to send
+›
+Home
+Customers
+Calendar
+Profile
+‹ Home
+Suresh Swain
+Paid · 12:25 PM · Rashmita · Chair 4
+Beard trim
+₹150
+Total
+₹150
+By cash
+₹150
+Wallet now
+₹0
+PAID
+Send thank-you on WhatsApp
+Next customer
+Undo this visit · 1:57
+Why undo this bill?
+Wrong customer
+Wrong service
+Entered twice
+Wrong payment type
+Other
+The bill stays on record as cancelled, with your name and this reason. The owner sees it.
+Undo the bill
+
+===== 2026-10-31 12:25 after-undo (shots/022-after-undo.jpg) =====
+Hi Rashmita
+Saturday 31 Oct · Chair 4
+Customer's mobile number
+MY EARNINGS
+₹0
+Today · Rashmita
+Cash/UPI/card ₹0
+Wallet ₹0
+Month ₹0
+MY CUSTOMERS TODAY
+See all ›
+0
+Handled
+0
+Paid
+0
+In chair
+0
+New
+MY CHAIR · CHAIR 4
+Free. Tap the gold + when the next customer walks in.
+Salon now: 1 of 4 chairs busy
+Your bookings today · 0
+Salon: 1 on-the-day reminder to send
+›
+Home
+Customers
+Calendar
+Profile
+Visit undone. Any wallet money was returned.
+
+===== 2026-10-31 12:35 referral-needs-code (shots/023-referral-needs-code.jpg) =====
+Hi Lipsa
+Saturday 31 Oct · Chair 2
+Customer's mobile number
+MY EARNINGS
+₹900
+Today · Lipsa
+Cash/UPI/card ₹900
+Wallet ₹0
+Month ₹900
+MY CUSTOMERS TODAY
+See all ›
+1
+Handled
+1
+Paid
+0
+In chair
+1
+New
+MY CHAIR · CHAIR 2
+Free. Tap the gold + when the next customer walks in.
+Salon now: 1 of 4 chairs busy
+Your bookings today · 0
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+‹ Home
+Clear
++91
+99371 00009
+New customer · first visit
+This number isn't on file yet.
+Name
+Sent by a friend? Their code or mobile
+✓ Amit P. · mobile ending 001
+Ask who sent them and check the name matches. Both get wallet credit after this first visit is paid.
+Confirm it's their number
+Send a code to ••••• •0009 on WhatsApp. Ask the customer to read it out, and type it here.
+Send code on WhatsApp
+Read this to the customer: we keep your name, number, visits and wallet only to serve you here. You can ask us to stop messages or delete your data at any time.
+Customer is under 18
+Use the parent's or guardian's mobile number
+✓
+Agrees we keep their details for visits and wallet
+Needed to save the customer
+Wants WhatsApp reminders and offers
+Optional. They can reply STOP any time
+Full privacy notice
+Add customer
+
+===== 2026-10-31 13:10 owner-1310-live (shots/024-owner-1310-live.jpg) =====
+SALON · OWNER
+Live floor
+LIVE
+Sat 31 Oct · 1:10 PM
+Today
+₹3,450
+1
+Free
+2
+Free
+3
+Free
+Chairs
+0 of 4 busy
+1
+Free
+Bikash · ready
+—
+2
+Free
+Lipsa · ready
+—
+3
+Free
+Manas · ready
+—
+4
+Free
+Rashmita · ready · came in late
+—
+Front desk
+6 paid today
+TODAY'S CHECKS
+1 to look at
+Rashmita undid a ₹150 bill
+Suresh Swain · "Wrong service"
+›
+Cash in the drawer should be ₹2,250
+4 cash bills ₹2,250
+Count the cash
+The salon picture shows the first 3 chairs; every chair is in the list.
+Live
+Earnings
+Staff
+Customers
+
+===== 2026-10-31 13:10 owner-1310-earnings (shots/025-owner-1310-earnings.jpg) =====
+Owner · Sat 31 Oct
+Earnings
+TODAY
+₹3.5k
+7 DAYS
+₹3.5k
+MONTH
+₹3.5k
+TODAY SO FAR
+₹3,432
+Last Sat by 1:10 PM: ₹0
+Su
+Mo
+Tu
+We
+Th
+Fr
+Sa
+₹3.5k
+Last 7 days · Tue closed
+STYLISTS
+tap for customers
+BN
+Bikash · 2
+₹1,500
+LM
+Lipsa · 2
+₹1,200
+MS
+Manas · 1
+₹450
+RD
+Rashmita · 1
+₹300
+Live
+Earnings
+Staff
+Customers
+
+===== 2026-10-31 13:10 owner-1310-staff (shots/026-owner-1310-staff.jpg) =====
+Owner · Sat 31 Oct
+Staff
+4 of 4 in
+1 late
+BN
+In 9:45
+Bikash
+Chair 1
+2 customers
+₹1,500
+LM
+In 9:52
+Lipsa
+Chair 2
+2 customers
+₹1,200
+MS
+In 9:58
+Manas
+Chair 3
+1 customer
+₹450
+RD
+Late 10:25
+Rashmita
+Chair 4
+1 customer
+₹300
+Live
+Earnings
+Staff
+Customers
+
+===== 2026-10-31 13:10 owner-1310-customers (shots/027-owner-1310-customers.jpg) =====
+Sat 31 Oct
+Customers
+All
+⭐ Top spenders
+Regulars
+Not seen 30+
+Wallet balance
+New
+8 CUSTOMERS · 8 NEW · 0 NOT SEEN 30+
+Sort: Highest spending ▾
+DM
+Dev Mohanty
+New
+Today · Bikash · 1 visit
+₹1,200
+SR
+Sneha Rath
+New
+Today · Lipsa · 1 visit
+₹900
+AM
+Ankit Mishra
+New
+Today · Manas · 1 visit
+₹450
+AP
+Amit Panda
+New
+Today · Bikash · 1 visit
+₹300
+Wallet ₹100
+NS
+Neha Sahu
+New
+Today · Lipsa · 1 visit
+₹300
+Wallet ₹100
+SS
+Suresh Swain
+New
+Today · Rashmita · 1 visit
+₹300
+KB
+Kiran Behera
+New
+No visits yet · 0 visits
+₹0
+PJ
+Pooja Jena
+New
+No visits yet · 0 visits
+₹0
+Live
+Earnings
+Staff
+Customers
+
+===== 2026-10-31 13:10 topup-sheet (shots/028-topup-sheet.jpg) =====
+Sat 31 Oct
+Customers
+All
+⭐ Top spenders
+Regulars
+Not seen 30+
+Wallet balance
+New
+8 CUSTOMERS · 8 NEW · 0 NOT SEEN 30+
+Sort: Highest spending ▾
+DM
+Dev Mohanty
+New
+Today · Bikash · 1 visit
+₹1,200
+SR
+Sneha Rath
+New
+Today · Lipsa · 1 visit
+₹900
+AM
+Ankit Mishra
+New
+Today · Manas · 1 visit
+₹450
+AP
+Amit Panda
+New
+Today · Bikash · 1 visit
+₹300
+Wallet ₹100
+NS
+Neha Sahu
+New
+Today · Lipsa · 1 visit
+₹300
+Wallet ₹100
+SS
+Suresh Swain
+New
+Today · Rashmita · 1 visit
+₹300
+KB
+Kiran Behera
+New
+No visits yet · 0 visits
+₹0
+PJ
+Pooja Jena
+New
+No visits yet · 0 visits
+₹0
+Live
+Earnings
+Staff
+Customers
+‹ Customers
+PJ
+Pooja Jena
+99371 00006 · since Oct 2026
+New
+Call
+WhatsApp
+Book
+WALLET
+₹0
+Top up
+Spent
+₹0
+Visits
+0
+Next due
+—
+NEXT BOOKING
+No booking yet.
++ Book
+Visits & bills · 0
+Wallet · 0
+No visits yet.
+REFERRAL CODE
+POOR2L4
+Copy
+Refer
+WhatsApp reminders & offers
+Off. Turn on only if the customer asks for them
+Send them their data
+›
+Delete customer data
+Top up wallet
+Pooja Jena · balance ₹0
+₹500
+no bonus
+₹1,000
++₹50
+₹2,000
++₹200
+₹5,000
++₹750
+Cash
+UPI
+Card
+Bonus ₹50 · new balance ₹1,050
+Add ₹1,000 more for a 10% bonus
+Add ₹1,000
+
+===== 2026-10-31 13:10 topup-sheet-filled (shots/029-topup-sheet-filled.jpg) =====
+Sat 31 Oct
+Customers
+All
+⭐ Top spenders
+Regulars
+Not seen 30+
+Wallet balance
+New
+8 CUSTOMERS · 8 NEW · 0 NOT SEEN 30+
+Sort: Highest spending ▾
+DM
+Dev Mohanty
+New
+Today · Bikash · 1 visit
+₹1,200
+SR
+Sneha Rath
+New
+Today · Lipsa · 1 visit
+₹900
+AM
+Ankit Mishra
+New
+Today · Manas · 1 visit
+₹450
+AP
+Amit Panda
+New
+Today · Bikash · 1 visit
+₹300
+Wallet ₹100
+NS
+Neha Sahu
+New
+Today · Lipsa · 1 visit
+₹300
+Wallet ₹100
+SS
+Suresh Swain
+New
+Today · Rashmita · 1 visit
+₹300
+KB
+Kiran Behera
+New
+No visits yet · 0 visits
+₹0
+PJ
+Pooja Jena
+New
+No visits yet · 0 visits
+₹0
+Live
+Earnings
+Staff
+Customers
+‹ Customers
+PJ
+Pooja Jena
+99371 00006 · since Oct 2026
+New
+Call
+WhatsApp
+Book
+WALLET
+₹0
+Top up
+Spent
+₹0
+Visits
+0
+Next due
+—
+NEXT BOOKING
+No booking yet.
++ Book
+Visits & bills · 0
+Wallet · 0
+No visits yet.
+REFERRAL CODE
+POOR2L4
+Copy
+Refer
+WhatsApp reminders & offers
+Off. Turn on only if the customer asks for them
+Send them their data
+›
+Delete customer data
+Top up wallet
+Pooja Jena · balance ₹0
+₹500
+no bonus
+₹1,000
++₹50
+₹2,000
++₹200
+₹5,000
++₹750
+Cash
+UPI
+Card
+Bonus ₹200 · new balance ₹2,200
+Add ₹3,000 more for a 15% bonus
+Add ₹2,000
+
+===== 2026-10-31 13:10 topup-done (shots/030-topup-done.jpg) =====
+Sat 31 Oct
+Customers
+All
+⭐ Top spenders
+Regulars
+Not seen 30+
+Wallet balance
+New
+8 CUSTOMERS · 8 NEW · 0 NOT SEEN 30+
+Sort: Highest spending ▾
+DM
+Dev Mohanty
+New
+Today · Bikash · 1 visit
+₹1,200
+SR
+Sneha Rath
+New
+Today · Lipsa · 1 visit
+₹900
+AM
+Ankit Mishra
+New
+Today · Manas · 1 visit
+₹450
+AP
+Amit Panda
+New
+Today · Bikash · 1 visit
+₹300
+Wallet ₹100
+NS
+Neha Sahu
+New
+Today · Lipsa · 1 visit
+₹300
+Wallet ₹100
+SS
+Suresh Swain
+New
+Today · Rashmita · 1 visit
+₹300
+KB
+Kiran Behera
+New
+No visits yet · 0 visits
+₹0
+PJ
+Pooja Jena
+New
+No visits yet · 0 visits
+₹0
+Wallet ₹2,200
+Live
+Earnings
+Staff
+Customers
+‹ Customers
+PJ
+Pooja Jena
+99371 00006 · since Oct 2026
+New
+Call
+WhatsApp
+Book
+WALLET
+₹2,200
+Top up
+Spent
+₹0
+Visits
+0
+Next due
+—
+NEXT BOOKING
+No booking yet.
++ Book
+Visits & bills · 0
+Wallet · 2
+No visits yet.
+REFERRAL CODE
+POOR2L4
+Copy
+Refer
+WhatsApp reminders & offers
+Off. Turn on only if the customer asks for them
+Send them their data
+›
+Before deleting, close the wallet: refund ₹2,000; ₹200 bonus credit is cancelled.
+Cash
+UPI
+Card
+Close wallet · refund ₹2,000
+Added ₹2,000 + ₹200 bonus
+
+===== 2026-10-31 14:45 wallet-needs-code (shots/031-wallet-needs-code.jpg) =====
+Hi Bikash
+Saturday 31 Oct · Chair 1
+Customer's mobile number
+MY EARNINGS
+₹1,500
+Today · Bikash
+Cash/UPI/card ₹1,500
+Wallet ₹0
+Month ₹1,500
+MY CUSTOMERS TODAY
+See all ›
+3
+Handled
+2
+Paid
+1
+In chair
+3
+New
+MY CHAIR · CHAIR 1
+Pooja Jena
+since 1:30 PM · Hair spa
+Pay ₹1,000
+Salon now: 2 of 4 chairs busy
+Your bookings today · 2
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+‹ Home
+Pooja
+In the chair since 1:30 PM · Pooja Jena
+WALLET
+₹2,200
+Hair spa
+₹1,000
+Total
+₹1,000
++ Add or change services
+Not in the list?
+Pay from wallet
+₹1,000 of ₹2,200
+₹1,000 from wallet
+Confirm it's their number
+Send a code to ••••• •0006 on WhatsApp. Ask the customer to read it out, and type it here.
+Send code on WhatsApp
+Confirm the wallet code first
+Customer left without a service
+
+===== 2026-10-31 15:30 other-service-waiting-owner (shots/032-other-service-waiting-owner.jpg) =====
+Hi Lipsa
+Saturday 31 Oct · Chair 2
+Customer's mobile number
+MY EARNINGS
+₹1,200
+Today · Lipsa
+Cash/UPI/card ₹1,200
+Wallet ₹0
+Month ₹1,200
+MY CUSTOMERS TODAY
+See all ›
+3
+Handled
+2
+Paid
+1
+In chair
+3
+New
+MY CHAIR · CHAIR 2
+Rahul Dash
+since 2:00 PM · Hair colour
+Pay ₹1,200
+Salon now: 1 of 4 chairs busy
+Your bookings today · 0
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+‹ Home
+Rahul
+In the chair since 2:00 PM · Rahul Dash
+WALLET
+₹0
+Hair colour
+₹1,200
+Keratin touch-up · waiting for owner
+₹800
+Total
+₹2,000
++ Add or change services
+Not in the list?
+Keratin touch-up isn't in the salon's list, so the owner must approve it before payment.
+Owner approves here
+Cash
+UPI
+Card
+₹2,000 by cash
+Waiting for owner's approval
+Customer left without a service
+
+===== 2026-10-31 17:35 rush-staff-view (shots/033-rush-staff-view.jpg) =====
+Hi Rashmita
+Saturday 31 Oct · Chair 4
+Customer's mobile number
+MY EARNINGS
+₹1,200
+Today · Rashmita
+Cash/UPI/card ₹1,200
+Wallet ₹0
+Month ₹1,200
+MY CUSTOMERS TODAY
+See all ›
+3
+Handled
+2
+Paid
+1
+In chair
+3
+New
+MY CHAIR · CHAIR 4
+Tapan Jena
+since 5:30 PM · Haircut
+Pay ₹300
+Salon now: 3 of 4 chairs busy
+Your bookings today · 0
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+Tapan is in the chair
+
+===== 2026-10-31 18:55 Bikash-end-of-day-home (shots/034-Bikash-end-of-day-home.jpg) =====
+Hi Bikash
+Saturday 31 Oct · Chair 1
+Customer's mobile number
+MY EARNINGS
+₹3,250
+Today · Bikash
+Cash/UPI/card ₹2,250
+Wallet ₹1,000
+Month ₹3,250
+MY CUSTOMERS TODAY
+See all ›
+5
+Handled
+5
+Paid
+0
+In chair
+5
+New
+MY CHAIR · CHAIR 1
+Free. Tap the gold + when the next customer walks in.
+Salon now: 0 of 4 chairs busy
+Your bookings today · 2
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+
+===== 2026-10-31 18:55 Lipsa-end-of-day-home (shots/035-Lipsa-end-of-day-home.jpg) =====
+Hi Lipsa
+Saturday 31 Oct · Chair 2
+Customer's mobile number
+MY EARNINGS
+₹3,600
+Today · Lipsa
+Cash/UPI/card ₹3,600
+Wallet ₹0
+Month ₹3,600
+MY CUSTOMERS TODAY
+See all ›
+4
+Handled
+4
+Paid
+0
+In chair
+4
+New
+MY CHAIR · CHAIR 2
+Free. Tap the gold + when the next customer walks in.
+Salon now: 0 of 4 chairs busy
+Your bookings today · 0
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+
+===== 2026-10-31 18:55 Manas-end-of-day-home (shots/036-Manas-end-of-day-home.jpg) =====
+Hi Manas
+Saturday 31 Oct · Chair 3
+Customer's mobile number
+MY EARNINGS
+₹750
+Today · Manas
+Cash/UPI/card ₹750
+Wallet ₹0
+Month ₹750
+MY CUSTOMERS TODAY
+See all ›
+2
+Handled
+2
+Paid
+0
+In chair
+2
+New
+MY CHAIR · CHAIR 3
+Free. Tap the gold + when the next customer walks in.
+Salon now: 0 of 4 chairs busy
+Your bookings today · 0
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+
+===== 2026-10-31 18:55 Rashmita-end-of-day-home (shots/037-Rashmita-end-of-day-home.jpg) =====
+Hi Rashmita
+Saturday 31 Oct · Chair 4
+Customer's mobile number
+MY EARNINGS
+₹1,500
+Today · Rashmita
+Cash/UPI/card ₹1,500
+Wallet ₹0
+Month ₹1,500
+MY CUSTOMERS TODAY
+See all ›
+3
+Handled
+3
+Paid
+0
+In chair
+3
+New
+MY CHAIR · CHAIR 4
+Free. Tap the gold + when the next customer walks in.
+Salon now: 0 of 4 chairs busy
+Your bookings today · 0
+All reminders sent
+›
+Home
+Customers
+Calendar
+Profile
+
+===== 2026-10-31 19:45 owner-1945-live (shots/038-owner-1945-live.jpg) =====
+SALON · OWNER
+Live floor
+LIVE
+Sat 31 Oct · 7:45 PM
+Today
+₹9,100
+1
+Free
+2
+Free
+3
+Free
+Chairs
+0 of 4 busy
+1
+Free
+Bikash · ready
+—
+2
+Free
+Lipsa · ready
+—
+3
+Free
+Manas · ready
+—
+4
+Free
+Rashmita · ready · came in late
+—
+Front desk
+14 paid today
+TODAY'S CHECKS
+2 to look at
+Rashmita undid a ₹150 bill
+Suresh Swain · "Wrong service"
+›
+Priya Nanda left without service
+Manas's chair · sat 15 min · recorded by Manas
+›
+Cash in the drawer should be ₹5,300
+8 cash bills ₹3,300 + 1 cash top-up ₹2,000
+Count the cash
+The salon picture shows the first 3 chairs; every chair is in the list.
+Live
+Earnings
+Staff
+Customers
+
+===== 2026-10-31 19:45 owner-1945-earnings (shots/039-owner-1945-earnings.jpg) =====
+Owner · Sat 31 Oct
+Earnings
+TODAY
+₹9.1k
+7 DAYS
+₹9.1k
+MONTH
+₹9.1k
+TODAY SO FAR
+₹9,057
+Last Sat by 7:45 PM: ₹0
+Su
+Mo
+Tu
+We
+Th
+Fr
+Sa
+₹9.1k
+Last 7 days · Tue closed
+STYLISTS
+tap for customers
+LM
+Lipsa · 4
+₹3,600
+BN
+Bikash · 5
+₹3,250
+RD
+Rashmita · 3
+₹1,500
+MS
+Manas · 2
+₹750
+Live
+Earnings
+Staff
+Customers
+
+===== 2026-10-31 19:45 owner-1945-staff (shots/040-owner-1945-staff.jpg) =====
+Owner · Sat 31 Oct
+Staff
+4 of 4 in
+1 late
+BN
+In 9:45
+Bikash
+Chair 1
+5 customers
+₹3,250
+LM
+In 9:52
+Lipsa
+Chair 2
+4 customers
+₹3,600
+MS
+In 9:58
+Manas
+Chair 3
+2 customers
+₹750
+RD
+Late 10:25
+Rashmita
+Chair 4
+3 customers
+₹1,500
+Live
+Earnings
+Staff
+Customers
+
+===== 2026-10-31 19:45 owner-1945-customers (shots/041-owner-1945-customers.jpg) =====
+Sat 31 Oct
+Customers
+All
+⭐ Top spenders
+Regulars
+Not seen 30+
+Wallet balance
+New
+16 CUSTOMERS · 16 NEW · 0 NOT SEEN 30+
+Sort: Highest spending ▾
+DM
+Dev Mohanty
+New
+Today · Bikash · 1 visit
+₹1,200
+MS
+Mamata Swain
+New
+Today · Lipsa · 1 visit
+₹1,200
+RD
+Rahul Dash
+New
+Today · Lipsa · 1 visit
+₹1,200
+PJ
+Pooja Jena
+New
+Today · Bikash · 1 visit
+₹1,000
+Wallet ₹1,200
+AP
+Anjali Pati
+New
+Today · Rashmita · 1 visit
+₹900
+SR
+Sneha Rath
+New
+Today · Lipsa · 1 visit
+₹900
+AM
+Ankit Mishra
+New
+Today · Manas · 1 visit
+₹450
+RS
+Rohit Sethi
+New
+Today · Bikash · 1 visit
+₹450
+AP
+Amit Panda
+New
+Today · Bikash · 1 visit
+₹300
+Wallet ₹100
+AB
+Arjun Behera
+New
+Today · Bikash · 1 visit
+₹300
+NS
+Neha Sahu
+New
+Today · Lipsa · 1 visit
+₹300
+Wallet ₹100
+SK
+Soumya Kar
+New
+Today · Manas · 1 visit
+₹300
+SS
+Suresh Swain
+New
+Today · Rashmita · 1 visit
+₹300
+TJ
+Tapan Jena
+New
+Today · Rashmita · 1 visit
+₹300
+KB
+Kiran Behera
+New
+No visits yet · 0 visits
+₹0
+PN
+Priya Nanda
+New
+No visits yet · 0 visits
+₹0
+Live
+Earnings
+Staff
+Customers
+
+===== 2026-10-31 19:45 cash-count-sheet (shots/042-cash-count-sheet.jpg) =====
+SALON · OWNER
+Live floor
+LIVE
+Sat 31 Oct · 7:45 PM
+Today
+₹9,100
+1
+Free
+2
+Free
+3
+Free
+Chairs
+0 of 4 busy
+1
+Free
+Bikash · ready
+—
+2
+Free
+Lipsa · ready
+—
+3
+Free
+Manas · ready
+—
+4
+Free
+Rashmita · ready · came in late
+—
+Front desk
+14 paid today
+TODAY'S CHECKS
+2 to look at
+Rashmita undid a ₹150 bill
+Suresh Swain · "Wrong service"
+›
+Priya Nanda left without service
+Manas's chair · sat 15 min · recorded by Manas
+›
+Cash in the drawer should be ₹5,300
+8 cash bills ₹3,300 + 1 cash top-up ₹2,000
+Count the cash
+The salon picture shows the first 3 chairs; every chair is in the list.
+Live
+Earnings
+Staff
+Customers
+Count the cash
+The app expects ₹5,300 in the drawer from today's cash bills and cash top-ups. Count it and type what's there.
+Over by ₹1,550
+Save the count
+
+===== 2026-10-31 19:45 owner-checks-after-count (shots/043-owner-checks-after-count.jpg) =====
+SALON · OWNER
+Live floor
+LIVE
+Sat 31 Oct · 7:45 PM
+Today
+₹9,100
+1
+Free
+2
+Free
+3
+Free
+Chairs
+0 of 4 busy
+1
+Free
+Bikash · ready
+—
+2
+Free
+Lipsa · ready
+—
+3
+Free
+Manas · ready
+—
+4
+Free
+Rashmita · ready · came in late
+—
+Front desk
+14 paid today
+TODAY'S CHECKS
+3 to look at
+Rashmita undid a ₹150 bill
+Suresh Swain · "Wrong service"
+›
+Priya Nanda left without service
+Manas's chair · sat 15 min · recorded by Manas
+›
+Cash over by ₹1,550
+More cash than bills: will ask the staff
+Cash in the drawer should be ₹5,300
+8 cash bills ₹3,300 + 1 cash top-up ₹2,000 · counted ₹6,850
+Count again
+The salon picture shows the first 3 chairs; every chair is in the list.
+Live
+Earnings
+Staff
+Customers
+Saved: over by ₹1,550
+
+===== 2026-10-31 19:45 backup (shots/044-backup.jpg) =====
+SALON · OWNER
+Live floor
+LIVE
+Sat 31 Oct · 7:45 PM
+Today
+₹9,100
+1
+Free
+2
+Free
+3
+Free
+Chairs
+0 of 4 busy
+1
+Free
+Bikash · ready
+—
+2
+Free
+Lipsa · ready
+—
+3
+Free
+Manas · ready
+—
+4
+Free
+Rashmita · ready · came in late
+—
+Front desk
+14 paid today
+TODAY'S CHECKS
+3 to look at
+Rashmita undid a ₹150 bill
+Suresh Swain · "Wrong service"
+›
+Priya Nanda left without service
+Manas's chair · sat 15 min · recorded by Manas
+›
+Cash over by ₹1,550
+More cash than bills: will ask the staff
+Cash in the drawer should be ₹5,300
+8 cash bills ₹3,300 + 1 cash top-up ₹2,000 · counted ₹6,850
+Count again
+The salon picture shows the first 3 chairs; every chair is in the list.
+Live
+Earnings
+Staff
+Customers
+Owner
+Leave requests
+›
+Services & prices
+›
+Check limits
+›
+Privacy & terms
+›
+Back up data
+›
+Restore from a backup
+›
+All customer data lives only on this phone.
+Clear all data
+›
+Load demo data
+›
+Sign out
+›

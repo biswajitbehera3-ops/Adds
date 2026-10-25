@@ -1,0 +1,898 @@
+{
+ "version": 4,
+ "customers": [
+  {
+   "id": "mvvwqrv31dnty4",
+   "phone": "9937100001",
+   "name": "Amit Panda",
+   "referralCode": "AMIYF7D",
+   "walletBalance": 100,
+   "consentAt": "2026-10-31T04:35:10.863Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuykrb1r4xw5",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T04:35:10.863Z"
+  },
+  {
+   "id": "mvvx3pc311jf00",
+   "phone": "9937100002",
+   "name": "Sneha Rath",
+   "referralCode": "SNESDPV",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T04:45:14.115Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuynhf2o7xp0",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T04:45:14.115Z"
+  },
+  {
+   "id": "mvvxa5cr1ossli",
+   "phone": "9937100003",
+   "name": "Dev Mohanty",
+   "referralCode": "DEVZYVD",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T04:50:14.811Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuykrb1r4xw5",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T04:50:14.811Z"
+  },
+  {
+   "id": "mvvyw0oy1et4o1",
+   "phone": "9937100005",
+   "name": "Ankit Mishra",
+   "referralCode": "ANKEDU6",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T05:35:14.818Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuyq7z3y7fnj",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T05:35:14.818Z"
+  },
+  {
+   "id": "mvvzs5jb13wldx",
+   "phone": "9937100006",
+   "name": "Pooja Jena",
+   "referralCode": "POOR2L4",
+   "walletBalance": 1200,
+   "consentAt": "2026-10-31T06:00:14.087Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuynhf2o7xp0",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T06:00:14.087Z"
+  },
+  {
+   "id": "mvw0bfvh11szyk",
+   "phone": "9937100007",
+   "name": "Kiran Behera",
+   "referralCode": "KIRV692",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T06:15:13.949Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuykrb1r4xw5",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T06:15:13.949Z"
+  },
+  {
+   "id": "mvw0uqec1eu2du",
+   "phone": "9937100008",
+   "name": "Suresh Swain",
+   "referralCode": "SURJ7Z5",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T06:30:14.052Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuysy44urqbp",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T06:30:14.052Z"
+  },
+  {
+   "id": "mvw23tds1ljz7f",
+   "phone": "9937100009",
+   "name": "Neha Sahu",
+   "referralCode": "NEHLPBC",
+   "walletBalance": 100,
+   "consentAt": "2026-10-31T07:05:17.440Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuynhf2o7xp0",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": "mvvwqrv31dnty4",
+   "referralVerifiedAt": "2026-10-31T07:05:17.440Z",
+   "referralRewardedAt": "2026-10-31T07:35:17.045Z",
+   "createdAt": "2026-10-31T07:05:17.440Z"
+  },
+  {
+   "id": "mvw551wv1cc8p8",
+   "phone": "9937100011",
+   "name": "Rahul Dash",
+   "referralCode": "RAHPTWB",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T08:30:13.999Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuynhf2o7xp0",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T08:30:13.999Z"
+  },
+  {
+   "id": "mvw8j8m81sw96c",
+   "phone": "9937100012",
+   "name": "Priya Nanda",
+   "referralCode": "PRIRDNC",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T10:05:14.720Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuyq7z3y7fnj",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T10:05:14.720Z"
+  },
+  {
+   "id": "mvw98pes1cxjmt",
+   "phone": "9937100013",
+   "name": "Soumya Kar",
+   "referralCode": "SOUV52N",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T10:25:02.884Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuyq7z3y7fnj",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T10:25:02.884Z"
+  },
+  {
+   "id": "mvw9fdgw1b2qpp",
+   "phone": "9937100014",
+   "name": "Anjali Pati",
+   "referralCode": "ANJGEHD",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T10:30:14.000Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuysy44urqbp",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T10:30:14.000Z"
+  },
+  {
+   "id": "mvwbqz7i1c0hmr",
+   "phone": "9937100015",
+   "name": "Rohit Sethi",
+   "referralCode": "ROH74Z9",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T11:35:14.621Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuykrb1r4xw5",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T11:35:14.621Z"
+  },
+  {
+   "id": "mvwca96817e8e0",
+   "phone": "9937100017",
+   "name": "Mamata Swain",
+   "referralCode": "MAM6HZF",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T11:50:14.000Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuynhf2o7xp0",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T11:50:14.000Z"
+  },
+  {
+   "id": "mvwcn45n1vj1m2",
+   "phone": "9937100018",
+   "name": "Tapan Jena",
+   "referralCode": "TAP886S",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T12:00:14.027Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuysy44urqbp",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T12:00:14.027Z"
+  },
+  {
+   "id": "mvwdw52e1pwycf",
+   "phone": "9937100020",
+   "name": "Arjun Behera",
+   "referralCode": "ARJCMNR",
+   "walletBalance": 0,
+   "consentAt": "2026-10-31T12:35:14.725Z",
+   "marketingConsentAt": null,
+   "consentNotice": "2026-10-15",
+   "consentTakenBy": "mvvuykrb1r4xw5",
+   "guardianConsent": false,
+   "deletedAt": null,
+   "referredById": null,
+   "referralVerifiedAt": null,
+   "referralRewardedAt": null,
+   "createdAt": "2026-10-31T12:35:14.725Z"
+  }
+ ],
+ "visits": [
+  {
+   "id": "mvvwqt303v989f",
+   "customerId": "mvvwqrv31dnty4",
+   "serviceIds": [
+    "haircut"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuykrb1r4xw5",
+   "total": 300,
+   "walletPaid": 0,
+   "directPaid": 300,
+   "paymentMethod": "CASH",
+   "status": "PAID",
+   "createdAt": "2026-10-31T04:35:12.444Z",
+   "paidAt": "2026-10-31T05:05:14.646Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvvx3qjp3np9f2",
+   "customerId": "mvvx3pc311jf00",
+   "serviceIds": [
+    "facial"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuynhf2o7xp0",
+   "total": 900,
+   "walletPaid": 0,
+   "directPaid": 900,
+   "paymentMethod": "UPI",
+   "status": "PAID",
+   "createdAt": "2026-10-31T04:45:15.685Z",
+   "paidAt": "2026-10-31T05:30:17.769Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvvypklj13pvu5",
+   "customerId": "mvvxa5cr1ossli",
+   "serviceIds": [
+    "hair-colour"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuykrb1r4xw5",
+   "total": 1200,
+   "walletPaid": 0,
+   "directPaid": 1200,
+   "paymentMethod": "CASH",
+   "status": "PAID",
+   "createdAt": "2026-10-31T05:30:14.023Z",
+   "paidAt": "2026-10-31T07:10:17.010Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvvyw26630wc23",
+   "customerId": "mvvyw0oy1et4o1",
+   "serviceIds": [
+    "haircut",
+    "beard"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuyq7z3y7fnj",
+   "total": 450,
+   "walletPaid": 0,
+   "directPaid": 450,
+   "paymentMethod": "CASH",
+   "status": "PAID",
+   "createdAt": "2026-10-31T05:35:16.734Z",
+   "paidAt": "2026-10-31T06:10:17.788Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvw0urlu3lc0h2",
+   "customerId": "mvw0uqec1eu2du",
+   "serviceIds": [
+    "beard"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuysy44urqbp",
+   "total": 150,
+   "walletPaid": 0,
+   "directPaid": 150,
+   "paymentMethod": "CASH",
+   "status": "VOID",
+   "createdAt": "2026-10-31T06:30:15.618Z",
+   "paidAt": "2026-10-31T06:55:05.020Z",
+   "voidedAt": "2026-10-31T06:55:08.708Z",
+   "voidReason": "Wrong service",
+   "walletCodeAt": null,
+   "voidedBy": "mvvuysy44urqbp"
+  },
+  {
+   "id": "mvw1qxlx1aaot3",
+   "customerId": "mvw0uqec1eu2du",
+   "serviceIds": [
+    "haircut"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuysy44urqbp",
+   "total": 300,
+   "walletPaid": 0,
+   "directPaid": 300,
+   "paymentMethod": "CASH",
+   "status": "PAID",
+   "createdAt": "2026-10-31T06:55:16.389Z",
+   "paidAt": "2026-10-31T07:00:05.030Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvw23ulb3f8xxs",
+   "customerId": "mvw23tds1ljz7f",
+   "serviceIds": [
+    "haircut"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuynhf2o7xp0",
+   "total": 300,
+   "walletPaid": 0,
+   "directPaid": 300,
+   "paymentMethod": "UPI",
+   "status": "PAID",
+   "createdAt": "2026-10-31T07:05:19.006Z",
+   "paidAt": "2026-10-31T07:35:17.045Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvw42k241ussbr",
+   "customerId": "mvvzs5jb13wldx",
+   "serviceIds": [
+    "hair-spa"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuykrb1r4xw5",
+   "total": 1000,
+   "walletPaid": 1000,
+   "directPaid": 0,
+   "paymentMethod": "CASH",
+   "status": "PAID",
+   "createdAt": "2026-10-31T08:00:17.932Z",
+   "paidAt": "2026-10-31T09:15:18.640Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": "2026-10-31T09:15:18.640Z"
+  },
+  {
+   "id": "mvw5534e3ztu01",
+   "customerId": "mvw551wv1cc8p8",
+   "serviceIds": [
+    "hair-colour"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuynhf2o7xp0",
+   "total": 1200,
+   "walletPaid": 0,
+   "directPaid": 1200,
+   "paymentMethod": "UPI",
+   "status": "PAID",
+   "createdAt": "2026-10-31T08:30:15.566Z",
+   "paidAt": "2026-10-31T10:00:28.835Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "extras": [],
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvw8j9to32dry8",
+   "customerId": "mvw8j8m81sw96c",
+   "serviceIds": [
+    "haircut"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuyq7z3y7fnj",
+   "total": 300,
+   "walletPaid": 0,
+   "directPaid": 0,
+   "paymentMethod": null,
+   "status": "LEFT",
+   "createdAt": "2026-10-31T10:05:16.284Z",
+   "paidAt": null,
+   "voidedAt": null,
+   "voidReason": null,
+   "leftAt": "2026-10-31T10:20:05.374Z",
+   "leftBy": "mvvuyq7z3y7fnj"
+  },
+  {
+   "id": "mvw98qmc3m5jt4",
+   "customerId": "mvw98pes1cxjmt",
+   "serviceIds": [
+    "haircut"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuyq7z3y7fnj",
+   "total": 300,
+   "walletPaid": 0,
+   "directPaid": 300,
+   "paymentMethod": "CASH",
+   "status": "PAID",
+   "createdAt": "2026-10-31T10:25:04.452Z",
+   "paidAt": "2026-10-31T11:00:17.089Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvw9feou3bbl49",
+   "customerId": "mvw9fdgw1b2qpp",
+   "serviceIds": [
+    "facial"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuysy44urqbp",
+   "total": 900,
+   "walletPaid": 0,
+   "directPaid": 900,
+   "paymentMethod": "CARD",
+   "status": "PAID",
+   "createdAt": "2026-10-31T10:30:15.582Z",
+   "paidAt": "2026-10-31T11:20:17.777Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvwbr0o63cieq7",
+   "customerId": "mvwbqz7i1c0hmr",
+   "serviceIds": [
+    "haircut",
+    "beard"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuykrb1r4xw5",
+   "total": 450,
+   "walletPaid": 0,
+   "directPaid": 450,
+   "paymentMethod": "CASH",
+   "status": "PAID",
+   "createdAt": "2026-10-31T11:35:16.518Z",
+   "paidAt": "2026-10-31T12:10:16.959Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvwcaae23i3esn",
+   "customerId": "mvwca96817e8e0",
+   "serviceIds": [
+    "hair-colour"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuynhf2o7xp0",
+   "total": 1200,
+   "walletPaid": 0,
+   "directPaid": 1200,
+   "paymentMethod": "UPI",
+   "status": "PAID",
+   "createdAt": "2026-10-31T11:50:15.578Z",
+   "paidAt": "2026-10-31T13:20:17.828Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvwcn5d73vim2m",
+   "customerId": "mvwcn45n1vj1m2",
+   "serviceIds": [
+    "haircut"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuysy44urqbp",
+   "total": 300,
+   "walletPaid": 0,
+   "directPaid": 300,
+   "paymentMethod": "UPI",
+   "status": "PAID",
+   "createdAt": "2026-10-31T12:00:15.595Z",
+   "paidAt": "2026-10-31T12:30:17.749Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  },
+  {
+   "id": "mvwdw69z3xgidg",
+   "customerId": "mvwdw52e1pwycf",
+   "serviceIds": [
+    "haircut"
+   ],
+   "addOnIds": [],
+   "staffId": "mvvuykrb1r4xw5",
+   "total": 300,
+   "walletPaid": 0,
+   "directPaid": 300,
+   "paymentMethod": "CASH",
+   "status": "PAID",
+   "createdAt": "2026-10-31T12:35:16.295Z",
+   "paidAt": "2026-10-31T13:10:05.030Z",
+   "voidedAt": null,
+   "voidReason": null,
+   "walletCodeAt": null
+  }
+ ],
+ "walletTxs": [
+  {
+   "id": "mvw36dyt1j67zw",
+   "customerId": "mvvwqrv31dnty4",
+   "type": "REFERRAL_REWARD",
+   "amount": 100,
+   "visitId": "mvw23ulb3f8xxs",
+   "note": "Referred Neha Sahu",
+   "createdAt": "2026-10-31T07:35:17.045Z"
+  },
+  {
+   "id": "mvw36dyt210thr",
+   "customerId": "mvw23tds1ljz7f",
+   "type": "REFERRAL_REWARD",
+   "amount": 100,
+   "visitId": "mvw23ulb3f8xxs",
+   "note": "Welcome reward for joining by referral",
+   "createdAt": "2026-10-31T07:35:17.045Z"
+  },
+  {
+   "id": "mvw3cxdw1pooby",
+   "customerId": "mvvzs5jb13wldx",
+   "type": "TOPUP",
+   "amount": 2000,
+   "visitId": null,
+   "note": "Paid by CASH",
+   "createdAt": "2026-10-31T07:40:22.148Z"
+  },
+  {
+   "id": "mvw3cxdw2trqgv",
+   "customerId": "mvvzs5jb13wldx",
+   "type": "BONUS",
+   "amount": 200,
+   "visitId": null,
+   "note": "Bonus on ₹2000 top-up",
+   "createdAt": "2026-10-31T07:40:22.148Z"
+  },
+  {
+   "id": "mvw6r0ts1bett5",
+   "customerId": "mvvzs5jb13wldx",
+   "type": "SPEND",
+   "amount": -1000,
+   "visitId": "mvw42k241ussbr",
+   "note": null,
+   "createdAt": "2026-10-31T09:15:18.640Z"
+  }
+ ],
+ "reminders": [],
+ "staff": [
+  {
+   "id": "mvvuykrb1r4xw5",
+   "name": "Bikash Nayak",
+   "phone": "9861000001",
+   "chair": "Chair 1",
+   "secret": {
+    "salt": "905dc98d80d080621815f97c09b6e9eb",
+    "hash": "fe032db145b7140944c0753b585b632a380da327e04f42f18771b05b6f3ad889"
+   },
+   "active": true,
+   "createdAt": "2026-10-31T03:45:15.671Z",
+   "photoKey": null,
+   "shiftStart": "10:00",
+   "weeklyOff": 2
+  },
+  {
+   "id": "mvvuynhf2o7xp0",
+   "name": "Lipsa Mohanty",
+   "phone": "9861000002",
+   "chair": "Chair 2",
+   "secret": {
+    "salt": "4d44b7fced99a5bedf1e757cd09fc1f4",
+    "hash": "7ab2d02a20e1ed335ef0a7b7c28baf4e69047d24d0099104e4619eafe1b1fd32"
+   },
+   "active": true,
+   "createdAt": "2026-10-31T03:45:19.203Z",
+   "photoKey": null,
+   "shiftStart": "10:00",
+   "weeklyOff": 2
+  },
+  {
+   "id": "mvvuyq7z3y7fnj",
+   "name": "Manas Sahoo",
+   "phone": "9861000003",
+   "chair": "Chair 3",
+   "secret": {
+    "salt": "1a380eb2cb471b8978d88d93e9ed0485",
+    "hash": "2c68180de688c63bf8c0f7b5a49484fc2e64ba5d53e1665a4ac282de305575f1"
+   },
+   "active": true,
+   "createdAt": "2026-10-31T03:45:22.751Z",
+   "photoKey": null,
+   "shiftStart": "10:00",
+   "weeklyOff": 2
+  },
+  {
+   "id": "mvvuysy44urqbp",
+   "name": "Rashmita Das",
+   "phone": "9861000004",
+   "chair": "Chair 4",
+   "secret": {
+    "salt": "41ef4f3b2e20c8d80091ce5a983bdd7c",
+    "hash": "21f75d5ddeec930b83f2623308c702ed209199d7f80b4f94d02e37ae0d0ce87c"
+   },
+   "active": true,
+   "createdAt": "2026-10-31T03:45:26.284Z",
+   "photoKey": null,
+   "shiftStart": "10:00",
+   "weeklyOff": 2
+  }
+ ],
+ "attendance": [
+  {
+   "id": "mvvw0zrd1rh1fr",
+   "staffId": "mvvuykrb1r4xw5",
+   "date": "2026-10-31",
+   "checkInAt": "2026-10-31T04:15:06.824Z",
+   "photoKey": "mvvuykrb1r4xw5-2026-10-31"
+  },
+  {
+   "id": "mvvw9zul1cdo7l",
+   "staffId": "mvvuynhf2o7xp0",
+   "date": "2026-10-31",
+   "checkInAt": "2026-10-31T04:22:06.840Z",
+   "photoKey": "mvvuynhf2o7xp0-2026-10-31"
+  },
+  {
+   "id": "mvvwhpmx1dgpoo",
+   "staffId": "mvvuyq7z3y7fnj",
+   "date": "2026-10-31",
+   "checkInAt": "2026-10-31T04:28:06.853Z",
+   "photoKey": "mvvuyq7z3y7fnj-2026-10-31"
+  },
+  {
+   "id": "mvvxgi4s16r96z",
+   "staffId": "mvvuysy44urqbp",
+   "date": "2026-10-31",
+   "checkInAt": "2026-10-31T04:55:10.086Z",
+   "photoKey": "mvvuysy44urqbp-2026-10-31"
+  }
+ ],
+ "appointments": [
+  {
+   "id": "mvvxa5cr3s03lx",
+   "customerId": "mvvxa5cr1ossli",
+   "serviceIds": [
+    "hair-colour"
+   ],
+   "staffId": "mvvuykrb1r4xw5",
+   "at": "2026-10-31T05:30:00.000Z",
+   "minutes": 90,
+   "status": "ARRIVED",
+   "source": "PHONE",
+   "note": null,
+   "reminderSentAt": null,
+   "reminderChannel": null,
+   "visitId": "mvvypklj13pvu5",
+   "createdBy": "mvvuykrb1r4xw5",
+   "createdAt": "2026-10-31T04:50:14.811Z"
+  },
+  {
+   "id": "mvw0bfvh3lljs3",
+   "customerId": "mvw0bfvh11szyk",
+   "serviceIds": [
+    "haircut"
+   ],
+   "staffId": "mvvuykrb1r4xw5",
+   "at": "2026-10-31T07:00:00.000Z",
+   "minutes": 30,
+   "status": "NO_SHOW",
+   "source": "PHONE",
+   "note": null,
+   "reminderSentAt": null,
+   "reminderChannel": null,
+   "visitId": null,
+   "createdBy": "mvvuykrb1r4xw5",
+   "createdAt": "2026-10-31T06:15:13.949Z"
+  }
+ ],
+ "leaves": [],
+ "privacyLog": [
+  {
+   "id": "mvvwqrv32if6qo",
+   "customerId": "mvvwqrv31dnty4",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuykrb1r4xw5",
+   "at": "2026-10-31T04:35:10.863Z"
+  },
+  {
+   "id": "mvvx3pc321stxy",
+   "customerId": "mvvx3pc311jf00",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuynhf2o7xp0",
+   "at": "2026-10-31T04:45:14.115Z"
+  },
+  {
+   "id": "mvvxa5cr22os1z",
+   "customerId": "mvvxa5cr1ossli",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuykrb1r4xw5",
+   "at": "2026-10-31T04:50:14.811Z"
+  },
+  {
+   "id": "mvvyw0oy2tplhz",
+   "customerId": "mvvyw0oy1et4o1",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuyq7z3y7fnj",
+   "at": "2026-10-31T05:35:14.818Z"
+  },
+  {
+   "id": "mvvzs5jb2ejwqs",
+   "customerId": "mvvzs5jb13wldx",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuynhf2o7xp0",
+   "at": "2026-10-31T06:00:14.087Z"
+  },
+  {
+   "id": "mvw0bfvh2wzdws",
+   "customerId": "mvw0bfvh11szyk",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuykrb1r4xw5",
+   "at": "2026-10-31T06:15:13.949Z"
+  },
+  {
+   "id": "mvw0uqec2fo5cn",
+   "customerId": "mvw0uqec1eu2du",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuysy44urqbp",
+   "at": "2026-10-31T06:30:14.052Z"
+  },
+  {
+   "id": "mvw23tds2j8qe3",
+   "customerId": "mvw23tds1ljz7f",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuynhf2o7xp0",
+   "at": "2026-10-31T07:05:17.440Z"
+  },
+  {
+   "id": "mvw551wv2pq1du",
+   "customerId": "mvw551wv1cc8p8",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuynhf2o7xp0",
+   "at": "2026-10-31T08:30:13.999Z"
+  },
+  {
+   "id": "mvw8j8m82a0xo8",
+   "customerId": "mvw8j8m81sw96c",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuyq7z3y7fnj",
+   "at": "2026-10-31T10:05:14.720Z"
+  },
+  {
+   "id": "mvw98pes2cvu77",
+   "customerId": "mvw98pes1cxjmt",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuyq7z3y7fnj",
+   "at": "2026-10-31T10:25:02.884Z"
+  },
+  {
+   "id": "mvw9fdgw27pudy",
+   "customerId": "mvw9fdgw1b2qpp",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuysy44urqbp",
+   "at": "2026-10-31T10:30:14.000Z"
+  },
+  {
+   "id": "mvwbqz7i2k2ycb",
+   "customerId": "mvwbqz7i1c0hmr",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuykrb1r4xw5",
+   "at": "2026-10-31T11:35:14.621Z"
+  },
+  {
+   "id": "mvwca9682zz73w",
+   "customerId": "mvwca96817e8e0",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuynhf2o7xp0",
+   "at": "2026-10-31T11:50:14.000Z"
+  },
+  {
+   "id": "mvwcn45n2ry5z2",
+   "customerId": "mvwcn45n1vj1m2",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuysy44urqbp",
+   "at": "2026-10-31T12:00:14.027Z"
+  },
+  {
+   "id": "mvwdw52e2hi259",
+   "customerId": "mvwdw52e1pwycf",
+   "type": "CONSENT_GIVEN",
+   "by": "mvvuykrb1r4xw5",
+   "at": "2026-10-31T12:35:14.725Z"
+  }
+ ],
+ "owner": {
+  "secret": {
+   "salt": "ed4a48e714c45f41229a2dc6976b268d",
+   "hash": "0321816253790c5b460091360778ba1747809521e5d9fb00d4caa575707770aa"
+  }
+ },
+ "demo": false,
+ "dayClosings": [
+  {
+   "id": "mvwhgx6m1u0ijk",
+   "date": "2026-10-31",
+   "expected": 5300,
+   "counted": 6850,
+   "note": "More cash than bills: will ask the staff",
+   "at": "2026-10-31T14:15:23.134Z"
+  }
+ ]
+}

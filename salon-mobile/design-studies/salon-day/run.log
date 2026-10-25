@@ -1,0 +1,140 @@
+09:15 ok   owner         first launch: sign in with demo owner password | taps 3 chars 9 ~9s
+09:15 ok   owner         clear the demo data and set own password | taps 6 chars 22 ~20s
+09:15 ok   owner         add stylist Bikash Nayak (Chair 1) | taps 6 chars 30 ~28s
+09:15 ok   owner         add stylist Lipsa Mohanty (Chair 2) | taps 6 chars 30 ~28s
+09:15 ok   owner         add stylist Manas Sahoo (Chair 3) | taps 6 chars 28 ~27s
+09:15 ok   owner         add stylist Rashmita Das (Chair 4) | taps 6 chars 30 ~28s
+09:15 ok   owner         owner logs out | taps 3 chars 0 ~5s
+09:45 ok   Bikash        log in + selfie check-in | taps 6 chars 18 ~22s
+09:45 ok   Bikash        Bikash logs out | taps 3 chars 0 ~5s
+09:52 ok   Lipsa         log in + selfie check-in | taps 6 chars 17 ~22s
+09:52 ok   Lipsa         Lipsa logs out | taps 3 chars 0 ~5s
+09:58 ok   Manas         log in + selfie check-in | taps 6 chars 17 ~22s
+09:58 ok   Manas         Manas logs out | taps 3 chars 0 ~5s
+10:05 ok   Bikash        log in | taps 3 chars 18 ~18s
+10:05 ok   Bikash   C01  walk-in Amit Panda: Haircut | taps 16 chars 10 ~29s
+10:15 ok   Bikash        Bikash logs out | taps 3 chars 0 ~5s
+10:15 ok   Lipsa         log in | taps 3 chars 17 ~17s
+10:15 ok   Lipsa    C02  walk-in Sneha Rath: Facial | taps 16 chars 10 ~29s
+10:20 ok   Lipsa         Lipsa logs out | taps 3 chars 0 ~5s
+10:20 ok   Bikash        log in | taps 3 chars 18 ~18s
+10:20 ok   Bikash   C03  book Dev Mohanty: Hair colour at 11:00 AM (called the salon) | taps 8 chars 21 ~29s
+10:25 ok   Bikash        Bikash logs out | taps 3 chars 0 ~5s
+10:25 ok   Rashmita      log in + selfie check-in | taps 6 chars 18 ~22s
+10:25 ok   Rashmita      Rashmita logs out | taps 3 chars 0 ~5s
+10:35 ok   Bikash        log in | taps 3 chars 18 ~18s
+10:35 ok   Bikash   C01  collect ₹300 by Cash | taps 5 chars 0 ~18s
+10:40 ok   Bikash        Bikash logs out | taps 4 chars 0 ~6s
+10:40 ok   Rashmita      log in | taps 3 chars 18 ~18s
+   NOTE 10:40 No way to bill a customer without a mobile number; Rashmita tries 0000000000
+10:40 FAIL Rashmita C04  walk-in who won't give a mobile number | taps 11 chars 0 ~17s | app refused 0000000000 and offers no other way: the visit is not recorded
+11:00 ok   Rashmita      Rashmita logs out | taps 4 chars 0 ~6s
+11:00 ok   Lipsa         log in | taps 3 chars 17 ~17s
+11:00 ok   Lipsa    C02  collect ₹900 by UPI | taps 5 chars 0 ~18s
+11:00 ok   Lipsa         Lipsa logs out | taps 4 chars 0 ~6s
+11:00 ok   Bikash        log in | taps 3 chars 18 ~18s
+11:00 ok   Bikash   C03  booked customer arrives | taps 4 chars 0 ~6s
+11:05 ok   Bikash        Bikash logs out | taps 4 chars 0 ~6s
+11:05 ok   Manas         log in | taps 3 chars 17 ~17s
+11:05 ok   Manas    C05  walk-in Ankit Mishra: Haircut + Beard trim | taps 17 chars 12 ~32s
+11:30 ok   Manas         Manas logs out | taps 3 chars 0 ~5s
+11:30 ok   Lipsa         log in | taps 3 chars 17 ~17s
+   NOTE 11:30 Stylist has no top-up button: Pooja is told to come back when the owner is in
+11:30 ok   Lipsa    C06  Pooja Jena asks to put ₹2,000 in her wallet | taps 15 chars 10 ~28s
+11:40 ok   Lipsa         Lipsa logs out | taps 4 chars 0 ~6s
+11:40 ok   Manas         log in | taps 3 chars 17 ~17s
+11:40 ok   Manas    C05  collect ₹450 by Cash | taps 5 chars 0 ~18s
+11:45 ok   Manas         Manas logs out | taps 4 chars 0 ~6s
+11:45 ok   Bikash        log in | taps 3 chars 18 ~18s
+11:45 ok   Bikash   C07  book Kiran Behera: Haircut at 12:30 PM (booked on a phone call) | taps 8 chars 22 ~29s
+12:00 ok   Bikash        Bikash logs out | taps 3 chars 0 ~5s
+12:00 ok   Rashmita      log in | taps 3 chars 18 ~18s
+12:00 ok   Rashmita C08  walk-in Suresh Swain: Beard trim | taps 16 chars 12 ~30s
+12:25 ok   Rashmita C08  collect ₹150 by Cash | taps 3 chars 0 ~9s
+12:25 ok   Rashmita C08  notices the wrong service on the receipt: undo the bill (2-minute window) | taps 3 chars 0 ~5s
+   NOTE 12:25 Undo exists only on the receipt for 2 minutes. Once the stylist leaves the receipt, the customer profile says 'Wrong bill? Ask the owner': only the owner can fix it later.
+12:25 ok   Rashmita C08  bill again with the right service | taps 13 chars 0 ~20s
+12:30 ok   Rashmita C08  collect ₹300 by Cash | taps 5 chars 0 ~18s
+12:35 ok   Rashmita      Rashmita logs out | taps 4 chars 0 ~6s
+12:35 ok   Lipsa         log in | taps 3 chars 17 ~17s
+12:35 ok   Lipsa    C09  walk-in Neha Sahu: Haircut (referred) | taps 19 chars 23 ~50s
+12:40 ok   Lipsa         Lipsa logs out | taps 3 chars 0 ~5s
+12:40 ok   Bikash        log in | taps 3 chars 18 ~18s
+12:40 ok   Bikash   C03  collect ₹1200 by Cash | taps 5 chars 0 ~18s
+13:00 ok   Bikash   C07  mark booked customer a no-show | taps 5 chars 0 ~8s
+13:05 ok   Bikash        Bikash logs out | taps 3 chars 0 ~5s
+13:05 ok   Lipsa         log in | taps 3 chars 17 ~17s
+13:05 ok   Lipsa    C09  collect ₹300 by UPI | taps 5 chars 0 ~18s
+13:10 ok   Lipsa         Lipsa logs out | taps 4 chars 0 ~6s
+13:10 ok   owner         owner signs in (at the salon) | taps 3 chars 11 ~14s
+13:10 ok   owner         owner looks at the salon (1310) | taps 5 chars 0 ~28s
+13:10 ok   owner    C06  owner tops up Pooja's wallet ₹2,000 (she came back) | taps 6 chars 0 ~9s
+13:30 ok   owner         owner logs out | taps 3 chars 0 ~5s
+13:30 ok   Bikash        log in | taps 3 chars 18 ~18s
+13:30 ok   Bikash   C10  walk-in Pooja Jena: Hair spa | taps 13 chars 0 ~20s
+14:00 ok   Bikash        Bikash logs out | taps 3 chars 0 ~5s
+14:00 ok   Lipsa         log in | taps 3 chars 17 ~17s
+14:00 ok   Lipsa    C11  walk-in Rahul Dash: Hair colour | taps 16 chars 10 ~29s
+14:45 ok   Lipsa         Lipsa logs out | taps 3 chars 0 ~5s
+14:45 ok   Bikash        log in | taps 3 chars 18 ~18s
+14:45 ok   Bikash   C10  collect ₹1000 by Wallet | taps 6 chars 4 ~31s
+15:30 ok   Bikash        Bikash logs out | taps 4 chars 0 ~6s
+15:30 ok   Lipsa         log in | taps 3 chars 17 ~17s
+   NOTE 15:30 With the owner away, Collect is blocked ('Waiting for owner's approval'); approval only on this phone with the owner present ('Owner approves here')
+15:30 ok   Lipsa    C11  add 'Keratin touch-up ₹800' (not in the list); owner is not here | taps 5 chars 19 ~21s
+15:30 ok   Lipsa    C11  customer can't wait: remove the extra, collect hair colour only; ₹800 taken in cash off the books | taps 6 chars 0 ~19s
+15:35 ok   Lipsa         Lipsa logs out | taps 4 chars 0 ~6s
+15:35 ok   Manas         log in | taps 3 chars 17 ~17s
+15:35 ok   Manas    C12  walk-in Priya Nanda: Haircut | taps 16 chars 11 ~30s
+15:50 ok   Manas    C12  customer leaves without a service | taps 3 chars 0 ~9s
+15:55 ok   Manas    C13  walk-in Soumya Kar: Haircut | taps 16 chars 10 ~29s
+16:00 ok   Manas         Manas logs out | taps 3 chars 0 ~5s
+16:00 ok   Rashmita      log in | taps 3 chars 18 ~18s
+16:00 ok   Rashmita C14  walk-in Anjali Pati: Facial | taps 16 chars 11 ~30s
+16:30 ok   Rashmita      Rashmita logs out | taps 3 chars 0 ~5s
+16:30 ok   Manas         log in | taps 3 chars 17 ~17s
+16:30 ok   Manas    C13  collect ₹300 by Cash | taps 5 chars 0 ~18s
+16:50 ok   Manas         Manas logs out | taps 4 chars 0 ~6s
+16:50 ok   Rashmita      log in | taps 3 chars 18 ~18s
+16:50 ok   Rashmita C14  collect ₹900 by Card | taps 5 chars 0 ~18s
+17:05 ok   Rashmita      Rashmita logs out | taps 4 chars 0 ~6s
+17:05 ok   Bikash        log in | taps 3 chars 18 ~18s
+17:05 ok   Bikash   C15  walk-in Rohit Sethi: Haircut + Beard trim | taps 17 chars 11 ~31s
+17:20 ok   Bikash        Bikash logs out | taps 3 chars 0 ~5s
+17:20 ok   Lipsa         log in | taps 3 chars 17 ~17s
+17:20 ok   Lipsa    C17  walk-in Mamata Swain: Hair colour | taps 16 chars 12 ~30s
+17:30 ok   Lipsa         Lipsa logs out | taps 3 chars 0 ~5s
+17:30 ok   Rashmita      log in | taps 3 chars 18 ~18s
+17:30 ok   Rashmita C18  walk-in Tapan Jena: Haircut | taps 16 chars 10 ~29s
+17:40 ok   Rashmita      Rashmita logs out | taps 3 chars 0 ~5s
+17:40 ok   Bikash        log in | taps 3 chars 18 ~18s
+17:40 ok   Bikash   C15  collect ₹450 by Cash (double tap) | taps 6 chars 0 ~25s
+18:00 ok   Bikash        Bikash logs out | taps 4 chars 0 ~6s
+18:00 ok   Rashmita      log in | taps 3 chars 18 ~18s
+18:00 ok   Rashmita C18  collect ₹300 by UPI | taps 5 chars 0 ~18s
+18:05 ok   Rashmita      Rashmita logs out | taps 4 chars 0 ~6s
+18:05 ok   Bikash        log in | taps 3 chars 18 ~18s
+18:05 ok   Bikash   C20  walk-in Arjun Behera: Haircut | taps 16 chars 12 ~30s
+18:40 ok   Bikash   C20  collect ₹300 by Cash | taps 5 chars 0 ~18s
+18:50 ok   Bikash        Bikash logs out | taps 4 chars 0 ~6s
+18:50 ok   Lipsa         log in | taps 3 chars 17 ~17s
+18:50 ok   Lipsa    C17  collect ₹1200 by UPI | taps 5 chars 0 ~18s
+18:55 ok   Lipsa         Lipsa logs out | taps 4 chars 0 ~6s
+18:55 ok   Bikash        log in | taps 3 chars 18 ~18s
+18:55 ok   Bikash        Bikash checks own earnings at the end of the day | taps 0 chars 0 ~4s
+18:55 ok   Bikash        Bikash logs out | taps 3 chars 0 ~5s
+18:55 ok   Lipsa         log in | taps 3 chars 17 ~17s
+18:55 ok   Lipsa         Lipsa checks own earnings at the end of the day | taps 0 chars 0 ~4s
+18:55 ok   Lipsa         Lipsa logs out | taps 3 chars 0 ~5s
+18:55 ok   Manas         log in | taps 3 chars 17 ~17s
+18:55 ok   Manas         Manas checks own earnings at the end of the day | taps 0 chars 0 ~4s
+18:55 ok   Manas         Manas logs out | taps 3 chars 0 ~5s
+18:55 ok   Rashmita      log in | taps 3 chars 18 ~18s
+18:55 ok   Rashmita      Rashmita checks own earnings at the end of the day | taps 0 chars 0 ~4s
+19:45 ok   Rashmita      Rashmita logs out | taps 3 chars 0 ~5s
+19:45 ok   owner         owner signs in (at the salon) | taps 3 chars 11 ~14s
+19:45 ok   owner         owner looks at the salon (1945) | taps 5 chars 0 ~28s
+   NOTE 19:45 App expects ₹5300 in the drawer; the drawer really holds ₹6850 (₹1550 came in without a bill)
+19:45 ok   owner         owner opens Today's checks and counts the cash | taps 4 chars 44 ~28s
+   NOTE 19:45 Backup file offered: salon-backup-2026-10-31.json
+19:45 ok   owner         owner backs up the day's data | taps 2 chars 0 ~3s
