@@ -43,7 +43,7 @@ Which one gets used depends entirely on the ad angle decided in `ad-strategist` 
 
 ## Salon app: security check after every build (locked, user 26 Oct)
 
-After every build of the salon app (`salon-mobile/`), and before it is shown to an owner or shipped as an APK, run the `security-audit` skill in full audit mode on the app. Confirmed findings go on the build list and are fixed in that build (never outside an approved build), then the check is re-run on the changed code, and record the result in `salon-mobile/SECURITY-CHECKS.md` (date, build, findings, fixes). Audit output goes outside the repo; only the summary and report are committed.
+After every build of the salon app (`salon-mobile/`), and before it is shown to an owner or shipped as an APK, run the `security-audit` skill in full audit mode on the app. Confirmed findings go on the build list and are fixed in that build (never outside an approved build), then the check is re-run on the changed code, and record the result in `salon-mobile/SECURITY-CHECKS.md` (date, build, findings, fixes). Keep each run's reports, findings.json, coverage-ledger.json and sandbox scripts in `salon-mobile/security/run-N/` (the container is temporary, and the next run needs the previous ledger); agent scratch folders are not committed.
 
 ## Generation & cost policy (locked)
 

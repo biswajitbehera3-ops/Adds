@@ -1,0 +1,48 @@
+
+ RUN  v3.2.7 /root/security-audit-skill/Adds/run-1/agents/h1-auth/scratch
+
+stderr | x.test.ts > loadStore fail-open > A: unreadable data key -> demo data with displayed owner password; first commit overwrites the real store
+Could not load saved data; starting with demo data Error: Row too big to fit into CursorWindow (simulated read failure)
+    at Object.getItem [90m(/root/security-audit-skill/Adds/run-1/agents/h1-auth/scratch/[39mfakeAsyncStorage.ts:7:61[90m)[39m
+    at Module.loadStore (/home/user/Adds/salon-mobile/src/domain/store.ts:35:36)
+    at [90m/root/security-audit-skill/Adds/run-1/agents/h1-auth/scratch/[39mx.test.ts:28:17
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at file:///home/user/Adds/salon-mobile/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:20
+
+stdout | x.test.ts > loadStore fail-open > A: unreadable data key -> demo data with displayed owner password; first commit overwrites the real store
+A demo flag: [33mtrue[39m customers: [33m24[39m
+
+stdout | x.test.ts > loadStore fail-open > A: unreadable data key -> demo data with displayed owner password; first commit overwrites the real store
+A owner password 'owner1234' accepted: [33mtrue[39m
+
+stdout | x.test.ts > loadStore fail-open > A: unreadable data key -> demo data with displayed owner password; first commit overwrites the real store
+A real owner password accepted: [33mfalse[39m
+A store read failure path taken (getItem threw): [33mtrue[39m
+A stored data still real before any commit: [33mtrue[39m
+
+stdout | x.test.ts > loadStore fail-open > A: unreadable data key -> demo data with displayed owner password; first commit overwrites the real store
+A after one commit, stored demo flag: [33mtrue[39m has real customer 9876543210: [33mfalse[39m
+
+stderr | x.test.ts > loadStore fail-open > B: unparseable session key -> real data replaced by demo data on disk with no user action
+Could not load saved data; starting with demo data SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)
+    at JSON.parse (<anonymous>)
+    at Module.loadStore (/home/user/Adds/salon-mobile/src/domain/store.ts:44:34)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at [90m/root/security-audit-skill/Adds/run-1/agents/h1-auth/scratch/[39mx.test.ts:48:5
+    at file:///home/user/Adds/salon-mobile/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:20
+
+stdout | x.test.ts > loadStore fail-open > B: unparseable session key -> real data replaced by demo data on disk with no user action
+B stored demo flag: [33mtrue[39m real customer kept: [33mfalse[39m
+
+stdout | x.test.ts > loadStore fail-open > B: unparseable session key -> real data replaced by demo data on disk with no user action
+B owner password 'owner1234' accepted against stored owner: [33mtrue[39m
+
+ ✓ x.test.ts (2 tests) 664ms
+   ✓ loadStore fail-open > A: unreadable data key -> demo data with displayed owner password; first commit overwrites the real store  349ms
+   ✓ loadStore fail-open > B: unparseable session key -> real data replaced by demo data on disk with no user action  313ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  14:17:27
+   Duration  1.10s (transform 237ms, setup 0ms, collect 241ms, tests 664ms, environment 0ms, prepare 55ms)
+

@@ -1,0 +1,71 @@
+=== x.test.ts (harness for check1) ===
+import { describe, expect, it } from "vitest";
+import * as E from "/home/user/Adds/salon-mobile/src/domain/engine";
+import { emptyData, type Data } from "/home/user/Adds/salon-mobile/src/domain/types";
+
+const SECRET = { salt: "x", hash: "y" };
+function setup() {
+  let data: Data = emptyData();
+  const run = <T,>(op: { data: Data; result: T }) => ((data = op.data), op.result);
+  const stylist = run(E.addStaff(data, { name: "Dummy", phone: "9811100001", chair: "Chair 1", secret: SECRET }));
+  const c = run(E.createCustomer(data, { phone: "9876500000", name: "Dummy Cust", consent: true }));
+  const pay = (price: number, wallet: number, codeOk?: boolean) => {
+    const v = run(E.startVisit(data, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: stylist.id }));
+    run(E.addVisitExtra(data, { visitId: v.id, name: "Dummy", price }));
+    run(E.approveVisitExtras(data, v.id));
+    run(E.updateOpenVisit(data, { visitId: v.id, serviceIds: [], addOnIds: [], staffId: stylist.id }));
+    return run(E.checkoutVisit(data, { visitId: v.id, walletAmount: wallet, paymentMethod: "CASH", walletCodeOk: codeOk }));
+  };
+  return { get data() { return data; }, run, c, pay };
+}
+
+describe("h3-money", () => {
+  it("CHECK-A closeWallet refunds bonus credit as cash after an earlier full spend", () => {
+    const s = setup();
+    s.run(E.topUp(s.data, { customerId: s.c.id, amount: 2000, method: "CASH" }));
+    s.pay(2200, 2200, true);
+    s.run(E.topUp(s.data, { customerId: s.c.id, amount: 2000, method: "CASH" }));
+    const rb = E.refundableBalance(s.data, s.c.id);
+    console.log("CHECK-A refundableBalance", JSON.stringify(rb));
+    const r = s.run(E.closeWallet(s.data, { customerId: s.c.id, method: "CASH", by: "owner" }));
+    console.log("CHECK-A closeWallet", JSON.stringify(r), "cash deposited in 2nd top-up = 2000");
+    expect(r.refunded).toBe(2200);
+  });
+  it("CHECK-B wallet code threshold is per visit: split spends need no code", () => {
+    const s = setup();
+    s.run(E.topUp(s.data, { customerId: s.c.id, amount: 1000, method: "CASH" }));
+    let threw = "";
+    try { s.pay(1000, 1000, false); } catch (e) { threw = (e as Error).message; }
+    console.log("CHECK-B single 1000 spend without code:", threw);
+    const cancelled = s.data.visits.find((v) => v.status === "OPEN")!; s.run(E.cancelOpenVisit(s.data, cancelled.id));
+    console.log("CHECK-B balance before split", s.data.customers[0].walletBalance);
+    const a = s.pay(500, 500, false); const b = s.pay(500, 500, false);
+    console.log("CHECK-B two 500 spends without code -> balances", a.balance, b.balance, "walletCodeAt", a.visit.walletCodeAt, b.visit.walletCodeAt);
+    expect(b.balance).toBe(50);
+  });
+  it("CHECK-C the verification code is carried in the prefilled wa.me text the sender sees", () => {
+    const link = E.whatsappLink("9876500000", "Your code is 4821. Tell it to the salon staff to pay ₹2,200 from your wallet.");
+    console.log("CHECK-C", link, "decoded contains code:", decodeURIComponent(link).includes("4821"));
+  });
+});
+=== y.test.ts (harness for check2) ===
+import { expect, it } from "vitest";
+import * as E from "/home/user/Adds/salon-mobile/src/domain/engine";
+import { emptyData, type Data } from "/home/user/Adds/salon-mobile/src/domain/types";
+it("CHECK-D staff undo window accepts a phone clock set back before paidAt", () => {
+  let data: Data = emptyData();
+  const run = <T,>(op: { data: Data; result: T }) => ((data = op.data), op.result);
+  const st = run(E.addStaff(data, { name: "Dummy", phone: "9811100001", chair: "Chair 1", secret: { salt: "x", hash: "y" } }));
+  const c = run(E.createCustomer(data, { phone: "9876500000", name: "Dummy Cust", consent: true }));
+  const paidAt = new Date("2026-10-26T06:00:00Z");
+  const v = run(E.startVisit(data, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: st.id }, paidAt));
+  run(E.checkoutVisit(data, { visitId: v.id, walletAmount: 0, paymentMethod: "CASH" }, paidAt));
+  const later = new Date(paidAt.getTime() + 30 * 60000);
+  let honest = ""; try { E.voidVisit(data, { visitId: v.id, by: "staff", reason: "x", staffId: st.id }, later); } catch (e) { honest = (e as Error).message; }
+  console.log("CHECK-D honest clock +30min:", honest);
+  const setBack = new Date(paidAt.getTime() - 24 * 3600000);
+  console.log("CHECK-D canStaffUndo with clock 1 day behind paidAt:", E.canStaffUndo(data.visits[0], setBack), "latestRecordTime:", new Date(E.latestRecordTime(data)).toISOString());
+  const r = run(E.voidVisit(data, { visitId: v.id, by: "staff", reason: "x", staffId: st.id }, setBack));
+  console.log("CHECK-D voided:", r.status, "voidedAt", r.voidedAt, "paidAt", r.paidAt, "total", r.total);
+  expect(r.status).toBe("VOID");
+});

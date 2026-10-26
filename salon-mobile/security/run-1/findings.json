@@ -1,0 +1,671 @@
+[
+ {
+  "verdict": "needs_validation",
+  "fingerprint": "salon-mobile:deletePhotos:photoKey-path-join-unsanitized",
+  "title": "Restored backup photoKey is joined unconfined into the native retention-delete path (traversal within the app's own storage)",
+  "description": "deletePhotos (src/platform/photos.ts:74) on native calls FileSystem.deleteAsync(`${DIR}${key}.jpg`) with DIR = documentDirectory + 'attendance/' (photos.ts:10) and no confinement of key. readBackup/migrate never validate attendance photoKey values and restoreBackup stores them as given. On the next start loadStore runs purgeExpired, which queues any photoKey whose checkInAt is older than the retention cutoff (engine.ts:941-943), then calls deletePhotos. A sandboxed run showed the exact deleteAsync arguments, e.g. 'file:///data/user/0/com.dummy/files/attendance/../dummy-sibling.jpg' (agents/v6-photokey/artifacts/check1.txt). The bundled expo-file-system 57.0.7 native source confines deletes only to app-writable locations, not to attendance/ (agents/v6-photokey/artifacts/check2.txt), so the likely reach is any app-writable file in the app's own sandbox; on Android a '#' or '?' in the key may also cut off the '.jpg' suffix. The OS sandbox limits the effect to the app's own container, and the file supplier's restore already replaces all app data, so the extra impact is deleting other app-private files.",
+  "claimed_root_cause": "src/platform/photos.ts:74 interpolates a stored photoKey into a native filesystem path with no containment check; restore never validates photoKey (checks.ts:178-189, engine.ts:78-100); purgeExpired (engine.ts:941-943) passes restored expired photoKeys to deletePhotos on every startup (store.ts:36-40).",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/domain/checks.ts",
+    "line": 187,
+    "scope": "readBackup",
+    "description": "Owner-selected backup data passes migrate() with shape checks only; attendance[].photoKey accepted verbatim."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/store.ts",
+    "line": 86,
+    "scope": "restoreBackup",
+    "description": "Restored data replaces state unchanged and is persisted."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/store.ts",
+    "line": 38,
+    "scope": "loadStore",
+    "description": "purgeExpired runs over stored data on every app start."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 942,
+    "scope": "purgeExpired",
+    "description": "photoKey with checkInAt older than the cutoff pushed to photoKeys unchanged."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/store.ts",
+    "line": 40,
+    "scope": "loadStore",
+    "description": "deletePhotos(purged.result.photoKeys) called."
+   },
+   {
+    "kind": "sink",
+    "file": "src/platform/photos.ts",
+    "line": 74,
+    "scope": "deletePhotos",
+    "description": "Native branch calls FileSystem.deleteAsync(`${DIR}${key}.jpg`, { idempotent: true }) with no containment check."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/platform/photos.ts",
+    "line": 10,
+    "description": "DIR = (FileSystem.documentDirectory ?? '') + 'attendance/'."
+   },
+   {
+    "file": "src/platform/photos.ts",
+    "line": 74,
+    "description": "key interpolated directly into the deleteAsync URI; errors swallowed."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 188,
+    "description": "readBackup only checks array-ness and owner; no per-field validation of attendance."
+   },
+   {
+    "file": "src/domain/store.ts",
+    "line": 85,
+    "description": "restoreBackup assigns the parsed backup to state without validation."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 942,
+    "description": "purgeExpired pushes a.photoKey when checkInAt < cutoff."
+   },
+   {
+    "file": "src/domain/store.ts",
+    "line": 40,
+    "description": "loadStore calls deletePhotos on the purged keys at startup."
+   },
+   {
+    "file": "src/screens/owner/Guard.tsx",
+    "line": 332,
+    "description": "Owner restore UI parses the chosen file with readBackup and applies it via restoreBackup (line 333)."
+   }
+  ],
+  "blockers": [
+   "Runtime behaviour on a native build is undecided: whether Android Uri.parse/File and iOS URL/FileManager resolve 'attendance/../X.jpg' (and a '#'/'?'-truncated path on Android) to a real file and delete it needs an Android or iOS build; no emulator or device toolchain is available.",
+   "android/ and ios/ are not in the repo, so the shipped build's expo-file-system version and any FilePermissionService override cannot be confirmed from source."
+  ],
+  "validation_plan": {
+   "local": "On an isolated emulator/simulator debug build with dummy data only: create <documentDirectory>/dummy-sibling.jpg; restore a backup whose attendance contains {id:'a1',staffId:'s1',date:'2020-01-01',checkInAt:'2020-01-01T00:00:00.000Z',photoKey:'../dummy-sibling'}; restart the app; check whether dummy-sibling.jpg still exists. Stop at the first observed deletion.",
+   "deployment": "Owner-observed on a personal test device only: confirm the expo-file-system version in the shipped native build and whether FilePermissionService is unmodified, then run the local fixture above with a dummy file and report whether the file outside attendance/ was removed."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:readBackup:restore-no-content-validation",
+  "title": "Backup restore replaces the owner password and all state from an untrusted file with no content validation or re-authentication",
+  "description": "'Restore from a backup' in the owner menu accepts any file the owner picks (document picker allows '*/*'). readBackup checks only that the JSON has kind 'salon-backup' and an object data, and after migrate() that customers/visits/staff are arrays and owner is truthy. migrate() casts version-4 input to Data with no field validation, and restoreBackup() makes it the live, persisted store, replacing owner.secret, wallet balances, catalog prices and misuse-check limits. There is no owner password prompt after the confirm dialog. Anyone who gets the owner to restore a crafted 'backup' (sent over WhatsApp, Drive or email) can set the owner credential to a password they know, set arbitrary balances and prices, and raise checks.walletCodeAbove so the customer WhatsApp-code gate never fires: values saveService and saveCheckSettings reject on the normal write path.",
+  "root_cause": "readBackup (src/domain/checks.ts:178-189) performs only top-level shape checks and delegates to migrate (src/domain/engine.ts:78-100), which casts untrusted input to Data with no field or range validation; restoreBackup (src/domain/store.ts:85-90) commits it as authoritative persisted state, including owner.secret, without re-authorization.",
+  "intended_behavior": "An imported backup is untrusted: its contents must be validated against the engine's write-path invariants, and replacing the owner credential or applying a backup should require the current owner password; otherwise the device's existing owner.secret is kept.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/platform/share.ts",
+    "line": 49,
+    "scope": "pickTextFile",
+    "description": "DocumentPicker accepts any file type ('*/*'); the function returns its text."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/screens/owner/Guard.tsx",
+    "line": 332,
+    "scope": "readBackupFile",
+    "description": "Picked text passed to K.readBackup; apply() calls restoreBackup(data) (line 333)."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/checks.ts",
+    "line": 186,
+    "scope": "readBackup",
+    "description": "Only kind === 'salon-backup' and object data checked before migrate(); line 188 checks only array-ness and owner truthiness."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 81,
+    "scope": "migrate",
+    "description": "Version-4 input spread and cast to Data with no field validation."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/store.ts",
+    "line": 86,
+    "scope": "restoreBackup",
+    "description": "state = data: attacker-controlled Data including owner.secret, checks and catalog becomes the live store and is persisted."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/platform/share.ts",
+    "line": 49,
+    "description": "DocumentPicker type list includes '*/*'."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 186,
+    "description": "Only kind and object data checked before migrate."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 188,
+    "description": "After migrate only array-ness and owner truthiness checked."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 81,
+    "description": "migrate returns version-4 raw input cast as Data."
+   },
+   {
+    "file": "src/domain/store.ts",
+    "line": 86,
+    "description": "restoreBackup assigns state = data and persists it."
+   },
+   {
+    "file": "src/screens/owner/Live.tsx",
+    "line": 588,
+    "description": "Restore confirm calls pending?.apply() with no owner password re-prompt."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 95,
+    "description": "saveCheckSettings rejects walletCodeAbove > 100000; the restore path skips this."
+   },
+   {
+    "file": "src/screens/Login.tsx",
+    "line": 178,
+    "description": "Owner login verifies against data.owner.secret, so a restored secret becomes the owner credential."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "authorization_role",
+    "description": "Reached from the owner menu: an owner session, or an unlocked phone with an owner session (sessions never expire)."
+   },
+   {
+    "kind": "user_interaction",
+    "description": "The owner must pick the attacker-supplied file and tap Restore in the confirm dialog (social engineering)."
+   },
+   {
+    "kind": "data_state",
+    "description": "The file is valid salon-backup JSON (version 4) with an attacker-chosen owner.secret and out-of-range values."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "A non-owner (a staff member or anyone who can hand the owner a file) who cannot otherwise set the owner password or change check limits.",
+   "payloads": [
+    "{\"kind\":\"salon-backup\",\"savedAt\":\"2026-01-01T00:00:00.000Z\",\"data\":{\"version\":4,\"customers\":[{\"id\":\"c1\",\"name\":\"x\",\"phone\":\"\",\"walletBalance\":-999999,\"createdAt\":\"2020-01-01T00:00:00.000Z\",\"deletedAt\":null}],\"visits\":[],\"walletTxs\":[],\"reminders\":[],\"staff\":[],\"attendance\":[],\"appointments\":[],\"leaves\":[],\"privacyLog\":[],\"owner\":{\"secret\":{\"salt\":\"dummysalt\",\"hash\":\"7773b99b71cbf96ad33f13d0fe3fcddcf6eb5749ebbbde83d317771cd9840229\"}},\"checks\":{\"walletCodeAbove\":99999999,\"referralMonthlyLimit\":99999999},\"catalog\":{\"services\":[{\"id\":\"haircut\",\"name\":\"Haircut\",\"price\":-5,\"minutes\":1,\"cycleDays\":1,\"active\":true}],\"addOns\":[]},\"demo\":false}}"
+   ],
+   "instructions": [
+    "Write a vitest file importing readBackup and saveCheckSettings from src/domain/checks.ts, checkSettings from src/domain/engine.ts and checkSecret from src/domain/auth.ts, with a node:crypto SHA-256 hasher.",
+    "Call readBackup on the payload (owner hash = SHA-256('dummysalt' + 'dummypw')).",
+    "Check checkSecret(d.owner.secret, 'dummypw') is true, checkSettings(d).walletCodeAbove is 99999999, and walletBalance -999999 and price -5 are kept; contrast with saveCheckSettings rejecting walletCodeAbove 99999999.",
+    "Run in the sandbox (agents/v5-restore/artifacts/check1.txt). restoreBackup itself was not executed (AsyncStorage dependency); source shows it assigns the returned Data directly."
+   ],
+   "observed_result": "readBackup returned Data with no error; the restored owner.secret accepts 'dummypw' (checkSecret true); walletCodeAbove 99999999, walletBalance -999999 and price -5 kept; saveCheckSettings rejects the same walletCodeAbove with 'Wallet code limit must be ₹0 to ₹1,00,000'."
+  },
+  "remediation": {
+   "strategy": "Treat the backup as untrusted: after migrate, validate every field against the engine's write-path invariants and reject the whole file on any violation (ranges, enums, phones, balances consistent with the ledger, prices within saveService bounds, check limits within saveCheckSettings bounds, photoKeys matching a safe basename). Require the current owner password before applying a restore, and keep the device's existing owner.secret unless the owner re-authenticates with the backup's password.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/checks.ts",
+     "fixed_code": "In readBackup, after migrate(): call validateData(d), reusing saveService and saveCheckSettings range rules, checking walletBalance against the walletTxs sum, enums and phones, and requiring photoKey to match /^[A-Za-z0-9._-]+$/; throw UserError on any violation."
+    },
+    {
+     "file_name": "src/screens/owner/Guard.tsx",
+     "fixed_code": "Before apply(): require checkSecret(getData().owner.secret, enteredPassword); call restoreBackup({ ...data, owner: getData().owner }) unless the owner also proves knowledge of the backup's password."
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "low",
+    "reason": "Requires an owner session and the owner being tricked into picking and confirming an attacker-supplied file."
+   },
+   "impact": {
+    "score": "high",
+    "reason": "Demonstrated locally: owner credential replaced with an attacker-known password, customer wallet-code gate effectively disabled, arbitrary balances and prices accepted."
+   },
+   "overall_severity": "medium"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Full source trace verified line by line plus an independent bounded sandbox reproduction."
+  }
+ },
+ {
+  "verdict": "needs_validation",
+  "fingerprint": "salon-mobile:src/components/Guards.tsx:WhatsAppCode:code-visible-to-verifier",
+  "title": "The WhatsApp confirmation code goes to the same staff member it is meant to check, so big wallet spends and referral sign-ups could be self-approved",
+  "description": "Wallet spends above walletCodeAbove (default Rs500) and referral sign-ups need the customer to prove they own the phone number. The WhatsAppCode component on the staff member's own phone makes a 4-digit code with Math.random (Guards.tsx:20,24) and opens a wa.me link on that same phone with 'Your code is NNNN...' URL-encoded into ?text= (Guards.tsx:35, engine.ts:799). If WhatsApp shows that pre-filled text in the sender's compose box, a staff member can tap 'Send code on WhatsApp', read the code, go back without sending and type it in. Typed digits are checked only in the component (Guards.tsx:66) with no attempt counter, and the code is stable per phone and purpose. The engine receives only a boolean (walletCodeOk, referralVerified) and trusts it (engine.ts:539, 197). Locally: the opened URL contains the code; checkoutVisit rejects a Rs1500 wallet spend without the boolean and accepts it with walletCodeOk:true and no code; createCustomer links a referrer on referralVerified:true alone.",
+  "claimed_root_cause": "The verification secret is made and checked on the verifier's own device and placed in the pre-filled outbound wa.me message that device opens; the check is an in-component comparison with no attempt limit; the engine accepts a caller-supplied boolean instead of evidence.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/Visit.tsx",
+    "line": 205,
+    "scope": "Visit (staff screen)",
+    "description": "Above walletCodeAbove the staff visit screen shows WhatsAppCode for the customer's phone; Counter.tsx:188 does the same for referrals."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/components/Guards.tsx",
+    "line": 24,
+    "scope": "WhatsAppCode",
+    "description": "Code made with Math.random on the staff phone, memoised on phone+purpose."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/components/Guards.tsx",
+    "line": 35,
+    "scope": "WhatsAppCode.send",
+    "description": "Code placed in plain text in the message passed to Linking.openURL(E.whatsappLink(...)) on the same phone."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 799,
+    "scope": "whatsappLink",
+    "description": "Message URL-encoded into wa.me ?text=, which pre-fills the compose box."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/components/Guards.tsx",
+    "line": 66,
+    "scope": "WhatsAppCode onChangeText",
+    "description": "Typed digits compared in the component; a match calls onVerified(true); no attempt limit."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/screens/Visit.tsx",
+    "line": 81,
+    "scope": "Visit.collect",
+    "description": "Only needsCode && walletOk is passed to the engine as walletCodeOk."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/engine.ts",
+    "line": 539,
+    "scope": "checkoutVisit",
+    "description": "Wallet spend above walletCodeAbove allowed on input.walletCodeOk alone; referral path same at engine.ts:197."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/components/Guards.tsx",
+    "line": 35,
+    "description": "Message 'Your code is ${code}...' opened via wa.me on the staff phone; local check: URL text contains the code (agents/v2-whatsapp-code/artifacts/check1.txt)."
+   },
+   {
+    "file": "src/components/Guards.tsx",
+    "line": 66,
+    "description": "In-component comparison with no attempt counter or lockout."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 539,
+    "description": "Engine checks only walletCodeOk; local check: Rs1500 spend throws without it and succeeds with it (balance 2200 -> 700)."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 197,
+    "description": "createCustomer checks only referralVerified before linking the referrer; local check confirms."
+   }
+  ],
+  "blockers": [
+   "Whether WhatsApp (third-party app) shows the wa.me ?text= pre-fill, code included, in the sender's compose box before sending is outside the repository and cannot be observed in the offline sandbox; locally it is only proven that the code is in the opened URL. Manual guessing of up to 9,000 codes is source-visible but its practical likelihood cannot be shown without a device."
+  ],
+  "validation_plan": {
+   "local": "Run the vitest harness behind agents/v2-whatsapp-code/artifacts/check1.txt in the sandbox: V1 whatsappLink text contains the code; V2 checkoutVisit Rs1500 wallet spend throws without walletCodeOk and succeeds with it; V3 createCustomer links the referrer only with referralVerified.",
+   "deployment": "On the salon's own phone with a dummy customer number the owner controls and a small dummy wallet above Rs500: log in as staff, open a visit with wallet payment above Rs500, tap 'Send code on WhatsApp', note whether the compose box shows 'Your code is NNNN', press back without sending, confirm no message arrived, type NNNN and see whether 'Collect' enables; stop before collecting. Repeat on the Counter referral flow, stopping before 'Add customer'."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:src/domain/engine.ts:canStaffUndo:no-lower-bound-clock-rollback",
+  "title": "Staff can undo a paid bill long after the 2-minute window by setting the phone clock back, and the undo is missing from the owner's checks for the real day",
+  "description": "canStaffUndo only tests now - paidAt <= undoWindowMinutes with no lower bound, and voidVisit has no clock-behind refusal (markAttendance has one). On the Receipt screen, which re-reads the device clock every second, a clock set earlier than paidAt makes undoLeft exceed 120 s so the Undo button shows again, and voidVisit accepts a staff void. The visit becomes VOID with voidedAt from the rolled-back clock; the owner's checks for the real day (filtered by dayOf(voidedAt)) do not list the undo, and that day's expectedCash no longer counts the cash bill.",
+  "root_cause": "The undo-window check trusts the device clock and accepts negative elapsed time (engine.ts:593); voidVisit lacks the latestRecordTime clock-behind guard markAttendance uses (engine.ts:1336); voidedAt comes from the same rolled-back clock (engine.ts:612, 633).",
+  "intended_behavior": "Staff may undo a bill only within undoWindowMinutes after payment; later reversals need the owner, and every staff undo appears in the owner's checks for the day it happened.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/Visit.tsx",
+    "line": 295,
+    "scope": "Receipt undoLeft",
+    "description": "undoLeft = 120 - elapsed seconds with now refreshed every second (lines 280-282); with the clock behind paidAt, elapsed is negative and the Undo button (line 358) renders."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/screens/Visit.tsx",
+    "line": 308,
+    "scope": "Receipt.undo",
+    "description": "Calls E.voidVisit with by 'staff' and the device clock."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 593,
+    "scope": "canStaffUndo",
+    "description": "now - paidAt <= window is true for any now earlier than paidAt."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/engine.ts",
+    "line": 609,
+    "scope": "voidVisit",
+    "description": "Staff window check passes; visit written VOID with voidedAt = rolled-back now (line 633)."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/engine.ts",
+    "line": 593,
+    "description": "No check that now >= paidAt."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 1336,
+    "description": "markAttendance refuses a clock more than 5 minutes behind latestRecordTime; voidVisit has no such check."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 131,
+    "description": "Owner's undo check lists only voids whose voidedAt falls on the checked day."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 104,
+    "description": "expectedCash counts only PAID cash bills, so the voided cash bill drops out of drawer reconciliation."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "authorization_role",
+    "description": "A logged-in staff session on the salon phone."
+   },
+   {
+    "kind": "user_interaction",
+    "description": "The Receipt screen (reached only via nav.replace after checkout, Visit.tsx:82) is still open, and the staff member changes the phone date/time."
+   },
+   {
+    "kind": "system_configuration",
+    "description": "The device allows manual date/time changes."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "A stylist who took cash and wants to erase the bill after the customer has left.",
+   "payloads": [
+    "addStaff + createCustomer(t0=2026-10-26T05:30Z); startVisit+checkoutVisit at 2026-10-26T06:00Z (CASH, total 300); voidVisit(by staff) at paidAt+30min -> refused; voidVisit(by staff) at paidAt-24h -> accepted; ownerChecks at paidAt+1h and at paidAt-24h"
+   ],
+   "instructions": [
+    "In the approved sandbox run vitest on a test importing src/domain/engine, src/domain/checks and src/domain/types with dummy data.",
+    "Read the V4 lines in agents/v4-staff-undo-clock/artifacts/check1.txt."
+   ],
+   "observed_result": "+30 min: 'Undo is only possible for 2 minutes. Ask the owner to void it.' Clock 24 h behind: canStaffUndo true while latestRecordTime is 2026-10-26T06:00Z; voidVisit returned VOID with voidedAt 2026-10-25T06:00:00.000Z, voidedBy the staff member; ownerChecks for the real day showed 0 undo items, the backdated day showed 1; the VOID record stays in visit history."
+  },
+  "remediation": {
+   "strategy": "Require 0 <= now - paidAt <= window in canStaffUndo; in voidVisit refuse staff voids when now is behind latestRecordTime(data) by more than 5 minutes (as markAttendance). Add regression tests for a clock behind paidAt and behind the latest record.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/engine.ts",
+     "fixed_code": "export function canStaffUndo(visit: Visit, now = new Date()): boolean {\n  if (visit.status !== \"PAID\" || !visit.paidAt) return false;\n  const elapsed = now.getTime() - new Date(visit.paidAt).getTime();\n  return elapsed >= 0 && elapsed <= config.undoWindowMinutes * 60 * 1000;\n}\n// in voidVisit, before the window check:\nif (input.by === \"staff\" && now.getTime() < latestRecordTime(data) - 5 * 60000) {\n  throw new UserError(\"This phone's clock is behind. Set the date and time to automatic, then try again.\");\n}"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "low",
+    "reason": "Needs a staff session, the Receipt screen still open, and a manual clock change; the VOID record stays in history."
+   },
+   "impact": {
+    "score": "medium",
+    "reason": "Bypasses the staff undo-window control; the cash bill drops out of that day's expectedCash and the undo is missing from the owner's checks for the real day."
+   },
+   "overall_severity": "medium"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Independently reproduced in the sandbox against engine and checks code; UI reachability follows from the undoLeft formula and per-second refresh."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:src/domain/engine.ts:refundableBalance:cumulative-promo-netting",
+  "title": "Closing a wallet refunds bonus credit as cash when earlier spends exceeded earlier bonuses",
+  "description": "refundableBalance nets all promotional credit the wallet has ever received against all spends it has ever made, ignoring transaction order and CASHOUT/WRITE_OFF resets. After a customer spends a wallet down and tops up again, earlier spends are treated as having used up the new bonus; that bonus is classed as refundable and closeWallet pays it out in cash. The same happens after a wallet has been closed and reopened.",
+  "root_cause": "src/domain/engine.ts:835-840 sums promo (BONUS/REFERRAL_REWARD/REFERRAL_REVERSAL) and spent (SPEND/REFUND) over the customer's entire walletTxs history instead of tracking the promotional part of the current balance; it ignores order and never resets at CASHOUT/WRITE_OFF, so promoLeft = min(balance, max(0, promo - spent)) drops to 0 once lifetime spend exceeds lifetime promo.",
+  "intended_behavior": "Bonus and referral credit are promotional, not refundable, and are spent first; closeWallet should refund at most the deposited money left in the current balance and write off unspent promotional credit (engine.ts:825-829, 843).",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/Profile.tsx",
+    "line": 430,
+    "scope": "Profile owner-only (isOwner, line 414) 'Close wallet · refund' button",
+    "description": "Owner taps close wallet; refund shown comes from E.refundableBalance (line 361); onPress commits E.closeWallet."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 852,
+    "scope": "closeWallet",
+    "description": "closeWallet takes refundable/promotional from refundableBalance."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 840,
+    "scope": "refundableBalance",
+    "description": "promoLeft = min(balance, max(0, lifetime promo - lifetime spend)); earlier spends absorb the new bonus."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/engine.ts",
+    "line": 856,
+    "scope": "closeWallet",
+    "description": "Pushes a CASHOUT for the overstated refundable amount, then sets the balance to 0 (line 864)."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/engine.ts",
+    "line": 837,
+    "description": "promo adds up every BONUS/REFERRAL_REWARD/REFERRAL_REVERSAL in history."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 838,
+    "description": "spent adds up every SPEND/REFUND in history; CASHOUT and WRITE_OFF never counted."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 840,
+    "description": "promoLeft clamped to 0 when lifetime spend exceeds lifetime promo."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 389,
+    "description": "topUp credits a separate BONUS transaction on each qualifying deposit."
+   },
+   {
+    "file": "src/config/salon.ts",
+    "line": 164,
+    "description": "Top-up bonus tiers: 5% at 1000, 10% at 2000, 15% at 5000."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "data_state",
+    "description": "Earlier wallet spends exceed all promotional credit received before them (e.g. wallet spent to 0) or the wallet was closed before; the customer then tops up again and earns a bonus or referral credit."
+   },
+   {
+    "kind": "user_interaction",
+    "description": "Owner closes the wallet at the customer's request and pays out the refund shown."
+   },
+   {
+    "kind": "authorization_role",
+    "description": "Only the owner sees the close button (Profile.tsx:414); the customer gets the extra cash."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "A regular customer who spends their wallet down, tops up again for the bonus, then asks for the wallet to be closed and refunded.",
+   "payloads": [
+    "topUp(2000, CASH) -> bonus 200; checkoutVisit(bill 2200, walletAmount 2200, walletCodeOk true); topUp(2000, CASH) -> bonus 200; refundableBalance(); closeWallet(CASH, by owner); topUp(1000, CASH) -> bonus 50; refundableBalance()"
+   ],
+   "instructions": [
+    "In the approved sandbox run a vitest file importing src/domain/engine and emptyData; add one dummy staff and one dummy customer; build a 2200 bill via startVisit, addVisitExtra(2200), approveVisitExtras, updateOpenVisit with no catalogue services.",
+    "Apply the payload sequence and print refundableBalance, closeWallet and the wallet transactions (agents/v3-refundable/artifacts/check1.txt)."
+   ],
+   "observed_result": "After the second top-up refundableBalance returned {balance 2200, refundable 2200, promotional 0} and closeWallet returned {refunded 2200, writtenOff 0}, a CASHOUT of -2200 although only 2000 of the open balance was deposited (expected 2000 refund, 200 write-off). After close and a 1000 (+50) top-up, refundableBalance returned refundable 1050, promotional 0 instead of 1000/50."
+  },
+  "remediation": {
+   "strategy": "Compute the promotional part of the current balance from transaction order: replay walletTxs in createdAt order; TOPUP and REFUND add cash; BONUS and REFERRAL_REWARD add promo; REFERRAL_REVERSAL takes from promo (floor 0, remainder from cash); SPEND uses promo first then cash; CASHOUT and WRITE_OFF reset both; promotional = min(walletBalance, promo). Or store a promoBalance on the customer. Add regression tests for spend-down/re-top-up/close and close/reopen/close.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/engine.ts",
+     "fixed_code": "export function refundableBalance(data: Data, customerId: string) {\n  const customer = data.customers.find((c) => c.id === customerId);\n  if (!customer) throw new UserError(\"Customer not found\");\n  let promo = 0;\n  let cash = 0;\n  const txs = data.walletTxs.filter((t) => t.customerId === customerId);\n  for (const t of txs) {\n    switch (t.type) {\n      case \"TOPUP\": cash += t.amount; break;\n      case \"BONUS\": case \"REFERRAL_REWARD\": promo += t.amount; break;\n      case \"REFERRAL_REVERSAL\": { const take = Math.min(promo, -t.amount); promo -= take; cash -= (-t.amount - take); break; }\n      case \"SPEND\": { const use = Math.min(promo, -t.amount); promo -= use; cash -= (-t.amount - use); break; }\n      case \"REFUND\": cash += t.amount; break;\n      case \"CASHOUT\": case \"WRITE_OFF\": promo = 0; cash = 0; break;\n    }\n  }\n  const promoLeft = Math.min(customer.walletBalance, Math.max(0, promo));\n  return { balance: customer.walletBalance, refundable: customer.walletBalance - promoLeft, promotional: promoLeft };\n}"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "medium",
+    "reason": "Spending a wallet down and topping it up again is normal for a regular customer; the overpayment happens whenever such a wallet is closed."
+   },
+   "impact": {
+    "score": "low",
+    "reason": "Each close overpays by the promotional credit that should be written off (5-15% of latest top-ups or ₹100 referral rewards; ₹200 in the demonstrated case); owner performs the close; one customer's wallet."
+   },
+   "overall_severity": "low"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Arithmetic fully source-visible and reproduced in the sandbox with an independent deterministic engine test (check1.txt)."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:store.ts:loadStore:catch-demo-fallback-overwrites-real-data",
+  "title": "A load error makes the app overwrite real salon data with demo data whose owner password is the public 'owner1234'",
+  "description": "loadStore() reads salon:data:v1, migrates, purges, applies the catalog, calls persist() (a 150 ms timer that later serializes the module-level state), and only then parses salon:session, all inside one try. Any exception reaches a catch that sets state = buildDemoData() and does not clear the pending timer. If the session parse throws, the timer writes the demo dataset over the real salon:data:v1 with no user action. If the data read, parse or migrate throws, the stored value is left alone at first but demo data is in memory and the first commit() persists it. Either way the device's only copy of customers, wallet balances, ledger, visits and staff accounts is replaced, and the owner secret becomes the demo secret for 'owner1234', which Login shows on screen while data.demo is true. There is no error screen or recovery path.",
+  "root_cause": "loadStore's single try/catch fails open to buildDemoData(), a dataset with a hardcoded, publicly displayed owner credential; it does not cancel the persist() timer scheduled earlier in the same try and does not block later persists.",
+  "intended_behavior": "An unreadable session only signs the user out; an unreadable or unmigratable data blob stops at a recovery screen, leaves the stored value byte-identical, and never puts demo data or demo credentials into memory or storage.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "App.tsx",
+    "line": 157,
+    "scope": "App useEffect",
+    "description": "loadStore() runs on every app start"
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/store.ts",
+    "line": 35,
+    "scope": "loadStore",
+    "description": "getItem(salon:data:v1) then JSON.parse/migrate (line 36) inside the try; a throw here reaches the catch before persist()"
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/store.ts",
+    "line": 42,
+    "scope": "loadStore",
+    "description": "persist() schedules a 150 ms timer that serializes the module-level state when it fires"
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/store.ts",
+    "line": 44,
+    "scope": "loadStore",
+    "description": "JSON.parse(rawSession) throws on a malformed salon:session; shares the data-load try"
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/store.ts",
+    "line": 47,
+    "scope": "loadStore catch",
+    "description": "state = buildDemoData(); saveTimer not cleared; persistence not blocked"
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/store.ts",
+    "line": 29,
+    "scope": "persist timer",
+    "description": "AsyncStorage.setItem(KEY, JSON.stringify(state)) writes the demo dataset over the real salon:data:v1"
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/store.ts",
+    "line": 45,
+    "description": "catch logs 'starting with demo data' and swaps in demo state for any exception, with no persistence guard"
+   },
+   {
+    "file": "src/domain/store.ts",
+    "line": 55,
+    "description": "commit() persists in-memory state, so the throw-before-persist variant is written on the first action"
+   },
+   {
+    "file": "src/domain/seed.ts",
+    "line": 15,
+    "description": "OWNER_SECRET with fixed salt demosalt0123456789abcdef matches DEMO_OWNER_PASSWORD 'owner1234' (seed.ts:12); buildDemoData sets it and demo:true (seed.ts:211)"
+   },
+   {
+    "file": "src/screens/Login.tsx",
+    "line": 227,
+    "description": "While data.demo (line 225) Login displays the demo owner and staff passwords; Login.tsx:178 accepts them"
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "data_state",
+    "description": "salon:session holds a value JSON.parse rejects, or reading/parsing/migrating salon:data:v1 throws (storage read failure, corrupted or unexpected stored data, or control of the web build's localStorage or host db mirror). On native setSession always writes valid JSON, so the session variant needs storage corruption, an interrupted write or an external writer."
+   },
+   {
+    "kind": "user_interaction",
+    "description": "None for the session-parse variant; the data-read variant overwrites storage on the first commit, and demo credentials are accepted immediately in memory."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "No attacker is needed to destroy the data; afterwards whoever holds the phone (e.g. a stylist) can sign in as owner with the on-screen owner1234.",
+   "payloads": [
+    "salon:data:v1 = JSON of emptyData() with owner.secret = makeSecret('RealOwnerPw!'); salon:session = '{not json'",
+    "salon:data:v1 = same real store; AsyncStorage.getItem('salon:data:v1') rejects with Error('simulated read failure')"
+   ],
+   "instructions": [
+    "In the approved sandbox, alias @react-native-async-storage/async-storage to an in-memory fake and mock deletePhotos.",
+    "Case B: seed the real store, set salon:session to '{not json', call loadStore(), wait 400 ms, read salon:data:v1 back, test 'owner1234' and 'RealOwnerPw!' with checkSecret.",
+    "Case A: make getItem(salon:data:v1) reject, call loadStore(), wait 400 ms, confirm storage untouched while getData() is demo; then one no-op commit(), wait 400 ms, read salon:data:v1 back."
+   ],
+   "observed_result": "Case B: console 'Could not load saved data; starting with demo data SyntaxError...'; with no user action stored salon:data:v1 had demo=true, 3 staff, 24 customers; owner1234 accepted, real password rejected. Case A: stored value untouched before any commit with owner1234 accepted in memory; after one commit stored salon:data:v1 was demo=true and the real password rejected (agents/v1-demo-fallback/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "Fail closed: parse the session in its own try and only drop the session on failure; on any data load/parse/migrate failure clear saveTimer, set a loadFailed flag that makes persist() a no-op, keep the stored value, and show a recovery screen (retry or restore a backup) instead of buildDemoData(); move persist() after all fallible steps.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/store.ts",
+     "fixed_code": "let loadFailed = false;\nfunction persist() {\n  if (loadFailed) return;\n  if (saveTimer) clearTimeout(saveTimer);\n  saveTimer = setTimeout(() => {\n    AsyncStorage.setItem(KEY, JSON.stringify(state)).catch((e) => console.warn(\"Could not save data\", e));\n  }, 150);\n}\n\nexport async function loadStore(): Promise<void> {\n  try {\n    const raw = await AsyncStorage.getItem(KEY);\n    let next = raw ? migrate(JSON.parse(raw)) : buildDemoData();\n    const purged = purgeExpired(next);\n    next = purged.data;\n    applyCatalog(next);\n    state = next;\n    deletePhotos(purged.result.photoKeys).catch(() => {});\n    persist();\n  } catch (e) {\n    console.warn(\"Could not load saved data\", e);\n    if (saveTimer) clearTimeout(saveTimer);\n    loadFailed = true;\n  }\n  try {\n    const rawSession = await AsyncStorage.getItem(SESSION_KEY);\n    session = rawSession && !loadFailed ? (JSON.parse(rawSession) as Session) : null;\n  } catch {\n    session = null;\n    AsyncStorage.removeItem(SESSION_KEY).catch(() => {});\n  }\n  ready = true;\n  emit();\n}"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "low",
+    "reason": "The app always writes a valid session and normally readable data; the trigger needs storage corruption, a read failure, unexpected stored data, or control of web storage."
+   },
+   "impact": {
+    "score": "high",
+    "reason": "The only copy of all wallet balances, ledger, visits, customers and staff accounts is silently replaced, and owner authority becomes a password displayed on the login screen."
+   },
+   "overall_severity": "medium"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "All trace lines checked in source and both variants reproduced deterministically in the sandbox against the unmodified store.ts."
+  }
+ }
+]

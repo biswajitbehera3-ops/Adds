@@ -1,0 +1,82 @@
+== expo-file-system   "version": "57.0.7",
+== Android legacy deleteAsync
+67:fun slashifyFilePath(path: String?): String? {
+68:  return if (path == null) {
+69:    null
+70:  } else if (path.startsWith("file:///")) {
+71:    path
+72:  } else {
+73:    // Ensure leading schema with a triple slash
+74:    Pattern.compile("^file:/*").matcher(path).replaceAll("file:///")
+75:  }
+76:}
+208:    AsyncFunction("deleteAsync") { uriStr: String, options: DeletingOptions ->
+209:      val uri = Uri.parse(slashifyFilePath(uriStr))
+210:      val appendedUri = Uri.withAppendedPath(uri, "..")
+211:      ensurePermission(appendedUri, FilePermissionService.Permission.WRITE, "Location '$uri' isn't deletable.")
+212:
+213:      if (uri.scheme == "file") {
+214:        val file = uri.toFile()
+215:        if (file.exists()) {
+216:          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+217:            FileUtils.forceDelete(file)
+218:          } else {
+219:            // to be removed once Android SDK 25 support is dropped
+220:            forceDelete(file)
+221:          }
+222:          return@AsyncFunction
+765:  private fun permissionsForUri(uri: Uri) = when {
+766:    uri.isSAFUri -> permissionsForSAFUri(uri)
+767:    uri.scheme == "content" -> EnumSet.of(FilePermissionService.Permission.READ)
+768:    uri.scheme == "asset" -> EnumSet.of(FilePermissionService.Permission.READ)
+769:    uri.scheme == "file" -> permissionsForPath(uri.path)
+770:    uri.scheme == null -> EnumSet.of(FilePermissionService.Permission.READ)
+771:    else -> EnumSet.noneOf(FilePermissionService.Permission::class.java)
+772:  }
+791:  private fun ensurePermission(uri: Uri, permission: FilePermissionService.Permission, errorMsg: String) {
+792:    if (permissionsForUri(uri)?.contains(permission) != true) {
+793:      throw IOException(errorMsg)
+794:    }
+795:  }
+796:
+== FilePermissionService
+15:  open fun getPathPermissions(context: Context, path: String): EnumSet<Permission> =
+16:    getInternalPathPermissions(path, context) ?: getExternalPathPermissions(path)
+17:
+18:  private fun getInternalPathPermissions(path: String, context: Context): EnumSet<Permission>? {
+19:    return try {
+20:      val canonicalPath = File(path).canonicalPath
+21:      getInternalPaths(context)
+22:        .firstOrNull { dir -> canonicalPath.startsWith("$dir/") || dir == canonicalPath }
+23:        ?.let { EnumSet.of(Permission.READ, Permission.WRITE) }
+24:    } catch (_: IOException) {
+25:      EnumSet.noneOf(Permission::class.java)
+26:    }
+27:  }
+28:
+29:  protected open fun getExternalPathPermissions(path: String): EnumSet<Permission> {
+30:    val file = File(path)
+31:    return EnumSet.noneOf(Permission::class.java).apply {
+32:      if (file.canRead()) {
+33:        add(Permission.READ)
+34:      }
+35:      if (file.canWrite()) {
+36:        add(Permission.WRITE)
+37:      }
+38:    }
+39:  }
+40:
+41:  @Throws(IOException::class)
+42:  private fun getInternalPaths(context: Context): List<String> =
+43:    listOf(
+44:      context.filesDir.canonicalPath,
+45:      context.cacheDir.canonicalPath
+46:    )
+== iOS legacy deleteAsync
+120:    AsyncFunction("deleteAsync") { (url: URL, options: DeletingOptions) in
+121:      guard url.isFileURL else {
+122:        throw InvalidFileUrlException(url)
+123:      }
+124:      try ensurePathPermission(appContext, path: url.appendingPathComponent("..").path, flag: .write)
+125:      try removeFile(path: url.path, idempotent: options.idempotent)
+126:    }

@@ -1,0 +1,22 @@
+
+ RUN  v3.2.7 /root/security-audit-skill/Adds/run-1/agents/h3-money/scratch
+
+stdout | x.test.ts > h3-money > CHECK-A closeWallet refunds bonus credit as cash after an earlier full spend
+CHECK-A refundableBalance {"balance":2200,"refundable":2200,"promotional":0}
+CHECK-A closeWallet {"refunded":2200,"writtenOff":0} cash deposited in 2nd top-up = 2000
+
+stdout | x.test.ts > h3-money > CHECK-B wallet code threshold is per visit: split spends need no code
+CHECK-B single 1000 spend without code: Wallet use above ₹500 needs the code sent to the customer's WhatsApp
+CHECK-B balance before split 1050
+CHECK-B two 500 spends without code -> balances 550 50 walletCodeAt null null
+
+stdout | x.test.ts > h3-money > CHECK-C the verification code is carried in the prefilled wa.me text the sender sees
+CHECK-C https://wa.me/919876500000?text=Your%20code%20is%204821.%20Tell%20it%20to%20the%20salon%20staff%20to%20pay%20%E2%82%B92%2C200%20from%20your%20wallet. decoded contains code: true
+
+ ✓ x.test.ts (3 tests) 28ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  14:17:17
+   Duration  639ms (transform 373ms, setup 0ms, collect 401ms, tests 28ms, environment 0ms, prepare 57ms)
+

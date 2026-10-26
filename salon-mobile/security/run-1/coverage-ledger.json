@@ -1,0 +1,1798 @@
+[
+ {
+  "coverage_id": "App.tsx%23render::src%2Fcomponents%2FGuards.tsx%23OwnerApproval::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Access%20control",
+  "canonical_refs": {
+   "surface": "App.tsx#render",
+   "boundary": "src/components/Guards.tsx#OwnerApproval",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Access control"
+  },
+  "surface": "Staff session reaching owner screens and actions",
+  "boundary": "Owner-only actions enforced in UI (role gating)",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Access control",
+  "starting_paths": [
+   "App.tsx",
+   "src/nav/Navigator.tsx",
+   "src/nav/StaffTabs.tsx",
+   "src/screens/Profile.tsx",
+   "src/screens/Counter.tsx",
+   "src/screens/Visit.tsx",
+   "src/components/TopUpSheet.tsx",
+   "src/screens/owner/TopSpenders.tsx",
+   "src/screens/Customers.tsx",
+   "src/components/Guards.tsx"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+  "selected_companion_blocks": [],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "covered",
+  "agent_id": "h2-rolegating",
+  "reviewed_paths": [
+   "App.tsx",
+   "src/components/Guards.tsx",
+   "src/components/TopUpSheet.tsx",
+   "src/domain/engine.ts",
+   "src/domain/store.ts",
+   "src/nav/Navigator.tsx",
+   "src/nav/OwnerTabs.tsx",
+   "src/nav/StaffTabs.tsx",
+   "src/screens/Attendance.tsx",
+   "src/screens/Counter.tsx",
+   "src/screens/Me.tsx",
+   "src/screens/Profile.tsx",
+   "src/screens/Visit.tsx",
+   "src/screens/owner/TopSpenders.tsx"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h2-rolegating",
+    "reviewed_paths": [
+     "App.tsx",
+     "src/nav/Navigator.tsx",
+     "src/nav/StaffTabs.tsx",
+     "src/nav/OwnerTabs.tsx",
+     "src/domain/store.ts",
+     "src/screens/Attendance.tsx"
+    ],
+    "invariant": "A staff session cannot reach owner-only routes through the router",
+    "method": "source",
+    "result": "render() maps any Route regardless of role, but routes enter the stack only via in-app nav.push/replace; no deep links or URL routing. useRootRoute sends owner to OwnerTabs and active staff to StaffTabs/attendance; Navigator keyed by root.name resets on sign-in/out. Every push of an owner-only route is in src/screens/owner/* mounted only under OwnerTabs; Customers.tsx pushes topSpenders only for the owner session. No staff-reachable path.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h2-rolegating",
+    "reviewed_paths": [
+     "src/screens/Profile.tsx",
+     "src/screens/owner/TopSpenders.tsx",
+     "src/screens/Visit.tsx",
+     "src/domain/engine.ts"
+    ],
+    "invariant": "Owner-only state changes reachable from staff-visible screens are gated by session role and engine 'by' arguments are derived from the session",
+    "method": "source",
+    "result": "Bill route is staff-reachable but Cancel/CancelSheet (only voidVisit by:'owner' caller) render only for role owner; receipt undo uses by:'staff' limited by canStaffUndo. closeWallet/deleteCustomer render only when isOwner. approveVisitExtras called directly only when isOwner, else only after OwnerApproval checkSecret succeeds; checkoutVisit rejects unapproved extras. No staff path supplies owner identity.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h2-rolegating",
+    "reviewed_paths": [
+     "src/components/TopUpSheet.tsx",
+     "src/screens/Counter.tsx",
+     "src/screens/Visit.tsx"
+    ],
+    "invariant": "Wallet top-up is owner-only on every access path",
+    "method": "source",
+    "result": "Counter shows an ungated 'Top up wallet' button and Visit hides it for staff; both open TopUpSheet whose submit() throws unless getSession()?.role==='owner' before E.topUp. Gate holds on both paths.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h2-rolegating",
+    "reviewed_paths": [
+     "src/components/Guards.tsx",
+     "src/screens/Me.tsx",
+     "src/domain/engine.ts"
+    ],
+    "invariant": "OwnerApproval approves only after the correct owner password; staff self-service cannot alter privileged staff fields",
+    "method": "source",
+    "result": "approve awaits checkSecret(data.owner.secret) and returns on failure. Me.ChangePassword verifies the current secret and updates only {secret} for me.id. No attempt limit on OwnerApproval: same root cause as Login no-lockout (peer unit).",
+    "artifact": null
+   }
+  ],
+  "result_fingerprints": [],
+  "unresolved": [],
+  "x_hardening": [
+   "Engine operations (voidVisit, topUp, closeWallet, deleteCustomer, approveVisitExtras, approveLeave) take no caller role; owner authority rests on UI gating plus caller-supplied 'by'. Add a requireOwner(session) guard and tests rejecting a staff session.",
+   "Counter.tsx shows the 'Top up wallet' button to staff; it fails at TopUpSheet.submit. Hide it with the isOwner check used in Visit.tsx and Profile.tsx.",
+   "OwnerApproval (src/components/Guards.tsx) is a second owner-password guessing surface usable by staff without signing out, with no attempt limit; any Login lockout fix must cover it.",
+   "approveVisitExtras approves every unapproved extra at callback time, not the items and prices shown when the owner sheet opened; bind approval to the listed extras.",
+   "Profile.tsx masks the customer phone for staff but Call/WhatsApp and Counter expose the full number; the mask is cosmetic."
+  ]
+ },
+ {
+  "coverage_id": "salon-mobile%23repository::salon-mobile%23repository::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Obvious%20things",
+  "canonical_refs": {
+   "surface": "salon-mobile#repository",
+   "boundary": "salon-mobile#repository",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Obvious things"
+  },
+  "surface": "Whole repository basics",
+  "boundary": "Basic exposures",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Obvious things",
+  "starting_paths": [
+   "src",
+   "scripts",
+   "app.json",
+   "package.json",
+   "legal",
+   ".gitignore"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Obvious things",
+  "selected_companion_blocks": [],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "covered",
+  "agent_id": "h6-obvious-wild",
+  "reviewed_paths": [
+   ".gitignore",
+   "App.tsx",
+   "app.json",
+   "package.json",
+   "scripts/build-legal.mjs",
+   "scripts/build-web-artifact.py",
+   "src/config/salon-details.json",
+   "src/domain/auth.ts",
+   "src/domain/seed.ts",
+   "src/platform/hasher.ts",
+   "src/platform/share.ts",
+   "src/screens/Login.tsx",
+   "src/screens/owner/Live.tsx"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h6-obvious-wild",
+    "reviewed_paths": [
+     "src/domain/seed.ts",
+     "src/screens/Login.tsx",
+     "src/screens/owner/Live.tsx",
+     "src/domain/auth.ts",
+     "src/platform/hasher.ts"
+    ],
+    "invariant": "No hardcoded secrets; seed/demo credentials must not work against real salon data",
+    "method": "source",
+    "result": "No API keys, tokens, private keys or Bearer strings. Only hardcoded credentials are demo logins (seed.ts:12-16), shown on Login only while data.demo (Login.tsx:225-227); owner menu tells the owner to clear demo data (Live.tsx:609); clearAll forces Setup. Demo data on the load-failure path is reported under the Wildcard unit.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h6-obvious-wild",
+    "reviewed_paths": [
+     "src/screens/Login.tsx",
+     "src/platform/share.ts",
+     "scripts/build-web-artifact.py",
+     "scripts/build-legal.mjs",
+     "App.tsx"
+    ],
+    "invariant": "No security TODO/FIXME, ungated debug mode, eval/Function/child_process or dynamic import with input",
+    "method": "source",
+    "result": "None found; the only dynamic import is the constant import('expo-document-picker') in share.ts:48; build scripts read fixed repo paths with no shell exec.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h6-obvious-wild",
+    "reviewed_paths": [
+     ".gitignore",
+     "package.json",
+     "app.json",
+     "src/config/salon-details.json"
+    ],
+    "invariant": "No secret files tracked, .gitignore covers secrets and build output, dependencies pinned",
+    "method": "source",
+    "result": "No .env/credentials/*.pem/*.key in tree or history for these paths; .gitignore covers keys, .env*.local, build output and native folders; package-lock.json pins the tree; salon-details.json holds placeholders only. Offline CVE lookup not possible.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h6-obvious-wild",
+    "reviewed_paths": [
+     "App.tsx",
+     "src/screens/Login.tsx",
+     "app.json"
+    ],
+    "invariant": "Server-class items: debug endpoints, CORS, cookies, TLS, open redirects, error disclosure",
+    "method": "source",
+    "result": "Not applicable: no HTTP server, endpoints, cookies, CORS or deep-link scheme; load errors go only to console.warn.",
+    "artifact": null
+   }
+  ],
+  "result_fingerprints": [],
+  "unresolved": [],
+  "x_hardening": [
+   "data.demo stays set until 'Clear all'; if an owner changes the demo passwords and uses demo data for real, Login keeps advertising owner1234/1234. Clear data.demo when the owner password changes.",
+   ".gitignore covers .env*.local but not a bare .env; add .env and .env.*.",
+   "No offline CVE audit possible; package-lock pins the tree."
+  ]
+ },
+ {
+  "coverage_id": "salon-mobile%23repository::salon-mobile%23repository::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Wildcard",
+  "canonical_refs": {
+   "surface": "salon-mobile#repository",
+   "boundary": "salon-mobile#repository",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Wildcard"
+  },
+  "surface": "Whole repository, uncategorised",
+  "boundary": "Anything outside the assigned classes",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Wildcard",
+  "starting_paths": [
+   "src",
+   "scripts",
+   "App.tsx"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Wildcard",
+  "selected_companion_blocks": [],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "candidate",
+  "agent_id": "h6-obvious-wild",
+  "reviewed_paths": [
+   "App.tsx",
+   "src/domain/checks.ts",
+   "src/domain/engine.ts",
+   "src/domain/seed.ts",
+   "src/domain/store.ts",
+   "src/screens/Login.tsx",
+   "src/screens/owner/Live.tsx"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h6-obvious-wild",
+    "reviewed_paths": [
+     "src/domain/store.ts",
+     "src/domain/seed.ts",
+     "src/domain/engine.ts",
+     "src/domain/checks.ts",
+     "App.tsx"
+    ],
+    "invariant": "A failure while loading stored state must not silently replace real salon data with demo data that has a public owner password",
+    "method": "local",
+    "result": "Sandboxed vitest harness: real data (owner salt 'realsalt') in salon:data:v1 and '{not json' in salon:session; after loadStore() and 400 ms, stored salon:data:v1 held the demo dataset (demo=true, owner salt demosalt0123456789abcdef = owner1234, 3 staff, 24 customers). Real data overwritten with no user action.",
+    "artifact": "agents/h6-obvious-wild/artifacts/check1.txt"
+   },
+   {
+    "agent_id": "h6-obvious-wild",
+    "reviewed_paths": [
+     "src/screens/owner/Live.tsx",
+     "src/domain/store.ts"
+    ],
+    "invariant": "Irreversible reset/demo/restore actions are confirmed and owner-gated",
+    "method": "source",
+    "result": "resetToDemo, clearAll and restore are reachable only from the owner menu, each behind a confirm step (Live.tsx:569-593).",
+    "artifact": null
+   },
+   {
+    "agent_id": "v1-demo-fallback",
+    "reviewed_paths": [
+     "src/domain/store.ts",
+     "src/domain/seed.ts",
+     "src/screens/Login.tsx",
+     "App.tsx"
+    ],
+    "invariant": "Independent verification of salon-mobile:store.ts:loadStore:catch-demo-fallback-overwrites-real-data",
+    "method": "local",
+    "result": "Verifier decision: confirmed, severity medium",
+    "artifact": "agents/v1-demo-fallback/artifacts/check1.txt"
+   }
+  ],
+  "result_fingerprints": [
+   "salon-mobile:store.ts:loadStore:catch-demo-fallback-overwrites-real-data"
+  ],
+  "unresolved": [],
+  "x_hardening": [
+   "data.demo stays set until 'Clear all'; if an owner changes the demo passwords and uses demo data for real, Login keeps advertising owner1234/1234. Clear data.demo when the owner password changes.",
+   ".gitignore covers .env*.local but not a bare .env; add .env and .env.*.",
+   "No offline CVE audit possible; package-lock pins the tree."
+  ],
+  "x_decisions": {
+   "salon-mobile:store.ts:loadStore:catch-demo-fallback-overwrites-real-data": "confirmed"
+  }
+ },
+ {
+  "coverage_id": "scripts%2Fbuild-legal.mjs%23inline::scripts%2Fbuild-legal.mjs%23esc::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Injection",
+  "canonical_refs": {
+   "surface": "scripts/build-legal.mjs#inline",
+   "boundary": "scripts/build-legal.mjs#esc",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Injection"
+  },
+  "surface": "Legal pack build script",
+  "boundary": "Markdown/token values to HTML attribute and element contexts",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Injection",
+  "starting_paths": [
+   "scripts/build-legal.mjs",
+   "src/config/salon-details.json",
+   "legal"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Injection",
+  "selected_companion_blocks": [
+   "CLIENT-SIDE.md#Core discipline",
+   "CLIENT-SIDE.md#DOM-based XSS",
+   "CLIENT-SIDE.md#Universal moves",
+   "CLIENT-SIDE.md#Validation rules"
+  ],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "deferred",
+  "agent_id": null,
+  "reviewed_paths": [],
+  "local_checks": [],
+  "result_fingerprints": [],
+  "unresolved": [
+   "quick_profile_final_critic"
+  ]
+ },
+ {
+  "coverage_id": "scripts%2Fweb-single-file.py%23shim::src%2Fdomain%2Fstore.ts%23loadStore::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Chained%20vulnerabilities%20and%20trust%20boundaries",
+  "canonical_refs": {
+   "surface": "scripts/web-single-file.py#shim",
+   "boundary": "src/domain/store.ts#loadStore",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries"
+  },
+  "surface": "Single-file web build and host persistence shim",
+  "boundary": "Browser storage session and data trust",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Chained vulnerabilities and trust boundaries",
+  "starting_paths": [
+   "scripts/web-single-file.py",
+   "scripts/build-web-artifact.py",
+   "src/domain/store.ts",
+   "src/platform/photos.ts",
+   "App.tsx"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Chained vulnerabilities and trust boundaries",
+  "selected_companion_blocks": [
+   "CLIENT-SIDE.md#Core discipline",
+   "CLIENT-SIDE.md#Universal moves",
+   "CLIENT-SIDE.md#Validation rules",
+   "CLIENT-SIDE.md#Browser-storage disclosure and stale authorization",
+   "CLIENT-SIDE.md#DOM-based XSS"
+  ],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "covered",
+  "agent_id": "h5-links-web",
+  "reviewed_paths": [
+   "App.tsx",
+   "scripts/web-single-file.py",
+   "src/domain/store.ts",
+   "src/nav/Navigator.tsx",
+   "src/platform/photos.ts"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h5-links-web",
+    "reviewed_paths": [
+     "scripts/web-single-file.py",
+     "src/domain/store.ts"
+    ],
+    "invariant": "Host persistence shim must not expose or accept salon:* storage across different viewers, and restored keys must not reach an executing sink",
+    "method": "source",
+    "result": "The shim mirrors only salon:-prefixed keys to db.collection('data/users/' + await user.id()) and restores from the same collection; per the db capability contract data/users/<id>/ is private to that viewer, so writes and reads are scoped to the same principal and nothing crosses viewers. Restored values go only through localStorage.setItem and are read by the app as JSON (store.ts:36,44) or photo data URIs, never as script. The bundle is inlined from a build-controlled type=text/plain element with </script escaped. Without the db/user capability it falls back to plain localStorage or an in-memory store. No cross-principal path.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h5-links-web",
+    "reviewed_paths": [
+     "src/platform/photos.ts",
+     "App.tsx",
+     "src/nav/Navigator.tsx",
+     "src/domain/store.ts"
+    ],
+    "invariant": "Stored state must not reach DOM-XSS sinks (innerHTML, eval, executable URLs)",
+    "method": "source",
+    "result": "No dangerouslySetInnerHTML, innerHTML, document.write, eval, new Function or window.open in src or App.tsx; React Native Web escapes text. Stored photo URIs are used only as Image sources, which do not execute javascript:/data:. Session JSON is parsed without validation and never expires, but the shim keeps it in the same viewer's private store; role-trust and demo-fallback effects belong to peer access-control units.",
+    "artifact": null
+   }
+  ],
+  "result_fingerprints": [],
+  "unresolved": [],
+  "x_hardening": [
+   "src/domain/engine.ts:798 whatsappLink and tel: links (Profile.tsx:104-105, Reminders.tsx:117, Calendar.tsx:990, owner/Staff.tsx:475) interpolate phone without encoding; apply normalizePhone (or encodeURIComponent) at the sink so phones from a restored backup or edited storage cannot add wa.me query parameters.",
+   "src/screens/Me.tsx:733-734 opens config.legal.privacyUrl/termsUrl without the ^https?:// check used in Legal.tsx:107; reuse the LinkRow guard so a placeholder or mistyped build-time value is not opened.",
+   "readBackup (src/domain/checks.ts:178) does not re-validate phone fields on restore; re-running normalizePhone over restored customers/staff/appointments would close the only non-normalized phone source (restore path is a peer unit)."
+  ]
+ },
+ {
+  "coverage_id": "src%2Fcomponents%2FGuards.tsx%23WhatsAppCode::src%2Fdomain%2Fengine.ts%23checkoutVisit::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+  "canonical_refs": {
+   "surface": "src/components/Guards.tsx#WhatsAppCode",
+   "boundary": "src/domain/engine.ts#checkoutVisit",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Business logic"
+  },
+  "surface": "Customer WhatsApp code for wallet spend and referral",
+  "boundary": "Wallet spend and referral verification",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Business logic",
+  "starting_paths": [
+   "src/components/Guards.tsx",
+   "src/domain/engine.ts",
+   "src/screens/Visit.tsx",
+   "src/screens/Counter.tsx"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+  "selected_companion_blocks": [],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "candidate",
+  "agent_id": "h3-money",
+  "reviewed_paths": [
+   "src/components/Guards.tsx",
+   "src/domain/engine.ts",
+   "src/screens/Counter.tsx",
+   "src/screens/Visit.tsx"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h3-money",
+    "reviewed_paths": [
+     "src/components/Guards.tsx",
+     "src/screens/Visit.tsx",
+     "src/screens/Counter.tsx",
+     "src/domain/engine.ts"
+    ],
+    "invariant": "A wallet spend above walletCodeAbove or a referral sign-up proceeds only after the customer, not the staff member, proves possession of the WhatsApp number",
+    "method": "source",
+    "result": "Code generated with Math.random on the staff phone (Guards.tsx:20,24), placed in plaintext in the wa.me prefill the same phone opens (Guards.tsx:35, engine.ts:798-799), compared in the component with no attempt limit (Guards.tsx:66); only a boolean reaches the engine (Visit.tsx:81, Counter.tsx:156, engine.ts:197,539). Code-to-amount binding is sound. Whether WhatsApp shows the prefill to the sender is a third-party fact.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h3-money",
+    "reviewed_paths": [
+     "src/domain/engine.ts"
+    ],
+    "invariant": "The wa.me link carries the code; the >Rs500 requirement cannot be avoided by splitting",
+    "method": "local",
+    "result": "CHECK-C: whatsappLink output decodes to text containing the code. CHECK-B: one Rs1000 spend without code throws; two Rs500 spends succeed with no code (per-visit threshold by design, hardening).",
+    "artifact": "agents/h3-money/artifacts/check1.txt"
+   },
+   {
+    "agent_id": "v2-whatsapp-code",
+    "reviewed_paths": [
+     "src/components/Guards.tsx",
+     "src/domain/engine.ts",
+     "src/screens/Visit.tsx",
+     "src/screens/Counter.tsx"
+    ],
+    "invariant": "Independent verification of salon-mobile:src/components/Guards.tsx:WhatsAppCode:code-visible-to-verifier",
+    "method": "local",
+    "result": "Verifier decision: needs_validation, blockers recorded",
+    "artifact": "agents/v2-whatsapp-code/artifacts/check1.txt"
+   }
+  ],
+  "result_fingerprints": [
+   "salon-mobile:src/components/Guards.tsx:WhatsAppCode:code-visible-to-verifier"
+  ],
+  "unresolved": [],
+  "x_hardening": [
+   "Wallet code threshold is per visit: Rs1000 can be spent as two Rs500 visits with no code; consider a per-customer daily aggregate.",
+   "WhatsAppCode has no attempt limit or expiry; add a retry cap and regenerate after a few wrong entries.",
+   "voidVisit trusts caller-supplied by:'owner'|'staff'; engine could require an owner proof."
+  ],
+  "x_decisions": {
+   "salon-mobile:src/components/Guards.tsx:WhatsAppCode:code-visible-to-verifier": "needs_validation"
+  }
+ },
+ {
+  "coverage_id": "src%2Fdomain%2Fauth.ts%23makeSecret::src%2Fdomain%2Fauth.ts%23checkSecret::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Cryptography%20and%20secrets",
+  "canonical_refs": {
+   "surface": "src/domain/auth.ts#makeSecret",
+   "boundary": "src/domain/auth.ts#checkSecret",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Cryptography and secrets"
+  },
+  "surface": "Password hashing and WhatsApp verification codes",
+  "boundary": "Secret strength and comparison",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Cryptography and secrets",
+  "starting_paths": [
+   "src/domain/auth.ts",
+   "src/platform/hasher.ts",
+   "src/components/Guards.tsx",
+   "src/domain/seed.ts"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Cryptography and secrets",
+  "selected_companion_blocks": [],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "covered",
+  "agent_id": "h1-auth",
+  "reviewed_paths": [
+   "src/components/Guards.tsx",
+   "src/domain/auth.ts",
+   "src/domain/seed.ts",
+   "src/platform/hasher.ts"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h1-auth",
+    "reviewed_paths": [
+     "src/domain/auth.ts",
+     "src/platform/hasher.ts"
+    ],
+    "invariant": "Password salts come from a CSPRNG and verifiers are salted hashes; comparison fails closed",
+    "method": "source",
+    "result": "16-byte salt from expo-crypto getRandomBytes (hasher.ts:6); verifier SHA-256(salt+password) (auth.ts:16); checkSecret false on mismatch, hashing errors fail closed. On-device === has no remote timing observer. Fast hash and 4-char minimum matter only to holders of the hashes: hardening.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h1-auth",
+    "reviewed_paths": [
+     "src/components/Guards.tsx",
+     "src/domain/seed.ts"
+    ],
+    "invariant": "Hardcoded secrets and code randomness do not grant authority beyond documented scope",
+    "method": "source",
+    "result": "Demo passwords (seed.ts:12-16) shown only while data.demo; clearAll leads to Setup with a new secret. WhatsAppCode uses Math.random but randomness is not the controlling weakness (code is sent from the salon phone staff hold); flow owned by the peer WhatsAppCode unit.",
+    "artifact": null
+   }
+  ],
+  "result_fingerprints": [],
+  "unresolved": [],
+  "x_hardening": [
+   "store.ts loadStore: separate session parse from data load; never persist while a load error is outstanding; on data read/parse failure show a blocking recovery screen (retry, restore backup), never known credentials.",
+   "First install boots into demo data with a known owner password shown on Login; force Setup of a new owner password before real customers, or block createCustomer while data.demo.",
+   "Login and OwnerApproval have no failed-attempt delay or lockout, and the minimum password length is 4 (auth.ts:11).",
+   "Password verifier is a single SHA-256 iteration (auth.ts:16) and backups include the hashes; use a slow KDF.",
+   "Sessions never expire and owner sessions are not bound to the current owner secret; add an owner idle timeout and invalidate on password change or restore.",
+   "Owner menu 'Delete all' and 'Load demo' (Live.tsx:587-590) destroy all data after a confirm with no owner password re-prompt."
+  ]
+ },
+ {
+  "coverage_id": "src%2Fdomain%2Fchecks.ts%23exportBackup::src%2Fplatform%2Fshare.ts%23shareText::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Feature%20abuse%20and%20data%20leakage",
+  "canonical_refs": {
+   "surface": "src/domain/checks.ts#exportBackup",
+   "boundary": "src/platform/share.ts#shareText",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Feature abuse and data leakage"
+  },
+  "surface": "Backup and data exports (share sheet, WhatsApp data export, xlsx)",
+  "boundary": "Disclosure of hashes and customer PII",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Feature abuse and data leakage",
+  "starting_paths": [
+   "src/domain/checks.ts",
+   "src/platform/share.ts",
+   "src/domain/xlsx.ts",
+   "src/domain/engine.ts",
+   "src/screens/Profile.tsx"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+  "selected_companion_blocks": [
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Export and backup scope expansion",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Core discipline",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Universal moves",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Validation rules",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Credential-store and local-secret boundary mismatch"
+  ],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "covered",
+  "agent_id": "h4-backup-files",
+  "reviewed_paths": [
+   "src/domain/checks.ts",
+   "src/domain/engine.ts",
+   "src/domain/xlsx.ts",
+   "src/platform/share.ts",
+   "src/screens/Profile.tsx",
+   "src/screens/owner/Live.tsx",
+   "src/screens/owner/Staff.tsx"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h4-backup-files",
+    "reviewed_paths": [
+     "src/domain/checks.ts",
+     "src/platform/share.ts",
+     "src/domain/engine.ts",
+     "src/screens/Profile.tsx",
+     "src/screens/owner/Staff.tsx",
+     "src/screens/owner/Live.tsx"
+    ],
+    "invariant": "Staff cannot trigger an export disclosing the owner hash or PII above their access",
+    "method": "source",
+    "result": "exportBackup's only caller is the owner menu (Guard.tsx:318-325); xlsx attendance export is owner-area only (Staff.tsx:735-737); no staff-reachable screen calls exportBackup/buildXlsx/shareTextFile. Owner self-access only.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h4-backup-files",
+    "reviewed_paths": [
+     "src/domain/xlsx.ts"
+    ],
+    "invariant": "Exported xlsx string cells cannot become formulas",
+    "method": "source",
+    "result": "All strings written as inlineStr with XML escaping (xlsx.ts:9,26); sheet names sanitised (xlsx.ts:36). No formula injection sink.",
+    "artifact": null
+   }
+  ],
+  "result_fingerprints": [],
+  "unresolved": [],
+  "x_hardening": [
+   "exportBackup writes the owner password hash into a plaintext JSON handed to the share sheet; omit or protect the credential.",
+   "Keep xlsx strings as inlineStr; never switch to formula cells for customer-controlled text.",
+   "readBackup/migrate should strip unknown fields rather than spread-cast the whole object."
+  ]
+ },
+ {
+  "coverage_id": "src%2Fdomain%2Fengine.ts%23appointmentArrived::src%2Fdomain%2Fengine.ts%23cancelAppointment::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+  "canonical_refs": {
+   "surface": "src/domain/engine.ts#appointmentArrived",
+   "boundary": "src/domain/engine.ts#cancelAppointment",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Business logic"
+  },
+  "surface": "Appointments: booking, arrival, no-show, cancel, reminded",
+  "boundary": "Booking state transitions and arrival-to-visit attribution",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Business logic",
+  "starting_paths": [
+   "src/domain/engine.ts",
+   "src/screens/Calendar.tsx",
+   "src/screens/TodayBookings.tsx",
+   "src/components/BookSheet.tsx",
+   "src/domain/calendar.ts",
+   "src/domain/earnings.ts",
+   "src/domain/checks.ts"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+  "selected_companion_blocks": [],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "deferred",
+  "agent_id": null,
+  "reviewed_paths": [],
+  "local_checks": [],
+  "result_fingerprints": [],
+  "unresolved": [
+   "quick_profile_final_critic"
+  ]
+ },
+ {
+  "coverage_id": "src%2Fdomain%2Fengine.ts%23checkoutVisit::src%2Fdomain%2Fengine.ts%23voidVisit::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+  "canonical_refs": {
+   "surface": "src/domain/engine.ts#checkoutVisit",
+   "boundary": "src/domain/engine.ts#voidVisit",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Business logic"
+  },
+  "surface": "Visit billing, extras, void/undo, top-up, close wallet",
+  "boundary": "Money and bill integrity rules",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Business logic",
+  "starting_paths": [
+   "src/domain/engine.ts",
+   "src/domain/rules.ts",
+   "src/domain/checks.ts",
+   "src/screens/Visit.tsx",
+   "src/config/salon.ts"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+  "selected_companion_blocks": [],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "candidate",
+  "agent_id": "h3-money",
+  "reviewed_paths": [
+   "src/config/salon.ts",
+   "src/domain/checks.ts",
+   "src/domain/engine.ts",
+   "src/domain/rules.ts",
+   "src/screens/Profile.tsx",
+   "src/screens/Visit.tsx"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h3-money",
+    "reviewed_paths": [
+     "src/domain/engine.ts",
+     "src/domain/rules.ts",
+     "src/config/salon.ts"
+    ],
+    "invariant": "Money arithmetic: integer/range checks, wallet spend bounded by balance and bill, single payment per visit, referral reward once with monthly cap, void refunds and reversals without negative balances",
+    "method": "source",
+    "result": "Holds (engine.ts:380-381, 483, 529-537, 606-633). No negative/overflow/double-spend path found.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h3-money",
+    "reviewed_paths": [
+     "src/domain/engine.ts",
+     "src/config/salon.ts",
+     "src/screens/Profile.tsx"
+    ],
+    "invariant": "closeWallet refunds only deposited money and writes off unused bonus/referral credit",
+    "method": "local",
+    "result": "CHECK-A: top-up 2000 (+200), spend 2200, top-up 2000 (+200): refundableBalance refundable 2200, promotional 0; closeWallet refunds 2200 cash though only 2000 was deposited in the open balance.",
+    "artifact": "agents/h3-money/artifacts/check1.txt"
+   },
+   {
+    "agent_id": "h3-money",
+    "reviewed_paths": [
+     "src/domain/engine.ts",
+     "src/screens/Visit.tsx",
+     "src/domain/checks.ts"
+    ],
+    "invariant": "Staff undo only within undoWindowMinutes after payment and every staff undo appears in the owner's daily checks",
+    "method": "local",
+    "result": "CHECK-D: honest clock +30 min refused; clock 1 day behind paidAt: canStaffUndo true, voidVisit succeeds with voidedAt a day before paidAt, so it is not listed in that day's owner checks (checks.ts:131).",
+    "artifact": "agents/h3-money/artifacts/check2.txt"
+   },
+   {
+    "agent_id": "v3-refundable",
+    "reviewed_paths": [
+     "src/domain/engine.ts",
+     "src/screens/Profile.tsx",
+     "src/config/salon.ts"
+    ],
+    "invariant": "Independent verification of salon-mobile:src/domain/engine.ts:refundableBalance:cumulative-promo-netting",
+    "method": "local",
+    "result": "Verifier decision: confirmed, severity low",
+    "artifact": "agents/v3-refundable/artifacts/check1.txt"
+   },
+   {
+    "agent_id": "v4-staff-undo-clock",
+    "reviewed_paths": [
+     "src/domain/engine.ts",
+     "src/domain/checks.ts",
+     "src/screens/Visit.tsx"
+    ],
+    "invariant": "Independent verification of salon-mobile:src/domain/engine.ts:canStaffUndo:no-lower-bound-clock-rollback",
+    "method": "local",
+    "result": "Verifier decision: confirmed, severity medium",
+    "artifact": "agents/v4-staff-undo-clock/artifacts/check1.txt"
+   }
+  ],
+  "result_fingerprints": [
+   "salon-mobile:src/domain/engine.ts:refundableBalance:cumulative-promo-netting",
+   "salon-mobile:src/domain/engine.ts:canStaffUndo:no-lower-bound-clock-rollback"
+  ],
+  "unresolved": [],
+  "x_hardening": [
+   "Wallet code threshold is per visit: Rs1000 can be spent as two Rs500 visits with no code; consider a per-customer daily aggregate.",
+   "WhatsAppCode has no attempt limit or expiry; add a retry cap and regenerate after a few wrong entries.",
+   "voidVisit trusts caller-supplied by:'owner'|'staff'; engine could require an owner proof."
+  ],
+  "x_decisions": {
+   "salon-mobile:src/domain/engine.ts:refundableBalance:cumulative-promo-netting": "confirmed",
+   "salon-mobile:src/domain/engine.ts:canStaffUndo:no-lower-bound-clock-rollback": "confirmed"
+  }
+ },
+ {
+  "coverage_id": "src%2Fdomain%2Fengine.ts%23customerDataExport::src%2Fdomain%2Fengine.ts%23erase::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Feature%20abuse%20and%20data%20leakage",
+  "canonical_refs": {
+   "surface": "src/domain/engine.ts#customerDataExport",
+   "boundary": "src/domain/engine.ts#erase",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Feature abuse and data leakage"
+  },
+  "surface": "Customer privacy lifecycle: data export, erase, retention purge, consent",
+  "boundary": "Right-of-access export and erasure completeness",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Feature abuse and data leakage",
+  "starting_paths": [
+   "src/domain/engine.ts",
+   "src/screens/Profile.tsx",
+   "src/screens/Reminders.tsx",
+   "src/domain/store.ts",
+   "src/domain/customers.ts",
+   "src/domain/live.ts"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+  "selected_companion_blocks": [
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Analytics, logs, traces, and diagnostics as alternate readers",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Retention and queued-work overrun",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules"
+  ],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "deferred",
+  "agent_id": null,
+  "reviewed_paths": [],
+  "local_checks": [],
+  "result_fingerprints": [],
+  "unresolved": [
+   "quick_profile_final_critic"
+  ]
+ },
+ {
+  "coverage_id": "src%2Fdomain%2Fengine.ts%23markAttendance::src%2Fdomain%2Fengine.ts%23latestRecordTime::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+  "canonical_refs": {
+   "surface": "src/domain/engine.ts#markAttendance",
+   "boundary": "src/domain/engine.ts#latestRecordTime",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Business logic"
+  },
+  "surface": "Staff attendance check-in and leave requests",
+  "boundary": "Staff self-service attendance/leave vs owner-trusted state and device clock",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Business logic",
+  "starting_paths": [
+   "src/domain/engine.ts",
+   "src/screens/Attendance.tsx",
+   "src/screens/Me.tsx",
+   "src/screens/LeaveRequests.tsx",
+   "src/platform/photos.ts",
+   "src/domain/rules.ts",
+   "src/domain/earnings.ts"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+  "selected_companion_blocks": [
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Core discipline",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Pending-action and user-presence confusion",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Universal moves",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Validation rules"
+  ],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "deferred",
+  "agent_id": null,
+  "reviewed_paths": [],
+  "local_checks": [],
+  "result_fingerprints": [],
+  "unresolved": [
+   "quick_profile_final_critic"
+  ]
+ },
+ {
+  "coverage_id": "src%2Fdomain%2Fengine.ts%23whatsappLink::src%2Fscreens%2FLegal.tsx%23openUrl::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Injection",
+  "canonical_refs": {
+   "surface": "src/domain/engine.ts#whatsappLink",
+   "boundary": "src/screens/Legal.tsx#openUrl",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Injection"
+  },
+  "surface": "Outbound wa.me, tel: and legal URLs",
+  "boundary": "URL construction and scheme policy",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Injection",
+  "starting_paths": [
+   "src/domain/engine.ts",
+   "src/screens/Profile.tsx",
+   "src/screens/Me.tsx",
+   "src/screens/Legal.tsx",
+   "src/screens/Reminders.tsx",
+   "src/screens/Calendar.tsx",
+   "src/screens/owner/Staff.tsx",
+   "src/domain/rules.ts"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Injection",
+  "selected_companion_blocks": [
+   "CLIENT-SIDE.md#Core discipline",
+   "CLIENT-SIDE.md#Universal moves",
+   "CLIENT-SIDE.md#Validation rules",
+   "CLIENT-SIDE.md#Client-side navigation confusion"
+  ],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "covered",
+  "agent_id": "h5-links-web",
+  "reviewed_paths": [
+   "src/components/BookSheet.tsx",
+   "src/components/Guards.tsx",
+   "src/config/salon-details.json",
+   "src/config/salon.ts",
+   "src/domain/engine.ts",
+   "src/domain/rules.ts",
+   "src/screens/Calendar.tsx",
+   "src/screens/LeaveRequests.tsx",
+   "src/screens/Legal.tsx",
+   "src/screens/Me.tsx",
+   "src/screens/Profile.tsx",
+   "src/screens/Reminders.tsx",
+   "src/screens/TodayBookings.tsx",
+   "src/screens/Visit.tsx",
+   "src/screens/owner/Staff.tsx"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h5-links-web",
+    "reviewed_paths": [
+     "src/domain/engine.ts",
+     "src/domain/rules.ts",
+     "src/screens/Profile.tsx",
+     "src/screens/Reminders.tsx",
+     "src/screens/Calendar.tsx",
+     "src/screens/owner/Staff.tsx",
+     "src/components/BookSheet.tsx",
+     "src/components/Guards.tsx",
+     "src/screens/Visit.tsx",
+     "src/screens/TodayBookings.tsx",
+     "src/screens/LeaveRequests.tsx"
+    ],
+    "invariant": "Phone numbers interpolated into wa.me and tel: URLs cannot alter the URL scheme, host or query of outbound links",
+    "method": "source",
+    "result": "whatsappLink (engine.ts:798) hard-codes https://wa.me/91 prefix and encodeURIComponent on message; tel: links hard-code scheme. All phone values reaching these sinks come from customer/staff/appointment records whose phone is set only via normalizePhone (rules.ts:11, ^[6-9]\\d{9}$, 10 digits) in createCustomer (engine.ts:181), addStaff (1263), updateStaff (1310) and appointment rows copied from customer.phone (1104). Scheme/host cannot be changed; the only non-normalized source is a restored backup or raw storage edit, both peer-owned and already full-data-control principals; at most they add wa.me query text on the fixed https wa.me origin. No candidate.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h5-links-web",
+    "reviewed_paths": [
+     "src/screens/Me.tsx",
+     "src/screens/Legal.tsx",
+     "src/config/salon.ts",
+     "src/config/salon-details.json"
+    ],
+    "invariant": "Legal/privacy URLs opened via Linking.openURL come from a trusted source with a scheme policy",
+    "method": "source",
+    "result": "config.legal.privacyUrl/termsUrl are imported at build time from salon-details.json (salon.ts:189) and never written by backup, runtime storage or the owner UI. Legal.tsx:107 gates with ^https?://; Me.tsx:733-734 opens without a scheme check but the value is developer-set at build time and not controllable by any runtime principal. Hardening only.",
+    "artifact": null
+   }
+  ],
+  "result_fingerprints": [],
+  "unresolved": [],
+  "x_hardening": [
+   "src/domain/engine.ts:798 whatsappLink and tel: links (Profile.tsx:104-105, Reminders.tsx:117, Calendar.tsx:990, owner/Staff.tsx:475) interpolate phone without encoding; apply normalizePhone (or encodeURIComponent) at the sink so phones from a restored backup or edited storage cannot add wa.me query parameters.",
+   "src/screens/Me.tsx:733-734 opens config.legal.privacyUrl/termsUrl without the ^https?:// check used in Legal.tsx:107; reuse the LinkRow guard so a placeholder or mistyped build-time value is not opened.",
+   "readBackup (src/domain/checks.ts:178) does not re-validate phone fields on restore; re-running normalizePhone over restored customers/staff/appointments would close the only non-normalized phone source (restore path is a peer unit)."
+  ]
+ },
+ {
+  "coverage_id": "src%2Fplatform%2Fphotos.ts%23deletePhotos::src%2Fplatform%2Fphotos.ts%23DIR::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Resource%20and%20file%20handling",
+  "canonical_refs": {
+   "surface": "src/platform/photos.ts#deletePhotos",
+   "boundary": "src/platform/photos.ts#DIR",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Resource and file handling"
+  },
+  "surface": "Attendance selfie storage and retention purge",
+  "boundary": "Photo path confinement and deletion lifecycle",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Resource and file handling",
+  "starting_paths": [
+   "src/platform/photos.ts",
+   "src/domain/engine.ts",
+   "src/domain/store.ts",
+   "src/screens/Attendance.tsx"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Resource and file handling",
+  "selected_companion_blocks": [
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Retention and queued-work overrun"
+  ],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "candidate",
+  "agent_id": "h4-backup-files",
+  "reviewed_paths": [
+   "src/domain/checks.ts",
+   "src/domain/engine.ts",
+   "src/domain/store.ts",
+   "src/platform/photos.ts",
+   "src/screens/Attendance.tsx"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h4-backup-files",
+    "reviewed_paths": [
+     "src/platform/photos.ts",
+     "src/domain/engine.ts",
+     "src/domain/store.ts",
+     "src/screens/Attendance.tsx"
+    ],
+    "invariant": "A stored photoKey must be confined to the attendance directory",
+    "method": "source",
+    "result": "App-generated keys are safe (Attendance.tsx:61), but deletePhotos interpolates key into FileSystem.deleteAsync(`${DIR}${key}.jpg`) (photos.ts:10,74) and photoKey is not validated on restore; purgeExpired on every start queues old photoKeys (engine.ts:941-943, store.ts:36-40). Native branch only.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h4-backup-files",
+    "reviewed_paths": [
+     "src/domain/checks.ts",
+     "src/domain/engine.ts"
+    ],
+    "invariant": "A traversal photoKey from a restored backup must not reach the deletion list",
+    "method": "local",
+    "result": "readBackup accepted photoKey '../../../../tmp/evil' with old checkInAt; purgeExpired returned it verbatim in photoKeys. Expo deleteAsync normalization not observable.",
+    "artifact": "agents/h4-backup-files/artifacts/check1.txt"
+   },
+   {
+    "agent_id": "v6-photokey",
+    "reviewed_paths": [
+     "src/platform/photos.ts",
+     "src/domain/checks.ts",
+     "src/domain/engine.ts",
+     "src/domain/store.ts"
+    ],
+    "invariant": "Independent verification of salon-mobile:deletePhotos:photoKey-path-join-unsanitized",
+    "method": "local",
+    "result": "Verifier decision: needs_validation, blockers recorded",
+    "artifact": "agents/v6-photokey/artifacts/check1.txt"
+   }
+  ],
+  "result_fingerprints": [
+   "salon-mobile:deletePhotos:photoKey-path-join-unsanitized"
+  ],
+  "unresolved": [
+   "Expo FileSystem.deleteAsync '..' normalization on native not source-visible; no emulator."
+  ],
+  "x_hardening": [
+   "exportBackup writes the owner password hash into a plaintext JSON handed to the share sheet; omit or protect the credential.",
+   "Keep xlsx strings as inlineStr; never switch to formula cells for customer-controlled text.",
+   "readBackup/migrate should strip unknown fields rather than spread-cast the whole object."
+  ],
+  "x_decisions": {
+   "salon-mobile:deletePhotos:photoKey-path-join-unsanitized": "needs_validation"
+  }
+ },
+ {
+  "coverage_id": "src%2Fplatform%2Fshare.ts%23pickTextFile::src%2Fdomain%2Fchecks.ts%23readBackup::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Feature%20abuse%20and%20data%20leakage",
+  "canonical_refs": {
+   "surface": "src/platform/share.ts#pickTextFile",
+   "boundary": "src/domain/checks.ts#readBackup",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Feature abuse and data leakage"
+  },
+  "surface": "Backup restore file",
+  "boundary": "Backup integrity and owner secret",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Feature abuse and data leakage",
+  "starting_paths": [
+   "src/platform/share.ts",
+   "src/domain/checks.ts",
+   "src/domain/store.ts",
+   "src/domain/engine.ts",
+   "src/screens/owner/Guard.tsx",
+   "src/screens/owner/Live.tsx"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Feature abuse and data leakage",
+  "selected_companion_blocks": [
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Core discipline",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Universal moves",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Validation rules",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Import and restore authority expansion",
+   "DATA-ISOLATION-AND-LIFECYCLE.md#Restore reintroduces invalid state",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Core discipline",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Universal moves",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Validation rules",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#File-open and intent authority confusion"
+  ],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "candidate",
+  "agent_id": "h4-backup-files",
+  "reviewed_paths": [
+   "src/domain/checks.ts",
+   "src/domain/engine.ts",
+   "src/domain/store.ts",
+   "src/platform/share.ts",
+   "src/screens/Login.tsx",
+   "src/screens/owner/Guard.tsx",
+   "src/screens/owner/Live.tsx"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h4-backup-files",
+    "reviewed_paths": [
+     "src/platform/share.ts",
+     "src/domain/checks.ts",
+     "src/domain/engine.ts",
+     "src/domain/store.ts",
+     "src/screens/owner/Guard.tsx",
+     "src/screens/owner/Live.tsx"
+    ],
+    "invariant": "A restored backup is untrusted; owner credential, balances, prices and check limits must be revalidated/re-authorized before replacing live state",
+    "method": "source",
+    "result": "pickTextFile accepts */*; readBackup checks only kind, arrays and truthy owner (checks.ts:186,188); migrate casts without field validation (engine.ts:78-100); restoreBackup assigns directly (store.ts:85-90); confirm dialog only, no owner password re-prompt (Guard.tsx:328-335, Live.tsx:596-607).",
+    "artifact": null
+   },
+   {
+    "agent_id": "h4-backup-files",
+    "reviewed_paths": [
+     "src/domain/checks.ts",
+     "src/domain/engine.ts"
+    ],
+    "invariant": "readBackup must reject backups violating engine write-path invariants",
+    "method": "local",
+    "result": "readBackup accepted owner.secret={salt:'attacker',hash:'attacker-known-hash'}, walletBalance=-999999, walletCodeAbove=99999999 and service price=-5 with every value intact.",
+    "artifact": "agents/h4-backup-files/artifacts/check1.txt"
+   },
+   {
+    "agent_id": "v5-restore",
+    "reviewed_paths": [
+     "src/domain/checks.ts",
+     "src/domain/engine.ts",
+     "src/domain/store.ts",
+     "src/platform/share.ts",
+     "src/screens/owner/Guard.tsx",
+     "src/screens/owner/Live.tsx",
+     "src/screens/Login.tsx"
+    ],
+    "invariant": "Independent verification of salon-mobile:readBackup:restore-no-content-validation",
+    "method": "local",
+    "result": "Verifier decision: confirmed, severity medium",
+    "artifact": "agents/v5-restore/artifacts/check1.txt"
+   }
+  ],
+  "result_fingerprints": [
+   "salon-mobile:readBackup:restore-no-content-validation"
+  ],
+  "unresolved": [],
+  "x_hardening": [
+   "exportBackup writes the owner password hash into a plaintext JSON handed to the share sheet; omit or protect the credential.",
+   "Keep xlsx strings as inlineStr; never switch to formula cells for customer-controlled text.",
+   "readBackup/migrate should strip unknown fields rather than spread-cast the whole object."
+  ],
+  "x_decisions": {
+   "salon-mobile:readBackup:restore-no-content-validation": "confirmed"
+  }
+ },
+ {
+  "coverage_id": "src%2Fscreens%2FLogin.tsx%23Login%20and%20Setup::src%2Fdomain%2Fauth.ts%23checkSecret::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Access%20control",
+  "canonical_refs": {
+   "surface": "src/screens/Login.tsx#Login and Setup",
+   "boundary": "src/domain/auth.ts#checkSecret",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Access control"
+  },
+  "surface": "Login, first-run Setup and saved session",
+  "boundary": "Owner/staff password authentication and session",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Access control",
+  "starting_paths": [
+   "src/screens/Login.tsx",
+   "src/domain/auth.ts",
+   "src/domain/store.ts",
+   "src/domain/seed.ts",
+   "App.tsx",
+   "src/screens/owner/Live.tsx"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Access control",
+  "selected_companion_blocks": [
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Core discipline",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Universal moves",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Validation rules",
+   "DESKTOP-MOBILE-AND-LOCAL-IPC.md#Account switch, logout, and device restore leakage"
+  ],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "candidate",
+  "agent_id": "h1-auth",
+  "reviewed_paths": [
+   "App.tsx",
+   "src/domain/auth.ts",
+   "src/domain/engine.ts",
+   "src/domain/seed.ts",
+   "src/domain/store.ts",
+   "src/screens/Login.tsx",
+   "src/screens/owner/Live.tsx"
+  ],
+  "local_checks": [
+   {
+    "agent_id": "h1-auth",
+    "reviewed_paths": [
+     "src/screens/Login.tsx",
+     "src/domain/auth.ts",
+     "App.tsx",
+     "src/domain/engine.ts",
+     "src/screens/owner/Live.tsx"
+    ],
+    "invariant": "Owner session only after checkSecret against data.owner.secret; staff session only for an active staff record found by normalized phone plus checkSecret; root routing re-validates staff session against an active record",
+    "method": "source",
+    "result": "Holds. Login.tsx:178 owner secret check; Login.tsx:182-183 findStaffByPhone + active + checkSecret; App.tsx:113-117 sends missing/inactive staff session to login; Setup reachable only while data.owner is null (first launch, owner's own clearAll, v1 migration). Owner sessions never expire, matching the one-device design.",
+    "artifact": null
+   },
+   {
+    "agent_id": "h1-auth",
+    "reviewed_paths": [
+     "src/domain/store.ts",
+     "src/domain/seed.ts",
+     "src/screens/Login.tsx"
+    ],
+    "invariant": "A failure to read or parse saved data or session must not replace the salon's authentication state with a known credential or overwrite the stored ledger",
+    "method": "local",
+    "result": "Fails. With a dummy real store (owner password RealOwnerPw!, one dummy customer) and a simulated AsyncStorage getItem rejection on salon:data:v1, loadStore's catch loads buildDemoData (owner1234 accepted, real password rejected, demo flag true so Login shows the credential) and the first commit overwrites the real stored data. With an unparseable salon:session value, the already scheduled persist() timer writes demo data over the real store with no user action.",
+    "artifact": "agents/h1-auth/artifacts/check1.txt"
+   },
+   {
+    "agent_id": "v1-demo-fallback",
+    "reviewed_paths": [
+     "src/domain/store.ts",
+     "src/domain/seed.ts",
+     "src/screens/Login.tsx",
+     "App.tsx"
+    ],
+    "invariant": "Independent verification of salon-mobile:store.ts:loadStore:catch-demo-fallback-overwrites-real-data",
+    "method": "local",
+    "result": "Verifier decision: confirmed, severity medium",
+    "artifact": "agents/v1-demo-fallback/artifacts/check1.txt"
+   }
+  ],
+  "result_fingerprints": [
+   "salon-mobile:store.ts:loadStore:catch-demo-fallback-overwrites-real-data"
+  ],
+  "unresolved": [],
+  "x_duplicate_fingerprints": [
+   "store.ts:loadStore:catch-fallback-demo-data-known-owner-password"
+  ],
+  "x_hardening": [
+   "store.ts loadStore: separate session parse from data load; never persist while a load error is outstanding; on data read/parse failure show a blocking recovery screen (retry, restore backup), never known credentials.",
+   "First install boots into demo data with a known owner password shown on Login; force Setup of a new owner password before real customers, or block createCustomer while data.demo.",
+   "Login and OwnerApproval have no failed-attempt delay or lockout, and the minimum password length is 4 (auth.ts:11).",
+   "Password verifier is a single SHA-256 iteration (auth.ts:16) and backups include the hashes; use a slow KDF.",
+   "Sessions never expire and owner sessions are not bound to the current owner secret; add an owner idle timeout and invalidate on password change or restore.",
+   "Owner menu 'Delete all' and 'Load demo' (Live.tsx:587-590) destroy all data after a confirm with no owner password re-prompt."
+  ],
+  "x_decisions": {
+   "salon-mobile:store.ts:loadStore:catch-demo-fallback-overwrites-real-data": "confirmed"
+  }
+ },
+ {
+  "coverage_id": "src%2Fscreens%2Fowner%2FGuard.tsx%23Count%20the%20cash::src%2Fdomain%2Fchecks.ts%23expectedCash::profile%2Fquick%2Fall-in-scope-subsystems::ATTACK-CLASSES.md%23Business%20logic",
+  "canonical_refs": {
+   "surface": "src/screens/owner/Guard.tsx#Count the cash",
+   "boundary": "src/domain/checks.ts#expectedCash",
+   "subsystem": "profile/quick/all-in-scope-subsystems",
+   "attack_class": "ATTACK-CLASSES.md#Business logic"
+  },
+  "surface": "Owner end-of-day cash count",
+  "boundary": "Expected-cash computation vs all cash-moving operations",
+  "subsystem": "All in-scope subsystems (quick)",
+  "attack_class": "Business logic",
+  "starting_paths": [
+   "src/domain/checks.ts",
+   "src/screens/owner/Guard.tsx",
+   "src/domain/engine.ts",
+   "src/screens/Profile.tsx",
+   "src/components/TopUpSheet.tsx"
+  ],
+  "ordinary_attack_class_block": "ATTACK-CLASSES.md#Business logic",
+  "selected_companion_blocks": [],
+  "excluded_blocks": [
+   {
+    "block": "WEB-PROTOCOL-AND-AUTH.md#Core discipline",
+    "reason": "no HTTP server, cookies, OAuth or tokens in source"
+   },
+   {
+    "block": "PROTOCOLS-RPC-AND-MESSAGING.md#Core discipline",
+    "reason": "no RPC, queue or broker"
+   },
+   {
+    "block": "CLOUD-AND-DEPLOYMENT.md#Core discipline",
+    "reason": "no IaC or cloud config in repo"
+   },
+   {
+    "block": "SUPPLY-CHAIN-AND-RELEASE.md#Core discipline",
+    "reason": "no CI or release pipeline in repo"
+   },
+   {
+    "block": "MEMORY-SAFETY-AND-BINARY.md#Core discipline",
+    "reason": "no native code in repo"
+   },
+   {
+    "block": "AI-AND-LLM.md#Core discipline",
+    "reason": "no model in the app"
+   },
+   {
+    "block": "RESOURCE-EXHAUSTION-AND-AVAILABILITY.md#Core discipline",
+    "reason": "single-user device, no shared service"
+   }
+  ],
+  "prior_status": "none",
+  "attempts": [],
+  "wave": 1,
+  "status": "deferred",
+  "agent_id": null,
+  "reviewed_paths": [],
+  "local_checks": [],
+  "result_fingerprints": [],
+  "unresolved": [
+   "quick_profile_final_critic"
+  ]
+ }
+]

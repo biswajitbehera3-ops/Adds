@@ -1,0 +1,20 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-1/agents/v5-restore/scratch[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcrafted backup accepted
+[22m[39mrestored owner.secret: {"salt":"dummysalt","hash":"7773b99b71cbf96ad33f13d0fe3fcddcf6eb5749ebbbde83d317771cd9840229"}
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcrafted backup accepted
+[22m[39mattacker password 'dummypw' accepted by checkSecret: [33mtrue[39m
+walletBalance: [33m-999999[39m
+checkSettings(d).walletCodeAbove: [33m99999999[39m
+service price: [33m-5[39m
+saveCheckSettings same value rejected with: Wallet code limit must be ₹0 to ₹1,00,000
+
+ [32m✓[39m x.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m   Start at [22m 14:25:30
+[2m   Duration [22m 344ms[2m (transform 154ms, setup 0ms, collect 173ms, tests 3ms, environment 0ms, prepare 45ms)[22m
+
