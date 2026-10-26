@@ -41,6 +41,10 @@ Which one gets used depends entirely on the ad angle decided in `ad-strategist` 
 6. **Generate.** If Higgsfield is connected via MCP, Claude can take the finished prompt, stage the reference images (`media_upload`/`media_confirm`), and call `generate_image`/`generate_video` (or the batch variants) directly instead of you pasting into an external tool. Otherwise, copy the delivered prompt into your generator of choice.
 7. **Pitch it** → the outreach playbook inside `ad-strategist` (email template, 4-stage DM flow, LinkedIn approach, follow-up cadence).
 
+## Salon app: security check after every build (locked, user 26 Oct)
+
+After every build of the salon app (`salon-mobile/`), and before it is shown to an owner or shipped as an APK, run the `security-audit` skill in full audit mode on the app. Confirmed findings go on the build list and are fixed in that build (never outside an approved build), then the check is re-run on the changed code, and record the result in `salon-mobile/SECURITY-CHECKS.md` (date, build, findings, fixes). Audit output goes outside the repo; only the summary and report are committed.
+
 ## Generation & cost policy (locked)
 
 Claude runs the generations on Higgsfield — it does not stop at delivering prompt text. Three rules govern every run:
