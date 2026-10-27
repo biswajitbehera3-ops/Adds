@@ -1,0 +1,40 @@
+import { describe, expect, it } from "vitest";
+import * as E from "/home/user/Adds/salon-mobile/src/domain/engine";
+import { emptyData, type Data } from "/home/user/Adds/salon-mobile/src/domain/types";
+const ist = (s: string) => new Date(`${s}+05:30`);
+const SECRET = { salt: "s", hash: "h" };
+function mk() {
+  let data: Data = emptyData();
+  const run = <T,>(op: { data: Data; result: T }) => ((data = op.data), op.result);
+  const t0 = ist("2026-10-01T09:00:00");
+  const a = run(E.addStaff(data, { name: "V A", phone: "9811100011", chair: "Chair 1", secret: SECRET }, t0));
+  const b = run(E.addStaff(data, { name: "V B", phone: "9811100012", chair: "Chair 2", secret: SECRET }, t0));
+  const c = run(E.createCustomer(data, { phone: "9876500011", name: "V Cust", consent: true, marketing: false }, t0));
+  return { get d() { return data; }, run, a, b, c };
+}
+describe("verifier", () => {
+  it("only-appointment newest record: set-back accepted", () => {
+    const s = mk();
+    const ap = s.run(E.bookAppointment(s.d, { customerId: s.c.id, serviceIds: ["haircut"], staffId: s.b.id, day: "2026-10-28", time: "17:00", source: "PHONE", by: null }, ist("2026-10-28T10:20:00")));
+    console.log("V appt.createdAt", ap.createdAt, "latestRecordTime", new Date(E.latestRecordTime(s.d)).toISOString());
+    const r = s.run(E.markAttendance(s.d, { staffId: s.a.id, photoKey: null }, ist("2026-10-28T09:58:00")));
+    console.log("V accepted checkInAt", r.checkInAt, "late", E.staffLate(s.a, r.checkInAt), "late@10:40", E.staffLate(s.a, ist("2026-10-28T10:40:00")));
+    expect(E.staffLate(s.a, r.checkInAt)).toBe(false);
+  });
+  it("leave approval newest record: set-back accepted", () => {
+    const s = mk();
+    const lv = s.run(E.requestLeave(s.d, { staffId: s.b.id, from: "2026-10-30", to: "2026-10-30", type: "CASUAL" }, ist("2026-10-28T10:22:00")));
+    const ap = s.run(E.approveLeave(s.d, { id: lv.id, bookings: "REBOOK" }, ist("2026-10-28T10:25:00")));
+    console.log("V leave createdAt", lv.createdAt, "decidedAt", ap.leave.decidedAt, "latestRecordTime", new Date(E.latestRecordTime(s.d)).toISOString());
+    const r = s.run(E.markAttendance(s.d, { staffId: s.a.id, photoKey: null }, ist("2026-10-28T09:58:00")));
+    console.log("V accepted (leave case) checkInAt", r.checkInAt);
+  });
+  it("control: visit at 10:20 refuses", () => {
+    const s = mk();
+    s.run(E.startVisit(s.d, { customerId: s.c.id, serviceIds: ["haircut"], addOnIds: [], staffId: s.b.id }, ist("2026-10-28T10:20:00")));
+    let err = "";
+    try { E.markAttendance(s.d, { staffId: s.a.id, photoKey: null }, ist("2026-10-28T09:58:00")); } catch (e) { err = (e as Error).message; }
+    console.log("V control error:", err);
+    expect(err).toContain("clock is behind");
+  });
+});

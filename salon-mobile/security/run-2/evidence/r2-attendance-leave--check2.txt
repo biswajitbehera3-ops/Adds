@@ -1,0 +1,62 @@
+import { describe, expect, it } from "vitest";
+import * as E from "/home/user/Adds/salon-mobile/src/domain/engine";
+import { emptyData, type Data } from "/home/user/Adds/salon-mobile/src/domain/types";
+
+const SECRET = { salt: "x", hash: "y" };
+const ist = (s: string) => new Date(`${s}+05:30`); // salon-local time
+function setup() {
+  let data: Data = emptyData();
+  const run = <T,>(op: { data: Data; result: T }) => ((data = op.data), op.result);
+  const past = ist("2026-10-01T09:00:00");
+  const a = run(E.addStaff(data, { name: "Dummy A", phone: "9811100001", chair: "Chair 1", secret: SECRET }, past));
+  const b = run(E.addStaff(data, { name: "Dummy B", phone: "9811100002", chair: "Chair 2", secret: SECRET }, past));
+  return { get data() { return data; }, run, a, b };
+}
+
+describe("check 1: future-dated check-in (phone clock moved forward) is accepted", () => {
+  it("A pre-marks tomorrow on time the evening before; tomorrow A is never asked to check in and is shown Present", () => {
+    const s = setup();
+    s.run(E.markAttendance(s.data, { staffId: s.a.id, photoKey: "a-27" }, ist("2026-10-27T09:58:00")));
+    s.run(E.markAttendance(s.data, { staffId: s.b.id, photoKey: "b-27" }, ist("2026-10-27T10:05:00")));
+    // 27 Oct 7 PM: A sets the shared phone's clock to 28 Oct 09:00, signs in, takes the selfie, confirms.
+    const pre = s.run(E.markAttendance(s.data, { staffId: s.a.id, photoKey: "a-28" }, ist("2026-10-28T09:00:00")));
+    console.log("CHECK1 pre-marked record:", JSON.stringify(pre));
+    // 28 Oct: B checks in at the real time; the guard does not object.
+    s.run(E.markAttendance(s.data, { staffId: s.b.id, photoKey: "b-28" }, ist("2026-10-28T09:58:00")));
+    // 28 Oct 11:40 real time: A walks in (or never comes). Root route (App.tsx:119) skips check-in because todaysAttendance is set.
+    const t = E.todaysAttendance(s.data, s.a.id, ist("2026-10-28T11:40:00"));
+    console.log("CHECK1 todaysAttendance(A, 28 Oct 11:40):", JSON.stringify(t), "late:", E.staffLate(s.a, t!.checkInAt));
+    const sheets = E.attendanceSheets(s.data, "2026-10", ist("2026-10-28T20:00:00"));
+    const day = sheets.find((x) => x.name === "2026-10-28")!;
+    console.log("CHECK1 owner export 2026-10-28:", JSON.stringify(day.rows));
+    expect(t?.checkInAt).toBe(ist("2026-10-28T09:00:00").toISOString());
+    expect(E.staffLate(s.a, t!.checkInAt)).toBe(false);
+    expect(day.rows[1][3]).toBe("Present");
+    expect(() => E.markAttendance(s.data, { staffId: s.a.id, photoKey: null }, ist("2026-10-28T11:40:00"))).toThrow("already marked");
+  });
+});
+
+describe("check 2: latestRecordTime ignores bookings and leave decisions saved on the phone", () => {
+  it("a check-in with the clock set back before an owner booking and a leave approval is accepted; the same with a visit is refused", () => {
+    const s = setup();
+    const c = s.run(E.createCustomer(s.data, { phone: "9876500001", name: "Dummy Customer", consent: true, marketing: false }, ist("2026-10-01T09:00:00")));
+    // 28 Oct 10:20 real time: owner books on the shared phone; 10:25 owner approves B's leave.
+    const appt = s.run(E.bookAppointment(s.data, { customerId: c.id, serviceIds: ["haircut"], staffId: s.b.id, day: "2026-10-28", time: "17:00", source: "PHONE", by: null }, ist("2026-10-28T10:20:00")));
+    const lv = s.run(E.requestLeave(s.data, { staffId: s.b.id, from: "2026-10-30", to: "2026-10-30", type: "CASUAL" }, ist("2026-10-28T10:22:00")));
+    s.run(E.approveLeave(s.data, { id: lv.id, bookings: "REBOOK" }, ist("2026-10-28T10:25:00")));
+    console.log("CHECK2 latestRecordTime:", new Date(E.latestRecordTime(s.data)).toISOString(), "appointment.createdAt:", appt.createdAt);
+    // A arrives 10:40 (late), sets clock to 09:58.
+    const before = s.data;
+    const rec = s.run(E.markAttendance(before, { staffId: s.a.id, photoKey: "a-28" }, ist("2026-10-28T09:58:00")));
+    console.log("CHECK2 accepted:", JSON.stringify(rec), "late:", E.staffLate(s.a, rec.checkInAt));
+    expect(E.staffLate(s.a, rec.checkInAt)).toBe(false);
+    // Control: the same set-back clock is refused when the 10:20 record is a visit instead.
+    const s2 = setup();
+    const c2 = s2.run(E.createCustomer(s2.data, { phone: "9876500001", name: "Dummy Customer", consent: true, marketing: false }, ist("2026-10-01T09:00:00")));
+    s2.run(E.startVisit(s2.data, { customerId: c2.id, serviceIds: ["haircut"], addOnIds: [], staffId: s2.b.id }, ist("2026-10-28T10:20:00")));
+    let err = "";
+    try { E.markAttendance(s2.data, { staffId: s2.a.id, photoKey: null }, ist("2026-10-28T09:58:00")); } catch (e) { err = (e as Error).message; }
+    console.log("CHECK2 control (visit at 10:20) error:", err);
+    expect(err).toContain("clock is behind");
+  });
+});
