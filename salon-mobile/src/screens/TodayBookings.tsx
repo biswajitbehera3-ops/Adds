@@ -110,7 +110,7 @@ export function TodayBookings() {
                     {a.status === "BOOKED" ? (
                       <View style={{ flexDirection: "row", gap: 8 }}>
                         <GoldButton label="Arrived · start visit" style={{ flex: 1, paddingVertical: 11 }} onPress={() => arrived(a.id, a.staffId)} />
-                        {state === "late" ? <GhostButton label="No-show" tone="#F08C6A" style={{ flex: 1 }} onPress={() => run(() => (commit((d) => E.markNoShow(d, a.id)), toast("Marked as no-show"), setOpen(null)))} /> : null}
+                        {state === "late" ? <GhostButton label="No-show" tone="#F08C6A" style={{ flex: 1 }} onPress={() => run(() => (commit((d) => E.markNoShow(d, a.id, me?.id ?? "owner")), toast("Marked as no-show"), setOpen(null)))} /> : null}
                       </View>
                     ) : null}
                   </Animated.View>

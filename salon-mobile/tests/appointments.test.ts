@@ -1,10 +1,13 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as E from "../src/domain/engine";
 import { emptyData, type Data } from "../src/domain/types";
 
 const SECRET = { salt: "x", hash: "y" };
 // Wednesday 14 Oct 2026, 10:30 IST.
 const NOW = new Date("2026-10-14T05:00:00.000Z");
+// Engine defaults use the phone's clock; pin it to the test day so records are saved in time order.
+beforeEach(() => vi.useFakeTimers({ now: NOW, toFake: ["Date"] }));
+afterEach(() => vi.useRealTimers());
 
 function setup() {
   let data: Data = emptyData();
@@ -74,8 +77,8 @@ describe("appointments", () => {
     expect(r.visit).toMatchObject({ status: "OPEN", serviceIds: ["haircut"], staffId: s.imran.id });
     expect(r.appointment).toMatchObject({ status: "ARRIVED", visitId: r.visit.id });
     const b = s.book(s.priya.id, "2026-10-18", "12:00");
-    expect(() => s.run(E.markNoShow(s.data, b.id, NOW))).toThrow("hasn't come");
-    s.run(E.cancelAppointment(s.data, b.id));
+    expect(() => s.run(E.markNoShow(s.data, b.id, "owner", at))).toThrow("hasn't come");
+    s.run(E.cancelAppointment(s.data, b.id, "owner", at));
     expect(E.appointmentMonth(s.data, "2026-10")).toEqual({ "2026-10-17": 1 });
     s.run(E.deleteCustomer(s.data, { customerId: s.priya.id, by: "owner" }));
     expect(s.data.appointments.some((x) => x.customerId === s.priya.id)).toBe(false);
@@ -86,7 +89,7 @@ describe("appointments", () => {
     s.book(s.aarav.id, "2026-10-17", "10:00", s.imran.id, ["hair-colour"]); // 90 min
     s.book(s.priya.id, "2026-10-17", "12:00", s.sunita.id);
     const cancelled = s.book(s.priya.id, "2026-10-18", "12:00");
-    s.run(E.cancelAppointment(s.data, cancelled.id));
+    s.run(E.cancelAppointment(s.data, cancelled.id, "owner", NOW));
     const mine = E.appointmentLoad(s.data, "2026-10", s.imran.id);
     expect(mine).toEqual({ "2026-10-17": { count: 1, minutes: 90, load: 90 / 600 } });
     const salon = E.appointmentLoad(s.data, "2026-10", null);

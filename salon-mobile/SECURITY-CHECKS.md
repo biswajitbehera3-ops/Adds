@@ -4,8 +4,8 @@ The `security-audit` skill runs after every build of the app, before it is shown
 
 | Run | Date | Build checked | Profile | Confirmed | Needs a phone to confirm | Not yet covered | Fixed |
 |---|---|---|---|---|---|---|---|
-| 1 | 26 Oct 2026 | commit 05910c6 (the current app, before the build-later list) | quick (partial pass) | 4 (3 medium, 1 low) | 2 | 5 areas | none yet: on the build list (BUILD-SPEC 11.0 k) |
-| 2 | 27 Oct 2026 | same app source as run 1 (scoped to the 5 areas run 1 left) | quick, scoped (partial pass) | 6 (2 medium, 4 low) | 0 new | 1 area | none yet: on the build list (BUILD-SPEC 11.0 k) |
+| 1 | 26 Oct 2026 | commit 05910c6 (the current app, before the build-later list) | quick (partial pass) | 4 (3 medium, 1 low) | 2 | 5 areas | all 4 fixed 27 Oct (`SECURITY-LESSONS.md`); the 2 phone-only leads partly fixed |
+| 2 | 27 Oct 2026 | same app source as run 1 (scoped to the 5 areas run 1 left) | quick, scoped (partial pass) | 6 (2 medium, 4 low) | 0 new | 1 area | all 6 fixed 27 Oct, and the deferred area (restore brings back deleted customers) fixed too (`SECURITY-LESSONS.md`) |
 
 ## Run 1 in plain words
 

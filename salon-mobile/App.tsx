@@ -9,7 +9,8 @@ import { Intro } from "./src/components/Intro";
 import { ToastHost } from "./src/components/Toast";
 import * as E from "./src/domain/engine";
 import { istDate } from "./src/domain/rules";
-import { loadStore, useData, useSession, useStoreReady } from "./src/domain/store";
+import { loadStore, useData, useLoadFailed, useSession, useStoreReady } from "./src/domain/store";
+import { LoadFailed } from "./src/screens/LoadFailed";
 import { Navigator, useNav, type Route } from "./src/nav/Navigator";
 import { StaffTabs } from "./src/nav/StaffTabs";
 import { MyCustomers } from "./src/screens/Home";
@@ -151,6 +152,7 @@ export default function App() {
     Urbanist_800ExtraBold,
   });
   const ready = useStoreReady();
+  const loadFailed = useLoadFailed();
   // Never hold the app hostage to fonts: if they fail or are slow, draw with system fonts.
   const [fontWaitOver, setFontWaitOver] = useState(false);
   useEffect(() => {
@@ -178,9 +180,13 @@ export default function App() {
             }}
           >
             {fontsSettled && ready ? (
-              <ToastHost>
-                <Root />
-              </ToastHost>
+              loadFailed ? (
+                <LoadFailed />
+              ) : (
+                <ToastHost>
+                  <Root />
+                </ToastHost>
+              )
             ) : null}
             {!introDone ? <Intro onDone={() => setIntroDone(true)} /> : null}
           </View>

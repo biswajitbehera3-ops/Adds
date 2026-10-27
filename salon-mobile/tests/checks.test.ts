@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import config from "../src/config/salon";
 import * as K from "../src/domain/checks";
 import * as E from "../src/domain/engine";
@@ -7,6 +7,9 @@ import { emptyData, type Data } from "../src/domain/types";
 const SECRET = { salt: "x", hash: "y" };
 // Wednesday 14 Oct 2026, 11:30 IST.
 const NOW = new Date("2026-10-14T06:00:00.000Z");
+// Engine defaults use the phone's clock; pin it to the test day so records are saved in time order.
+beforeEach(() => vi.useFakeTimers({ now: NOW, toFake: ["Date"] }));
+afterEach(() => vi.useRealTimers());
 const at = (min: number) => new Date(NOW.getTime() + min * 60000);
 
 function setup() {

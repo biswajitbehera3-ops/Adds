@@ -9,6 +9,14 @@ import { Platform } from "react-native";
 
 const DIR = (FileSystem.documentDirectory ?? "") + "attendance/";
 
+/**
+ * A photo key is a plain name, never a path: no "/", no "..", no "#" or "?" (SECURITY-LESSONS 8).
+ * Keys come from the app, but a restored backup could carry any text, so every file call checks.
+ */
+export function isSafePhotoKey(key: unknown): key is string {
+  return typeof key === "string" && /^[A-Za-z0-9_-][A-Za-z0-9._-]{0,99}$/.test(key) && !key.includes("..");
+}
+
 /** Opens the front camera. Returns the photo's temporary uri, or null if cancelled. */
 export async function takeSelfie(): Promise<string | null> {
   if (Platform.OS !== "web") {
@@ -44,6 +52,7 @@ export async function pickPhoto(from: "gallery" | "camera"): Promise<string | nu
 
 /** Saves the photo under a key and returns the key. */
 export async function savePhoto(key: string, uri: string): Promise<string> {
+  if (!isSafePhotoKey(key)) return "";
   if (Platform.OS === "web") {
     try {
       await AsyncStorage.setItem(`salon:photo:${key}`, uri);
@@ -60,7 +69,7 @@ export async function savePhoto(key: string, uri: string): Promise<string> {
 
 /** A displayable uri for a stored photo, or null. */
 export async function photoUri(key: string | null): Promise<string | null> {
-  if (!key) return null;
+  if (!isSafePhotoKey(key)) return null;
   if (Platform.OS === "web") return (await AsyncStorage.getItem(`salon:photo:${key}`).catch(() => null)) ?? null;
   const uri = `${DIR}${key}.jpg`;
   const info = await FileSystem.getInfoAsync(uri).catch(() => null);
@@ -70,6 +79,7 @@ export async function photoUri(key: string | null): Promise<string | null> {
 /** Deletes stored selfies (retention). Missing files are ignored. */
 export async function deletePhotos(keys: string[]): Promise<void> {
   for (const key of keys) {
+    if (!isSafePhotoKey(key)) continue;
     if (Platform.OS === "web") await AsyncStorage.removeItem(`salon:photo:${key}`).catch(() => {});
     else await FileSystem.deleteAsync(`${DIR}${key}.jpg`, { idempotent: true }).catch(() => {});
   }

@@ -292,7 +292,8 @@ export function Receipt({ visitId }: { visitId: string }) {
     );
   }
   const voided = visit.status === "VOID";
-  const undoLeft = visit.paidAt ? Math.max(0, config.undoWindowMinutes * 60 - Math.floor((now.getTime() - new Date(visit.paidAt).getTime()) / 1000)) : 0;
+  // Same rule as the engine: a clock set back before the payment shows no Undo (SECURITY-LESSONS R1-3).
+  const undoLeft = visit.paidAt && E.canStaffUndo(visit, now) ? Math.max(0, config.undoWindowMinutes * 60 - Math.floor((now.getTime() - new Date(visit.paidAt).getTime()) / 1000)) : 0;
   const items = E.billLines(visit).map((l, i) => ({ id: `${i}`, ...l }));
   const referrerPaid = referral.find((t) => t.customerId !== customer.id)?.amount ?? 0;
   const sendThanks = async () => {

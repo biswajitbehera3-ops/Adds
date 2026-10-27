@@ -160,6 +160,9 @@ export type Appointment = {
   visitId: string | null;
   createdBy: string | null;
   createdAt: string;
+  /** Who closed the booking as No-show or Cancelled ("owner" or the stylist's id), and when (SECURITY-LESSONS 4). */
+  closedBy?: string | null;
+  closedAt?: string | null;
 };
 
 /**
@@ -216,6 +219,16 @@ export type Data = {
   checks?: CheckSettings;
   /** End-of-day cash counts (MISUSE-CHECKS 3). */
   dayClosings?: DayClosing[];
+  /** What the phone's clock has done (SECURITY-LESSONS 1, 2): the latest time seen, times it went back, and a clean-up hold. */
+  clock?: ClockWatch;
+};
+
+export type ClockWatch = {
+  lastSeen: string;
+  /** The clock was set back: from the latest time seen to an earlier one. */
+  backJumps: { from: string; to: string }[];
+  /** The clock jumped far ahead of everything saved; automatic clean-up waits for the owner. */
+  hold: { from: string; to: string } | null;
 };
 
 export type CatalogService = { id: string; name: string; price: number; cycleDays: number; minutes: number; active?: boolean };

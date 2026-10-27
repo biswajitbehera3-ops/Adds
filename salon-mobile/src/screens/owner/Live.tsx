@@ -8,7 +8,7 @@
  */
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Image, type ImageSourcePropType, Pressable, ScrollView, View } from "react-native";
+import { Image, type ImageSourcePropType, Pressable, ScrollView, TextInput, View } from "react-native";
 import Animated, { Easing, FadeIn, FadeInDown, useAnimatedStyle, useReducedMotion, useSharedValue, withDelay, withRepeat, withSequence, withTiming } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Circle } from "react-native-svg";
@@ -19,12 +19,14 @@ import { useToast } from "../../components/Toast";
 import config from "../../config/salon";
 import { shortDay } from "../../domain/calendar";
 import { type Chair, liveFloor } from "../../domain/live";
-import { clearAll, resetToDemo, setSession, useData } from "../../domain/store";
+import { checkSecret } from "../../domain/auth";
+import { clearAll, getData, resetToDemo, setSession, useData } from "../../domain/store";
 import { inr } from "../../format";
 import { useNav } from "../../nav/Navigator";
 import { OwnerDock } from "../../nav/OwnerTabs";
 import { DOCK_SPACE } from "../../nav/StaffTabs";
-import { glass } from "../../theme/tokens";
+import { hasher } from "../../platform/hasher";
+import { glass, urbanist } from "../../theme/tokens";
 import { istTime } from "../Attendance";
 import { backUp, CashCountSheet, readBackupFile, TodayChecks } from "./Guard";
 
@@ -546,8 +548,13 @@ function OwnerMenu({ open, onClose, demo }: { open: boolean; onClose: () => void
   const toast = useToast();
   const [confirm, setConfirm] = useState<"clear" | "demo" | "out" | "restore" | null>(null);
   const [pending, setPending] = useState<Awaited<ReturnType<typeof readBackupFile>>>(null);
+  // Replacing or wiping the salon's data asks for the owner password again (SECURITY-LESSONS R1-2).
+  const [pw, setPw] = useState("");
+  const [pwError, setPwError] = useState("");
   const close = () => {
     setConfirm(null);
+    setPw("");
+    setPwError("");
     onClose();
   };
   const row = (label: string, onPress: () => void, tone: string = glass.cream) => (
@@ -572,18 +579,41 @@ function OwnerMenu({ open, onClose, demo }: { open: boolean; onClose: () => void
               {confirm === "out"
                 ? "Sign out of the owner area on this phone?"
                 : confirm === "restore"
-                  ? `Replace everything on this phone with the backup (${pending?.customers ?? 0} customers, ${pending?.visits ?? 0} visits)? Everyone signs in again.`
+                  ? `Replace everything on this phone with the backup (${pending?.customers ?? 0} customers, ${pending?.visits ?? 0} visits)? Your owner password stays the same, customers deleted on this phone stay deleted, and everyone signs in again.`
                 : confirm === "clear"
                   ? "Delete every customer, visit, wallet, staff account and attendance record on this phone, and the owner password? The app goes back to first-time setup. This can't be undone."
                   : "Replace everything with demo data? Real data will be lost."}
             </GT>
+            {confirm !== "out" ? (
+              <View style={{ gap: 6 }}>
+                <TextInput
+                  value={pw}
+                  onChangeText={(t) => (setPw(t), setPwError(""))}
+                  secureTextEntry
+                  placeholder="Owner password"
+                  placeholderTextColor={glass.faint}
+                  accessibilityLabel="Owner password to confirm"
+                  style={{ minHeight: 48, borderRadius: 14, paddingHorizontal: 14, fontFamily: urbanist.medium, fontSize: 16, color: glass.cream, backgroundColor: "rgba(26,18,16,0.5)", borderWidth: 1, borderColor: pwError ? glass.late : glass.line }}
+                />
+                {pwError ? (
+                  <GT size={12} c={glass.late}>
+                    {pwError}
+                  </GT>
+                ) : null}
+              </View>
+            ) : null}
             <View style={{ flexDirection: "row", gap: 8 }}>
-              <GhostButton label="Keep" style={{ flex: 1 }} onPress={() => setConfirm(null)} />
+              <GhostButton label="Keep" style={{ flex: 1 }} onPress={() => (setConfirm(null), setPw(""), setPwError(""))} />
               <GhostButton
                 label={confirm === "out" ? "Sign out" : confirm === "restore" ? "Restore" : confirm === "clear" ? "Delete all" : "Load demo"}
                 tone={glass.late}
                 style={{ flex: 1 }}
-                onPress={() => {
+                onPress={async () => {
+                  if (confirm !== "out") {
+                    const owner = getData().owner;
+                    const ok = !!owner && (await checkSecret(owner.secret, pw, hasher));
+                    if (!ok) return setPwError("Wrong owner password");
+                  }
                   if (confirm === "out") setSession(null);
                   else if (confirm === "restore") pending?.apply();
                   else if (confirm === "clear") clearAll();

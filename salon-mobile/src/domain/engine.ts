@@ -57,7 +57,10 @@ export function checkSettings(data: Data): CheckSettings {
   return { walletCodeAbove: data.checks?.walletCodeAbove ?? config.checks.walletCodeAbove, referralMonthlyLimit: data.checks?.referralMonthlyLimit ?? config.checks.referralMonthlyLimit };
 }
 
-/** The newest time already saved on this phone; a phone clock earlier than this has been set back. */
+/**
+ * The newest time already saved on this phone; a phone clock earlier than this has been set back.
+ * Every saved timestamp counts (SECURITY-LESSONS 5), but never a booking's own start time, which is in the future.
+ */
 export function latestRecordTime(data: Data): number {
   let t = 0;
   const see = (iso: string | null | undefined) => {
@@ -67,8 +70,44 @@ export function latestRecordTime(data: Data): number {
   for (const v of data.visits) (see(v.createdAt), see(v.paidAt), see(v.voidedAt), see(v.leftAt));
   for (const a of data.attendance) see(a.checkInAt);
   for (const w of data.walletTxs) see(w.createdAt);
-  for (const c of data.customers) see(c.createdAt);
+  for (const c of data.customers) (see(c.createdAt), see(c.deletedAt));
+  for (const a of data.appointments) (see(a.createdAt), see(a.reminderSentAt), see(a.closedAt));
+  for (const l of data.leaves) (see(l.createdAt), see(l.decidedAt), see(l.seenAt));
+  for (const r of data.reminders) see(r.createdAt);
+  for (const d of data.dayClosings ?? []) see(d.at);
+  for (const p of data.privacyLog) see(p.at);
+  for (const s of data.staff) see(s.createdAt);
   return t;
+}
+
+/** Refuses a change made while the phone's clock is behind what is already saved (MISUSE-CHECKS 9). */
+export function assertClockNotBehind(data: Data, now: Date) {
+  if (now.getTime() < latestRecordTime(data) - 5 * 60000) {
+    throw new UserError("This phone's clock is behind. Set the date and time to automatic, then try again.");
+  }
+}
+
+const CLOCK_JUMP_DAYS = 30;
+
+/**
+ * Watches the phone's clock across app starts and saves (SECURITY-LESSONS 1, 2). A clock set back is
+ * logged for the owner's checks; a clock far ahead of everything saved puts automatic clean-up on hold
+ * until the owner confirms the date.
+ */
+export function observeClock(data: Data, now = new Date()): Data {
+  const seen = data.clock?.lastSeen ? Date.parse(data.clock.lastSeen) : 0;
+  const t = now.getTime();
+  const backJumps = [...(data.clock?.backJumps ?? [])];
+  if (seen && t < seen - 5 * 60000) backJumps.push({ from: new Date(seen).toISOString(), to: now.toISOString() });
+  let hold = data.clock?.hold ?? null;
+  const reference = Math.max(seen, latestRecordTime(data));
+  if (!hold && reference && t > reference + CLOCK_JUMP_DAYS * DAY_MS) hold = { from: new Date(reference).toISOString(), to: now.toISOString() };
+  return { ...data, clock: { lastSeen: new Date(Math.max(seen, t)).toISOString(), backJumps: backJumps.slice(-20), hold } };
+}
+
+/** The owner confirms the phone's date is right; automatic clean-up runs again from the next app start. */
+export function confirmClock(data: Data, now = new Date()): Op<null> {
+  return { data: { ...data, clock: { lastSeen: now.toISOString(), backJumps: data.clock?.backJumps ?? [], hold: null } }, result: null };
 }
 const at = (v: Visit) => v.paidAt ?? v.createdAt;
 
@@ -134,6 +173,9 @@ function logPrivacy(data: Data, customerId: string, type: PrivacyEvent["type"], 
 }
 
 const live = (c: Customer) => !c.deletedAt;
+
+/** The referrer's reward note. It never holds the friend's name, so deleting the friend erases them everywhere (SECURITY-LESSONS 6). */
+export const REFERRAL_NOTE = "Referred a friend";
 
 // ── Customers ────────────────────────────────────────────────────────────────
 
@@ -380,6 +422,7 @@ export function topUp(
   if (amount > 100000) throw new UserError("Top-up is above the ₹1,00,000 limit");
   const customer = data.customers.find((c) => c.id === input.customerId);
   if (!customer) throw new UserError("Customer not found");
+  assertClockNotBehind(data, now);
   const bonus = topUpBonus(amount);
   const when = now.toISOString();
   const txs: WalletTx[] = [
@@ -526,6 +569,8 @@ export function checkoutVisit(
 ): Op<{ visit: Visit; balance: number; referral: { referrerName: string; referrerReward: number; newCustomerReward: number } | null }> {
   const visit = data.visits.find((v) => v.id === input.visitId);
   if (!visit || visit.status !== "OPEN") throw new UserError("This visit is no longer open");
+  // A cash bill backdated into a day already counted would escape the cash check (SECURITY-LESSONS 3).
+  assertClockNotBehind(data, now);
   const waiting = (visit.extras ?? []).find((x) => !x.approvedAt);
   if (waiting) throw new UserError(`Ask the owner to approve "${waiting.name}" first`);
   const { total } = visitTotal(visit.serviceIds, visit.addOnIds, visit.extras);
@@ -566,7 +611,7 @@ export function checkoutVisit(
     const earned = data.walletTxs.filter((t) => t.customerId === referrer.id && t.type === "REFERRAL_REWARD" && t.note?.startsWith("Referred") && istDate(new Date(t.createdAt)).startsWith(month)).length;
     const reversed = data.walletTxs.filter((t) => t.customerId === referrer.id && t.type === "REFERRAL_REVERSAL" && istDate(new Date(t.createdAt)).startsWith(month)).length;
     const referrerReward = earned - reversed < checkSettings(data).referralMonthlyLimit ? config.referral.referrerReward : 0;
-    if (referrerReward) txs.push({ id: newId(), customerId: referrer.id, type: "REFERRAL_REWARD", amount: referrerReward, visitId: visit.id, note: `Referred ${customer.name}`, createdAt: when });
+    if (referrerReward) txs.push({ id: newId(), customerId: referrer.id, type: "REFERRAL_REWARD", amount: referrerReward, visitId: visit.id, note: REFERRAL_NOTE, createdAt: when });
     txs.push({ id: newId(), customerId: customer.id, type: "REFERRAL_REWARD", amount: newCustomerReward, visitId: visit.id, note: "Welcome reward for joining by referral", createdAt: when });
     if (referrerReward) delta.set(referrer.id, referrerReward);
     delta.set(customer.id, (delta.get(customer.id) ?? 0) + newCustomerReward);
@@ -590,7 +635,10 @@ function applyDelta(customers: Customer[], delta: Map<string, number>, extra: (c
 
 /** Staff may undo a visit themselves only for a short window after payment. */
 export function canStaffUndo(visit: Visit, now = new Date()): boolean {
-  return visit.status === "PAID" && !!visit.paidAt && now.getTime() - new Date(visit.paidAt).getTime() <= config.undoWindowMinutes * 60 * 1000;
+  if (visit.status !== "PAID" || !visit.paidAt) return false;
+  // A clock set back before the payment must not reopen the window (SECURITY-LESSONS R1-3).
+  const elapsed = now.getTime() - new Date(visit.paidAt).getTime();
+  return elapsed >= 0 && elapsed <= config.undoWindowMinutes * 60 * 1000;
 }
 
 /**
@@ -606,6 +654,7 @@ export function voidVisit(
   if (!visit || visit.status !== "PAID") throw new UserError("Only a paid visit can be voided");
   // Staff say why and are named on the record (MISUSE-CHECKS 5).
   if (input.by === "staff" && !input.reason.trim()) throw new UserError("Say why you're undoing this bill");
+  assertClockNotBehind(data, now);
   if (input.by === "staff" && !canStaffUndo(visit, now)) {
     throw new UserError(`Undo is only possible for ${config.undoWindowMinutes} minutes. Ask the owner to void it.`);
   }
@@ -830,14 +879,24 @@ export function setMarketingConsent(
 export function refundableBalance(data: Data, customerId: string) {
   const customer = data.customers.find((c) => c.id === customerId);
   if (!customer) throw new UserError("Customer not found");
+  // Replayed in the order the entries were saved, so an old spend can't use up a newer bonus (SECURITY-LESSONS R1-4).
   let promo = 0;
-  let spent = 0;
+  const promoSpent = new Map<string, number>();
   for (const t of data.walletTxs) {
     if (t.customerId !== customerId) continue;
-    if (t.type === "BONUS" || t.type === "REFERRAL_REWARD" || t.type === "REFERRAL_REVERSAL") promo += t.amount;
-    if (t.type === "SPEND" || t.type === "REFUND") spent -= t.amount;
+    if (t.type === "BONUS" || t.type === "REFERRAL_REWARD") promo += t.amount;
+    else if (t.type === "REFERRAL_REVERSAL") promo = Math.max(0, promo + t.amount);
+    else if (t.type === "SPEND") {
+      const used = Math.min(promo, -t.amount);
+      promo -= used;
+      if (t.visitId) promoSpent.set(t.visitId, (promoSpent.get(t.visitId) ?? 0) + used);
+    } else if (t.type === "REFUND" && t.visitId) {
+      // A voided visit gives back the promotional part of its spend as promotional credit.
+      promo += Math.min(t.amount, promoSpent.get(t.visitId) ?? 0);
+      promoSpent.delete(t.visitId);
+    } else if (t.type === "CASHOUT" || t.type === "WRITE_OFF") promo = 0;
   }
-  const promoLeft = Math.min(customer.walletBalance, Math.max(0, promo - Math.max(0, spent)));
+  const promoLeft = Math.min(customer.walletBalance, promo);
   return { balance: customer.walletBalance, refundable: customer.walletBalance - promoLeft, promotional: promoLeft };
 }
 
@@ -849,6 +908,7 @@ export function closeWallet(
 ): Op<{ refunded: number; writtenOff: number }> {
   const customer = data.customers.find((c) => c.id === input.customerId && live(c));
   if (!customer) throw new UserError("Customer not found");
+  assertClockNotBehind(data, now);
   const { refundable, promotional } = refundableBalance(data, customer.id);
   const when = now.toISOString();
   const txs: WalletTx[] = [];
@@ -898,8 +958,11 @@ export function customerDataExport(data: Data, customerId: string, now = new Dat
 }
 
 function erase(data: Data, customerId: string, now: Date): Data {
+  // Older referral rewards named the friend in the referrer's history; those notes go too (SECURITY-LESSONS 6).
+  const theirVisits = new Set(data.visits.filter((v) => v.customerId === customerId).map((v) => v.id));
   return {
     ...data,
+    walletTxs: data.walletTxs.map((t) => (t.type === "REFERRAL_REWARD" && t.customerId !== customerId && t.visitId && theirVisits.has(t.visitId) ? { ...t, note: REFERRAL_NOTE } : t)),
     customers: data.customers.map((c) =>
       c.id === customerId
         ? { ...c, name: "Deleted customer", phone: "", referralCode: "", consentAt: null, marketingConsentAt: null, deletedAt: now.toISOString() }
@@ -909,6 +972,11 @@ function erase(data: Data, customerId: string, now: Date): Data {
     reminders: data.reminders.filter((r) => r.customerId !== customerId),
     appointments: data.appointments.filter((a) => a.customerId !== customerId),
   };
+}
+
+/** Erases one customer again, e.g. after restoring an older backup that still holds them (SECURITY-LESSONS 7). */
+export function eraseCustomer(data: Data, customerId: string, now = new Date()): Data {
+  return erase(data, customerId, now);
 }
 
 /**
@@ -932,7 +1000,11 @@ export function deleteCustomer(data: Data, input: { customerId: string; by: stri
  * attendance selfies and old message copies. Returns the selfie keys whose files
  * the platform layer should delete. Safe to run on every app start.
  */
-export function purgeExpired(data: Data, now = new Date()): Op<{ photoKeys: string[]; customersErased: number }> {
+export function purgeExpired(data: Data, now = new Date()): Op<{ photoKeys: string[]; customersErased: number; held?: boolean }> {
+  // A phone clock far ahead of everything saved must not delete anything (SECURITY-LESSONS 1).
+  const watched = observeClock(data, now);
+  if (watched.clock?.hold) return { data: watched, result: { photoKeys: [], customersErased: 0, held: true } };
+  data = watched;
   const r = config.retention;
   const cutoff = (days: number) => new Date(now.getTime() - days * DAY_MS).toISOString();
   const photoCut = cutoff(r.attendancePhotoDays);
@@ -1070,17 +1142,24 @@ function setAppt(data: Data, id: string, patch: Partial<Appointment>): Op<Appoin
   return { data: { ...data, appointments: data.appointments.map((a) => (a.id === id ? next : a)) }, result: next };
 }
 
-export function cancelAppointment(data: Data, id: string): Op<Appointment> {
+/**
+ * Cancels a booking. Who did it and when are saved; staff can cancel only before the booked time,
+ * after that it is a No-show, which the owner's checks list (SECURITY-LESSONS 4).
+ */
+export function cancelAppointment(data: Data, id: string, by: string | null, now = new Date()): Op<Appointment> {
   const appt = data.appointments.find((a) => a.id === id);
   if (appt?.status !== "BOOKED") throw new UserError("Only a booked appointment can be cancelled");
-  return setAppt(data, id, { status: "CANCELLED" });
+  if (by !== "owner" && Date.parse(appt.at) <= now.getTime()) throw new UserError("The booked time has passed. Mark it No-show instead");
+  assertClockNotBehind(data, now);
+  return setAppt(data, id, { status: "CANCELLED", closedBy: by, closedAt: now.toISOString() });
 }
 
-export function markNoShow(data: Data, id: string, now = new Date()): Op<Appointment> {
+export function markNoShow(data: Data, id: string, by: string | null, now = new Date()): Op<Appointment> {
   const appt = data.appointments.find((a) => a.id === id);
   if (appt?.status !== "BOOKED") throw new UserError("Only a booked appointment can be marked");
   if (Date.parse(appt.at) > now.getTime()) throw new UserError("The appointment time hasn't come yet");
-  return setAppt(data, id, { status: "NO_SHOW" });
+  assertClockNotBehind(data, now);
+  return setAppt(data, id, { status: "NO_SHOW", closedBy: by, closedAt: now.toISOString() });
 }
 
 /** The customer has arrived: opens their visit with the booked services. */
@@ -1333,9 +1412,7 @@ export function markAttendance(data: Data, input: { staffId: string; photoKey: s
   if (!staff) throw new UserError("Staff member not found");
   if (todaysAttendance(data, staff.id, now)) throw new UserError("Attendance is already marked for today");
   // A phone clock set back to look on time (MISUSE-CHECKS 9): refuse a time earlier than what's already saved.
-  if (now.getTime() < latestRecordTime(data) - 5 * 60000) {
-    throw new UserError("This phone's clock is behind. Set the date and time to automatic, then check in again.");
-  }
+  assertClockNotBehind(data, now);
   const rec: Attendance = { id: newId(), staffId: staff.id, date: istDate(now), checkInAt: now.toISOString(), photoKey: input.photoKey };
   return { data: { ...data, attendance: [...data.attendance, rec] }, result: rec };
 }
@@ -1541,7 +1618,7 @@ export function approveLeave(data: Data, input: { id: string; bookings: "REASSIG
         message: `Hi ${first}, ${stylist} is on leave on ${dayLabel(b.day)}, so ${to.name.split(" ")[0]} will do your ${service} at ${clock12(b.time)} at ${config.displayName}. Reply C to cancel.`,
       });
     } else {
-      next = { ...next, appointments: next.appointments.map((a) => (a.id === b.id ? { ...a, status: "CANCELLED" as const } : a)) };
+      next = { ...next, appointments: next.appointments.map((a) => (a.id === b.id ? { ...a, status: "CANCELLED" as const, closedBy: "owner", closedAt: now.toISOString() } : a)) };
       cancelled.push({
         appointmentId: b.id, customerName: b.customerName, phone: b.phone, day: b.day, time: b.time, toStylist: null,
         message: `Hi ${first}, sorry: ${stylist} is away on ${dayLabel(b.day)}, so we've had to move your ${service} at ${clock12(b.time)}. Reply with a day and time that suits you and we'll book it.`,

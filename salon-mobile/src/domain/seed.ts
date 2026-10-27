@@ -142,7 +142,7 @@ export function buildDemoData(now = Date.now()): Data {
     const referrer = customers.find((x) => x.id === c.referredById)!;
     if (!first) continue;
     walletTxs.push(
-      { id: id("t"), customerId: referrer.id, type: "REFERRAL_REWARD", amount: config.referral.referrerReward, visitId: first.id, note: `Referred ${c.name}`, createdAt: first.paidAt! },
+      { id: id("t"), customerId: referrer.id, type: "REFERRAL_REWARD", amount: config.referral.referrerReward, visitId: first.id, note: "Referred a friend", createdAt: first.paidAt! },
       { id: id("t"), customerId: c.id, type: "REFERRAL_REWARD", amount: config.referral.newCustomerReward, visitId: first.id, note: "Welcome reward for joining by referral", createdAt: first.paidAt! },
     );
     referrer.walletBalance += config.referral.referrerReward;
@@ -186,7 +186,7 @@ export function buildDemoData(now = Date.now()): Data {
           reminderChannel: null,
           visitId: null,
           createdBy: s.id,
-          createdAt: new Date(at - 3 * DAY).toISOString(),
+          createdAt: new Date(Math.min(at - 3 * DAY, now - 60 * 60000)).toISOString(),
         });
         t += minutes + slotMinutes * Math.floor(aRand() * (weekend ? 2 : 4));
       }

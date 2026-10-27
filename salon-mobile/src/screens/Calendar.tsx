@@ -1001,13 +1001,16 @@ function BookingCard({ id, meId, onClose }: { id: string | null; meId: string | 
         </View>
         {a.status === "BOOKED" ? (
           <View style={{ flexDirection: "row", gap: 8 }}>
-            {started ? <GhostButton label="No-show" style={{ flex: 1 }} tone={glass.late} onPress={() => run(() => (commit((d) => E.markNoShow(d, a.id)), toast("Marked as no-show"), onClose()))} /> : null}
-            <GhostButton
-              label={confirmCancel ? "Tap again to cancel" : "Cancel booking"}
-              style={{ flex: 1 }}
-              tone={glass.late}
-              onPress={() => (confirmCancel ? run(() => (commit((d) => E.cancelAppointment(d, a.id)), toast("Booking cancelled"), onClose())) : setConfirmCancel(true))}
-            />
+            {started ? <GhostButton label="No-show" style={{ flex: 1 }} tone={glass.late} onPress={() => run(() => (commit((d) => E.markNoShow(d, a.id, meId ?? "owner")), toast("Marked as no-show"), onClose()))} /> : null}
+            {/* After the booked time staff mark No-show instead; only the owner can still cancel (SECURITY-LESSONS 4). */}
+            {!started || !meId ? (
+              <GhostButton
+                label={confirmCancel ? "Tap again to cancel" : "Cancel booking"}
+                style={{ flex: 1 }}
+                tone={glass.late}
+                onPress={() => (confirmCancel ? run(() => (commit((d) => E.cancelAppointment(d, a.id, meId ?? "owner")), toast("Booking cancelled"), onClose())) : setConfirmCancel(true))}
+              />
+            ) : null}
           </View>
         ) : null}
         {a.status === "BOOKED" && !isToday ? (

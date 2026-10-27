@@ -13,12 +13,14 @@ const hasher: Hasher = {
   randomHex: (n) => randomBytes(n).toString("hex"),
 };
 const SECRET = { salt: "x", hash: "y" };
+/** Staff and customers that the tests give a past history are saved first, before that history (the app refuses records saved back in time). */
+const START = new Date("2020-01-01T00:00:00Z");
 
 function setup() {
   let data: Data = emptyData();
   const run = <T,>(op: { data: Data; result: T }) => ((data = op.data), op.result);
-  const stylist = run(E.addStaff(data, { name: "Imran", phone: "9811100001", chair: "Chair 1", secret: SECRET }));
-  const add = (phone: string, name: string, referredBy?: string) => run(E.createCustomer(data, { phone, name, consent: true, marketing: true, referredBy, referralVerified: !!referredBy }));
+  const stylist = run(E.addStaff(data, { name: "Imran", phone: "9811100001", chair: "Chair 1", secret: SECRET }, START));
+  const add = (phone: string, name: string, referredBy?: string, when?: Date) => run(E.createCustomer(data, { phone, name, consent: true, marketing: true, referredBy, referralVerified: !!referredBy }, when));
   /** Walk in, do the service, pay. */
   const visit = (customerId: string, extra: { serviceIds?: string[]; walletAmount?: number; paymentMethod?: "CASH" | "UPI" | "CARD" } = {}, now?: Date) => {
     const v = run(E.startVisit(data, { customerId, serviceIds: extra.serviceIds ?? ["haircut"], addOnIds: [], staffId: stylist.id }, now));
@@ -159,7 +161,7 @@ describe("undo and void", () => {
 describe("reminders", () => {
   it("is computed per service, including every service in a multi-service visit", () => {
     const s = setup();
-    const c = s.add("9876543210", "Asha Rao");
+    const c = s.add("9876543210", "Asha Rao", undefined, START);
     const past = new Date(Date.now() - 20 * DAY);
     s.visit(c.id, { serviceIds: ["beard", "hair-colour"] }, past); // beard 14d → overdue; colour 45d → not yet
     const list = E.overdueReminders(s.data);
@@ -171,8 +173,8 @@ describe("reminders", () => {
 
   it("runs the ladder: message 1, message 2 after 30 days, a call by the last stylist, then stops", () => {
     const s = setup(); // Imran served the customer
-    const sunita = s.run(E.addStaff(s.data, { name: "Sunita Devi", phone: "9811100002", chair: "Chair 2", secret: SECRET }));
-    const c = s.add("9876543210", "Asha Rao");
+    const sunita = s.run(E.addStaff(s.data, { name: "Sunita Devi", phone: "9811100002", chair: "Chair 2", secret: SECRET }, START));
+    const c = s.add("9876543210", "Asha Rao", undefined, START);
     const t0 = new Date(Date.now() - 80 * DAY);
     s.visit(c.id, { serviceIds: ["beard"] }, t0); // beard is due 14 days later
     const at = (days: number) => new Date(t0.getTime() + days * DAY);
@@ -296,16 +298,17 @@ describe("migration and demo data", () => {
 describe("customers tab", () => {
   it("lists everyone with spending, filters by my customers, top spenders and not seen, and sorts", () => {
     const s = setup(); // Imran
-    const sunita = s.run(E.addStaff(s.data, { name: "Sunita Devi", phone: "9811100002", chair: "Chair 2", secret: SECRET }));
+    const sunita = s.run(E.addStaff(s.data, { name: "Sunita Devi", phone: "9811100002", chair: "Chair 2", secret: SECRET }, START));
     const now = new Date();
     const old = new Date(now.getTime() - 120 * DAY);
-    const asha = s.add("9876543210", "Asha Rao");
-    const bina = s.add("9876543211", "Bina Shah");
-    const chetan = s.add("9876543212", "Chetan Iyer");
+    const asha = s.add("9876543210", "Asha Rao", undefined, START);
+    const bina = s.add("9876543211", "Bina Shah", undefined, START);
     // Asha: 5 visits with Imran (a regular), Bina: one big colour with Sunita 40 days ago, Chetan: nothing yet.
-    for (let i = 0; i < 5; i++) s.visit(asha.id, {}, new Date(now.getTime() - (10 + i) * DAY));
+    // Saved oldest first, the way they happened.
     const v = s.run(E.startVisit(s.data, { customerId: bina.id, serviceIds: ["hair-colour"], addOnIds: [], staffId: sunita.id }, new Date(now.getTime() - 40 * DAY)));
     s.run(E.checkoutVisit(s.data, { visitId: v.id, walletAmount: 0, paymentMethod: "UPI" }, new Date(now.getTime() - 40 * DAY)));
+    for (let i = 4; i >= 0; i--) s.visit(asha.id, {}, new Date(now.getTime() - (10 + i) * DAY));
+    const chetan = s.add("9876543212", "Chetan Iyer");
     // Make them older customers so "new" doesn't win over the other tags.
     const aged = { ...s.data, customers: s.data.customers.map((c) => ({ ...c, createdAt: c.id === chetan.id ? c.createdAt : old.toISOString() })) };
 

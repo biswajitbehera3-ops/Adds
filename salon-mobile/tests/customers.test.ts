@@ -1,9 +1,12 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { billOf, topSpenders } from "../src/domain/customers";
 import * as E from "../src/domain/engine";
 import { buildDemoData } from "../src/domain/seed";
 
 const NOW = new Date("2026-10-20T08:00:00Z");
+// Engine defaults use the phone's clock; pin it to the test day so records are saved in time order.
+beforeEach(() => vi.useFakeTimers({ now: NOW, toFake: ["Date"] }));
+afterEach(() => vi.useRealTimers());
 
 describe("Top spenders", () => {
   const data = buildDemoData(NOW.getTime());

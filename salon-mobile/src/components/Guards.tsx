@@ -18,15 +18,20 @@ import { GhostButton, GlassSheet, GoldButton, GT } from "./glass";
 import { useToast } from "./Toast";
 
 const newCode = () => String(Math.floor(1000 + Math.random() * 9000));
+/** Wrong entries allowed before the code is thrown away and a new one must be sent (SECURITY-LESSONS 9). */
+const MAX_TRIES = 3;
 
 export function WhatsAppCode({ phone, purpose, onVerified, verified }: { phone: string; purpose: string; onVerified: (ok: boolean) => void; verified: boolean }) {
   const toast = useToast();
-  const code = useMemo(newCode, [phone, purpose]);
+  const [round, setRound] = useState(0);
+  const code = useMemo(newCode, [phone, purpose, round]);
   const [sent, setSent] = useState(false);
   const [typed, setTyped] = useState("");
+  const [wrongTries, setWrongTries] = useState(0);
   useEffect(() => {
     setSent(false);
     setTyped("");
+    setWrongTries(0);
     onVerified(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [code]);
@@ -63,7 +68,11 @@ export function WhatsAppCode({ phone, purpose, onVerified, verified }: { phone: 
           onChangeText={(t) => {
             const d = t.replace(/\D/g, "").slice(0, 4);
             setTyped(d);
-            if (d === code) onVerified(true);
+            if (d === code) return onVerified(true);
+            if (d.length === 4 && wrongTries + 1 >= MAX_TRIES) {
+              toast("Too many wrong codes. Send a new code to the customer.", "error");
+              setRound((r) => r + 1);
+            } else if (d.length === 4) setWrongTries((n) => n + 1);
           }}
           keyboardType="number-pad"
           maxLength={4}

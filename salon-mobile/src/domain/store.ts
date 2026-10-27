@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSyncExternalStore } from "react";
 import { deletePhotos } from "../platform/photos";
 import { applyCatalog } from "./checks";
-import { migrate, purgeExpired } from "./engine";
+import { migrate, observeClock, purgeExpired } from "./engine";
 import { buildDemoData } from "./seed";
 import { emptyData, type Data, type Session } from "./types";
 
@@ -18,12 +18,18 @@ let ready = false;
 let session: Session | null = null;
 const listeners = new Set<() => void>();
 let saveTimer: ReturnType<typeof setTimeout> | null = null;
+/**
+ * True when the saved data couldn't be read. Nothing is saved while it is set, so the stored data is
+ * never overwritten, and the app shows a recovery screen instead of demo data (SECURITY-LESSONS R1-1).
+ */
+let loadFailed = false;
 
 function emit() {
   for (const l of listeners) l();
 }
 
 function persist() {
+  if (loadFailed) return;
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
     AsyncStorage.setItem(KEY, JSON.stringify(state)).catch((e) => console.warn("Could not save data", e));
@@ -33,29 +39,55 @@ function persist() {
 export async function loadStore(): Promise<void> {
   try {
     const raw = await AsyncStorage.getItem(KEY);
-    state = raw ? migrate(JSON.parse(raw)) : buildDemoData();
-    // Retention: erase what has been kept long enough, every time the app starts.
-    const purged = purgeExpired(state);
-    state = purged.data;
+    // Demo data only on a true first launch, when nothing is saved yet. A read or parse error never
+    // falls back to it: that would put the demo owner password in charge and overwrite the real data.
+    let next = raw ? migrate(JSON.parse(raw)) : buildDemoData();
+    // Retention: erase what has been kept long enough, every time the app starts (held if the clock jumped).
+    const purged = purgeExpired(next);
+    next = purged.data;
+    applyCatalog(next);
+    state = next;
+    loadFailed = false;
     deletePhotos(purged.result.photoKeys).catch(() => {});
-    applyCatalog(state);
     persist();
-    const rawSession = await AsyncStorage.getItem(SESSION_KEY).catch(() => null);
-    session = rawSession ? (JSON.parse(rawSession) as Session) : null;
   } catch (e) {
-    console.warn("Could not load saved data; starting with demo data", e);
-    state = buildDemoData();
-    applyCatalog(state);
+    console.warn("Could not load saved data; showing the recovery screen", e);
+    if (saveTimer) clearTimeout(saveTimer);
+    loadFailed = true;
+  }
+  // A damaged session only signs the user out; it never touches the salon's data.
+  try {
+    const rawSession = loadFailed ? null : await AsyncStorage.getItem(SESSION_KEY);
+    session = rawSession ? (JSON.parse(rawSession) as Session) : null;
+  } catch {
+    session = null;
+    AsyncStorage.removeItem(SESSION_KEY).catch(() => {});
   }
   ready = true;
   emit();
 }
 
+/** The saved data couldn't be read: the app shows the recovery screen. */
+export function useLoadFailed(): boolean {
+  return useSyncExternalStore(subscribe, () => loadFailed, () => loadFailed);
+}
+
+/** From the recovery screen: replace the unreadable data with a backup the owner chose (already checked by readBackup). */
+export function restoreAfterLoadFailure(data: Data) {
+  loadFailed = false;
+  state = observeClock(data);
+  applyCatalog(state);
+  persist();
+  setSession(null);
+}
+
 /** Applies an engine operation and commits its data. Engine errors propagate untouched. */
 export function commit<T>(op: (data: Data) => { data: Data; result: T }): T {
+  if (loadFailed) throw new Error("The saved data couldn't be read");
   const { data, result } = op(state);
   if (data.catalog !== state.catalog) applyCatalog(data);
-  state = data;
+  // Every save notes the phone's clock, so a clock set back shows in the owner's checks.
+  state = observeClock(data);
   persist();
   emit();
   return result;
@@ -83,7 +115,7 @@ export function clearAll() {
 
 /** Replaces everything with a backup the owner chose, and signs everyone out. */
 export function restoreBackup(data: Data) {
-  state = data;
+  state = observeClock(data);
   applyCatalog(state);
   persist();
   setSession(null);

@@ -7,7 +7,10 @@ the intro video as data URIs) so the app can be opened or shared without a serve
 import base64, glob, re, sys
 
 web, out = sys.argv[1], sys.argv[2]
-js = open(glob.glob(f"{web}/_expo/static/js/web/index-*.js")[0], encoding="utf-8").read()
+# The main bundle is the biggest file; any small split chunk (e.g. the document picker) follows it,
+# so its modules are registered before anything asks for them.
+bundles = sorted(glob.glob(f"{web}/_expo/static/js/web/index-*.js"), key=lambda p: -len(open(p, encoding="utf-8").read()))
+js = "\n".join(open(p, encoding="utf-8").read() for p in bundles)
 MIME = {"png": "image/png", "webp": "image/webp", "jpg": "image/jpeg", "mp4": "video/mp4", "ttf": "font/ttf"}
 # Only the Urbanist weights App.tsx loads; the other font files are dropped.
 FONTS = ("Urbanist_400Regular.", "Urbanist_500Medium.", "Urbanist_600SemiBold.", "Urbanist_700Bold.", "Urbanist_800ExtraBold.")

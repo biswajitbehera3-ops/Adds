@@ -6,9 +6,10 @@
  */
 import config, { type AddOn, type Service } from "../config/salon";
 import { UserError } from "./errors";
-import { checkSettings, migrate, newId } from "./engine";
+import { assertClockNotBehind, checkSettings, eraseCustomer, migrate, newId } from "./engine";
 import { istDate } from "./rules";
 import type { Catalog, CheckSettings, Data, DayClosing, Visit } from "./types";
+import { PAYMENT_METHODS } from "./types";
 
 type Op<T> = { data: Data; result: T };
 const dayOf = (iso: string) => istDate(new Date(iso));
@@ -99,18 +100,21 @@ export function saveCheckSettings(data: Data, input: CheckSettings): Op<CheckSet
 
 // ── End-of-day cash count ───────────────────────────────────────────────────
 
-/** Cash that should be in the drawer for a day: cash bills (not cancelled) and cash wallet top-ups. */
+/** Cash that should be in the drawer for a day: cash bills (not cancelled) and cash wallet top-ups, less wallets refunded in cash. */
 export function expectedCash(data: Data, day: string) {
   const bills = data.visits.filter((v) => v.status === "PAID" && v.paymentMethod === "CASH" && v.paidAt && dayOf(v.paidAt) === day);
   const topUps = data.walletTxs.filter((t) => t.type === "TOPUP" && t.note === "Paid by CASH" && dayOf(t.createdAt) === day);
+  const refunds = data.walletTxs.filter((t) => t.type === "CASHOUT" && t.note === "Refunded by CASH" && dayOf(t.createdAt) === day);
   const fromBills = bills.reduce((s, v) => s + v.directPaid, 0);
   const fromTopUps = topUps.reduce((s, t) => s + t.amount, 0);
-  return { bills: bills.length, fromBills, topUps: topUps.length, fromTopUps, total: fromBills + fromTopUps };
+  const refunded = refunds.reduce((s, t) => s - t.amount, 0);
+  return { bills: bills.length, fromBills, topUps: topUps.length, fromTopUps, refunds: refunds.length, refunded, total: fromBills + fromTopUps - refunded };
 }
 
 /** The owner counts the drawer; the difference is saved with the day. Counting again replaces it. */
 export function closeDay(data: Data, input: { counted: number; note?: string }, now = new Date()): Op<DayClosing> {
   if (!Number.isInteger(input.counted) || input.counted < 0) throw new UserError("Enter the cash counted in whole rupees");
+  assertClockNotBehind(data, now);
   const date = istDate(now);
   const expected = expectedCash(data, date).total;
   const diff = input.counted - expected;
@@ -122,7 +126,7 @@ export function closeDay(data: Data, input: { counted: number; note?: string }, 
 
 // ── The owner's checks for a day ────────────────────────────────────────────
 
-export type CheckItem = { id: string; kind: "undo" | "left" | "booking" | "unusual" | "other" | "cash" | "referral"; title: string; detail: string; visitId?: string };
+export type CheckItem = { id: string; kind: "undo" | "left" | "booking" | "unusual" | "other" | "cash" | "referral" | "clock" | "attendance"; title: string; detail: string; visitId?: string };
 
 export function ownerChecks(data: Data, now = new Date()) {
   const day = istDate(now);
@@ -143,6 +147,25 @@ export function ownerChecks(data: Data, now = new Date()) {
   for (const a of late) {
     items.push({ id: `b-${a.id}`, kind: "booking", title: `${customerName(data, a.customerId)}'s booking not closed`, detail: `Not marked Arrived or No-show · ${staffName(data, a.staffId).split(" ")[0]}` });
   }
+  // A booking closed by a stylist stays visible to the owner, with their name (SECURITY-LESSONS 4).
+  for (const a of data.appointments) {
+    if (!a.closedAt || dayOf(a.closedAt) !== day || a.closedBy === "owner") continue;
+    const late = a.status === "NO_SHOW" || (a.status === "CANCELLED" && Date.parse(a.closedAt) >= Date.parse(a.at));
+    if (!late) continue;
+    items.push({ id: `n-${a.id}`, kind: "booking", title: `${customerName(data, a.customerId)}'s booking marked ${a.status === "NO_SHOW" ? "no-show" : "cancelled"}`, detail: `By ${staffName(data, a.closedBy).split(" ")[0]} · check the customer really didn't come` });
+  }
+  // A check-in saved for a day that hasn't come yet means the phone's clock was moved forward (SECURITY-LESSONS 2).
+  for (const a of data.attendance) {
+    if (a.date > day) items.push({ id: `f-${a.id}`, kind: "attendance", title: `${staffName(data, a.staffId).split(" ")[0]} has a check-in saved for ${a.date}`, detail: "Saved before that day came: the phone's clock was moved forward" });
+  }
+  // The phone's clock went back, or jumped far ahead (SECURITY-LESSONS 1, 2, 3).
+  for (const j of data.clock?.backJumps ?? []) {
+    if (dayOf(j.to) !== day && dayOf(j.from) !== day && Date.parse(j.to) < now.getTime() - 7 * 86400000) continue;
+    items.push({ id: `k-${j.to}`, kind: "clock", title: "The phone's clock was set back", detail: `From ${j.from.slice(0, 16).replace("T", " ")} to ${j.to.slice(0, 16).replace("T", " ")} UTC · check check-ins, undos and bills saved around then` });
+  }
+  if (data.clock?.hold) {
+    items.push({ id: "k-hold", kind: "clock", title: "The phone's date jumped ahead", detail: `Automatic clean-up is paused. If the phone shows the right date (${day}), tap here to confirm it` });
+  }
   // A stylist whose average bill today is far above their usual (last 30 days).
   const since = now.getTime() - 30 * 86400000;
   for (const s of data.staff.filter((x) => x.active)) {
@@ -159,10 +182,16 @@ export function ownerChecks(data: Data, now = new Date()) {
   const byStaff = new Map<string, number>();
   for (const c of data.customers) if (c.referredById && Date.parse(c.createdAt) >= since) byStaff.set(c.consentTakenBy ?? "owner", (byStaff.get(c.consentTakenBy ?? "owner") ?? 0) + 1);
   for (const [who, n] of byStaff) if (n >= 5) items.push({ id: `r-${who}`, kind: "referral", title: `${staffName(data, who).split(" ")[0]} added ${n} referred customers this month`, detail: "Check these are real new customers" });
+  // Each count of the last 7 days is checked against the cash bills as they stand now, so a bill rung up
+  // after the count, or backdated into a counted day, still shows (SECURITY-LESSONS 3).
   const closing = (data.dayClosings ?? []).find((d) => d.date === day) ?? null;
-  if (closing && closing.counted !== closing.expected) {
-    const diff = closing.counted - closing.expected;
-    items.push({ id: `c-${day}`, kind: "cash", title: `Cash ${diff < 0 ? "short" : "over"} by ₹${Math.abs(diff).toLocaleString("en-IN")}`, detail: closing.note });
+  for (const c of data.dayClosings ?? []) {
+    if (Date.parse(c.at) < now.getTime() - 7 * 86400000) continue;
+    const expectedNow = expectedCash(data, c.date).total;
+    if (c.counted === expectedNow) continue;
+    const diff = c.counted - expectedNow;
+    const when = c.date === day ? "" : ` on ${c.date}`;
+    items.push({ id: `c-${c.date}`, kind: "cash", title: `Cash ${diff < 0 ? "short" : "over"} by ₹${Math.abs(diff).toLocaleString("en-IN")}${when}`, detail: expectedNow !== c.expected ? `Cash bills changed after the count (was ₹${c.expected.toLocaleString("en-IN")}, now ₹${expectedNow.toLocaleString("en-IN")})${c.note ? " · " + c.note : ""}` : c.note });
   }
   return { day, items, cash: expectedCash(data, day), closing, settings: checkSettings(data) };
 }
@@ -174,8 +203,16 @@ export function exportBackup(data: Data, now = new Date()): { fileName: string; 
   return { fileName: `salon-backup-${istDate(now)}.json`, text: JSON.stringify({ kind: "salon-backup", savedAt: now.toISOString(), data }) };
 }
 
-/** Reads a backup file back. Anything that isn't a salon backup is refused before it touches the data. */
+/** Backups bigger than this are refused before they are read into memory. */
+export const MAX_BACKUP_BYTES = 20 * 1024 * 1024;
+
+/**
+ * Reads a backup file back. A backup is untrusted: it may have been made or edited by someone else,
+ * so every record is checked against the same rules the app uses when saving (SECURITY-LESSONS R1-2).
+ * Anything that fails is refused before it touches the data.
+ */
 export function readBackup(text: string): Data {
+  if (text.length > MAX_BACKUP_BYTES) throw new UserError("This file is too big to be a salon backup");
   let parsed: unknown;
   try {
     parsed = JSON.parse(text);
@@ -183,8 +220,85 @@ export function readBackup(text: string): Data {
     throw new UserError("This file isn't a salon backup");
   }
   const p = parsed as { kind?: string; data?: unknown };
-  if (p?.kind !== "salon-backup" || !p.data || typeof p.data !== "object") throw new UserError("This file isn't a salon backup");
-  const d = migrate(p.data);
-  if (!Array.isArray(d.customers) || !Array.isArray(d.visits) || !Array.isArray(d.staff) || !d.owner) throw new UserError("This backup is damaged and can't be used");
+  if (p?.kind !== "salon-backup" || !p.data || typeof p.data !== "object" || Array.isArray(p.data)) throw new UserError("This file isn't a salon backup");
+  let d: Data;
+  try {
+    d = migrate(p.data);
+  } catch {
+    throw new UserError("This backup is damaged and can't be used");
+  }
+  const problem = backupProblem(d);
+  if (problem) throw new UserError(`This backup can't be used: ${problem}`);
   return d;
+}
+
+const isStr = (x: unknown): x is string => typeof x === "string";
+const isIso = (x: unknown) => isStr(x) && !Number.isNaN(Date.parse(x));
+const isIsoOrNull = (x: unknown) => x === null || x === undefined || isIso(x);
+const isInt = (x: unknown, lo: number, hi: number) => Number.isInteger(x) && (x as number) >= lo && (x as number) <= hi;
+const SAFE_KEY = /^[A-Za-z0-9_-][A-Za-z0-9._-]{0,99}$/;
+const PHONE = /^[6-9]\d{9}$/;
+const DAY_RE = /^\d{4}-\d{2}-\d{2}$/;
+const MAX_RUPEES = 10_000_000;
+
+/** The first rule a restored backup breaks, or null. */
+function backupProblem(d: Data): string | null {
+  const arrays = ["customers", "visits", "walletTxs", "reminders", "staff", "attendance", "appointments", "leaves", "privacyLog"] as const;
+  for (const k of arrays) if (!Array.isArray(d[k])) return `${k} is missing`;
+  if (!d.owner || !d.owner.secret || !isStr(d.owner.secret.salt) || !isStr(d.owner.secret.hash)) return "the owner record is missing";
+  const ids = (xs: { id: unknown }[]) => xs.every((x) => isStr(x.id) && x.id.length > 0 && x.id.length <= 100);
+  for (const k of arrays) if (!ids(d[k] as { id: unknown }[])) return `a record in ${k} has no id`;
+  for (const c of d.customers) {
+    if (!isStr(c.name) || c.name.length > 80) return "a customer's name is too long";
+    if (!c.deletedAt && !PHONE.test(c.phone)) return "a customer's mobile number isn't valid";
+    if (!isInt(c.walletBalance, 0, MAX_RUPEES)) return "a wallet balance is out of range";
+    if (!isIso(c.createdAt) || !isIsoOrNull(c.deletedAt)) return "a customer's dates aren't valid";
+  }
+  // Each wallet balance must equal its ledger, the rule the app keeps on every save.
+  const ledger = new Map<string, number>();
+  for (const t of d.walletTxs) {
+    if (!isInt(Math.abs(t.amount), 0, MAX_RUPEES) || !isIso(t.createdAt)) return "a wallet entry isn't valid";
+    ledger.set(t.customerId, (ledger.get(t.customerId) ?? 0) + t.amount);
+  }
+  for (const c of d.customers) if ((ledger.get(c.id) ?? 0) !== c.walletBalance) return "a wallet balance doesn't match its entries";
+  for (const v of d.visits) {
+    if (!["OPEN", "PAID", "VOID", "LEFT"].includes(v.status)) return "a visit has an unknown status";
+    if (!isInt(v.total, 0, MAX_RUPEES) || !isInt(v.walletPaid, 0, MAX_RUPEES) || !isInt(v.directPaid, 0, MAX_RUPEES)) return "a bill amount is out of range";
+    if (v.paymentMethod !== null && v.paymentMethod !== undefined && !PAYMENT_METHODS.includes(v.paymentMethod)) return "a bill has an unknown payment method";
+    if (!isIso(v.createdAt) || !isIsoOrNull(v.paidAt) || !isIsoOrNull(v.voidedAt)) return "a bill's dates aren't valid";
+  }
+  for (const s of d.staff) {
+    if (!isStr(s.name) || s.name.length > 80 || !PHONE.test(s.phone)) return "a staff record isn't valid";
+    if (!s.secret || !isStr(s.secret.salt) || !isStr(s.secret.hash)) return "a staff password record is missing";
+    if (s.photoKey !== null && s.photoKey !== undefined && !SAFE_KEY.test(s.photoKey)) return "a staff photo name isn't valid";
+  }
+  for (const a of d.attendance) {
+    if (!DAY_RE.test(a.date) || !isIso(a.checkInAt)) return "an attendance record isn't valid";
+    if (a.photoKey !== null && a.photoKey !== undefined && !SAFE_KEY.test(a.photoKey)) return "a selfie name isn't valid";
+  }
+  for (const a of d.appointments) if (!isIso(a.at) || !isIso(a.createdAt)) return "a booking's dates aren't valid";
+  if (d.checks) {
+    if (!isInt(d.checks.walletCodeAbove, 0, 100000) || !isInt(d.checks.referralMonthlyLimit, 0, 100)) return "the check limits are out of range";
+  }
+  if (d.catalog) {
+    for (const x of [...d.catalog.services, ...d.catalog.addOns]) if (!isStr(x.name) || !x.name.trim() || !isInt(x.price, 1, 100000)) return "a price in the service list is out of range";
+    for (const x of d.catalog.services) if (!isInt(x.minutes, 5, 600) || !isInt(x.cycleDays, 1, 365)) return "a service's time or due-back days are out of range";
+  }
+  for (const c of d.dayClosings ?? []) if (!DAY_RE.test(c.date) || !isInt(c.counted, 0, MAX_RUPEES) || !isInt(c.expected, 0, MAX_RUPEES)) return "a cash count isn't valid";
+  return null;
+}
+
+/**
+ * What a restore really saves (SECURITY-LESSONS R1-2, 7): the backup's records, but the owner password
+ * already on this phone, and every customer erased on this phone stays erased.
+ */
+export function prepareRestore(current: Data, restored: Data, now = new Date()): Data {
+  let next: Data = { ...restored, owner: current.owner ?? restored.owner, clock: current.clock, demo: false };
+  const erased = current.privacyLog.filter((e) => e.type === "DELETED" || e.type === "AUTO_ERASED");
+  for (const e of erased) {
+    const c = next.customers.find((x) => x.id === e.customerId);
+    if (c && !c.deletedAt) next = eraseCustomer(next, c.id, now);
+    if (!next.privacyLog.some((x) => x.id === e.id)) next = { ...next, privacyLog: [...next.privacyLog, e] };
+  }
+  return next;
 }

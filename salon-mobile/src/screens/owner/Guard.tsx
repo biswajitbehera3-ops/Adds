@@ -14,17 +14,19 @@ import { GlassCard, GlassScreen, GlassSheet, GoldButton, GT, SectionLabel, easeO
 import { useToast } from "../../components/Toast";
 import * as K from "../../domain/checks";
 import { UserError } from "../../domain/errors";
+import * as E from "../../domain/engine";
 import { commit, getData, restoreBackup, useData } from "../../domain/store";
 import { inr } from "../../format";
 import { useNav } from "../../nav/Navigator";
 import { pickTextFile, shareTextFile } from "../../platform/share";
 import { glass, urbanist } from "../../theme/tokens";
 
-const KIND_TONE: Record<K.CheckItem["kind"], string> = { undo: glass.late, left: glass.late, cash: glass.late, booking: glass.gold2, unusual: glass.gold2, other: glass.gold2, referral: glass.gold2 };
+const KIND_TONE: Record<K.CheckItem["kind"], string> = { undo: glass.late, left: glass.late, cash: glass.late, clock: glass.late, attendance: glass.late, booking: glass.gold2, unusual: glass.gold2, other: glass.gold2, referral: glass.gold2 };
 const input = { minHeight: 50, borderRadius: 16, paddingHorizontal: 16, fontFamily: urbanist.medium, fontSize: 16, color: glass.cream, backgroundColor: "rgba(26,18,16,0.5)", borderWidth: 1, borderColor: glass.line } as const;
 
 export function TodayChecks({ onCount }: { onCount: (expected: number) => void }) {
   const data = useData();
+  const toast = useToast();
   const nav = useNav();
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
@@ -43,9 +45,13 @@ export function TodayChecks({ onCount }: { onCount: (expected: number) => void }
       {checks.items.map((it) => (
         <Pressable
           key={it.id}
-          disabled={!it.visitId}
-          onPress={() => it.visitId && nav.push({ name: "bill", visitId: it.visitId })}
-          accessibilityRole={it.visitId ? "button" : "text"}
+          disabled={!it.visitId && it.id !== "k-hold"}
+          onPress={() => {
+            if (it.visitId) nav.push({ name: "bill", visitId: it.visitId });
+            // The owner confirms the phone's date; automatic clean-up runs again (SECURITY-LESSONS 1).
+            else if (it.id === "k-hold") (commit((d) => E.confirmClock(d)), toast(`Date confirmed: ${checks.day}. Clean-up runs at the next start.`));
+          }}
+          accessibilityRole={it.visitId || it.id === "k-hold" ? "button" : "text"}
           style={{ flexDirection: "row", gap: 10, alignItems: "flex-start" }}
         >
           <View style={{ width: 8, height: 8, borderRadius: 4, marginTop: 6, backgroundColor: KIND_TONE[it.kind] }} />
@@ -73,6 +79,7 @@ export function TodayChecks({ onCount }: { onCount: (expected: number) => void }
           <GT size={12} c={glass.soft}>
             {checks.cash.bills} cash bill{checks.cash.bills === 1 ? "" : "s"} {inr(checks.cash.fromBills)}
             {checks.cash.topUps ? ` + ${checks.cash.topUps} cash top-up${checks.cash.topUps === 1 ? "" : "s"} ${inr(checks.cash.fromTopUps)}` : ""}
+            {checks.cash.refunds ? ` − ${checks.cash.refunds} wallet refund${checks.cash.refunds === 1 ? "" : "s"} ${inr(checks.cash.refunded)}` : ""}
             {checks.closing ? ` · counted ${inr(checks.closing.counted)}` : ""}
           </GT>
         </View>
@@ -330,7 +337,8 @@ export async function readBackupFile(toast: (m: string, tone?: "error") => void)
     const text = await pickTextFile();
     if (!text) return null;
     const data = K.readBackup(text);
-    return { data, customers: data.customers.filter((c) => !c.deletedAt).length, visits: data.visits.length, apply: () => restoreBackup(data) };
+    // The phone's owner password and its deletions survive the restore (SECURITY-LESSONS R1-2, 7).
+    return { data, customers: data.customers.filter((c) => !c.deletedAt).length, visits: data.visits.length, apply: () => restoreBackup(K.prepareRestore(getData(), data)) };
   } catch (e) {
     toast(e instanceof UserError ? e.message : "Couldn't read that file", "error");
     return null;

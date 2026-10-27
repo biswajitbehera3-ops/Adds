@@ -5,11 +5,12 @@ import { emptyData, type Data } from "../src/domain/types";
 
 const DAY = 24 * 60 * 60 * 1000;
 const SECRET = { salt: "x", hash: "y" };
+const START = new Date("2020-01-01T00:00:00Z");
 
 function setup() {
   let data: Data = emptyData();
   const run = <T,>(op: { data: Data; result: T }) => ((data = op.data), op.result);
-  const stylist = run(E.addStaff(data, { name: "Imran", phone: "9811100001", chair: "Chair 1", secret: SECRET }));
+  const stylist = run(E.addStaff(data, { name: "Imran", phone: "9811100001", chair: "Chair 1", secret: SECRET }, START));
   const visit = (customerId: string, walletAmount = 0, now?: Date) => {
     const v = run(E.startVisit(data, { customerId, serviceIds: ["haircut"], addOnIds: [], staffId: stylist.id }, now));
     return run(E.checkoutVisit(data, { visitId: v.id, walletAmount, paymentMethod: "CASH" }, now));
@@ -30,7 +31,7 @@ describe("consent", () => {
 
   it("sends no reminders or offers without the messages opt-in", () => {
     const s = setup();
-    const c = s.run(E.createCustomer(s.data, { phone: "9876543210", name: "Asha", consent: true }));
+    const c = s.run(E.createCustomer(s.data, { phone: "9876543210", name: "Asha", consent: true }, START));
     const v = s.visit(c.id, 0, new Date(Date.now() - 90 * DAY));
     expect(E.overdueReminders(s.data)).toEqual([]);
     expect(() => E.logReminder(s.data, { customerId: c.id, serviceId: "haircut", message: "hi", status: "OPENED" })).toThrow("hasn't agreed");
@@ -41,7 +42,7 @@ describe("consent", () => {
 
   it("STOP turns messages off and is logged", () => {
     const s = setup();
-    const c = s.run(E.createCustomer(s.data, { phone: "9876543210", name: "Asha", consent: true, marketing: true }));
+    const c = s.run(E.createCustomer(s.data, { phone: "9876543210", name: "Asha", consent: true, marketing: true }, START));
     s.visit(c.id, 0, new Date(Date.now() - 90 * DAY));
     expect(E.overdueReminders(s.data)).toHaveLength(1);
     expect(E.overdueReminders(s.data)[0].message).toContain("Reply STOP");
