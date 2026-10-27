@@ -466,6 +466,7 @@ export function startVisit(
   input: { customerId: string; serviceIds: string[]; addOnIds: string[]; staffId: string },
   now = new Date(),
 ): Op<Visit> {
+  assertClockNotBehind(data, now);
   const customer = data.customers.find((c) => c.id === input.customerId);
   if (!customer) throw new UserError("Customer not found");
   if (data.visits.some((v) => v.customerId === customer.id && v.status === "OPEN")) {
@@ -510,6 +511,7 @@ export function updateOpenVisit(
  * when, never deleted, so the owner can see it (MISUSE-CHECKS 4). No money was involved.
  */
 export function cancelOpenVisit(data: Data, visitId: string, by: string | null = null, now = new Date()): Op<Visit> {
+  assertClockNotBehind(data, now);
   const visit = data.visits.find((v) => v.id === visitId);
   if (!visit || visit.status !== "OPEN") throw new UserError("This visit is no longer open");
   const left: Visit = { ...visit, status: "LEFT", leftAt: now.toISOString(), leftBy: by };
@@ -985,6 +987,7 @@ export function eraseCustomer(data: Data, customerId: string, now = new Date()):
  * be closed first so no money is lost silently.
  */
 export function deleteCustomer(data: Data, input: { customerId: string; by: string | null }, now = new Date()): Op<null> {
+  assertClockNotBehind(data, now);
   const customer = data.customers.find((c) => c.id === input.customerId && live(c));
   if (!customer) throw new UserError("Customer not found");
   if (data.visits.some((v) => v.customerId === customer.id && v.status === "OPEN")) {
@@ -1096,6 +1099,7 @@ export function bookAppointment(
   input: { customerId: string; serviceIds: string[]; staffId: string | null; day: string; time: string; source: Appointment["source"]; note?: string; by: string | null },
   now = new Date(),
 ): Op<Appointment> {
+  assertClockNotBehind(data, now);
   const customer = data.customers.find((c) => c.id === input.customerId && !c.deletedAt);
   if (!customer) throw new UserError("Customer not found");
   if (!customer.consentAt) throw new UserError("Save the customer's consent first");
@@ -1522,6 +1526,7 @@ export function requestLeave(
   input: { staffId: string; from: string; to: string; type: LeaveRequest["type"]; halfDay?: boolean; note?: string },
   now = new Date(),
 ): Op<LeaveRequest> {
+  assertClockNotBehind(data, now);
   if (!data.staff.some((x) => x.id === input.staffId && x.active)) throw new UserError("Staff member not found");
   if (!/^\d{4}-\d{2}-\d{2}$/.test(input.from) || !/^\d{4}-\d{2}-\d{2}$/.test(input.to)) throw new UserError("Pick the dates");
   if (input.to < input.from) throw new UserError("The last day is before the first day");
@@ -1595,6 +1600,7 @@ type Affected = { appointmentId: string; customerName: string; phone: string; da
  * customer so the owner can tell them. The stylist sees the decision next time they open the app.
  */
 export function approveLeave(data: Data, input: { id: string; bookings: "REASSIGN" | "REBOOK" }, now = new Date()): Op<{ leave: LeaveRequest; moved: Affected[]; cancelled: Affected[] }> {
+  assertClockNotBehind(data, now);
   const l = data.leaves.find((x) => x.id === input.id);
   if (!l) throw new UserError("Leave request not found");
   if (l.status !== "WAITING") throw new UserError("This request has already been answered");
@@ -1630,6 +1636,7 @@ export function approveLeave(data: Data, input: { id: string; bookings: "REASSIG
 
 /** The owner says no, with a reason the stylist will see. */
 export function declineLeave(data: Data, input: { id: string; reason: string }, now = new Date()): Op<LeaveRequest> {
+  assertClockNotBehind(data, now);
   const l = data.leaves.find((x) => x.id === input.id);
   if (!l) throw new UserError("Leave request not found");
   if (l.status !== "WAITING") throw new UserError("This request has already been answered");

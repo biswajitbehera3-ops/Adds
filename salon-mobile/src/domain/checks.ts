@@ -211,7 +211,7 @@ export const MAX_BACKUP_BYTES = 20 * 1024 * 1024;
  * so every record is checked against the same rules the app uses when saving (SECURITY-LESSONS R1-2).
  * Anything that fails is refused before it touches the data.
  */
-export function readBackup(text: string): Data {
+export function readBackup(text: string, now = new Date()): Data {
   if (text.length > MAX_BACKUP_BYTES) throw new UserError("This file is too big to be a salon backup");
   let parsed: unknown;
   try {
@@ -227,24 +227,41 @@ export function readBackup(text: string): Data {
   } catch {
     throw new UserError("This backup is damaged and can't be used");
   }
-  const problem = backupProblem(d);
+  const problem = backupProblem(d, now);
   if (problem) throw new UserError(`This backup can't be used: ${problem}`);
-  return d;
+  // Only known parts are kept. The clock record is never taken from a file: it is this phone's evidence.
+  const { version, customers, visits, walletTxs, reminders, staff, attendance, appointments, leaves, privacyLog, owner, catalog, checks, dayClosings } = d;
+  return { version, customers, visits, walletTxs, reminders, staff, attendance, appointments, leaves, privacyLog, owner, demo: false, catalog, checks, dayClosings };
 }
 
 const isStr = (x: unknown): x is string => typeof x === "string";
 const isIso = (x: unknown) => isStr(x) && !Number.isNaN(Date.parse(x));
 const isIsoOrNull = (x: unknown) => x === null || x === undefined || isIso(x);
 const isInt = (x: unknown, lo: number, hi: number) => Number.isInteger(x) && (x as number) >= lo && (x as number) <= hi;
-const SAFE_KEY = /^[A-Za-z0-9_-][A-Za-z0-9._-]{0,99}$/;
+const SAFE_KEY = /^(?!.*\.\.)[A-Za-z0-9_-][A-Za-z0-9._-]{0,99}$/;
+const ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d{1,3})?)?(Z|[+-]\d{2}:\d{2})$/;
 const PHONE = /^[6-9]\d{9}$/;
 const DAY_RE = /^\d{4}-\d{2}-\d{2}$/;
 const MAX_RUPEES = 10_000_000;
 
 /** The first rule a restored backup breaks, or null. */
-function backupProblem(d: Data): string | null {
+function backupProblem(d: Data, now: Date): string | null {
   const arrays = ["customers", "visits", "walletTxs", "reminders", "staff", "attendance", "appointments", "leaves", "privacyLog"] as const;
   for (const k of arrays) if (!Array.isArray(d[k])) return `${k} is missing`;
+  // Every saved time is a real ISO time and none is in the future: a future time would block every save
+  // and blind the clock watch (SECURITY-LESSONS 1). A booking's own start time ("at") may be ahead.
+  const latest = now.getTime() + 24 * 3600 * 1000;
+  for (const k of [...arrays, "dayClosings"] as const) {
+    for (const rec of ((d[k] as unknown as Record<string, unknown>[] | undefined) ?? [])) {
+      if (!rec || typeof rec !== "object") return `a record in ${k} isn't valid`;
+      for (const [key, val] of Object.entries(rec)) {
+        const isTime = key.endsWith("At") || (key === "at" && k !== "appointments");
+        if (!isTime || val === null || val === undefined) continue;
+        if (!isStr(val) || !ISO.test(val) || Number.isNaN(Date.parse(val))) return `a date in ${k} isn't valid`;
+        if (Date.parse(val) > latest) return `a date in ${k} is in the future`;
+      }
+    }
+  }
   if (!d.owner || !d.owner.secret || !isStr(d.owner.secret.salt) || !isStr(d.owner.secret.hash)) return "the owner record is missing";
   const ids = (xs: { id: unknown }[]) => xs.every((x) => isStr(x.id) && x.id.length > 0 && x.id.length <= 100);
   for (const k of arrays) if (!ids(d[k] as { id: unknown }[])) return `a record in ${k} has no id`;
@@ -256,8 +273,11 @@ function backupProblem(d: Data): string | null {
   }
   // Each wallet balance must equal its ledger, the rule the app keeps on every save.
   const ledger = new Map<string, number>();
+  const customerIds = new Set(d.customers.map((c) => c.id));
+  const TX_TYPES = ["TOPUP", "BONUS", "SPEND", "REFUND", "REFERRAL_REWARD", "REFERRAL_REVERSAL", "CASHOUT", "WRITE_OFF"];
   for (const t of d.walletTxs) {
     if (!isInt(Math.abs(t.amount), 0, MAX_RUPEES) || !isIso(t.createdAt)) return "a wallet entry isn't valid";
+    if (!TX_TYPES.includes(t.type) || !customerIds.has(t.customerId)) return "a wallet entry isn't valid";
     ledger.set(t.customerId, (ledger.get(t.customerId) ?? 0) + t.amount);
   }
   for (const c of d.customers) if ((ledger.get(c.id) ?? 0) !== c.walletBalance) return "a wallet balance doesn't match its entries";
@@ -276,7 +296,14 @@ function backupProblem(d: Data): string | null {
     if (!DAY_RE.test(a.date) || !isIso(a.checkInAt)) return "an attendance record isn't valid";
     if (a.photoKey !== null && a.photoKey !== undefined && !SAFE_KEY.test(a.photoKey)) return "a selfie name isn't valid";
   }
-  for (const a of d.appointments) if (!isIso(a.at) || !isIso(a.createdAt)) return "a booking's dates aren't valid";
+  for (const a of d.appointments) {
+    if (!isIso(a.at) || !isIso(a.createdAt)) return "a booking's dates aren't valid";
+    if (!["BOOKED", "ARRIVED", "CANCELLED", "NO_SHOW"].includes(a.status)) return "a booking has an unknown status";
+    if (a.closedBy !== undefined && a.closedBy !== null && !isStr(a.closedBy)) return "a booking isn't valid";
+  }
+  for (const l of d.leaves) if (!["WAITING", "APPROVED", "DECLINED", "WITHDRAWN"].includes(l.status) || !DAY_RE.test(l.from) || !DAY_RE.test(l.to)) return "a leave request isn't valid";
+  const EVENTS = ["CONSENT_GIVEN", "MARKETING_ON", "MARKETING_OFF", "DATA_SHARED", "WALLET_CLOSED", "DELETED", "AUTO_ERASED"];
+  for (const e of d.privacyLog) if (!EVENTS.includes(e.type) || !isStr(e.customerId)) return "a privacy record isn't valid";
   if (d.checks) {
     if (!isInt(d.checks.walletCodeAbove, 0, 100000) || !isInt(d.checks.referralMonthlyLimit, 0, 100)) return "the check limits are out of range";
   }

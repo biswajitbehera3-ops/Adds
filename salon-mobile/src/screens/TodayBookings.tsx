@@ -14,7 +14,7 @@ import * as C from "../domain/calendar";
 import * as E from "../domain/engine";
 import { UserError } from "../domain/errors";
 import { istDate } from "../domain/rules";
-import { commit, useData } from "../domain/store";
+import { commit, sessionActor, useData } from "../domain/store";
 import { useNav } from "../nav/Navigator";
 import { glass } from "../theme/tokens";
 import { useCurrentStaff } from "./Attendance";
@@ -110,7 +110,7 @@ export function TodayBookings() {
                     {a.status === "BOOKED" ? (
                       <View style={{ flexDirection: "row", gap: 8 }}>
                         <GoldButton label="Arrived · start visit" style={{ flex: 1, paddingVertical: 11 }} onPress={() => arrived(a.id, a.staffId)} />
-                        {state === "late" ? <GhostButton label="No-show" tone="#F08C6A" style={{ flex: 1 }} onPress={() => run(() => (commit((d) => E.markNoShow(d, a.id, me?.id ?? "owner")), toast("Marked as no-show"), setOpen(null)))} /> : null}
+                        {state === "late" ? <GhostButton label="No-show" tone="#F08C6A" style={{ flex: 1 }} onPress={() => run(() => (commit((d) => E.markNoShow(d, a.id, sessionActor())), toast("Marked as no-show"), setOpen(null)))} /> : null}
                       </View>
                     ) : null}
                   </Animated.View>

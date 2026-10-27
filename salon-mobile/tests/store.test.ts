@@ -15,7 +15,12 @@ vi.mock("@react-native-async-storage/async-storage", () => ({
 }));
 vi.mock("../src/platform/photos", () => ({ deletePhotos: async () => {} }));
 
+import { createHash, randomBytes } from "node:crypto";
+import { exportBackup } from "../src/domain/checks";
 import { emptyData } from "../src/domain/types";
+
+const hasher = { sha256: async (t: string) => createHash("sha256").update(t).digest("hex"), randomHex: (n: number) => randomBytes(n).toString("hex") };
+const ownerSecret = async (pw: string) => ({ salt: "realsalt", hash: await hasher.sha256("realsalt" + pw) });
 
 const REAL = JSON.stringify({ ...emptyData(), owner: { secret: { salt: "realsalt", hash: "realhash" } } });
 
@@ -48,5 +53,38 @@ describe("loading the saved data", () => {
     expect(() => store.commit((d) => ({ data: d, result: null }))).toThrow("couldn't be read");
     await new Promise((r) => setTimeout(r, 400));
     expect(mem.get("salon:data:v1")).toBe(REAL);
+  });
+
+  it("keeps a separate copy of the owner password, and the recovery restore needs it (run 3)", async () => {
+    const secret = await ownerSecret("salonpass");
+    mem.set("salon:data:v1", JSON.stringify({ ...emptyData(), owner: { secret } }));
+    let store = await import("../src/domain/store");
+    await store.loadStore();
+    await new Promise((r) => setTimeout(r, 400));
+    expect(JSON.parse(mem.get("salon:owner")!)).toEqual({ secret });
+
+    // Now the main data can't be read. A crafted backup carries another owner password.
+    const crafted = JSON.parse(exportBackup({ ...emptyData(), owner: { secret: await ownerSecret("attacker") } }).text);
+    const { readBackup } = await import("../src/domain/checks");
+    vi.resetModules();
+    failRead = true;
+    store = await import("../src/domain/store");
+    await store.loadStore();
+    expect(store.canRestoreAfterLoadFailure()).toBe(true);
+    const file = readBackup(JSON.stringify(crafted));
+    await expect(store.restoreAfterLoadFailure(file, "attacker", hasher)).rejects.toThrow("Wrong owner password");
+    expect(() => store.commit((d) => ({ data: d, result: null }))).toThrow("couldn't be read");
+    await store.restoreAfterLoadFailure(file, "salonpass", hasher);
+    expect(store.getData().owner).toEqual({ secret });
+    expect(store.getData().demo).toBe(false);
+  });
+
+  it("with no saved owner password, the recovery screen can't restore at all", async () => {
+    mem.set("salon:data:v1", REAL);
+    failRead = true;
+    const store = await import("../src/domain/store");
+    await store.loadStore();
+    expect(store.canRestoreAfterLoadFailure()).toBe(false);
+    await expect(store.restoreAfterLoadFailure(emptyData(), "anything", hasher)).rejects.toThrow("no saved owner password");
   });
 });

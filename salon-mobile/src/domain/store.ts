@@ -5,13 +5,20 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSyncExternalStore } from "react";
 import { deletePhotos } from "../platform/photos";
-import { applyCatalog } from "./checks";
+import { checkSecret, type Hasher } from "./auth";
+import { applyCatalog, prepareRestore } from "./checks";
+import { UserError } from "./errors";
 import { migrate, observeClock, purgeExpired } from "./engine";
 import { buildDemoData } from "./seed";
 import { emptyData, type Data, type Session } from "./types";
 
 const KEY = "salon:data:v1";
 const SESSION_KEY = "salon:session";
+/**
+ * A separate copy of the owner password's hash. If the main data can't be read, the recovery screen
+ * still asks for the owner password before a backup replaces it (SECURITY-LESSONS 4, run-3 note).
+ */
+const OWNER_KEY = "salon:owner";
 
 let state: Data = emptyData();
 let ready = false;
@@ -23,6 +30,9 @@ let saveTimer: ReturnType<typeof setTimeout> | null = null;
  * never overwritten, and the app shows a recovery screen instead of demo data (SECURITY-LESSONS R1-1).
  */
 let loadFailed = false;
+/** The owner secret read from OWNER_KEY when the main data couldn't be read; null if there was none. */
+let recoveryOwner: Data["owner"] = null;
+let savedOwner: string | null = null;
 
 function emit() {
   for (const l of listeners) l();
@@ -33,6 +43,11 @@ function persist() {
   if (saveTimer) clearTimeout(saveTimer);
   saveTimer = setTimeout(() => {
     AsyncStorage.setItem(KEY, JSON.stringify(state)).catch((e) => console.warn("Could not save data", e));
+    const owner = state.owner ? JSON.stringify(state.owner) : null;
+    if (owner !== savedOwner) {
+      savedOwner = owner;
+      (owner ? AsyncStorage.setItem(OWNER_KEY, owner) : AsyncStorage.removeItem(OWNER_KEY)).catch(() => {});
+    }
   }, 150);
 }
 
@@ -54,6 +69,13 @@ export async function loadStore(): Promise<void> {
     console.warn("Could not load saved data; showing the recovery screen", e);
     if (saveTimer) clearTimeout(saveTimer);
     loadFailed = true;
+    try {
+      const rawOwner = await AsyncStorage.getItem(OWNER_KEY);
+      const owner = rawOwner ? JSON.parse(rawOwner) : null;
+      recoveryOwner = owner && typeof owner.secret?.salt === "string" && typeof owner.secret?.hash === "string" ? owner : null;
+    } catch {
+      recoveryOwner = null;
+    }
   }
   // A damaged session only signs the user out; it never touches the salon's data.
   try {
@@ -72,10 +94,21 @@ export function useLoadFailed(): boolean {
   return useSyncExternalStore(subscribe, () => loadFailed, () => loadFailed);
 }
 
-/** From the recovery screen: replace the unreadable data with a backup the owner chose (already checked by readBackup). */
-export function restoreAfterLoadFailure(data: Data) {
+/** Whether the recovery screen can restore: only when this phone's owner password is known. */
+export function canRestoreAfterLoadFailure(): boolean {
+  return loadFailed && !!recoveryOwner;
+}
+
+/**
+ * From the recovery screen: replace the unreadable data with a backup the owner chose (already checked
+ * by readBackup). Needs this phone's owner password, and keeps it: never the file's (SECURITY-LESSONS 3, 4).
+ */
+export async function restoreAfterLoadFailure(data: Data, password: string, h: Hasher, now = new Date()) {
+  if (!loadFailed) throw new UserError("The data is open again. Restore from the owner's menu instead.");
+  if (!recoveryOwner) throw new UserError("This phone has no saved owner password, so a backup can't be restored here.");
+  if (!(await checkSecret(recoveryOwner.secret, password, h))) throw new UserError("Wrong owner password");
   loadFailed = false;
-  state = observeClock(data);
+  state = observeClock(prepareRestore({ ...data, owner: recoveryOwner, privacyLog: [], clock: undefined }, data, now), now);
   applyCatalog(state);
   persist();
   setSession(null);
@@ -139,6 +172,15 @@ export function setSession(next: Session | null) {
 
 export function getSession(): Session | null {
   return session;
+}
+
+/**
+ * Who is acting, from the signed-in session: "owner" or the stylist's id. Records that name who closed
+ * something take it from here, never from a screen's guess (SECURITY-LESSONS 5).
+ */
+export function sessionActor(): string {
+  if (!session) throw new UserError("Sign in again first");
+  return session.role === "owner" ? "owner" : session.staffId;
 }
 
 export function useSession(): Session | null {

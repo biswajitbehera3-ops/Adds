@@ -40,7 +40,7 @@ import * as C from "../domain/calendar";
 import * as E from "../domain/engine";
 import { UserError } from "../domain/errors";
 import { istDate } from "../domain/rules";
-import { commit, useData } from "../domain/store";
+import { commit, sessionActor, useData } from "../domain/store";
 import { inr } from "../format";
 import { useNav } from "../nav/Navigator";
 import { glass } from "../theme/tokens";
@@ -1001,14 +1001,14 @@ function BookingCard({ id, meId, onClose }: { id: string | null; meId: string | 
         </View>
         {a.status === "BOOKED" ? (
           <View style={{ flexDirection: "row", gap: 8 }}>
-            {started ? <GhostButton label="No-show" style={{ flex: 1 }} tone={glass.late} onPress={() => run(() => (commit((d) => E.markNoShow(d, a.id, meId ?? "owner")), toast("Marked as no-show"), onClose()))} /> : null}
+            {started ? <GhostButton label="No-show" style={{ flex: 1 }} tone={glass.late} onPress={() => run(() => (commit((d) => E.markNoShow(d, a.id, sessionActor())), toast("Marked as no-show"), onClose()))} /> : null}
             {/* After the booked time staff mark No-show instead; only the owner can still cancel (SECURITY-LESSONS 4). */}
             {!started || !meId ? (
               <GhostButton
                 label={confirmCancel ? "Tap again to cancel" : "Cancel booking"}
                 style={{ flex: 1 }}
                 tone={glass.late}
-                onPress={() => (confirmCancel ? run(() => (commit((d) => E.cancelAppointment(d, a.id, meId ?? "owner")), toast("Booking cancelled"), onClose())) : setConfirmCancel(true))}
+                onPress={() => (confirmCancel ? run(() => (commit((d) => E.cancelAppointment(d, a.id, sessionActor())), toast("Booking cancelled"), onClose())) : setConfirmCancel(true))}
               />
             ) : null}
           </View>

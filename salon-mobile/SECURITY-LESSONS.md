@@ -1,8 +1,8 @@
 # Security lessons: the problems found, their fixes, and the rules that follow
 
-**Status:** all fixed on 27 Oct 2026. Found by security checks run 1 and run 2 (`security/run-1/REPORT.md`, `security/run-2/REPORT.md`).
+**Status:** all fixed on 27 Oct 2026. Found by security checks run 1 and run 2 (`security/run-1/REPORT.md`, `security/run-2/REPORT.md`), plus gaps in those fixes that run 3's first pass found.
 
-**Why this file exists:** future work on the salon app must keep these rules. Code comments point here by number, for example `SECURITY-LESSONS 3`. Every fix has a test in `tests/security.test.ts` or `tests/store.test.ts`.
+**Why this file exists:** future work on the salon app must keep these rules. Code comments point here by number, for example `SECURITY-LESSONS 3`. Every fix has a test in `tests/security.test.ts`, `tests/store.test.ts` or `tests/photos.test.ts`.
 
 ## The rules
 
@@ -63,6 +63,18 @@ Read these before changing the app.
 | 6 | Deleting a customer left their full name in the referring friend's wallet history. | The referral reward note was written as "Referred <name>". | The note is now "Referred a friend". Erasing a customer also rewrites older notes that name them. | `src/domain/engine.ts` (`REFERRAL_NOTE`, `erase`), `src/domain/seed.ts` |
 | 7 | Restoring an older backup brought back customers deleted since. Found by the run-2 coverage review. | Restore replaced everything with the file. | Every deletion in this phone's privacy log is re-applied to the restored data, and the deletion record is kept. | `src/domain/checks.ts` (`prepareRestore`) |
 
+### Gaps in the fixes above, found by run 3's first pass (27 Oct)
+
+The lesson: **a fix needs the same check as new code.** Each of these was a hole left by the first round of fixes.
+
+| # | Problem | Why it happened | Fix | Where |
+|---|---|---|---|---|
+| G1 | The recovery screen restored a backup with no password, and took the file's owner password. | The recovery path was built separately from the owner-menu restore, and skipped its checks. | A separate copy of the owner password's hash is saved (`salon:owner`). The recovery restore needs that password and keeps it. With no saved copy, restore is switched off and the owner is told to call support. | `src/domain/store.ts` (`OWNER_KEY`, `restoreAfterLoadFailure`, `canRestoreAfterLoadFailure`), `src/screens/LoadFailed.tsx` |
+| G2 | Anyone could tap "The phone's date jumped ahead" to confirm a wrong date and restart the clean-up. | The confirm was a plain tap. | Confirming the date asks for the owner password (`OwnerApproval`). | `src/screens/owner/Guard.tsx` |
+| G3 | Starting a visit, leaving, deleting a customer, booking and leave requests or decisions accepted a clock set back. | The clock guard was added only to the money and attendance actions. | All of them call `assertClockNotBehind` (lesson 1). | `src/domain/engine.ts` |
+| G4 | A booking closed from a screen with no stylist found was recorded as closed by "owner". | The screens guessed the actor with `?? "owner"`. | The actor comes from the signed-in session (`sessionActor`). | `src/domain/store.ts`, `src/screens/Calendar.tsx`, `src/screens/TodayBookings.tsx` |
+| G5 | A backup could carry future dates, unknown record types, a `demo` flag or its own clock watch. | `readBackup` checked fields one by one and copied the rest. | Every time field must be a real date and not in the future; types and statuses must be known values; only known keys are kept; `demo` is off and `clock` is never taken from a file. | `src/domain/checks.ts` (`readBackup`, `backupProblem`) |
+
 ### Also fixed while doing this
 
 - **Demo data had booking dates in the future.** With the new clock guard this would have blocked every save in the demo. Bookings are now saved as made before "now" (`src/domain/seed.ts`); a test guards it.
@@ -70,6 +82,7 @@ Read these before changing the app.
 
 ## Still open
 
+- **A phone whose data can't be read loses its own deletion record** when a backup is restored from the recovery screen, because the privacy log is in the unreadable data. Customers deleted since that backup must be deleted again; live sync closes this.
 - **Owner-only engine functions don't check who is calling.** This covers void, top-up, close wallet, delete customer and approve leave. Screens hide the buttons, and every in-app path was checked in run 1. Add a `requireOwner(session)` guard in the next build.
 - **Login and owner approval have no lockout after wrong passwords, and the minimum password length is 4.**
 - **Passwords use one round of SHA-256, and the backup file carries the hashes.** Move to a slow hash.

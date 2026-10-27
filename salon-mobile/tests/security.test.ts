@@ -182,3 +182,31 @@ describe("run 2 findings", () => {
     expect(config.retention.inactiveCustomerDays).toBeGreaterThan(0);
   });
 });
+
+describe("run 3 recon gaps", () => {
+  it("a backup with a future timestamp is refused, and a file's clock watch is never taken", () => {
+    const s = setup();
+    s.add("9876500001", "Asha");
+    const good = JSON.parse(K.exportBackup(s.data).text);
+    const future = JSON.parse(JSON.stringify(good));
+    future.data.customers[0].createdAt = new Date(NOW.getTime() + 400 * DAY).toISOString();
+    expect(() => K.readBackup(JSON.stringify(future), NOW)).toThrow();
+    const withClock = JSON.parse(JSON.stringify(good));
+    withClock.data.clock = { lastSeen: "2020-01-01T00:00:00.000Z", backJumps: [], hold: null };
+    withClock.data.demo = true;
+    const read = K.readBackup(JSON.stringify(withClock), NOW);
+    expect(read.clock).toBeUndefined();
+    expect(read.demo).toBe(false);
+  });
+
+  it("booking, starting a visit, deleting a customer and leave decisions refuse a clock set back", () => {
+    const s = setup();
+    const c = s.add("9876500001", "Asha");
+    s.bill(c.id, NOW);
+    const back = new Date(NOW.getTime() - 2 * DAY);
+    expect(() => E.startVisit(s.data, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: s.imran.id }, back)).toThrow("clock is behind");
+    expect(() => E.deleteCustomer(s.data, { customerId: c.id, by: "owner" }, back)).toThrow("clock is behind");
+    expect(() => E.requestLeave(s.data, { staffId: s.imran.id, from: "2026-10-20", to: "2026-10-20", type: "CASUAL" }, back)).toThrow("clock is behind");
+  });
+});
+

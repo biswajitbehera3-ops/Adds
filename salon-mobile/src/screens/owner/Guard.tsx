@@ -11,6 +11,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Pressable, TextInput, View } from "react-native";
 import Animated, { FadeInDown, useReducedMotion } from "react-native-reanimated";
 import { GlassCard, GlassScreen, GlassSheet, GoldButton, GT, SectionLabel, easeOut } from "../../components/glass";
+import { OwnerApproval } from "../../components/Guards";
 import { useToast } from "../../components/Toast";
 import * as K from "../../domain/checks";
 import { UserError } from "../../domain/errors";
@@ -34,8 +35,17 @@ export function TodayChecks({ onCount }: { onCount: (expected: number) => void }
     return () => clearInterval(t);
   }, []);
   const checks = useMemo(() => K.ownerChecks(data, now), [data, now]);
+  const [confirmingDate, setConfirmingDate] = useState(false);
   return (
     <GlassCard style={{ marginHorizontal: 12, marginTop: 8, padding: 14, gap: 10 }}>
+      {/* The owner confirms the phone's date with the owner password; clean-up then runs again (SECURITY-LESSONS 1, 4). */}
+      <OwnerApproval
+        open={confirmingDate}
+        onClose={() => setConfirmingDate(false)}
+        title={`Is today ${checks.day}?`}
+        detail="Only confirm if the phone's date is right. Automatic clean-up deletes old selfies and records by this date."
+        onApproved={() => (commit((d) => E.confirmClock(d)), toast(`Date confirmed: ${checks.day}. Clean-up runs at the next start.`))}
+      />
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" }}>
         <SectionLabel>Today's checks</SectionLabel>
         <GT size={12.5} w="bold" c={checks.items.length ? glass.late : glass.ok}>
@@ -48,8 +58,7 @@ export function TodayChecks({ onCount }: { onCount: (expected: number) => void }
           disabled={!it.visitId && it.id !== "k-hold"}
           onPress={() => {
             if (it.visitId) nav.push({ name: "bill", visitId: it.visitId });
-            // The owner confirms the phone's date; automatic clean-up runs again (SECURITY-LESSONS 1).
-            else if (it.id === "k-hold") (commit((d) => E.confirmClock(d)), toast(`Date confirmed: ${checks.day}. Clean-up runs at the next start.`));
+            else if (it.id === "k-hold") setConfirmingDate(true);
           }}
           accessibilityRole={it.visitId || it.id === "k-hold" ? "button" : "text"}
           style={{ flexDirection: "row", gap: 10, alignItems: "flex-start" }}

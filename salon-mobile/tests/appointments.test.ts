@@ -72,15 +72,15 @@ describe("appointments", () => {
   it("arrival opens the visit; cancel and no-show work; deletion removes bookings", () => {
     const s = setup();
     const a = s.book(s.aarav.id, "2026-10-17", "17:00");
+    const b = s.book(s.priya.id, "2026-10-18", "12:00");
     const at = new Date("2026-10-17T11:25:00.000Z");
     const r = s.run(E.appointmentArrived(s.data, { id: a.id, staffId: s.imran.id }, at));
     expect(r.visit).toMatchObject({ status: "OPEN", serviceIds: ["haircut"], staffId: s.imran.id });
     expect(r.appointment).toMatchObject({ status: "ARRIVED", visitId: r.visit.id });
-    const b = s.book(s.priya.id, "2026-10-18", "12:00");
     expect(() => s.run(E.markNoShow(s.data, b.id, "owner", at))).toThrow("hasn't come");
     s.run(E.cancelAppointment(s.data, b.id, "owner", at));
     expect(E.appointmentMonth(s.data, "2026-10")).toEqual({ "2026-10-17": 1 });
-    s.run(E.deleteCustomer(s.data, { customerId: s.priya.id, by: "owner" }));
+    s.run(E.deleteCustomer(s.data, { customerId: s.priya.id, by: "owner" }, at));
     expect(s.data.appointments.some((x) => x.customerId === s.priya.id)).toBe(false);
   });
 
