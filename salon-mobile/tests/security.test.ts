@@ -208,5 +208,58 @@ describe("run 3 recon gaps", () => {
     expect(() => E.deleteCustomer(s.data, { customerId: c.id, by: "owner" }, back)).toThrow("clock is behind");
     expect(() => E.requestLeave(s.data, { staffId: s.imran.id, from: "2026-10-20", to: "2026-10-20", type: "CASUAL" }, back)).toThrow("clock is behind");
   });
+
+  it("the trusted time moves only in small steps: forward jumps hold clean-up and can't lock saving", () => {
+    const s = setup();
+    const c = s.add("9876500001", "Asha");
+    s.bill(c.id, NOW);
+    let d = E.observeClock(s.data, NOW);
+    // App starts 29 days apart used to slip under the 30-day hold.
+    for (let i = 1; i <= 3; i++) d = E.purgeExpired(d, at(i * 29 * DAY)).data;
+    expect(d.clock?.hold).toBeTruthy();
+    expect(d.customers[0].name).toBe("Asha");
+    // A record saved 10 days ahead doesn't become the trusted time: back at the real date, billing works.
+    d = E.createCustomer(d, { phone: "9876500002", name: "Bina", consent: true }, at(10 * DAY)).data;
+    expect(() => E.startVisit(d, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: s.imran.id }, at(60 * MIN))).not.toThrow();
+    // Far ahead, nothing saves until the owner confirms the date.
+    expect(() => E.topUp(d, { customerId: c.id, amount: 1000, method: "CASH" }, at(40 * DAY))).toThrow("far ahead");
+    d = E.confirmClock(d, at(40 * DAY)).data;
+    expect(d.clock?.hold).toBeNull();
+    expect(() => E.startVisit(d, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: s.imran.id }, at(40 * DAY))).not.toThrow();
+  });
+
+  it("a stylist's cancel just before the booked time shows in the owner's checks", () => {
+    const s = setup();
+    const c = s.add("9876500001", "Asha");
+    const a = s.run(E.bookAppointment(s.data, { customerId: c.id, serviceIds: ["haircut"], staffId: s.imran.id, day: "2026-10-14", time: "12:00", source: "PHONE", by: s.imran.id }, NOW));
+    s.run(E.cancelAppointment(s.data, a.id, s.imran.id, new Date("2026-10-14T06:29:00Z")));
+    const items = K.ownerChecks(s.data, new Date("2026-10-14T08:00:00Z")).items;
+    expect(items.some((i) => i.id === `n-${a.id}` && i.title.includes("shortly before"))).toBe(true);
+  });
+
+  it("a backup with a staff id of \"owner\", a malformed bill, or a time ahead of the phone is refused", () => {
+    const s = setup();
+    const c = s.add("9876500001", "Asha");
+    s.bill(c.id, NOW);
+    const good = JSON.parse(K.exportBackup(s.data).text);
+    const bad = (mut: (d: Data) => void) => {
+      const copy = JSON.parse(JSON.stringify(good));
+      mut(copy.data);
+      return () => K.readBackup(JSON.stringify(copy), NOW);
+    };
+    expect(bad((d) => (d.staff[0].id = "owner"))).toThrow("can't be used");
+    expect(bad((d) => ((d.visits[0] as unknown as { extras: string }).extras = "x"))).toThrow("can't be used");
+    expect(bad((d) => (d.visits[0].staffId = "nobody"))).toThrow("can't be used");
+    expect(bad((d) => (d.staff[1].phone = d.staff[0].phone))).toThrow("can't be used");
+    expect(bad((d) => (d.customers[0].createdAt = at(60 * MIN).toISOString()))).toThrow("in the future");
+    expect(K.readBackup(JSON.stringify(good), NOW).customers).toHaveLength(1);
+    expect(K.readBackup(K.exportBackup(buildDemoData(NOW.getTime())).text, NOW).demo).toBe(false);
+  });
+
+  it("an old referral note that names the friend is rewritten when the data is loaded", () => {
+    const s = setup();
+    const d = { ...s.data, walletTxs: [{ id: "t1", customerId: "c1", type: "REFERRAL_REWARD" as const, amount: 100, visitId: null, note: "Referred Bina Dummyname", createdAt: NOW.toISOString() }] };
+    expect(E.migrate(JSON.parse(JSON.stringify(d))).walletTxs[0].note).toBe(E.REFERRAL_NOTE);
+  });
 });
 

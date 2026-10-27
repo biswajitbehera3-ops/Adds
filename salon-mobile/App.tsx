@@ -2,14 +2,14 @@ import { Urbanist_400Regular, Urbanist_500Medium, Urbanist_600SemiBold, Urbanist
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
-import { Platform, View } from "react-native";
+import { AppState, Platform, View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Intro } from "./src/components/Intro";
 import { ToastHost } from "./src/components/Toast";
 import * as E from "./src/domain/engine";
 import { istDate } from "./src/domain/rules";
-import { loadStore, useData, useLoadFailed, useSession, useStoreReady } from "./src/domain/store";
+import { loadStore, observeNow, useData, useLoadFailed, useSession, useStoreReady } from "./src/domain/store";
 import { LoadFailed } from "./src/screens/LoadFailed";
 import { Navigator, useNav, type Route } from "./src/nav/Navigator";
 import { StaffTabs } from "./src/nav/StaffTabs";
@@ -158,7 +158,9 @@ export default function App() {
   useEffect(() => {
     loadStore();
     const t = setTimeout(() => setFontWaitOver(true), 2500);
-    return () => clearTimeout(t);
+    // Coming back to the app notes the phone's clock, so a date changed while it sat open is seen (SECURITY-LESSONS 1).
+    const sub = AppState.addEventListener("change", (s) => s === "active" && observeNow());
+    return () => (clearTimeout(t), sub.remove());
   }, []);
   const fontsSettled = fontsLoaded || !!fontError || fontWaitOver;
   // The intro video plays every time the app opens (BUILD-SPEC 2.1), over the login.

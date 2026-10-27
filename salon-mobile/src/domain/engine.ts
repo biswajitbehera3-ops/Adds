@@ -80,41 +80,72 @@ export function latestRecordTime(data: Data): number {
   return t;
 }
 
-/** Refuses a change made while the phone's clock is behind what is already saved (MISUSE-CHECKS 9). */
+/** Normal use moves the trusted time forward at most this far per app start or save; a longer gap waits for the owner. */
+const CLOCK_STEP_DAYS = 3;
+/** Past this far beyond the trusted time, nothing is saved until the owner confirms the date. */
+const CLOCK_FAR_DAYS = 30;
+
+/** The time this phone trusts (SECURITY-LESSONS 1): the clock anchor, or for data never watched, the newest saved record. */
+export function trustedTime(data: Data): number {
+  return data.clock?.anchor ? Date.parse(data.clock.anchor) : latestRecordTime(data);
+}
+
+/**
+ * Refuses a change made while the phone's clock is behind the trusted time (MISUSE-CHECKS 9), or far
+ * ahead of it. A record saved with the clock ahead never raises the trusted time, so it can't lock the
+ * salon out of saving once the clock is put right (run 3).
+ */
 export function assertClockNotBehind(data: Data, now: Date) {
-  if (now.getTime() < latestRecordTime(data) - 5 * 60000) {
+  if (now.getTime() < trustedTime(data) - 5 * 60000) {
     throw new UserError("This phone's clock is behind. Set the date and time to automatic, then try again.");
+  }
+  assertClockNotFarAhead(data, now);
+}
+
+/** Refuses any save while the clock is far ahead of the trusted time; every save goes through this in commit. */
+export function assertClockNotFarAhead(data: Data, now: Date) {
+  if (data.clock?.anchor && now.getTime() > Date.parse(data.clock.anchor) + CLOCK_FAR_DAYS * DAY_MS) {
+    throw new UserError("This phone's date is far ahead of the last date the salon used. Ask the owner to confirm the date in Today's checks.");
   }
 }
 
-const CLOCK_JUMP_DAYS = 30;
-
 /**
- * Watches the phone's clock across app starts and saves (SECURITY-LESSONS 1, 2). A clock set back is
- * logged for the owner's checks; a clock far ahead of everything saved puts automatic clean-up on hold
- * until the owner confirms the date.
+ * Watches the phone's clock on every app start, return to the app and save (SECURITY-LESSONS 1, 2).
+ * A clock set back is logged for the owner's checks. The trusted time follows the clock only in small
+ * forward steps; a bigger jump puts automatic clean-up on hold until the owner confirms the date.
+ * Run it on the data as it was before a change, so a record saved at the new time can't vouch for it.
  */
 export function observeClock(data: Data, now = new Date()): Data {
   const seen = data.clock?.lastSeen ? Date.parse(data.clock.lastSeen) : 0;
   const t = now.getTime();
   const backJumps = [...(data.clock?.backJumps ?? [])];
   if (seen && t < seen - 5 * 60000) backJumps.push({ from: new Date(seen).toISOString(), to: now.toISOString() });
+  let anchor = trustedTime(data) || t;
   let hold = data.clock?.hold ?? null;
-  const reference = Math.max(seen, latestRecordTime(data));
-  if (!hold && reference && t > reference + CLOCK_JUMP_DAYS * DAY_MS) hold = { from: new Date(reference).toISOString(), to: now.toISOString() };
-  return { ...data, clock: { lastSeen: new Date(Math.max(seen, t)).toISOString(), backJumps: backJumps.slice(-20), hold } };
+  if (t > anchor + CLOCK_STEP_DAYS * DAY_MS) {
+    if (!hold) hold = { from: new Date(anchor).toISOString(), to: now.toISOString() };
+  } else anchor = Math.max(anchor, t);
+  return { ...data, clock: { lastSeen: new Date(Math.max(seen, t)).toISOString(), anchor: new Date(anchor).toISOString(), backJumps: backJumps.slice(-20), hold } };
 }
 
-/** The owner confirms the phone's date is right; automatic clean-up runs again from the next app start. */
+/** The owner confirms the phone's date is right (owner password): it becomes the trusted time, and clean-up runs again. */
 export function confirmClock(data: Data, now = new Date()): Op<null> {
-  return { data: { ...data, clock: { lastSeen: now.toISOString(), backJumps: data.clock?.backJumps ?? [], hold: null } }, result: null };
+  return { data: { ...data, clock: { lastSeen: now.toISOString(), anchor: now.toISOString(), backJumps: data.clock?.backJumps ?? [], hold: null } }, result: null };
 }
+
 const at = (v: Visit) => v.paidAt ?? v.createdAt;
 
 // ── Migration ────────────────────────────────────────────────────────────────
 
 /** Upgrades stored data from older versions of the app. */
 export function migrate(raw: unknown): Data {
+  const data = migrateShape(raw);
+  // Notes from before SECURITY-LESSONS 6 named the friend; no stored note may hold a name (run 3).
+  if (!Array.isArray(data.walletTxs)) return data;
+  return { ...data, walletTxs: data.walletTxs.map((t) => (t?.type === "REFERRAL_REWARD" && typeof t.note === "string" && t.note.startsWith("Referred ") && t.note !== REFERRAL_NOTE ? { ...t, note: REFERRAL_NOTE } : t)) };
+}
+
+function migrateShape(raw: unknown): Data {
   const d = raw as Record<string, unknown> & { version?: number };
   // Leave requests arrived within version 4, so older v4 data simply has none yet.
   if (d.version === 4) return { ...(d as unknown as Data), leaves: (d.leaves as LeaveRequest[] | undefined) ?? [] };

@@ -225,9 +225,14 @@ export type Data = {
 
 export type ClockWatch = {
   lastSeen: string;
+  /**
+   * The last time this phone trusts: it moves forward only in small steps of normal use, or when the
+   * owner confirms the date. Saves are checked against it, never against a saved record's time (run 3).
+   */
+  anchor?: string;
   /** The clock was set back: from the latest time seen to an earlier one. */
   backJumps: { from: string; to: string }[];
-  /** The clock jumped far ahead of everything saved; automatic clean-up waits for the owner. */
+  /** The clock jumped ahead of the trusted time; automatic clean-up waits for the owner. */
   hold: { from: string; to: string } | null;
 };
 

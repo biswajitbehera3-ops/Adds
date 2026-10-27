@@ -13,11 +13,12 @@ vi.mock("@react-native-async-storage/async-storage", () => ({
     removeItem: async (k: string) => void mem.delete(k),
   },
 }));
-vi.mock("../src/platform/photos", () => ({ deletePhotos: async () => {} }));
+const deleted: string[] = [];
+vi.mock("../src/platform/photos", () => ({ deletePhotos: async (keys: string[]) => void deleted.push(...keys) }));
 
 import { createHash, randomBytes } from "node:crypto";
 import { exportBackup } from "../src/domain/checks";
-import { emptyData } from "../src/domain/types";
+import { emptyData, type Data } from "../src/domain/types";
 
 const hasher = { sha256: async (t: string) => createHash("sha256").update(t).digest("hex"), randomHex: (n: number) => randomBytes(n).toString("hex") };
 const ownerSecret = async (pw: string) => ({ salt: "realsalt", hash: await hasher.sha256("realsalt" + pw) });
@@ -27,6 +28,7 @@ const REAL = JSON.stringify({ ...emptyData(), owner: { secret: { salt: "realsalt
 beforeEach(() => {
   vi.resetModules();
   mem.clear();
+  deleted.length = 0;
   failRead = false;
 });
 afterEach(() => vi.useRealTimers());
@@ -86,5 +88,55 @@ describe("loading the saved data", () => {
     await store.loadStore();
     expect(store.canRestoreAfterLoadFailure()).toBe(false);
     await expect(store.restoreAfterLoadFailure(emptyData(), "anything", hasher)).rejects.toThrow("no saved owner password");
+  });
+
+  it("lost data with a saved owner password goes to recovery, never to demo data (run 3)", async () => {
+    mem.set("salon:owner", JSON.stringify({ secret: await ownerSecret("salonpass") }));
+    const store = await import("../src/domain/store");
+    await store.loadStore();
+    expect(store.canRestoreAfterLoadFailure()).toBe(true);
+    expect(store.getData().demo).toBe(false);
+    expect(() => store.commit((d) => ({ data: d, result: null }))).toThrow("couldn't be read");
+  });
+
+  it("a save made with the clock years ahead is refused, and clean-up stays held (run 3)", async () => {
+    const T = new Date("2026-10-14T05:30:00Z");
+    vi.useFakeTimers({ now: T, toFake: ["Date"] });
+    const E = await import("../src/domain/engine");
+    let d: Data = { ...emptyData(), owner: { secret: await ownerSecret("salonpass") } };
+    d = E.createCustomer(d, { phone: "9876500001", name: "Asha", consent: true }, T).data;
+    mem.set("salon:data:v1", JSON.stringify(d));
+    let store = await import("../src/domain/store");
+    await store.loadStore();
+    vi.setSystemTime(new Date(T.getTime() + 1105 * 86400000));
+    expect(() => store.commit((x) => E.createCustomer(x, { phone: "9876500002", name: "Bina", consent: true }))).toThrow("far ahead");
+    expect(store.getData().clock?.hold).toBeTruthy();
+    await new Promise((r) => setTimeout(r, 400));
+    vi.resetModules();
+    store = await import("../src/domain/store");
+    await store.loadStore();
+    expect(store.getData().customers.find((c) => c.phone === "9876500001")?.name).toBe("Asha");
+  });
+
+  it("a restore, clear all and demo data delete the selfie files they drop (run 3)", async () => {
+    const T = new Date("2026-10-14T05:30:00Z");
+    vi.useFakeTimers({ now: T, toFake: ["Date"] });
+    const E = await import("../src/domain/engine");
+    let d: Data = { ...emptyData(), owner: { secret: await ownerSecret("salonpass") } };
+    const s = E.addStaff(d, { name: "Imran", phone: "9811100001", chair: "Chair 1", secret: await ownerSecret("1234") }, T);
+    d = s.data;
+    const older = d;
+    d = E.markAttendance(d, { staffId: s.result.id, photoKey: "selfie-after-backup" }, T).data;
+    mem.set("salon:data:v1", JSON.stringify(d));
+    const store = await import("../src/domain/store");
+    await store.loadStore();
+    store.restoreBackup(older);
+    await new Promise((r) => setTimeout(r, 50));
+    expect(deleted).toContain("selfie-after-backup");
+    deleted.length = 0;
+    store.restoreBackup(d);
+    store.clearAll();
+    await new Promise((r) => setTimeout(r, 50));
+    expect(deleted).toContain("selfie-after-backup");
   });
 });

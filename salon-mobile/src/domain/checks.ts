@@ -150,9 +150,11 @@ export function ownerChecks(data: Data, now = new Date()) {
   // A booking closed by a stylist stays visible to the owner, with their name (SECURITY-LESSONS 4).
   for (const a of data.appointments) {
     if (!a.closedAt || dayOf(a.closedAt) !== day || a.closedBy === "owner") continue;
-    const late = a.status === "NO_SHOW" || (a.status === "CANCELLED" && Date.parse(a.closedAt) >= Date.parse(a.at));
-    if (!late) continue;
-    items.push({ id: `n-${a.id}`, kind: "booking", title: `${customerName(data, a.customerId)}'s booking marked ${a.status === "NO_SHOW" ? "no-show" : "cancelled"}`, detail: `By ${staffName(data, a.closedBy).split(" ")[0]} · check the customer really didn't come` });
+    // The phone's clock decides "late", and a stylist holds the phone, so a cancel within 3 hours of the start shows too (run 3).
+    const near = a.status === "NO_SHOW" || (a.status === "CANCELLED" && Date.parse(a.closedAt) >= Date.parse(a.at) - 3 * 3600000);
+    if (!near) continue;
+    const when = a.status === "CANCELLED" && Date.parse(a.closedAt) < Date.parse(a.at) ? " shortly before the time" : "";
+    items.push({ id: `n-${a.id}`, kind: "booking", title: `${customerName(data, a.customerId)}'s booking marked ${a.status === "NO_SHOW" ? "no-show" : "cancelled"}${when}`, detail: `By ${staffName(data, a.closedBy).split(" ")[0]} · check the customer really didn't come` });
   }
   // A check-in saved for a day that hasn't come yet means the phone's clock was moved forward (SECURITY-LESSONS 2).
   for (const a of data.attendance) {
@@ -164,7 +166,7 @@ export function ownerChecks(data: Data, now = new Date()) {
     items.push({ id: `k-${j.to}`, kind: "clock", title: "The phone's clock was set back", detail: `From ${j.from.slice(0, 16).replace("T", " ")} to ${j.to.slice(0, 16).replace("T", " ")} UTC · check check-ins, undos and bills saved around then` });
   }
   if (data.clock?.hold) {
-    items.push({ id: "k-hold", kind: "clock", title: "The phone's date jumped ahead", detail: `Automatic clean-up is paused. If the phone shows the right date (${day}), tap here to confirm it` });
+    items.push({ id: "k-hold", kind: "clock", title: "The phone's date jumped ahead", detail: `The app wasn't opened for over 3 days, or the date was moved ahead. Automatic clean-up is paused. If the phone shows the right date (${day}), tap here to confirm it` });
   }
   // A stylist whose average bill today is far above their usual (last 30 days).
   const since = now.getTime() - 30 * 86400000;
@@ -238,6 +240,7 @@ const isStr = (x: unknown): x is string => typeof x === "string";
 const isIso = (x: unknown) => isStr(x) && !Number.isNaN(Date.parse(x));
 const isIsoOrNull = (x: unknown) => x === null || x === undefined || isIso(x);
 const isInt = (x: unknown, lo: number, hi: number) => Number.isInteger(x) && (x as number) >= lo && (x as number) <= hi;
+const ID = /^[A-Za-z0-9_-]{1,100}$/;
 const SAFE_KEY = /^(?!.*\.\.)[A-Za-z0-9_-][A-Za-z0-9._-]{0,99}$/;
 const ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d{1,3})?)?(Z|[+-]\d{2}:\d{2})$/;
 const PHONE = /^[6-9]\d{9}$/;
@@ -248,9 +251,9 @@ const MAX_RUPEES = 10_000_000;
 function backupProblem(d: Data, now: Date): string | null {
   const arrays = ["customers", "visits", "walletTxs", "reminders", "staff", "attendance", "appointments", "leaves", "privacyLog"] as const;
   for (const k of arrays) if (!Array.isArray(d[k])) return `${k} is missing`;
-  // Every saved time is a real ISO time and none is in the future: a future time would block every save
-  // and blind the clock watch (SECURITY-LESSONS 1). A booking's own start time ("at") may be ahead.
-  const latest = now.getTime() + 24 * 3600 * 1000;
+  // Every saved time is a real ISO time and none is in the future (the clock guard's 5 minutes of slack):
+  // a future time would block saves and blind the clock watch (SECURITY-LESSONS 1). A booking's own start time ("at") may be ahead.
+  const latest = now.getTime() + 5 * 60000;
   for (const k of [...arrays, "dayClosings"] as const) {
     for (const rec of ((d[k] as unknown as Record<string, unknown>[] | undefined) ?? [])) {
       if (!rec || typeof rec !== "object") return `a record in ${k} isn't valid`;
@@ -263,14 +266,22 @@ function backupProblem(d: Data, now: Date): string | null {
     }
   }
   if (!d.owner || !d.owner.secret || !isStr(d.owner.secret.salt) || !isStr(d.owner.secret.hash)) return "the owner record is missing";
-  const ids = (xs: { id: unknown }[]) => xs.every((x) => isStr(x.id) && x.id.length > 0 && x.id.length <= 100);
-  for (const k of arrays) if (!ids(d[k] as { id: unknown }[])) return `a record in ${k} has no id`;
+  // Ids are plain names the app could have made: unique, and never "owner", the word that marks the owner's own actions (run 3).
+  const ids = (xs: { id: unknown }[]) => xs.every((x) => isStr(x.id) && ID.test(x.id) && x.id !== "owner") && new Set(xs.map((x) => x.id)).size === xs.length;
+  for (const k of arrays) if (!ids(d[k] as { id: unknown }[])) return `a record in ${k} has a missing or repeated id`;
+  const staffIds = new Set(d.staff.map((s) => s.id));
+  const isStaff = (x: unknown) => isStr(x) && staffIds.has(x);
+  const isActor = (x: unknown) => x === null || x === undefined || x === "owner" || isStaff(x);
+  const isNote = (x: unknown) => x === null || x === undefined || (isStr(x) && x.length <= 500);
   for (const c of d.customers) {
     if (!isStr(c.name) || c.name.length > 80) return "a customer's name is too long";
     if (!c.deletedAt && !PHONE.test(c.phone)) return "a customer's mobile number isn't valid";
     if (!isInt(c.walletBalance, 0, MAX_RUPEES)) return "a wallet balance is out of range";
     if (!isIso(c.createdAt) || !isIsoOrNull(c.deletedAt)) return "a customer's dates aren't valid";
   }
+  const live = d.customers.filter((c) => !c.deletedAt).map((c) => c.phone);
+  if (new Set(live).size !== live.length) return "two customers share a mobile number";
+  if (new Set(d.staff.map((s) => s.phone)).size !== d.staff.length) return "two staff share a mobile number";
   // Each wallet balance must equal its ledger, the rule the app keeps on every save.
   const ledger = new Map<string, number>();
   const customerIds = new Set(d.customers.map((c) => c.id));
@@ -286,6 +297,10 @@ function backupProblem(d: Data, now: Date): string | null {
     if (!isInt(v.total, 0, MAX_RUPEES) || !isInt(v.walletPaid, 0, MAX_RUPEES) || !isInt(v.directPaid, 0, MAX_RUPEES)) return "a bill amount is out of range";
     if (v.paymentMethod !== null && v.paymentMethod !== undefined && !PAYMENT_METHODS.includes(v.paymentMethod)) return "a bill has an unknown payment method";
     if (!isIso(v.createdAt) || !isIsoOrNull(v.paidAt) || !isIsoOrNull(v.voidedAt)) return "a bill's dates aren't valid";
+    // Nested parts have the shapes the app writes, or screens that list them break (run 3).
+    if (!customerIds.has(v.customerId) || !isStaff(v.staffId) || !isActor(v.voidedBy) || !isActor(v.leftBy) || !isNote(v.voidReason)) return "a bill isn't valid";
+    if (!Array.isArray(v.serviceIds) || !v.serviceIds.every(isStr) || !Array.isArray(v.addOnIds) || !v.addOnIds.every(isStr)) return "a bill isn't valid";
+    if (v.extras !== undefined && (!Array.isArray(v.extras) || !v.extras.every((x) => x && isStr(x.name) && x.name.length <= 80 && isInt(x.price, 1, 100000) && isIsoOrNull(x.approvedAt)))) return "a bill isn't valid";
   }
   for (const s of d.staff) {
     if (!isStr(s.name) || s.name.length > 80 || !PHONE.test(s.phone)) return "a staff record isn't valid";
@@ -293,15 +308,16 @@ function backupProblem(d: Data, now: Date): string | null {
     if (s.photoKey !== null && s.photoKey !== undefined && !SAFE_KEY.test(s.photoKey)) return "a staff photo name isn't valid";
   }
   for (const a of d.attendance) {
-    if (!DAY_RE.test(a.date) || !isIso(a.checkInAt)) return "an attendance record isn't valid";
+    if (!DAY_RE.test(a.date) || !isIso(a.checkInAt) || !isStaff(a.staffId)) return "an attendance record isn't valid";
     if (a.photoKey !== null && a.photoKey !== undefined && !SAFE_KEY.test(a.photoKey)) return "a selfie name isn't valid";
   }
   for (const a of d.appointments) {
     if (!isIso(a.at) || !isIso(a.createdAt)) return "a booking's dates aren't valid";
     if (!["BOOKED", "ARRIVED", "CANCELLED", "NO_SHOW"].includes(a.status)) return "a booking has an unknown status";
-    if (a.closedBy !== undefined && a.closedBy !== null && !isStr(a.closedBy)) return "a booking isn't valid";
+    if (!isActor(a.closedBy) || !customerIds.has(a.customerId) || (a.staffId !== null && !isStaff(a.staffId)) || !isNote(a.note)) return "a booking isn't valid";
+    if (!Array.isArray(a.serviceIds) || !a.serviceIds.every(isStr)) return "a booking isn't valid";
   }
-  for (const l of d.leaves) if (!["WAITING", "APPROVED", "DECLINED", "WITHDRAWN"].includes(l.status) || !DAY_RE.test(l.from) || !DAY_RE.test(l.to)) return "a leave request isn't valid";
+  for (const l of d.leaves) if (!["WAITING", "APPROVED", "DECLINED", "WITHDRAWN"].includes(l.status) || !DAY_RE.test(l.from) || !DAY_RE.test(l.to) || !isStaff(l.staffId) || !isNote(l.note) || !isNote(l.reason)) return "a leave request isn't valid";
   const EVENTS = ["CONSENT_GIVEN", "MARKETING_ON", "MARKETING_OFF", "DATA_SHARED", "WALLET_CLOSED", "DELETED", "AUTO_ERASED"];
   for (const e of d.privacyLog) if (!EVENTS.includes(e.type) || !isStr(e.customerId)) return "a privacy record isn't valid";
   if (d.checks) {
@@ -311,7 +327,7 @@ function backupProblem(d: Data, now: Date): string | null {
     for (const x of [...d.catalog.services, ...d.catalog.addOns]) if (!isStr(x.name) || !x.name.trim() || !isInt(x.price, 1, 100000)) return "a price in the service list is out of range";
     for (const x of d.catalog.services) if (!isInt(x.minutes, 5, 600) || !isInt(x.cycleDays, 1, 365)) return "a service's time or due-back days are out of range";
   }
-  for (const c of d.dayClosings ?? []) if (!DAY_RE.test(c.date) || !isInt(c.counted, 0, MAX_RUPEES) || !isInt(c.expected, 0, MAX_RUPEES)) return "a cash count isn't valid";
+  for (const c of d.dayClosings ?? []) if (!DAY_RE.test(c.date) || !isInt(c.counted, 0, MAX_RUPEES) || !isInt(c.expected, 0, MAX_RUPEES) || !isNote(c.note)) return "a cash count isn't valid";
   return null;
 }
 

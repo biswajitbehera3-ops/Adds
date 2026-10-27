@@ -8,7 +8,7 @@ import { deletePhotos } from "../platform/photos";
 import { checkSecret, type Hasher } from "./auth";
 import { applyCatalog, prepareRestore } from "./checks";
 import { UserError } from "./errors";
-import { migrate, observeClock, purgeExpired } from "./engine";
+import { assertClockNotFarAhead, migrate, observeClock, purgeExpired } from "./engine";
 import { buildDemoData } from "./seed";
 import { emptyData, type Data, type Session } from "./types";
 
@@ -56,6 +56,8 @@ export async function loadStore(): Promise<void> {
     const raw = await AsyncStorage.getItem(KEY);
     // Demo data only on a true first launch, when nothing is saved yet. A read or parse error never
     // falls back to it: that would put the demo owner password in charge and overwrite the real data.
+    // A saved owner password with no data means the data was lost, not a first launch (run 3).
+    if (!raw && (await AsyncStorage.getItem(OWNER_KEY))) throw new Error("The salon's data is missing but its owner password is saved");
     let next = raw ? migrate(JSON.parse(raw)) : buildDemoData();
     // Retention: erase what has been kept long enough, every time the app starts (held if the clock jumped).
     const purged = purgeExpired(next);
@@ -117,22 +119,54 @@ export async function restoreAfterLoadFailure(data: Data, password: string, h: H
 /** Applies an engine operation and commits its data. Engine errors propagate untouched. */
 export function commit<T>(op: (data: Data) => { data: Data; result: T }): T {
   if (loadFailed) throw new Error("The saved data couldn't be read");
-  const { data, result } = op(state);
-  if (data.catalog !== state.catalog) applyCatalog(data);
-  // Every save notes the phone's clock, so a clock set back shows in the owner's checks.
-  state = observeClock(data);
+  // Every save notes the phone's clock first, on the data as it was, so a record saved at a new time
+  // can't vouch for that time. A refused save still keeps the note: a clock set back shows in the owner's checks.
+  const now = new Date();
+  const watched = observeClock(state, now);
+  let out: { data: Data; result: T };
+  try {
+    assertClockNotFarAhead(watched, now);
+    out = op(watched);
+  } catch (e) {
+    state = watched;
+    persist();
+    emit();
+    throw e;
+  }
+  if (out.data.catalog !== state.catalog) applyCatalog(out.data);
+  state = out.data;
   persist();
   emit();
-  return result;
+  return out.result;
+}
+
+/** Notes the phone's clock when the app comes back to the front, so a clock changed while idle is seen (run 3). */
+export function observeNow() {
+  if (loadFailed || !ready) return;
+  state = observeClock(state);
+  persist();
+  emit();
 }
 
 export function getData(): Data {
   return state;
 }
 
+/**
+ * Deletes the selfie and staff photo files the new data no longer points to. Clean-up by date only
+ * reaches files a record still names, so a restore or a wipe must delete the rest itself (run 3, lesson 7).
+ */
+function dropUnusedPhotos(prev: Data, next: Data) {
+  const keys = (d: Data) => [...d.attendance.map((a) => a.photoKey), ...d.staff.map((s) => s.photoKey)].filter((k): k is string => !!k);
+  const keep = new Set(keys(next));
+  deletePhotos(keys(prev).filter((k) => !keep.has(k))).catch(() => {});
+}
+
 /** Replaces everything with demo data and signs everyone out. */
 export function resetToDemo() {
-  state = buildDemoData();
+  const next = buildDemoData();
+  dropUnusedPhotos(state, next);
+  state = next;
   applyCatalog(state);
   persist();
   setSession(null);
@@ -140,7 +174,9 @@ export function resetToDemo() {
 
 /** Wipes the phone back to first-launch: the owner sets a new password and adds staff. */
 export function clearAll() {
-  state = emptyData();
+  const next = emptyData();
+  dropUnusedPhotos(state, next);
+  state = next;
   applyCatalog(state);
   persist();
   setSession(null);
@@ -148,7 +184,9 @@ export function clearAll() {
 
 /** Replaces everything with a backup the owner chose, and signs everyone out. */
 export function restoreBackup(data: Data) {
-  state = observeClock(data);
+  const next = observeClock(data);
+  dropUnusedPhotos(state, next);
+  state = next;
   applyCatalog(state);
   persist();
   setSession(null);
