@@ -8,7 +8,7 @@ import { deletePhotos } from "../platform/photos";
 import { checkSecret, type Hasher } from "./auth";
 import { applyCatalog, prepareRestore } from "./checks";
 import { UserError } from "./errors";
-import { assertClockNotFarAhead, migrate, observeClock, purgeExpired } from "./engine";
+import { confirmClock, migrate, observeClock, purgeExpired } from "./engine";
 import { buildDemoData } from "./seed";
 import { emptyData, type Data, type Session } from "./types";
 
@@ -110,7 +110,8 @@ export async function restoreAfterLoadFailure(data: Data, password: string, h: H
   if (!recoveryOwner) throw new UserError("This phone has no saved owner password, so a backup can't be restored here.");
   if (!(await checkSecret(recoveryOwner.secret, password, h))) throw new UserError("Wrong owner password");
   loadFailed = false;
-  state = observeClock(prepareRestore({ ...data, owner: recoveryOwner, privacyLog: [], clock: undefined }, data, now), now);
+  // The owner has just typed the owner password on this phone: today's date is confirmed with it.
+  state = confirmClock(prepareRestore({ ...data, owner: recoveryOwner, privacyLog: [], clock: undefined }, data, now), now).data;
   applyCatalog(state);
   persist();
   setSession(null);
@@ -125,7 +126,6 @@ export function commit<T>(op: (data: Data) => { data: Data; result: T }): T {
   const watched = observeClock(state, now);
   let out: { data: Data; result: T };
   try {
-    assertClockNotFarAhead(watched, now);
     out = op(watched);
   } catch (e) {
     state = watched;

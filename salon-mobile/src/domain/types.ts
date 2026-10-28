@@ -230,9 +230,11 @@ export type ClockWatch = {
    * owner confirms the date. Saves are checked against it, never against a saved record's time (run 3).
    */
   anchor?: string;
+  /** When the owner last confirmed the date (owner password). Clean-up runs only within 30 days of it. */
+  confirmedAt?: string;
   /** The clock was set back: from the latest time seen to an earlier one. */
   backJumps: { from: string; to: string }[];
-  /** The clock jumped ahead of the trusted time; automatic clean-up waits for the owner. */
+  /** The clock jumped ahead of the trusted time; automatic clean-up waits for the owner to confirm the date. */
   hold: { from: string; to: string } | null;
 };
 

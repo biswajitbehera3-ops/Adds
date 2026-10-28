@@ -55,12 +55,12 @@ export function TodayChecks({ onCount }: { onCount: (expected: number) => void }
       {checks.items.map((it) => (
         <Pressable
           key={it.id}
-          disabled={!it.visitId && it.id !== "k-hold"}
+          disabled={!it.visitId && it.id !== "k-confirm"}
           onPress={() => {
             if (it.visitId) nav.push({ name: "bill", visitId: it.visitId });
-            else if (it.id === "k-hold") setConfirmingDate(true);
+            else if (it.id === "k-confirm") setConfirmingDate(true);
           }}
-          accessibilityRole={it.visitId || it.id === "k-hold" ? "button" : "text"}
+          accessibilityRole={it.visitId || it.id === "k-confirm" ? "button" : "text"}
           style={{ flexDirection: "row", gap: 10, alignItems: "flex-start" }}
         >
           <View style={{ width: 8, height: 8, borderRadius: 4, marginTop: 6, backgroundColor: KIND_TONE[it.kind] }} />

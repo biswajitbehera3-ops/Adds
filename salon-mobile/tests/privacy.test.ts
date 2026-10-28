@@ -110,6 +110,7 @@ describe("access and deletion", () => {
     s.visit(c.id, 0, old);
     s.run(E.markAttendance(s.data, { staffId: s.stylist.id, photoKey: "p1" }, old));
     const fresh = s.run(E.createCustomer(s.data, { phone: "9876543211", name: "New", consent: true }));
+    s.run(E.confirmClock(s.data)); // clean-up runs only after the owner has confirmed the date
     const r = s.run(E.purgeExpired(s.data));
     expect(r).toEqual({ photoKeys: ["p1"], customersErased: 1 });
     expect(s.data.customers.find((x) => x.id === c.id)?.deletedAt).toBeTruthy();

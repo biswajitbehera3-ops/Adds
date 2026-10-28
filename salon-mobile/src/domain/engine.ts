@@ -80,10 +80,10 @@ export function latestRecordTime(data: Data): number {
   return t;
 }
 
-/** Normal use moves the trusted time forward at most this far per app start or save; a longer gap waits for the owner. */
+/** Normal use moves the trusted time forward at most this far per app start, return to the app or save. */
 const CLOCK_STEP_DAYS = 3;
-/** Past this far beyond the trusted time, nothing is saved until the owner confirms the date. */
-const CLOCK_FAR_DAYS = 30;
+/** Automatic clean-up runs only within this many days of the owner last confirming the date. */
+const CONFIRM_VALID_DAYS = 30;
 
 /** The time this phone trusts (SECURITY-LESSONS 1): the clock anchor, or for data never watched, the newest saved record. */
 export function trustedTime(data: Data): number {
@@ -91,46 +91,64 @@ export function trustedTime(data: Data): number {
 }
 
 /**
- * Refuses a change made while the phone's clock is behind the trusted time (MISUSE-CHECKS 9), or far
- * ahead of it. A record saved with the clock ahead never raises the trusted time, so it can't lock the
- * salon out of saving once the clock is put right (run 3).
+ * Refuses a change made while the phone's clock is behind the trusted time (MISUSE-CHECKS 9). A record
+ * saved with the clock ahead never raises the trusted time, and the owner can always reset it by
+ * confirming the date, so a clock trick can't lock the salon out for good (run 3).
  */
 export function assertClockNotBehind(data: Data, now: Date) {
   if (now.getTime() < trustedTime(data) - 5 * 60000) {
-    throw new UserError("This phone's clock is behind. Set the date and time to automatic, then try again.");
+    throw new UserError("This phone's clock is behind the last date the salon used. Set the date and time to automatic, or ask the owner to confirm today's date in Today's checks.");
   }
-  assertClockNotFarAhead(data, now);
 }
 
-/** Refuses any save while the clock is far ahead of the trusted time; every save goes through this in commit. */
-export function assertClockNotFarAhead(data: Data, now: Date) {
-  if (data.clock?.anchor && now.getTime() > Date.parse(data.clock.anchor) + CLOCK_FAR_DAYS * DAY_MS) {
-    throw new UserError("This phone's date is far ahead of the last date the salon used. Ask the owner to confirm the date in Today's checks.");
-  }
+/** The phone's clock is behind the trusted time: saves are refused until it is put right or the owner confirms the date. */
+export function clockBehind(data: Data, now = new Date()): boolean {
+  return !!data.clock?.anchor && now.getTime() < Date.parse(data.clock.anchor) - 5 * 60000;
+}
+
+/**
+ * Whether automatic clean-up may delete anything now (SECURITY-LESSONS 1). The trusted time can be walked
+ * forward in small steps by changing the date again and again, so clean-up also needs the owner to have
+ * confirmed the date in the last 30 days, at a time not after now. The owner sees the date when confirming.
+ */
+export function cleanupAllowed(data: Data, now = new Date()): boolean {
+  const c = data.clock;
+  if (!c?.confirmedAt || c.hold) return false;
+  const confirmed = Date.parse(c.confirmedAt);
+  const t = now.getTime();
+  return t >= confirmed - 5 * 60000 && t <= confirmed + CONFIRM_VALID_DAYS * DAY_MS && !clockBehind(data, now);
 }
 
 /**
  * Watches the phone's clock on every app start, return to the app and save (SECURITY-LESSONS 1, 2).
- * A clock set back is logged for the owner's checks. The trusted time follows the clock only in small
- * forward steps; a bigger jump puts automatic clean-up on hold until the owner confirms the date.
+ * A clock set back is logged once for the owner's checks. The trusted time follows the clock only in
+ * small forward steps; a bigger jump is noted as a hold until the owner confirms the date.
  * Run it on the data as it was before a change, so a record saved at the new time can't vouch for it.
  */
 export function observeClock(data: Data, now = new Date()): Data {
   const seen = data.clock?.lastSeen ? Date.parse(data.clock.lastSeen) : 0;
   const t = now.getTime();
-  const backJumps = [...(data.clock?.backJumps ?? [])];
-  if (seen && t < seen - 5 * 60000) backJumps.push({ from: new Date(seen).toISOString(), to: now.toISOString() });
+  let backJumps = data.clock?.backJumps ?? [];
+  // One entry per set-back: repeated looks while the clock stays behind don't push older ones out.
+  if (seen && t < seen - 5 * 60000 && !backJumps.some((j) => j.from === new Date(seen).toISOString())) {
+    backJumps = [...backJumps, { from: new Date(seen).toISOString(), to: now.toISOString() }].slice(-20);
+  }
   let anchor = trustedTime(data) || t;
   let hold = data.clock?.hold ?? null;
   if (t > anchor + CLOCK_STEP_DAYS * DAY_MS) {
     if (!hold) hold = { from: new Date(anchor).toISOString(), to: now.toISOString() };
   } else anchor = Math.max(anchor, t);
-  return { ...data, clock: { lastSeen: new Date(Math.max(seen, t)).toISOString(), anchor: new Date(anchor).toISOString(), backJumps: backJumps.slice(-20), hold } };
+  return { ...data, clock: { ...data.clock, lastSeen: new Date(Math.max(seen, t)).toISOString(), anchor: new Date(anchor).toISOString(), backJumps, hold } };
 }
 
-/** The owner confirms the phone's date is right (owner password): it becomes the trusted time, and clean-up runs again. */
+/**
+ * The owner confirms the phone's date is right (owner password): it becomes the trusted time, forward or
+ * back, and clean-up may run for the next 30 days. Never blocked by the clock checks, so the owner can
+ * always undo a clock trick.
+ */
 export function confirmClock(data: Data, now = new Date()): Op<null> {
-  return { data: { ...data, clock: { lastSeen: now.toISOString(), anchor: now.toISOString(), backJumps: data.clock?.backJumps ?? [], hold: null } }, result: null };
+  const iso = now.toISOString();
+  return { data: { ...data, clock: { lastSeen: iso, anchor: iso, confirmedAt: iso, backJumps: data.clock?.backJumps ?? [], hold: null } }, result: null };
 }
 
 const at = (v: Visit) => v.paidAt ?? v.createdAt;
@@ -1037,7 +1055,7 @@ export function deleteCustomer(data: Data, input: { customerId: string; by: stri
 export function purgeExpired(data: Data, now = new Date()): Op<{ photoKeys: string[]; customersErased: number; held?: boolean }> {
   // A phone clock far ahead of everything saved must not delete anything (SECURITY-LESSONS 1).
   const watched = observeClock(data, now);
-  if (watched.clock?.hold) return { data: watched, result: { photoKeys: [], customersErased: 0, held: true } };
+  if (!cleanupAllowed(watched, now)) return { data: watched, result: { photoKeys: [], customersErased: 0, held: true } };
   data = watched;
   const r = config.retention;
   const cutoff = (days: number) => new Date(now.getTime() - days * DAY_MS).toISOString();
@@ -1363,8 +1381,10 @@ export function recentVisits(data: Data, take = 50) {
 
 // ── Staff & owner accounts ───────────────────────────────────────────────────
 
-export function setOwnerSecret(data: Data, secret: Secret): Op<null> {
-  return { data: { ...data, owner: { secret } }, result: null };
+export function setOwnerSecret(data: Data, secret: Secret, now = new Date()): Op<null> {
+  // Setting up the salon is the owner's first confirmation of the date.
+  const next = { ...data, owner: { secret } };
+  return { data: data.owner ? next : confirmClock(next, now).data, result: null };
 }
 
 export function addStaff(

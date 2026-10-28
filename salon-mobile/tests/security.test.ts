@@ -97,7 +97,7 @@ describe("run 2 findings", () => {
     const r = s.run(E.purgeExpired(s.data, ahead));
     expect(r).toMatchObject({ photoKeys: [], customersErased: 0, held: true });
     expect(s.data.customers[0].deletedAt).toBeNull();
-    expect(K.ownerChecks(s.data, NOW).items.map((i) => i.id)).toContain("k-hold");
+    expect(K.ownerChecks(s.data, NOW).items.map((i) => i.id)).toContain("k-confirm");
     // At the real date, after the owner confirms, nothing recent is touched.
     s.run(E.confirmClock(s.data, at(MIN)));
     expect(s.run(E.purgeExpired(s.data, at(2 * MIN)))).toMatchObject({ photoKeys: [], customersErased: 0 });
@@ -209,23 +209,33 @@ describe("run 3 recon gaps", () => {
     expect(() => E.requestLeave(s.data, { staffId: s.imran.id, from: "2026-10-20", to: "2026-10-20", type: "CASUAL" }, back)).toThrow("clock is behind");
   });
 
-  it("the trusted time moves only in small steps: forward jumps hold clean-up and can't lock saving", () => {
+  it("the clock can't be walked forward to trigger clean-up, and the owner can always undo a clock trick", () => {
     const s = setup();
     const c = s.add("9876500001", "Asha");
     s.bill(c.id, NOW);
-    let d = E.observeClock(s.data, NOW);
+    s.run(E.markAttendance(s.data, { staffId: s.imran.id, photoKey: "selfie-today" }, NOW));
+    let d = E.confirmClock(s.data, NOW).data;
     // App starts 29 days apart used to slip under the 30-day hold.
     for (let i = 1; i <= 3; i++) d = E.purgeExpired(d, at(i * 29 * DAY)).data;
     expect(d.clock?.hold).toBeTruthy();
     expect(d.customers[0].name).toBe("Asha");
-    // A record saved 10 days ahead doesn't become the trusted time: back at the real date, billing works.
-    d = E.createCustomer(d, { phone: "9876500002", name: "Bina", consent: true }, at(10 * DAY)).data;
-    expect(() => E.startVisit(d, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: s.imran.id }, at(60 * MIN))).not.toThrow();
-    // Far ahead, nothing saves until the owner confirms the date.
-    expect(() => E.topUp(d, { customerId: c.id, amount: 1000, method: "CASH" }, at(40 * DAY))).toThrow("far ahead");
-    d = E.confirmClock(d, at(40 * DAY)).data;
-    expect(d.clock?.hold).toBeNull();
-    expect(() => E.startVisit(d, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: s.imran.id }, at(40 * DAY))).not.toThrow();
+    // Steps of under 3 days, one app return each, move the trusted time a year ahead, yet clean-up
+    // still waits: the owner's last confirmation is a year old.
+    d = E.confirmClock(d, NOW).data;
+    let r = E.purgeExpired(d, NOW);
+    for (let t = 2.9 * DAY; t <= 370 * DAY; t += 2.9 * DAY) r = E.purgeExpired(E.observeClock(r.data, at(t)), at(t));
+    expect(r.result.held).toBe(true);
+    expect(r.data.customers[0].name).toBe("Asha");
+    expect(r.data.attendance[0].photoKey).toBe("selfie-today");
+    // Put back to the real date, saves are refused; the owner sees it and one confirmation fixes it.
+    d = E.observeClock(r.data, at(DAY));
+    expect(() => E.startVisit(d, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: s.imran.id }, at(DAY))).toThrow("behind");
+    expect(K.ownerChecks(d, at(DAY)).items.map((i) => i.id)).toContain("k-confirm");
+    d = E.confirmClock(d, at(DAY)).data;
+    expect(() => E.startVisit(d, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: s.imran.id }, at(DAY))).not.toThrow();
+    // A record saved 10 days ahead doesn't become the trusted time either.
+    d = E.createCustomer(d, { phone: "9876500002", name: "Bina", consent: true }, at(11 * DAY)).data;
+    expect(() => E.topUp(d, { customerId: c.id, amount: 1000, method: "CASH" }, at(DAY + 60 * MIN))).not.toThrow();
   });
 
   it("a stylist's cancel just before the booked time shows in the owner's checks", () => {
@@ -260,6 +270,15 @@ describe("run 3 recon gaps", () => {
     const s = setup();
     const d = { ...s.data, walletTxs: [{ id: "t1", customerId: "c1", type: "REFERRAL_REWARD" as const, amount: 100, visitId: null, note: "Referred Bina Dummyname", createdAt: NOW.toISOString() }] };
     expect(E.migrate(JSON.parse(JSON.stringify(d))).walletTxs[0].note).toBe(E.REFERRAL_NOTE);
+  });
+
+  it("a long note shortens in a backup instead of making the backup unusable", () => {
+    const s = setup();
+    const c = s.add("9876500001", "Asha");
+    const v = s.bill(c.id, NOW);
+    s.run(E.voidVisit(s.data, { visitId: v.id, reason: "x".repeat(600), by: "owner" }, at(MIN)));
+    const read = K.readBackup(K.exportBackup(s.data, at(2 * MIN)).text, at(2 * MIN));
+    expect(read.visits[0].voidReason).toHaveLength(500);
   });
 });
 

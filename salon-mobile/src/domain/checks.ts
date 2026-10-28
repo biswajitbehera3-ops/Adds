@@ -6,7 +6,7 @@
  */
 import config, { type AddOn, type Service } from "../config/salon";
 import { UserError } from "./errors";
-import { assertClockNotBehind, checkSettings, eraseCustomer, migrate, newId } from "./engine";
+import { assertClockNotBehind, checkSettings, cleanupAllowed, clockBehind, eraseCustomer, migrate, newId } from "./engine";
 import { istDate } from "./rules";
 import type { Catalog, CheckSettings, Data, DayClosing, Visit } from "./types";
 import { PAYMENT_METHODS } from "./types";
@@ -165,9 +165,15 @@ export function ownerChecks(data: Data, now = new Date()) {
     if (dayOf(j.to) !== day && dayOf(j.from) !== day && Date.parse(j.to) < now.getTime() - 7 * 86400000) continue;
     items.push({ id: `k-${j.to}`, kind: "clock", title: "The phone's clock was set back", detail: `From ${j.from.slice(0, 16).replace("T", " ")} to ${j.to.slice(0, 16).replace("T", " ")} UTC · check check-ins, undos and bills saved around then` });
   }
-  if (data.clock?.hold) {
-    items.push({ id: "k-hold", kind: "clock", title: "The phone's date jumped ahead", detail: `The app wasn't opened for over 3 days, or the date was moved ahead. Automatic clean-up is paused. If the phone shows the right date (${day}), tap here to confirm it` });
+  // Anything that needs the owner to confirm the date is one tappable item (SECURITY-LESSONS 1, 4).
+  if (clockBehind(data, now)) {
+    items.push({ id: "k-confirm", kind: "clock", title: "The phone's clock is behind the last date used", detail: `Bills and check-ins are refused until it's right. If today really is ${day}, tap here to confirm it` });
+  } else if (data.clock?.hold) {
+    items.push({ id: "k-confirm", kind: "clock", title: "The phone's date jumped ahead", detail: `The app wasn't opened for over 3 days, or the date was moved ahead. Automatic clean-up is paused. If today really is ${day}, tap here to confirm it` });
+  } else if (data.clock && !cleanupAllowed(data, now)) {
+    items.push({ id: "k-confirm", kind: "clock", title: "Confirm today's date", detail: `Automatic clean-up of old records waits for the owner to confirm the date once a month. If today is ${day}, tap here` });
   }
+
   // A stylist whose average bill today is far above their usual (last 30 days).
   const since = now.getTime() - 30 * 86400000;
   for (const s of data.staff.filter((x) => x.active)) {
@@ -229,11 +235,28 @@ export function readBackup(text: string, now = new Date()): Data {
   } catch {
     throw new UserError("This backup is damaged and can't be used");
   }
+  d = trimNotes(d);
   const problem = backupProblem(d, now);
   if (problem) throw new UserError(`This backup can't be used: ${problem}`);
   // Only known parts are kept. The clock record is never taken from a file: it is this phone's evidence.
   const { version, customers, visits, walletTxs, reminders, staff, attendance, appointments, leaves, privacyLog, owner, catalog, checks, dayClosings } = d;
   return { version, customers, visits, walletTxs, reminders, staff, attendance, appointments, leaves, privacyLog, owner, demo: false, catalog, checks, dayClosings };
+}
+
+/**
+ * Free-text notes are cut to the backup limits rather than refusing the file: the app saves any length,
+ * and one long note must not make every later backup unusable (run 3).
+ */
+function trimNotes(d: Data): Data {
+  const cut = <T,>(x: T, n: number): T => (typeof x === "string" && x.length > n ? (x.slice(0, n) as T) : x);
+  const each = <T,>(xs: T[] | undefined, f: (x: T) => T) => (Array.isArray(xs) ? xs.map((x) => (x && typeof x === "object" ? f(x) : x)) : xs);
+  return {
+    ...d,
+    visits: each(d.visits, (v) => ({ ...v, voidReason: cut(v.voidReason, 500), extras: each(v.extras, (x) => ({ ...x, name: cut(x.name, 80) })) })) as Data["visits"],
+    appointments: each(d.appointments, (a) => ({ ...a, note: cut(a.note, 500) })) as Data["appointments"],
+    leaves: each(d.leaves, (l) => ({ ...l, note: cut(l.note, 500), reason: cut(l.reason, 500) })) as Data["leaves"],
+    dayClosings: each(d.dayClosings, (c) => ({ ...c, note: cut(c.note, 500) })),
+  };
 }
 
 const isStr = (x: unknown): x is string => typeof x === "string";

@@ -208,5 +208,5 @@ export function buildDemoData(now = Date.now()): Data {
   const sunitaOff = leaves[1].from;
   for (const a of appointments) if (a.staffId === staff[1].id && istDate(new Date(a.at)) === sunitaOff) a.status = "CANCELLED";
 
-  return { version: 4, customers, visits, walletTxs, reminders: [], staff, attendance, appointments, leaves, privacyLog: [], owner: { secret: OWNER_SECRET }, demo: true };
+  return { version: 4, customers, visits, walletTxs, reminders: [], staff, attendance, appointments, leaves, privacyLog: [], owner: { secret: OWNER_SECRET }, demo: true, clock: { lastSeen: new Date(now).toISOString(), anchor: new Date(now).toISOString(), confirmedAt: new Date(now).toISOString(), backJumps: [], hold: null } };
 }

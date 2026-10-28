@@ -99,23 +99,28 @@ describe("loading the saved data", () => {
     expect(() => store.commit((d) => ({ data: d, result: null }))).toThrow("couldn't be read");
   });
 
-  it("a save made with the clock years ahead is refused, and clean-up stays held (run 3)", async () => {
+  it("a save made with the clock years ahead holds clean-up, and the owner can confirm the date after a long gap (run 3)", async () => {
     const T = new Date("2026-10-14T05:30:00Z");
     vi.useFakeTimers({ now: T, toFake: ["Date"] });
     const E = await import("../src/domain/engine");
     let d: Data = { ...emptyData(), owner: { secret: await ownerSecret("salonpass") } };
     d = E.createCustomer(d, { phone: "9876500001", name: "Asha", consent: true }, T).data;
+    d = E.confirmClock(d, T).data;
     mem.set("salon:data:v1", JSON.stringify(d));
     let store = await import("../src/domain/store");
     await store.loadStore();
     vi.setSystemTime(new Date(T.getTime() + 1105 * 86400000));
-    expect(() => store.commit((x) => E.createCustomer(x, { phone: "9876500002", name: "Bina", consent: true }))).toThrow("far ahead");
+    store.commit((x) => E.createCustomer(x, { phone: "9876500002", name: "Bina", consent: true }));
     expect(store.getData().clock?.hold).toBeTruthy();
     await new Promise((r) => setTimeout(r, 400));
     vi.resetModules();
     store = await import("../src/domain/store");
     await store.loadStore();
     expect(store.getData().customers.find((c) => c.phone === "9876500001")?.name).toBe("Asha");
+    // After any gap, the owner's date confirmation still goes through and clean-up may run again.
+    store.commit((x) => E.confirmClock(x));
+    expect(store.getData().clock?.hold).toBeNull();
+    expect(store.getData().clock?.confirmedAt).toBe(new Date(T.getTime() + 1105 * 86400000).toISOString());
   });
 
   it("a restore, clear all and demo data delete the selfie files they drop (run 3)", async () => {
@@ -139,4 +144,22 @@ describe("loading the saved data", () => {
     await new Promise((r) => setTimeout(r, 50));
     expect(deleted).toContain("selfie-after-backup");
   });
+
+  it("a recovery restore of an old backup can be used straight away (run 3)", async () => {
+    const T = new Date("2026-10-14T05:30:00Z");
+    vi.useFakeTimers({ now: new Date(T.getTime() + 40 * 86400000), toFake: ["Date"] });
+    const E = await import("../src/domain/engine");
+    const secret = await ownerSecret("salonpass");
+    let old: Data = { ...emptyData(), owner: { secret } };
+    old = E.createCustomer(old, { phone: "9876500001", name: "Asha", consent: true }, T).data;
+    mem.set("salon:owner", JSON.stringify({ secret }));
+    failRead = true;
+    mem.set("salon:data:v1", "x");
+    const store = await import("../src/domain/store");
+    await store.loadStore();
+    const { readBackup } = await import("../src/domain/checks");
+    await store.restoreAfterLoadFailure(readBackup(exportBackup(old, T).text), "salonpass", hasher);
+    expect(() => store.commit((d) => E.topUp(d, { customerId: d.customers[0].id, amount: 1000, method: "CASH" }))).not.toThrow();
+  });
 });
+
