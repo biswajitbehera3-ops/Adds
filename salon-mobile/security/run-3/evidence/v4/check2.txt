@@ -1,0 +1,55 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/v4/scratch[39m
+
+[90mstdout[2m | b.test.ts[2m > [22m[2mN1 anchor frozen after a genuine closure[2m > [22m[2m5-day closure (days 1-4 unused), daily use days 5-15 without owner confirm, then stylist sets the clock back
+[22m[39mOBS N1 closure: anchor 2026-10-14T05:30:00.000Z hold [33mtrue[39m lastSeen 2026-10-29T07:30:00.000Z | staff undo of yesterday's bill: ok | backdated day-13 check-in: ok | backJumps [33m1[39m | clock items [
+  [32m"k-2026-10-28T08:31:00.000Z:The phone's clock was set back"[39m,
+  [32m"k-confirm:The phone's date jumped ahead"[39m
+]
+
+[90mstdout[2m | b.test.ts[2m > [22m[2mN1 anchor frozen after a genuine closure[2m > [22m[2mcontrol: daily use days 1-15 (no closure) -> the same set-backs are refused
+[22m[39mOBS N1 control: anchor 2026-10-29T07:30:00.000Z hold [33mfalse[39m | undo: ERR This phone's clock is behind the last date the salon used. Set the date and time to automa | backdated check-in: ERR This phone's clock is behind the last date the salon used. Set the date and time to automa | clock items [ [32m"k-2026-10-28T08:31:00.000Z:The phone's clock was set back"[39m ]
+
+[90mstdout[2m | b.test.ts[2m > [22m[2mN2 clean-up on an unconfirmed forward date (within 30 days of confirmation)[2m > [22m[2mowner confirms at NOW; stylist walks +3d x10 by app returns, restarts at +29.9d
+[22m[39mOBS N2 at real date: allowed [33mtrue[39m deleted []
+
+[90mstdout[2m | b.test.ts[2m > [22m[2mN2 clean-up on an unconfirmed forward date (within 30 days of confirmation)[2m > [22m[2mowner confirms at NOW; stylist walks +3d x10 by app returns, restarts at +29.9d
+[22m[39mOBS N2 after walk to +29.9d and one restart: deleted files [ [32m'selfie-336d'[39m ] | live customers [33m0[39m | privacyLog [ [32m'CONSENT_GIVEN'[39m, [32m'AUTO_ERASED'[39m ] | hold [33mfalse[39m
+OBS N2 trace after clock put right: items [
+  [32m"k-2026-10-14T06:30:00.000Z:The phone's clock was set back"[39m,
+  [32m"k-confirm:The phone's clock is behind the last date used"[39m
+] | a save: ERR This phone's clock is behind the last date the salon used. Set the date and time to automa
+
+[90mstdout[2m | b.test.ts[2m > [22m[2mN3 who can confirm the date[2m > [22m[2msetOwnerSecret confirms only on first setup; demo, clearAll+setup
+[22m[39mOBS N3 setOwnerSecret with an owner already set: confirmedAt 2026-09-04T05:30:00.000Z (was 2026-09-04T05:30:00.000Z)
+OBS N3 demo: allowed [33mtrue[39m clock items []
+
+[90mstdout[2m | b.test.ts[2m > [22m[2mN3 who can confirm the date[2m > [22m[2msetOwnerSecret confirms only on first setup; demo, clearAll+setup
+[22m[39mOBS N3 first launch demo [33mtrue[39m allowed [33mtrue[39m
+
+[90mstdout[2m | b.test.ts[2m > [22m[2mN3 who can confirm the date[2m > [22m[2msetOwnerSecret confirms only on first setup; demo, clearAll+setup
+[22m[39mOBS N3 after clearAll restart: owner [1mnull[22m clock {"lastSeen":"2026-10-14T05:30:00.000Z","anchor":"2026-10-14T05:30:00.000Z","backJumps":[],"hold":null}
+OBS N3 setup: ok allowed [33mtrue[39m items []
+
+[90mstdout[2m | b.test.ts[2m > [22m[2mN3 who can confirm the date[2m > [22m[2mowner-menu restore keeps this phone's confirmation; old backup restore
+[22m[39mOBS N3 owner restore: confirmedAt 2026-10-14T04:30:00.000Z allowed [33mtrue[39m save ok items []
+
+[90mstdout[2m | b.test.ts[2m > [22m[2mN4 genuine wrong-date glitch[2m > [22m[2mphone date 2 days ahead for one save, then corrected
+[22m[39mOBS N4: save after correction ERR This phone's clock is behind the last date the salon used. Set the date and time to automa | items [
+  [32m"k-2026-10-14T06:30:00.000Z:The phone's clock was set back"[39m,
+  [32m"k-confirm:The phone's clock is behind the last date used"[39m
+] | after owner confirm ok
+
+ [32m✓[39m b.test.ts [2m([22m[2m6 tests[22m[2m)[22m[33m 15810[2mms[22m[39m
+   [33m[2m✓[22m[39m N1 anchor frozen after a genuine closure[2m > [22m5-day closure (days 1-4 unused), daily use days 5-15 without owner confirm, then stylist sets the clock back [33m 5363[2mms[22m[39m
+   [33m[2m✓[22m[39m N1 anchor frozen after a genuine closure[2m > [22mcontrol: daily use days 1-15 (no closure) -> the same set-backs are refused [33m 7001[2mms[22m[39m
+   [33m[2m✓[22m[39m N2 clean-up on an unconfirmed forward date (within 30 days of confirmation)[2m > [22mowner confirms at NOW; stylist walks +3d x10 by app returns, restarts at +29.9d [33m 1292[2mms[22m[39m
+   [33m[2m✓[22m[39m N3 who can confirm the date[2m > [22msetOwnerSecret confirms only on first setup; demo, clearAll+setup [33m 1112[2mms[22m[39m
+   [33m[2m✓[22m[39m N3 who can confirm the date[2m > [22mowner-menu restore keeps this phone's confirmation; old backup restore [33m 522[2mms[22m[39m
+   [33m[2m✓[22m[39m N4 genuine wrong-date glitch[2m > [22mphone date 2 days ahead for one save, then corrected [33m 517[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m6 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m 05:07:38
+[2m   Duration [22m 16.53s[2m (transform 418ms, setup 0ms, collect 426ms, tests 15.81s, environment 0ms, prepare 78ms)[22m
+

@@ -158,8 +158,8 @@ export default function App() {
   useEffect(() => {
     loadStore();
     const t = setTimeout(() => setFontWaitOver(true), 2500);
-    // Coming back to the app notes the phone's clock, so a date changed while it sat open is seen (SECURITY-LESSONS 1).
-    const sub = AppState.addEventListener("change", (s) => s === "active" && observeNow());
+    // Leaving and coming back to the app note the phone's clock, so a date changed meanwhile is seen (SECURITY-LESSONS 1).
+    const sub = AppState.addEventListener("change", () => observeNow());
     return () => (clearTimeout(t), sub.remove());
   }, []);
   const fontsSettled = fontsLoaded || !!fontError || fontWaitOver;

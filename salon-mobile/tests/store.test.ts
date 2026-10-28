@@ -160,6 +160,9 @@ describe("loading the saved data", () => {
     const { readBackup } = await import("../src/domain/checks");
     await store.restoreAfterLoadFailure(readBackup(exportBackup(old, T).text), "salonpass", hasher);
     expect(() => store.commit((d) => E.topUp(d, { customerId: d.customers[0].id, amount: 1000, method: "CASH" }))).not.toThrow();
+    // The recovery screen doesn't show the date, so it doesn't confirm it: clean-up waits for the owner.
+    expect(store.getData().clock?.confirmedAt).toBeUndefined();
+    expect(E.cleanupAllowed(store.getData())).toBe(false);
   });
 });
 

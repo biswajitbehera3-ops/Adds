@@ -1,0 +1,41 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/v1/scratch[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mV1-1 observeClock hold bypass[2m > [22m[2mcontrol: app start with clock +3y and no save -> hold, nothing erased
+[22m[39mcontrol hold: [33mtrue[39m asha name: Asha Rao
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mV1-1 observeClock hold bypass[2m > [22m[2mapp open, clock +3y, one save, restart -> no hold, customer served today auto-erased; backup can't bring back
+[22m[39mafter commit at +3y hold = [1mnull[22m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mV1-1 observeClock hold bypass[2m > [22m[2mapp open, clock +3y, one save, restart -> no hold, customer served today auto-erased; backup can't bring back
+[22m[39mrestart: hold = [1mnull[22m asha = {"name":"Deleted customer","phone":""} privacyLog types = [ [32m'CONSENT_GIVEN'[39m, [32m'CONSENT_GIVEN'[39m, [32m'AUTO_ERASED'[39m ]
+after restoring today's backup asha = Deleted customer
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mV1-1 observeClock hold bypass[2m > [22m[2m29-day steps across app starts with no save never hold and eventually erase
+[22m[39msteps: [33m39[39m ever held: [33mfalse[39m asha = Deleted customer
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mV1-2 forward-dated record lockout[2m > [22m[2mone save at +3y blocks guarded saves at the real date; confirmClock doesn't help; newer backup refused
+[22m[39mstartVisit real date: REFUSED: This phone's clock is behind. Set the date and time to automatic, then try again.
+topUp real date: REFUSED: This phone's clock is behind. Set the date and time to automatic, then try again.
+closeDay real date: REFUSED: This phone's clock is behind. Set the date and time to automatic, then try again.
+startVisit after owner confirmClock: REFUSED: This phone's clock is behind. Set the date and time to automatic, then try again.
+readBackup of current data at real date: REFUSED: This backup can't be used: a date in customers is in the future
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mV1-3 staff cancel before start[2m > [22m[2mcancel 1 min before start and clock-back cancel leave no owner item and no back-jump
+[22m[39mreal-time late cancel: The booked time has passed. Mark it No-show instead
+statuses: [
+  [32m'2026-10-14T06:30:00.000Z CANCELLED by=imran at=2026-10-14T06:29:00.000Z'[39m,
+  [32m'2026-10-14T07:00:00.000Z CANCELLED by=imran at=2026-10-14T06:55:00.000Z'[39m
+]
+backJumps: []
+owner items: []
+
+ [32m✓[39m x.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 12601[2mms[22m[39m
+   [33m[2m✓[22m[39m V1-1 observeClock hold bypass[2m > [22mapp open, clock +3y, one save, restart -> no hold, customer served today auto-erased; backup can't bring back [33m 329[2mms[22m[39m
+   [33m[2m✓[22m[39m V1-1 observeClock hold bypass[2m > [22m29-day steps across app starts with no save never hold and eventually erase [33m 12202[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m 14:45:28
+[2m   Duration [22m 13.14s[2m (transform 305ms, setup 0ms, collect 309ms, tests 12.60s, environment 0ms, prepare 62ms)[22m
+

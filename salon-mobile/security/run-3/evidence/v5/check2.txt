@@ -1,0 +1,19 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/v5/scratch[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck2: v4 finding 2 (retention from unconfirmed forward clock)[2m > [22m[2msmall steps up to +29.9 days delete nothing early (only already-expired items go)
+[22m[39mphoto keys deleted: [ [32m'selfie-expired'[39m ] held last: [90mundefined[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck2: v4 finding 2 (retention from unconfirmed forward clock)[2m > [22m[2mone jump to +29.9 days deletes nothing early
+[22m[39mjump: held [33mtrue[39m keys []
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck2: v4 finding 2 (retention from unconfirmed forward clock)[2m > [22m[2msteps of exactly 3 days (no hold) to +30 days delete nothing early
+[22m[39m3-day steps: hold null young selfie kept
+
+ [32m✓[39m x.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 05:13:15
+[2m   Duration [22m 749ms[2m (transform 388ms, setup 0ms, collect 396ms, tests 14ms, environment 0ms, prepare 84ms)[22m
+

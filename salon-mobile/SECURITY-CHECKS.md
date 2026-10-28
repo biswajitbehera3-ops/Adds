@@ -6,6 +6,7 @@ The `security-audit` skill runs after every build of the app, before it is shown
 |---|---|---|---|---|---|---|---|
 | 1 | 26 Oct 2026 | commit 05910c6 (the current app, before the build-later list) | quick (partial pass) | 4 (3 medium, 1 low) | 2 | 5 areas | all 4 fixed 27 Oct (`SECURITY-LESSONS.md`); the 2 phone-only leads partly fixed |
 | 2 | 27 Oct 2026 | same app source as run 1 (scoped to the 5 areas run 1 left) | quick, scoped (partial pass) | 6 (2 medium, 4 low) | 0 new | 1 area | all 6 fixed 27 Oct, and the deferred area (restore brings back deleted customers) fixed too (`SECURITY-LESSONS.md`) |
+| 3 | 27–28 Oct 2026 | commit 1fe98d0 (the fixed app), then each fix commit | quick, scoped to the 11 fixed areas + new code | 6 (1 high, 1 medium, 4 low); 1 rejected | 0 new | 7 areas (no change, no prior finding) | all 6 fixed 28 Oct, plus 6 more gaps the fix checks found in the fixes (`SECURITY-LESSONS.md` run 3) |
 
 ## Run 1 in plain words
 
@@ -42,3 +43,27 @@ Full report: `security/run-2/REPORT.md`. Run 2 checked the five areas run 1 left
 **Still open:**
 - restoring an older backup can bring back deleted customers (not yet checked);
 - the two run-1 leads that need a real phone.
+
+## Run 3 in plain words
+
+Full report: `security/run-3/REPORT.md`. Run 3 re-checked every area that had a fix, and the new code the fixes added.
+
+**Confirmed (all fixed 28 Oct):**
+1. **High.** The fix that paused automatic clean-up when the phone's date jumped ahead could be dodged. A stylist saves once with the date moved ahead and restarts the app, or reopens the app with the date moved under 30 days each time. Clean-up then erases customers, selfies and bookings for good.
+2. **Medium.** One record saved with the date years ahead stopped all billing and check-ins at the real date, and confirming the date didn't help.
+3. **Low.** A stylist could cancel a booking after its time with no trace, by setting the clock back while the app sat idle.
+4. **Low.** A made-up backup could name a stylist "owner", hiding their actions, or crash the owner's checks.
+5. **Low.** A backup with dates up to a day ahead blocked saving after a restore.
+6. **Low.** Restore, Clear all data and Load demo left selfie photos on the phone for good.
+
+**Rejected:** old referral notes naming a deleted friend. No real data can hold one.
+
+**The fixes were checked three more times.** Each check found a gap in the last fix, including one that would have locked the owner out after a month's closure, and each gap was fixed. In the final design:
+- automatic clean-up runs only within 30 days of the owner confirming the date with the owner password;
+- the owner can clear any clock problem with one tap;
+- nothing is deleted early.
+
+**Held up:** the owner password protects every restore and wipe, a failed load never shows demo data, deleted customers stay deleted, and the money and cash-count fixes all held.
+
+**Still open, to fix before a real salon goes live:** the checklist in `SECURITY-LESSONS.md`. Most items need live sync with server time.
+
