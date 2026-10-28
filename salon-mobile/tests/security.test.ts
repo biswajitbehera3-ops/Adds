@@ -233,9 +233,35 @@ describe("run 3 recon gaps", () => {
     expect(K.ownerChecks(d, at(DAY)).items.map((i) => i.id)).toContain("k-confirm");
     d = E.confirmClock(d, at(DAY)).data;
     expect(() => E.startVisit(d, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: s.imran.id }, at(DAY))).not.toThrow();
-    // A record saved 10 days ahead doesn't become the trusted time either.
-    d = E.createCustomer(d, { phone: "9876500002", name: "Bina", consent: true }, at(11 * DAY)).data;
-    expect(() => E.topUp(d, { customerId: c.id, amount: 1000, method: "CASH" }, at(DAY + 60 * MIN))).not.toThrow();
+    // A save with the clock 10 years ahead: back at the real date saves wait for the owner, never for ten years.
+    d = E.observeClock(d, at(3650 * DAY));
+    d = E.observeClock(d, at(DAY + 60 * MIN));
+    expect(() => E.topUp(d, { customerId: c.id, amount: 1000, method: "CASH" }, at(DAY + 60 * MIN))).toThrow("behind");
+    d = E.confirmClock(d, at(DAY + 60 * MIN)).data;
+    expect(() => E.topUp(d, { customerId: c.id, amount: 1000, method: "CASH" }, at(DAY + 61 * MIN))).not.toThrow();
+  });
+
+  it("after a closure of more than 3 days, a clock set back still can't undo a bill or backdate a check-in", () => {
+    const s = setup();
+    const c = s.add("9876500001", "Asha");
+    let d = E.confirmClock(s.data, NOW).data;
+    // Closed for 5 days; the owner hasn't confirmed the date yet. Daily use resumes.
+    for (let day = 5; day <= 14; day++) d = E.observeClock(d, at(day * DAY));
+    s.data = d;
+    const v = s.bill(c.id, at(14 * DAY));
+    d = E.observeClock(s.data, at(15 * DAY));
+    expect(() => E.voidVisit(d, { visitId: v.id, by: "staff", reason: "wrong", staffId: s.imran.id }, at(14 * DAY + MIN))).toThrow("behind");
+    expect(() => E.markAttendance(d, { staffId: s.sunita.id, photoKey: null }, at(13 * DAY))).toThrow("behind");
+  });
+
+  it("moving the date up to 30 days ahead of the owner's confirmation deletes nothing early", () => {
+    const s = setup();
+    const old = at(-336 * DAY).toISOString();
+    let d = E.confirmClock({ ...s.data, attendance: [{ id: "a-old", staffId: s.imran.id, date: old.slice(0, 10), checkInAt: old, photoKey: "selfie-old" }] }, NOW).data;
+    let r = E.purgeExpired(d, NOW);
+    for (let t = 3 * DAY; t <= 29.9 * DAY; t += 2.9 * DAY) r = E.purgeExpired(E.observeClock(r.data, at(t)), at(t));
+    expect(r.result.photoKeys).toEqual([]);
+    expect(r.data.attendance[0].photoKey).toBe("selfie-old");
   });
 
   it("a stylist's cancel just before the booked time shows in the owner's checks", () => {

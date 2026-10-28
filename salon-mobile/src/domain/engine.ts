@@ -80,7 +80,7 @@ export function latestRecordTime(data: Data): number {
   return t;
 }
 
-/** Normal use moves the trusted time forward at most this far per app start, return to the app or save. */
+/** A forward jump bigger than this is shown to the owner to confirm. */
 const CLOCK_STEP_DAYS = 3;
 /** Automatic clean-up runs only within this many days of the owner last confirming the date. */
 const CONFIRM_VALID_DAYS = 30;
@@ -129,16 +129,19 @@ export function observeClock(data: Data, now = new Date()): Data {
   const seen = data.clock?.lastSeen ? Date.parse(data.clock.lastSeen) : 0;
   const t = now.getTime();
   let backJumps = data.clock?.backJumps ?? [];
-  // One entry per set-back: repeated looks while the clock stays behind don't push older ones out.
-  if (seen && t < seen - 5 * 60000 && !backJumps.some((j) => j.from === new Date(seen).toISOString())) {
+  // One entry per set-back and day: repeated looks while the clock stays behind don't push older ones out,
+  // but a second set-back to another day is logged too.
+  const sameJump = (j: { from: string; to: string }) => j.from === new Date(seen).toISOString() && j.to.slice(0, 10) === now.toISOString().slice(0, 10);
+  if (seen && t < seen - 5 * 60000 && !backJumps.some(sameJump)) {
     backJumps = [...backJumps, { from: new Date(seen).toISOString(), to: now.toISOString() }].slice(-20);
   }
-  let anchor = trustedTime(data) || t;
+  const anchor = trustedTime(data) || t;
   let hold = data.clock?.hold ?? null;
-  if (t > anchor + CLOCK_STEP_DAYS * DAY_MS) {
-    if (!hold) hold = { from: new Date(anchor).toISOString(), to: now.toISOString() };
-  } else anchor = Math.max(anchor, t);
-  return { ...data, clock: { ...data.clock, lastSeen: new Date(Math.max(seen, t)).toISOString(), anchor: new Date(anchor).toISOString(), backJumps, hold } };
+  // A jump of more than 3 days is noted for the owner to confirm. The trusted time still follows the
+  // clock forward, so after a real closure a clock set back is refused again; a jump that was a trick
+  // only refuses saves until the owner confirms the real date (clean-up is guarded by cleanupAllowed).
+  if (t > anchor + CLOCK_STEP_DAYS * DAY_MS && !hold) hold = { from: new Date(anchor).toISOString(), to: now.toISOString() };
+  return { ...data, clock: { ...data.clock, lastSeen: new Date(Math.max(seen, t)).toISOString(), anchor: new Date(Math.max(anchor, t)).toISOString(), backJumps, hold } };
 }
 
 /**
@@ -1058,7 +1061,10 @@ export function purgeExpired(data: Data, now = new Date()): Op<{ photoKeys: stri
   if (!cleanupAllowed(watched, now)) return { data: watched, result: { photoKeys: [], customersErased: 0, held: true } };
   data = watched;
   const r = config.retention;
-  const cutoff = (days: number) => new Date(now.getTime() - days * DAY_MS).toISOString();
+  // Retention counts from the owner's last confirmed date, never from an unconfirmed later clock, so a
+  // date moved ahead can't delete anything early (run 3). Records may stay up to 30 days longer.
+  const from = Math.min(now.getTime(), Date.parse(data.clock!.confirmedAt!));
+  const cutoff = (days: number) => new Date(from - days * DAY_MS).toISOString();
   const photoCut = cutoff(r.attendancePhotoDays);
   const photoKeys: string[] = [];
   const attendance = data.attendance.map((a) => {
