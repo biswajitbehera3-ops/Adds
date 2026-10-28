@@ -101,7 +101,32 @@ Also hardened in run 3: lost main data with the owner password still saved goes 
 - **Demo data had booking dates in the future.** With the new clock guard this would have blocked every save in the demo. Bookings are now saved as made before "now" (`src/domain/seed.ts`); a test guards it.
 - **The single-file web build picked the wrong part of the app.** When the build splits the app into two files, the packer now takes the main one and adds the rest after it (`scripts/web-single-file.py`).
 
-## Still open
+## Before the first real salon goes live (locked, user 28 Oct)
+
+The user's instruction: these stay open in the demo and test builds, and **all of them are fixed when the app is set up for a real salon**. When that work starts, go through this list first, fix each item in that build, test it, and run the security check on the result.
+
+**Closed by a trusted server (live sync, `SYNC-PLAN.md`):**
+- [ ] **Clock tricks.** Use server time for every save. Then a stylist can no longer move the clock ahead and back to stop bills and check-ins until the owner confirms the date.
+- [ ] **First booking of the day.** A stylist who is first to touch the phone in the morning can set the clock back and cancel that day's first booking with no trace.
+- [ ] **Pre-marked attendance.** A stylist can check in for tomorrow with the clock ahead and not reopen the app (run-2 item 2).
+- [ ] **Monthly date confirmation.** With server time, the owner no longer has to confirm the date about once a month or after a 3-day gap before clean-up runs.
+- [ ] **Recovery restore loses the deletion record.** A phone whose data can't be read loses its own deletion record when a backup is restored from the recovery screen.
+- [ ] **WhatsApp code (R1-5).** The code must be sent by the server (WhatsApp Cloud API, `founder/RUNNING-COSTS.md`), so the stylist never sees it.
+
+**Closed in the app code:**
+- [ ] **Owner-only checks in the engine.** Add `requireOwner(session)` to void, top-up, close wallet, delete customer and approve leave. Today only the screens hide these buttons.
+- [ ] **Wrong passwords.** Lock out after wrong passwords at login, owner approval and the recovery screen. Raise the minimum password length above 4.
+- [ ] **Password storage.** Use a slow password hash instead of one round of SHA-256, and keep the hashes out of backup files, or encrypt the backup.
+- [ ] **Sessions.** Sessions never expire. Add an owner idle timeout.
+- [ ] **Exported backups.** Delete the exported backup file from the phone's cache after sharing.
+- [ ] **Size check.** Check the picked file's size before reading it into memory.
+- [ ] **Legal pages.** Escape quotes in links in the legal-page script.
+
+**Checked on a real phone before launch:**
+- [ ] **WhatsApp code.** Does WhatsApp show the stylist the code before it is sent (R1-5)?
+- [ ] **Photo files.** Photo file names and the selfie folder on Android and iOS (R1-6). Old selfie and staff-photo files are deleted after restore, clear all and a photo change.
+
+## Still open (detail)
 
 - **A stylist can move the clock ahead and back to stop bills and check-ins** until the owner confirms the date (the owner's checks show a tappable item). Nothing is deleted early. A trusted time source (live sync) closes it.
 - **A stylist who is first to touch the phone in the morning** can set the clock back before opening the app and cancel that day's first booking with no trace. Server time closes it.

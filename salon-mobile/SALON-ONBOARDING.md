@@ -51,6 +51,7 @@ These are the records in `src/domain/types.ts`, handled only by `src/domain/engi
 
 ## 3. Making their live app
 
+0. **Security first:** every item in the "Before the first real salon goes live" checklist in `SECURITY-LESSONS.md` is fixed, tested and security-checked. Any unticked item blocks a release.
 1. Fill the two config files above; any `[bracket]` placeholder blocks a release.
 2. Clear the demo data (owner menu → Clear all data) so the salon starts empty.
 3. Online sync for live across phones (BUILD-SPEC 3.4, provider still to choose in 10.7).
