@@ -66,4 +66,16 @@ Quote: 4 × 35 = 140 credits (cost preflight). First submission was refused by H
 
 All 720×1280, 24 fps, 5.04 s, no text in frame.
 
-Running total for the film: **178 credits** of the 300 ceiling.
+## 29 Oct: narrator voice tests (Qwen Audio 3.0 TTS Flash)
+Direction: "Warm, calm male documentary narrator, clear Indian English accent, speak slowly with gentle pauses", speed 0.85, English. Same opening line in 4 male voices. Quote ~0.2; **charged 0.2 credits** (4 × 0.05). Balance 343 → 342.8.
+
+| Take | Voice | Job id | Measured (sandbox, faster-whisper) |
+|---|---|---|---|
+| 1 | Gideon | 04aad460-d1d8-4c1a-a9f2-0375bfcbc298 | 11.9 s, 112 words/min, words correct |
+| 2 | Harrison | fcbc5da5-117e-4204-ad35-2a1ccf55ea75 | 10.8 s, 124 words/min, words correct, clearest pauses |
+| 3 | Marcus | 35a041ae-0294-4aa9-abe4-d8370ffff497 | 11.4 s, 117 words/min, words correct, fewest pauses |
+| 4 | Andre | abd77160-f3f0-44ea-a767-ab50ba896d7e | 11.4 s, 118 words/min, words correct |
+
+Accent is the user's call by ear: the audio host is blocked from this session, so it was only measured, not listened to.
+
+Running total for the film: **178.2 credits** of the 300 ceiling.
