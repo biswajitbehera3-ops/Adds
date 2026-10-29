@@ -78,4 +78,13 @@ Direction: "Warm, calm male documentary narrator, clear Indian English accent, s
 
 Accent is the user's call by ear: the audio host is blocked from this session, so it was only measured, not listened to.
 
-Running total for the film: **178.2 credits** of the 300 ceiling.
+User: too slow. **Re-test at normal pace** (speed 1.0, direction "Warm male documentary narrator, clear Indian English accent, natural conversational pace, confident and friendly"). Quote 0.2; one item hit a 429 rate limit (not charged) and was resubmitted. **Charged 0.2 credits** (transactions 29 Oct 14:01–14:02 UTC).
+
+| Take | Voice | Job id | Measured |
+|---|---|---|---|
+| 1 | Gideon | d5c0d49d-8a59-450a-b16d-3ca6d5aae8f9 | 9.0 s, 149 wpm, words correct |
+| 2 | Harrison | 438f3a40-564e-4480-8416-db8938d64f33 | 9.1 s, 147 wpm, words correct, keeps the full stop after "Priya" |
+| 3 | Marcus | 4b634594-6671-4687-b5d0-d24fd7a3aeae | 9.3 s, 143 wpm, words correct |
+| 4 | Andre | fad7d62c-28cc-413d-9ecf-84ab4090f3a3 | 9.3 s, 144 wpm, words correct |
+
+Running total for the film: **178.4 credits** of the 300 ceiling.
