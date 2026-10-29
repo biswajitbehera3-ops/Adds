@@ -87,4 +87,13 @@ User: too slow. **Re-test at normal pace** (speed 1.0, direction "Warm male docu
 | 3 | Marcus | 4b634594-6671-4687-b5d0-d24fd7a3aeae | 9.3 s, 143 wpm, words correct |
 | 4 | Andre | fad7d62c-28cc-413d-9ecf-84ab4090f3a3 | 9.3 s, 144 wpm, words correct |
 
-Running total for the film: **178.4 credits** of the 300 ceiling.
+## 29 Oct: full narration, voice 4 (Andre) chosen by the user
+Same direction, speed 1.0, recorded line by line (16 spoken lines) so each can be timed to its picture. Quote ~1 credit; 4 items hit 429 rate limits (not charged) and were resubmitted in groups of 3. **Charged 0.46 credits** (16 charges of 0.02–0.05, 29 Oct 14:05–14:07 UTC).
+
+Line job ids (in order 1–16): af96b041-66a7-41d2-b503-cbd9dfb9df88, 82fbeb89-d299-4621-aa8b-05ce561e193b, cea81053-e4f8-4103-9695-5afb71adae1e, c2ac9591-ca7b-4d30-86a4-66f96a61770c, 8767b210-1d52-4a23-850d-df4cd63de3d4, 7e8adcee-d292-4d05-acc3-f183c4a087e2, f5c599d8-9784-4d67-a8d0-bb606506f310, f250c307-ea71-4249-b902-0508588c4aed, b6a28870-5fbc-4b0c-851f-55220516b20c, e46a3ec4-8265-4583-832f-57b15b1bf254, 8363711d-eaf2-4149-81f0-f40092a88552, 150300c8-bb8f-4391-8d1c-a3b756acc606, de7f5f55-754e-4dd3-98fd-dda725ab1256, 56030d4e-6a62-4f70-86ba-ac53edd05302, 8cfa89cf-1e65-4884-9d93-81c6eea28299, a87039f7-fc27-40a8-9a1d-a423dbcdae3c.
+
+Checked in the sandbox (faster-whisper): every line has the script's words; raw total 72.8 s. Lines 7, 10 and 14 came out fast (190–218 words/min), so they are slowed with pitch kept (atempo 0.85–0.88), and 4, 6, 15, 16 slightly. All lines levelled to −16 LUFS.
+
+**Joined preview** (pauses as in the edit, longer pause after "she never came back"): 87.7 s, media e18c67bb-a179-44da-a9c4-df2ae66b53a7, https://d2ol7oe51mr4n9.cloudfront.net/user_3Hp3x0s3sZm3T0crSwp0w7Qkj1O/e18c67bb-a179-44da-a9c4-df2ae66b53a7.mp3
+
+Running total for the film: **178.86 credits** of the 300 ceiling (balance ≈ 342.1).
