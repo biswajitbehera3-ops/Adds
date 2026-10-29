@@ -1,6 +1,6 @@
 # Launch video: director's plan (v3, 29 Oct 2026)
 
-**Status:** planned, not built. Build only when the user says so (BUILD-SPEC 11.1).
+**Status:** fallback (screens only, no credits). The chosen version is the documentary in `VOX-PLAN.md` (user, 29 Oct). Planned, not built. Build only when the user says so (BUILD-SPEC 11.1).
 **Brief (user, 28 Oct):** a proper launch video that tells a story, so an owner understands exactly what happens after they buy the app. Keep the user's angle: customers who never come back are brought back by reminders and referral credits; the owner sees the salon live, the day's earnings, each stylist's earnings, attendance and leave.
 
 ## The idea
