@@ -40,4 +40,16 @@ Quote: 9 × 2 = 18 credits (user asked for 1–9 only). **Charged: 18 credits** 
 | 8 | Two wallets, ₹ coins dropping | 28b4cdea-8c0b-4f00-a10d-78cb1bd4d502 | Excellent; rupee symbols correct. Wallets closed rather than open |
 | 9 | Priya and Anjali laughing in chairs | 28061ede-56ab-45e0-b67c-a8971a517cc9 | Very good; both match |
 
-Running total for the film: **30 credits** of the 300 ceiling.
+## 29 Oct: #5 redo + pictures 10–12
+Quote: 4 × 2 = 8 credits. **Charged: 8 credits** (transactions 29 Oct 07:16 UTC). Balance 491 → 483.
+
+| # | Scene | Job id | Verdict |
+|---|---|---|---|
+| 5 (redo) | Priya at home with phone | d95700cd-9cfc-4f6c-8bc5-fc288a773f79 | **Use this one.** Face now matches Priya (face lock B and outfit both used as references). Smile shows teeth; hands fine |
+| 10 | Four stylists, team-photo cut-outs | d5c9f409-c655-41a7-b6cd-926c54317ec6 | Excellent; four distinct faces, clock doodle and gold marks as asked |
+| 11 | Owner (man) at the front desk with phone, busy salon behind | 51785f7a-85a9-4d63-bef7-557429d1c2ce | Excellent; warm and premium. Background customers are soft and not clearly Indian |
+| 12 | Final board, many customers in chairs | 520bc058-36af-4fae-9693-cb0b32dd77c0 | Rich and joyful; Priya and Anjali in the centre. Several extra customers repeat Priya's mustard kurta; the empty headline band at the top shows a faint paper seam |
+
+The first #5 (cc2a1d20-…) is replaced. Image 6 uses only the crop inside the mirror ring.
+
+Running total for the film: **38 credits** of the 300 ceiling. All 12 collage pictures are done.
