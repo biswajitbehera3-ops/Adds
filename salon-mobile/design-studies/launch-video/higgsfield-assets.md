@@ -52,4 +52,18 @@ Quote: 4 × 2 = 8 credits. **Charged: 8 credits** (transactions 29 Oct 07:16 UTC
 
 The first #5 (cc2a1d20-…) is replaced. Image 6 uses only the crop inside the mirror ring.
 
-Running total for the film: **38 credits** of the 300 ceiling. All 12 collage pictures are done.
+Running total after the pictures: 38 credits. All 12 collage pictures are done.
+
+## 29 Oct: moving clips A–D (Seedance 2.5, 5 s, 720p, silent, 9:16; prompts by cinema-director-v3)
+Quote: 4 × 35 = 140 credits (cost preflight). First submission was refused by Higgsfield's preset suggestion ("3D RENDER", triggered by the "NOT a 3D render" line); nothing charged; resubmitted with that preset declined. **Charged: 140 credits** (transactions 29 Oct 07:27 UTC). Balance 483 → 343.
+
+| Clip | Start frame | Job id | Verdict |
+|---|---|---|---|
+| A | #2 Priya leaving | de0ce3f9-68df-4dd2-9a70-181d2a42f7b5 | Good motion: glance back, turn, walks to the door. By 5 s she is at the doorway, not yet outside; fits "she left" |
+| B | #5 (redo) phone at home | f0b38a38-41d6-45f2-884c-e9fbeeb5156e | Very good; smile grows naturally, face stays Priya, phone screen never shown |
+| C | #9 two friends laughing | a8111433-0afe-4099-ae11-c9b5180f320b | Very good; natural laughter, seats never swap. The left woman's face drifts slightly by the last second |
+| D | #11 owner at the desk | 090900e5-2ca1-486f-8314-8dfcae7c2500 | Excellent; looks up with pride, puts the phone down, stylists keep working |
+
+All 720×1280, 24 fps, 5.04 s, no text in frame.
+
+Running total for the film: **178 credits** of the 300 ceiling.
