@@ -94,9 +94,28 @@ Key: **H-img** = still made on Higgsfield (Nano Banana Pro, via `banana-pro-dire
 - **"Live" wording.** "See your whole salon, live" is true on the salon's phone today. "From your own phone, anywhere" waits for live sync (BUILD-SPEC 11.0 a).
 - **No logo** until its licence is confirmed (BUILD-SPEC 9.6).
 
-## To decide before building
-1. **Narrator voice:** female or male; and how Indian-accented or neutral.
-2. **End card:** "Ask for a free 10-minute demo" only, or with your WhatsApp number.
-3. **Versions:** vertical only, or also 16:9 for YouTube.
-4. **Salon name:** "Your Salon" for everyone, or a personalised end card per prospect.
-5. **Budget:** a ceiling for Higgsfield credits on this film, so I can plan retries within it.
+## Decided (user, 29 Oct)
+- **Narrator:** male, calm, warm, Indian English.
+- **End card:** "Bring them back. See it all. Ask for a free 10-minute demo." No phone number.
+- **Format:** vertical 1080×1920 only.
+- **Salon name:** "Your Salon" for everyone.
+
+## Credit estimate (29 Oct)
+Balance **521 credits** (Pro plan). Credits reset to 600 on the 16th of each month, and unused credits are lost at the reset, so this film fits inside this month's credits.
+
+Prices come from this account's own charge history where known; the video price at 720p is an estimate, checked on the first clip before the rest are made.
+
+| Item | Model | Count (incl. retries) | Credits each | Credits |
+|---|---|---|---|---|
+| Face locks: Priya, Anjali (2 options each) | Nano Banana Pro | 4 | 2 (charged before) | 8 |
+| Outfits on the locked faces | Nano Banana Pro | 2 | 2 | 4 |
+| Collage stills (cut-outs, chair, notebook, wallets, final board) | Nano Banana Pro | 12 + 4 retries | 2 | 32 |
+| Live clips, 5 s, silent: Priya leaves, phone buzzes, two friends in chairs, (+1 spare) | Seedance 2.5, 480p draft first | 4 + 2 retries = 6 drafts | ~15 (12 charged for 4 s) | ~90 |
+| Final versions of the 4 chosen clips | Seedance 2.5, finalised from draft | 4 | ~25–35 (estimate) | ~100–140 |
+| Narration, about 180 words, 2 takes | Higgsfield text-to-speech, male preset voice | 2 | ~2–5 (estimate) | ~5–10 |
+| **Total** | | | | **about 240–285** |
+
+- **Lowest likely:** about 180, if the stills and clips work first time.
+- **Ceiling I'd ask for:** **300 credits**, which leaves about 220 of this month's balance.
+- **Free:** the app screens, paper board, highlighter, type, editing, music (Epidemic Sound subscription) and sound effects.
+- **Batches:** each one is quoted again with the live balance just before it runs, and needs its own yes. Order: faces → stills → one clip (to get the real price) → the other clips → narration. Real spend is logged after each batch.
