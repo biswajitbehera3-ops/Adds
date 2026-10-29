@@ -25,4 +25,19 @@ Quote: 2 × Nano Banana Pro, 2K, 3:4 = 4 credits. **Charged: 4 credits** (2 × 2
 | Priya, mustard block-print kurta, light jeans, tan sandals | 5da65b06-f6b0-452d-9f30-ead7cb8a40ba | hf_20261029_064249_5da65b06-…png | Face and haircut match B. Small drop earrings instead of studs; smile shows a little teeth; faint shadow under the feet (cut-out removes it). Usable |
 | Anjali, teal tee, white trousers, white sneakers, gold hoops | b22214a8-b61c-4a78-ae03-81b042c47217 | hf_20261029_064249_b22214a8-…png | Face matches C. Braid falls over her right shoulder, not the left; smile shows teeth; pose a little stiff. Usable |
 
-Running total for the film: **12 credits** of the 300 ceiling.
+## 29 Oct: collage pictures 1–9 (Banana Pro, 9:16, 2K)
+Quote: 9 × 2 = 18 credits (user asked for 1–9 only). **Charged: 18 credits** (9 × 2, transactions 29 Oct 07:05 UTC). Balance 509 → 491.
+
+| # | Scene | Job id | Verdict |
+|---|---|---|---|
+| 1 | Priya cut-out with gold circle | b46c6e13-2db9-4145-a31f-ae6c002e2efb | Good. Cut-out is thigh-length (asked waist-up); the brass pin sits on her head |
+| 2 | Priya leaving through the salon door | 9e2d91bc-41a2-46b7-a5b8-732b4d2b25a4 | Beautiful salon. Street outside looks European, not Indian; Priya small in frame. Usable as the clip's first frame |
+| 3 | Empty chair with ghost outline | 67d8bff5-eee5-4048-9e25-8e6c3983a3be | Good |
+| 4 | Old register book, red string, blank sticky note | 885a5b3c-dd7a-406e-a314-2d2b5f358a3c | Good. Scribbles are mostly illegible; one date-like "1/1/55" visible |
+| 5 | Priya at home with phone | cc2a1d20-b93e-42b5-961b-4dbf33aca95b | Warm and good; hands fine. **Face drifts** from Priya (looks a little older) |
+| 6 | Priya back in the chair with stylist, mirror | b8f2dccd-5e06-4798-b06f-9eabf5f8a918 | Lovely moment, but **the mirror is impossible**: she appears both in the mirror and in front of it. Fix: use only the crop inside the mirror ring |
+| 7 | Priya and Anjali joined by red string | 47696b1b-79c5-4cdc-b59b-51a38487b549 | Very good; both faces match |
+| 8 | Two wallets, ₹ coins dropping | 28b4cdea-8c0b-4f00-a10d-78cb1bd4d502 | Excellent; rupee symbols correct. Wallets closed rather than open |
+| 9 | Priya and Anjali laughing in chairs | 28061ede-56ab-45e0-b67c-a8971a517cc9 | Very good; both match |
+
+Running total for the film: **30 credits** of the 300 ceiling.
