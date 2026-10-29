@@ -1,6 +1,6 @@
 # Launch video, documentary version: director's plan (v4, 29 Oct 2026)
 
-**Status:** planned, not built. Nothing is generated until the user says so, and every Higgsfield run is quoted first and needs its own yes (`CLAUDE.md`, generation and cost policy).
+**Status:** assets made (faces, 12 collage pictures, clips A–D, narration in Andre's voice) and the real app screens recorded; the edit timeline below waits for the user's approval before editing. Nothing is generated until the user says so, and every Higgsfield run is quoted first and needs its own yes (`CLAUDE.md`, generation and cost policy).
 **Brief (user, 29 Oct):** keep the v3 story (`PLAN.md`), but make it a Vox-style animated documentary: a narrator explains it, with animation made with Higgsfield.
 
 ## The idea
@@ -21,7 +21,7 @@ The film is a short Vox-style explainer. A calm narrator walks the owner through
 
 ## Sound
 - **Narrator:** one voice, calm, warm and curious, Indian English, about 140 words a minute, like a documentary host explaining something interesting to a friend. Made as an original AI voice with Higgsfield's voice tools: **not** a copy of any real person's voice.
-- **Music:** a licensed, light, curious documentary track from the connected Epidemic Sound account. Soft plucks under the mystery, a lift when the fix arrives, warm at the end. Kept low under the voice.
+- **Music:** none (user, 29 Oct). The film runs on the narrator, sound effects and short silences.
 - **Sound effects:** paper rustle on every new page, pin taps when the string goes up, a highlighter squeak, a WhatsApp whoosh, coin drops, and the app's own payment chime (`SOUNDS.md`).
 - Every sound is checked by listening (earshot) before it goes in.
 
@@ -117,5 +117,41 @@ Prices come from this account's own charge history where known; the video price 
 
 - **Lowest likely:** about 180, if the stills and clips work first time.
 - **Ceiling I'd ask for:** **300 credits**, which leaves about 220 of this month's balance.
-- **Free:** the app screens, paper board, highlighter, type, editing, music (Epidemic Sound subscription) and sound effects.
+- **Free:** the app screens, paper board, highlighter, type, editing and sound effects (no music).
 - **Batches:** each one is quoted again with the live balance just before it runs, and needs its own yes. Order: faces → stills → one clip (to get the real price) → the other clips → narration. Real spend is logged after each batch.
+
+## Edit timeline (v5, 29 Oct, waits for approval)
+
+User, 29 Oct: no music; the app pictures are recorded from the real app; show what comes when before editing.
+
+**App screens:** recorded from the current build (security check run 3 code), as "Your Salon", with invented data made by the app's own engine: 4 stylists (Imran, Sunita, Rakesh, Neha), 196 invented customers, two months of visits. Thursday 29 Oct 4:10 PM for the reminder; Saturday 31 Oct 4:45 PM for the rest. Anjali's first bill was paid on camera, so the "₹100 each" line is the app's own message. Scripts: `screens/scripts/` (data builder + Playwright). Contact sheet: `screens/contact-sheet.jpg`.
+
+**Timing:** from the measured narration lines (Andre, levelled, pauses as in the preview). Total **about 95 s**, longer than the 75–80 s planned because the lines were kept at a normal pace.
+
+| # | Time | Narrator | Picture | Captions / marks | Sound |
+|---|---|---|---|---|---|
+| 1 | 0:00.5–0:03.7 | "Every salon has a customer like Priya." | Collage 1: Priya cut-out on the paper board, slow push in | Gold circle draws round her | Paper rustle |
+| 2 | 0:04.3–0:10.7 | "She came in once. She loved her haircut. And then… she never came back." | Clip A: Priya glances back and walks to the door; on "never came back" cut to collage 3, the empty chair | Ghost outline holds on the chair | Door bell, then quiet |
+| 3 | 0:11.9–0:17.8 | "Was it the haircut? No. It's simpler than that. Nobody reminded her." | Board: calendar pages flip 1 → 15 → 30 days; red string from the empty chair to a sticky note | Sticky note: "Nobody reminded her." | Page flips, pin tap |
+| 4 | 0:18.7–0:24.5 | "In a lot of salons, customers live in a notebook, or in someone's memory." | Collage 4: the register book, names fading | | Pages flicking |
+| T1 | 0:25.1–0:26.7 | (silence) | Whip pan to title card | **WHY DON'T THEY COME BACK?** | Whoosh |
+| 5 | 0:26.7–0:30.5 | "So we built an app that remembers for you." | Phone drops onto the board; screen: Customers, "3 customers to remind" | | Paper thud |
+| 6 | 0:31.4–0:37.6 | "Thirty days after her visit, Priya shows up on a list: due back this week." | App: Reminders, Priya at the top ("due 3 days ago · last 26 Sep") | Highlighter sweeps "Priya Sharma" | Highlighter squeak |
+| 7 | 0:38.2–0:42.2 | "One tap, and she gets a reminder on WhatsApp." | App: the reminder message and "Send on WhatsApp" (1.5 s) → "Opened WhatsApp for Priya" → clip B: Priya at home smiles at her phone | Tap ring on the button | Tap, WhatsApp whoosh |
+| 8 | 0:42.8–0:45.9 | "She books. And she comes back." | App: Calendar, Sat 31, "Priya Sharma" at 4:30 PM → collage 6 (mirror crop): Priya back in the chair | Gold circle on the booking | Pin tap |
+| 9 | 0:46.7–0:50.9 | "Then something better happens. Priya tells a friend." | Collage 7: red string from Priya to Anjali → App: Refer & earn, Priya's code | String draws across | String pull, pin tap |
+| 10 | 0:51.5–0:55.9 | "And both of them get a hundred rupees in their salon wallet." | App: Anjali's paid bill, "Referral reward paid: ₹100 to Anjali and ₹100 to their friend" → collage 8: two wallets, coins drop | Highlighter on the reward line; PAID stamp lands | Two coin drops |
+| 11 | 0:56.5–0:60.5 | "One customer back. One brand-new customer." | Clip C: Priya and Anjali laughing in the chairs; freeze on the last good frame (before the face drift) and it becomes a cut-out | Hold | Soft paper settle |
+| T2 | 1:01.5–1:03.1 | (silence) | Whip pan to title card | **AND EVERY DAY…** | Whoosh |
+| 12 | 1:03.1–1:07.6 | "Meanwhile, you can see your whole salon, live." | Clip D (owner at the desk, 2 s) → App: Live floor, 4 of 4 chairs busy, Priya in chair 2, Anjali in chair 1 | Gold circles on chairs 1 and 2 | |
+| 13 | 1:08.2–1:13.7 | "Every chair. Every bill. What each stylist earned today." | App: Rakesh's cash bill, ₹450, PAID → Earnings: Today ₹7,200 and the four stylists | Highlighter runs down the stylist bars one by one | Payment chime (`SOUNDS.md`) |
+| 14 | 1:14.3–1:17.8 | "Who came in late. Who asked for leave." | App: Staff, "Late 10:24" on Neha → Leave requests: Rakesh, Fri 6 Nov, "Sister's wedding" | Circle on "Late 10:24"; tap ring on Approve | Pen circle |
+| 15 | 1:18.4–1:22.2 | "And if a bill quietly gets undone, you'll know." | App: Today's checks, "Rakesh undid a ₹300 bill · Wrong service" | Red "FOUND" stamp | Stamp thud |
+| 16 | 1:23.2–1:30.8 | "We set it up with your prices and your stylists. So the customers who left quietly… start coming back." | App: Services & prices → collage 10 (the four stylists) → collage 12, the final board, pull back | | Soft ticks, paper settle |
+| End | 1:31.4–1:35.4 | (silence) | End card on paper | **Bring them back. See it all.** / Ask for a free 10-minute demo. | |
+
+**Honesty notes for this cut**
+- Every app moment is a real screen from the current build; only the invented salon data is staged.
+- The Earnings screen shows the app's own comparison with last Saturday (▲ 9%, from invented history). It is not a result claim; the narrator says no numbers and no caption repeats it.
+- Line 15 now shows Rakesh (the invented stylist) undoing a ₹300 bill, not "Rashmita ₹150" from the v4 plan.
+- The 25-second cut in the v4 plan no longer fits (lines 1–11 alone run 60 s); a short cut needs its own shorter script.
