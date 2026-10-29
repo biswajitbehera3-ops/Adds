@@ -1,23 +1,20 @@
-# Launch video: director's plan (v2, 28 Oct 2026)
+# Launch video: director's plan (v3, 29 Oct 2026)
 
 **Status:** planned, not built. Build only when the user says so (BUILD-SPEC 11.1).
 **Brief (user, 28 Oct):** a proper launch video that tells a story, so an owner understands exactly what happens after they buy the app. Keep the user's angle: customers who never come back are brought back by reminders and referral credits; the owner sees the salon live, the day's earnings, each stylist's earnings, attendance and leave.
 
 ## The idea
 
-**Title: "Your first 30 days."**
+**Title: "Why don't they come back?"** (v3, 29 Oct: the user asked the film to open on the owner's problem.)
 
 The film follows one salon from the day the app arrives to the day a lost customer walks back in. The viewer is the owner, so the film speaks to them: *your* salon, *your* stylists. No actor plays the owner. The phone screen is the main character, and the captions carry the story like a silent film.
 
-The film has three time stamps, each a promise of what happens after buying:
-- **Day 1:** we set it up for you.
-- **Every day:** you see everything.
-- **Day 30:** they come back, and they bring friends.
+The film opens on the question every owner has: why do some customers never come back? It answers it at once: nobody reminds them, and now the app does. Then the referral turns that returning customer into a new one. Only after that does it show the rest the owner gains every day, and finally what happens when they buy: we set it up for them.
 
 Every shot is a real screen from the app, with an invented salon's data. Nothing shown is a mock-up, and no feature is shown that the app can't do today.
 
 ## Format
-- **Length:** 60 seconds (the full story), plus a 20-second cut of Act 3 alone for WhatsApp status and Reels.
+- **Length:** 60 seconds (the full story), plus a 20-second cut (the problem, the reminder, the referral) for WhatsApp status and Reels.
 - **Frame:** vertical 1080×1920, for WhatsApp and Instagram.
 - **Look:** dark brown and gold like the app, Urbanist font, the phone in the centre with soft depth, gold captions above it.
 - **Sound:** music, no voice. Where a payment happens, the app's own payment chime plays (`SOUNDS.md`).
@@ -32,49 +29,54 @@ Every shot is a real screen from the app, with an invented salon's data. Nothing
 6. **Plain words.** Captions of 8 words or fewer, a 5th-grade reading level, one line where possible.
 7. **Calm movement.** Smooth slides and gentle push-ins only: no bounce, no shake, no flash.
 
-## The cut, shot by shot
+## The cut, shot by shot (v3, 29 Oct: the film opens on the owner's problem, user)
 
-### Cold open: the problem (0:00–0:06)
+### Opening: the problem, as a question (0:00–0:05)
 | # | Time | Picture | Caption | Sound |
 |---|---|---|---|---|
-| 1 | 0:00–0:02.5 | Black. A thin gold line draws across, like a page in a register. | "Priya came in for a haircut." | Soft single piano note |
-| 2 | 0:02.5–0:04.5 | The line fades away, left to right. | "She loved it." | Second note |
-| 3 | 0:04.5–0:06 | Empty dark frame, a beat of silence. | "She never came back. You never knew why." | Silence, then the music's first pulse |
+| 1 | 0:00–0:03 | Black. Gold words write themselves on, large. No app yet. | **"Why do some customers never come back to your salon?"** | One soft piano note |
+| 2 | 0:03–0:05 | The question fades; one line answers it. | **"Because nobody reminds them."** | Silence, then the music's first pulse |
 
-### Act 1, Day 1: we set it up for you (0:06–0:16)
+### Fix 1: the reminder brings her back (0:05–0:15)
 | # | Time | Picture | Caption | Sound |
 |---|---|---|---|---|
-| 4 | 0:06–0:08 | Gold title card | **"DAY 1"** | Music starts, low |
-| 5 | 0:08–0:11 | Phone slides up. Owner screen, **Services**: your services and prices listed. | "We set it up with your prices." | |
-| 6 | 0:11–0:14 | **Staff → Add a stylist**: name, mobile, chair; then the staff list fills with 4 stylists. | "Your stylists. Their own login." | Soft tick on each name |
-| 7 | 0:14–0:16 | A stylist's phone: **selfie check-in**, "On time · 9:52". | "Each morning, they check in with a selfie." | |
+| 3 | 0:05–0:06.5 | Gold card | **"Now you can."** | Music starts |
+| 4 | 0:06.5–0:09 | Phone slides up: **Reminders**, "Due back this week", Priya at the top, last visit 30 days ago. | "The app tells you who's due back." | |
+| 5 | 0:09–0:11.5 | One tap: the **WhatsApp reminder** to Priya. | "One tap. A WhatsApp reminder goes out." | Message whoosh |
+| 6 | 0:11.5–0:13 | **Calendar**: her booking appears, Saturday 4:30 PM. | "She books." | |
+| 7 | 0:13–0:15 | **Live floor**: chair 2 lights up, "Priya · Haircut". **Hold.** | "She's back." | Music opens up |
 
-### Act 2, Every day: you see everything (0:16–0:38)
+### Fix 2: she brings a friend, you get a new customer (0:15–0:24)
 | # | Time | Picture | Caption | Sound |
 |---|---|---|---|---|
-| 8 | 0:16–0:18 | Gold title card | **"EVERY DAY"** | Beat lifts |
-| 9 | 0:18–0:21 | **Counter**: the stylist types Priya's mobile, she is added in one screen, Haircut picked, *Start visit*. | "A customer walks in. Ten seconds to start." | Key taps on the beat |
-| 10 | 0:21–0:25 | Cut on the tap to the **Live floor**: the 3D salon, Chair 2 lights up, "Priya · Haircut", timer running. Push in. **Hold.** | "See who's in every chair." | Music opens up |
-| 11 | 0:25–0:28 | **Bill**: Collect ₹300 by UPI, the PAID stamp, then the **WhatsApp thank-you** message. | "Paid. Thank-you sent on WhatsApp." | **Payment chime** |
-| 12 | 0:28–0:31 | **Earnings**: "Today ₹9,100" counts up, then the bars for each stylist. **Hold.** | "Your day's takings. Each stylist's share." | |
-| 13 | 0:31–0:34 | **Staff**: who came in and when, "came in late"; then **Leave requests**, *Approve*. | "Attendance and leave, in one place." | |
-| 14 | 0:34–0:38 | **Today's checks**: "Rashmita undid a ₹150 bill", "Cash in the drawer should be ₹5,300". | "A bill undone? Cash short? You'll know." | Music dips |
+| 8 | 0:15–0:18 | **Refer a friend**: Priya's code, shared on WhatsApp. | "She refers a friend." | |
+| 9 | 0:18–0:21 | Her friend **Anjali** joins at the counter; ₹100 lands in both wallets. | "Both earn ₹100 credit." | Two soft coins |
+| 10 | 0:21–0:24 | Live floor: two chairs filled, "Priya" and "Anjali". **Hold.** | **"One customer back. One new customer."** | Music peaks |
 
-### Act 3, Day 30: they come back (0:38–0:54)
+### Every day: you see everything (0:24–0:49)
 | # | Time | Picture | Caption | Sound |
 |---|---|---|---|---|
-| 15 | 0:38–0:40 | Gold title card | **"DAY 30"** | Warm build begins |
-| 16 | 0:40–0:43 | **Reminders**: "Due back this week", Priya at the top. | "Priya is due for her haircut." | |
-| 17 | 0:43–0:46 | One tap: the **WhatsApp reminder** to Priya. | "One tap. She gets a reminder." | Message whoosh |
-| 18 | 0:46–0:49 | **Calendar**: her booking appears, Saturday 4:30 PM. | "She books." | |
-| 19 | 0:49–0:52 | **Refer a friend**: Priya's code. Her friend **Anjali** joins; ₹100 credit lands in both wallets. | "She brings a friend. ₹100 credit each." | Two soft coins |
-| 20 | 0:52–0:54 | Live floor: two chairs filled, "Priya" and "Anjali". **Hold.** | "One customer back. One new." | Music peaks |
+| 11 | 0:24–0:26 | Gold card | **"And every day…"** | Beat lifts |
+| 12 | 0:26–0:30 | **Live floor**, the whole salon: every chair, who's in it, timers running. Push in. | "See who's in every chair, right now." | |
+| 13 | 0:30–0:33 | A bill: ₹300 collected by UPI, PAID stamp, WhatsApp thank-you. | "Paid. Thank-you sent on WhatsApp." | **Payment chime** |
+| 14 | 0:33–0:37 | **Earnings**: "Today ₹9,100" counts up, then each stylist's share. **Hold.** | "Your day's takings. What each stylist earned." | |
+| 15 | 0:37–0:41 | **Staff**: selfie check-ins, who came in and when, "came in late". | "Who came in, and when." | |
+| 16 | 0:41–0:44 | **Leave requests**: approve with one tap. | "Leave, sorted in a tap." | |
+| 17 | 0:44–0:49 | **Today's checks**: "Rashmita undid a ₹150 bill", "Cash in the drawer should be ₹5,300". | "A bill undone? Cash short? You'll know." | Music dips |
 
-### Close (0:54–1:00)
+### What happens when you buy (0:49–0:55)
 | # | Time | Picture | Caption | Sound |
 |---|---|---|---|---|
-| 21 | 0:54–0:57 | The three title cards stack in gold: DAY 1 · EVERY DAY · DAY 30 | "Set up for you. See everything. Bring them back." | Resolve |
-| 22 | 0:57–1:00 | End card | "Ask for a free 10-minute demo." + contact (to decide) | Last note rings out |
+| 18 | 0:49–0:52 | **Services** with your prices, then the staff list filling with your stylists. | "We set it up for you: your prices, your stylists." | Soft ticks |
+| 19 | 0:52–0:55 | The app's home screen with the salon's name. | "Ready on day one." | Warm build |
+
+### Close (0:55–1:00)
+| # | Time | Picture | Caption | Sound |
+|---|---|---|---|---|
+| 20 | 0:55–0:58 | Gold on dark | **"Bring them back. See it all."** | Resolve |
+| 21 | 0:58–1:00 | End card | "Ask for a free 10-minute demo." + contact (to decide) | Last note rings out |
+
+The 20-second cut is shots 1–10 alone: the problem, the reminder, the referral, the new customer.
 
 ## What each promise in the film rests on (honesty check)
 | Promise | Where it is real today |
