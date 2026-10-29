@@ -15,4 +15,14 @@ Quote: 4 × Nano Banana Pro, 2K, 3:4 = 8 credits. **Charged: 8 credits** (4 × 2
 All 4: 1792×2400, flat gray, no shadows, realistic skin, no visible faults (hands not in frame).
 Note: the job record names the model `nano_banana_2`; the charge line says Nano Banana Pro at the quoted 2 credits.
 
-Running total for the film: **8 credits** of the 300 ceiling.
+**Chosen (user, 29 Oct): Priya = B, Anjali = C.**
+
+## 29 Oct: outfits (Banana Pro, Mode 1A, locked face as reference)
+Quote: 2 × Nano Banana Pro, 2K, 3:4 = 4 credits. **Charged: 4 credits** (2 × 2, transactions 29 Oct 06:42 UTC). Balance 513 → 509.
+
+| Character | Job id | File | Notes |
+|---|---|---|---|
+| Priya, mustard block-print kurta, light jeans, tan sandals | 5da65b06-f6b0-452d-9f30-ead7cb8a40ba | hf_20261029_064249_5da65b06-…png | Face and haircut match B. Small drop earrings instead of studs; smile shows a little teeth; faint shadow under the feet (cut-out removes it). Usable |
+| Anjali, teal tee, white trousers, white sneakers, gold hoops | b22214a8-b61c-4a78-ae03-81b042c47217 | hf_20261029_064249_b22214a8-…png | Face matches C. Braid falls over her right shoulder, not the left; smile shows teeth; pose a little stiff. Usable |
+
+Running total for the film: **12 credits** of the 300 ceiling.
