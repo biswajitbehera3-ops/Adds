@@ -1,0 +1,25 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/v5/scratch[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck1: v4 finding 1 (anchor frozen after >3-day gap)[2m > [22m[2mclosure of 4 days, owner never confirms, daily use, then set-back undo and backdated check-in are refused
+[22m[39mgap 4: anchor=2026-10-23T10:30:00.000Z hold={"from":"2026-10-14T05:30:00.000Z","to":"2026-10-18T05:30:00.000Z"} -> void/check-in refused
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck1: v4 finding 1 (anchor frozen after >3-day gap)[2m > [22m[2mclosure of 5 days, owner never confirms, daily use, then set-back undo and backdated check-in are refused
+[22m[39mgap 5: anchor=2026-10-24T10:30:00.000Z hold={"from":"2026-10-14T05:30:00.000Z","to":"2026-10-19T05:30:00.000Z"} -> void/check-in refused
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck1: v4 finding 1 (anchor frozen after >3-day gap)[2m > [22m[2mclosure of 10 days, owner never confirms, daily use, then set-back undo and backdated check-in are refused
+[22m[39mgap 10: anchor=2026-10-29T10:30:00.000Z hold={"from":"2026-10-14T05:30:00.000Z","to":"2026-10-24T05:30:00.000Z"} -> void/check-in refused
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck1: v4 finding 1 (anchor frozen after >3-day gap)[2m > [22m[2mclosure of 60 days, owner never confirms, daily use, then set-back undo and backdated check-in are refused
+[22m[39mgap 60: anchor=2026-12-18T10:30:00.000Z hold={"from":"2026-10-14T05:30:00.000Z","to":"2026-12-13T05:30:00.000Z"} -> void/check-in refused
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck1: v4 finding 1 (anchor frozen after >3-day gap)[2m > [22m[2mset-back on a second different day is logged too (dedupe fix)
+[22m[39mbackJumps [{"from":"2026-10-14T07:30:00.000Z","to":"2026-10-13T05:30:00.000Z"},{"from":"2026-10-14T07:30:00.000Z","to":"2026-10-12T05:30:00.000Z"}]
+
+ [32m✓[39m x.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m 05:12:58
+[2m   Duration [22m 802ms[2m (transform 425ms, setup 0ms, collect 434ms, tests 17ms, environment 0ms, prepare 103ms)[22m
+

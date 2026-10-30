@@ -1,0 +1,177 @@
+# How the app is used in a salon
+
+Edit anything here. Each step has a number so you can say "change C1.4" or "remove C6".
+**[Built]** = already in the app. **[Proposed]** = my suggestion, not built yet.
+
+---
+
+## A. Delivery day (one visit, about 1 hour)
+
+| # | Who | What happens |
+|---|---|---|
+| A1 | You | Install the app on the salon's phone (one phone per salon). **[Built]** |
+| A2 | You + owner | Fill in the salon's details: name, year established, services + prices, add-ons + which service they go with, stylists + chairs, wallet bonus tiers, referral reward, how many days until each service is "due back", the WhatsApp reminder message. **[Built — set in the config file by you; no in-app settings screen yet]** |
+| A3 | You | Clear the demo customers so the salon starts empty. **[Built — Dashboard → Clear all data]** |
+| A4 | Owner | On first launch the owner sets the **owner password**, then adds each staff member (name, mobile, chair, password). **[Built]** |
+| A5 | You | If the salon has a register or Excel sheet of regulars, load them in so the app isn't empty on day one. **[Proposed]** |
+| A6 | You | 10-minute training with counter staff: one regular customer, one new customer, one top-up, one reminder. |
+| A7 | You | Leave a small printed card at the counter: "Give us your number — earn wallet bonus & referral rewards." **[Proposed]** |
+
+---
+
+## B. Opening the shop (every morning)
+
+| # | What staff do | What the app shows |
+|---|---|---|
+| B0 | Sign in with **their own mobile number and password** (owner signs in separately with the owner password). | **[Built]** |
+| B1 | **Mark attendance first:** take a selfie at the counter. It is saved with the time; after the shift start + grace it counts as **late**. Only then does the home screen open. | **[Built]** Owner sees every check-in with the photo (section E). Staff see their own month under Menu → My attendance. |
+| B2 | Home screen: greeting animates in, **"Customer walked in? Enter mobile number"** search, who is **in the chair** now, due-back count, customer count, today's takings. | **[Built · Motion #9, #8]** |
+| B3 | Optional, before customers arrive: open **Reminders** and send 5–10 WhatsApp reminders. | See section D. |
+
+---
+
+## C. A customer arrives
+
+**When to use the app:** the moment the customer **walks in**. Staff see at once whether they are
+new or returning, their last service and their wallet balance, pick the service(s) and start the
+visit. After the service, staff open the visit from **In the chair**, add any extra service the
+customer chose, and take payment. **[Built]**
+
+### C1. Regular customer (most common — target under 15 seconds)
+| # | Staff action | App response |
+|---|---|---|
+| C1.1 | Tap **Next customer** on the home screen. | The button grows into the Counter screen. **[Motion #12]** |
+| C1.2 | Ask "Your mobile number?" and type 10 digits on the big keypad. | Keypad reacts instantly, no animation. **[Built]** |
+| C1.3 | — | On the 10th digit the customer appears automatically: name, "Returning customer", number of visits, last service and when, wallet balance. **[Built · Motion R1]** |
+| C1.4 | Tap the service (e.g. Haircut ₹300). | Matching add-ons are highlighted as "suggested". **[Built]** |
+| C1.5 | Ask about the suggested add-on ("Head massage today?"); tap it if yes. | Total updates. **[Built]** |
+| C1.6 | Check the stylist (remembered from the last customer); change if needed. | **[Built]** |
+| C1.7 | Payment: if the wallet covers the bill, "Pay from wallet" is already on. Otherwise pick Cash / UPI / Card. | **[Built]** |
+| C1.8 | Tap **Start visit**. The customer appears under **In the chair** on the home screen. | **[Built]** |
+| C1.9 | After the service: tap the customer under **In the chair**, add any extra service or add-on, choose wallet / cash / UPI / card, tap **Collect ₹600**. | Receipt prints top to bottom with a PAID stamp; wallet balance shown. **[Built · Motion R4]** |
+| C1.10 | Tap **Send thank-you on WhatsApp** — the message carries the wallet balance and the customer's referral code. | **[Built]** |
+| C1.11 | If the customer leaves before the service: open the visit → "Customer left without a service". | Nothing is charged. **[Built]** |
+
+### C2. First-time customer (about 30 seconds)
+| # | Staff action | App response |
+|---|---|---|
+| C2.1 | Type the number as in C1.2. | "New customer — not on file yet." **[Built]** |
+| C2.2 | Ask their name and type it. | |
+| C2.3 | Ask: "Can we save your number for wallet offers and WhatsApp reminders?" Tick the consent box only if they say yes. | Without consent the customer can't be saved (DPDP law). **[Built]** |
+| C2.4 | Tap **Add customer**. | Continues exactly like C1.4 onwards. |
+
+### C3. Referrals: sharing a code, and checking one (user asked for the whole workflow, 21 Oct)
+
+**1. Every customer gets a code.** Made when they're added: first 3 letters of their name + 4 random characters (e.g. Priya Patel → `PPX2337`). Never repeats in the salon. Shown on their profile (Copy / Refer). **[Built]**
+
+**2. How the customer shares it with a friend.**
+| # | Who | What happens |
+|---|---|---|
+| C3.1 | Staff | After payment, **Send thank-you on WhatsApp**. Customers who agreed to messages get their code in it: "Share your code PPX2337 with friends: you both get wallet credit on their first visit." **[Built]** |
+| C3.2 | Customer | Forwards that WhatsApp to a friend, or just tells the friend the code. Or the friend simply says the customer's **mobile number**; that works too. **[Built]** |
+| C3.3 | Staff (if the customer asks) | Profile → **Refer** → **Share** opens the phone's share sheet (WhatsApp etc.) with the ready message, or **Copy**. **[Built]** |
+
+**3. The friend comes in, and staff check the code.**
+| # | Staff action | App response |
+|---|---|---|
+| C3.4 | **+** → type the friend's mobile. | It must be a **new** number. A number already on file is an existing customer and can't be referred. **[Built]** |
+| C3.5 | Name, then ask "Did a friend send you? Their code or their mobile number" and type it in. | Checked as it's typed: **green** "✓ Priya P. · mobile ending 919" when it matches; **red** "No customer with this code or number" or "That's this customer's own number" when it doesn't. **[Built, 21 Oct]** |
+| C3.6 | Ask "Who sent you?" and check the name matches the green box. | Only the first name, last initial and last 3 digits are shown, so a full name and number are never read out at the counter. |
+| C3.7 | If the box is red, check the code with the customer, or clear it. | **Add customer** stays off while a wrong code is in the box, so a bad code can't be saved. **[Built]** |
+| C3.8 | Add customer, then serve and collect as normal. | The link "Priya referred Meena" is saved with the new customer. |
+
+**4. Rewards, and what stops cheating.**
+| # | Rule | **[Built]** |
+|---|---|---|
+| C3.9 | No reward at sign-up. On the friend's **first paid visit** (bill above ₹0), the friend gets ₹100 and the customer who referred gets ₹100, straight into their wallets. The receipt says so: tell them. | ✓ |
+| C3.10 | Once per new customer, ever. A customer can refer any number of new friends; each one pays out once. | ✓ |
+| C3.11 | Can't refer yourself (same number); can't refer someone already on file; a deleted customer's code stops working. | ✓ |
+| C3.12 | If that first bill is cancelled (undo, or the owner's Cancel bill), both rewards are taken back. If the reward was already spent, the app stops the automatic cancel and tells the owner. | ✓ |
+| C3.13 | Referral credit is promotional: usable on services, not paid back as cash if a wallet is closed. | ✓ |
+| C3.14 | The customer's profile lists who joined with their code and whether each reward is paid or "waiting for first visit". | ✓ |
+
+Later, with the online sync: the friend opens the code's link (`publicUrl/CODE`) and the booking or sign-up arrives with the code filled in. Until then the code is told at the counter. **[Needs sync]**
+
+### C4. Customer wants to add money to their wallet
+| # | Staff action | App response |
+|---|---|---|
+| C4.1 | After the customer appears (C1.3), tap **Top up wallet**. | A sheet slides up. Swipe down to close. **[Built · Motion R8]** |
+| C4.2 | Pick ₹500 / ₹1,000 / ₹2,000 / ₹5,000 or type an amount; pick Cash / UPI / Card. | Shows the bonus live: "Bonus ₹200 · new balance ₹2,200", and "Add ₹X more for 15% bonus". **[Built]** |
+| C4.3 | Take the money, tap **Add ₹2,000**. | Balance updates; the visit can now be paid from the wallet. **[Built]** |
+
+### C5. Customer pays partly from wallet, partly cash
+| # | Staff action | App response |
+|---|---|---|
+| C5.1 | Leave "Pay from wallet" on. | The wallet pays what it can; the rest shows "₹150 by cash". **[Built]** |
+| C5.2 | Pick how the rest is paid, then Log visit. | |
+
+### C6. Customer won't give their number
+| # | What happens |
+|---|---|
+| C6.1 | Today: the visit isn't recorded, so it's missing from the day's takings. |
+| C6.2 | Decided: **no** "walk-in without number" button. |
+
+### C7. Staff made a mistake
+| # | What happens |
+|---|---|
+| C7.1 | Wrong number typed before logging: tap **Clear** and retype. **[Built]** |
+| C7.2 | Wrong service or amount after payment: **Undo this visit** on the receipt for 2 minutes. After that only the owner can **void** it (Owner → Visits). Both refund any wallet money used and take back a referral reward the visit paid. **[Built]** |
+
+### C8. Customer asks "How much is in my wallet?"
+| # | Staff action |
+|---|---|
+| C8.1 | Open **Customers**, search name or number, tap them. Profile shows balance, every visit and every wallet entry. **[Built · Motion #12, #7]** |
+
+---
+
+## D. Quiet time: bring customers back
+
+| # | Staff action | App response |
+|---|---|---|
+| D1 | Open **Reminders**. | List of customers past their due date, per service (beard trim after 14 days, colour after 45, etc.), most overdue first. **[Built]** |
+| D2 | Tap a customer. | The message appears, ready to edit. **[Built]** |
+| D3 | Tap **Send on WhatsApp**. | WhatsApp opens with the message written; staff press send. Customer moves to the "Reminded" tab. **[Built · Motion R3]** |
+
+---
+
+## E. Closing the shop (every evening, owner)
+
+| # | Owner action | App shows |
+|---|---|---|
+| E1 | Sign in as **Owner** with the owner password. The owner area is separate from the staff app: Money · Attendance · Staff · Visits. | **[Built]** |
+| E1b | **Attendance:** who checked in today with their selfie and time (on time / late / not in), a month grid per staff member, and **Export to Excel** (one file per month: summary + one sheet per day). | **[Built · Motion #8, #7, 08]** |
+| E1c | **Staff:** add staff (name, mobile, chair, password), reset a password, deactivate someone who left. | **[Built]** |
+| E2 | Check today's takings. | Total, split into cash / UPI / card / wallet. Count the cash drawer against the cash figure. **[Built]** |
+| E3 | Check stylists. | Revenue and visits per stylist: today / 7 days / 30 days. **[Built · Motion R5]** |
+| E4 | Back up the day's data. | Automatic: every phone syncs to the salon's private online store. **[Decided, not built]** |
+
+---
+
+## F. Weekly / monthly (owner)
+
+| # | What the owner looks at |
+|---|---|
+| F1 | Top 20 customers by lifetime spend — thank them, give them offers. **[Built]** |
+| F2 | Wallet money held — money already paid for future visits. **[Built]** |
+| F3 | How many reminded customers came back. **[Proposed]** |
+| F4 | How many new customers came through referrals, and which customers bring the most friends. **[Proposed]** |
+| F5 | Monthly bonus for the top-earning stylist. **[Ask the owner first]** |
+
+---
+
+## G. Decisions (answered)
+1. Log the visit when the customer **walks in**, take payment after the service. **[Built]**
+2. Each staff member signs in with their **mobile number + password**, then marks attendance. **[Built]**
+3. "Walk-in, no number": **no**.
+4. Undo for 2 minutes + owner void: **yes**. **[Built]**
+5. Owner area: **separate and password-protected**. **[Built]**
+6. Backup: **solved by online sync** (decision 8).
+7. Thank-you WhatsApp after each visit: **yes**, it sets up the next reminder and carries the referral code. **[Built]**
+8. **Every phone gets the app** (decided 15 Oct): the owner installs it on their own phone and sees live data from anywhere; each stylist installs it on their own phone, signs in with their number, and sees **only their own** earnings and customers. All phones sync to the salon's own private online store (also the backup); the app keeps working offline and catches up. **[Decided, not built]**
+9. **Owner Live tab** (decided 15 Oct): an animated top-down salon floor — each chair shows the customer, the service, the stylist in charge and service progress; customers walk from the waiting bench to a free chair and to the counter when they pay. Live tab is first in the owner's dock. **[Designed, not built]**
+10. **Design** (decided 15 Oct): the app uses the **brown glass look**: brown studio backdrop, frosted-glass cards, gold for money and the main action, Urbanist type. That's the approved login and the screens demo. The Vulcanico/Noturno and other style boards were explorations only.
+11. **Privacy and legal are standard in every salon build** (decided 15 Oct): separate unticked consents, an under-18 guardian rule, STOP opt-out, a data copy, wallet close and refund, deletion, automatic retention, and a Privacy & terms screen. Policies are generated per salon from `salon-details.json` (`npm run legal`), and `npm run release-check` blocks a build with unfilled details. **[Built in the app logic; screens to be restyled in the brown glass look]**
+12. **Appointments / Calendar** (decided 15 Oct): the staff bottom bar's last button is **Calendar** (Refer moved into the customer profile). When a customer answers a reminder with a day and time, staff book it from Reminders (day, free time slots, services, stylist; the reply is kept as a note). The customer gets a confirmation, and on the day at 9:00 a reminder ("Reply C to cancel"). "Arrived" opens the visit with the booked services. Tuesdays are closed and slots are 30 minutes, 10:00–20:00, all set per salon. **[Logic built and tested; screens designed]**
+    - Reading WhatsApp replies and sending fully automatically needs the **WhatsApp Business Platform** (Meta charges per message, and needs business verification and an approved message template). Without it, the app lists who is due a reminder at 9:00 and staff send each with one tap. **[To ask the owner: automatic or one-tap]**
+13. **Live floor follows the real visits** (decided 19 Oct): when a stylist enters a customer's details and taps **Start visit** (or **Arrived** on a booking), that customer walks in on the owner's Live floor and goes to **that stylist's chair**; the chair timer starts at that moment (the visit's start time). The customer **stays seated until the payment is collected**; when the money is received (visit marked paid) they walk to the desk, "₹ PAID" shows, and they walk out. Then the stylist's **next customer** arrives and the same repeats. If a stylist's next customer is entered while the chair is still busy, they wait at the front desk until the chair frees. Everything is **synchronised live** from every staff phone to the owner's app (needs online sync, decision 8). Uses data the app already stores: visit `staffId`, `createdAt` (start) and `paidAt` (paid). **[Decided, not built]**
+14. **Owner app tabs** (decided 19 Oct): bottom bar is **Live · Earnings · Staff · Customers**. Attendance lives inside Staff (each stylist's profile). The owner **uploads each stylist's photo** (gallery or camera) when adding them. **Voiding a wrong bill is done in the Customers tab.** Staff profile options: Attendance, Leave, Shift & weekly off, Performance, Account, Deactivate (no salary/commission or advances). **[Designed]**

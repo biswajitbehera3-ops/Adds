@@ -1,0 +1,13 @@
+{
+  "id": "P041",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "₹4,999 upfront and then ₹999 every month, every month, is a bill I don't need when my register and WhatsApp already work. I don't pay monthly for anything I can do myself for free.",
+  "objection": "Another monthly charge that never stops, and on top of that my girls will feel I am spying on them with this selfie check-in. I'll lose staff goodwill to save a few minutes of counting.",
+  "would_change_my_mind": "A one-time price with no monthly fee, or no setup charge and much cheaper monthly, and the selfie check-in made optional so my staff don't feel watched.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

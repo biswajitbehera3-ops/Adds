@@ -1,0 +1,13 @@
+{
+  "id": "P004",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I have one or two chairs and I count the drawer myself every night, so I already know what came in. My bookings and customers are all on WhatsApp and it works; ₹999 every month plus ₹4,999 upfront is a lot from what I earn for something I mostly do with my own eyes.",
+  "objection": "My boys are busy cutting hair, they will not stop to take a selfie and type every walk-in's number and bill in an English app. In two weeks nobody will use it and I will still be paying.",
+  "would_change_my_mind": "If it worked inside WhatsApp itself with no typing for the staff, and cost a few hundred rupees a month with no setup fee.",
+  "price_too_cheap": 99,
+  "price_cheap": 199,
+  "price_expensive": 499,
+  "price_too_expensive": 999
+}

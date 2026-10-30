@@ -1,0 +1,13 @@
+{
+  "id": "P046",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "I have one or two chairs and I cut most of the hair myself, so stylist selfies, attendance and drawer checks are for a bigger salon than mine. ₹4,999 upfront plus ₹999 every month is too much for that when apps like Zylu or MioSalon already do billing and WhatsApp bills for less.",
+  "objection": "Why should I pay a setup fee and ₹12,000 a year for a branded app when my chair is mostly me, and cheaper salon apps already send WhatsApp bills and reminders?",
+  "would_change_my_mind": "No setup fee and a small-salon plan around ₹399 a month with just billing, WhatsApp reminders and the wallet, with my logo so it looks modern to customers.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

@@ -1,0 +1,75 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/v4/scratch[39m
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mF1 forward-dated record lockout[2m > [22m[2moriginal: one save at +3650d, then saves at the real date
+[22m[39mOBS F1 save +3650d: ok | real date topUp/startVisit/closeDay: ok ok ok | anchor 2026-10-14T05:31:00.000Z | items [
+  [32m"k-2026-10-14T05:31:00.000Z:The phone's clock was set back"[39m,
+  [32m"k-confirm:The phone's date jumped ahead"[39m
+]
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mF1 forward-dated record lockout[2m > [22m[2mvariant: 10 resumes of +3d, clock put right -> refused, but k-confirm shown and owner confirm (via commit) restores saving
+[22m[39mOBS F1v steps: topUp before ERR This phone's clock is behind the last date the salon used. Set the date and time to automa | items [
+  [32m"k-2026-10-14T05:31:00.000Z:The phone's clock was set back"[39m,
+  [32m"k-confirm:The phone's clock is behind the last date used"[39m
+] | confirm ok | topUp after ok | backJumps [33m1[39m
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mF2 hold bypass (clean-up on a forward clock)[2m > [22m[2moriginal: save at +1102d then restart at +1102d purges nothing
+[22m[39mOBS F2 orig: save ok | after restart +1102d: selfie selfie-a1 customers live [33m1[39m deleted files [] | hold [33mtrue[39m | allowed [33mfalse[39m
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mF2 hold bypass (clean-up on a forward clock)[2m > [22m[2mvariant: starts 29 days apart (each start a restart)
+[22m[39mOBS F2 29d-apart starts x40: deleted files [] live customers [33m1[39m hold [33mtrue[39m
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mF2 hold bypass (clean-up on a forward clock)[2m > [22m[2mv3 variant: 123 resumes of +3d (no restarts) to +369d, then restart -> purges nothing
+[22m[39mOBS F2 stepping to +369d: anchor 2027-10-18T05:29:00.000Z hold [33mfalse[39m deleted files [] live customers [33m1[39m allowed [33mfalse[39m
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mF3 staff cancel near the start[2m > [22m[2moriginal payload flagged; AppState return logs back-jump
+[22m[39mOBS F3: cancel ERR This phone's clock is behind the last date the salon used. Set the date and time to automa backJumps [33m1[39m items [ [32m"Asha's booking not closed"[39m, [32m"The phone's clock was set back"[39m ]
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mF4 backup future slack[2m > [22m[2m+23h and +6min refused; +4min accepted
+[22m[39mOBS F4: [
+  [32m"ERR This backup can't be used: a date in reminders is in the future"[39m,
+  [32m"ERR This backup can't be used: a date in reminders is in the future"[39m,
+  [32m'ok'[39m
+]
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mF5 backup ids and nested fields[2m > [22m[2mowner id / malformed extras refused; demo and normal use pass
+[22m[39mOBS F5: owner id ERR This backup can't be used: a record in staff has a missing or repeated id | extras 'x' ERR This backup can't be used: a bill isn't valid | normal use ok | demo ok
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mF6 dropUnusedPhotos[2m > [22m[2mrestore of older backup deletes only the dropped selfie
+[22m[39mOBS F6 restore older: deleted [ [32m'selfie-new'[39m ]
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mv3-1 deadlock[2m > [22m[2msalon closed 4 days + 30 more days: saves and owner confirm work
+[22m[39mOBS v3-1: topUp +34d ok | check-in +60d ok | items [ [32m"k-confirm:The phone's date jumped ahead"[39m ] | confirm ok | allowed after [33mtrue[39m
+
+[90mstderr[2m | a.test.ts[2m > [22m[2mv3-1 deadlock[2m > [22m[2mrecovery restore of a 60-day-old backup: saves work and date confirmed
+[22m[39mCould not load saved data; showing the recovery screen Error: The salon's data is missing but its owner password is saved
+    at Module.loadStore (/home/user/Adds/salon-mobile/src/domain/store.ts:60:64)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at [90m/root/security-audit-skill/Adds/run-3/agents/v4/scratch/[39ma.test.ts:188:36
+    at file:///home/user/Adds/salon-mobile/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:20
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mv3-1 deadlock[2m > [22m[2mrecovery restore of a 60-day-old backup: saves work and date confirmed
+[22m[39mOBS v3-1 recovery: topUp ok | confirmedAt 2026-10-14T05:30:00.000Z | allowed [33mtrue[39m | items []
+
+[90mstdout[2m | a.test.ts[2m > [22m[2mv3-3 note lengths[2m > [22m[2m600-char void reason and cash note: restore trims and accepts
+[22m[39mOBS v3-3: restore ok | reason len [33m500[39m | note len [33m500[39m | extra name len [33m75[39m
+
+ [32m✓[39m a.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 5755[2mms[22m[39m
+   [33m[2m✓[22m[39m F1 forward-dated record lockout[2m > [22moriginal: one save at +3650d, then saves at the real date [33m 384[2mms[22m[39m
+   [33m[2m✓[22m[39m F1 forward-dated record lockout[2m > [22mvariant: 10 resumes of +3d, clock put right -> refused, but k-confirm shown and owner confirm (via commit) restores saving [33m 316[2mms[22m[39m
+   [33m[2m✓[22m[39m F2 hold bypass (clean-up on a forward clock)[2m > [22moriginal: save at +1102d then restart at +1102d purges nothing [33m 834[2mms[22m[39m
+   [33m[2m✓[22m[39m F2 hold bypass (clean-up on a forward clock)[2m > [22mvariant: starts 29 days apart (each start a restart) [33m 1096[2mms[22m[39m
+   [33m[2m✓[22m[39m F2 hold bypass (clean-up on a forward clock)[2m > [22mv3 variant: 123 resumes of +3d (no restarts) to +369d, then restart -> purges nothing [33m 835[2mms[22m[39m
+   [33m[2m✓[22m[39m F3 staff cancel near the start[2m > [22moriginal payload flagged; AppState return logs back-jump [33m 319[2mms[22m[39m
+   [33m[2m✓[22m[39m F4 backup future slack[2m > [22m+23h and +6min refused; +4min accepted [33m 304[2mms[22m[39m
+   [33m[2m✓[22m[39m F5 backup ids and nested fields[2m > [22mowner id / malformed extras refused; demo and normal use pass [33m 353[2mms[22m[39m
+   [33m[2m✓[22m[39m F6 dropUnusedPhotos[2m > [22mrestore of older backup deletes only the dropped selfie [33m 368[2mms[22m[39m
+   [33m[2m✓[22m[39m v3-1 deadlock[2m > [22msalon closed 4 days + 30 more days: saves and owner confirm work [33m 315[2mms[22m[39m
+   [33m[2m✓[22m[39m v3-1 deadlock[2m > [22mrecovery restore of a 60-day-old backup: saves work and date confirmed [33m 323[2mms[22m[39m
+   [33m[2m✓[22m[39m v3-3 note lengths[2m > [22m600-char void reason and cash note: restore trims and accepts [33m 303[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m12 passed[39m[22m[90m (12)[39m
+[2m   Start at [22m 05:05:39
+[2m   Duration [22m 6.51s[2m (transform 414ms, setup 0ms, collect 438ms, tests 5.75s, environment 0ms, prepare 79ms)[22m
+

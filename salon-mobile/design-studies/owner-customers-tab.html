@@ -1,0 +1,218 @@
+<title>Owner Customers Tab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: three phones — customer list (search, filters), a customer's profile, and a bill with Cancel bill. Brown glass, single dark look by design. */
+:root{
+  --glow:#8E5B4E; --mid:#4A3029; --deep:#1A1210; --page:#140d0b;
+  --gold:#E4A67B; --gold2:#F5C9A0; --cream:#FFF8F1; --soft:rgba(255,248,241,.72); --faint:rgba(255,248,241,.42);
+  --glass:rgba(255,244,236,.11); --glass2:rgba(255,244,236,.18); --line:rgba(255,244,236,.22);
+  --ok:#9CCB8F; --warn:#F0A86A; --red:#F08C6A; --blue:#9FB8E6; --ink:#2a1a12;
+  --font:Urbanist,"Avenir Next","Segoe UI",system-ui,sans-serif; color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--page);color:var(--cream);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1320px;margin:0 auto}
+h1{font-size:28px;font-weight:700;text-wrap:balance}
+.lead{color:var(--soft);font-size:15px;line-height:1.55;max-width:74ch;margin-top:8px}
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,300px));gap:28px;margin-top:26px;justify-content:start}
+figcaption{margin-top:12px}
+figcaption b{display:block;font-size:16px}
+figcaption span{display:block;color:var(--soft);font-size:13.5px;line-height:1.5;margin-top:4px}
+.phone{position:relative;width:100%;aspect-ratio:390/820;border-radius:40px;overflow:hidden;
+  background:radial-gradient(120% 70% at 12% 0%,var(--glow) 0%,var(--mid) 46%,var(--deep) 100%);
+  box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,244,236,.08);container-type:inline-size}
+.scr{position:absolute;inset:0;padding:6cqw 4.6cqw 24cqw;display:flex;flex-direction:column;gap:3cqw;overflow-y:auto;scrollbar-width:none}
+.scr::-webkit-scrollbar{display:none}
+.who{font-size:3.2cqw;color:var(--soft)}
+.ttl{font-size:6.6cqw;font-weight:700;letter-spacing:-.01em}
+.lbl{font-size:2.8cqw;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:600}
+.sm{font-size:3cqw;color:var(--soft)}
+.num{font-variant-numeric:tabular-nums}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:5cqw;padding:3.4cqw 3.8cqw}
+.search{display:flex;align-items:center;gap:2.4cqw;padding:3cqw 3.6cqw;border-radius:999px;background:rgba(26,18,16,.5);border:1px solid var(--line);font-size:3.5cqw;color:var(--faint)}
+.search svg{width:4.6cqw;height:4.6cqw;stroke:var(--soft);fill:none;stroke-width:2}
+.filters{display:flex;gap:1.8cqw;overflow-x:auto;scrollbar-width:none}
+.filters span{white-space:nowrap;font-size:3cqw;font-weight:600;padding:1.6cqw 3cqw;border-radius:999px;background:var(--glass);border:1px solid var(--line);color:var(--soft)}
+.filters span.on{background:var(--gold);color:var(--ink);border-color:transparent}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.kpi{background:var(--glass);border:1px solid var(--line);border-radius:4cqw;padding:2.6cqw;display:grid;gap:.6cqw}
+.kpi b{font-size:5cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.kpi span{font-size:2.6cqw;color:var(--soft)}
+.list{background:var(--glass);border:1px solid var(--line);border-radius:5cqw;overflow:hidden}
+.cust{display:grid;grid-template-columns:10cqw 1fr auto;gap:3cqw;align-items:center;padding:3cqw 3.6cqw;border-top:1px solid rgba(255,244,236,.08)}
+.cust:first-child{border-top:0}
+.av{width:10cqw;height:10cqw;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:3.3cqw;color:var(--ink)}
+.cust .nm{font-size:3.8cqw;font-weight:700;display:flex;align-items:center;gap:1.6cqw}
+.cust .sub{font-size:2.9cqw;color:var(--soft);margin-top:.5cqw}
+.cust .r{text-align:right}
+.cust .r b{font-size:3.6cqw;font-variant-numeric:tabular-nums}
+.tag{font-size:2.4cqw;font-weight:700;padding:.5cqw 1.6cqw;border-radius:999px;letter-spacing:.03em}
+.tag.reg{background:rgba(228,166,123,.2);color:var(--gold2)}
+.tag.lapse{background:rgba(240,168,106,.16);color:var(--warn)}
+.tag.new{background:rgba(156,203,143,.16);color:var(--ok)}
+.wal{font-size:2.8cqw;color:var(--gold2);margin-top:.4cqw}
+/* profile */
+.back{font:600 3.4cqw var(--font);color:var(--soft);background:none;border:0;text-align:left;padding:0}
+.phead{display:flex;gap:3.6cqw;align-items:center}
+.phead .av{width:16cqw;height:16cqw;font-size:5cqw}
+.phead .nm{font-size:6cqw;font-weight:800}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.actions span{display:flex;flex-direction:column;align-items:center;gap:1cqw;padding:2.6cqw 0;border-radius:4cqw;background:var(--glass);border:1px solid var(--line);font-size:2.8cqw;font-weight:600}
+.actions svg{width:5.4cqw;height:5.4cqw;stroke:var(--gold2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.walcard{display:flex;justify-content:space-between;align-items:center;padding:3.6cqw 4cqw;border-radius:5cqw;background:linear-gradient(135deg,rgba(228,166,123,.34),rgba(228,166,123,.08));border:1px solid rgba(228,166,123,.5)}
+.walcard b{font-size:7cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.btn{font:700 3.1cqw var(--font);padding:2cqw 3.4cqw;border-radius:999px;background:var(--gold);color:var(--ink);border:0}
+.visit{display:grid;grid-template-columns:13cqw 1fr auto;gap:2.6cqw;align-items:center;padding:2.6cqw 0;border-top:1px solid rgba(255,244,236,.08);font-size:3.2cqw}
+.visit:first-of-type{border-top:0}
+.visit .d{color:var(--soft);font-size:2.9cqw;line-height:1.3}
+.visit .s{font-weight:600}
+.visit .x{font-size:2.8cqw;color:var(--soft);margin-top:.3cqw}
+.visit .a{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.visit .a small{display:block;font-size:2.5cqw;color:var(--soft);font-weight:600;letter-spacing:.05em}
+.void{color:var(--faint);text-decoration:line-through}
+.row2{display:flex;justify-content:space-between;align-items:center;padding:2.4cqw 0;border-top:1px solid rgba(255,244,236,.08);font-size:3.3cqw}
+.row2:first-of-type{border-top:0}
+.tog{width:10cqw;height:5.6cqw;border-radius:999px;background:var(--ok);position:relative}
+.tog::after{content:"";position:absolute;right:.7cqw;top:.7cqw;width:4.2cqw;height:4.2cqw;border-radius:50%;background:#fff}
+.dangerlink{color:var(--red);font-weight:700}
+/* bill */
+.bill{background:#f6efe6;color:#2a1a12;border-radius:5cqw;padding:4cqw;display:grid;gap:1.6cqw;position:relative}
+.bill .h{display:flex;justify-content:space-between;font-size:3cqw;color:#6b5448}
+.bill .it{display:flex;justify-content:space-between;font-size:3.4cqw}
+.bill .tot{display:flex;justify-content:space-between;font-size:4.2cqw;font-weight:800;border-top:1px dashed #b9a596;padding-top:2cqw;margin-top:1cqw}
+.bill .pay{font-size:2.9cqw;color:#6b5448}
+.sheet{position:absolute;left:0;right:0;bottom:0;top:38%;z-index:7;border-radius:7cqw 7cqw 0 0;background:linear-gradient(180deg,#5a3b32,#2b1c17);border-top:1px solid var(--line);padding:3cqw 5cqw 6cqw;display:flex;flex-direction:column;gap:2.6cqw}
+.dim{position:absolute;inset:0;background:rgba(10,6,5,.5);z-index:6}
+.grab{width:12cqw;height:1.2cqw;border-radius:999px;background:rgba(255,244,236,.35);margin:0 auto}
+.reasons{display:flex;flex-wrap:wrap;gap:1.8cqw}
+.reasons span{font-size:3cqw;padding:1.8cqw 3cqw;border-radius:999px;background:rgba(26,18,16,.45);border:1px solid var(--line)}
+.reasons span.on{background:var(--gold);color:var(--ink);font-weight:700;border-color:transparent}
+.eff{display:grid;gap:1.4cqw;font-size:3cqw;color:var(--soft)}
+.eff div{display:flex;gap:2cqw;align-items:flex-start}
+.eff i{font-style:normal;color:var(--gold2)}
+.cancel{margin-top:auto;padding:3.4cqw;border-radius:999px;background:var(--red);color:#2a1210;font-weight:800;font-size:3.8cqw;text-align:center}
+.sort{font-size:3cqw;font-weight:600;color:var(--gold2);padding:1.2cqw 2.6cqw;border-radius:999px;border:1px solid rgba(228,166,123,.45)}
+.seg{display:grid;grid-template-columns:1fr 1fr;padding:1cqw;border-radius:999px;background:rgba(26,18,16,.5);border:1px solid var(--line)}
+.seg span{text-align:center;font-size:3.3cqw;font-weight:600;padding:1.8cqw 0;border-radius:999px;color:var(--soft)}
+.seg span.on{background:var(--gold);color:var(--ink)}
+.pchips{display:flex;gap:1.6cqw}
+.pchips span{font-size:2.9cqw;padding:1.3cqw 2.6cqw;border-radius:999px;background:var(--glass);border:1px solid var(--line);color:var(--soft)}
+.pchips span.on{color:var(--cream);border-color:rgba(228,166,123,.7);background:rgba(228,166,123,.18)}
+.share{padding:3.4cqw 3.8cqw;border-radius:5cqw;background:linear-gradient(135deg,rgba(228,166,123,.3),rgba(228,166,123,.08));border:1px solid rgba(228,166,123,.5);display:grid;gap:1.6cqw}
+.share b{font-size:6cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.sbar{height:2cqw;border-radius:999px;background:rgba(255,244,236,.12);overflow:hidden}.sbar i{display:block;height:100%;width:34%;background:var(--gold);border-radius:inherit}
+.rank{display:grid;grid-template-columns:7cqw 9cqw 1fr auto;gap:2.4cqw;align-items:center;padding:2.5cqw 3.4cqw;border-top:1px solid rgba(255,244,236,.08)}
+.rank:first-child{border-top:0}
+.rank .n{font-size:3.6cqw;font-weight:800;color:var(--soft);text-align:center;font-variant-numeric:tabular-nums}
+.rank .n.m1{color:#F5C9A0}.rank .n.m2{color:#E8E2DA}.rank .n.m3{color:#C9946E}
+.rank .av{width:9cqw;height:9cqw;font-size:3cqw}
+.rank .nm{font-size:3.6cqw;font-weight:700}
+.rank .sub{font-size:2.8cqw;color:var(--soft);margin-top:.3cqw}
+.rank .amt{text-align:right;font-weight:800;font-size:3.6cqw;font-variant-numeric:tabular-nums}
+.rank .bar{height:1cqw;border-radius:999px;background:rgba(255,244,236,.08);margin-top:.9cqw;overflow:hidden}.rank .bar i{display:block;height:100%;background:var(--gold);border-radius:inherit}
+.dock{position:absolute;left:3.5cqw;right:3.5cqw;bottom:3.5cqw;display:grid;grid-template-columns:repeat(4,1fr);padding:2cqw;border-radius:6cqw;background:rgba(38,22,17,.7);border:1px solid var(--line);z-index:5}
+.dock span{display:flex;flex-direction:column;align-items:center;gap:.8cqw;font-size:2.8cqw;color:var(--soft);padding:1.6cqw 0;border-radius:4cqw}
+.dock span.on{background:var(--gold);color:var(--ink);font-weight:700}
+.dock svg{width:5.2cqw;height:5.2cqw;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+</style>
+
+<div class="wrap">
+  <h1>Owner Customers tab</h1>
+  <p class="lead">The fourth tab. Find any customer by name or number, see who is a regular and who hasn't come back, open a customer to see every visit, their wallet, bookings and message settings, and cancel a wrong bill from inside the customer. Example data.</p>
+  <div class="trio">
+    <figure><div class="phone" id="c1"></div><figcaption><b>1 · Customers</b><span>Search by name or mobile. Filters: All, ⭐ Top spenders, Regulars, Not seen 30+ days, Wallet balance, New. Sorted by highest spending (change with Sort). Each row: name, last visit and stylist, visits, total spent, wallet balance.</span></figcaption></figure>
+    <figure><div class="phone" id="c2"></div><figcaption><b>2 · Tap a customer: profile</b><span>Call, WhatsApp, Book. Wallet balance with Top up. Every visit and bill (tap a bill to see it). Upcoming booking, reminders on/off, and privacy: send their data, delete.</span></figcaption></figure>
+    <figure><div class="phone" id="c3"></div><figcaption><b>3 · Tap a bill: Cancel bill</b><span>The bill as printed. Cancel bill asks for a reason and says exactly what happens: wallet refunded, referral reward taken back, removed from earnings. The cancelled bill stays in the history, struck through.</span></figcaption></figure>
+    <figure><div class="phone" id="c4"></div><figcaption><b>4 · Tap ⭐ Top spenders</b><span>The salon's best customers ranked by total spending, highest first. Switch between Top 20 and Top 30, and between All time, This year and Last 3 months. Their share of all earnings is shown at the top; tap anyone to open their profile.</span></figcaption></figure>
+  </div>
+</div>
+
+<script>
+const DOCK='<span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M5 12a7 7 0 0 1 14 0"/></svg>Live</span><span><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>Earnings</span><span><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M16 11a3 3 0 1 0 0-6M18 20c0-2-1-3.6-2.5-4.4"/></svg>Staff</span><span class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.6 7-5.6s6.2 2 7 5.6"/></svg>Customers</span>';
+const COLS=['#E4A67B','#F3E6D8','#B98E78','#D9B79E','#C99A7E'];
+const C=[
+  ['Aarav Sharma','AS','Today · Imran',14,'₹9,450','₹600','reg'],
+  ['Meghna Rao','MR','Today · Sunita',9,'₹10,800','₹1,350','reg'],
+  ['Sana Khan','SK','Today · Sunita',3,'₹3,100','','new'],
+  ['Vikram Shah','VS','Today · Rakesh',22,'₹11,900','₹200','reg'],
+  ['Kavya Iyer','KI','2 Sep · Sunita',6,'₹6,200','₹450','lapse'],
+  ['Nikhil Jain','NJ','Today · Imran',5,'₹1,800','','none'],
+  ['Rohan Gupta','RG','28 Aug · Rakesh',4,'₹1,900','₹100','lapse']
+];
+const TAG={reg:'<span class="tag reg">Regular</span>',lapse:'<span class="tag lapse">Not seen 40 days</span>',new:'<span class="tag new">New</span>',none:''};
+document.getElementById('c1').innerHTML=`<div class="scr">
+  <div><div class="who">Owner · Wed 14 Oct</div><div class="ttl">Customers</div></div>
+  <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg>Search name or mobile</div>
+  <div class="kpis"><div class="kpi"><b>412</b><span>customers</span></div><div class="kpi"><b>38</b><span>new this month</span></div><div class="kpi"><b style="color:var(--warn)">57</b><span>not seen 30+ days</span></div></div>
+  <div class="filters"><span class="on">All</span><span>⭐ Top spenders</span><span>Regulars</span><span>Not seen 30+</span><span>Wallet balance</span><span>New</span></div>
+  <div style="display:flex;justify-content:space-between;align-items:center"><span class="lbl">412 customers</span><span class="sort">Sort: Highest spending ▾</span></div>
+  <div class="list">${[...C].sort((a,b)=>parseInt(b[4].replace(/\D/g,''))-parseInt(a[4].replace(/\D/g,''))).map(([n,i,l,v,t,w,k],x)=>`<div class="cust"><div class="av" style="background:${COLS[x%5]}">${i}</div>
+    <div><div class="nm">${n} ${TAG[k]}</div><div class="sub">${l} · ${v} visits</div></div>
+    <div class="r"><b>${t}</b>${w?`<div class="wal">Wallet ${w}</div>`:''}</div></div>`).join('')}</div>
+  </div><div class="dock">${DOCK}</div>`;
+
+const ic=p=>`<svg viewBox="0 0 24 24">${p}</svg>`;
+document.getElementById('c2').innerHTML=`<div class="scr">
+  <button class="back">‹ Customers</button>
+  <div class="phead"><div class="av" style="background:#E4A67B">AS</div><div><div class="nm">Aarav Sharma</div><div class="sm">98765 43210 · customer since Jan 2025</div><div style="margin-top:1.4cqw">${TAG.reg}</div></div></div>
+  <div class="actions"><span>${ic('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>')}Call</span><span>${ic('<path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/>')}WhatsApp</span><span>${ic('<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M12 11v6M9 14h6"/>')}Book</span></div>
+  <div class="walcard"><div><div class="lbl" style="color:var(--gold2)">Wallet</div><b>₹600</b></div><span class="btn">Top up</span></div>
+  <div class="glass">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1cqw"><span class="lbl">Visits &amp; bills</span><span class="sm">14 visits · ₹9,450</span></div>
+    <div class="visit"><div class="d">Today<br>11:20</div><div><div class="s">Haircut + Beard trim</div><div class="x">Imran · bill #1043</div></div><div class="a">₹600<small>CASH</small></div></div>
+    <div class="visit"><div class="d">18 Sep</div><div><div class="s">Haircut</div><div class="x">Imran · bill #0981</div></div><div class="a">₹300<small>WALLET</small></div></div>
+    <div class="visit"><div class="d">2 Sep</div><div><div class="s void">Hair colour</div><div class="x">Cancelled · wrong customer</div></div><div class="a void">₹1,000</div></div>
+    <div class="visit"><div class="d">20 Aug</div><div><div class="s">Haircut + Head massage</div><div class="x">Rakesh · bill #0890</div></div><div class="a">₹600<small>UPI</small></div></div>
+    <div class="sm" style="text-align:center;margin-top:1.6cqw">See all 14 visits ›</div>
+  </div>
+  <div class="glass"><div class="lbl" style="margin-bottom:1.4cqw">Next booking</div><div style="display:flex;justify-content:space-between;font-size:3.4cqw"><span><b>Sat 17 Oct · 5:00 PM</b><br><span class="sm">Haircut · Imran</span></span><span class="sm">Reminder 9:00 AM</span></div></div>
+  <div class="glass">
+    <div class="row2"><span>WhatsApp reminders &amp; offers</span><span class="tog"></span></div>
+    <div class="row2"><span>Send them their data</span><span class="sm">›</span></div>
+    <div class="row2"><span class="dangerlink">Delete customer</span><span class="sm">›</span></div>
+  </div>
+  </div><div class="dock">${DOCK}</div>`;
+
+document.getElementById('c3').innerHTML=`<div class="scr">
+  <button class="back">‹ Aarav Sharma</button>
+  <div class="ttl" style="font-size:5.6cqw">Bill #1043</div>
+  <div class="bill">
+    <div class="h"><span>Wed 14 Oct · 11:20 AM</span><span>Imran</span></div>
+    <div class="it"><span>Haircut</span><span>₹300</span></div>
+    <div class="it"><span>Beard trim</span><span>₹150</span></div>
+    <div class="it"><span>Head massage (add-on)</span><span>₹150</span></div>
+    <div class="tot"><span>Total</span><span>₹600</span></div>
+    <div class="pay">Paid ₹600 cash · entered by Imran at 11:58</div>
+  </div>
+  </div>
+  <div class="dim"></div>
+  <div class="sheet"><div class="grab"></div>
+    <div class="ttl" style="font-size:5.4cqw">Cancel this bill?</div>
+    <div class="lbl">Reason</div>
+    <div class="reasons"><span class="on">Wrong customer</span><span>Wrong service</span><span>Entered twice</span><span>Customer didn't pay</span><span>Other</span></div>
+    <div class="lbl" style="margin-top:1cqw">What happens</div>
+    <div class="eff">
+      <div><i>●</i>₹600 is taken out of today's earnings and Imran's earnings</div>
+      <div><i>●</i>Any wallet money used on this bill goes back to the wallet</div>
+      <div><i>●</i>A referral reward from this visit is taken back</div>
+      <div><i>●</i>The bill stays in the history, marked cancelled with the reason</div>
+    </div>
+    <div class="cancel">Cancel bill</div>
+  </div><div class="dock">${DOCK}</div>`;
+
+const TOP=[['Vikram Shah',22,11900,'Rakesh'],['Meghna Rao',9,10800,'Sunita'],['Aarav Sharma',14,9450,'Imran'],['Ritu Malhotra',11,8900,'Sunita'],['Kunal Bose',16,8350,'Imran'],['Neha Kapoor',8,7900,'Sunita'],['Siddharth Rao',13,7400,'Rakesh'],['Kavya Iyer',6,6200,'Sunita'],['Farhan Qureshi',12,5900,'Imran'],['Pallavi Desai',7,5650,'Sunita'],['Amit Joshi',15,5400,'Rakesh'],['Tanya Mehra',5,5100,'Sunita'],['Rahul Jain',10,4800,'Rakesh'],['Ishaan Verma',9,4550,'Imran'],['Divya Nair',6,4300,'Sunita'],['Arjun Mehta',8,4100,'Rakesh'],['Sneha Kulkarni',5,3900,'Sunita'],['Manish Gupta',11,3750,'Imran'],['Pooja Reddy',4,3600,'Sunita'],['Sana Khan',3,3100,'Sunita']];
+const ini=n=>n.split(' ').map(w=>w[0]).join('');
+const mx=TOP[0][2];
+document.getElementById('c4').innerHTML=`<div class="scr">
+  <button class="back">‹ Customers</button>
+  <div class="ttl" style="font-size:6.2cqw">⭐ Top spenders</div>
+  <div class="seg"><span class="on">Top 20</span><span>Top 30</span></div>
+  <div class="pchips"><span class="on">All time</span><span>This year</span><span>Last 3 months</span></div>
+  <div class="share"><div style="display:flex;justify-content:space-between;align-items:baseline"><span class="lbl" style="color:var(--gold2)">Top 20 spent</span><span class="sm">34% of all earnings</span></div><b>₹1,34,850</b><div class="sbar"><i></i></div></div>
+  <div class="list">${TOP.map(([n,v,a,st],k)=>`<div class="rank"><div class="n ${k<3?'m'+(k+1):''}">${k+1}</div><div class="av" style="background:${COLS[k%5]}">${ini(n)}</div>
+    <div style="min-width:0"><div class="nm">${n}</div><div class="sub">${v} visits · mostly ${st}</div><div class="bar"><i style="width:${(a/mx*100).toFixed(0)}%"></i></div></div>
+    <div class="amt">₹${a.toLocaleString('en-IN')}</div></div>`).join('')}</div>
+  </div><div class="dock">${DOCK}</div>`;
+</script>

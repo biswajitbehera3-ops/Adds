@@ -1,0 +1,47 @@
+import { describe, expect, it } from "vitest";
+import * as K from "/home/user/Adds/salon-mobile/src/domain/checks";
+import * as E from "/home/user/Adds/salon-mobile/src/domain/engine";
+import { emptyData, type Data } from "/home/user/Adds/salon-mobile/src/domain/types";
+const SECRET = { salt: "x", hash: "y" };
+const NOW = new Date("2026-10-14T06:00:00.000Z"); // 11:30 IST 14 Oct
+const at = (min: number) => new Date(NOW.getTime() + min * 60000);
+function setup() {
+  let data: Data = { ...emptyData(), owner: { secret: SECRET } };
+  const run = <T,>(op: { data: Data; result: T }) => ((data = op.data), op.result);
+  const imran = run(E.addStaff(data, { name: "Imran Khan", phone: "9811100001", chair: "Chair 1", secret: SECRET }));
+  const c = run(E.createCustomer(data, { phone: "9876543210", name: "Asha Rao", consent: true, marketing: true, takenBy: imran.id }, NOW));
+  const pay = (min: number, method: "CASH" | "UPI" = "CASH") => {
+    const v = run(E.startVisit(data, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: imran.id }, at(min)));
+    return run(E.checkoutVisit(data, { visitId: v.id, walletAmount: 0, paymentMethod: method }, at(min + 30)));
+  };
+  return { get data() { return data; }, run, pay, c };
+}
+describe("r2-cash-count", () => {
+  it("A: cash bill paid after the owner's count on the same day is never flagged", () => {
+    const s = setup();
+    s.pay(0);
+    const exp1 = K.expectedCash(s.data, "2026-10-14").total;
+    s.run(K.closeDay(s.data, { counted: exp1 }, at(480))); // owner counts at 19:30 IST, matches
+    const late = s.pay(500); // staff checks out a cash bill at ~20:50 IST, keeps the cash
+    const chk = K.ownerChecks(s.data, at(600));
+    console.log("A exp1", exp1, "late bill", late.visit.directPaid, "current expected", chk.cash.total, "closing", JSON.stringify({ e: chk.closing!.expected, c: chk.closing!.counted }), "cash items", JSON.stringify(chk.items.filter((i) => i.kind === "cash")));
+    expect(chk.cash.total).toBe(exp1 + late.visit.directPaid);
+    expect(chk.items.filter((i) => i.kind === "cash")).toHaveLength(0);
+  });
+  it("B: cash bill checked out with the phone clock set back into an already-closed day escapes every count", () => {
+    const s = setup();
+    s.pay(0);
+    s.run(K.closeDay(s.data, { counted: K.expectedCash(s.data, "2026-10-14").total }, at(480))); // 14 Oct closed, matches
+    const day2 = 1440 + 120; // 15 Oct 13:30 IST, real time
+    s.pay(day2); // a normal cash bill on 15 Oct (real clock)
+    // later on 15 Oct: staff sets the phone clock back to 14 Oct 15:00 IST (before the 14 Oct count) and checks out a cash bill
+    const backdated = s.pay(180); // paidAt = at(210) = 14 Oct 15:00 IST; no clock-behind guard in checkoutVisit
+    const exp15 = K.expectedCash(s.data, "2026-10-15").total;
+    s.run(K.closeDay(s.data, { counted: exp15 }, at(day2 + 400))); // drawer matches on 15 Oct
+    const chk15 = K.ownerChecks(s.data, at(day2 + 401));
+    const closing14 = s.data.dayClosings.find((d) => d.date === "2026-10-14")!;
+    console.log("B backdated paidAt", backdated.visit.paidAt, "amount", backdated.visit.directPaid, "exp15", exp15, "15 cash items", JSON.stringify(chk15.items.filter((i) => i.kind === "cash")), "14 closing", JSON.stringify({ e: closing14.expected, c: closing14.counted }), "14 recomputed", K.expectedCash(s.data, "2026-10-14").total);
+    expect(chk15.items.filter((i) => i.kind === "cash")).toHaveLength(0);
+    expect(closing14.expected).toBe(closing14.counted);
+  });
+});

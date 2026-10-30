@@ -1,0 +1,33 @@
+{
+ "run_id": "adds-salon-mobile-run-1",
+ "repo": "biswajitbehera3-ops/Adds",
+ "target": "/home/user/Adds/salon-mobile",
+ "source_ref": {
+  "commit": "05910c6a81805c24eec1b6dc96ab456f2fd35672",
+  "salon_mobile_dirty": false
+ },
+ "profile": "quick",
+ "scope_paths": [
+  "salon-mobile/"
+ ],
+ "budget": 24,
+ "execution_policy": "sandboxed-source-and-local-only",
+ "sandbox": "sbx.sh: unshare user+net+mount namespaces, / remounted read-only except the agent scratch dir, env -i allowlist (PATH, HOME, TMPDIR, CI, NODE_ENV), prlimit cpu 120 s, data 4 GiB, nproc 256, fsize 64 MiB, timeout 300 s",
+ "promotion": "promote.py (descriptor-relative no-follow, regular file, nlink 1, size-bounded, exclusive create)",
+ "selected_companions": [
+  "CLIENT-SIDE.md",
+  "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+  "DATA-ISOLATION-AND-LIFECYCLE.md"
+ ],
+ "prior_runs": [],
+ "shared_file_owner": "parent",
+ "run_status": "complete",
+ "agents_spent": {
+  "recon": 4,
+  "hunters": 6,
+  "critic": 1,
+  "verifiers": 6,
+  "total": 17
+ },
+ "coverage_note": "quick profile: partial pass; 5 critic-proposed units deferred (quick_profile_final_critic)"
+}

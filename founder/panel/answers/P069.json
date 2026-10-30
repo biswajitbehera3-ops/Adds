@@ -1,0 +1,13 @@
+{
+  "id": "P069",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My register has never crashed on me, and with UPI the money already shows on my phone. Paying ₹4,999 up front plus ₹999 every month to make my staff do selfies and type numbers on a busy day feels like extra work, not less.",
+  "objection": "If the app hangs on a Sunday when every chair is full and customers are waiting for their bill, who picks up the phone? With the register nothing stops working.",
+  "would_change_my_mind": "No setup fee, and a local person I can actually call on Sundays who comes to the salon if it breaks, with my old register entries kept safe as a backup.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 699,
+  "price_too_expensive": 1200
+}

@@ -1,0 +1,13 @@
+{
+  "id": "P006",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "My register has never crashed on a Sunday with ten customers waiting. ₹999 a month is nothing for me, but if the app stops billing in the rush and nobody picks up the phone, I lose money and face in front of customers.",
+  "objection": "Who will help me when something stops working on a busy Sunday? A training day at setup is fine, but I need to know a real person answers fast on weekends, or my stylists will go back to the register anyway.",
+  "would_change_my_mind": "A written promise of same-day phone support on Sundays and holidays, plus seeing it running smoothly in another salon owner's shop near me for a few months.",
+  "price_too_cheap": 299,
+  "price_cheap": 599,
+  "price_expensive": 1999,
+  "price_too_expensive": 3999
+}

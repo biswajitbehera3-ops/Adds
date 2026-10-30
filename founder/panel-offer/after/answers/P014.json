@@ -1,0 +1,13 @@
+{
+  "id": "P014",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "need",
+  "reason": "I can't see who is in which chair or check the drawer cash when I'm away, and staff mix-ups cost me more than ₹500 a month. Only ₹5,000 is at risk, and I get it back if my stylists don't use it, so I'll try it, but only after I see it working in another salon first.",
+  "objection": "It is one person supporting it. If he is sick or busy at another salon on a Sunday or during Durga Puja and billing stops with a full salon, my staff will go back to the register and I lose a day.",
+  "would_change_my_mind": "If I call the support number on a busy Sunday before signing and nobody answers quickly, I will not buy.",
+  "price_too_cheap": 150,
+  "price_cheap": 400,
+  "price_expensive": 1200,
+  "price_too_expensive": 2500
+}

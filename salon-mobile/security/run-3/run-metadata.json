@@ -1,0 +1,39 @@
+{
+ "run_id": "adds-salon-mobile-run-3",
+ "repo": "biswajitbehera3-ops/Adds",
+ "target": "/home/user/Adds/salon-mobile",
+ "source_ref": {
+  "commit": "1fe98d0b5ce04b362b9bd0e687a7e2e6ea09a401",
+  "salon_mobile_dirty": false,
+  "fixes_since": "ca474f5"
+ },
+ "profile": "quick",
+ "scope_paths": [
+  "the 11 units whose findings were fixed (run 1 and run 2) plus the code added by the fixes"
+ ],
+ "budget": 24,
+ "execution_policy": "sandboxed-source-and-local-only",
+ "sandbox": "sbx.sh (as run 1)",
+ "promotion": "promote.py (as run 1)",
+ "selected_companions": [
+  "CLIENT-SIDE.md",
+  "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+  "DATA-ISOLATION-AND-LIFECYCLE.md"
+ ],
+ "prior_runs": [
+  {
+   "path": "salon-mobile/security/run-1"
+  },
+  {
+   "path": "salon-mobile/security/run-2"
+  }
+ ],
+ "shared_file_owner": "parent",
+ "run_status": "complete",
+ "fix_commits": [
+  "4203567",
+  "430da0c",
+  "3bcbf09",
+  "(recovery date fix, this commit)"
+ ]
+}

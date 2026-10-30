@@ -41,6 +41,12 @@ Which one gets used depends entirely on the ad angle decided in `ad-strategist` 
 6. **Generate.** If Higgsfield is connected via MCP, Claude can take the finished prompt, stage the reference images (`media_upload`/`media_confirm`), and call `generate_image`/`generate_video` (or the batch variants) directly instead of you pasting into an external tool. Otherwise, copy the delivered prompt into your generator of choice.
 7. **Pitch it** → the outreach playbook inside `ad-strategist` (email template, 4-stage DM flow, LinkedIn approach, follow-up cadence).
 
+## Salon app: security check after every build (locked, user 26 Oct)
+
+After every build of the salon app (`salon-mobile/`), and before it is shown to an owner or shipped as an APK, run the `security-audit` skill in full audit mode on the app. Confirmed findings go on the build list and are fixed in that build (never outside an approved build), then the check is re-run on the changed code, and record the result in `salon-mobile/SECURITY-CHECKS.md` (date, build, findings, fixes). Keep each run's reports, findings.json, coverage-ledger.json and sandbox scripts in `salon-mobile/security/run-N/` (the container is temporary, and the next run needs the previous ledger); agent scratch folders are not committed.
+
+Before changing the salon app, read `salon-mobile/SECURITY-LESSONS.md`: the problems the checks found, how each was fixed, and the rules future code must keep (never trust the phone's clock; on errors stop, never fall back to demo data; every imported file is untrusted; owner powers need the owner password at the moment; record who closed or changed anything the owner relies on; deleting a person removes every copy; stored names are never file paths; limit wrong tries). Every new finding gets a test and an entry there. **Before the app is set up for a real salon** (locked, user 28 Oct), work through the "Before the first real salon goes live" checklist in that file: every open security item is fixed in that build, mostly by live sync with server time.
+
 ## Generation & cost policy (locked)
 
 Claude runs the generations on Higgsfield — it does not stop at delivering prompt text. Three rules govern every run:

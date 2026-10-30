@@ -1,0 +1,21 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-1/agents/v2-whatsapp-code/scratch[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mv2-whatsapp-code[2m > [22m[2mV1 Guards.tsx:35 message template puts the code in the wa.me text param
+[22m[39mV1 https://wa.me/919876500000?text=Your%20code%20is%204821.%20Tell%20it%20to%20the%20salon%20staff%20to%20pay%20from%20your%20wallet.%20Don't%20share%20it%20with%20anyone%20else. | text param: Your code is 4821. Tell it to the salon staff to pay from your wallet. Don't share it with anyone else. | contains code: [33mtrue[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mv2-whatsapp-code[2m > [22m[2mV2 checkoutVisit gates >walletCodeAbove only on the boolean
+[22m[39mV2 without boolean: Wallet use above ₹500 needs the code sent to the customer's WhatsApp
+V2 with walletCodeOk:true (no code supplied anywhere) -> balance [33m700[39m walletCodeAt 2026-10-26T14:25:41.751Z
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mv2-whatsapp-code[2m > [22m[2mV3 createCustomer links a referrer on referralVerified:true alone
+[22m[39mV3 without boolean: Confirm the new customer's number with the WhatsApp code first
+V3 with referralVerified:true -> referredById [33mtrue[39m referralVerifiedAt 2026-10-26T14:25:41.752Z
+
+ [32m✓[39m x.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 14:25:41
+[2m   Duration [22m 483ms[2m (transform 253ms, setup 0ms, collect 270ms, tests 17ms, environment 0ms, prepare 57ms)[22m
+

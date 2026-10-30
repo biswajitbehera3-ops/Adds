@@ -1,0 +1,13 @@
+{
+  "id": "P018",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "Everything already runs on WhatsApp and customers pay me on UPI, so it works fine as it is. Paying ₹4,999 upfront and then ₹999 every month just to make my staff take selfies and type numbers into a new app feels like extra work, not less.",
+  "objection": "If this app or company shuts down, or my phone breaks, where does my customer list go? At least in WhatsApp I know where everything is. I don't want to pay ₹5,000 before I even know my girls will use it.",
+  "would_change_my_mind": "No setup fee: let me use it free for a month first, and show me my customer data is backed up and that I can download it any time even if I stop paying.",
+  "price_too_cheap": 199,
+  "price_cheap": 399,
+  "price_expensive": 799,
+  "price_too_expensive": 1499
+}

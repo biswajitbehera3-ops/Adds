@@ -1,0 +1,16 @@
+
+ RUN  v3.2.7 /root/security-audit-skill/Adds/run-2/agents/r2-cash-count/scratch
+
+stdout | x.test.ts > r2-cash-count > A: cash bill paid after the owner's count on the same day is never flagged
+A exp1 300 late bill 300 current expected 600 closing {"e":300,"c":300} cash items []
+
+stdout | x.test.ts > r2-cash-count > B: cash bill checked out with the phone clock set back into an already-closed day escapes every count
+B backdated paidAt 2026-10-14T09:30:00.000Z amount 300 exp15 300 15 cash items [] 14 closing {"e":300,"c":300} 14 recomputed 600
+
+ ✓ x.test.ts (2 tests) 11ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  06:55:51
+   Duration  579ms (transform 322ms, setup 0ms, collect 358ms, tests 11ms, environment 0ms, prepare 61ms)
+

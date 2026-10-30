@@ -1,0 +1,13 @@
+{
+  "id": "P065",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My register has run this salon for years and I know every page of it. My stylists are busy with customers all day, and I don't see them stopping to take selfies and type numbers into an app for every walk-in.",
+  "objection": "My staff won't type everything into an app when the chairs are full, so in two weeks I'll be paying ₹999 a month for an app nobody uses while the register carries on as before. And after losing two good stylists last year, I don't want to push something on the team that makes them feel watched.",
+  "would_change_my_mind": "Seeing it running in another salon my size nearby, where the stylists actually use it on a busy Saturday and the owner shows me it caught missing cash or brought customers back.",
+  "price_too_cheap": 199,
+  "price_cheap": 499,
+  "price_expensive": 999,
+  "price_too_expensive": 1999
+}

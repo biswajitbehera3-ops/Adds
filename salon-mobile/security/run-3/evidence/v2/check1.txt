@@ -1,0 +1,61 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/v2/scratch[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mv2 candidate 1: unvalidated ids / nested fields[2m > [22m[2m1a: staff id 'owner' accepted by readBackup; staffName then shows 'Owner'
+[22m[39m1a staff ids accepted: [ [32m'owner'[39m ]
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mv2 candidate 1: unvalidated ids / nested fields[2m > [22m[2m1a-engine: a stylist with id 'owner' can cancel after start and the owner's checks hide it; staff undo hidden too
+[22m[39m1a late cancel -> CANCELLED closedBy owner ; owner check items: []
+1a control ordinary id late cancel -> Error: The booked time has passed. Mark it No-show instead
+1a staff undo voidedBy: owner ; undo items: [33m0[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mv2 candidate 1: unvalidated ids / nested fields[2m > [22m[2m1b: visit.extras as a string is accepted, then ownerChecks and billLines throw TypeError
+[22m[39m1b readBackup accepted extras: "x"
+1b ownerChecks today -> TypeError: (v.extras ?? []).map is not a function
+1b ownerChecks next day -> ok
+1b billLines -> TypeError: (visit.extras ?? []).map is not a function or its return value is not iterable
+1b receiptMessage -> TypeError: (visit.extras ?? []).map is not a function or its return value is not iterable
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mv2 candidate 2: future-time slack[2m > [22m[2ma record 23h ahead is accepted and blocks guarded saves; 25h is refused
+[22m[39m2 latestRecordTime - now (h): [33m23[39m
+2 topUp +1min -> Error: This phone's clock is behind. Set the date and time to automatic, then try again.
+2 closeDay +1min -> Error: This phone's clock is behind. Set the date and time to automatic, then try again.
+2 topUp +22h56m -> ok
+2 25h ahead readBackup -> Error: This backup can't be used: a date in customers is in the future
+2 after restoring a clean backup, topUp -> ok
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mv2 candidate 4: legacy referral note[2m > [22m[2mmechanics: an old-build note for an already-erased customer survives migrate, purge and restore
+[22m[39m4 legacy note after restore+migrate+purge: Referred Bina Dummyname
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mv2 candidate 4: legacy referral note[2m > [22m[2mthe only pre-fix data in the repo (salon-day test, web build) has no erased customer, and erasing now scrubs its note
+[22m[39m4 salon-day data: version [33m4[39m erased customers: [33m0[39m DELETED/AUTO_ERASED events: [33m0[39m
+4 salon-day note before: Referred Neha Sahu -> after deleting the friend now: Referred a friend
+
+ [32m✓[39m x.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+[90mstdout[2m | y.test.ts[2m > [22m[2mv2 store[2m > [22m[2m1a via store: restored stylist id 'owner' -> sessionActor 'owner' -> late cancel allowed and hidden
+[22m[39m1a store: actor owner ; appt CANCELLED owner ; owner checks: [ [32m'k-hold'[39m ]
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mv2 store[2m > [22m[2m3: selfies of records replaced by restore / clearAll / resetToDemo are never deleted
+[22m[39m3 after restore: attendance keys [ [32m'selfie-in-backup'[39m ] ; deletePhotos so far []
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mv2 store[2m > [22m[2m3: selfies of records replaced by restore / clearAll / resetToDemo are never deleted
+[22m[39m3 400 days later (hold? [33mfalse[39m ): deletePhotos [ [32m'selfie-in-backup'[39m ] ; 'selfie-after-backup' deleted? [33mfalse[39m
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mv2 store[2m > [22m[2m3: selfies of records replaced by restore / clearAll / resetToDemo are never deleted
+[22m[39m3 clearAll: attendance [33m0[39m ; deletePhotos []
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mv2 store[2m > [22m[2m3: selfies of records replaced by restore / clearAll / resetToDemo are never deleted
+[22m[39m3 resetToDemo: deletePhotos []
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mv2 store[2m > [22m[2m3-control: a selfie still referenced is deleted by the purge after retention
+[22m[39m3-control deletePhotos [ [32m'control-selfie'[39m ]
+
+ [32m✓[39m y.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 9007[2mms[22m[39m
+   [33m[2m✓[22m[39m v2 store[2m > [22m3: selfies of records replaced by restore / clearAll / resetToDemo are never deleted [33m 4985[2mms[22m[39m
+   [33m[2m✓[22m[39m v2 store[2m > [22m3-control: a selfie still referenced is deleted by the purge after retention [33m 3944[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m9 passed[39m[22m[90m (9)[39m
+[2m   Start at [22m 14:46:36
+[2m   Duration [22m 9.49s[2m (transform 341ms, setup 0ms, collect 507ms, tests 9.03s, environment 0ms, prepare 146ms)[22m
+

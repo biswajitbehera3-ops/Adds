@@ -1,0 +1,21 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-2/agents/r2-appointments/scratch[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mr2-appointments: booking closure hides 'customer never entered' signal[2m > [22m[2mbaseline: unclosed booking is flagged to owner
+[22m[39mBASELINE booking items: ["Aarav Sharma's booking not closed"]
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mr2-appointments: booking closure hides 'customer never entered' signal[2m > [22m[2mmarkNoShow by any caller removes the flag and records no actor/time
+[22m[39mAFTER NO_SHOW appt: {"id":"mvqbzvru8eshx7","customerId":"mvqbzvru688osd","serviceIds":["haircut"],"staffId":"mvqbzvru5ngx4u","at":"2026-10-14T06:30:00.000Z","minutes":30,"status":"NO_SHOW","source":"PHONE","note":null,"reminderSentAt":null,"reminderChannel":null,"visitId":null,"createdBy":"mvqbzvru5ngx4u","createdAt":"2026-10-14T05:00:00.000Z"}
+AFTER NO_SHOW all owner check items: []
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mr2-appointments: booking closure hides 'customer never entered' signal[2m > [22m[2mcancelAppointment after the time removes the flag, records nothing, and owner/staff lists drop it
+[22m[39mAFTER CANCEL appt: {"id":"mvqbzvrxcfjk9x","customerId":"mvqbzvrwaarhhl","serviceIds":["haircut"],"staffId":"mvqbzvrw9sef77","at":"2026-10-14T06:30:00.000Z","minutes":30,"status":"CANCELLED","source":"PHONE","note":null,"reminderSentAt":null,"reminderChannel":null,"visitId":null,"createdBy":"mvqbzvrw9sef77","createdAt":"2026-10-14T05:00:00.000Z"}
+AFTER CANCEL all owner check items: []
+
+ [32m✓[39m x.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 06:55:31
+[2m   Duration [22m 1.39s[2m (transform 1000ms, setup 0ms, collect 1.02s, tests 11ms, environment 0ms, prepare 80ms)[22m
+

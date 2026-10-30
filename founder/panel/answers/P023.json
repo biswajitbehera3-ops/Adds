@@ -1,0 +1,13 @@
+{
+  "id": "P023",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I don't put my salon's customer list and cash on an app nobody I know is using. If my distributor or a salon owner I trust was running it for a few months, I'd look, but not from an ad.",
+  "objection": "If the phone breaks or this company shuts down, where do my customer numbers and wallet balances go? And when a stylist leaves for the salon down the road, can they take my customers' numbers with them?",
+  "would_change_my_mind": "Seeing it running in another salon owner's shop that I know, plus something in writing that my data is backed up and stays mine if I stop paying.",
+  "price_too_cheap": 299,
+  "price_cheap": 599,
+  "price_expensive": 1499,
+  "price_too_expensive": 2499
+}

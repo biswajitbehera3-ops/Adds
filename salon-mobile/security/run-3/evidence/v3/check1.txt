@@ -1,0 +1,85 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/v3/scratch[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mF1 forward-dated record lockout[2m > [22m[2moriginal payload: save at +3650d refused; saves at real date work
+[22m[39mOBS F1 save at +3650d: ERR This phone's date is far ahead of the last date the salon used. Ask the owner to confirm the date in Today's checks. attendance [33m0[39m anchor 2026-10-14T05:30:00.000Z
+OBS F1 at real date topUp/startVisit/closeDay: ok ok ok
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mF1 forward-dated record lockout[2m > [22m[2mvariant: one resume at +2.9d, clock set back -> guarded saves refused, no hold item to confirm
+[22m[39mOBS F1v one step +2.9d then back: topUp ERR This phone's clock is behind. Set the date and time to automatic, then try again. check-in ERR This phone's clock is behind. Set the date and time to automatic, then try again. anchor 2026-10-17T03:06:00.000Z hold [1mnull[22m items [
+  [32m"k-2026-10-14T05:31:00.000Z:The phone's clock was set back"[39m,
+  [32m"k-2026-10-14T05:31:00.000Z:The phone's clock was set back"[39m,
+  [32m"k-2026-10-14T05:31:00.000Z:The phone's clock was set back"[39m
+]
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mF1 forward-dated record lockout[2m > [22m[2mvariant: 10 resumes of +3d each -> anchor +30d, 30-day lockout at the real date, no hold
+[22m[39mOBS F1v 10 steps: anchor 2026-11-13T05:29:00.000Z hold [1mnull[22m topUp now ERR This phone's clock is behind. Set the date and time to automatic, then try again. topUp +29d ERR This phone's clock is behind. Set the date and time to automatic, then try again. backJumps [33m3[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mF2 hold bypass[2m > [22m[2moriginal: save at +1102d refused, hold set, restart at +1102d purges nothing
+[22m[39mOBS F2 orig: save ERR This phone's date is far ahead of the last date the salon used. Ask the owner to confirm the date in Today's checks. hold [33mtrue[39m deleted [] Asha Asha
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mF2 hold bypass[2m > [22m[2moriginal: restarts 29 days apart x38 -> held, nothing purged
+[22m[39mOBS F2 orig 38x29d: hold [33mtrue[39m deleted [] Asha Asha
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mF2 hold bypass[2m > [22m[2mstepping: 3-day app resumes (no restart) to +366d, one restart purges the selfie with no hold and no back-jump
+[22m[39mOBS F2 stepping: resumes [33m123[39m restarts 1, deleted [ [32m'selfie-recent'[39m ] hold [1mnull[22m backJumps [33m0[39m owner items at +366d []
+OBS F2 stepping then clock put right: backJumps [
+  { from: [32m'2027-10-15T05:30:00.000Z'[39m, to: [32m'2026-10-14T05:31:00.000Z'[39m },
+  { from: [32m'2027-10-15T05:30:00.000Z'[39m, to: [32m'2026-10-14T05:31:00.000Z'[39m }
+] topUp ERR This phone's clock is behind. Set the date and time to automatic, then try again. items [ [32m'k-2026-10-14T05:31:00.000Z'[39m, [32m'k-2026-10-14T05:31:00.000Z'[39m ]
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mclock anchor: legit salon and deadlock[2m > [22m[2msalon closed 4 days, owner does not confirm: saves stop 30 days after closure and confirmClock itself is refused
+[22m[39mOBS closed 4d: hold { from: [32m'2026-10-14T05:30:00.000Z'[39m, to: [32m'2026-10-18T05:30:00.000Z'[39m }
+OBS first refused day [33m30[39m ERR This phone's date is far ahead of the last date the salon used. Ask the owner to confirm the date in Today's checks.
+OBS deadlock: owner confirm via commit (Guard.tsx:47): ERR This phone's date is far ahead of the last date the salon used. Ask the owner to confirm the date in Today's checks. anchor 2026-10-14T05:30:00.000Z
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mclock anchor: legit salon and deadlock[2m > [22m[2msalon closed 31 days: first save and owner's confirm both refused
+[22m[39mOBS closed 31d: check-in ERR This phone's date is far ahead of the last date the salon used. Ask the owner to confirm the date in Today's checks. confirm ERR This phone's date is far ahead of the last date the salon used. Ask the owner to confirm the date in Today's checks.
+
+[90mstderr[2m | x.test.ts[2m > [22m[2mclock anchor: legit salon and deadlock[2m > [22m[2mrecovery restore of a 40-day-old backup: every save and the confirm refused
+[22m[39mCould not load saved data; showing the recovery screen Error: The salon's data is missing but its owner password is saved
+    at Module.loadStore (/home/user/Adds/salon-mobile/src/domain/store.ts:60:64)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at [90m/root/security-audit-skill/Adds/run-3/agents/v3/scratch/[39mx.test.ts:149:5
+    at file:///home/user/Adds/salon-mobile/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:20
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mclock anchor: legit salon and deadlock[2m > [22m[2mrecovery restore of a 40-day-old backup: every save and the confirm refused
+[22m[39mOBS recovery 40d: clock {
+  lastSeen: [32m'2026-10-14T05:30:00.000Z'[39m,
+  anchor: [32m'2026-09-04T05:30:00.000Z'[39m,
+  backJumps: [],
+  hold: { from: [32m'2026-09-04T05:30:00.000Z'[39m, to: [32m'2026-10-14T05:30:00.000Z'[39m }
+} topUp ERR This phone's date is far ahead of the last date the salon used. Ask the owner to confirm the date in Today's checks. confirm ERR This phone's date is far ahead of the last date the salon used. Ask the owner to confirm the date in Today's checks.
+
+[90mstderr[2m | x.test.ts[2m > [22m[2mclock anchor: legit salon and deadlock[2m > [22m[2mrecovery restore of a 5-day-old backup: hold set, saves ok, confirm ok
+[22m[39mCould not load saved data; showing the recovery screen Error: The salon's data is missing but its owner password is saved
+    at Module.loadStore (/home/user/Adds/salon-mobile/src/domain/store.ts:60:64)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at [90m/root/security-audit-skill/Adds/run-3/agents/v3/scratch/[39mx.test.ts:162:5
+    at file:///home/user/Adds/salon-mobile/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:20
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mclock anchor: legit salon and deadlock[2m > [22m[2mrecovery restore of a 5-day-old backup: hold set, saves ok, confirm ok
+[22m[39mOBS recovery 5d: hold before topUp ok confirm ok clock after {
+  lastSeen: [32m'2026-10-14T05:30:00.000Z'[39m,
+  anchor: [32m'2026-10-14T05:30:00.000Z'[39m,
+  backJumps: [],
+  hold: [1mnull[22m
+}
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mclock anchor: legit salon and deadlock[2m > [22m[2mowner-menu restore keeps this phone's anchor; a refused save still logs the back-jump
+[22m[39mOBS owner restore anchor before/after 2026-10-14T06:30:00.000Z 2026-10-14T06:30:00.000Z hold [1mnull[22m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mclock anchor: legit salon and deadlock[2m > [22m[2mowner-menu restore keeps this phone's anchor; a refused save still logs the back-jump
+[22m[39mOBS refused save: ERR This phone's clock is behind. Set the date and time to automatic, then try again. backJumps persisted [
+  { from: [32m'2026-10-14T06:30:00.000Z'[39m, to: [32m'2026-10-13T05:30:00.000Z'[39m }
+]
+
+ [32m✓[39m x.test.ts [2m([22m[2m11 tests[22m[2m)[22m[33m 8547[2mms[22m[39m
+   [33m[2m✓[22m[39m F2 hold bypass[2m > [22moriginal: restarts 29 days apart x38 -> held, nothing purged [33m 6999[2mms[22m[39m
+   [33m[2m✓[22m[39m F2 hold bypass[2m > [22mstepping: 3-day app resumes (no restart) to +366d, one restart purges the selfie with no hold and no back-jump [33m 332[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m11 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 14:59:47
+[2m   Duration [22m 9.10s[2m (transform 327ms, setup 0ms, collect 315ms, tests 8.55s, environment 0ms, prepare 68ms)[22m
+

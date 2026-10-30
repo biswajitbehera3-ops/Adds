@@ -1,0 +1,13 @@
+{
+  "id": "P031",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "need",
+  "reason": "When I am at my other work I have no idea what cash came in or which bills got cancelled, and seeing the drawer amount and attendance from my phone is exactly what I lose sleep over. Since the first month is free, I will try it and judge it by whether the numbers match the drawer.",
+  "objection": "My stylists will not bother to enter every walk-in on a packed Sunday or festival week, and then I am paying ₹999 every month, slow months too, for half-filled data plus ₹4,999 already gone on setup.",
+  "would_change_my_mind": "If after the free month my staff are still skipping bills on busy days, or the cash check does not match my drawer, I will cancel.",
+  "price_too_cheap": 199,
+  "price_cheap": 499,
+  "price_expensive": 1499,
+  "price_too_expensive": 2500
+}

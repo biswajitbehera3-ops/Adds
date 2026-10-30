@@ -1,0 +1,165 @@
+{
+ "business": "A salon's own phone app for 5+ chair salons (billing, walk-ins, wallet, one-tap WhatsApp bills and reminders, staff attendance, cash checks, a live salon view for the owner), set up in person per salon",
+ "seed": 339387,
+ "dealt": 20,
+ "answered": 20,
+ "skipped": [],
+ "buys": 12,
+ "passes": 8,
+ "buy_rate": 0.6,
+ "by_segment": [
+  [
+   "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+   12,
+   0.6666666666666666
+  ],
+  [
+   "Owner of 2 outlets (one 5+ chair salon plus a second branch)",
+   3,
+   0.6666666666666666
+  ],
+  [
+   "Large salon or bridal studio with 9 or more chairs and 10 to 20 staff",
+   5,
+   0.4
+  ]
+ ],
+ "by_behaviour": [
+  [
+   "Tried an app before and stopped",
+   3,
+   1.0
+  ],
+  [
+   "Owner who isn't always at the salon",
+   2,
+   1.0
+  ],
+  [
+   "Counts every rupee",
+   3,
+   1.0
+  ],
+  [
+   "Young owner who likes tech",
+   3,
+   0.6666666666666666
+  ],
+  [
+   "Runs everything on WhatsApp",
+   3,
+   0.6666666666666666
+  ],
+  [
+   "Paper register loyalist",
+   4,
+   0.0
+  ],
+  [
+   "Asks other owners first",
+   2,
+   0.0
+  ]
+ ],
+ "by_income": [
+  [
+   "₹2,418,000 to ₹3,012,000",
+   7,
+   0.8571428571428571
+  ],
+  [
+   "under ₹2,418,000",
+   6,
+   0.5
+  ],
+  [
+   "₹3,012,000 and up",
+   7,
+   0.42857142857142855
+  ]
+ ],
+ "why_not": [
+  [
+   "habit",
+   5,
+   [
+    "My staff already bill on the app we use and it works fine; my own logo on the app and the live chair view are nice, but not enough reason to retrain 8 stylists and move everything. The price is not the problem, ₹500 a month is less than what I pay now.",
+    "I have written every bill in my register for years and I count the drawer myself every night, so I already know what should be there. ₹5,000 down plus getting 8 stylists to change how they bill in the middle of a busy week is a headache I don't need for something that already works."
+   ],
+   [
+    "P001",
+    "P005"
+   ]
+  ],
+  [
+   "trust",
+   2,
+   [
+    "I run 9+ chairs and 15 staff, I don't switch my billing on the word of a one-man setup that is still looking for its first five salons. No owner I know is using this yet, so I'll wait and ask around in a few months.",
+    "The price is nothing for a salon my size, and the online backup answers my phone worry, but you're asking me to be one of the first five, and I don't put my customer list and drawer cash into something no owner I know is running yet. With 15 staff, if it fails in wedding season I'm the one who pays for it."
+   ],
+   [
+    "P006",
+    "P012"
+   ]
+  ],
+  [
+   "timing",
+   1,
+   [
+    "The money is nothing for a salon my size, but Diwali and the wedding season are right on top of us and I am not switching how 15 stylists bill in the middle of my busiest weeks. Also my customer list is far more than 500, so half my regulars would not even come across."
+   ],
+   [
+    "P020"
+   ]
+  ]
+ ],
+ "why_yes": [
+  [
+   "need",
+   7,
+   [
+    "I am not at the salon half the time, and seeing who is in which chair, cancelled bills and the cash that should be in the drawer from my phone is exactly what I worry about. With the second ₹5,000 only due if my stylists actually use it, the risk for me is small.",
+    "Seeing who is in which chair and what cash should be in the drawer while I'm at the other branch is exactly what I need, and ₹500 a month with half the setup money back if it doesn't work is a small risk for me. I'd try it in the main salon first and add the second branch if the stylists actually use it."
+   ],
+   [
+    "P003",
+    "P007"
+   ]
+  ],
+  [
+   "trust",
+   4,
+   [
+    "My last software died because the staff never used it, and here the second ₹5,000 only gets paid if my stylists are actually billing, and the data is backed up and downloadable, so my real worries are covered. ₹500 a month is nothing next to what one lost stylist or one leaky cash drawer costs me across two outlets, so I'd try it at my main salon first.",
+    "My biggest fear is losing everything if this one phone dies, and online backup plus downloading my data any time fixes that; ₹5,000 down with the second half only if my stylists actually use it is a small risk for a salon my size. The cash-drawer and cancelled-bill checks are what I really want, I can't watch every chair myself."
+   ],
+   [
+    "P002",
+    "P004"
+   ]
+  ],
+  [
+   "convenience",
+   1,
+   [
+    "An app with my salon's own name and logo, WhatsApp bills, automatic Google review requests and a live view of the chairs is exactly the modern look I want, and ₹500 a month is nothing for a salon my size. The second ₹5,000 is only paid if my stylists actually use it, so I'm not stuck with a dud."
+   ],
+   [
+    "P017"
+   ]
+  ]
+ ],
+ "flip": [
+  "Seeing it running for a few weeks in another busy salon nearby, and hearing from that owner that support really answers in festival weeks.",
+  "Seeing it running in another busy Bhubaneswar salon my size for a few months, with the owner telling me it caught cash going missing that his register didn't.",
+  "Seeing it running smoothly for a few months in another big salon whose owner I know, or my product distributor recommending it.",
+  "Seeing it run on a busy Sunday in another established Bhubaneswar salon my size, and being allowed to keep my register going alongside it for the first month without losing my money back.",
+  "Seeing it run smoothly in a busy salon near me for a month, with that owner telling me his staff were fine with it, and a setup date after the wedding season rush.",
+  "Seeing it run for a few months in a salon whose owner I know or trust, a busy one like mine, and hearing from her that the billing and the cash check really match at night.",
+  "Seeing another established salon owner in Bhubaneswar whose senior staff actually took to it without feeling policed, and being allowed to keep my register running alongside it for the first months.",
+  "Start after the wedding season in a quiet month, bring all my customers across instead of only 500, and give me a backup number so it is not just one person answering."
+ ],
+ "purchases_first_month_per_buyer": 1.0,
+ "price_answers": 20
+}

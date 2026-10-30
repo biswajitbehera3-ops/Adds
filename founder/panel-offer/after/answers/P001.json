@@ -1,0 +1,13 @@
+{
+  "id": "P001",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My staff already bill on the app we use and it works fine; my own logo on the app and the live chair view are nice, but not enough reason to retrain 8 stylists and move everything. The price is not the problem, ₹500 a month is less than what I pay now.",
+  "objection": "This is one person setting up five salons. If he gets busy or shuts down in a year, I have switched my whole salon for nothing and have to move back again.",
+  "would_change_my_mind": "Seeing it running for a few weeks in another busy salon nearby, and hearing from that owner that support really answers in festival weeks.",
+  "price_too_cheap": 150,
+  "price_cheap": 400,
+  "price_expensive": 1200,
+  "price_too_expensive": 2500
+}

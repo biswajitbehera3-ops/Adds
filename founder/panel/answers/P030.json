@@ -1,0 +1,13 @@
+{
+  "id": "P030",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "The branded app and the cash-drawer checks look nice, but my team already knows how to bill the way we do it now. I'm not paying ₹4,999 upfront and retraining my stylists just to get roughly what I've already got.",
+  "objection": "Why switch and move all my customer data when I can already bill and send bills? And after losing two stylists last year, I don't want selfie check-ins and new rules annoying the ones I have left.",
+  "would_change_my_mind": "No setup fee: you move my existing customer list over for free and I try it for a month. If I'm not happy, I walk away without paying anything.",
+  "price_too_cheap": 199,
+  "price_cheap": 499,
+  "price_expensive": 999,
+  "price_too_expensive": 1799
+}

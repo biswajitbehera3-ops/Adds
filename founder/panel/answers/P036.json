@@ -1,0 +1,13 @@
+{
+  "id": "P036",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "convenience",
+  "reason": "An app with my salon's name, WhatsApp bills and a prepaid wallet makes my place look modern next to the other parlours, and I could finally see the takings and the drawer cash without standing at the counter. The first month is free, so I can test it, but I'd make the selfie check-in optional for my staff.",
+  "objection": "The selfie check-in will make my stylists feel I'm watching them like a factory, and ₹4,999 upfront before I've seen if my team actually uses it is a lot for a 3-chair salon.",
+  "would_change_my_mind": "If the selfie check-in can't be switched off and the ₹4,999 setup isn't refundable when my staff won't use it, I'd walk away.",
+  "price_too_cheap": 199,
+  "price_cheap": 499,
+  "price_expensive": 1499,
+  "price_too_expensive": 2499
+}

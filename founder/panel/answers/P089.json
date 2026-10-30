@@ -1,0 +1,13 @@
+{
+  "id": "P089",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "I have one or two chairs and maybe one boy working with me; ₹999 every month plus ₹4,999 upfront is too much for a shop this size when I already count the drawer myself every night. The cash check is tempting for the days I'm at my other work, but not at this price.",
+  "objection": "A selfie check-in will make my staff feel I don't trust them, and in a small shop if my one good barber gets offended and leaves, I lose far more than the app could ever save me.",
+  "would_change_my_mind": "A small-shop plan around ₹299-399 a month with no setup fee, where the selfie check-in can be switched off and I only get the cash-drawer and cancelled-bill check on my phone.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

@@ -1,0 +1,13 @@
+{
+  "id": "P037",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I already paid for salon software once and my girls never touched it, so I cancelled. I count the drawer myself every night and the register works, so ₹4,999 upfront plus ₹999 every month for something they may ignore again is not worth it for me.",
+  "objection": "My staff won't do the selfie check-in and type every bill in a busy hour. They'll go back to the register in two weeks and I'll still be paying ₹999 a month, even in slow months.",
+  "would_change_my_mind": "No setup fee, and I only pay after one month where my staff actually billed everything through the app, so I can see it works in my salon first.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 699,
+  "price_too_expensive": 1200
+}

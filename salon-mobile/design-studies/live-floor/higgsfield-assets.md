@@ -1,0 +1,58 @@
+# Live floor: Higgsfield assets (16 Oct 2026)
+
+Generated on Higgsfield (GPT Image 2.5, high quality), styled from the user's
+reference salon render (media `2a4ae9c8-383a-4895-8d63-5fa05c799911`, IMG_0119.jpeg).
+Files live at `https://d8j0ntlcm91z4.cloudfront.net/user_3Hp3x0s3sZm3T0crSwp0w7Qkj1O/<file>`
+(host must be allowed in the environment's network settings to download them).
+
+Total spend: **26.5 credits** (2 × 2.75 plates + 14 × 1.5 sprites), matching the quote.
+
+## Background plate: chosen = Image 2
+| Use | Job id | File |
+|---|---|---|
+| **Chosen plate** (2k, 16:9) | 3d3a0790-9ee9-4ca8-a6ee-3255e15c2bef | hf_20261016_171748_3d3a0790-9ee9-4ca8-a6ee-3255e15c2bef.png |
+| Alternative (not used) | 036c243b-2762-4f8f-8f14-5d355cb9e73f | hf_20261016_171748_036c243b-2762-4f8f-8f14-5d355cb9e73f.png |
+
+## Character sprites (transparent PNG, 1k; style-referenced to the chosen plate)
+| # | Sprite | Job id | File |
+|---|---|---|---|
+| 0 | Stylist 1, scissors + comb | 68dbacf9-c94f-4ea7-9bca-321ad47c9464 | hf_20261016_172151_68dbacf9-c94f-4ea7-9bca-321ad47c9464.png |
+| 1 | Stylist 2, brush + dryer | 4603bd7b-d325-4d39-a3ce-035301da46ba | hf_20261016_172150_4603bd7b-d325-4d39-a3ce-035301da46ba.png |
+| 2 | Stylist 3, beard trimmer | 49b5430a-5aa4-402b-a184-01c7fe5afb39 | hf_20261016_172149_49b5430a-5aa4-402b-a184-01c7fe5afb39.png |
+| 3 | Seated Karan (cape) | 73d124b6-8b97-4bc6-969f-cc27b0aef68f | hf_20261016_172150_73d124b6-8b97-4bc6-969f-cc27b0aef68f.png |
+| 4 | Seated Priya (cape) | 64142b6d-bdf8-4baa-ae13-08b2d8eaf7e6 | hf_20261016_172105_64142b6d-bdf8-4baa-ae13-08b2d8eaf7e6.png |
+| 5 | Seated Dev (cape) | 0c202ce0-3176-4b4a-82cc-6b3a6a5e6c74 | hf_20261016_172104_0c202ce0-3176-4b4a-82cc-6b3a6a5e6c74.png |
+| 6 | Rahul walking, step A | 1bd4539a-1875-4122-a659-6aecbd66adec | hf_20261016_172231_1bd4539a-1875-4122-a659-6aecbd66adec.png |
+| 7 | Rahul walking, step B | f35f034e-567a-4859-bb92-69f25943bd28 | hf_20261016_172233_f35f034e-567a-4859-bb92-69f25943bd28.png |
+| 8 | Dev walking, step A | 0676304f-9a30-4795-bca5-c7602307171f | hf_20261016_172233_0676304f-9a30-4795-bca5-c7602307171f.png |
+| 9 | Dev walking, step B | 4525c2ec-0e60-418c-aa0d-3f6bf36db492 | hf_20261016_172105_4525c2ec-0e60-418c-aa0d-3f6bf36db492.png |
+| 10 | Neha walking, step A | dfb61ad7-1009-4d23-94dc-52241e01c603 | hf_20261016_172105_dfb61ad7-1009-4d23-94dc-52241e01c603.png |
+| 11 | Neha walking, step B | 710fa976-85c4-4a46-8616-c3c42f8b9840 | hf_20261016_172231_710fa976-85c4-4a46-8616-c3c42f8b9840.png |
+| 12 | Sofa: woman with phone | 9190b29d-e307-4916-9839-cf90e8b5404e | hf_20261016_172319_9190b29d-e307-4916-9839-cf90e8b5404e.png |
+| 13 | Sofa: man with magazine | b20d7b63-d3e9-4cfc-ae42-942c34b48b46 | hf_20261016_172319_b20d7b63-d3e9-4cfc-ae42-942c34b48b46.png |
+
+Walkers face down-right; mirror horizontally (CSS `scaleX(-1)`) to walk the other way.
+
+## Checked (19 Oct)
+Inspected in Higgsfield's sandbox: plate has no people, all 14 sprites have transparent backgrounds and consistent identities.
+Rahul step A and Stylist 3 had a faint semi-transparent halo; removed by alpha clean-up (no regeneration).
+Phone-size copies are in `assets/` (`people-sheet.png` = all 14 cut-outs, 180 px tall). The animated page is `final-live-floor.html`.
+
+## 19 Oct: salon edit + walk sheets (13.75 credits, approved)
+| Use | Job id | Result |
+|---|---|---|
+| Salon edit v1: receptionist + waiting sofa opposite the desk (long sofa) | 2dbabb9f-0528-4a58-b116-3857961b5734 | Good |
+| Salon edit v2: same, smaller loveseat | fcfde6ba-f52d-4ab2-8f74-11b2fec7780d | Good |
+| Dev 8-pose walk sheet | caec6c92-5c99-4ff4-9ee0-022a12f975a6 | **Failed**: 8 near-identical poses |
+| Neha 8-pose walk sheet | 6ce6ab12-a508-4d14-bf94-4b325f1744fe | **Failed**: 8 near-identical poses |
+| Rahul 8-pose walk sheet | a14fac79-3902-4021-a0ae-d26f59db8cea | **Failed**: only slight stride differences |
+
+Lesson: the image model will not draw a real walk cycle as one sheet; it repeats one pose.
+Note: the new sofa faces the desk (away from the camera), so the existing sofa sitters (front views) no longer fit it.
+
+## 19 Oct: final changes (user decisions)
+- **Waiting area removed completely** (user). Salon edit `e3845a55-3c50-4347-be6a-febce868a3f7` = salon v1 with receptionist, sofa/side table/plant removed, floor filled. This is the **current background** (`assets/plate2.webp`).
+- **Real walking**: Seedance 2.5 image-to-video, 4 s, 480p, no sound, from each walker's existing picture on green:
+  Rahul `6669ab01-54af-4e46-98fb-fc37d6597ac3`, Dev `58e2baf7-3658-40b5-9394-364f2d88caf7`, Neha `788e8953-af7d-4dc5-89b7-7158759668a0`.
+  Green keyed out in Higgsfield's sandbox; one clean walk cycle cut from each (Rahul 29 frames, Dev 43, Neha 42 at 24 fps) → `assets/walk-*.png`.
+- Spend on 19 Oct: 13.75 (salon edits + failed walk sheets) + 36 (walk clips) + 2.75 (sofa removal) = **52.5 credits**, matching Higgsfield's charge history. Balance 521.

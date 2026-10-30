@@ -1,0 +1,743 @@
+[
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:src/domain/checks.ts:ownerChecks:cash-flag-compares-stale-closing-snapshot",
+  "title": "Cash bills recorded after the owner's count, or backdated into a day already counted, are never checked against the drawer",
+  "description": "The end-of-day cash check saves 'expected' as a fixed number when the owner counts; the owner's checks then compare that saved number with the count, and only for today. A cash bill checked out after the owner's count on the same day, or with the phone clock set back into a day already counted (checkoutVisit has no clock-behind guard), is never reconciled: the staff member can keep the cash and no 'Cash short' item appears. In the first case the Guard card shows the higher current expected next to the old count, but raises no check item.",
+  "root_cause": "closeDay (src/domain/checks.ts:112-121) stores expected = expectedCash(data, date).total as a fixed number; ownerChecks (src/domain/checks.ts:162-166) raises the cash item only when the stored counted !== stored expected, and only for istDate(now), never recomputing; checkoutVisit (src/domain/engine.ts:522-551) stamps paidAt from the device clock with no latestRecordTime guard.",
+  "intended_behavior": "The cash flag compares the count against expectedCash recomputed now for every recently closed day, a bill paid into an already-closed day raises an owner item, and checkout refuses a clock behind the latest saved record.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/owner/Guard.tsx",
+    "line": 100,
+    "scope": "CashCountSheet.save",
+    "description": "Owner submits the count; commit calls closeDay."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/checks.ts",
+    "line": 115,
+    "scope": "closeDay",
+    "description": "Expected cash computed once at count time."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/checks.ts",
+    "line": 120,
+    "scope": "closeDay",
+    "description": "DayClosing with the snapshot expected stored for the date."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 550,
+    "scope": "checkoutVisit",
+    "description": "A later staff cash checkout sets paidAt from the device clock, later the same day or backdated into a closed day."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/checks.ts",
+    "line": 163,
+    "scope": "ownerChecks",
+    "description": "Cash item raised only if stored counted !== stored expected, only for today, so the new bill is never reconciled."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/checks.ts",
+    "line": 115,
+    "description": "expected computed at count time only."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 162,
+    "description": "Only today's closing looked up."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 163,
+    "description": "Comparison uses the stored snapshot."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 550,
+    "description": "paidAt from device now with no latestRecordTime check (guard only in markAttendance, engine.ts:1336)."
+   },
+   {
+    "file": "src/screens/owner/Guard.tsx",
+    "line": 76,
+    "description": "UI shows the current expected beside the old count but raises no item; a backdated bill shows on no later day."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "authorization_role",
+    "description": "A staff member who can check out bills and takes the customer's cash."
+   },
+   {
+    "kind": "timing_dependency",
+    "description": "Variant A: the owner already counted for the day before the bill is checked out."
+   },
+   {
+    "kind": "environmental_dependency",
+    "description": "Variant B: the staff member can set the phone date back into a day already counted."
+   },
+   {
+    "kind": "user_interaction",
+    "description": "The owner does not tap 'Count again' after the late bill (A); B has no revealing owner action."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "Staff member using normal checkout, keeping the cash out of the drawer.",
+   "payloads": [
+    "closeDay(counted 300, 14 Oct 19:30 IST) then checkoutVisit(cash 300, 14 Oct 20:50 IST) then ownerChecks(14 Oct 21:30 IST)",
+    "closeDay 14 Oct matching; 15 Oct cash bill; checkoutVisit(cash 300, now = 14 Oct 15:00 IST); closeDay 15 Oct matching; ownerChecks 15 Oct"
+   ],
+   "instructions": [
+    "Build dummy data with the engine API as in tests/checks.test.ts (one staff, one customer, explicit Date arguments).",
+    "Run both variants with vitest inside the sandbox (verifier harness agents/w3-cash-snapshot/artifacts/check2.txt, output check1.txt)."
+   ],
+   "observed_result": "Variant A: current expected 600, stored closing {expected 300, counted 300}, cash items []. Variant B: backdated checkout accepted with paidAt 2026-10-14T09:30:00Z; cash items [] on 15 Oct and on 14 Oct; stored 14 Oct closing 300/300 while 14 Oct recomputes to 600. Both tests passed (verifier, agents/w3-cash-snapshot/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "Compare counts against recomputed expectedCash for recent closed days; raise an item for bills paid into a closed day or after closing.at; add the latestRecordTime clock-behind guard to checkoutVisit and topUp; regression tests for both variants.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/checks.ts",
+     "fixed_code": "for (const closing of (data.dayClosings ?? []).filter((d) => Date.parse(d.at) >= now.getTime() - 7 * 86400000)) {\n  const expectedNow = expectedCash(data, closing.date).total;\n  if (closing.counted !== expectedNow) items.push({ id: `c-${closing.date}`, kind: \"cash\", title: `Cash ${closing.counted < expectedNow ? \"short\" : \"over\"} on ${closing.date}`, detail: expectedNow !== closing.expected ? \"Cash bills were added after the count\" : closing.note });\n}"
+    },
+    {
+     "file_name": "src/domain/engine.ts",
+     "fixed_code": "// top of checkoutVisit and topUp\nif (now.getTime() < latestRecordTime(data) - 5 * 60000) throw new UserError(\"This phone's clock is behind. Set the date and time to automatic, then try again.\");"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "medium",
+    "reason": "Variant A needs only a routine late cash bill after the count; B needs a clock change the app already treats as realistic misuse."
+   },
+   "impact": {
+    "score": "low",
+    "reason": "Undetected loss of individual cash bills on one salon's books; no data or privilege exposure."
+   },
+   "overall_severity": "low"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Independent verifier harness against the real engine reproduced both variants; source lines match the trace."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:src/domain/engine.ts:erase:referral-note-retains-erased-name",
+  "title": "Deleting a customer leaves their full name in the referrer's wallet history, visible to every staff member indefinitely",
+  "description": "When a referred customer pays their first visit, the referrer gets a REFERRAL_REWARD wallet entry with the note 'Referred <full name>'. erase() scrubs the customer row, reminders and appointments, but never touches wallet notes on other customers' records. After an on-request deletion or an automatic retention erase, the erased person's name stays in the referrer's wallet history, is shown on the referrer's Profile to any logged-in staff or owner, and travels in every later backup. This contradicts erase's own comment, the Customer.deletedAt contract, and the published deletion and privacy texts.",
+  "root_cause": "checkoutVisit writes the referred customer's name into a free-text note on the referrer's WalletTx (src/domain/engine.ts:569); erase() (src/domain/engine.ts:900-911) only rewrites the erased customer's own row and filters reminders/appointments by customerId, so copies keyed to another customerId are never found.",
+  "intended_behavior": "After deleteCustomer or AUTO_ERASED, no stored record contains the erased customer's name or number; referral entries reference the referred customer by id or the note is rewritten during erase.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/domain/engine.ts",
+    "line": 569,
+    "scope": "checkoutVisit (referral reward)",
+    "description": "Referrer's REFERRAL_REWARD tx stores note `Referred ${customer.name}` on the referrer's customerId."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 919,
+    "scope": "deleteCustomer",
+    "description": "Owner deletion calls erase(); purgeExpired calls the same erase at engine.ts:970-971."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 900,
+    "scope": "erase",
+    "description": "Scrubs only the erased row, reminders and appointments by customerId; walletTxs untouched."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 353,
+    "scope": "getProfile",
+    "description": "Returns all walletTxs of the referrer including the note."
+   },
+   {
+    "kind": "sink",
+    "file": "src/screens/Profile.tsx",
+    "line": 232,
+    "scope": "Profile wallet history",
+    "description": "Renders t.note to any staff or owner session viewing the referrer."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/engine.ts",
+    "line": 908,
+    "description": "erase comment says copies that carry the name go too."
+   },
+   {
+    "file": "src/domain/types.ts",
+    "line": 22,
+    "description": "deletedAt contract: visits stay without name or number."
+   },
+   {
+    "file": "legal/data-deletion-request.md",
+    "line": 21,
+    "description": "Published promise: deletion erases the name."
+   },
+   {
+    "file": "legal/privacy-policy.md",
+    "line": 44,
+    "description": "Published promise: bills kept without name or number."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 566,
+    "description": "Monthly limit relies only on the 'Referred' prefix, so the note can be a fixed string."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "data_state",
+    "description": "The erased customer joined by referral and completed a paid visit that paid the referrer a reward."
+   },
+   {
+    "kind": "authentication_level",
+    "description": "Reader is any logged-in staff or owner session opening the referrer's profile, or anyone holding a later backup."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "Any staff member or backup holder after the owner honoured a deletion request, or after automatic retention erase.",
+   "payloads": [
+    "createCustomer(referrer); createCustomer({name:'Dummy Erasedname', referredBy: referrer.referralCode, referralVerified:true}); startVisit+checkoutVisit(friend); closeWallet(friend); deleteCustomer(friend); getProfile(referrer).walletTxs.map(t=>t.note)"
+   ],
+   "instructions": [
+    "Run the verifier vitest harness through sbx.sh against the engine with emptyData() dummy data.",
+    "After deleteCustomer read the erased row, the referrer's wallet notes and whether JSON.stringify(data) contains the name or phone.",
+    "Repeat with purgeExpired auto-erasing a stale referred customer while the referrer stays active."
+   ],
+   "observed_result": "Erased row 'Deleted customer', phone '', deletedAt set; referrer wallet txs after deleteCustomer: [{type 'REFERRAL_REWARD', note 'Referred Zed Erasetest'}]; serialized data still contains the name but not the phone; auto-erase path: customersErased 1 and the referrer's notes still read ['Referred Yan Autotest'] (agents/w1-referral-note/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "Store a fixed note ('Referred a friend') plus the referred id and render the name from the live row; in erase() rewrite existing notes linked to the erased customer's visits; regression: after deleting a referred customer, JSON.stringify(data) does not contain the name.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/engine.ts",
+     "fixed_code": "// checkoutVisit: note: \"Referred a friend\"\n// erase(): const erasedVisitIds = new Set(data.visits.filter((v) => v.customerId === customerId).map((v) => v.id));\n// walletTxs: data.walletTxs.map((t) => t.type === \"REFERRAL_REWARD\" && t.visitId && erasedVisitIds.has(t.visitId) && t.customerId !== customerId ? { ...t, note: \"Referred a friend\" } : t)"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "medium",
+    "reason": "Happens for every erased customer who joined by referral and was rewarded; no attacker action needed."
+   },
+   "impact": {
+    "score": "low",
+    "reason": "Retains one identifier (full name) of an erased person, visible to salon staff and in backups; no phone retained."
+   },
+   "overall_severity": "low"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Independent verifier reproduced it in the sandbox against the real engine; source lines match the trace; distinct from all run-1 root causes."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:src/domain/engine.ts:latestRecordTime:omits-non-visit-records",
+  "title": "The check-in clock guard ignores bookings, leave decisions, reminders, cash counts and privacy events, so a set-back clock passes after the owner's morning work",
+  "description": "MISUSE-CHECKS 9 says a check-in is refused when the phone's clock is earlier than the newest saved record. latestRecordTime only reads visits, attendance, wallet transactions and customer createdAt; appointments, leaves, reminders, day closings and the privacy log are ignored. If the owner books appointments or approves leave at 10:20 and a late stylist arrives at 10:40, setting the clock to 09:58 is accepted as on time; the same set-back is refused when the 10:20 record is a visit.",
+  "root_cause": "src/domain/engine.ts:61-72 builds the newest saved time from only four collections, so the guard at engine.ts:1336 compares against an older time than what is saved.",
+  "intended_behavior": "latestRecordTime considers every saved timestamp so any check-in earlier than the newest saved record is refused as documented.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/Attendance.tsx",
+    "line": 51,
+    "scope": "Attendance.capture",
+    "description": "shot.at from a clock set back to 09:58 while real time is 10:40"
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 1336,
+    "scope": "markAttendance",
+    "description": "Compares now with latestRecordTime(data) - 5 minutes"
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 61,
+    "scope": "latestRecordTime",
+    "description": "Reads only visits, attendance, walletTxs and customers; the 10:20 booking and 10:25 leave approval are skipped"
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/engine.ts",
+    "line": 1339,
+    "scope": "markAttendance",
+    "description": "On-time attendance stored at 09:58; staffLate false"
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/engine.ts",
+    "line": 68,
+    "description": "Loops cover visits, attendance, walletTxs, customers only."
+   },
+   {
+    "file": "src/domain/types.ts",
+    "line": 162,
+    "description": "Appointment.createdAt not read."
+   },
+   {
+    "file": "src/domain/types.ts",
+    "line": 190,
+    "description": "LeaveRequest.decidedAt not read."
+   },
+   {
+    "file": "MISUSE-CHECKS.md",
+    "line": 19,
+    "description": "Stated control: refuse a check-in earlier than the newest record already saved."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "authentication_level",
+    "description": "Stylist signed in with their own password."
+   },
+   {
+    "kind": "system_configuration",
+    "description": "Shared phone whose date/time the stylist can change."
+   },
+   {
+    "kind": "data_state",
+    "description": "The newest records that morning are non-visit records (bookings, leave decisions, reminders)."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "A late stylist on the shared phone after the owner made bookings or leave decisions on it that morning.",
+   "payloads": [
+    "bookAppointment at 28 Oct 10:20 IST, requestLeave 10:22 and approveLeave 10:25, then markAttendance(data, { staffId: A, photoKey: 'a-28' }, new Date('2026-10-28T09:58:00+05:30'))"
+   ],
+   "instructions": [
+    "Run the verifier harness (agents/w5-latest-record/artifacts/check2.txt) in the sandbox with two dummy staff and a consenting customer.",
+    "Case 1: book at 28 Oct 10:20 IST, then check in A with the clock at 09:58. Case 2: request leave 10:22, approve 10:25, then check in A at 09:58. Control: start a visit at 10:20 instead."
+   ],
+   "observed_result": "Case 1: appointment.createdAt 2026-10-28T04:50:00Z while latestRecordTime was 2026-10-01T03:30:00Z; the 09:58 IST check-in was accepted with late=false (at the real 10:40 it would be late). Case 2: leave decidedAt 04:55Z, latestRecordTime again 1 Oct, check-in accepted. Control with a visit at 10:20: 'This phone's clock is behind. Set the date and time to automatic, then check in again.' (agents/w5-latest-record/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "Extend latestRecordTime to every saved timestamp: appointments, leaves, reminders, dayClosings, privacyLog, staff; regression: a booking at 10:20 makes a 09:58 check-in throw. This only narrows the gap: a stylist who sets the clock back before anything is saved that day still passes; a trusted time source is the full fix.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/engine.ts",
+     "fixed_code": "for (const a of data.appointments) (see(a.createdAt), see(a.reminderSentAt));\nfor (const l of data.leaves) (see(l.createdAt), see(l.decidedAt), see(l.seenAt));\nfor (const r of data.reminders) see(r.createdAt);\nfor (const d of data.dayClosings ?? []) see(d.at);\nfor (const p of data.privacyLog ?? []) see(p.at);\nfor (const s of data.staff) see(s.createdAt);"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "low",
+    "reason": "Needs the owner's non-visit work to be the newest record that morning and access to the clock setting."
+   },
+   "impact": {
+    "score": "low",
+    "reason": "One late arrival recorded as on time; no money."
+   },
+   "overall_severity": "low"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Independent verifier reproduced it in the sandbox against the real engine; source lines match the trace; distinct from all run-1 root causes."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:src/domain/engine.ts:markAttendance:no-upper-bound-future-checkin",
+  "title": "A stylist can mark tomorrow's attendance as present and on time the evening before by moving the phone clock forward",
+  "description": "markAttendance accepts any device time not more than 5 minutes behind the newest saved record, with no check against a future time. A signed-in stylist on the shared salon phone can, in the evening, set the clock to tomorrow 09:00, take the selfie and confirm. The record is stored for tomorrow at 09:00. After resetting the clock, the next day the root route sees today's attendance exists and never asks for a check-in; the owner's Staff screen and monthly export show the stylist Present at 09:00 with a selfie. Other stylists' real check-ins the next morning still pass the guard, so nothing flags the forgery.",
+  "root_cause": "src/domain/engine.ts:1336 only refuses a check-in earlier than latestRecordTime minus 5 minutes; there is no upper bound, and date and checkInAt both come from the caller-supplied device time (engine.ts:1339, from Attendance.tsx:51/63). todaysAttendance (engine.ts:1325) and the root route (App.tsx:119) then treat the pre-made record as the real check-in.",
+  "intended_behavior": "A check-in records the time the stylist actually checked in; a record for a future day or time is not accepted, and a record whose time is later than records saved after it is refused or flagged to the owner.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/Attendance.tsx",
+    "line": 51,
+    "scope": "Attendance.capture",
+    "description": "shot.at = new Date() from the device clock moved forward to tomorrow 09:00"
+   },
+   {
+    "kind": "propagation",
+    "file": "src/screens/Attendance.tsx",
+    "line": 63,
+    "scope": "Attendance.confirm",
+    "description": "markAttendance called with shot.at as now"
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 1336,
+    "scope": "markAttendance",
+    "description": "Guard rejects only a clock behind latestRecordTime; a clock ahead passes"
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 1339,
+    "scope": "markAttendance",
+    "description": "Record stored with date tomorrow and checkInAt tomorrow 09:00"
+   },
+   {
+    "kind": "propagation",
+    "file": "App.tsx",
+    "line": 119,
+    "scope": "useRootRoute",
+    "description": "Next day todaysAttendance finds the pre-made record, so no check-in is asked"
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/engine.ts",
+    "line": 1401,
+    "scope": "attendanceSheets",
+    "description": "Owner's export shows Present at 09:00 with a saved selfie; staffLate false"
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/engine.ts",
+    "line": 1336,
+    "description": "Only lower-bound clock check."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 1339,
+    "description": "date and checkInAt derived from caller-supplied now."
+   },
+   {
+    "file": "App.tsx",
+    "line": 119,
+    "description": "Root route skips check-in when todaysAttendance exists."
+   },
+   {
+    "file": "MISUSE-CHECKS.md",
+    "line": 41,
+    "description": "Documented misuse: phone clock moved to look on time; only a set-back clock is mitigated."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "authentication_level",
+    "description": "Stylist signed in with their own password."
+   },
+   {
+    "kind": "system_configuration",
+    "description": "Shared salon phone whose date/time setting the stylist can change."
+   },
+   {
+    "kind": "timing_dependency",
+    "description": "Done after the day's check-ins, one day ahead at an early time, so others' next-morning check-ins are not refused."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "A stylist holding the shared phone in the evening who wants the next day recorded as present and on time.",
+   "payloads": [
+    "markAttendance(data, { staffId: A, photoKey: 'a-28' }, new Date('2026-10-28T09:00:00+05:30')) on 27 Oct after A's and B's real 27 Oct check-ins"
+   ],
+   "instructions": [
+    "In the sandbox run a vitest harness against src/domain/engine.ts with emptyData and two dummy stylists A and B.",
+    "Check in A 27 Oct 10:00 and B 10:02 IST, then markAttendance for A with now = 28 Oct 09:00 IST.",
+    "Check in B at a real 28 Oct 09:57; read todaysAttendance(A, 28 Oct 12:00), staffLate and the 2026-10-28 export row; attempt a real check-in by A at 12:00."
+   ],
+   "observed_result": "Future check-in accepted as {date '2026-10-28', checkInAt '2026-10-28T03:30:00.000Z'}; B's real 28 Oct 09:57 check-in accepted; todaysAttendance(A) at 28 Oct 12:00 returned the pre-made record with staffLate false; export row ['Dummy A','9811100001','Chair 1','Present','09:00','Saved in app']; a real check-in by A at 12:00 threw 'Attendance is already marked for today' (agents/w4-future-checkin/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "A check against Date.now() inside markAttendance alone does not work, because shot.at and Date.now() read the same moved clock; enforce the invariant against records saved later: keep a monotonically increasing save sequence on every commit; when latestRecordTime(data) is more than 5 minutes ahead of the current clock, flag the future-dated record in ownerChecks and stop counting it as a check-in (todaysAttendance and attendanceMonth ignore attendance whose checkInAt is later than a record with a higher sequence); long term take check-in time from server time on sync. Regression: pre-mark tomorrow, reset the clock, save a record today, assert the owner is flagged and the next day still asks for a check-in.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/engine.ts",
+     "fixed_code": "// markAttendance: if (istDate(now) !== istDate(new Date()) || now.getTime() > Date.now() + 5 * 60000) throw new UserError(\"Check the phone's date and time\");\n// store a save sequence (data.seq += 1) on every commit; ownerChecks flags attendance with checkInAt later than any record with a higher seq."
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "medium",
+    "reason": "Needs only a signed-in stylist and access to the shared phone's date setting; leaves no visible trace if one day ahead."
+   },
+   "impact": {
+    "score": "medium",
+    "reason": "Falsifies the owner's attendance record that feeds the month report; no money moves in code."
+   },
+   "overall_severity": "medium"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Independent verifier reproduced it in the sandbox against the real engine; source lines match the trace; distinct from all run-1 root causes."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:src/domain/engine.ts:markNoShow-cancelAppointment:unattributed-closure-hides-unclosed-booking-check",
+  "title": "A stylist can mark a booked customer as no-show or cancelled to clear the owner's 'booking not closed' alert, with no record of who did it",
+  "description": "MISUSE-CHECKS 6 ('Customer never entered, cash pocketed') relies on one owner control: a booking still BOOKED 30 minutes after its time appears in the owner's Today's checks. Any signed-in staff member can close that booking with one tap (No-show once the time has passed, or Cancel booking at any time). The engine records no actor or timestamp for either change and ownerChecks never lists no-shows or cancellations, so a stylist who serves a booked customer off the books and keeps the cash can remove the only signal the owner would see. A cancelled booking also disappears from every calendar and day list.",
+  "root_cause": "cancelAppointment (engine.ts:1073) and markNoShow (engine.ts:1079) take no actor and patch only the status via setAppt (engine.ts:1066), with no cancelledBy/At or noShowBy/At, and cancel has no time gate; ownerChecks (checks.ts:142) builds the booking alert only from appointments still BOOKED and has no item for staff NO_SHOW/CANCELLED transitions, unlike undo (voidedBy) and left-without-service (leftBy).",
+  "intended_behavior": "Closing a booking as No-show or Cancelled records who and when (like leftBy/leftAt and voidedBy), and staff no-shows and late cancellations for today appear in the owner's Today's checks.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/TodayBookings.tsx",
+    "line": 113,
+    "scope": "TodayBookings No-show button",
+    "description": "Any staff session taps No-show on any late booking; TodayBookings lists every booking to every staff member."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/screens/Calendar.tsx",
+    "line": 1009,
+    "scope": "BookingSheet Cancel booking",
+    "description": "Cancel booking offered for any BOOKED appointment with no time restriction and no actor."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 1079,
+    "scope": "markNoShow",
+    "description": "Checks only BOOKED status and that the time has passed by device clock, then sets NO_SHOW."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 1073,
+    "scope": "cancelAppointment",
+    "description": "Checks only BOOKED status, then sets CANCELLED."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 1066,
+    "scope": "setAppt",
+    "description": "Merges the status patch alone; no actor/time field exists on Appointment (types.ts:141-162)."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/checks.ts",
+    "line": 142,
+    "scope": "ownerChecks",
+    "description": "Owner alert includes only status === 'BOOKED' appointments, so the closed booking vanishes from Today's checks."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "MISUSE-CHECKS.md",
+    "line": 16,
+    "description": "Documents the 'booking not closed' alert as the control for misuse 6."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 1073,
+    "description": "cancelAppointment(data, id) has no actor parameter and no time gate."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 1079,
+    "description": "markNoShow(data, id, now) has no actor parameter."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 142,
+    "description": "Alert filters on a.status === 'BOOKED' only."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 131,
+    "description": "Sibling controls are attributed and surfaced (voidedBy, leftBy)."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 1122,
+    "description": "appointmentMonth skips CANCELLED; Calendar and TodayBookings also filter CANCELLED."
+   },
+   {
+    "file": "src/domain/types.ts",
+    "line": 141,
+    "description": "Appointment has createdBy/createdAt but no closure actor or time."
+   },
+   {
+    "file": "src/screens/Home.tsx",
+    "line": 145,
+    "description": "Staff Home pushes the todayBookings route, rendered with no role check (App.tsx:80-81)."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "authentication_level",
+    "description": "Any signed-in staff session on the salon phone; no owner password."
+   },
+   {
+    "kind": "data_state",
+    "description": "A booked customer is served without Arrived/start visit and pays cash that is not entered."
+   },
+   {
+    "kind": "timing_dependency",
+    "description": "No-show accepted only after the booked start time (device clock); Cancel accepted any time."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "A stylist who served a booked customer off the books and wants the owner's alert to disappear.",
+   "payloads": [
+    "bookAppointment(customer Aarav, haircut, stylist Imran, 2026-10-14 12:00, by Imran) at 10:30 IST; at 12:45 IST markNoShow(data, apptId) or cancelAppointment(data, apptId); then ownerChecks(data, 12:45 IST)"
+   ],
+   "instructions": [
+    "Run the sandboxed vitest harness with emptyData(), one stylist and one consenting customer.",
+    "Baseline: ownerChecks 45 min after the booking returns one 'booking not closed' item.",
+    "Call markNoShow (or cancelAppointment) with no actor, then ownerChecks again."
+   ],
+   "observed_result": "Baseline [\"Aarav Sharma's booking not closed\"]; after markNoShow ownerChecks [] and the stored appointment equals the original apart from status NO_SHOW (no who/when); after cancelAppointment ownerChecks [] and appointmentMonth {}. 3/3 passed (agents/w6-booking-closure/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "Require by and now on cancelAppointment and markNoShow and store closedBy/closedAt; refuse a staff cancel after the booking time (or treat it as no-show); in ownerChecks add an item for each appointment closed today as NO_SHOW or late CANCELLED by someone other than the owner, naming the person; add a regression test.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/engine.ts",
+     "fixed_code": "export function cancelAppointment(data: Data, id: string, by: string | null, now = new Date()): Op<Appointment> {\n  const appt = data.appointments.find((a) => a.id === id);\n  if (appt?.status !== \"BOOKED\") throw new UserError(\"Only a booked appointment can be cancelled\");\n  return setAppt(data, id, { status: \"CANCELLED\", closedBy: by, closedAt: now.toISOString() });\n}\n\nexport function markNoShow(data: Data, id: string, by: string | null, now = new Date()): Op<Appointment> {\n  const appt = data.appointments.find((a) => a.id === id);\n  if (appt?.status !== \"BOOKED\") throw new UserError(\"Only a booked appointment can be marked\");\n  if (Date.parse(appt.at) > now.getTime()) throw new UserError(\"The appointment time hasn't come yet\");\n  return setAppt(data, id, { status: \"NO_SHOW\", closedBy: by, closedAt: now.toISOString() });\n}"
+    },
+    {
+     "file_name": "src/domain/checks.ts",
+     "fixed_code": "// ownerChecks: for each appointment closed today as NO_SHOW, or CANCELLED at/after its time, by someone other than the owner, push a 'booking' item naming closedBy."
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "low",
+    "reason": "Needs a dishonest stylist, a booked customer served off the books, and cash; the action is one tap for any staff session."
+   },
+   "impact": {
+    "score": "medium",
+    "reason": "Silently defeats the owner's only built detection for misuse 6 with no record of who did it; money limited to concealed bookings."
+   },
+   "overall_severity": "low"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Complete trace from the staff-reachable UI to ownerChecks; an independent sandboxed harness reproduced both transitions."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:src/domain/engine.ts:purgeExpired:forward-clock-unguarded-purge",
+  "title": "Setting the phone clock forward and reopening the app permanently deletes recent attendance selfies, upcoming bookings and active customers' records",
+  "description": "purgeExpired runs on every app start with cutoffs from the device clock and no sanity check against the newest stored record. A staff member with the shared salon phone can set the date forward about a year and restart to delete every attendance selfie (including their own check-in evidence) and every booking, or about three years to erase every customer with a zero wallet, including customers served today. The result is persisted immediately; resetting the clock restores nothing. markAttendance has a clock guard but only against a clock set backwards.",
+  "root_cause": "purgeExpired (src/domain/engine.ts:935-975) derives all retention cutoffs from the caller's now, which loadStore passes as the device clock (src/domain/store.ts:38) with no comparison against latestRecordTime(data), then persists the result (store.ts:42) and deletes the photo files (store.ts:40).",
+  "intended_behavior": "Retention erases only data genuinely older than the configured periods (1095/365/365 days); a device clock far ahead of the newest stored record should not trigger irreversible deletion.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/domain/store.ts",
+    "line": 38,
+    "scope": "loadStore",
+    "description": "On every app start purgeExpired(state) is called with the device clock."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 937,
+    "scope": "purgeExpired",
+    "description": "cutoff(days) = now - days for photos, reminders and customers."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 952,
+    "scope": "purgeExpired",
+    "description": "Appointments before reminderCut dropped, including upcoming ones when the clock is forward."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 970,
+    "scope": "purgeExpired",
+    "description": "Zero-wallet customers inactive before customerCut erased and logged AUTO_ERASED."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/store.ts",
+    "line": 40,
+    "scope": "loadStore",
+    "description": "deletePhotos removes the selfie files and persist() writes the purged state."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/engine.ts",
+    "line": 1336,
+    "description": "markAttendance rejects a clock behind latestRecordTime; purgeExpired has no forward check."
+   },
+   {
+    "file": "src/config/salon-details.json",
+    "line": 33,
+    "description": "Retention 1095/365/365 days."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 938,
+    "description": "photoCut from the same untrusted now."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "authentication_level",
+    "description": "Physical access to the unlocked salon phone with permission to change the system date; no app login needed since purge runs at start."
+   },
+   {
+    "kind": "user_interaction",
+    "description": "Set the device date forward >365 days (selfies, bookings) or >1095 days (customers), then cold-start the app."
+   },
+   {
+    "kind": "data_state",
+    "description": "Customer erasure needs walletBalance 0 and no OPEN visit."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "A staff member using the shared salon phone who wants to remove attendance selfie evidence or disrupt the records.",
+   "payloads": [
+    "purgeExpired(data, new Date(Date.now() + 366*86400000))",
+    "purgeExpired(data, new Date(Date.now() + 1100*86400000))"
+   ],
+   "instructions": [
+    "Build dummy data with the real engine: one stylist, a customer who paid today, today's check-in with photoKey 'selfie-today', and a booking for the next open day.",
+    "Inside sbx.sh call purgeExpired on fresh copies with now = real, +366 days and +1100 days and print appointments, photoKeys, customersErased and the privacy log."
+   ],
+   "observed_result": "Real clock: 1 appointment kept, no photo keys, selfie kept, 0 customers erased. +366 days: 0 appointments (the upcoming 28 Oct booking dropped), photoKeys ['selfie-today'], attendance photoKey null. +1100 days: additionally customersErased 1, the customer who paid today renamed 'Deleted customer' with deletedAt 2029-10-31 and an AUTO_ERASED privacy-log entry; latestRecordTime was 2026-10-27 in every case (agents/w2-forward-purge/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "Refuse to purge when now is implausibly ahead of the newest stored record (e.g. now > latestRecordTime(data) + 30 days) and show an owner-only 'check the phone date' prompt; regression: purgeExpired(data, latest + 400 days) returns no photoKeys and erases no customer. Note that the latestRecordTime check alone can be bypassed by first saving a forward-dated record, so also require owner confirmation before a purge that would erase customers or bookings within the previous run's window, or keep a persisted high-water mark of the last trusted purge time.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/engine.ts",
+     "fixed_code": "const latest = latestRecordTime(data);\nif (latest > 0 && now.getTime() > latest + 30 * DAY_MS) return { data, result: { photoKeys: [], customersErased: 0, skipped: true } };"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "low",
+    "reason": "Needs deliberate physical action on the phone and an app restart."
+   },
+   "impact": {
+    "score": "medium",
+    "reason": "Irreversible loss of all attendance selfie evidence and bookings, and with a larger jump all zero-wallet customer records."
+   },
+   "overall_severity": "medium"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Independent verifier reproduced it in the sandbox against the real engine; source lines match the trace; distinct from all run-1 root causes."
+  }
+ }
+]

@@ -1,0 +1,68 @@
+{
+  "business": "Salon app, Bhubaneswar: ₹10,000 setup (two halves) + ₹699 a month per salon (setup fee shown separately in the CFO note)",
+  "unit": "paying salon-day (₹699 a month / 30)",
+  "price": 23.3,
+  "variable": [
+    {
+      "label": "Server and database, Firebase (₹20/salon/month; RUNNING-COSTS.md)",
+      "cost": 0.67
+    },
+    {
+      "label": "Payment collection fee ~2.36% incl. GST (₹16.5/month on ₹699)",
+      "cost": 0.55
+    },
+    {
+      "label": "Help with Claude, ~5 requests/salon/month at ~₹6 (estimate; PLAN-24-OCT.md)",
+      "cost": 1.0
+    },
+    {
+      "label": "Support helper time (estimate ₹100/salon/month)",
+      "cost": 3.33
+    }
+  ],
+  "fixed_monthly": [
+    {
+      "label": "Founder pay (estimate; founder to confirm)",
+      "cost": 40000
+    },
+    {
+      "label": "Domain, email, support phone number (RUNNING-COSTS.md)",
+      "cost": 600
+    },
+    {
+      "label": "Phone and local travel in Bhubaneswar, not counting setup visits (estimate)",
+      "cost": 3000
+    }
+  ],
+  "startup": [
+    {
+      "label": "Demo phone (estimate; ₹0 if the founder's own phone is used)",
+      "cost": 10000
+    },
+    {
+      "label": "First month of marketing: print + travel (marketing.md)",
+      "cost": 8000
+    },
+    {
+      "label": "Contingency for tools and test devices (estimate)",
+      "cost": 2000
+    }
+  ],
+  "days_per_month": 30,
+  "capacity_per_day": 60,
+  "plan_per_day": 60,
+  "ramp_per_day": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    2.4,
+    6.2,
+    10.6,
+    12.7,
+    14.7,
+    16.7,
+    18.6,
+    20.4
+  ]
+}

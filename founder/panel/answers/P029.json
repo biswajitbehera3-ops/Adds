@@ -1,0 +1,13 @@
+{
+  "id": "P029",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "I run one or two chairs and cut hair myself, so I don't need selfie attendance or drawer checks to know what's going on. ₹5,000 upfront plus ₹999 every month, about ₹17,000 in the first year, is too much when UPI and my notebook already do the job for free.",
+  "objection": "It's a monthly subscription I'll be paying forever for a shop this small, and the free billing apps already send bills on WhatsApp. Why switch and pay more?",
+  "would_change_my_mind": "No setup fee and around ₹299 a month or one-time payment, with the WhatsApp reminders proven to bring customers back.",
+  "price_too_cheap": 99,
+  "price_cheap": 199,
+  "price_expensive": 499,
+  "price_too_expensive": 799
+}
