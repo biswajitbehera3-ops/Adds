@@ -139,3 +139,26 @@ Each answers a real complaint or a panel objection. Never quote panel answers as
 - We don't claim to be the only live-salon app (AXOIX and SalonLux have live chair views).
 - Distributor referral fees are told to the salon if asked.
 - Not legal advice: check GST on the ₹10,000 setup (18% on services) with a CA before the first invoice.
+
+## 6. Using the launch film (added 30 Oct)
+
+The film "Why don't they come back?" is 95 s and vertical, with no music, and has captions so it works on mute.
+- Full quality (37 MB): https://d2ol7oe51mr4n9.cloudfront.net/user_3Hp3x0s3sZm3T0crSwp0w7Qkj1O/e6ea288e-1b05-4c93-93b9-d0ae577826d5.mp4
+- WhatsApp copy (9.6 MB, 720p): https://d2ol7oe51mr4n9.cloudfront.net/user_3Hp3x0s3sZm3T0crSwp0w7Qkj1O/c0e08370-163a-4b23-a2af-c88bb20ac472.mp4
+
+**The film is the follow-up, not the first message.** The demo on the phone in their salon sells; the film is what the owner re-watches that evening and forwards to a partner or family member.
+
+| Step | Channel | What goes out |
+|---|---|---|
+| 1. Find | Google Maps | Lead sheet: 5+ chairs, 4.3★+, 150+ reviews, quiet hours (section 2) |
+| 2. First touch | **Walk-in visit** (Tue–Thu, 11 am–4 pm) or an **Instagram DM** | Visit: the 10-minute demo on the demo phone. DM: one line ("You have 4.6 stars and 300 reviews. Can I show you how to keep them, in 10 minutes?") plus the film as a Reel link. Never cold-send the video file. |
+| 3. Same evening | **WhatsApp**, only to owners you met or who replied | The WhatsApp copy + the one-page price sheet: "Here's the 1½-minute video of what you saw today. ₹10,000 setup in two halves, ₹699 a month. Which day suits you for setup?" |
+| 4. Day 3 | WhatsApp | One follow-up if no reply. Stop after two. |
+| 5. Always on | Instagram | Post the film once as a Reel and pin it to the profile, so owners who check you find it. |
+| 6. Through others | Product distributors | Give them the WhatsApp copy to forward with their own word. |
+
+**Rules**
+- **No WhatsApp messages to numbers that haven't spoken to you.** Bulk messages to strangers get the number reported and banned, and break India's rules on unsolicited messages.
+- **Don't present the people in the film as real.** Priya, Anjali and the stylists are invented. The app screens are real, with invented data. Say "this is how it works", never "this salon got these results".
+- **WhatsApp Status:** a 95-second video is split into short clips there. Make a 30-second cut (problem → reminder → referral) before using Status.
+- **Facebook/Instagram paid ads:** still wait for the first 5 real salons (section 4).

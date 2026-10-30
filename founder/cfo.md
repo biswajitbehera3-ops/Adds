@@ -1,3 +1,38 @@
+# CFO update (30 Oct): the price holds at ₹10,000 setup + ₹699 a month
+
+Re-run on 30 Oct with the same inputs (`numbers.json`). Every number below matches 24 Oct. (The tool prints "$"; every figure is in rupees.) Nothing in the cost base changed: WhatsApp is still ₹0 (staff tap), and the launch film is already paid for from this month's Higgsfield credits (178.86 credits; no new cash).
+
+**The price to quote owners**
+
+| Plan | Setup | Monthly | Status |
+|---|---:|---:|---|
+| Founding Salon (first 5 salons in Bhubaneswar, 5+ chairs) | ₹10,000 in two halves | ₹699, locked 2 years, first 3 months free | decided 24 Oct |
+| Salon (5–8 chairs) | ₹10,000 in two halves | ₹699 | decided 24 Oct |
+| Salon Plus (9+ chairs, bridal) | ₹15,000 | ₹1,299 | draft, not decided |
+| Yearly prepay | same | ₹6,990 a year (10 months' price for 12) | draft, not decided |
+
+The two halves: ₹5,000 on setup day; ₹5,000 at day 30 only if stylists bill on 20+ working days. If they don't, we come back to fix it, or the owner stops and gets the first ₹5,000 back.
+
+**Your own pay decides the break-even** (same file; only founder pay changed):
+
+| Founder pay a month | Paying salons needed to cover monthly costs |
+|---:|---:|
+| ₹0 | 7 |
+| ₹15,000 | 35 |
+| ₹25,000 | 54 |
+| ₹40,000 | 82 (above the ~60 one person can support) |
+
+- **The margin:** each paying salon leaves **₹532 a month (76%)**; each new setup leaves about **₹7,500** at once.
+- **The line to watch:** new salons a month. Price −10% moves the break-even from 82 to 95 salons; costs +15% only to 86.
+- **What finding a salon may cost:** the ₹7,500 a setup leaves pays for up to **25 visits at ₹300** (75 at ₹100) before it turns negative. So walk-in visits pay for themselves as long as about 1 visit in 25 becomes a setup.
+- **Cash before it pays for itself:** about ₹24,000 if you take no pay in year 1 (demo phone, first month of print and travel, contingency). With ₹40,000 pay from day one it is ₹2.51 lakh.
+- **Still open, and yours to decide:** your monthly pay (the table above), Salon Plus, yearly prepay, and GST.
+- **GST:** if you register, 18% goes on top: ₹699 becomes ₹825 and ₹10,000 becomes ₹11,800. Registration is usually required only above ₹20 lakh a year of turnover (year 1 here is about ₹3.6 lakh). A CA should confirm this before the first invoice.
+
+Not financial, tax or legal advice. A CA should check the structure, GST and how guarantee refunds are invoiced before money moves.
+
+---
+
 # CFO note (24 Oct, updated): ₹10,000 setup + ₹699 a month, Bhubaneswar
 
 **Inputs** (`numbers.json`, sources in `cfo-sources.md`): **₹699 a month per salon** (founder, 24 Oct); setup ₹10,000 in two halves (`offer.md`); first 5 salons get 3 months free; WhatsApp by one tap (₹0); running cost ₹167 per salon a month (server ₹20, payment fee ₹16.5, Help with Claude ~₹30, support helper ₹100). **Estimates to replace with real numbers:** founder pay ₹40,000 a month, 3 new salons a month from month 3, 1 in 5 new salons fails the 20-day check and gets the first ₹5,000 back, 3% of salons leave each month, setup visit ₹1,500. Not financial, tax or legal advice: a CA should check the structure, GST (18% on top of these prices unless they are set as GST-inclusive) and how refunds are invoiced before money moves.
