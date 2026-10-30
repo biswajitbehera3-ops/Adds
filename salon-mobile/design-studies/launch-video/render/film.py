@@ -373,10 +373,10 @@ def build():
     S.append((a, b, lambda t, a=a: title_card(t, a, ["WHY DON'T THEY", "COME BACK?"])))
     # 5-7 reminders on the phone
     a = b; t_send = w(7, "tap") ; b = t_send + 0.9
-    ph = PhoneShot(a, b, [(a, "A1-customers-reminder-card"), (w(6, "thirty") - 0.2, "A2-reminders-list"),
+    ph = PhoneShot(a, b, [(a, "A1-customers-reminder-card"), (w(6, "30") - 0.2, "A2-reminders-list"),
                           (w(6, "this") , "A3-reminder-open"), (t_send + 0.35, "A4-reminder-sent")], enter="drop", zoom=(1.0, 1.02))
     ph.mark("outline", w(5, "remembers"), B("A1.card"), m=10)
-    ph.mark("tap", w(6, "thirty") - 0.45, C("A1.card"))
+    ph.mark("tap", w(6, "30") - 0.45, C("A1.card"))
     ph.mark("outline", w(6, "priya"), B("A2.priyaRow"), m=6, r=30)
     ph.mark("underline", w(6, "priya") + 0.25, (255, 435, 330, 60))
     ph.mark("tap", w(6, "this") - 0.35, C("A2.priyaRow"))
@@ -394,10 +394,10 @@ def build():
     # 9 she tells a friend: the string, then her referral code
     a = b; b = w(9, "tells") - 0.1
     S.append((a, b, lambda t, a=a, b=b: kb(7, prog(t, a, b), 1.0, 1.07, (0.5, 0.5))))
-    a = b; b = START[10] + DUR[10] * 0.55
-    ph3 = PhoneShot(a, b, [(a, "G4-refer-after"), (w(10, "both"), "H2-after-collect")])
+    a = b; b = w(10, "rupees") - 0.05
+    ph3 = PhoneShot(a, b, [(a, "G4-refer-after"), (START[10] - 0.1, "H2-after-collect")])
     ph3.mark("outline", a + 0.4, B("G4.code"), m=12)
-    ph3.mark("outline", w(10, "get") - 0.05, (52, 1264, 1062, 172), m=6, r=30)
+    ph3.mark("outline", START[10] + 0.2, (52, 1264, 1062, 172), m=6, r=30)
     S.append((a, b, lambda t, ph=ph3: ph.render(t, PAPER_IMG)))
     a = b; b = START[11] - 0.1
     S.append((a, b, lambda t, a=a, b=b: kb(8, prog(t, a, b), 1.0, 1.07, (0.5, 0.55))))
@@ -481,11 +481,11 @@ def cues():
     c += [("pin", tn + 0.05, -10), ("pin", tn + 0.8, -12), ("page", START[4] - 0.3, -14)]
     for wa, wb in WHIPS: c.append(("whoosh", wa - 0.2, -12))
     s5 = SCENES[5][0]
-    c += [("thud", s5 + 0.45, -4), ("mark", w(5, "remembers"), -26), ("tap", w(6, "thirty") - 0.45, -8),
+    c += [("thud", s5 + 0.45, -4), ("mark", w(5, "remembers"), -26), ("tap", w(6, "30") - 0.45, -8),
           ("mark", w(6, "priya"), -26), ("tap", w(6, "this") - 0.35, -8), ("tap", w(7, "tap"), -6), ("reminder-sent", w(7, "tap") + 0.08, -6),
           ("swish", SCENES[7][0], -16), ("pin", SCENES[7][0] + 0.45, -10), ("page", SCENES[8][0], -14),
           ("page", SCENES[9][0], -14), ("pin", SCENES[9][0] + 0.3, -12), ("swish", SCENES[10][0], -16), ("mark", SCENES[10][0] + 0.4, -26),
-          ("mark", w(10, "get"), -26), ("page", SCENES[11][0], -14), ("coin", w(10, "hundred"), -14), ("coin", w(10, "hundred") + 0.32, -15),
+          ("mark", START[10] + 0.2, -26), ("page", SCENES[11][0], -14), ("coin", w(10, "rupees"), -14), ("coin", w(10, "rupees") + 0.32, -15),
           ("settle", w(11, "brand"), -8), ("swish", SCENES[15][0], -16),
           ("pin", w(12, "live") - 0.2, -12), ("pin", w(12, "live") + 0.25, -12), ("paid", w(13, "bill"), -6),
           ("mark", w(13, "what") + 0.1, -26)]
