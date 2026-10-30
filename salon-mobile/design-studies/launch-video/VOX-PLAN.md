@@ -1,6 +1,6 @@
 # Launch video, documentary version: director's plan (v4, 29 Oct 2026)
 
-**Status:** assets made (faces, 12 collage pictures, clips A–D, narration in Andre's voice) and the real app screens recorded; the edit timeline below waits for the user's approval before editing. Nothing is generated until the user says so, and every Higgsfield run is quoted first and needs its own yes (`CLAUDE.md`, generation and cost policy).
+**Status:** built 30 Oct (see `higgsfield-assets.md`, "the finished film"). Renderer: `render/film.py`.
 **Brief (user, 29 Oct):** keep the v3 story (`PLAN.md`), but make it a Vox-style animated documentary: a narrator explains it, with animation made with Higgsfield.
 
 ## The idea

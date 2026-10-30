@@ -97,3 +97,10 @@ Checked in the sandbox (faster-whisper): every line has the script's words; raw 
 **Joined preview** (pauses as in the edit, longer pause after "she never came back"): 87.7 s, media e18c67bb-a179-44da-a9c4-df2ae66b53a7, https://d2ol7oe51mr4n9.cloudfront.net/user_3Hp3x0s3sZm3T0crSwp0w7Qkj1O/e18c67bb-a179-44da-a9c4-df2ae66b53a7.mp3
 
 Running total for the film: **178.86 credits** of the 300 ceiling (balance ≈ 342.1).
+
+## 30 Oct: the finished film (edit, no credits)
+**Film:** https://d2ol7oe51mr4n9.cloudfront.net/user_3Hp3x0s3sZm3T0crSwp0w7Qkj1O/e6ea288e-1b05-4c93-93b9-d0ae577826d5.mp4 (media `e6ea288e-1b05-4c93-93b9-d0ae577826d5`): 1080×1920, 24 fps, 95.4 s, H.264 + AAC, 37 MB, no music.
+- Edited in code in the Higgsfield sandbox (`render/film.py`): collage pictures 1, 3, 4, 6 (mirror crop only), 7, 8, 10, 12; clips A–D; 12 real app screens; narration lines 1–16 in Andre's voice; captions timed to the spoken words (faster-whisper).
+- Sound effects: earshot's code-made bank (MIT) plus the app's own `paid.wav` and `reminder-sent.wav`. Epidemic Sound refused the downloads (this account's plan has no sound-effect downloads).
+- Mix: −14.9 LUFS integrated, limiter at −1 dBFS. Checked every 2.5 s of picture after the render. Not checked by listening (no earshot models in the sandbox).
+- Credits spent on the edit: 0. Running total stays 178.86.
