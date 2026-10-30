@@ -36,7 +36,7 @@ TEXT = {
     7: "One tap, and she gets a reminder on WhatsApp.",
     8: "She books. And she comes back.",
     9: "Then something better happens. Priya tells a friend.",
-    10: "And both of them get ₹100 in their salon wallet.",
+    10: "And both of them get a hundred rupees in their salon wallet.",
     11: "One customer back. One brand-new customer.",
     12: "Meanwhile, you can see your whole salon, live.",
     13: "Every chair. Every bill. What each stylist earned today.",
@@ -160,9 +160,11 @@ class PhoneShot:
         x0 = round(cx - layer.width / 2); y0 = round(cy - layer.height / 2 + dy)
         out = bg.copy().convert("RGBA"); out.alpha_composite(layer, (x0, y0)) if x0 >= 0 and y0 >= 0 else out.paste(layer, (x0, y0), layer)
         ov = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(ov)
+        starts = [sc[0] for sc in self.screens]
+        now_idx = sum(1 for a in starts if a <= t) - 1
         for kind, mt, box, md, kw in self.marks:
             p = prog(t, mt, mt + md)
-            if t < mt: continue
+            if t < mt or sum(1 for a in starts if a <= mt) - 1 != max(now_idx, 0): continue
             draw_mark(d, ov, kind, p, t - mt, box, lambda x, y: self.to_frame(x, y, t), kw)
         out.alpha_composite(ov)
         return out.convert("RGB")
@@ -208,10 +210,10 @@ def ellipse_pts(cx, cy, rx, ry):
 _stamps = {}
 def stamp_img(text):
     if text not in _stamps:
-        f = font(BOLD, 96); tw = int(f.getlength(text))
-        im = Image.new("RGBA", (tw + 90, 170), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+        f = font(BOLD, 70); tw = int(f.getlength(text))
+        im = Image.new("RGBA", (tw + 70, 130), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
         d.rounded_rectangle([6, 6, im.width - 7, im.height - 7], 18, outline=RED + (235,), width=10)
-        d.text((45, 30), text, font=f, fill=RED + (235,))
+        d.text((35, 22), text, font=f, fill=RED + (235,))
         rng = np.random.default_rng(5); a = np.array(im.getchannel("A"), float)
         a *= (rng.random(a.shape) > 0.12) * 0.25 + 0.75
         im.putalpha(Image.fromarray(a.astype("uint8")))
@@ -301,12 +303,15 @@ def whip(a, b, p):
 def chunks():
     out = []
     for i, text in TEXT.items():
-        words = WORDS[f"{i:02d}"]; parts, cur = [], ""
+        words = WORDS[f"{i:02d}"]; clauses, cur = [], ""
         for tok in text.split(" "):
             cur = (cur + " " + tok).strip()
-            if tok.endswith((".", "?", "…", ":")) and len(cur) > 12 or len(cur) > 34:
-                parts.append(cur); cur = ""
-        if cur: parts.append(cur)
+            if tok.endswith((".", "?", "…", ":", ",")): clauses.append(cur); cur = ""
+        if cur: clauses.append(cur)
+        parts = []
+        for cl in clauses:
+            if parts and len(parts[-1]) + 1 + len(cl) <= 52 and not parts[-1].endswith(("…",)): parts[-1] += " " + cl
+            else: parts.append(cl)
         # time each part from the spoken words: part k starts at the word with the same running index
         idx, t_parts = 0, []
         for part in parts:
@@ -360,8 +365,8 @@ def build():
         if t >= t_note:
             p = eout(prog(t, t_note, t_note + 0.25)); card, pad = STICKY_L
             img.alpha_composite(card, (640 - pad, round(330 - pad - (1 - p) * 60)))
-            pin(d, 815, 352)
-            string(d, (530, 1080), (815, 352), prog(t, t_note + 0.2, t_note + 0.8))
+            pin(d, 690, 630)
+            string(d, (530, 1080), (690, 630), prog(t, t_note + 0.2, t_note + 0.8))
             if t >= t_note + 0.8: pin(d, 530, 1080)
         return img.convert("RGB")
     S.append((a, b, chair))
@@ -431,7 +436,7 @@ def build():
     a = b; b = START[16] - 0.1
     ph6 = PhoneShot(a, b, [(a, "C2-live-checks")], enter="none", zoom=(1.0, 1.03))
     ph6.mark("outline", w(15, "bill") - 0.1, B("C2.undo"), m=16, col=RED)
-    ph6.mark("stamp", w(15, "know") - 0.05, (870, 1500), dur=0.3)
+    ph6.mark("stamp", w(15, "know") - 0.05, (860, 1430), dur=0.3)
     S.append((a, b, lambda t, ph=ph6: ph.render(t, PAPER_IMG)))
     # 16 we set it up: prices, stylists, the full board
     a = b; b = w(16, "stylists") - 0.15
