@@ -10,7 +10,7 @@
 | Payment fee | ~₹12/month on ₹500 (2% + 18% GST on the fee) | Razorpay pricing pages (22 Oct) |
 | Help with Claude | ~₹30/salon/month (5 requests × ~₹6) | estimate; PLAN-24-OCT.md (Claude Opus 5.5 at $4/$20 per million tokens) |
 | Support helper | ₹100/salon/month | estimate |
-| Founder pay | ₹40,000/month | estimate; founder to confirm |
+| Founder pay | ₹0 | founder, 31 Oct (was a ₹40,000 estimate) |
 | Domain, email, support number | ₹600/month | RUNNING-COSTS.md |
 | Phone and local travel | ₹3,000/month | estimate |
 | Setup visit cost | ₹1,500 per new salon | estimate |

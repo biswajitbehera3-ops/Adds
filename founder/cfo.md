@@ -1,3 +1,17 @@
+# Decisions (founder, 31 Oct)
+
+1. **Founder pay: none.** `numbers.json` now has ₹0, so the monthly fees alone break even at **7 salons** (it was 82 with ₹40,000 pay).
+2. **Salon Plus: not offered.** One price for every salon in the target: **₹10,000 setup in two halves + ₹699 a month**. The first 5 salons get 3 months free.
+3. **GST is not included in the price.** If the business registers for GST, 18% is added on top: ₹699 becomes ₹825 and ₹10,000 becomes ₹11,800. Below the registration limit (usually ₹20 lakh a year; year 1 is about ₹3.6 lakh), no GST is charged. A CA confirms before the first invoice.
+
+**Year 1 with no founder pay** (same inputs as 24 Oct):
+- From the tool, monthly fees only: **+₹11,275** operating profit; −₹8,725 after the ₹20,000 startup spend.
+- Adding the setup fees by hand (24 Oct note below, unchanged): **+₹2.49 lakh** profit.
+- Lowest cash point: **about ₹24,000**, which is the money needed to start.
+- Red flag the tool still raises: on monthly fees alone, the startup spend is not earned back in year 1. Setup fees cover it by month 5–6.
+
+---
+
 # CFO update (30 Oct): the price holds at ₹10,000 setup + ₹699 a month
 
 Re-run on 30 Oct with the same inputs (`numbers.json`). Every number below matches 24 Oct. (The tool prints "$"; every figure is in rupees.) Nothing in the cost base changed: WhatsApp is still ₹0 (staff tap), and the launch film is already paid for from this month's Higgsfield credits (178.86 credits; no new cash).
@@ -8,7 +22,6 @@ Re-run on 30 Oct with the same inputs (`numbers.json`). Every number below match
 |---|---:|---:|---|
 | Founding Salon (first 5 salons in Bhubaneswar, 5+ chairs) | ₹10,000 in two halves | ₹699, locked 2 years, first 3 months free | decided 24 Oct |
 | Salon (5–8 chairs) | ₹10,000 in two halves | ₹699 | decided 24 Oct |
-| Salon Plus (9+ chairs, bridal) | ₹15,000 | ₹1,299 | draft, not decided |
 | Yearly prepay | same | ₹6,990 a year (10 months' price for 12) | draft, not decided |
 
 The two halves: ₹5,000 on setup day; ₹5,000 at day 30 only if stylists bill on 20+ working days. If they don't, we come back to fix it, or the owner stops and gets the first ₹5,000 back.
@@ -26,7 +39,7 @@ The two halves: ₹5,000 on setup day; ₹5,000 at day 30 only if stylists bill 
 - **The line to watch:** new salons a month. Price −10% moves the break-even from 82 to 95 salons; costs +15% only to 86.
 - **What finding a salon may cost:** the ₹7,500 a setup leaves pays for up to **25 visits at ₹300** (75 at ₹100) before it turns negative. So walk-in visits pay for themselves as long as about 1 visit in 25 becomes a setup.
 - **Cash before it pays for itself:** about ₹24,000 if you take no pay in year 1 (demo phone, first month of print and travel, contingency). With ₹40,000 pay from day one it is ₹2.51 lakh.
-- **Still open, and yours to decide:** your monthly pay (the table above), Salon Plus, yearly prepay, and GST.
+- **Decided 31 Oct:** no founder pay, no Salon Plus, GST on top if registered (see Decisions).
 - **GST:** if you register, 18% goes on top: ₹699 becomes ₹825 and ₹10,000 becomes ₹11,800. Registration is usually required only above ₹20 lakh a year of turnover (year 1 here is about ₹3.6 lakh). A CA should confirm this before the first invoice.
 
 Not financial, tax or legal advice. A CA should check the structure, GST and how guarantee refunds are invoiced before money moves.
@@ -70,45 +83,43 @@ Every number below comes from the input file. Nothing is looked up or guessed.
 
 ## The margin that matters
 
-Fixed costs: ₹43,600 a month (Founder pay (estimate; founder to confirm) ₹40,000, Domain, email, support phone number (RUNNING-COSTS.md) ₹600, Phone and local travel in Bhubaneswar, not counting setup visits (estimate) ₹3,000).
+Fixed costs: ₹3,600 a month (Founder pay (founder, 31 Oct: none) ₹0, Domain, email, support phone number (RUNNING-COSTS.md) ₹600, Phone and local travel in Bhubaneswar, not counting setup visits (estimate) ₹3,000).
 
-- **Break-even: 82 paying salon-day (₹699 a month / 30)s a day.** Below that you lose money every month.
-- **Profit margin at your plan** (60 a day): **-28%** of every sale, after every cost.
+- **Break-even: 7 paying salon-day (₹699 a month / 30)s a day.** Below that you lose money every month.
+- **Profit margin at your plan** (60 a day): **68%** of every sale, after every cost.
 - Capacity: 60 a day.
 
 ## Year 1, month by month
 
 | month | paying salon-day (₹699 a month / 30)s a day | revenue | profit | cumulative (after ₹20,000 startup) |
 | ---: | ---: | ---: | ---: | ---: |
-| 1 | 0 | ₹0 | -₹43,600 | -₹63,600 |
-| 2 | 0 | ₹0 | -₹43,600 | -₹107,200 |
-| 3 | 0 | ₹0 | -₹43,600 | -₹150,800 |
-| 4 | 0 | ₹0 | -₹43,600 | -₹194,400 |
-| 5 | 2 | ₹1,678 | -₹42,322 | -₹236,722 |
-| 6 | 6 | ₹4,334 | -₹40,298 | -₹277,020 |
-| 7 | 11 | ₹7,409 | -₹37,956 | -₹314,976 |
-| 8 | 13 | ₹8,877 | -₹36,837 | -₹351,813 |
-| 9 | 15 | ₹10,275 | -₹35,772 | -₹387,586 |
-| 10 | 17 | ₹11,673 | -₹34,707 | -₹422,293 |
-| 11 | 19 | ₹13,001 | -₹33,696 | -₹455,988 |
-| 12 | 20 | ₹14,260 | -₹32,737 | -₹488,725 |
+| 1 | 0 | ₹0 | -₹3,600 | -₹23,600 |
+| 2 | 0 | ₹0 | -₹3,600 | -₹27,200 |
+| 3 | 0 | ₹0 | -₹3,600 | -₹30,800 |
+| 4 | 0 | ₹0 | -₹3,600 | -₹34,400 |
+| 5 | 2 | ₹1,678 | -₹2,322 | -₹36,722 |
+| 6 | 6 | ₹4,334 | -₹298 | -₹37,020 |
+| 7 | 11 | ₹7,409 | ₹2,044 | -₹34,976 |
+| 8 | 13 | ₹8,877 | ₹3,163 | -₹31,813 |
+| 9 | 15 | ₹10,275 | ₹4,228 | -₹27,586 |
+| 10 | 17 | ₹11,673 | ₹5,293 | -₹22,293 |
+| 11 | 19 | ₹13,001 | ₹6,304 | -₹15,988 |
+| 12 | 20 | ₹14,260 | ₹7,263 | -₹8,725 |
 
-- **Year 1 operating profit: -₹468,725** on ₹71,508 of revenue.
-- After the ₹20,000 startup spend: -₹488,725.
+- **Year 1 operating profit: ₹11,275** on ₹71,508 of revenue.
+- After the ₹20,000 startup spend: -₹8,725.
 - Startup money earned back: not within year 1.
-- Cash you need before it pays for itself: **₹488,725**.
+- Cash you need before it pays for itself: **₹37,020**.
 
 ## What if
 
 | scenario | margin at plan | break-even a day | year 1 profit |
 | --- | ---: | ---: | ---: |
-| Base plan | -28% | 82 | -₹468,725 |
-| Price -10% | -42% | 95 | -₹475,876 |
-| Volume -20% | -54% | 82 | -₹479,620 |
-| Unit costs +15% | -31% | 86 | -₹471,280 |
+| Base plan | 68% | 7 | ₹11,275 |
+| Price -10% | 64% | 8 | ₹4,124 |
+| Volume -20% | 65% | 7 | ₹380 |
+| Unit costs +15% | 64% | 8 | ₹8,720 |
 
 ## Red flags
 
-- Break-even needs 82 paying salon-day (₹699 a month / 30)s a day but capacity is 60.
-- Year 1 loses money on operations (-₹468,725).
 - The startup spend is not earned back within year 1.

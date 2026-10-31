@@ -35,3 +35,9 @@ Not offered: plans for 1–4 chair salons (0% bought in the panel; not the targe
 ## Next
 
 Test ₹699 and Salon Plus on the first real owners. If more than 1 in 3 demos stall on the price, look at the setup fee first (it's the bigger number) before cutting ₹699.
+
+## Decided 31 Oct (founder)
+
+- **No Salon Plus.** One plan: ₹10,000 setup in two halves + ₹699 a month, locked 2 years. The first 5 Bhubaneswar salons get 3 months free.
+- **GST is not included in the price;** it is added on top only once the business is GST-registered (CA to confirm).
+- Still open: extra-outlet price and yearly prepay. Neither goes on the price sheet until decided.

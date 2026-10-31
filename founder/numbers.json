@@ -22,8 +22,8 @@
   ],
   "fixed_monthly": [
     {
-      "label": "Founder pay (estimate; founder to confirm)",
-      "cost": 40000
+      "label": "Founder pay (founder, 31 Oct: none)",
+      "cost": 0
     },
     {
       "label": "Domain, email, support phone number (RUNNING-COSTS.md)",
