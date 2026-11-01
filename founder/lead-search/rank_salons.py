@@ -11,6 +11,8 @@ import csv, html, json, re, subprocess, sys, tempfile, os, collections
 
 CHAINS = ["naturals", "green trends", "lakme", "lakmé", "jawed habib", "toni", "looks salon", "ylg", "bounce", "enrich", "affinity", "geetanjali"]
 SKIP_CATEGORY = re.compile(r"\b(spa|nail|tattoo|massage|academy|institute|school|supplier|store|shop for)\b", re.I)
+# Home-service salons and make-up-only studios have no chairs to bill.
+SKIP_NAME = re.compile(r"home salon|salon at home|^(?!.*salon).*make ?-?up (studio|artist)", re.I)
 SALON_SOFTWARE = re.compile(r"zylu|salonist|fresha|miosalon|invoay|dingg|booksy|vagaro", re.I)
 A = ["saheed nagar", "jaydev vihar", "jayadev vihar", "nayapalli", "kharavela", "bapuji nagar", "unit 9", "unit-9"]
 B = ["patia", "chandrasekharpur", "chandrashekharpur", "infocity", "info city", "rasulgarh", "sailashree"]
@@ -23,27 +25,29 @@ def cluster(addr):
     a = addr.lower()
     if any(k in a for k in A): return "A"
     if any(k in a for k in B): return "B"
-    return "-"
+    return "other area"
 
 def score(r, branches):
     s, why = 0, []
     rating, reviews = num(r.get("review_rating")), num(r.get("review_count"))
     if branches > 1: s += 30; why.append(f"{branches} branches (owner often away)")
-    if r.get("instagram"): s += 20; why.append("active Instagram")
+    if r.get("instagram") or "instagram.com" in r.get("website", "").lower(): s += 20; why.append("on Instagram")
     if 300 <= reviews <= 1000: s += 15; why.append("300–1,000 reviews")
     if rating >= 4.5: s += 10; why.append("4.5★+")
     if re.search(r"unisex|family", (r.get("title", "") + " " + r.get("category", "")), re.I): s += 10; why.append("unisex/family")
-    oh = r.get("open_hours", "")
-    if oh and "closed" not in oh.lower(): s += 5; why.append("open 7 days")
+    try: oh = json.loads(r.get("open_hours") or "{}")
+    except ValueError: oh = {}
+    if len(oh) == 7 and not any("closed" in str(v).lower() for v in oh.values()): s += 5; why.append("open 7 days")
     tech = " ".join(str(r.get(k, "")) for k in ("website", "cms"))
     if SALON_SOFTWARE.search(tech): s -= 25; why.append("already uses salon software (−)")
-    elif not r.get("website") or "wa.me" in r.get("website", ""): s += 10; why.append("no booking system")
+    elif not r.get("website") or re.search(r"wa\.me|instagram\.com|facebook\.com", r.get("website", ""), re.I): s += 10; why.append("no booking system")
     return s, why
 
 def quiet_hours(pt):
     """Lowest-busy weekday hours between 11:00 and 16:00 from popular_times, if present."""
     try: data = json.loads(pt)
-    except Exception: return "check on Google Maps"
+    except Exception: data = None
+    if not isinstance(data, dict): return "Tue–Thu 11 am–4 pm (quiet hours)"
     best = []
     for day in ("Tuesday", "Wednesday", "Thursday"):
         hours = data.get(day) or {}
@@ -57,14 +61,14 @@ def main():
     src = sys.argv[1]; top = 20; out = os.path.join(os.path.dirname(__file__), "..", "leads", "first-20-salons.pdf")
     if "--top" in sys.argv: top = int(sys.argv[sys.argv.index("--top") + 1])
     if "--out" in sys.argv: out = sys.argv[sys.argv.index("--out") + 1]
-    rows = list(csv.DictReader(open(src, encoding="utf-8")))
+    rows = list(csv.DictReader(open(src, encoding="utf-8-sig")))
     seen, keep = set(), []
     for r in rows:
-        key = r.get("place_id") or (r.get("title", "") + r.get("address", ""))
+        key = r.get("place_id") or r.get("data_id") or (r.get("title", "") + r.get("address", ""))
         if key in seen: continue
         seen.add(key)
         name = r.get("title", "")
-        if any(c in name.lower() for c in CHAINS) or SKIP_CATEGORY.search(r.get("category", "")): continue
+        if any(c in name.lower() for c in CHAINS) or SKIP_CATEGORY.search(r.get("category", "")) or SKIP_NAME.search(name): continue
         if num(r.get("review_rating")) < 4.3 or num(r.get("review_count")) < 150 or not r.get("phone"): continue
         keep.append(r)
     base = collections.Counter(re.sub(r"[^a-z]", "", r["title"].lower())[:14] for r in keep)
@@ -73,13 +77,17 @@ def main():
         s, why = score(r, base[re.sub(r"[^a-z]", "", r["title"].lower())[:14]])
         ranked.append((s, num(r.get("review_count")), r, why))
     ranked.sort(key=lambda x: (-x[0], -x[1]))
-    pick = ranked[:top]
+    # One card per owner: branches of the same salon share a name; keep the best-scored branch.
+    by_owner = {}
+    for item in ranked:
+        by_owner.setdefault(re.sub(r"[^a-z]", "", item[2]["title"].lower())[:14], item)
+    pick = list(by_owner.values())[:top]
     pick.sort(key=lambda x: (cluster(x[2].get("address", "")), -x[0]))
     cards = []
     for i, (s, _, r, why) in enumerate(pick, 1):
         e = lambda k: html.escape(str(r.get(k, "") or ""))
         cards.append(f"""<div class=card><div class=top><span class=n>{i}</span><b>{e('title')}</b><span class=sc>{s}</span></div>
-<div>⭐ {e('review_rating')} · {int(num(r.get('review_count'))):,} reviews · Cluster {cluster(r.get('address',''))}</div>
+<div>⭐ {num(r.get('review_rating')):.1f} · {int(num(r.get('review_count'))):,} reviews · Cluster {cluster(r.get('address',''))}</div>
 <div>📞 <a href="tel:{e('phone')}">{e('phone')}</a></div><div class=ad>{e('address')}</div>
 <div>🕑 Visit: {html.escape(quiet_hours(r.get('popular_times','')))}</div>
 <div class=why>{html.escape(' · '.join(why) or '—')}</div>
