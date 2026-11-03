@@ -1,3 +1,6 @@
 
 # Scraped lead lists hold phone numbers and emails (personal data); this repo is public, so they never get committed.
 founder/leads/
+
+# graphify cache (rebuilt by `graphify update .`)
+salon-mobile/graphify-out/cache/
