@@ -19,7 +19,7 @@ Where things live:
 
 ## Build status check (20 Oct, evening: everything decided is now built, old look removed)
 
-**Open the app:** https://claude.ai/artifact/7mTfhB77daaW4jfEGupVUs (the real app, demo data; staff 98111 00001 / 1234, owner password owner1234). Rebuild it with `EXPO_OFFLINE=1 npx expo export -p web --output-dir dist-web && python3 scripts/web-single-file.py dist-web salon-app.html`.
+**Open the app:** https://claude.ai/artifact/VUt3vQuLXzSijJ9gqLA9xs (the real app, demo data, built 4 Nov from the current code; earlier copy: https://claude.ai/artifact/7mTfhB77daaW4jfEGupVUs; staff 98111 00001 / 1234, owner password owner1234). Rebuild it with `EXPO_OFFLINE=1 npx expo export -p web --output-dir dist-web && python3 scripts/web-single-file.py dist-web salon-app.html`.
 
 **Built, in the brown glass look (the old grooming-tin look is deleted):**
 - Opening: intro video every launch with Skip (2.1) · glass Login with logo, live clock, drifting tools, shake on a wrong password, owner sign-in (2.2, 2.3, 2.5) · first-time owner setup (2.4) · check-in selfie: "First login today", circle, big time, On time / Late against the stylist's own shift (4.1).
