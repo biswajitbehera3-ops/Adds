@@ -40,3 +40,23 @@ Not included: @eldindzeko and @uthythaman were **contestants** in the videos, no
 At the current MrBeast Vyro rate of $1,000 per 1M views, 23.2M views would be about **$23,000**, but only if every view
 counted on a paid campaign. Rates change, campaigns have budget caps, and we can't see which views were paid.
 Treat these numbers as the upper limit, not what they actually earned.
+
+## Motion graphics in the top clips (checked frame by frame)
+
+Frames came from YouTube's preview frame strips and thumbnails for the top MrBeast Clips Shorts (24M, 21M, 15M views)
+and MrBeast's own "Last To Fall Wins" Short (150M). TikTok frames were not reachable from this workspace.
+
+| Graphic seen | Where | Who added it |
+|---|---|---|
+| Word-by-word captions, 1–3 words, caps, green highlight on the key word | 24M clip | Clipper / source |
+| Big digital countdown "03:00:00" | 24M clip | MrBeast's original edit |
+| Giant green "$250,000" money graphic | 24M clip | MrBeast's original edit |
+| Contestant name tags with colored picture-in-picture frames ("NICO", "DENTON") | 24M clip | MrBeast's original edit |
+| Contestant face icons across the top (who's left) | 150M official Short | MrBeast's team |
+| Funny warp effect (squashed bodies) | 21M "Filming With Haaland Be Like" | Clipper |
+
+**Takeaways:**
+- Yes, motion graphics are allowed and used. The brief decides exactly what you may add, and clips that ignore it are rejected.
+- MrBeast's source footage **already has** timers, money graphics and name tags. Don't cover them; add what's missing.
+- What clippers add themselves: clean captions, a hook line, edit effects (warp, zoom, slow motion) and music for emotional edits.
+- Vyro rejects clips for not following the brief, missing the ad disclosure, or "low quality and spammy content". Botted views can get an account banned permanently.
