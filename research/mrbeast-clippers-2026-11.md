@@ -43,6 +43,7 @@ Treat these numbers as the upper limit, not what they actually earned.
 
 ## Motion graphics in the top clips (checked frame by frame)
 
+Frame images: `mrbeast-shorts-thumbnails.png` and `mrbeast-clip-24m-frames.png` in this folder.
 Frames came from YouTube's preview frame strips and thumbnails for the top MrBeast Clips Shorts (24M, 21M, 15M views)
 and MrBeast's own "Last To Fall Wins" Short (150M). TikTok frames were not reachable from this workspace.
 
