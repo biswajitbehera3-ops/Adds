@@ -61,3 +61,18 @@ and MrBeast's own "Last To Fall Wins" Short (150M). TikTok frames were not reach
 - MrBeast's source footage **already has** timers, money graphics and name tags. Don't cover them; add what's missing.
 - What clippers add themselves: clean captions, a hook line, edit effects (warp, zoom, slow motion) and music for emotional edits.
 - Vyro rejects clips for not following the brief, missing the ad disclosure, or "low quality and spammy content". Botted views can get an account banned permanently.
+
+## India eligibility (checked 6 Nov 2026)
+
+From the user's Vyro dashboard, "Beat LeBron, Win $100,000" (MrBeast, $1.00 CPM, English, TikTok/Shorts/Instagram):
+- **"Not available in your region"**: Vyro says "Brands choose the regions for each campaign. This is not a problem with your account."
+  This MrBeast campaign does not include India.
+- It is also **locked for submissions**: the budget is 100% paid out.
+- Rules shown: collab and story posts are not allowed, and likes and comments must be turned on.
+
+What's public: Vyro pays out through Stripe or PayPal depending on location (minimum $10, once a week), and region is set
+per campaign. No public source lists which countries MrBeast campaigns accept, so check each new campaign's region banner.
+MrBeast has run Spanish-language campaigns (`#mrbeastenespañol #paidpartner`), so language and region campaigns do exist.
+
+Do not use a VPN or a foreign account to get around the region lock. Vyro bans accounts permanently for fraudulent views,
+and payout identity checks would not match.
