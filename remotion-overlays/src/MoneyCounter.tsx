@@ -6,19 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
-import { loadFont } from "@remotion/google-fonts/Anton";
-
-const { fontFamily } = loadFont("normal", { weights: ["400"], subsets: ["latin"] });
-
-// Thick outline that survives bright footage (stacked shadows, not -webkit-text-stroke).
-const outline = (px: number) => {
-  const out: string[] = [];
-  for (let a = 0; a < 360; a += 30) {
-    const r = (a * Math.PI) / 180;
-    out.push(`${(Math.cos(r) * px).toFixed(1)}px ${(Math.sin(r) * px).toFixed(1)}px 0 #000`);
-  }
-  return out.join(", ");
-};
+import { fontFamily, outline } from "./style";
 
 export type MoneyCounterProps = {
   readonly amount: number;
