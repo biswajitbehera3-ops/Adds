@@ -4,4 +4,5 @@
 - Who it is for: established salons with 5 or more chairs that have good Google reviews and are popular in local search, starting in Bhubaneswar (Odisha).
 - What it sells, at what price: ₹10,000 setup (paid in two halves; the second only if stylists bill in the app on 20+ working days) + ₹699 a month, locked 2 years; first 5 Bhubaneswar salons get 3 months free as references (`offer.md`, `pricing.md`).
 - Where and how: Bhubaneswar first; salons found on Google Maps and Instagram, won by walk-in demos on the founder's phone, installed by the founder as a branded APK per salon (no Play Store); WhatsApp sent by staff tap only (`marketing.md`, `salon-mobile/PLAN-24-OCT.md`).
-- Budget and constraints: about ₹24,000 to start (`cfo.md`); founder pay not yet set (₹40,000 a month assumed); one founder for sales, setup and support; the one-phone demo APK comes first, live sync between phones after the first sale.
+- Budget and constraints: about ₹24,000 to start (`cfo.md`); no founder pay (founder, 31 Oct); one founder for sales, setup and support; the one-phone demo app is built and security-checked; live sync between phones (and the iPhone web app) is the next build and must come before the first real salon.
+- Devices (founder, 3 Nov): Android phones get the branded APK; iPhone users get the same app as a home-screen web app. No App Store for now.

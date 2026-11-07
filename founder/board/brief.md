@@ -1,33 +1,44 @@
-# Board brief (round 2, 22 Oct): the salon app, new target and price
+# Board brief, round 3 (7 Nov 2026)
 
-# Salon app (working name; no business name chosen yet)
+You have not seen any earlier conversation. Everything you need is here; the files named below are in the same `founder/` folder and you may read them for detail.
 
-- What it is: a phone app made for one salon at a time (its name, logo and prices inside), used by the owner and each barber/stylist on their own phones, live-synced between all phones: walk-in billing in about 1 minute per customer, prepaid wallet, WhatsApp bills and reminders, referrals, staff attendance, owner checks against cash leakage, and a "live salon" view: an illustrated floor where the owner sees from anywhere who is in which chair right now.
-- Who it is for: established salons with 5 or more chairs that already have good online reviews and are popular in local search, in Indian tier-1, tier-2 and tier-3 cities, whose owners want to keep that standing up (repeat customers, service quality, staff discipline).
-- What it sells, at what price: ₹10,000 one-time upfront (setup, salon's prices/staff/logo entered, team trained), then ₹500 a month or less.
-- Where and how: India, tier 1, 2 and 3 cities; sold salon by salon (sales channel not decided); one Android app on Google Play for all salons, each salon unlocked by its salon code.
-- Budget and constraints: budget, team size and launch date not given. App built as a working prototype by one founder with AI help; live sync is planned (Firebase, Mumbai) but not built; the liquid-glass design is confirmed and waiting to be built.
+## The business
+A phone app made for one salon at a time (its name, logo and prices inside), used by the owner and each stylist on their own phones:
+- walk-in billing in about a minute, cash / UPI / card, prepaid customer wallet
+- one-tap WhatsApp bills and "due back" reminders (sent by staff tap, never automatic, so ₹0 messaging cost)
+- referrals: a friend joins with a customer's code; on the friend's first paid visit both get ₹100 wallet credit
+- staff attendance with selfie check-in, leave requests and approval, earnings per stylist
+- owner checks against cash leakage ("Today's checks": undone bills, walk-outs, cash in drawer)
+- a "live salon" view: the owner sees who is in which chair right now
+- set up in person in one visit (services, prices, staff entered; the app installed on every phone), with a named person who answers 7 days a week
 
-## What changed since the first board meeting (founder's decisions, 22 Oct)
+**Who it is for:** established salons with 5 or more chairs, 4.3★+ and 150+ Google reviews, starting in Bhubaneswar (Odisha, India). Not chains (their head office has software).
 
-| | Round 1 | Now |
-|---|---|---|
-| Customer | 1 to 8 chairs, any salon | 5+ chairs, good reviews, popular in search |
-| Price | ₹4,999 setup + ₹999/month, first month free | ₹10,000 upfront + ₹500/month or less |
-| Cities | tier 1 and 2 | tier 1, 2 and 3 |
-| Live sync | not built, not planned | planned in detail (Firebase, Mumbai), to be built |
-| Data entry | selfie + typing each walk-in | target: a barber enters a customer in 1 minute |
-| Differentiator claimed | features | "live salon": owner sees the floor live from anywhere; founder says no one offers this today (not yet checked against competitors) |
+**Price (decided 24 Oct, confirmed 31 Oct):** ₹10,000 setup in two halves (₹5,000 on setup day; ₹5,000 at day 30 only if stylists bill in the app on 20+ working days, else fix it or refund the first ₹5,000) + ₹699 a month, locked 2 years. First 5 salons get 3 months free as references. One plan only. GST is added on top only once registered.
 
-## Facts on file
+**Delivery:** Android phones get a branded APK file (no Play Store); iPhone users get the same app as a home-screen web app (decided 3 Nov). Salons pay outside any app store, so no store commission.
 
-- Built today (prototype): owner app (Live floor, Earnings, Staff, Customers), staff app (walk-in counter, bill, wallet, calendar, profile, leave), misuse checks (bill paid once, itemised WhatsApp receipt, unusual-bill flag, cash count against expected cash, left-without-service and undo kept with reasons, WhatsApp codes for referrals and wallet spends above ₹500, clock check, owner approval for services not in the list, backup file), 83 automated tests. Each phone keeps its own data until sync is built.
-- Running cost per salon per month, researched 22 Oct (`founder/RUNNING-COSTS.md`): for a 5-8 chair salon, automatic WhatsApp messages about ₹609 including GST (bills and booking messages at ₹0.115 each, "due back" reminders at ₹0.8631 each as marketing messages), server and sync about ₹20, payment collection about ₹12-24. Total about ₹640 a month with automatic WhatsApp; about ₹35-45 a month if WhatsApp is sent by one tap from the salon's own phone (free). Fixed costs about ₹600 a month plus a one-off $25 Google Play fee.
-- Google Play does not allow many near-identical apps from one developer, so it is one app for all salons, branded inside after the salon code.
-- Simulated buyer panel from round 1 (100 AI-simulated owners, old price; simulated, not real customers, likely overstates buying): 5-8 chair salons bought at 20% (of 20), owners often away from the salon 33%, overall 9%. Top objections then: staff won't enter data at rush hour, upfront fee before seeing results, no owner they know uses it, data loss, English only, Sunday support. The panel was not re-run for this round.
-- Round 1 board: 2 fund if, 1 pass (average 3.7/10). Main risks then: live sync not built, staff do the work while the owner gets the benefit, no sales channel, price pressure, no clear edge over Zylu and MioSalon.
-- Competitors buyers named: Zylu, MioSalon (still not researched).
+## Where it stands (facts)
+- **Built:** the full app on one phone (demo data), web preview, three security-check rounds with all confirmed findings fixed, 113 automated tests.
+- **Not built:** live sync between phones (Firebase, Mumbai). The "live salon" across phones, the online backup and the iPhone web app all depend on it. It is the next build and must come before any real salon goes live.
+- **No paying salon yet.** No real owner has used it.
+- **Sales material ready:** a 95-second launch film (story: the customer who never comes back → reminder → referral → owner's live view), a phone-friendly list of the first 20 Bhubaneswar salons to visit (86 salons passed the filters out of 232 found on Google Maps), and an outreach plan: walk-in demo first, WhatsApp the film only afterwards, Instagram DMs, product distributors.
+- **Founder:** one person, no salary taken (founder pay ₹0, 31 Oct), does sales, setup and support.
 
-## Open questions nobody has answered yet
+## Numbers (from `cfo.md`, `RUNNING-COSTS.md`, `pricing.md`; estimates marked)
+- Running cost per salon about ₹167 a month (server ₹20, payment fee ~₹16.5, AI help ~₹30 est., support helper ₹100 est.) → each salon leaves ~₹532 a month (76%).
+- Each setup leaves ~₹7,500 (₹10,000 minus an estimated ₹1,500 visit cost and expected guarantee refunds).
+- Fixed costs ~₹3,600 a month (domain/phone ₹600, local travel ₹3,000 est.). Break-even on monthly fees: **7 salons**.
+- Startup cash needed: about ₹24,000.
+- Year 1 plan (estimate: 0 new salons in months 1–2, then about 3 a month; 3% leave each month): ~₹2.88 lakh from setups + ~₹71,000 monthly fees → profit ≈ **₹2.49 lakh** with no founder pay.
+- Competitors' plans for a 5–10 staff salon cost ₹1,249–₹4,000 a month (Zylu, MioSalon, Salonist, Invoay and others; `competitors.md`); none found offers in-person setup with a named person; at least two show live chairs.
+- Simulated buyer panel: 9 of 100 bought at an older ₹4,999 + ₹999 offer (all-India, all sizes); a re-test on 20 simulated Bhubaneswar 5+ chair owners went from 3 to 12 of 20 with the founding plan at ₹500 a month (not re-run at ₹699). Simulated, not real buyers.
+- Unknown: real conversion from visits, real churn, how many 5+ chair salons exist in each Indian city, cost to win a salon outside Bhubaneswar.
 
-Number of 5+ chair salons with good reviews in the target cities; what Zylu, MioSalon and others charge and whether any already show a live floor; cost to win one salon (in-person sales and setup across tier 1-3 cities); churn; founder's budget and time; who provides Sunday support.
+## The founder's questions for this meeting (answer them inside your lens)
+1. What do you think of the app, and what could it become in 3–5 years?
+2. How will it earn, and how far can the earnings realistically go?
+3. How do software/app businesses reach "millions" (₹1 crore+ a year, or $1 million), and can this one? Show the arithmetic from the numbers above (e.g. how many paying salons a given yearly revenue needs at ₹699 a month plus setups), and say what would have to be true. Do not invent a market size: name it as an open question.
+
+## Earlier board rounds
+Round 2 (22 Oct, at ₹10,000 + ₹500): 3 fund if, average 4.3/10. Its conditions included: build live sync first and prove the floor matches real chairs; time real barbers at rush hour; give the barber a reason to enter data; check competitors (done since: `competitors.md`); pick one city (done: Bhubaneswar); test one sales channel and record the real cost to win a salon; an affordable guarantee (done: the two-half setup).
