@@ -1,164 +1,139 @@
-# Marketing: how owners find us, how the app reaches them (24 Oct)
+# Marketing: how we win the first salons (v2, 7 Nov 2026)
 
-Question from the founder: "How will the app be distributed to the owners, how will we find them, and on what media?"
+Updated from v1 (24 Oct, `marketing-v1.md`) with what is new: the price (₹10,000 setup in two halves + ₹699 a month, one plan), the board's round 3 (`board.md`: prove it in 5 real salons first; the strongest version is "we bring your lost customers back, and we set it up and stay with you"), the Bhubaneswar lead list (86 salons pass the filters; the top 20 and the Google Maps top 5 are in `leads/`, git-ignored), and the 95-second launch film.
 
-**Evidence used:** `panel/results.md` (100 simulated owners, old ₹4,999 + ₹999 price: research, not customers), `competitors.md` and `competitors-complaints.md` (~157 real public reviews), `board.md` (round 2), `RUNNING-COSTS.md` (24 Oct update), `salon-mobile/PLAN-24-OCT.md`.
-**Update 24 Oct:** city = **Bhubaneswar**; offer = `offer.md` (the Bhubaneswar Founding Salon Plan: ₹5,000 now, ₹5,000 at day 30 only if staff use it, ₹699 a month locked 2 years, first 5 salons get 3 months free as references); prices in `pricing.md`.
-**Launch date:** not set. "Day 0" below = the day the one-phone demo APK is ready; dates are counted from it.
+Evidence used: `panel/results.md` (100 simulated buyers, all-India), `panel-offer/after/results.md` (20 simulated Bhubaneswar 5+ chair owners), `competitors.md`, `offer.md`, `pricing.md`, `cfo.md`. Panel answers are simulated research, not customers; they set the order of work, and real visits confirm it.
 
 ## 1. Who we go after first
-
-From the evidence:
-- Salons with **5–8 chairs**: 20% bought in the panel (1–2 chair barbers: 0%). The founder's target (5+ chairs, good reviews, popular in search) matches.
-- **Owners who are often away** from the salon (second outlet, another job): 33%, the highest of any group.
-- **Young owners who like tech**: 29%.
-- Nobody bought among "asks other owners first" (0%), but their flip was "show me a salon near me that uses it". So the first 5 salons are the marketing.
-
-**Where to find them:** Google Maps. Search "unisex salon", "salon", "beauty parlour", "men's salon" in the chosen area; keep salons with **rating 4.3+ and 150+ reviews** (popular and protective of their rating), a photo showing **5+ chairs**, and open 7 days. Their Google listing also gives the phone number, Instagram and the busy hours (so we visit when they're quiet).
-
-**One city first** (board condition): the founder's own city, or the nearest tier-1/2 city, so the founder can visit and support in person.
+| Priority | Who | Why (evidence) | Where they are in our list |
+|---|---|---|---|
+| 1 | **Unisex salons with 5–8 chairs** | 67% bought in the Bhubaneswar re-test; 20% in the all-India panel (1–2 chair barbers: 0%) | Most of the 86; top 20 in `leads/first-20-salons.pdf` |
+| 2 | **Owners with a second branch** | 67% in the re-test; "owner often away" bought most in the all-India panel (33%) | Indulge The Salon (5 branches), Pixie Unisex (2) |
+| 3 | **Salons in the Google Maps top 5** | Proud of their ranking, so a customer-return pitch lands; a true, dated compliment opens the door | Gaze Visage, Mirror Professional, 4 Season, Dhanne's, LyCaa (`leads/bhubaneswar-salon-list.pdf`, page 1) |
+| Later | Paper-register loyalists, "asks other owners first" | 0% bought in both panels. Their flip is "show me a salon near me that uses it", so they come after the first 5 | Revisit after the founding 5 |
+| Not now | Chains (Lakmé, Green Trends, Naturals), 1–2 chair barbers, home-service salons | Head office decides / 0% bought / no chairs to bill | Already filtered out |
 
 ## 2. Positioning (three versions)
+1. **"We bring your lost customers back, and we set it up and stay with you."** For owners of busy 5+ chair salons who watch regulars quietly stop coming, ours is the salon app that reminds them on WhatsApp, rewards their referrals, and is set up in your salon in one visit with a person who answers 7 days a week. Unlike Zylu, MioSalon or Salonist, where reviews say support disappears after the sale.
+   *Evidence:* the board's strongest version (round 3); the film tells exactly this story; "support disappears" is the top complaint in rivals' public reviews (26 of ~157).
+2. **"See your salon live, wherever you are."** For owners who are often away: every chair, every bill and the cash that should be in the drawer, on your phone.
+   *Evidence:* owners often away bought most (33%); cash-drawer checks were the most-liked feature. But at least two rivals show live chairs, and the live view needs live sync.
+3. **"The salon app that comes with a person."** The service promise on its own.
+   *Evidence:* the top complaint about rivals; but on its own it doesn't say what the app does.
 
-1. **"The salon app that comes with a person."** For owners of busy 5+ chair salons who can't trust that software support will answer after they pay, ours is the salon app set up in your salon in one visit, with a person who answers 7 days a week, and you see your salon live from your phone. Unlike Zylu, Salonist or Invoay, whose reviews say support disappears after the sale.
-   Evidence: support vanishing is the top complaint in real reviews (26 of ~157); setup never finishing is next (10).
-2. **"See your salon live, wherever you are."** For owners who are often away, who worry what happens to the cash and the chairs, ours shows every chair, every bill and the cash that should be in the drawer, live on your phone.
-   Evidence: owners often away bought most (33%); the cash-drawer and cancelled-bill checks were the most-liked features.
-3. **"Keep your 4.5 stars."** For top-rated salons, ours brings customers back on time and asks every happy customer for a Google review.
-   Evidence: the founder's target is salons with good reviews; Zylu is the only competitor found doing review requests.
+**Recommended: 1.** It names a loss the owner already feels (customers who don't come back), it is what the film shows, and it carries the person-who-answers promise inside it. Use version 2 as the "wow" moment in the demo, not as the promise. This follows the board's Product condition: say it in one sentence.
 
-**Recommended: 1 as the promise, 2 as the demo.** Version 1 answers the biggest real complaint, and nobody can copy a person quickly. The live salon (version 2) is what makes the owner say "show me" on the visit, but it can't be the whole pitch: AXOIX and SalonLux already show live chairs, so we never say "only we have this".
-
-## 3. How the app reaches the owner (distribution)
-
-1. **First contact:** walk-in visit with the demo phone (main channel), or an Instagram/WhatsApp message asking for 10 minutes.
-2. **10-minute demo on our phone:** stylist view: bill a walk-in in under a minute → switch to owner view → the live salon moves, PAID stamp, cash in the drawer updates. Leave a one-page sheet with the price and the founder's number.
-3. **Yes → setup visit (half a day, at a quiet time):** enter their services and prices, chairs and stylists, logo and colours; install **their own branded APK** on the owner's and every stylist's phone; teach each stylist one bill; first real bill together.
-4. **After:** a call on day 2 and day 7; the Help "?" button goes to the founder; the alert when a salon stops billing for a day.
-
-No Play Store: the founder installs it. That's part of the promise ("we come to you"), and it lets each salon have its own app icon.
-
-## 4. Channels (where these owners spend attention)
-
+## 3. Channels: three to start, and what we are not doing
 | Channel | Why it fits | Rough cost | How we know it worked |
 |---|---|---|---|
-| **Walk-in visits with the demo phone** (main) | Owners buy from people they've met; the demo sells itself; panel: "show me in a salon near me" | Travel ₹100–300 a visit; founder's time | Demos given ÷ visits; yes ÷ demos |
-| **Google Maps as the lead list** | Finds exactly the target (5+ chairs, 4.3+, 150+ reviews) and when they're quiet | Free | Leads that match all three filters |
-| **Instagram DMs + following** | Most popular salons post daily before/afters; a DM with a 30-second screen recording of the live salon gets a look | Free | Replies ÷ DMs; visits booked from DMs |
-| **WhatsApp follow-up** | Every owner's real inbox; send the demo video and the one-pager after the visit | Free | Replies within 2 days |
-| **Product distributors** (L'Oréal/Matrix/Schwarzkopf dealers who visit salons monthly) | Panel: the "asks others first" group would flip on a distributor's word; one dealer reaches 50–200 salons | A referral fee per salon won (to agree, e.g. ₹1,000) | Salons introduced per distributor |
-| **The first 5 salons** | The "owner near me who uses it" that every doubter asked for | Their setup free or discounted (decide in /founder-offer) | Owners who agree to take a call or a visit |
+| **1. Walk-in demo visits** (main) | Owners buy from people they've met; the demo sells itself; the panel's flip is "show me" | Travel ₹100–300 a visit | Demos ÷ visits; setups booked ÷ demos |
+| **2. Product distributors** (L'Oréal, Matrix, Schwarzkopf dealers) | The "asks other owners first" group flips on a distributor's word; one dealer visits 50–200 salons; it is the board's channel that doesn't need the founder | A fee per salon won (e.g. ₹1,000, disclosed to the owner) | Salons introduced per distributor; cost per salon won |
+| **3. Instagram + WhatsApp follow-up** | Top salons post daily; a DM gets a look; WhatsApp is every owner's real inbox | ₹0 (organic) | Replies ÷ DMs; visits booked from DMs; replies to the film within 2 days |
 
-**Not doing now:**
-- **Google Search ads:** competitors bid on "salon software"; costly per click and attracts all salon sizes.
-- **Facebook/Instagram paid ads:** wait until the first 5 salons give us real screens and real words (with permission). Then a small test in one city only.
-- **Justdial/IndiaMART listings:** competitors are there; it brings price-shoppers.
-- **Trade shows and expos:** costly and slow for one founder; revisit with 20+ salons.
+The launch film is used only inside these channels: as a pinned Instagram Reel, and as the WhatsApp follow-up after a visit or a reply.
 
-## 5. The 30-day campaign (Day −14 to Day +16)
+**Not doing now, and why:**
+- **Paid Facebook/Instagram ads:** no real salons or results to show yet; the money is better spent on travel.
+- **Cold WhatsApp or SMS to scraped numbers:** gets the number reported and banned, breaks India's rules on unsolicited messages, and treats owners' numbers (personal data) carelessly.
+- **Expos and trade shows:** costly and slow for one person; revisit at 20+ salons.
+- **Discounting below ₹699:** the board warns the business already competes on being cheapest. Raise the price after proof instead.
 
-**Day 0 = demo APK ready.** Weekdays only for visits (Tuesday to Thursday, 11 am–4 pm, when salons are quiet); never Sundays or festival weeks (their busiest days).
+## 4. How we do it, step by step
+**Step 0: build live sync (before the first setup).** Visits and demos can start now on the one-phone demo, to learn and to book setup dates. No salon is set up or charged until sync works (board condition).
 
-| Day | Channel | What goes out | Message |
+**Step 1: the visit (Tue–Thu, 11 am–4 pm, 4 a day)**, from the list PDF, Cluster A first, then B.
+- Opening line: *"Namaste, I'm [name], from Bhubaneswar. I've built an app that brings back customers who stopped coming. Can I show you in 10 minutes?"*
+- For a Google top-5 salon: *"I searched 'best salon in Bhubaneswar' on Google Maps on [date] and you came up in the top 5. Congratulations. I've built something that helps you stay there by bringing customers back."* (Only if it is true on that date; never promise a ranking or suggest a link to Google.)
+
+**Step 2: the 10-minute demo on your phone.**
+1. Ask: "Do some customers come once and never come back?" Let them answer.
+2. Reminders list, then one-tap WhatsApp reminder.
+3. Referral: ₹100 to both on the friend's first visit.
+4. Owner's view: bill a walk-in in under a minute, live salon, PAID stamp, cash in the drawer.
+5. Price and guarantee: "₹10,000 in two halves: ₹5,000 on setup day, the rest only if your stylists use it for 20 days. Then ₹699 a month."
+6. Close: "Which day suits you for setup?"
+
+**Step 3: same evening, WhatsApp** (only to owners you met): the film (WhatsApp copy) + the one-page price sheet. "Here's the 1½-minute video of what you saw today. Which day suits you for setup?" One follow-up on day 3, then stop.
+
+**Step 4: setup visit** (half a day, quiet hours): prices, staff and the app on every phone; first real bill together; calls on day 2 and day 7.
+
+**Step 5: turn the first 5 into proof** (the board's main condition):
+- Record for each: rupees of cash differences found, customers brought back by reminders, days staff billed.
+- Ask each owner, with their written consent, for a 30-second phone video and to take calls from 2–3 other owners.
+- From salon 6, raise the price (pricing to decide; proof first).
+
+**Step 6: distributors.** Meet 1–2 dealers in week 1 with the film and the price sheet. Agree a disclosed fee per salon won. Measure what it costs per salon, against your own visits.
+
+## 5. The 30-day campaign
+Day 0 = live sync is built and tested on two phones. Visits run before Day 0 to book setup dates; nobody is charged before setup.
+
+| Day | Channel | What goes out | Hook |
 |---|---|---|---|
-| −14 | Google Maps | Build the lead sheet: 60 salons in one area that match the filters, with phone, Instagram and quiet hours | — |
-| −13 | Instagram | Set up the business account: name, the live-salon screen as the first post, "set up in your salon, support 7 days" | Hook 1 |
-| −12 | Print | One-page sheet + business card (price, what's included, founder's number) | Positioning 1 |
-| −11 | Instagram | Follow the 60 salons; like and comment genuinely on 2 posts each over the week | — |
-| −10 | Instagram | Post: 15-second screen recording of a walk-in billed in under a minute | Hook 2 |
-| −9 | Distributors | Find 2–3 product distributors in the area (ask any salon "who supplies your colour?") and call them | "Your salons, a tool that keeps them busy" |
-| −8 | Instagram | Post: the live salon moving as a bill is paid | Hook 3 |
-| −7 | Visits | Practise the 10-minute demo on 3 friendly salons (not selling): fix what confuses them | — |
-| −6 | Instagram DM | First 15 DMs: 1-line intro + the live-salon video, ask for 10 minutes Tue–Thu | Hook 4 |
-| −5 | Instagram | Post: "What happens to your data": backup, take it with you any time | Hook 5 |
-| −4 | Instagram DM | Next 15 DMs | Hook 4 |
-| −3 | WhatsApp | Follow up DMs that replied: book visit times | — |
-| −2 | Distributors | Meet 1–2 distributors; leave the one-pager and the demo video | — |
-| −1 | All | Charge the demo phone, reset the demo data, print 30 sheets | — |
-| **0** | Visits | **Demo APK ready.** First 4 booked visits | Promise + demo |
-| +1 | Visits + WhatsApp | 4 walk-in visits; WhatsApp the video and sheet to every owner seen the same evening | Hook 6 |
-| +2 | Visits | 4 visits | — |
-| +3 | Instagram | Post: "Support that picks up": who answers when you press "?" | Hook 7 |
-| +4 | Visits | 4 visits; ask every interested owner "which day can I set it up?" | — |
-| +5 | WhatsApp | Follow up everyone seen this week | Hook 8 |
-| +6 | Rest | Weekly numbers (section 7) | — |
-| +7 | Setup | **First setup visit** (aim: first yes by now) | — |
-| +8 | Visits | 4 visits; tell owners a salon nearby is starting this week (only if true) | — |
-| +9 | Setup | Second setup visit; call the first salon (day-2 call) | — |
-| +10 | Instagram | Post: behind the scenes of a setup visit (no customer data, with the owner's permission) | Hook 9 |
-| +11 | Visits | 4 visits in a second area | — |
-| +12 | Distributors | Second round: report back; agree the referral fee | — |
-| +13 | WhatsApp | Follow up | Hook 10 |
-| +14 | Setup | Setup visits 3–4; day-7 call to the first salon | — |
-| +15 | First salons | Ask the first salon if the owner will take a call from a nearby owner (never fake it) | — |
-| +16 | Review | 30-day review: what worked (section 7), set the next month | — |
+| −14 | Lead list | Print the top-20 PDF; mark Cluster A route for week 1 | — |
+| −13 | Instagram | Business account; pin the launch film as a Reel; bio line | 1 |
+| −12 | Instagram | Follow the 86 salons; genuine comments on 2 posts each over the week | — |
+| −11 | Visits | Practise the 10-minute demo on 3 friendly salons (not selling) | — |
+| −10 | Visits | 4 visits, Cluster A (top-5 salons first) | 2, 3 |
+| −9 | Visits + WhatsApp | 4 visits; WhatsApp the film to each owner seen | 4 |
+| −8 | Distributors | Meet 1–2 dealers: film + sheet + fee per salon | 5 |
+| −7 | Instagram DM | 15 DMs to salons not yet visited: one line + Reel | 6 |
+| −6 | Visits | 4 visits; book setup dates for "after Day 0" | 3 |
+| −5 | Instagram | Post: "A person answers, 7 days a week" (who picks up) | 7 |
+| −4 | Visits | 4 visits, Cluster B | 2 |
+| −3 | WhatsApp | Day-3 follow-ups | 8 |
+| −2 | Visits | 4 visits | — |
+| −1 | All | Confirm setup dates for week 1 | — |
+| **0** | **Setup** | **Live sync ready. Founding offer opens** | — |
+| +1 | Setup | First setup visit; first real bill together | — |
+| +2 | Visits | 4 visits; day-2 call to salon 1 | 9 |
+| +3 | Setup | Second setup | — |
+| +4 | Instagram | Post: behind the scenes of a setup (with permission, no customer data) | — |
+| +5 | WhatsApp | Follow-ups; day-7 call to salon 1 | 8 |
+| +6–7 | — | Rest (busy salon days) | — |
+| +8 | Visits | 4 visits; mention a salon nearby is starting, only if true and they agree | 10 |
+| +9 | Setup | Third setup | — |
+| +10 | Distributors | Check in; first introductions? | — |
+| +11 | Visits | 4 visits, Cluster B | 2 |
+| +12 | Setup | Fourth setup | — |
+| +13 | Instagram | First real result, with the owner's permission (e.g. "12 customers reminded this week") | — |
+| +14 | Setup | Fifth setup. **Founding offer closes** | — |
+| +15 | Review | The weekly numbers below; decide the price for salon 6 | — |
+| +16 | Visits | Next 4 visits at the new price | — |
 
-**When there is nothing new to post:** a setup visit (with permission), the making of a screen, a sound or design choice, "what the cash-drawer check caught today" (only real, with permission), a tip for owners (how to count the drawer, how to remind customers to come back).
+**Founding offer:** the first 5 salons get 3 months free in return for being references. It ends when 5 salons are set up, or on Day +30, whichever comes first.
 
-**Launch offer:** the Founding Salon Plan (`offer.md`): first 5 Bhubaneswar salons, ends when 5 are set up. Don't announce a deadline that isn't real.
+**When there's nothing new to post:** a setup visit (with permission), a tip for owners (how to count the drawer, when to remind a customer), how a screen was designed, what the cash check caught (only real, with permission).
 
 ## 6. Ten hooks
-
-Each answers a real complaint or a panel objection. Never quote panel answers as customer words.
-
-| # | Format | Hook | Answers |
+| # | Format | Line | Answers |
 |---|---|---|---|
-| 1 | Instagram bio / sign | "Set up in your salon in one visit. A person answers 7 days a week." | Support disappears (26 reviews) |
-| 2 | Video, first 3 seconds | "One walk-in, one minute, billed." | "Staff won't type at rush hour" (panel) |
-| 3 | Video, first 3 seconds | "This is my salon. Live. I'm not there." | Owner often away (33% bought) |
-| 4 | DM opening line | "You have 4.6 stars and 300 reviews. Can I show you how to keep them, in 10 minutes?" | Target is top-rated salons |
-| 5 | Post headline | "Your customers, your data. Download everything, any time, even if you leave." | Data loss / lock-in (panel) |
-| 6 | WhatsApp after the visit | "Here's the 1-minute video of what you saw today. Which day suits you for setup?" | Follow-up |
-| 7 | Post headline | "Press '?' and we pick up. Sundays too." | Who helps on a busy Sunday (panel) |
-| 8 | WhatsApp | "Cash in the drawer should be ₹2,400. Your app tells you before you count." | Cash leakage (most-liked feature) |
-| 9 | Video, first 3 seconds | "What setup looks like: half a day, every stylist trained." | Setup never finishes (10 reviews) |
-| 10 | Sign / one-pager | "₹699 a month. No WhatsApp charges, no staff limits, cancel in the app." | Hidden charges, price rises, staff limits (reviews) |
+| 1 | Instagram bio | "We bring your lost customers back. Set up in your salon, a person answers 7 days." | Support disappears (top review complaint) |
+| 2 | Visit opener | "Do some customers come once and never come back?" | The loss the owner already feels |
+| 3 | Visit opener (top-5 salons) | "You're in Google's top 5 for 'best salon in Bhubaneswar' today. I help salons stay there." | Proud, top-rated owners |
+| 4 | WhatsApp after visit | "Here's the 1½-minute video of what you saw. Which day suits you for setup?" | Follow-up |
+| 5 | Distributor pitch | "Your salons keep their customers, and buy more of your products." | Why the dealer cares |
+| 6 | Instagram DM | "Your reviews are great. Can I show you how to keep your regulars coming back, in 10 minutes?" | Top-rated target |
+| 7 | Post | "Who answers when you call at 9 pm on a Sunday? We do." | "A one-man setup won't support me" |
+| 8 | WhatsApp follow-up | "Pay ₹5,000 now. The rest only if your stylists actually use it for 20 days." | "₹10,000 before I've seen it work" |
+| 9 | Video, first 3 seconds | "One walk-in, one minute, billed." | "Staff won't type at rush hour" |
+| 10 | Visit, after the first 5 | "[Salon nearby] started last week. You can call the owner." (only with their consent) | "Nobody I know uses it" |
 
 ## 7. Budget and numbers
+**First 30 days:** travel ₹6,000 (~40 visits + 5 setups) · print ₹1,500 (list, price sheets, cards) · Instagram ₹0 · distributor fees only per salon won (~₹1,000 each). **Total ≈ ₹7,500** plus your time. Founder pay is ₹0 (31 Oct), so this comes out of the ~₹24,000 starting money in `cfo.md`.
 
-**First 30 days (estimate):** print ₹2,000 (30 sheets, 200 cards) · travel ₹6,000 (≈40 visits) · Instagram ads ₹0 (organic only until real salons exist) · distributor referral fees paid only per salon won. **Total ≈ ₹8,000** plus the founder's time.
-
-**The most we can pay to win one salon:**
-- Each salon pays ₹10,000 upfront; setup visit and travel cost us about ₹1,500 (estimate) → **₹8,500 left on day one**.
-- Each month after: ₹699 − ₹167 running cost = **₹532** (cfo.md, 24 Oct).
-- The panel's buyers bought 1.0 time in the first month (one salon = one sale).
-- So winning a salon can cost **up to ₹8,500 and still be cash-positive on the day it starts**. Aim for **under ₹3,000** (travel for ~10 visits + print + a ₹1,000 distributor fee), leaving room to discount the first 5.
+**The most we can pay to win one salon:** each setup leaves about **₹7,500** after the visit cost and expected guarantee refunds (`cfo.md`), and then ₹532 a month. So winning a salon can cost up to ₹7,500 and still pay back on setup day. **Aim for under ₹3,000** (about 10 visits at ₹300, or a ₹1,000 distributor fee plus a few visits).
 
 **Watch weekly:**
-
 | Number | Healthy | Change something if |
 |---|---|---|
-| Demos given ÷ visits | 40%+ | Under 25% two weeks running → change the opening line or the visit time |
-| Yes (setup booked) ÷ demos | 15%+ (the panel's 20% for 5–8 chairs is an upper bound) | Under 10% after 20 demos → fix the offer (/founder-offer: guarantee, upfront fee) |
-| Salons still billing every day after 14 days | 100% of the first 5 | Any salon stops → visit within 2 days; that's the product, not marketing |
+| Demos ÷ visits | 40%+ | Under 25% two weeks running → change the opening line or the visit time |
+| Setups booked ÷ demos | 15%+ (the panel's 67% is simulated, an upper bound) | Under 10% after 20 demos → revisit the offer (`/founder-offer`) |
+| Salons billing daily after 14 days | All of the first 5 | Any salon stops → visit within 2 days; that's the product, not marketing |
 
 ## Rules kept
-
-- No fake reviews, follower counts, testimonials or "as seen on". Real salons are named only with the owner's written OK.
-- Panel quotes are research only.
-- We don't claim to be the only live-salon app (AXOIX and SalonLux have live chair views).
-- Distributor referral fees are told to the salon if asked.
-- Not legal advice: check GST on the ₹10,000 setup (18% on services) with a CA before the first invoice.
-
-## 6. Using the launch film (added 30 Oct)
-
-The film "Why don't they come back?" is 95 s and vertical, with no music, and has captions so it works on mute.
-- Full quality (37 MB): https://d2ol7oe51mr4n9.cloudfront.net/user_3Hp3x0s3sZm3T0crSwp0w7Qkj1O/e6ea288e-1b05-4c93-93b9-d0ae577826d5.mp4
-- WhatsApp copy (9.6 MB, 720p): https://d2ol7oe51mr4n9.cloudfront.net/user_3Hp3x0s3sZm3T0crSwp0w7Qkj1O/c0e08370-163a-4b23-a2af-c88bb20ac472.mp4
-
-**The film is the follow-up, not the first message.** The demo on the phone in their salon sells; the film is what the owner re-watches that evening and forwards to a partner or family member.
-
-| Step | Channel | What goes out |
-|---|---|---|
-| 1. Find | Google Maps | Lead sheet: 5+ chairs, 4.3★+, 150+ reviews, quiet hours (section 2) |
-| 2. First touch | **Walk-in visit** (Tue–Thu, 11 am–4 pm) or an **Instagram DM** | Visit: the 10-minute demo on the demo phone. DM: one line ("You have 4.6 stars and 300 reviews. Can I show you how to keep them, in 10 minutes?") plus the film as a Reel link. Never cold-send the video file. |
-| 3. Same evening | **WhatsApp**, only to owners you met or who replied | The WhatsApp copy + the one-page price sheet: "Here's the 1½-minute video of what you saw today. ₹10,000 setup in two halves, ₹699 a month. Which day suits you for setup?" |
-| 4. Day 3 | WhatsApp | One follow-up if no reply. Stop after two. |
-| 5. Always on | Instagram | Post the film once as a Reel and pin it to the profile, so owners who check you find it. |
-| 6. Through others | Product distributors | Give them the WhatsApp copy to forward with their own word. |
-
-**Rules**
-- **No WhatsApp messages to numbers that haven't spoken to you.** Bulk messages to strangers get the number reported and banned, and break India's rules on unsolicited messages.
-- **Don't present the people in the film as real.** Priya, Anjali and the stylists are invented. The app screens are real, with invented data. Say "this is how it works", never "this salon got these results".
-- **WhatsApp Status:** a 95-second video is split into short clips there. Make a 30-second cut (problem → reminder → referral) before using Status.
-- **Facebook/Instagram paid ads:** still wait for the first 5 real salons (section 4).
+- No fake reviews, testimonials, follower counts or "as seen on". Panel quotes are research, never customer quotes.
+- Priya, Anjali and the stylists in the film are invented; say "this is how it works", never "this salon got these results".
+- Google "top 5" only when true on that date, with the search named; never promise rankings or suggest a link to Google.
+- Owners' numbers from Google Maps are personal data (DPDP Act): one-to-one contact only, never bulk messages; delete anyone who says no.
+- Distributor fees are disclosed to the owner. Real results are used only with the owner's written consent.
+- Not legal advice.
