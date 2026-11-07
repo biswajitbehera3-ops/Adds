@@ -1,0 +1,13 @@
+{
+  "id": "P011",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "I have one chair, maybe two, and I am cutting hair myself all day, so I already know who is in the chair and how much cash is in the drawer. I paid for salon software once and it got cancelled because nobody used it, so ₹4,999 plus ₹999 every month is too much for things my notebook and WhatsApp already do.",
+  "objection": "I already wasted money on software nobody used. And if the phone breaks or the app company shuts down, what happens to my customer list?",
+  "would_change_my_mind": "A cheaper version for a one-chair shop with no setup fee, only the WhatsApp reminders and customer list, and proof that my data stays safe if the phone is lost.",
+  "price_too_cheap": 99,
+  "price_cheap": 199,
+  "price_expensive": 499,
+  "price_too_expensive": 999
+}

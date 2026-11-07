@@ -1,0 +1,222 @@
+[
+ {
+  "id": "P001",
+  "name": "Rashmita",
+  "age": 45,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 2328000,
+  "behaviour": "Young owner who likes tech",
+  "behaviour_how": "Uses UPI, Instagram and Google reviews; looks for tools that make the salon look modern.",
+  "objection": "I already use a billing app or Zylu/MioSalon, why switch",
+  "habit": "you get product supplies from a local distributor who visits monthly"
+ },
+ {
+  "id": "P002",
+  "name": "Jyotirmayee",
+  "age": 31,
+  "segment": "Owner of 2 outlets (one 5+ chair salon plus a second branch)",
+  "income": 4747000,
+  "behaviour": "Tried an app before and stopped",
+  "behaviour_how": "Paid for salon software once; the staff never used it and it was cancelled.",
+  "objection": "What if the phone breaks and I lose all my customer data?",
+  "habit": "you lost two good stylists to a nearby salon last year"
+ },
+ {
+  "id": "P003",
+  "name": "Smruti",
+  "age": 49,
+  "segment": "Large salon or bridal studio with 9 or more chairs and 10 to 20 staff",
+  "income": 3012000,
+  "behaviour": "Owner who isn't always at the salon",
+  "behaviour_how": "Has another job or a second outlet and worries about cash and staff when away.",
+  "objection": "I want it in Hindi or my own language, not only English",
+  "habit": "your customers mostly pay by UPI now"
+ },
+ {
+  "id": "P004",
+  "name": "Ashok",
+  "age": 27,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 2965000,
+  "behaviour": "Runs everything on WhatsApp",
+  "behaviour_how": "Customers, staff groups and bookings all live in WhatsApp chats on one phone.",
+  "objection": "What if the phone breaks and I lose all my customer data?",
+  "habit": "your stylists speak Odia and Hindi more comfortably than English"
+ },
+ {
+  "id": "P005",
+  "name": "Subrat",
+  "age": 32,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 2088000,
+  "behaviour": "Paper register loyalist",
+  "behaviour_how": "Has written every bill in a register for years and trusts it more than any app.",
+  "objection": "I already use a billing app or Zylu/MioSalon, why switch",
+  "habit": "you count the cash drawer yourself every night"
+ },
+ {
+  "id": "P006",
+  "name": "Pradeep",
+  "age": 52,
+  "segment": "Large salon or bridal studio with 9 or more chairs and 10 to 20 staff",
+  "income": 5713000,
+  "behaviour": "Asks other owners first",
+  "behaviour_how": "Buys only what a product distributor or another salon owner already uses.",
+  "objection": "Many of my customers won't give their mobile number",
+  "habit": "your customers mostly pay by UPI now"
+ },
+ {
+  "id": "P007",
+  "name": "Bikash",
+  "age": 54,
+  "segment": "Owner of 2 outlets (one 5+ chair salon plus a second branch)",
+  "income": 4928000,
+  "behaviour": "Young owner who likes tech",
+  "behaviour_how": "Uses UPI, Instagram and Google reviews; looks for tools that make the salon look modern.",
+  "objection": "I want it in Hindi or my own language, not only English",
+  "habit": "you lost two good stylists to a nearby salon last year"
+ },
+ {
+  "id": "P008",
+  "name": "Swarna",
+  "age": 32,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 2659000,
+  "behaviour": "Paper register loyalist",
+  "behaviour_how": "Has written every bill in a register for years and trusts it more than any app.",
+  "objection": "Who will help me when something stops working on a busy Sunday?",
+  "habit": "you lost two good stylists to a nearby salon last year"
+ },
+ {
+  "id": "P009",
+  "name": "Asish",
+  "age": 28,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 1811000,
+  "behaviour": "Paper register loyalist",
+  "behaviour_how": "Has written every bill in a register for years and trusts it more than any app.",
+  "objection": "A selfie check-in will make my staff feel I don't trust them",
+  "habit": "Durga Puja, Raja, Diwali and the wedding season are your busiest weeks"
+ },
+ {
+  "id": "P010",
+  "name": "Sunita",
+  "age": 47,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 2677000,
+  "behaviour": "Counts every rupee",
+  "behaviour_how": "Compares prices, asks for discounts, avoids monthly subscriptions.",
+  "objection": "Many of my customers won't give their mobile number",
+  "habit": "your stylists speak Odia and Hindi more comfortably than English"
+ },
+ {
+  "id": "P011",
+  "name": "Rakesh",
+  "age": 29,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 2939000,
+  "behaviour": "Tried an app before and stopped",
+  "behaviour_how": "Paid for salon software once; the staff never used it and it was cancelled.",
+  "objection": "My staff are busy with customers; they won't type everything into an app",
+  "habit": "you get product supplies from a local distributor who visits monthly"
+ },
+ {
+  "id": "P012",
+  "name": "Nibedita",
+  "age": 45,
+  "segment": "Large salon or bridal studio with 9 or more chairs and 10 to 20 staff",
+  "income": 5478000,
+  "behaviour": "Asks other owners first",
+  "behaviour_how": "Buys only what a product distributor or another salon owner already uses.",
+  "objection": "What if the phone breaks and I lose all my customer data?",
+  "habit": "you count the cash drawer yourself every night"
+ },
+ {
+  "id": "P013",
+  "name": "Puspanjali",
+  "age": 32,
+  "segment": "Large salon or bridal studio with 9 or more chairs and 10 to 20 staff",
+  "income": 2720000,
+  "behaviour": "Owner who isn't always at the salon",
+  "behaviour_how": "Has another job or a second outlet and worries about cash and staff when away.",
+  "objection": "A selfie check-in will make my staff feel I don't trust them",
+  "habit": "your salon has a 4.5-star Google rating and you reply to reviews yourself"
+ },
+ {
+  "id": "P014",
+  "name": "Biswajit",
+  "age": 49,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 1586000,
+  "behaviour": "Runs everything on WhatsApp",
+  "behaviour_how": "Customers, staff groups and bookings all live in WhatsApp chats on one phone.",
+  "objection": "Who will help me when something stops working on a busy Sunday?",
+  "habit": "your customers mostly pay by UPI now"
+ },
+ {
+  "id": "P015",
+  "name": "Prasant",
+  "age": 32,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 2957000,
+  "behaviour": "Tried an app before and stopped",
+  "behaviour_how": "Paid for salon software once; the staff never used it and it was cancelled.",
+  "objection": "A selfie check-in will make my staff feel I don't trust them",
+  "habit": "your customers mostly pay by UPI now"
+ },
+ {
+  "id": "P016",
+  "name": "Ranjan",
+  "age": 52,
+  "segment": "Owner of 2 outlets (one 5+ chair salon plus a second branch)",
+  "income": 3143000,
+  "behaviour": "Paper register loyalist",
+  "behaviour_how": "Has written every bill in a register for years and trusts it more than any app.",
+  "objection": "A selfie check-in will make my staff feel I don't trust them",
+  "habit": "you count the cash drawer yourself every night"
+ },
+ {
+  "id": "P017",
+  "name": "Tapan",
+  "age": 40,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 1513000,
+  "behaviour": "Young owner who likes tech",
+  "behaviour_how": "Uses UPI, Instagram and Google reviews; looks for tools that make the salon look modern.",
+  "objection": "A selfie check-in will make my staff feel I don't trust them",
+  "habit": "your customers mostly pay by UPI now"
+ },
+ {
+  "id": "P018",
+  "name": "Madhusmita",
+  "age": 28,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 1465000,
+  "behaviour": "Counts every rupee",
+  "behaviour_how": "Compares prices, asks for discounts, avoids monthly subscriptions.",
+  "objection": "I want it in Hindi or my own language, not only English",
+  "habit": "you lost two good stylists to a nearby salon last year"
+ },
+ {
+  "id": "P019",
+  "name": "Anupam",
+  "age": 31,
+  "segment": "Established unisex salon with 5 to 8 chairs and 5 to 10 staff",
+  "income": 2418000,
+  "behaviour": "Counts every rupee",
+  "behaviour_how": "Compares prices, asks for discounts, avoids monthly subscriptions.",
+  "objection": "I want it in Hindi or my own language, not only English",
+  "habit": "you lost two good stylists to a nearby salon last year"
+ },
+ {
+  "id": "P020",
+  "name": "Banita",
+  "age": 32,
+  "segment": "Large salon or bridal studio with 9 or more chairs and 10 to 20 staff",
+  "income": 4534000,
+  "behaviour": "Runs everything on WhatsApp",
+  "behaviour_how": "Customers, staff groups and bookings all live in WhatsApp chats on one phone.",
+  "objection": "Who will help me when something stops working on a busy Sunday?",
+  "habit": "Durga Puja, Raja, Diwali and the wedding season are your busiest weeks"
+ }
+]

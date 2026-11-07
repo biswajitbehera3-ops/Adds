@@ -1,0 +1,13 @@
+{
+  "id": "P010",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "convenience",
+  "reason": "The whole thing runs on typing the customer's mobile number, and many of my customers won't give it, and my stylists are more comfortable in Odia and Hindi than in an English app. I'd pay ₹10,000 and then ₹500 every month, and in six months I'd find my staff back on the register book.",
+  "objection": "Many of my customers won't give their mobile number, so the bills, reminders, wallet and referral all fall apart. On top of that, the app is in English and my staff will avoid it. And I don't like a monthly fee that never ends.",
+  "would_change_my_mind": "An Odia/Hindi version that also bills walk-ins without a number, with a free one-month trial in my salon before I pay anything, and no monthly fee, or one I can stop any time.",
+  "price_too_cheap": 2000,
+  "price_cheap": 4000,
+  "price_expensive": 8000,
+  "price_too_expensive": 15000
+}

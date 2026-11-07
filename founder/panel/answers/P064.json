@@ -1,0 +1,13 @@
+{
+  "id": "P064",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "₹4,999 upfront and then ₹999 every single month, forever, just to do what my register and WhatsApp already do for free. That's twelve thousand a year out of my pocket, and I don't take monthly subscriptions.",
+  "objection": "Who will help me when the app stops working on a busy Sunday with customers waiting? And it's all in English, so my girls will keep calling me instead of using it.",
+  "would_change_my_mind": "A one-time price with no monthly fee, and a Hindi version with a local person I can phone on Sundays.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

@@ -1,0 +1,15 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/r3-money/scratch[39m
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mwallet replay: top-up+bonus, spend, close in cash, owner void -> refundable is only the own-money part
+[22m[39mtopup {"deposit":5000,"bonus":750,"balance":5750} visit total [33m300[39m before close {"balance":5450,"refundable":5000,"promotional":450} closed {"refunded":5000,"writtenOff":450} after void {"balance":300,"refundable":0,"promotional":300}
+expectedCash {"bills":0,"fromBills":0,"topUps":1,"fromTopUps":5000,"refunds":1,"refunded":5000,"total":0}
+cash items 3 days later [{"id":"c-2026-10-14","kind":"cash","title":"Cash short by ₹300 on 2026-10-14","detail":"Cash bills changed after the count (was ₹0, now ₹300)"}]
+
+ [32m✓[39m y.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 36[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m   Start at [22m 14:37:51
+[2m   Duration [22m 545ms[2m (transform 265ms, setup 0ms, collect 261ms, tests 36ms, environment 0ms, prepare 83ms)[22m
+

@@ -1,0 +1,562 @@
+[
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile/engine.ts/assertClockNotBehind/forward-dated-record-lockout",
+  "title": "One record saved with the clock far ahead blocks every bill, top-up, check-in, void and cash count at the real date",
+  "description": "assertClockNotBehind compared now with latestRecordTime, which trusts every saved time including a forward-dated one. A stylist who saved one record years ahead made every guarded save fail at the real date. confirmClock did not clear it, and a backup containing the record was refused.",
+  "root_cause": "latestRecordTime treated attacker-dated records as a trusted lower bound for the clock, and saves accepted any future 'now'.",
+  "intended_behavior": "A record saved with the clock ahead never becomes the time the phone trusts; the owner's date confirmation always restores saving.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/Attendance.tsx",
+    "line": 63,
+    "scope": "Attendance check-in",
+    "description": "Check-in saved ten years ahead."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 64,
+    "scope": "latestRecordTime",
+    "description": "Returns the forward-dated time."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 110,
+    "scope": "confirmClock",
+    "description": "Resets only lastSeen and hold."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/engine.ts",
+    "line": 85,
+    "scope": "assertClockNotBehind",
+    "description": "Every guarded save throws 'clock is behind'."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/engine.ts",
+    "line": 85,
+    "description": "Lower bound from saved records only."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 261,
+    "description": "Backup with the future record refused."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "authorization_role",
+    "description": "Any stylist holding the shared phone."
+   },
+   {
+    "kind": "user_interaction",
+    "description": "One save with the date moved ahead, then the clock set back."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "A stylist with the shared salon phone.",
+   "payloads": [
+    "markAttendance at NOW+3650d; confirmClock(NOW); startVisit/topUp/closeDay/voidVisit at NOW"
+   ],
+   "instructions": [
+    "Vitest harness in the sandbox against the real engine; Date faked."
+   ],
+   "observed_result": "startVisit, topUp, closeDay and owner voidVisit refused; readBackup refused the export (agents/r3-clock/artifacts/check1.txt; verifier agents/v1/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "Check saves against the trusted anchor, not saved record times; refuse saves far ahead of the anchor; confirmClock sets the anchor.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/engine.ts",
+     "fixed_code": "assertClockNotBehind: if (now < trustedTime(data) - 5 min) throw; assertClockNotFarAhead(data, now)"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "medium",
+    "reason": "One save with the date moved ahead; can be accidental."
+   },
+   "impact": {
+    "score": "medium",
+    "reason": "Billing, top-ups, attendance and cash counts stop until data is wiped or the phone runs on a false date."
+   },
+   "overall_severity": "medium"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Reproduced by hunter and verifier; every owner recovery path checked."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile/engine.ts/observeClock/hold-reference-includes-forward-dated-records",
+  "title": "Clock-jump hold bypassed: one save made with the clock ahead, or app starts under 30 days apart, let automatic clean-up erase customers, selfies and bookings",
+  "description": "The run-2 #1 fix paused purgeExpired when the clock was more than 30 days past max(lastSeen, latestRecordTime). commit ran observeClock on the data after the operation, so a record saved at the forward time raised the reference to 'now' and no hold was set; the next app start purged with the forward clock. App starts each under 30 days apart also moved lastSeen forward without a hold. prepareRestore re-applies AUTO_ERASED, so a backup cannot bring erased customers back.",
+  "root_cause": "observeClock's reference included data written at the untrusted current time (the new record and lastSeen), so a forward clock raised its own baseline before the jump was checked.",
+  "intended_behavior": "Automatic deletion never runs on a clock that has moved past a time the phone trusts; only small steps of normal use or the owner's password move that time.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/Attendance.tsx",
+    "line": 63,
+    "scope": "Attendance check-in",
+    "description": "A stylist with the clock moved ahead saves a check-in."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/store.ts",
+    "line": 123,
+    "scope": "commit",
+    "description": "observeClock ran on post-op data holding the forward-dated record."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 103,
+    "scope": "observeClock",
+    "description": "reference = max(seen, latestRecordTime(data)) equals now; no hold."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/store.ts",
+    "line": 61,
+    "scope": "loadStore",
+    "description": "Next app start runs purgeExpired with the forward clock."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/engine.ts",
+    "line": 1046,
+    "scope": "purgeExpired",
+    "description": "erase() and AUTO_ERASED for zero-balance customers; selfie files deleted."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/engine.ts",
+    "line": 103,
+    "description": "Reference includes records just written at the forward time."
+   },
+   {
+    "file": "src/domain/engine.ts",
+    "line": 105,
+    "description": "lastSeen moves forward on every start or save."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 324,
+    "description": "prepareRestore re-applies AUTO_ERASED."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "authorization_role",
+    "description": "Any stylist holding the shared phone who can change the system date."
+   },
+   {
+    "kind": "user_interaction",
+    "description": "One save with the clock ahead then a restart, or repeated app starts each under 30 days ahead."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "A stylist on the shared salon phone removing evidence (selfies) or records.",
+   "payloads": [
+    "commit(markAttendance) at NOW+1102d, restart at NOW+1102d",
+    "purgeExpired 38 times, 29 days apart"
+   ],
+   "instructions": [
+    "Vitest harness in the sandbox with the real store (AsyncStorage and photos mocked) and engine; Date faked."
+   ],
+   "observed_result": "Hold null after the forward save; purge at restart held=false, selfie deleted, served-today customer AUTO_ERASED; restoring today's backup keeps her erased. Stepping: hold never set, customer erased (agents/r3-clock/artifacts/check1.txt, check2.txt; verifier agents/v1/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "Keep a trusted anchor time in the clock record that moves only in steps of at most 3 days or by owner confirmation; observe the clock on the data before each save; hold clean-up when the clock passes anchor + 3 days; refuse every save past anchor + 30 days; observe on app resume.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/engine.ts",
+     "fixed_code": "observeClock: anchor = trustedTime(data); if (t > anchor + 3 days) hold else anchor = max(anchor, t)"
+    },
+    {
+     "file_name": "src/domain/store.ts",
+     "fixed_code": "commit: const watched = observeClock(state, now); assertClockNotFarAhead(watched, now); op(watched)"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "medium",
+    "reason": "A few taps on the shared phone; also an honest wrong-year date while the app is open."
+   },
+   "impact": {
+    "score": "high",
+    "reason": "Irreversible erasure of customer records, selfies (evidence) and bookings; backups cannot recover them."
+   },
+   "overall_severity": "high"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Hunter and independent verifier reproduced both variants against the real store and engine."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:checks.ownerChecks:staff-booking-cancel-before-start-unflagged",
+  "title": "A stylist can cancel a booking after its start with no owner trace, by setting the clock back while the app sits idle",
+  "description": "The staff cancel-after-start rule and the owner's flag both used the phone clock: a cancel counted as late only when closedAt >= the booked time. Back-jumps were noted only on saves, so a clock set back while idle left no record. The 'booking not closed' alert disappeared and no item replaced it; cancelled bookings drop out of the calendar.",
+  "root_cause": "ownerChecks listed staff cancels only when closedAt (phone clock) >= booked time, and lastSeen advanced only on saves.",
+  "intended_behavior": "Every staff closure near a booking's time shows in the owner's checks with the stylist's name, whatever the phone clock says.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/Calendar.tsx",
+    "line": 1011,
+    "scope": "BookingCard cancel",
+    "description": "Staff cancel with the clock set to just before the start."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 1155,
+    "scope": "cancelAppointment",
+    "description": "After-start refusal uses the phone clock."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/engine.ts",
+    "line": 101,
+    "scope": "observeClock",
+    "description": "No back-jump: lastSeen not advanced while idle."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/checks.ts",
+    "line": 153,
+    "scope": "ownerChecks",
+    "description": "Cancel with closedAt < at is skipped."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/checks.ts",
+    "line": 153,
+    "description": "late = NO_SHOW || (CANCELLED && closedAt >= at)."
+   },
+   {
+    "file": "src/domain/store.ts",
+    "line": 123,
+    "description": "lastSeen refreshed only on saves."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "authorization_role",
+    "description": "A signed-in stylist."
+   },
+   {
+    "kind": "timing_dependency",
+    "description": "No save on the phone between shortly after the booked time and the cancel."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "Stylist wanting a booked customer's visit to leave no trace.",
+   "payloads": [
+    "book 12:30; at real 13:10 set clock to 12:25; cancelAppointment(stylist); ownerChecks 15:30"
+   ],
+   "instructions": [
+    "Harness through the real store with a staff session; Date faked."
+   ],
+   "observed_result": "Cancel accepted with closedAt 12:25, backJumps [], ownerChecks items [] (agents/r3-money/artifacts/check1.txt; verifier agents/v1/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "List staff cancels made within 3 hours before the start (marked 'shortly before the time'); observe the clock when the app returns to the front and before every save, including refused ones.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/checks.ts",
+     "fixed_code": "near = NO_SHOW || (CANCELLED && closedAt >= at - 3h)"
+    },
+    {
+     "file_name": "App.tsx",
+     "fixed_code": "AppState 'active' -> observeNow()"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "medium",
+    "reason": "A small clock change while the phone is idle."
+   },
+   "impact": {
+    "score": "low",
+    "reason": "Hides one booking's outcome; no direct money movement."
+   },
+   "overall_severity": "low"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Reproduced deterministically by hunter and verifier."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:checks.ts:backupProblem:future-time-24h-slack",
+  "title": "A backup time up to 24 hours ahead passed the future-date check and blocked every clock-guarded save after restore",
+  "description": "backupProblem allowed times up to now + 24 h while the save guard allowed 5 minutes, so a restored record a day ahead made assertClockNotBehind refuse every guarded save until real time caught up.",
+  "root_cause": "Restore future-time slack of 24 h versus a 5-minute save guard.",
+  "intended_behavior": "No restored time may be later than the phone's clock plus the guard's 5 minutes.",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/owner/Guard.tsx",
+    "line": 348,
+    "scope": "readBackupFile",
+    "description": "Owner restores a file."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/checks.ts",
+    "line": 253,
+    "scope": "backupProblem",
+    "description": "latest = now + 24 h."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/engine.ts",
+    "line": 85,
+    "scope": "assertClockNotBehind",
+    "description": "Saves refused."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/checks.ts",
+    "line": 253,
+    "description": "24-hour slack."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "user_interaction",
+    "description": "The owner restores a crafted or fast-clock backup."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "Supplier of a backup file.",
+   "payloads": [
+    "reminders += {createdAt: now + 23h}"
+   ],
+   "instructions": [
+    "readBackup + prepareRestore, then topUp one minute later."
+   ],
+   "observed_result": "File accepted; topUp refused 'clock is behind' (agents/r3-restore/artifacts/check1.txt; verifier agents/v2/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "Use the 5-minute slack in backupProblem.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/checks.ts",
+     "fixed_code": "const latest = now.getTime() + 5 * 60000;"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "low",
+    "reason": "Needs a crafted file or a backup from a phone whose clock runs fast."
+   },
+   "impact": {
+    "score": "low",
+    "reason": "Billing blocked for up to a day; a clean restore ends it."
+   },
+   "overall_severity": "low"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Reproduced by hunter and verifier."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:checks.ts:backupProblem:unvalidated-ids-and-nested-fields",
+  "title": "A restored backup can carry a staff id of \"owner\" and malformed bill parts: that stylist then acts as the owner, and the owner's checks screen crashes",
+  "description": "backupProblem checked ids only as short strings and did not check nested bill fields or references. A staff id 'owner' made sessionActor return 'owner' for that stylist, skipping the staff cancel rule and hiding their cancels and undos from the owner's checks. A bill whose extras was not a list made ownerChecks throw, breaking the owner's Live screen for that day.",
+  "root_cause": "The backup validator checked scalar fields but not reserved ids, uniqueness, cross-references or nested shapes.",
+  "intended_behavior": "Every field of a backup is checked with the rules the app keeps when saving (SECURITY-LESSONS 3).",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/owner/Guard.tsx",
+    "line": 348,
+    "scope": "readBackupFile",
+    "description": "Owner picks a supplied backup."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/checks.ts",
+    "line": 266,
+    "scope": "backupProblem",
+    "description": "Ids checked only as 1-100 character strings."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/store.ts",
+    "line": 183,
+    "scope": "sessionActor",
+    "description": "Returns 'owner' for staffId 'owner'."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/checks.ts",
+    "line": 152,
+    "scope": "ownerChecks",
+    "description": "Closures by 'owner' skipped; extras.map throws."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/checks.ts",
+    "line": 266,
+    "description": "Id check is length only."
+   },
+   {
+    "file": "src/domain/checks.ts",
+    "line": 284,
+    "description": "Visit loop never checks extras/serviceIds/addOnIds."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "user_interaction",
+    "description": "The owner restores a file from someone else and enters the owner password."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "Supplier of a backup file the owner restores; then the stylist using the renamed account.",
+   "payloads": [
+    "data.staff[0].id = 'owner'",
+    "visits[0].extras = 'x'"
+   ],
+   "instructions": [
+    "readBackup + prepareRestore, then a staff session cancels late; ownerChecks on the crafted file."
+   ],
+   "observed_result": "Late cancel accepted as owner with no owner item; ownerChecks threw TypeError (agents/r3-restore/artifacts/check1.txt; verifier agents/v2/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "Refuse ids outside a plain-name pattern, the reserved 'owner', duplicates, duplicate phones, dangling staff/customer references, and malformed nested bill and booking fields; bound free-text notes.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/checks.ts",
+     "fixed_code": "ids = xs.every(x => ID.test(x.id) && x.id !== 'owner') && unique; visits: serviceIds/addOnIds arrays, extras array of {name, price, approvedAt}, staffId/customerId exist"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "low",
+    "reason": "Needs the owner to restore a crafted file with the owner password."
+   },
+   "impact": {
+    "score": "low",
+    "reason": "Misattributed staff actions and a one-day crash of the owner's screen; no money or secret changed."
+   },
+   "overall_severity": "low"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Hunter and verifier reproduced both variants with controls."
+  }
+ },
+ {
+  "verdict": "confirmed",
+  "fingerprint": "salon-mobile:store.ts:restore-clear-orphan-selfie-files",
+  "title": "Attendance selfie files are never deleted after a restore, Clear all data or Load demo drops their records",
+  "description": "Retention deleted only selfie files still named by an attendance record. Restore, Clear all and Load demo replaced the records without deleting their files, so those selfies stayed on the phone past the retention the staff notice promises.",
+  "root_cause": "File clean-up was tied only to records still referenced; wholesale replacement never compared old and new photo keys.",
+  "intended_behavior": "Every selfie file is deleted when its record is removed or its retention ends (staff-data-notice; SECURITY-LESSONS 7).",
+  "trace": [
+   {
+    "kind": "entrypoint",
+    "file": "src/screens/owner/Live.tsx",
+    "line": 618,
+    "scope": "OwnerMenu",
+    "description": "Owner restores or clears."
+   },
+   {
+    "kind": "propagation",
+    "file": "src/domain/store.ts",
+    "line": 150,
+    "scope": "restoreBackup",
+    "description": "State replaced, no photo deletion (clearAll, resetToDemo likewise)."
+   },
+   {
+    "kind": "sink",
+    "file": "src/domain/engine.ts",
+    "line": 1016,
+    "scope": "purgeExpired",
+    "description": "Collects only current records' photo keys."
+   }
+  ],
+  "evidence": [
+   {
+    "file": "src/domain/store.ts",
+    "line": 150,
+    "description": "No deletePhotos in restoreBackup."
+   },
+   {
+    "file": "src/domain/store.ts",
+    "line": 142,
+    "description": "No deletePhotos in clearAll."
+   },
+   {
+    "file": "legal/staff-data-notice.md",
+    "line": 12,
+    "description": "Selfies deleted automatically after retention."
+   }
+  ],
+  "conditions": [
+   {
+    "kind": "user_interaction",
+    "description": "Any owner restore, clear all or demo load after selfies exist."
+   }
+  ],
+  "execution": {
+   "attacker_perspective": "No attacker needed.",
+   "payloads": [
+    "selfie saved after a backup, then restoreBackup(older); clearAll after a selfie"
+   ],
+   "instructions": [
+    "Store harness with deletePhotos recorded; app opens every 25 days for 400 days."
+   ],
+   "observed_result": "The dropped selfie was never passed to deletePhotos; clearAll deleted none (agents/r3-restore/artifacts/check2.txt; verifier agents/v2/artifacts/check1.txt)."
+  },
+  "remediation": {
+   "strategy": "Before replacing the data, delete the photo files of every attendance record and staff photo the new data no longer names.",
+   "code_changes": [
+    {
+     "file_name": "src/domain/store.ts",
+     "fixed_code": "dropUnusedPhotos(prev, next) in restoreBackup, clearAll and resetToDemo"
+    }
+   ]
+  },
+  "severity": {
+   "likelihood": {
+    "score": "medium",
+    "reason": "Happens on any normal restore or clear."
+   },
+   "impact": {
+    "score": "low",
+    "reason": "Staff selfies stay in app-private storage past the stated retention."
+   },
+   "overall_severity": "low"
+  },
+  "confidence": {
+   "score": "high",
+   "reason": "Reproduced with a positive control by hunter and verifier."
+  }
+ }
+]

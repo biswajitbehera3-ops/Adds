@@ -1,0 +1,37 @@
+{
+  "_readme": "One file per salon. Fill every field before go-live: the app's Privacy & terms screen, the WhatsApp templates and the legal pack (npm run legal) all read from here. Values in [brackets] are placeholders and block a release.",
+  "salonName": "Salon",
+  "business": {
+    "legalName": "[Salon legal name]",
+    "address": "[Full shop address, city, PIN]",
+    "city": "[City]",
+    "gstin": "",
+    "phone": "[Salon phone]",
+    "email": "[Salon email]",
+    "grievance": { "name": "[Owner name]", "phone": "[Owner phone]", "email": "[Owner email]" }
+  },
+  "legal": {
+    "noticeVersion": "2026-10-15",
+    "effectiveDate": "[Go-live date]",
+    "privacyUrl": "[https://… privacy policy page]",
+    "termsUrl": "[https://… terms page]",
+    "providerName": "[Your business name]",
+    "providerAddress": "[Your address]",
+    "providerGstin": "",
+    "providerEmail": "[Your support email]",
+    "providerPhone": "[Your support phone]",
+    "cloudProvider": "[Cloud provider]",
+    "cloudRegion": "India (Mumbai)"
+  },
+  "contract": {
+    "setupFee": "[setup fee]",
+    "monthlyFee": "[monthly fee]",
+    "supportHours": "[support hours]",
+    "deliveryDays": 14
+  },
+  "retention": {
+    "inactiveCustomerDays": 1095,
+    "attendancePhotoDays": 365,
+    "reminderLogDays": 365
+  }
+}

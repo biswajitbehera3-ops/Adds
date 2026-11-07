@@ -1,0 +1,20 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/r3-restore/scratch/t1[39m
+
+[90mstdout[2m | backup.test.ts[2m > [22m[2mr3-restore crafted backup[2m > [22m[2mA: a backup record 23h in the future passes readBackup and then blocks guarded saves
+[22m[39mA accepted; latestRecordTime - now (h) = [33m23[39m
+A topUp one minute after restore -> This phone's clock is behind. Set the date and time to automatic, then try again.
+
+[90mstdout[2m | backup.test.ts[2m > [22m[2mr3-restore crafted backup[2m > [22m[2mB: a visit whose extras is not an array passes readBackup and makes ownerChecks throw
+[22m[39mB ownerChecks -> TypeError: (v.extras ?? []).map is not a function
+
+[90mstdout[2m | backup.test.ts[2m > [22m[2mr3-restore crafted backup[2m > [22m[2mC: a staff record with id 'owner' passes readBackup
+[22m[39mC staff ids after readBackup: [ [32m'owner'[39m ]
+
+ [32m✓[39m backup.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 14:38:25
+[2m   Duration [22m 523ms[2m (transform 237ms, setup 0ms, collect 251ms, tests 11ms, environment 0ms, prepare 59ms)[22m
+

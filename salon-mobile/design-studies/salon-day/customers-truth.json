@@ -1,0 +1,244 @@
+{
+ "C01": {
+  "id": "C01",
+  "name": "Amit Panda",
+  "phone": "9937100001",
+  "stylist": "Bikash",
+  "services": [
+   "Haircut"
+  ],
+  "amount": 300,
+  "recorded": true,
+  "method": "Cash"
+ },
+ "C02": {
+  "id": "C02",
+  "name": "Sneha Rath",
+  "phone": "9937100002",
+  "stylist": "Lipsa",
+  "services": [
+   "Facial"
+  ],
+  "amount": 900,
+  "recorded": true,
+  "method": "UPI"
+ },
+ "C03": {
+  "id": "C03",
+  "name": "Dev Mohanty",
+  "phone": "9937100003",
+  "stylist": "Bikash",
+  "services": [
+   "Hair colour"
+  ],
+  "amount": 1200,
+  "recorded": true,
+  "booking": "11:00 AM",
+  "method": "Cash"
+ },
+ "C04": {
+  "id": "C04",
+  "name": "Ritu Patnaik",
+  "phone": null,
+  "stylist": "Rashmita",
+  "services": [
+   "Haircut"
+  ],
+  "amount": 300,
+  "recorded": false
+ },
+ "C05": {
+  "id": "C05",
+  "name": "Ankit Mishra",
+  "phone": "9937100005",
+  "stylist": "Manas",
+  "services": [
+   "Haircut",
+   "Beard trim"
+  ],
+  "amount": 450,
+  "recorded": true,
+  "method": "Cash"
+ },
+ "C06": {
+  "id": "C06",
+  "name": "Pooja Jena",
+  "phone": "9937100006",
+  "stylist": "Lipsa",
+  "services": [],
+  "amount": 0,
+  "recorded": true,
+  "note": "top-up only"
+ },
+ "C07": {
+  "id": "C07",
+  "name": "Kiran Behera",
+  "phone": "9937100007",
+  "stylist": "Bikash",
+  "services": [
+   "Haircut"
+  ],
+  "amount": 300,
+  "recorded": false,
+  "booking": "12:30 PM",
+  "noShow": true
+ },
+ "C08": {
+  "id": "C08",
+  "name": "Suresh Swain",
+  "phone": "9937100008",
+  "stylist": "Rashmita",
+  "services": [
+   "Haircut"
+  ],
+  "amount": 300,
+  "recorded": true,
+  "method": "Cash",
+  "undone": "Beard trim ₹150"
+ },
+ "C09": {
+  "id": "C09",
+  "name": "Neha Sahu",
+  "phone": "9937100009",
+  "stylist": "Lipsa",
+  "services": [
+   "Haircut"
+  ],
+  "amount": 300,
+  "recorded": true,
+  "method": "UPI"
+ },
+ "C10": {
+  "id": "C10",
+  "name": "Pooja Jena",
+  "phone": "9937100006",
+  "stylist": "Bikash",
+  "services": [
+   "Hair spa"
+  ],
+  "amount": 1000,
+  "recorded": true,
+  "method": "Wallet"
+ },
+ "C11": {
+  "id": "C11",
+  "name": "Rahul Dash",
+  "phone": "9937100011",
+  "stylist": "Lipsa",
+  "services": [
+   "Hair colour"
+  ],
+  "amount": 1200,
+  "recorded": true,
+  "method": "UPI"
+ },
+ "C12": {
+  "id": "C12",
+  "name": "Priya Nanda",
+  "phone": "9937100012",
+  "stylist": "Manas",
+  "services": [
+   "Haircut"
+  ],
+  "amount": 300,
+  "recorded": false,
+  "left": true
+ },
+ "C13": {
+  "id": "C13",
+  "name": "Soumya Kar",
+  "phone": "9937100013",
+  "stylist": "Manas",
+  "services": [
+   "Haircut"
+  ],
+  "amount": 300,
+  "recorded": true,
+  "method": "Cash"
+ },
+ "C14": {
+  "id": "C14",
+  "name": "Anjali Pati",
+  "phone": "9937100014",
+  "stylist": "Rashmita",
+  "services": [
+   "Facial"
+  ],
+  "amount": 900,
+  "recorded": true,
+  "method": "Card"
+ },
+ "C15": {
+  "id": "C15",
+  "name": "Rohit Sethi",
+  "phone": "9937100015",
+  "stylist": "Bikash",
+  "services": [
+   "Haircut",
+   "Beard trim"
+  ],
+  "amount": 450,
+  "recorded": true,
+  "method": "Cash"
+ },
+ "C16": {
+  "id": "C16",
+  "name": "Vivek Rout",
+  "phone": "9937100016",
+  "stylist": "Manas",
+  "services": [
+   "Haircut"
+  ],
+  "amount": 300,
+  "recorded": false,
+  "skipped": "not entered; ₹300 cash kept by Manas"
+ },
+ "C17": {
+  "id": "C17",
+  "name": "Mamata Swain",
+  "phone": "9937100017",
+  "stylist": "Lipsa",
+  "services": [
+   "Hair colour"
+  ],
+  "amount": 1200,
+  "recorded": true,
+  "method": "UPI"
+ },
+ "C18": {
+  "id": "C18",
+  "name": "Tapan Jena",
+  "phone": "9937100018",
+  "stylist": "Rashmita",
+  "services": [
+   "Haircut"
+  ],
+  "amount": 300,
+  "recorded": true,
+  "method": "UPI"
+ },
+ "C19": {
+  "id": "C19",
+  "name": "Sanjay Pradhan",
+  "phone": "9937100019",
+  "stylist": "Manas",
+  "services": [
+   "Beard trim"
+  ],
+  "amount": 150,
+  "recorded": false,
+  "skipped": "not entered; ₹150 cash put in the drawer"
+ },
+ "C20": {
+  "id": "C20",
+  "name": "Arjun Behera",
+  "phone": "9937100020",
+  "stylist": "Bikash",
+  "services": [
+   "Haircut"
+  ],
+  "amount": 300,
+  "recorded": true,
+  "method": "Cash"
+ }
+}

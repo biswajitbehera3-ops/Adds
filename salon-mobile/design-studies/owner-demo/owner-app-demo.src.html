@@ -1,0 +1,92 @@
+<title>Owner App Demo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: one phone centred on the page — owner sign-in, then the app with a 4-tab bottom bar. Single dark look by design. */
+:root{
+  --glow:#8E5B4E; --mid:#4A3029; --deep:#1A1210; --page:#120c0a;
+  --gold:#E4A67B; --cream:#FFF8F1; --soft:rgba(255,248,241,.72); --faint:rgba(255,248,241,.45);
+  --glass:rgba(255,244,236,.12); --line:rgba(255,244,236,.24); --ink:#2a1a12;
+  --font:Urbanist,"Avenir Next","Segoe UI",system-ui,sans-serif; color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--page);color:var(--cream);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:16px;padding-block:20px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.note{max-width:420px;text-align:center;color:var(--soft);font-size:14px;line-height:1.5}
+.note b{color:var(--cream)}
+.phone{position:relative;width:min(390px,100%);aspect-ratio:390/844;border-radius:44px;overflow:hidden;background:var(--deep);
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,244,236,.1),0 0 0 9px #0b0807,0 0 0 10px rgba(255,244,236,.08);container-type:inline-size}
+.screen{position:absolute;inset:0}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none;background:var(--deep)}
+iframe.on{display:block}
+/* sign in */
+.login{position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5cqw;padding:8cqw;
+  background:radial-gradient(120% 70% at 12% 0%,var(--glow) 0%,var(--mid) 46%,var(--deep) 100%);transition:opacity .5s,transform .5s}
+.login.gone{opacity:0;transform:scale(1.04);pointer-events:none}
+.logo{width:30cqw;height:30cqw;border-radius:50%;overflow:hidden;border:1px solid var(--line);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.logo img{width:100%;height:100%;object-fit:cover;display:block}
+.card{width:100%;padding:6cqw;border-radius:7cqw;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(14px);display:grid;gap:3.6cqw}
+.card h1{font-size:7cqw;font-weight:700;text-align:center}
+.card p{font-size:3.4cqw;color:var(--soft);text-align:center;margin-top:-2cqw}
+.card label{font-size:3.2cqw;color:var(--soft);font-weight:600}
+.card input{width:100%;font:500 4cqw var(--font);color:var(--cream);background:rgba(26,18,16,.5);border:1px solid var(--line);border-radius:4cqw;padding:3.4cqw 4cqw;outline:none}
+.card input:focus{border-color:var(--gold)}
+.signin{font:800 4.2cqw var(--font);color:var(--ink);background:var(--gold);border:0;border-radius:999px;padding:3.8cqw;cursor:pointer}
+.signin:focus-visible,.dock button:focus-visible{outline:2px solid var(--cream);outline-offset:2px}
+.hint{font-size:3cqw;color:var(--faint);text-align:center}
+/* bottom bar */
+.dock{position:absolute;left:3.5cqw;right:3.5cqw;bottom:calc(3.5cqw + env(safe-area-inset-bottom,0px));z-index:10;display:grid;grid-template-columns:repeat(4,1fr);padding:2cqw;border-radius:6cqw;
+  background:rgba(38,22,17,.72);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.dock button{display:flex;flex-direction:column;align-items:center;gap:.8cqw;font:600 2.9cqw var(--font);color:var(--soft);padding:1.8cqw 0;border-radius:4cqw;background:none;border:0;cursor:pointer;transition:background .25s,color .25s}
+.dock button.on{background:var(--gold);color:var(--ink);font-weight:800}
+.dock svg{width:5.4cqw;height:5.4cqw;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dock[hidden]{display:none!important}
+.out{position:absolute;right:4cqw;top:4cqw;z-index:11;font:600 2.9cqw var(--font);color:var(--soft);background:rgba(26,18,16,.55);border:1px solid var(--line);border-radius:999px;padding:1.2cqw 2.8cqw;cursor:pointer;display:none}
+.tips{max-width:430px;display:grid;gap:6px;font-size:13.5px;color:var(--soft);line-height:1.5}
+.tips b{color:var(--cream)}
+</style>
+
+<p class="note"><b>Owner app demo.</b> Sign in, then use the bar at the bottom. Example data for Wednesday 14 Oct.</p>
+<div class="phone">
+  <div class="screen" id="screen"></div>
+  <form class="login" id="login" autocomplete="off">
+    <div class="logo"><img src="__LOGO__" alt="Salon logo"></div>
+    <div class="card">
+      <h1>Welcome back</h1>
+      <p>Owner sign in</p>
+      <label for="pw">Owner password</label>
+      <input id="pw" type="password" placeholder="Any password works in the demo">
+      <button class="signin" type="submit">Sign in</button>
+      <div class="hint">Staff sign in with their mobile number instead</div>
+    </div>
+  </form>
+  <nav class="dock" id="dock" hidden aria-label="Owner sections">
+    <button data-t="live" class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M5 12a7 7 0 0 1 14 0"/></svg>Live</button>
+    <button data-t="earnings"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>Earnings</button>
+    <button data-t="staff"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M16 11a3 3 0 1 0 0-6M18 20c0-2-1-3.6-2.5-4.4"/></svg>Staff</button>
+    <button data-t="customers"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.6 7-5.6s6.2 2 7 5.6"/></svg>Customers</button>
+  </nav>
+</div>
+<div class="tips">
+  <div><b>Live:</b> the salon in motion; tap a chair label or card.</div>
+  <div><b>Earnings:</b> tap Today / 7 days / Month; tap a stylist, then Day / Week / Month.</div>
+  <div><b>Staff:</b> tap a card for the profile; tap the gold + to add a stylist.</div>
+  <div><b>Customers:</b> tap a customer, then a bill to cancel it; tap ⭐ Top spenders.</div>
+</div>
+
+<script>
+const PAGES=/*PAGES*/{};
+const screen=document.getElementById('screen'), dock=document.getElementById('dock'), frames={};
+function openTab(t){
+  if(!frames[t]){const f=document.createElement('iframe');f.title=t;f.srcdoc=PAGES[t];screen.appendChild(f);frames[t]=f;}
+  Object.entries(frames).forEach(([k,f])=>f.classList.toggle('on',k===t));
+  dock.querySelectorAll('button').forEach(b=>{const on=b.dataset.t===t;b.classList.toggle('on',on);b.setAttribute('aria-current',on?'page':'false');});
+}
+dock.addEventListener('click',e=>{const b=e.target.closest('button');if(b)openTab(b.dataset.t);});
+document.getElementById('login').addEventListener('submit',e=>{
+  e.preventDefault();
+  openTab("live"); dock.hidden=false;
+  document.getElementById('login').classList.add('gone');
+  setTimeout(()=>{['earnings','staff','customers'].forEach(t=>{if(!frames[t]){const f=document.createElement('iframe');f.title=t;f.srcdoc=PAGES[t];screen.appendChild(f);frames[t]=f;}});},800);
+});
+</script>

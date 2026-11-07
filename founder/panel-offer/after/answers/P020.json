@@ -1,0 +1,13 @@
+{
+  "id": "P020",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "timing",
+  "reason": "The money is nothing for a salon my size, but Diwali and the wedding season are right on top of us and I am not switching how 15 stylists bill in the middle of my busiest weeks. Also my customer list is far more than 500, so half my regulars would not even come across.",
+  "objection": "It is one person setting up and supporting five salons. If billing stops on a packed wedding Sunday with brides waiting and that one person is busy at another salon, who picks up my call?",
+  "would_change_my_mind": "Start after the wedding season in a quiet month, bring all my customers across instead of only 500, and give me a backup number so it is not just one person answering.",
+  "price_too_cheap": 200,
+  "price_cheap": 500,
+  "price_expensive": 2000,
+  "price_too_expensive": 4000
+}

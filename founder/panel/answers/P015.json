@@ -1,0 +1,13 @@
+{
+  "id": "P015",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My register has never failed me. I know every bill and every regular customer in it, so I don't see why I should pay ₹5,000 plus ₹1,000 every month for an app to do what my notebook already does.",
+  "objection": "I already lost two good stylists last year. If I now make the rest take a selfie to check in and bill everything on their phone, they'll think I'm watching them like a thief and they'll go to the salon next door too.",
+  "would_change_my_mind": "Drop the selfie check-in and staff tracking, and give me only the WhatsApp reminders and prepaid wallet for my customers at around ₹300-400 a month with no setup fee, so I can try it without upsetting my staff.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

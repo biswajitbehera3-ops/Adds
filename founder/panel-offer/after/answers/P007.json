@@ -1,0 +1,13 @@
+{
+  "id": "P007",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "need",
+  "reason": "Seeing who is in which chair and what cash should be in the drawer while I'm at the other branch is exactly what I need, and ₹500 a month with half the setup money back if it doesn't work is a small risk for me. I'd try it in the main salon first and add the second branch if the stylists actually use it.",
+  "objection": "Training in Odia or Hindi is fine, but will the app itself show in Hindi or Odia for my stylists, or only English? And it's not clear if ₹500 covers both my outlets or I pay twice.",
+  "would_change_my_mind": "If the app screens are English only, my older stylists won't use it and I would not take it.",
+  "price_too_cheap": 2000,
+  "price_cheap": 5000,
+  "price_expensive": 15000,
+  "price_too_expensive": 25000
+}

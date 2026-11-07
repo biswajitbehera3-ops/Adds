@@ -1,0 +1,42 @@
+import { describe, expect, it } from "vitest";
+import * as K from "/home/user/Adds/salon-mobile/src/domain/checks";
+import * as E from "/home/user/Adds/salon-mobile/src/domain/engine";
+import { emptyData, type Data } from "/home/user/Adds/salon-mobile/src/domain/types";
+const SECRET = { salt: "x", hash: "y" };
+const T = (s: string) => new Date(s);
+function setup() {
+  let data: Data = { ...emptyData(), owner: { secret: SECRET } };
+  const run = <T,>(op: { data: Data; result: T }) => ((data = op.data), op.result);
+  const st = run(E.addStaff(data, { name: "Dummy Staff", phone: "9811100001", chair: "Chair 1", secret: SECRET }));
+  const c = run(E.createCustomer(data, { phone: "9876543210", name: "Dummy Cust", consent: true, marketing: false, takenBy: st.id }, T("2026-10-14T03:00:00Z")));
+  const pay = (start: Date, end: Date) => { const v = run(E.startVisit(data, { customerId: c.id, serviceIds: ["haircut"], addOnIds: [], staffId: st.id }, start)); return run(E.checkoutVisit(data, { visitId: v.id, walletAmount: 0, paymentMethod: "CASH" }, end)); };
+  return { get data() { return data; }, run, pay };
+}
+describe("verifier", () => {
+  it("A: cash bill after matching count is not flagged", () => {
+    const s = setup();
+    s.pay(T("2026-10-14T08:00:00Z"), T("2026-10-14T08:30:00Z"));
+    const e1 = K.expectedCash(s.data, "2026-10-14").total;
+    s.run(K.closeDay(s.data, { counted: e1 }, T("2026-10-14T14:00:00Z")));
+    s.pay(T("2026-10-14T14:50:00Z"), T("2026-10-14T15:20:00Z"));
+    const chk = K.ownerChecks(s.data, T("2026-10-14T16:00:00Z"));
+    console.log("A", JSON.stringify({ e1, cashNow: chk.cash.total, closing: { expected: chk.closing?.expected, counted: chk.closing?.counted }, cashItems: chk.items.filter((i) => i.kind === "cash") }));
+    expect(chk.cash.total).toBe(2 * e1);
+    expect(chk.items.filter((i) => i.kind === "cash")).toEqual([]);
+  });
+  it("B: cash bill backdated into a counted day is not flagged on any day", () => {
+    const s = setup();
+    s.pay(T("2026-10-14T08:00:00Z"), T("2026-10-14T08:30:00Z"));
+    s.run(K.closeDay(s.data, { counted: K.expectedCash(s.data, "2026-10-14").total }, T("2026-10-14T14:00:00Z")));
+    s.pay(T("2026-10-15T05:00:00Z"), T("2026-10-15T05:30:00Z"));
+    const b = s.pay(T("2026-10-14T09:00:00Z"), T("2026-10-14T09:30:00Z")); // clock set back, accepted
+    s.run(K.closeDay(s.data, { counted: K.expectedCash(s.data, "2026-10-15").total }, T("2026-10-15T14:00:00Z")));
+    const chk15 = K.ownerChecks(s.data, T("2026-10-15T15:00:00Z"));
+    const chk14 = K.ownerChecks(s.data, T("2026-10-14T16:00:00Z"));
+    const c14 = s.data.dayClosings!.find((d) => d.date === "2026-10-14");
+    console.log("B", JSON.stringify({ backdatedPaidAt: b.visit.paidAt, items15: chk15.items.filter((i) => i.kind === "cash"), items14: chk14.items.filter((i) => i.kind === "cash"), stored14: { expected: c14?.expected, counted: c14?.counted }, recomputed14: K.expectedCash(s.data, "2026-10-14").total }));
+    expect(chk15.items.filter((i) => i.kind === "cash")).toEqual([]);
+    expect(chk14.items.filter((i) => i.kind === "cash")).toEqual([]);
+    expect(K.expectedCash(s.data, "2026-10-14").total).toBeGreaterThan(c14!.expected);
+  });
+});

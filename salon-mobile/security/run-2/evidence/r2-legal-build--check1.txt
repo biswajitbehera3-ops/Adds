@@ -1,0 +1,28 @@
+Legal pack → legal-out/dummy-salon/ (10 documents)
+
+17 value(s) still to fill in ../details.json:
+  - effectiveDate = [Go-live date]
+  - address = [Full shop address, city, PIN]
+  - phone = [Salon phone]
+  - email = [Salon email]
+  - providerName = [Your business name]
+  - cloudProvider = [Cloud provider]
+  - ownerName = [Owner name]
+  - ownerPhone = [Owner phone]
+  - ownerEmail = [Owner email]
+  - providerAddress = [Your address]
+  - setupFee = [setup fee]
+  - monthlyFee = [monthly fee]
+  - supportHours = [support hours]
+  - providerPhone = [Your support phone]
+  - city = [City]
+  - providerEmail = [Your support email]
+  - legal.termsUrl = [https://… terms page]
+rc=0
+== privacyUrl token in privacy-notice-counter-card.html (bare-URL autolink):
+<a href="https://example.test/p"onmouseover="alert(1">
+<a href="https://example.test/p"onmouseover="alert(1">
+== legalName in footer (element context):
+Dummy &lt;b&gt;Co&lt;/b&gt;
+== script tags in any output:
+none

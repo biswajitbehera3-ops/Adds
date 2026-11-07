@@ -1,0 +1,13 @@
+{
+  "id": "P051",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I don't know this company and no salon owner or distributor I know is using it, so I'm not paying ₹4,999 upfront and moving all my customers onto it. The cash-drawer and cancelled-bill checks do sound useful, but my register works and nobody has lost data from a notebook.",
+  "objection": "If the phone breaks or this company shuts down, where do my customer numbers and wallet balances go? And after losing two stylists last year, I don't want my staff to have all my customers' numbers on their phones.",
+  "would_change_my_mind": "Seeing it running at another salon owner's shop near me for a few months, and them telling me the data is safe even when a phone is lost.",
+  "price_too_cheap": 199,
+  "price_cheap": 399,
+  "price_expensive": 799,
+  "price_too_expensive": 1499
+}

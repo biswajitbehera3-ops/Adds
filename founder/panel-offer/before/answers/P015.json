@@ -1,0 +1,13 @@
+{
+  "id": "P015",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I already paid for salon software once and my staff never touched it, so it got cancelled. This asks every stylist to bill on their phone and check in every morning. My team will feel watched and go back to the old way within a month.",
+  "objection": "An attendance check-in and a live view of every chair will tell my senior stylists I don't trust them, and the good ones can walk to another salon. Training on one day doesn't change habits. The money isn't the problem, getting my staff to actually use it is.",
+  "would_change_my_mind": "A free month where the attendance part is switched off and only billing and WhatsApp bills run, with the ₹10,000 refunded if my staff aren't using it daily by the end.",
+  "price_too_cheap": 2000,
+  "price_cheap": 5000,
+  "price_expensive": 15000,
+  "price_too_expensive": 25000
+}

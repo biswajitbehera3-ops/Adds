@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Staff Home · white glass</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+  :root {
+    --ink: #2A1C16;          /* espresso: text on glass, active pill */
+    --ink-2: #6E5549;        /* secondary text on glass */
+    --cream: #FFF8F1;        /* text on the brown backdrop */
+    --gold: #C9824F;         /* money accent (deeper than #E4A67B for contrast on white glass) */
+    --gold-soft: #E4A67B;
+    --glass: rgba(255, 251, 248, .74);
+    --glass-strong: rgba(255, 252, 249, .86);
+    --edge: rgba(255, 255, 255, .75);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Urbanist, system-ui, sans-serif;
+    background: #5B4037;
+    background: radial-gradient(120% 90% at 20% 0%, #8A6758 0%, #5E4237 45%, #3B2822 100%);
+    min-height: 100vh; display: grid; place-items: center; padding: 48px 16px;
+  }
+  .stage { display: flex; gap: 40px; align-items: flex-start; }
+  .phone {
+    width: 390px; height: 844px; border-radius: 52px; padding: 10px;
+    background: linear-gradient(160deg, rgba(255,255,255,.9), rgba(255,255,255,.45));
+    box-shadow: 0 40px 80px rgba(20, 10, 6, .45), inset 0 0 0 1px rgba(255,255,255,.6);
+  }
+  .screen {
+    position: relative; width: 100%; height: 100%; border-radius: 43px; overflow: hidden;
+    /* soft brown backdrop with a light haze, like the reference's muted green */
+    background:
+      radial-gradient(90% 55% at 15% 0%, rgba(255,236,222,.55) 0%, rgba(255,236,222,0) 60%),
+      radial-gradient(80% 60% at 100% 35%, rgba(201,130,79,.35) 0%, rgba(201,130,79,0) 65%),
+      linear-gradient(180deg, #B08E7E 0%, #8C6A5B 40%, #694C40 100%);
+  }
+  .status { display: flex; justify-content: space-between; align-items: center; padding: 16px 28px 0; color: var(--cream); font-weight: 700; font-size: 15px; }
+  .status .icons { display: flex; gap: 6px; align-items: center; }
+  .scroll { padding: 12px 20px 120px; }
+
+  /* Header row */
+  .top { display: flex; align-items: center; justify-content: space-between; }
+  .logo { width: 46px; height: 46px; border-radius: 50%; background: #000; display: grid; place-items: center; overflow: hidden; box-shadow: 0 0 0 2px rgba(255,255,255,.55); }
+  .logo img { width: 100%; height: 100%; object-fit: cover; }
+  .top-right { display: flex; gap: 10px; align-items: center; }
+  .round {
+    width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; position: relative;
+    background: var(--glass); border: 1px solid var(--edge); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+    color: var(--ink);
+  }
+  .dot { position: absolute; top: 11px; right: 12px; width: 8px; height: 8px; border-radius: 50%; background: #D9573B; box-shadow: 0 0 0 2px #fff; }
+  .avatar { width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: var(--cream); background: linear-gradient(145deg, #C9824F, #7A4B33); box-shadow: 0 0 0 2px rgba(255,255,255,.8); font-size: 16px; }
+
+  .hello { margin-top: 14px; color: var(--cream); font-size: 25px; line-height: 1.2; font-weight: 500; letter-spacing: -.2px; }
+  .hello b { font-weight: 800; }
+  .date { margin-top: 8px; color: rgba(255,248,241,.82); font-size: 14px; font-weight: 500; }
+
+  /* Walk-in field (the search bar of the reference) */
+  .walkin {
+    margin-top: 16px; display: flex; align-items: center; gap: 12px; height: 58px; padding: 0 8px 0 8px; border-radius: 29px;
+    background: var(--glass-strong); border: 1px solid var(--edge); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px rgba(42,28,22,.12);
+  }
+  .walkin .ic { width: 42px; height: 42px; border-radius: 50%; background: #fff; display: grid; place-items: center; color: var(--ink); }
+  .walkin .ph { flex: 1; color: var(--ink-2); font-size: 15px; font-weight: 600; }
+  .walkin .go { height: 42px; padding: 0 16px; border-radius: 21px; background: var(--ink); color: var(--cream); font-weight: 700; font-size: 14px; display: flex; align-items: center; }
+
+  .sec { margin: 18px 2px 10px; display: flex; justify-content: space-between; align-items: baseline; }
+  .sec h3 { color: var(--cream); font-size: 18px; font-weight: 700; }
+  .sec a { color: rgba(255,248,241,.78); font-size: 13px; font-weight: 600; text-decoration: none; }
+
+  /* Stat cards row (peeks off the edge like the reference) */
+  .row { display: flex; gap: 12px; }
+  .card {
+    background: var(--glass); border: 1px solid var(--edge); border-radius: 26px;
+    backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+    box-shadow: 0 12px 30px rgba(42,28,22,.14); color: var(--ink);
+  }
+  .stat { flex: 0 0 150px; padding: 14px 14px 12px; position: relative; min-height: 140px; }
+  .stat .label { font-size: 13px; color: var(--ink-2); font-weight: 600; }
+  .stat .num { margin-top: 14px; font-size: 26px; font-weight: 800; letter-spacing: -.4px; }
+  .stat .num small { font-size: 13px; font-weight: 700; color: var(--ink-2); margin-left: 2px; }
+  .stat .split { margin-top: 6px; font-size: 12px; color: var(--ink-2); font-weight: 600; line-height: 1.5; }
+  .chip { display: inline-flex; align-items: center; height: 26px; padding: 0 10px; border-radius: 13px; background: var(--ink); color: var(--cream); font-size: 11px; font-weight: 700; }
+  .stat .chip { margin-top: 10px; }
+  .ring { position: absolute; right: 10px; top: 10px; width: 40px; height: 40px; }
+  .peek { flex: 0 0 90px; padding: 14px 0 0 14px; min-height: 140px; }
+
+  /* My chair card (the "Today's workout" card) */
+  .chair { padding: 16px 18px; position: relative; overflow: hidden; min-height: 132px; }
+  .chair .who { font-size: 22px; font-weight: 800; line-height: 1.15; max-width: 190px; }
+  .chair .what { margin-top: 4px; font-size: 13px; color: var(--ink-2); font-weight: 600; }
+  .chair .chips { margin-top: 12px; display: flex; gap: 8px; }
+  .pill { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border-radius: 16px; background: #fff; color: var(--ink); font-size: 12px; font-weight: 700; }
+  .chair img { position: absolute; right: 2px; bottom: 0; height: 122px; filter: drop-shadow(0 10px 18px rgba(42,28,22,.25)); }
+  .pay { position: absolute; right: 14px; bottom: 14px; height: 44px; padding: 0 20px; border-radius: 23px; background: var(--ink); color: var(--cream); font-weight: 800; font-size: 15px; display: flex; align-items: center; gap: 8px; box-shadow: 0 8px 18px rgba(42,28,22,.3); }
+  .live { position: absolute; top: 16px; right: 16px; display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 13px; background: rgba(255,255,255,.85); font-size: 11px; font-weight: 800; color: var(--ink); }
+  .live i { width: 7px; height: 7px; border-radius: 50%; background: #3FA36B; }
+
+  .bookings { margin-top: 10px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+  .bookings .ic { width: 42px; height: 42px; border-radius: 14px; background: #fff; display: grid; place-items: center; color: var(--ink); }
+  .bookings .t { flex: 1; }
+  .bookings .t b { display: block; font-size: 15px; font-weight: 800; }
+  .bookings .t span { font-size: 12px; color: var(--ink-2); font-weight: 600; }
+
+  /* Bottom menu: white glass pill, dark active pill with label */
+  .dock {
+    position: absolute; left: 50%; bottom: 22px; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 8px; padding: 7px; border-radius: 36px;
+    background: rgba(255, 249, 244, .8); border: 1px solid var(--edge);
+    backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+    box-shadow: 0 14px 34px rgba(42,28,22,.28);
+  }
+  .tab { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; color: var(--ink); background: #fff; border: 1px solid rgba(42,28,22,.08); }
+  .tab.on { width: auto; padding: 0 20px 0 16px; border-radius: 26px; background: var(--ink); color: var(--cream); display: flex; gap: 8px; font-weight: 800; font-size: 15px; border: 0; }
+  .tab.plus { background: linear-gradient(145deg, #E4A67B, #C9824F); color: #2A1C16; border: 0; }
+  .homebar { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); width: 134px; height: 5px; border-radius: 3px; background: rgba(42,28,22,.55); }
+
+  .caption { margin-top: 18px; text-align: center; color: rgba(255,248,241,.85); font-size: 14px; font-weight: 600; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+<div class="stage">
+ <div>
+  <div class="phone"><div class="screen">
+    <div class="status"><span>11:40</span>
+      <span class="icons">
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 4a10 10 0 0 1 14 0"/><path d="M3.5 6.8a6.5 6.5 0 0 1 9 0"/><circle cx="8" cy="10" r="1.3" fill="currentColor" stroke="none"/></svg>
+        <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x=".5" y=".5" width="22" height="11" rx="3" stroke="currentColor" opacity=".6"/><rect x="2" y="2" width="16" height="8" rx="2" fill="currentColor"/><rect x="24" y="4" width="2" height="4" rx="1" fill="currentColor" opacity=".6"/></svg>
+      </span>
+    </div>
+
+    <div class="scroll">
+      <div class="top">
+        <div class="logo"><img src="../../assets/brand/logo-clean.png" alt="Salon logo"></div>
+        <div class="top-right">
+          <div class="round" title="Reminders">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+            <span class="dot"></span>
+          </div>
+          <div class="round" title="WhatsApp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5z"/></svg>
+          </div>
+          <div class="avatar">IK</div>
+        </div>
+      </div>
+
+      <div class="hello">Good morning, <b>Imran!</b> here's your <b>day at the salon.</b></div>
+      <div class="date">Wednesday, 21 October · Chair 1</div>
+
+      <div class="walkin">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
+        <div class="ph">Walk-in? Mobile number</div>
+        <div class="go">Start</div>
+      </div>
+
+      <div class="sec"><h3>My day so far</h3><a href="#">This month ₹8,150</a></div>
+      <div class="row">
+        <div class="card stat">
+          <div class="label">Earnings today</div>
+          <div class="num">₹1,350</div>
+          <div class="split">Cash/UPI/card ₹900<br>Wallet ₹450</div>
+          <span class="chip">Good day</span>
+          <svg class="ring" viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="#fff" /><circle cx="25" cy="25" r="20" fill="none" stroke="rgba(42,28,22,.1)" stroke-width="5"/><circle cx="25" cy="25" r="20" fill="none" stroke="#C9824F" stroke-width="5" stroke-linecap="round" stroke-dasharray="83 126" transform="rotate(-90 25 25)"/><text x="25" y="29.5" text-anchor="middle" font-family="Urbanist" font-weight="800" font-size="13" fill="#2A1C16">₹</text></svg>
+        </div>
+        <div class="card stat">
+          <div class="label">Customers</div>
+          <div class="num">4<small> handled</small></div>
+          <div class="split">3 paid · 1 in chair<br>1 new today</div>
+          <span class="chip">On track</span>
+          <svg class="ring" viewBox="0 0 50 50"><circle cx="25" cy="25" r="20" fill="#fff"/><circle cx="25" cy="25" r="20" fill="none" stroke="rgba(42,28,22,.1)" stroke-width="5"/><circle cx="25" cy="25" r="20" fill="none" stroke="#2A1C16" stroke-width="5" stroke-linecap="round" stroke-dasharray="94 126" transform="rotate(-90 25 25)"/><text x="25" y="30" text-anchor="middle" font-family="Urbanist" font-weight="800" font-size="13" fill="#2A1C16">3/4</text></svg>
+        </div>
+        <div class="card peek">
+          <div class="label" style="font-size:13px;color:#6E5549;font-weight:600">Bookings</div>
+          <div style="margin-top:6px;font-size:26px;font-weight:800;color:#2A1C16">3</div>
+        </div>
+      </div>
+
+      <div class="sec"><h3>My chair</h3><a href="#">Chair 1</a></div>
+      <div class="card chair">
+                <div class="who">Karan Mehta</div>
+        <div class="what">Haircut + Beard trim · since 11:10 · returning</div>
+        <div class="chips">
+          <span class="pill"><i style="width:7px;height:7px;border-radius:50%;background:#3FA36B;display:inline-block"></i>In chair · 30 min</span>
+        </div>
+        <img src="../../assets/live/s3.webp" alt="">
+        <div class="pay">Pay ₹450
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </div>
+      </div>
+
+      <div class="card bookings">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <div class="t"><b>Your bookings today · 3</b><span>Salon: 2 on-the-day reminders to send</span></div>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2A1C16" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+      </div>
+    </div>
+
+    <div class="dock">
+      <div class="tab on"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</div>
+      <div class="tab" title="Customers"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/></svg></div>
+      <div class="tab plus" title="Walk-in"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div>
+      <div class="tab" title="Calendar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+      <div class="tab" title="Profile"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
+    </div>
+    <div class="homebar"></div>
+  </div></div>
+  <div class="caption">Staff Home · brown with white glass</div>
+ </div>
+</div>
+</body>
+</html>

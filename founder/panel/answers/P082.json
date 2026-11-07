@@ -1,0 +1,13 @@
+{
+  "id": "P082",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "My register has never crashed, never needed recharging and never charged me ₹999 a month. I count the drawer myself every night, so I don't need an app to tell me what should be in it. And putting all my customers on phones my staff carry around feels risky.",
+  "objection": "If the phone breaks or a stylist leaves with it, where does my customer list go? And if I stop paying the ₹999, do I lose everything I put in?",
+  "would_change_my_mind": "A free month where I keep my register going too, plus a printed or downloadable copy of all my customers and bills that I can keep even if I stop paying, and no ₹4,999 setup fee.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

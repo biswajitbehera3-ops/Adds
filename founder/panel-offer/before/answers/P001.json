@@ -1,0 +1,13 @@
+{
+  "id": "P001",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My salon already runs on a billing app, and my staff know it, my customer data is in it and the WhatsApp bills already go out. Having my own logo on the app is nice, but it isn't worth ₹10,000 upfront plus the hassle of moving everything over and retraining eight people.",
+  "objection": "I already use Zylu/MioSalon, so why switch? What happens to my customer history and wallet balances, and who is this small company? If they shut down in a year my app is gone.",
+  "would_change_my_mind": "If they moved all my existing customer data and wallet balances over for free, dropped the ₹10,000 setup, and let me run it alongside my current app for a month to see whether the live chair view and cash-drawer checks really catch leaks.",
+  "price_too_cheap": 2000,
+  "price_cheap": 4000,
+  "price_expensive": 8000,
+  "price_too_expensive": 15000
+}

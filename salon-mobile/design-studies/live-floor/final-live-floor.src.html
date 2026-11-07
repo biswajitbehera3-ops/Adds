@@ -1,0 +1,308 @@
+<title>Salon Live Floor</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: one phone screen (owner's Live tab) centred on the brown studio backdrop. Single dark look by design. */
+:root{
+  --glow:#8E5B4E; --mid:#4A3029; --deep:#1A1210;
+  --gold:#E4A67B; --cream:#FFF8F1; --soft:rgba(255,248,241,.74);
+  --glass:rgba(255,244,236,.13); --glass2:rgba(255,244,236,.2); --line:rgba(255,244,236,.26);
+  --ok:#9CCB8F; --alert:#F08C6A; --page:#120c0a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--page);color:var(--cream);font-family:Urbanist,"Avenir Next","Segoe UI",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body{display:flex;justify-content:center;align-items:flex-start;padding-block:24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.screen{position:relative;width:390px;max-width:100%;min-height:844px;border-radius:38px;overflow:hidden;
+  background:radial-gradient(120% 70% at 12% 0%,var(--glow) 0%,var(--mid) 46%,var(--deep) 100%);
+  box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 1px rgba(255,244,236,.08)}
+.screen::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence baseFrequency='.9' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)'/></svg>")}
+
+/* header */
+.hdr{display:flex;justify-content:space-between;align-items:flex-end;padding:22px 20px 10px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+h1{font-size:28px;font-weight:700;letter-spacing:-.01em;margin-top:2px}
+.live{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.1em;padding:7px 11px;border-radius:999px;background:var(--glass);border:1px solid var(--line)}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--alert);box-shadow:0 0 0 0 rgba(240,140,106,.7);animation:pulse 1.6s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(240,140,106,0)}100%{box-shadow:0 0 0 0 rgba(240,140,106,0)}}
+.sub{display:flex;justify-content:space-between;align-items:center;padding:0 20px 12px;font-size:13px;color:var(--soft)}
+.sub b{color:var(--gold);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* floor */
+.floorWrap{margin:0 10px;border-radius:24px;overflow:hidden;border:1px solid var(--line);background:#2a1a15;position:relative}
+.floor{position:relative;width:100%;aspect-ratio:1000/565;container-type:inline-size}
+.floor .plate{position:absolute;inset:0;width:100%;height:100%;display:block}
+.sp{position:absolute;transform-origin:50% 100%;pointer-events:none;will-change:transform,opacity}
+.sp img{display:block;height:100%;width:auto}
+.sp.flip img{transform:scaleX(-1)}
+.shadow{position:absolute;border-radius:50%;background:radial-gradient(closest-side,rgba(40,20,10,.45),rgba(40,20,10,0));pointer-events:none}
+.pill{position:absolute;transform:translate(-50%,-100%);display:flex;align-items:center;gap:5px;white-space:nowrap;
+  font-size:max(10px,2.35cqw);font-weight:600;padding:2px 8px 2px 2px;border-radius:999px;
+  background:rgba(38,22,17,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid var(--line);
+  color:var(--cream);cursor:pointer;transition:box-shadow .25s,background .25s;pointer-events:auto}
+.pill .n{width:17px;height:17px;border-radius:50%;display:grid;place-items:center;background:var(--gold);color:#2a1a12;font-size:10px;font-weight:800;position:relative}
+.pill .n svg{position:absolute;inset:-3px;width:23px;height:23px;transform:rotate(-90deg)}
+.pill.free{color:var(--soft)} .pill.free .n{background:rgba(255,244,236,.25);color:var(--cream)}
+.pill.sel,.pill:focus-visible{box-shadow:0 0 0 2px var(--gold);background:rgba(60,34,24,.8);outline:none}
+.toast{position:absolute;left:50%;bottom:8px;transform:translate(-50%,6px);opacity:0;white-space:nowrap;font-size:12px;font-weight:600;
+  padding:6px 12px;border-radius:999px;background:rgba(38,22,17,.72);border:1px solid var(--line);backdrop-filter:blur(8px);transition:opacity .35s,transform .35s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast.gold{color:#2a1a12;background:var(--gold);border-color:transparent}
+.paid{position:absolute;transform:translate(-50%,-100%) scale(.6);opacity:0;font-weight:800;font-size:max(12px,3.4cqw);color:#2a1a12;
+  background:var(--gold);padding:4px 10px;border-radius:999px;box-shadow:0 6px 22px rgba(228,166,123,.55)}
+
+/* cards */
+.secTitle{display:flex;justify-content:space-between;align-items:baseline;padding:16px 20px 8px;font-size:13px;color:var(--soft)}
+.secTitle b{color:var(--cream);font-size:15px}
+.cards{display:flex;flex-direction:column;gap:8px;padding:0 12px}
+.card{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;padding:10px 12px;border-radius:20px;
+  background:var(--glass);border:1px solid var(--line);box-shadow:inset 0 1px 0 rgba(255,255,255,.08);cursor:pointer;transition:background .25s,box-shadow .25s}
+.card.sel{background:var(--glass2);box-shadow:0 0 0 2px var(--gold) inset}
+.ring{width:44px;height:44px;position:relative}
+.ring svg{width:44px;height:44px;transform:rotate(-90deg)}
+.ring span{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:14px}
+.who{min-width:0}
+.who .c{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who .s{font-size:12px;color:var(--soft);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.amt{text-align:right}
+.amt .r{color:var(--gold);font-weight:700;font-size:15px}
+.amt .m{font-size:12px;color:var(--soft);margin-top:2px;font-variant-numeric:tabular-nums}
+.card.free .c{color:var(--soft)}
+.wait{margin:8px 12px 0;padding:10px 14px;border-radius:18px;background:var(--glass);border:1px solid var(--line);font-size:13px;color:var(--soft);display:flex;justify-content:space-between}
+.wait b{color:var(--cream)}
+
+/* tab bar */
+.tabs{position:absolute;left:12px;right:12px;bottom:14px;display:grid;grid-template-columns:repeat(5,1fr);padding:8px;border-radius:24px;
+  background:rgba(38,22,17,.55);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.tabs a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--soft);text-decoration:none;padding:6px 0;border-radius:16px}
+.tabs a.on{color:#2a1a12;background:var(--gold);font-weight:700}
+.tabs svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.spacer{height:96px}
+@media (prefers-reduced-motion:reduce){.live i{animation:none}}
+</style>
+<main class="screen" aria-label="Owner app, Live floor">
+  <header class="hdr">
+    <div><div class="eyebrow">Owner · from anywhere</div><h1>Live floor</h1></div>
+    <div class="live" role="status"><i></i>LIVE</div>
+  </header>
+  <div class="sub"><span id="clock">Wed 14 Oct · 11:38 AM</span><span>Today <b id="total">₹6,800</b></span></div>
+
+  <div class="floorWrap">
+    <div class="floor" id="floor" role="img" aria-label="Animated view of the salon floor: receptionist at the front desk, three chairs with stylists">
+      <img class="plate" id="plate" alt="">
+      <div class="toast" id="toast"></div>
+    </div>
+  </div>
+
+  <div class="secTitle"><b>Chairs</b><span id="busy">3 of 3 busy</span></div>
+  <div class="cards" id="cards"></div>
+  <div class="wait"><span>Front desk · Meera</span><b id="desk">Ready</b></div>
+  <div class="spacer"></div>
+
+  <nav class="tabs" aria-label="Owner sections">
+    <a class="on" href="#" aria-current="page"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M5 12a7 7 0 0 1 14 0M2 12a10 10 0 0 1 20 0"/></svg>Live</a>
+    <a href="#"><svg viewBox="0 0 24 24"><path d="M6 4h12M6 9h12M9 4c4 0 5 5 0 5l7 11"/></svg>Earnings</a>
+    <a href="#"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M8 13l3 3 5-5"/></svg>Attendance</a>
+    <a href="#"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M16 5a3 3 0 0 1 0 6M18 15c2 .5 3 2 3 5"/></svg>Staff</a>
+    <a href="#"><svg viewBox="0 0 24 24"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 9h6M9 13h6"/></svg>Visits</a>
+  </nav>
+</main>
+
+<script>
+const IMG = /*IMG*/{}/*END*/;
+const floor = document.getElementById('floor');
+document.getElementById('plate').src = IMG.plate;
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// Plate coordinates are in a 1000 × 565 space; sprites anchor at their feet.
+const P = (x,y)=>({x,y});
+const SPOTS = {
+  door:P(118,352), desk:P(262,418), chair1:P(518,262), chair2:P(632,312), chair3:P(752,382),
+  ch3front:P(708,420), lounge:P(392,392)
+};
+function sprite(key,h,{flip=false,z=0}={}){
+  const el=document.createElement('div'); el.className='sp'+(flip?' flip':'');
+  const im=document.createElement('img'); im.src=IMG[key]; im.alt=''; el.appendChild(im);
+  el.style.height=(h/565*100)+'%'; el.style.zIndex=z; floor.appendChild(el); el._h=h; return el;
+}
+function place(el,x,y,{op=1,flip}={}){
+  el.style.left=(x/10)+'%'; el.style.top=(y/5.65)+'%';
+  el.style.transform='translate(-50%,-100%)'; el.style.opacity=op;
+  el.style.zIndex=Math.round(y);
+  if(flip!==undefined) el.classList.toggle('flip',flip);
+}
+function shadow(x,y,w){const s=document.createElement('div');s.className='shadow';floor.appendChild(s);
+  s.style.width=(w/10)+'%';s.style.height=(w*.32/5.65)+'%';s.style.left=((x-w/2)/10)+'%';s.style.top=((y-w*.16)/5.65)+'%';s.style.zIndex=Math.round(y)-1;return s;}
+
+// static cast (the receptionist is part of the salon picture)
+const seatH=96, standH=122, walkH=120;
+const karan=sprite('s3',seatH), priya=sprite('s4',seatH), devSeat=sprite('s5',seatH);
+const imran=sprite('s0',standH), sunita=sprite('s1',standH), rakesh=sprite('s2',standH);
+place(karan,SPOTS.chair1.x+6,SPOTS.chair1.y,{flip:true});
+place(priya,SPOTS.chair2.x+6,SPOTS.chair2.y,{flip:true});
+place(imran,SPOTS.chair1.x-44,SPOTS.chair1.y+20,{flip:true});
+place(sunita,SPOTS.chair2.x-44,SPOTS.chair2.y+20,{flip:true});
+place(rakesh,SPOTS.chair3.x-44,SPOTS.chair3.y+20,{flip:true});
+
+// ---- walkers: real walk cycles cut from Higgsfield video clips ----
+// Each sheet is one full walk cycle (two steps). The frame shown is chosen from the distance
+// walked, so steps stay matched to movement; walking pace is set so the cycle plays at the
+// clip's natural speed (24 fps).
+const SHEETS={
+  dev:{img:'walkDev',frames:43,fw:70,fh:150,stand:16},
+  rahul:{img:'walkRahul',frames:29,fw:67,fh:150,stand:17},
+  neha:{img:'walkNeha',frames:42,fw:57,fh:150,stand:22}
+};
+const CYCLE=96;                               // plate units covered by one walk cycle (≈1.4 m)
+function walker(key){
+  const S=SHEETS[key], el=document.createElement('div'); el.className='sp';
+  const inner=document.createElement('div'); el.appendChild(inner);
+  el.style.height=(walkH/565*100)+'%'; el.style.aspectRatio=`${S.fw}/${S.fh}`;
+  inner.style.cssText=`width:100%;height:100%;background-image:url(${IMG[S.img]});background-repeat:no-repeat;background-size:${S.frames*100}% 100%`;
+  floor.appendChild(el);
+  const sh=document.createElement('div'); sh.className='shadow'; floor.appendChild(sh);
+  return {S,el,inner,sh,speed:CYCLE*24/S.frames};
+}
+const dev=walker('dev'), neha=walker('neha'), rahul=walker('rahul');
+
+// ---- schedule: walks get their duration from path length and the person's natural pace ----
+const RAMP=.45;
+function buildPath(pts){
+  const out=[pts[0]];
+  for(let i=1;i<pts.length-1;i++){
+    const [px,py]=pts[i-1],[cx,cy]=pts[i],[nx,ny]=pts[i+1];
+    const d1=Math.hypot(cx-px,cy-py),d2=Math.hypot(nx-cx,ny-cy),r=Math.min(34,d1/2,d2/2);
+    const a=[cx-(cx-px)/d1*r,cy-(cy-py)/d1*r],b=[cx+(nx-cx)/d2*r,cy+(ny-cy)/d2*r];
+    out.push(a);for(let k=1;k<8;k++){const u=k/8;out.push([(1-u)*(1-u)*a[0]+2*u*(1-u)*cx+u*u*b[0],(1-u)*(1-u)*a[1]+2*u*(1-u)*cy+u*u*b[1]]);}out.push(b);
+  }
+  out.push(pts[pts.length-1]);
+  const cum=[0];for(let i=1;i<out.length;i++)cum.push(cum[i-1]+Math.hypot(out[i][0]-out[i-1][0],out[i][1]-out[i-1][1]));
+  return {pts:out,cum,L:cum[cum.length-1]};
+}
+function pointAt(P,s){
+  s=Math.max(0,Math.min(P.L,s));let i=1;while(i<P.cum.length-1&&P.cum[i]<s)i++;
+  const seg=(P.cum[i]-P.cum[i-1])||1,k=(s-P.cum[i-1])/seg,a=P.pts[i-1],b=P.pts[i];
+  return {x:a[0]+(b[0]-a[0])*k,y:a[1]+(b[1]-a[1])*k,dx:b[0]-a[0]};
+}
+function covered(L,T,u){const r=Math.min(RAMP,T/3),v=L/(T-r);
+  if(u<=0)return 0;if(u>=T)return L;if(u<r)return v*u*u/(2*r);if(u>T-r){const w=T-u;return L-v*w*w/(2*r);}return v*r/2+v*(u-r);}
+// steps: {walk:[[x,y]...]} | {stand:sec, faceLeft, mark} | {away:sec, mark}  (away = hidden, e.g. seated)
+function plan(w,start,steps){
+  let t=start; const segs=[], marks={};
+  for(const st of steps){
+    if(st.walk){const P=buildPath(st.walk),T=P.L/w.speed+RAMP;segs.push({type:'walk',a:t,b:t+T,P});t+=T;}
+    else if(st.stand!==undefined){const last=segs[segs.length-1];const p=last.P?last.P.pts[last.P.pts.length-1]:last.pt;
+      segs.push({type:'stand',a:t,b:t+st.stand,pt:p,left:!!st.faceLeft});if(st.mark)marks[st.mark]=t;t+=st.stand;}
+    else if(st.away!==undefined){if(st.mark)marks[st.mark]=t;segs.push({type:'away',a:t,b:t+st.away});t+=st.away;}
+    if(st.markEnd)marks[st.markEnd]=t;
+  }
+  marks.end=t; return {segs,marks,start,end:t};
+}
+function stateAt(pl,t){
+  for(const s of pl.segs) if(t>=s.a&&t<s.b){
+    if(s.type==='walk'){const d=covered(s.P.L,s.b-s.a,t-s.a);return {...pointAt(s.P,d),moving:true,d,seg:s};}
+    if(s.type==='stand')return {x:s.pt[0],y:s.pt[1],dx:s.left?-1:1,moving:false,seg:s};
+    return null;
+  }
+  return null;
+}
+function opacityAt(pl,t){ // fade at the door and when sitting down / standing up
+  if(t<pl.start||t>=pl.end)return 0;
+  let op=Math.min(1,(t-pl.start)/.4,(pl.end-t)/.4);
+  for(const s of pl.segs) if(s.type==='away'){op=Math.min(op,Math.max(0,Math.min(1,Math.abs(t-s.a)/.4,Math.abs(t-s.b)/.4)));if(t>=s.a&&t<s.b)op=0;}
+  return op;
+}
+function drive(w,pl,t){
+  const st=stateAt(pl,t), op=opacityAt(pl,t);
+  if(!st||op<=0){w.el.style.opacity=0;w.sh.style.opacity=0;return;}
+  let f=0,n=0;for(let k=0;k<6;k++){const s2=stateAt(pl,t-k*.05);if(s2&&s2.dx){f+=Math.sign(s2.dx);n++;}}
+  f=n?f/n:1; if(Math.abs(f)<.2)f=.2*(Math.sign(f)||1); if(RM)f=Math.sign(st.dx)||1;
+  const S=w.S; let fr=S.stand;
+  if(st.moving&&!RM){const travelled=st.d+(st.seg.a*7.3);fr=Math.floor(((travelled/CYCLE)%1)*S.frames);}
+  w.inner.style.backgroundPosition=`${(fr/(S.frames-1)*100).toFixed(3)}% 0`;
+  w.inner.style.transform=`scaleX(${f.toFixed(3)})`;
+  place(w.el,st.x,st.y,{op});
+  const breathe=!st.moving&&!RM?1+.006*Math.sin(t*1.8):1;
+  w.el.style.transform=`translate(-50%,-100%) scaleY(${breathe.toFixed(4)})`;
+  const shw=34;w.sh.style.width=(shw/10)+'%';w.sh.style.height=(shw*.3/5.65)+'%';w.sh.style.left=((st.x-shw/2)/10)+'%';w.sh.style.top=((st.y-5)/5.65)+'%';w.sh.style.opacity=op*.9;w.sh.style.zIndex=Math.round(st.y)-1;
+}
+
+// Route: door → round the front of the reception desk → stand at its right-hand side.
+const DOOR=[118,356], DESK=[322,364];
+const IN=[DOOR,[178,416],[304,414],DESK], OUT=[DESK,[304,414],[178,416],DOOR];
+const TO3=[DESK,[430,386],[600,394],[SPOTS.ch3front.x,SPOTS.ch3front.y]];
+const FROM3=[[SPOTS.ch3front.x,SPOTS.ch3front.y],[600,394],[430,386],DESK];
+const SEAT=10;
+const devPlan=plan(dev,.3,[{walk:IN},{stand:1.6,faceLeft:true,mark:'checkin'},{walk:TO3},{stand:.5,mark:'atChair'},{away:SEAT,mark:'seated',markEnd:'up'},{walk:FROM3},{stand:1.8,faceLeft:true,mark:'pay'},{walk:OUT}]);
+const nehaPlan=plan(neha,devPlan.marks.checkin+4.4,[{walk:IN},{stand:2.4,faceLeft:true,mark:'topup'},{walk:OUT}]);
+const rahulPlan=plan(rahul,devPlan.marks.seated+6.5,[{walk:IN},{stand:2.6,faceLeft:true,mark:'book'},{walk:OUT}]);
+const LOOP=Math.ceil(Math.max(devPlan.end,nehaPlan.end,rahulPlan.end)+1);
+const M=devPlan.marks, sitA=M.seated, sitB=M.up;
+
+// pills + ring helper
+const ringSVG=(p)=>`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5" fill="none" stroke="rgba(255,244,236,.25)" stroke-width="2"/><circle cx="12" cy="12" r="10.5" fill="none" stroke="#FFF8F1" stroke-width="2" stroke-linecap="round" stroke-dasharray="${(p*66).toFixed(1)} 66"/></svg>`;
+const pills=[1,2,3].map(n=>{const b=document.createElement('button');b.className='pill';b.dataset.ch=n;floor.appendChild(b);return b;});
+const pillPos={1:P(470,132),2:P(612,200),3:P(760,270)};
+pills.forEach(b=>{const p=pillPos[b.dataset.ch];b.style.left=(p.x/10)+'%';b.style.top=(p.y/5.65)+'%';b.style.zIndex=900;});
+const paid=document.createElement('div');paid.className='paid';floor.appendChild(paid);paid.style.zIndex=950;
+const toast=document.getElementById('toast');toast.style.zIndex=960;
+
+// cards
+const cards=document.getElementById('cards');
+const cardEls=[1,2,3].map(n=>{const c=document.createElement('div');c.className='card';c.dataset.ch=n;c.tabIndex=0;c.setAttribute('role','button');cards.appendChild(c);return c;});
+let selected=null;
+function select(n){selected=(selected===n)?null:n;[...pills,...cardEls].forEach(e=>e.classList.toggle('sel',+e.dataset.ch===selected));}
+[...pills,...cardEls].forEach(e=>{e.addEventListener('click',()=>select(+e.dataset.ch));e.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();select(+e.dataset.ch);}});});
+
+function fmt(n){return '₹'+n.toLocaleString('en-IN');}
+const within=(t,a,b)=>t>=a&&t<b;
+function render(t){
+  t=((t%LOOP)+LOOP)%LOOP;
+  drive(dev,devPlan,t); drive(neha,nehaPlan,t); drive(rahul,rahulPlan,t);
+  const seatOp=t<sitA-.4||t>sitB+.4?0:Math.min(1,(t-(sitA-.4))/.4,((sitB+.4)-t)/.4);
+  place(devSeat,SPOTS.chair3.x+6,SPOTS.chair3.y,{op:seatOp,flip:true});
+  const seated=within(t,sitA,sitB);
+
+  // money
+  const pA=M.pay+.3,pB=M.pay+1.8, paidOn=within(t,pA,pB), pk=paidOn?Math.min(1,(t-pA)/.35):0;
+  paid.textContent='₹300 PAID'; paid.style.left=(DESK[0]/10)+'%'; paid.style.top=((DESK[1]-130-pk*14)/5.65)+'%';
+  paid.style.opacity=paidOn?Math.min(1,(pB-t)/.4):0; paid.style.transform=`translate(-50%,-100%) scale(${paidOn?.8+.2*Math.min(1,pk*1.4):.6})`;
+  document.getElementById('total').textContent=fmt(6800+(t>=pA+.3?300:0)); // wallet top-ups are money held, not earnings
+
+  // front desk messages
+  let msg='',gold=false,desk='Ready';
+  const NM=nehaPlan.marks, RMk=rahulPlan.marks;
+  if(within(t,M.checkin,M.checkin+1.8)){msg='Dev Arora checked in · booked 11:40';desk='Checked in Dev Arora';}
+  else if(within(t,NM.topup,NM.topup+2.4)){msg='Neha Singh · wallet top-up ₹2,000 (+₹100 bonus)';gold=true;desk='Wallet top-up · Neha Singh';}
+  else if(within(t,RMk.book,RMk.book+2.6)){msg='Rahul Jain booked a haircut · Sat 4:30 PM';desk='Booking · Rahul Jain';}
+  else if(paidOn){msg='Dev Arora paid ₹300 · UPI';gold=true;desk='Payment · Dev Arora';}
+  toast.textContent=msg; toast.classList.toggle('on',!!msg); toast.classList.toggle('gold',gold);
+  document.getElementById('desk').textContent=desk;
+
+  // chair data
+  const mins=t*0.25;
+  const ch=[
+    {n:1,c:'Karan Mehta',first:'Karan',s:'Haircut + Beard trim',st:'Imran',r:450,done:18+mins,tot:30},
+    {n:2,c:'Priya Patel',first:'Priya',s:'Hair spa + blow-dry',st:'Sunita',r:900,done:12+mins,tot:45},
+    seated?{n:3,c:'Dev Arora',first:'Dev',s:'Beard trim & shape',st:'Rakesh',r:300,done:Math.min(15,(t-sitA)/SEAT*15),tot:15}
+          :{n:3,free:true,c:t<sitA?'Free · next Dev Arora':'Free · cleaning',s:'Rakesh',st:'Rakesh'}
+  ];
+  ch.forEach((d,i)=>{
+    const p=d.free?0:Math.min(1,d.done/d.tot), left=d.free?0:Math.max(0,Math.ceil(d.tot-d.done));
+    pills[i].classList.toggle('free',!!d.free);
+    pills[i].innerHTML=`<span class="n">${d.free?'':ringSVG(p)}${d.n}</span>${d.free?'Free':`${d.first} · ${left} min`}`;
+    pills[i].setAttribute('aria-label',d.free?`Chair ${d.n}, free`:`Chair ${d.n}, ${d.c}, ${left} minutes left`);
+    cardEls[i].classList.toggle('free',!!d.free);
+    cardEls[i].innerHTML=`<div class="ring"><svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="19" fill="none" stroke="rgba(255,244,236,.18)" stroke-width="4"/><circle cx="22" cy="22" r="19" fill="none" stroke="#E4A67B" stroke-width="4" stroke-linecap="round" stroke-dasharray="${(p*119.4).toFixed(1)} 119.4"/></svg><span>${d.n}</span></div>
+      <div class="who"><div class="c">${d.c}</div><div class="s">${d.free?'Stylist '+d.st+' · ready':d.s+' · '+d.st}</div></div>
+      <div class="amt">${d.free?'<div class="m">—</div>':`<div class="r">${fmt(d.r)}</div><div class="m">${left} min left</div>`}</div>`;
+  });
+  document.getElementById('busy').textContent=`${seated?3:2} of 3 busy`;
+  const hm=38+Math.floor(t/10); document.getElementById('clock').textContent=`Wed 14 Oct · 11:${String(hm).padStart(2,'0')} AM`;
+}
+let start=performance.now(), seekT=null;
+window.__seek=s=>{seekT=s;render(s);};
+function loop(now){ if(seekT===null) render(RM?18:(now-start)/1000); requestAnimationFrame(loop);}
+requestAnimationFrame(loop);
+</script>

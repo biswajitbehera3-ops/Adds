@@ -1,0 +1,13 @@
+{
+  "id": "P066",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "₹4,999 before I've seen it work, and then ₹999 every month forever, is too much for a 3-chair parlour. My register and my own count of the drawer every night cost me nothing.",
+  "objection": "A monthly bill that never stops, and when the app hangs on a busy Sunday with customers waiting, who do I call? I am not paying every month for something that leaves me stuck.",
+  "would_change_my_mind": "No setup fee, or setup only paid after the free month once I see the cash-drawer check actually matches my count, plus a local number someone picks up on Sundays.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

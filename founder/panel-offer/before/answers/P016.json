@@ -1,0 +1,13 @@
+{
+  "id": "P016",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I have run two outlets on my register for years and I count the drawer myself every night, so I know where every rupee is. I don't see why I should pay ten thousand and then five hundred every month to move my staff onto phones and a check-in that tells them I am watching them.",
+  "objection": "My stylists have been with me a long time; a selfie check-in and an app watching every bill will make them feel I don't trust them, and if they don't use it properly the numbers are useless and I am back to my register anyway.",
+  "would_change_my_mind": "Let me try it free for a month at my second branch, without the attendance check-in, and show me it catches cash my register misses.",
+  "price_too_cheap": 1500,
+  "price_cheap": 3000,
+  "price_expensive": 8000,
+  "price_too_expensive": 15000
+}

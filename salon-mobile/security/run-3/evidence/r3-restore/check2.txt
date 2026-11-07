@@ -1,0 +1,31 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/r3-restore/scratch/t2[39m
+
+[90mstdout[2m | store.test.ts[2m > [22m[2mr3-restore store[2m > [22m[2mD: selfies referenced only by records a restore or clear-all replaces are never deleted
+[22m[39mD after restore: attendance records = [33m0[39m ; deletePhotos calls so far = []
+
+[90mstdout[2m | store.test.ts[2m > [22m[2mr3-restore store[2m > [22m[2mD: selfies referenced only by records a restore or clear-all replaces are never deleted
+[22m[39mD 400 days later: deletePhotos keys = [] ; 'selfie-after-backup' deleted? [33mfalse[39m
+
+[90mstdout[2m | store.test.ts[2m > [22m[2mr3-restore store[2m > [22m[2mD: selfies referenced only by records a restore or clear-all replaces are never deleted
+[22m[39mD clearAll: attendance = [33m0[39m ; deletePhotos keys = []
+
+[90mstdout[2m | store.test.ts[2m > [22m[2mr3-restore store[2m > [22m[2mC2: a restored staff record with id 'owner' acts as owner in closures and is hidden from the owner's checks
+[22m[39mC2 staff session actor = owner (imran original id mv7o7sg0512ebk)
+C2 late cancel by staff accepted: status CANCELLED closedBy owner ; owner booking checks: []
+
+[90mstdout[2m | store.test.ts[2m > [22m[2mr3-restore store[2m > [22m[2mD-control: a selfie still referenced is deleted by the purge after 365 days
+[22m[39mD-control deletePhotos keys = ["control-selfie"]
+
+[90mstdout[2m | store.test.ts[2m > [22m[2mr3-restore store[2m > [22m[2mC2-control: an ordinary staff id cannot cancel after the booked time
+[22m[39mC2-control ordinary staff late cancel -> The booked time has passed. Mark it No-show instead
+
+ [32m✓[39m store.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 9501[2mms[22m[39m
+   [33m[2m✓[22m[39m r3-restore store[2m > [22mD: selfies referenced only by records a restore or clear-all replaces are never deleted [33m 4987[2mms[22m[39m
+   [33m[2m✓[22m[39m r3-restore store[2m > [22mD-control: a selfie still referenced is deleted by the purge after 365 days [33m 4485[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m 14:40:11
+[2m   Duration [22m 10.07s[2m (transform 341ms, setup 0ms, collect 344ms, tests 9.50s, environment 0ms, prepare 66ms)[22m
+

@@ -1,0 +1,13 @@
+{
+  "id": "P002",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I already paid for salon software once and my staff simply never used it, so it got cancelled. The money is not the problem, but I am not putting my stylists through another app they will ignore after the first week, especially when I can't afford to annoy the good ones I still have.",
+  "objection": "My stylists will go back to the register book within a month, and if a phone breaks or someone leaves with it, what happens to all my customer data?",
+  "would_change_my_mind": "A free one-month trial at one outlet where my own staff actually bill every walk-in on it, plus proof that the customer data is backed up somewhere safe and stays mine if a phone is lost or a stylist quits.",
+  "price_too_cheap": 2000,
+  "price_cheap": 5000,
+  "price_expensive": 15000,
+  "price_too_expensive": 30000
+}

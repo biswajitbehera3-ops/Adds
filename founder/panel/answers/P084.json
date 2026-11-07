@@ -1,0 +1,13 @@
+{
+  "id": "P084",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "Seeing the cash drawer and who is in the chair while I'm at my other work is exactly what I worry about, but for a one- or two-chair shop ₹5,000 upfront plus ₹1,000 every month is too much out of what I earn. My notebook is free and I already know most of my regulars.",
+  "objection": "If the phone breaks or the company shuts down, where does all my customer data go? And I'd be paying ₹12,000 a year whether the month was good or slow.",
+  "would_change_my_mind": "No setup fee, around ₹399-499 a month, and a clear promise that my data is backed up and I can download it even if I stop paying.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

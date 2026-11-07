@@ -1,0 +1,13 @@
+{
+  "id": "P078",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "₹4,999 upfront plus ₹999 every month is close to ₹16,000 in the first year, for a 3-chair parlour that runs fine on a register and WhatsApp. I don't sign up for monthly payments, and Zylu and MioSalon already sell billing apps if I ever want one, so I don't see why this one.",
+  "objection": "Another monthly bill that never stops, plus ₹4,999 just to set it up. My stylists won't bother with selfies and typing numbers on a busy Sunday, and then I've paid for nothing.",
+  "would_change_my_mind": "No setup fee and a one-time or yearly price under ₹3,000, with proof from a nearby salon that it actually stopped cash going missing from the drawer.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

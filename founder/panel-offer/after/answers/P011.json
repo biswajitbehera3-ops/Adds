@@ -1,0 +1,13 @@
+{
+  "id": "P011",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "trust",
+  "reason": "Last time I paid and the staff never touched it, but here the second ₹5,000 only gets paid if my stylists actually bill in it for 20 days, and someone comes and trains them in Odia. ₹500 a month is nothing for my salon, so the real risk is only the first ₹5,000 and some disruption, and I can live with that.",
+  "objection": "My stylists are busy with customers; on a rush Saturday they will skip the app and take cash, and then I am back to the register. Also I am not keen on showing my salon setup to nearby competing owners.",
+  "would_change_my_mind": "If in the first two weeks the stylists keep skipping billing and the support person does not actually come back to fix it, I would stop and want my money back.",
+  "price_too_cheap": 2000,
+  "price_cheap": 5000,
+  "price_expensive": 15000,
+  "price_too_expensive": 25000
+}

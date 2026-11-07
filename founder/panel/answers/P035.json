@@ -1,0 +1,13 @@
+{
+  "id": "P035",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "I have one or two chairs and I cut most of the hair myself, so I already know who is in which chair and what is in the drawer. ₹4,999 plus ₹999 every month is real money for me, and WhatsApp already does bookings and reminders for free.",
+  "objection": "Five thousand up front and a thousand every month for a shop this small, and I'm not sure where my customer numbers go. If the app company shuts down or I stop paying, do I lose everything, same as if my phone breaks?",
+  "would_change_my_mind": "No setup fee and around ₹299-399 a month, plus a clear backup where I can download my full customer list to my own phone any time, even if I stop paying.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

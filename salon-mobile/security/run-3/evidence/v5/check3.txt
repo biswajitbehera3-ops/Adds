@@ -1,0 +1,16 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/v5/scratch[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck3: earlier fixes still hold[2m > [22m[2mwalking the clock to +370 days in 2.9-day steps never cleans up
+[22m[39mcleanup runs (all within 30 days of confirmation): [33m10[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck3: earlier fixes still hold[2m > [22m[2mstore: far-forward save, clock put right, saves refused, owner confirmClock via commit always succeeds and recovers
+[22m[39mdeleted photos: [] customer kept: [33mtrue[39m
+
+ [32m✓[39m x.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 117[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m 05:13:59
+[2m   Duration [22m 914ms[2m (transform 523ms, setup 0ms, collect 483ms, tests 117ms, environment 0ms, prepare 100ms)[22m
+

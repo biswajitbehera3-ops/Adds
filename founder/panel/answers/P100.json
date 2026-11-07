@@ -1,0 +1,13 @@
+{
+  "id": "P100",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I've never heard of this and no salon owner I know or my distributor uses it, so I won't put ₹5,000 down plus ₹999 every month on it. My notebook and WhatsApp work fine for now.",
+  "objection": "If the app stops working on a busy Sunday with walk-ins waiting, who do I call? I don't know these people and nobody I trust has tried them.",
+  "would_change_my_mind": "Seeing another salon owner nearby use it for a few months and tell me support picks up the phone fast, especially on weekends.",
+  "price_too_cheap": 199,
+  "price_cheap": 399,
+  "price_expensive": 999,
+  "price_too_expensive": 1799
+}

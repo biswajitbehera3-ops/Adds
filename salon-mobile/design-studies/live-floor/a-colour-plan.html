@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Live Floor</title>
+<style>
+:root{
+  --glow:#8E5B4E; --mid:#4A3029; --deep:#1A1210;
+  --glass:rgba(255,244,236,.13); --glass-2:rgba(255,244,236,.18);
+  --edge:rgba(255,244,236,.28);
+  --gold:#E4A67B; --cream:#FFF8F1; --soft:rgba(255,248,241,.74);
+  --ok:#9CCB8F; --alert:#F08C6A;
+  --sheet:rgba(22,14,12,.46);
+  --line:rgba(255,248,241,.62);
+  --line-faint:rgba(255,248,241,.16);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:"Urbanist",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color:var(--cream);
+  background:var(--deep);
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+.screen{
+  position:relative; width:390px; height:844px; margin:0 auto; overflow:hidden;
+  background:radial-gradient(130% 75% at 4% 0%, var(--glow) 0%, var(--mid) 42%, var(--deep) 100%);
+  display:flex; flex-direction:column;
+}
+.screen::after{ /* film grain, inline SVG noise — no network */
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.16; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.glass{
+  background:var(--glass);
+  border:1px solid var(--edge);
+  border-radius:22px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16), inset 0 0 0 1px rgba(255,255,255,.02), 0 10px 30px rgba(10,6,5,.28);
+  -webkit-backdrop-filter:blur(18px) saturate(120%); backdrop-filter:blur(18px) saturate(120%);
+}
+
+/* header */
+header{padding:18px 20px 10px; display:flex; align-items:flex-end; justify-content:space-between}
+.eyebrow{font-size:12.5px; letter-spacing:.06em; color:var(--soft); font-weight:600}
+h1{font-size:30px; line-height:1.05; font-weight:700; letter-spacing:-.01em; margin-top:4px}
+.live{display:flex; flex-direction:column; align-items:flex-end; gap:6px}
+.live-pill{display:inline-flex; align-items:center; gap:7px; padding:5px 10px 5px 9px; border-radius:999px;
+  background:rgba(156,203,143,.14); border:1px solid rgba(156,203,143,.42); font-size:12px; font-weight:700; letter-spacing:.12em; color:var(--ok)}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(156,203,143,.6);animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(156,203,143,.55)}80%,100%{box-shadow:0 0 0 7px rgba(156,203,143,0)}}
+.clock{font-size:12.5px; color:var(--soft); font-variant-numeric:tabular-nums; font-weight:600}
+
+/* floor plan */
+.plan{margin:2px 16px 0; padding:7px}
+.sheet{border-radius:16px; background:var(--sheet); overflow:hidden; position:relative}
+.sheet svg{display:block; width:100%; height:auto}
+svg text{font-family:inherit}
+.zone{cursor:pointer}
+.zone rect.z{transition:stroke-opacity .25s, fill-opacity .25s}
+.zone.sel rect.z{stroke-opacity:1; stroke-width:2.2; fill-opacity:.26}
+
+/* stats strip */
+.stats{margin:10px 16px 0; display:grid; grid-template-columns:1.45fr 1fr 1fr; padding:0; border-radius:18px}
+.stat{padding:9px 12px 9px; position:relative}
+.stat + .stat::before{content:""; position:absolute; left:0; top:12px; bottom:12px; width:1px; background:rgba(255,244,236,.2)}
+.stat .k{font-size:12px; color:var(--soft); font-weight:600; letter-spacing:.02em}
+.stat .v{font-size:19px; font-weight:700; margin-top:1px; font-variant-numeric:tabular-nums; display:flex; align-items:baseline; gap:6px; white-space:nowrap}
+.stat .v small{font-size:12px; color:var(--soft); font-weight:600}
+.money{color:var(--gold)}
+.stat.flash{animation:none}
+.dots{display:inline-flex; gap:4px; margin-left:2px; transform:translateY(-2px)}
+.dots i{width:8px;height:8px;border-radius:50%;display:block;border:1.5px solid currentColor}
+
+/* chair list (docs-index style) */
+.list-head{margin:12px 20px 6px; display:flex; justify-content:space-between; align-items:baseline}
+.list-head h2{font-size:12px; letter-spacing:.12em; font-weight:700; color:var(--soft); text-transform:uppercase}
+.list-head span{font-size:12px; color:var(--soft)}
+.list{margin:0 16px; padding:4px 0; border-radius:20px; flex:1; overflow:auto; min-height:0}
+.row{position:relative; display:grid; grid-template-columns:34px 1fr auto; gap:0 10px; align-items:center;
+  padding:11px 14px 14px 14px; cursor:pointer; border-radius:14px; margin:0 4px; transition:background .25s}
+.row + .row{border-top:1px solid rgba(255,244,236,.1)}
+.row.sel{background:rgba(255,244,236,.1)}
+.row.sel + .row{border-top-color:transparent}
+.row .num{font-size:13px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:.02em;
+  width:30px; height:30px; border-radius:9px; display:grid; place-items:center; border:1.5px solid currentColor}
+.row .who{min-width:0}
+.row .name{font-size:15.5px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.row .svc{font-size:12.5px; color:var(--soft); margin-top:3px; display:flex; align-items:center; gap:6px; white-space:nowrap; min-width:0}
+.row .svc .s{overflow:hidden; text-overflow:ellipsis; min-width:0}
+.tag{flex:none}
+.tag{display:inline-flex; align-items:center; gap:5px; padding:1px 7px 1px 6px; border-radius:6px; font-weight:700; font-size:12px; border:1px solid}
+.tag i{width:6px;height:6px;border-radius:50%;background:currentColor;display:block}
+.row .right{text-align:right}
+.row .amt{font-size:15.5px; font-weight:700; color:var(--gold); font-variant-numeric:tabular-nums}
+.row .left{font-size:12.5px; color:var(--soft); margin-top:2px; font-variant-numeric:tabular-nums; white-space:nowrap}
+.row .bar{position:absolute; left:58px; right:14px; bottom:6px; height:3px; border-radius:3px; background:rgba(255,244,236,.12); overflow:hidden}
+.row .bar b{display:block; height:100%; border-radius:3px; width:0}
+.row.free .name{color:var(--soft); font-weight:600}
+.row.free .num{border-style:dashed}
+.row.wait .num{border-radius:50%}
+.badge-ok{color:var(--ok); font-weight:700}
+
+/* bottom bar */
+nav{margin:10px 12px 12px; display:grid; grid-template-columns:repeat(5,1fr); padding:7px 4px; border-radius:24px}
+nav a{display:flex; flex-direction:column; align-items:center; gap:3px; text-decoration:none; color:var(--soft); font-size:12px; font-weight:600; padding:5px 0; border-radius:16px}
+nav a svg{width:21px;height:21px}
+nav a.on{color:var(--cream); background:rgba(255,244,236,.14); box-shadow:inset 0 0 0 1px rgba(255,244,236,.22)}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<div class="screen" id="screen">
+  <header>
+    <div>
+      <div class="eyebrow">Owner · from anywhere</div>
+      <h1>Live floor</h1>
+    </div>
+    <div class="live">
+      <span class="live-pill"><span class="live-dot"></span>LIVE</span>
+      <span class="clock" id="clock">Wed 14 Oct · 11:38 AM</span>
+    </div>
+  </header>
+
+  <section class="plan glass" aria-label="Floor plan">
+    <div class="sheet"><svg id="floor" viewBox="0 0 342 284" role="img" aria-label="Top-down floor plan of the salon"></svg></div>
+  </section>
+
+  <section class="stats glass" aria-label="Today">
+    <div class="stat"><div class="k">Today so far</div><div class="v"><span class="money dyn" id="total">₹6,800</span><small class="dyn" id="visits">10 visits</small></div></div>
+    <div class="stat"><div class="k">Waiting</div><div class="v"><span class="dyn" id="waitN">1</span><small>on bench</small></div></div>
+    <div class="stat"><div class="k">Busy chairs</div><div class="v"><span class="dyn" id="busyN">3/3</span><span class="dots" id="busyDots"></span></div></div>
+  </section>
+
+  <div class="list-head"><h2>Chairs</h2><span id="listNote">Tap a chair to find it</span></div>
+  <section class="list glass" id="list" aria-label="Chair list"></section>
+
+  <nav class="glass" aria-label="Owner tabs">
+    <a class="on" href="#" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="16" rx="2.5"/><path d="M3.5 11h7V4M14 20v-5h6.5"/></svg>Live</a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5h10M7 9h10M10 5c3.5 0 4.5 2 4.5 4S13 13 10 13H8l7 6"/></svg>Earnings</a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2.5"/><path d="M8 3v4M16 3v4M4 10h16M9 15l2 2 4-4"/></svg>Attendance</a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.4-.3 4 1.3 4.5 4"/></svg>Staff</a>
+    <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h10l4 4v12H5z"/><path d="M9 11h6M9 15h6"/></svg>Visits</a>
+  </nav>
+  <div class="sr" aria-live="polite" id="sr"></div>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const NS = "http://www.w3.org/2000/svg";
+  const W = 342, H = 284;
+  // Stylist hues: warm-muted, distinct from gold (money), green (ok) and coral (alert).
+  const HUES = ["#6FC6C9", "#EE9DBA", "#BBA7F2", "#88B8EE", "#D6CC84", "#E7B2DA"];
+
+  // ---------- content ----------
+  const params = new URLSearchParams(location.search);
+  const extra = Math.max(0, Math.min(3, (parseInt(params.get("chairs") || "3", 10) || 3) - 3));
+  const chairs = [
+    { no:1, stylist:"Imran",  cust:"Karan Mehta", svc:"Haircut + Beard trim", amt:450, done:18, total:30 },
+    { no:2, stylist:"Sunita", cust:"Priya Patel", svc:"Facial",               amt:900, done:12, total:45 },
+    { no:3, stylist:"Rakesh", cust:"Rahul Jain",  svc:"Haircut",              amt:300, done:26, total:30 },
+  ];
+  ["Asha","Vikram","Meena"].slice(0, extra).forEach((s,i)=>chairs.push({no:4+i, stylist:s, cust:null}));
+  chairs.forEach((c,i)=>c.hue = HUES[i % HUES.length]);
+
+  // ---------- timeline (seconds). 1 s ≈ 0.5 min on the progress rings ----------
+  const RATE = 0.5, LOOP = 24;
+  const T = {
+    c3done: 8, stand: 8.6, atCounter: 11, paidEnd: 13.2, tickA: 11.3, tickB: 12.3,
+    leave: 13, outDoor: 14.8, devGo: 14.6, devSeat: 16.8, nehaIn: 17.4, nehaSeat: 20.4,
+    dipA: 22.8, dipM: 23.4
+  };
+
+  // ---------- geometry ----------
+  const n = chairs.length;
+  const marginX = 15, gap = n > 4 ? 6 : 12;
+  const zoneW = (W - marginX*2 - gap*(n-1)) / n;
+  const wide = zoneW >= 80;
+  chairs.forEach((c,i)=>{
+    c.x0 = marginX + i*(zoneW+gap);
+    c.cx = c.x0 + zoneW/2 - (wide ? 9 : 0);
+    c.cy = 50;
+    c.sx = wide ? c.cx + 34 : c.cx; c.sy = wide ? 50 : 82;
+  });
+  const SEAT3 = { x: chairs[2].cx, y: chairs[2].cy };
+  const BENCH = [{x:44,y:243},{x:76,y:243},{x:108,y:243}];
+  const BSEAT = BENCH[2];
+  const COUNTER = { x:283, y:200 };
+  const DOOR = { x:160, y:270 };
+
+  const P = {
+    toCounter: `M${SEAT3.x},${SEAT3.y} C${SEAT3.x-10},${SEAT3.y+70} ${COUNTER.x-62},${COUNTER.y-70} ${COUNTER.x},${COUNTER.y}`,
+    toDoor:    `M${COUNTER.x},${COUNTER.y} C${COUNTER.x-30},${COUNTER.y+30} ${DOOR.x+4},${DOOR.y-46} ${DOOR.x},${DOOR.y} L${DOOR.x},${DOOR.y+26}`,
+    toChair:   `M${BSEAT.x},${BSEAT.y} C${BSEAT.x+30},${BSEAT.y-90} ${SEAT3.x-50},${SEAT3.y+130} ${SEAT3.x},${SEAT3.y}`,
+    toBench:   `M${DOOR.x},${DOOR.y+26} L${DOOR.x},${DOOR.y} C${DOOR.x-6},${DOOR.y-56} ${BSEAT.x+40},${BSEAT.y-58} ${BSEAT.x},${BSEAT.y}`,
+  };
+
+  // ---------- svg helpers ----------
+  const svg = document.getElementById("floor");
+  function el(tag, attrs, parent){
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    (parent || svg).appendChild(e); return e;
+  }
+  function txt(s, attrs, parent){ const t = el("text", attrs, parent); t.textContent = s; return t; }
+
+  // defs: blueprint grid
+  const defs = el("defs", {});
+  const pat = el("pattern", {id:"grid", width:12, height:12, patternUnits:"userSpaceOnUse"}, defs);
+  el("path", {d:"M12 0H0V12", fill:"none", stroke:"rgba(255,248,241,.055)", "stroke-width":1}, pat);
+  const pat2 = el("pattern", {id:"grid2", width:60, height:60, patternUnits:"userSpaceOnUse"}, defs);
+  el("path", {d:"M60 0H0V60", fill:"none", stroke:"rgba(255,248,241,.08)", "stroke-width":1}, pat2);
+  const gGold = el("radialGradient", {id:"goldGlow"}, defs);
+  el("stop", {offset:"0", "stop-color":"#E4A67B", "stop-opacity":".45"}, gGold);
+  el("stop", {offset:"1", "stop-color":"#E4A67B", "stop-opacity":"0"}, gGold);
+
+  el("rect", {x:0,y:0,width:W,height:H,fill:"url(#grid)"});
+  el("rect", {x:0,y:0,width:W,height:H,fill:"url(#grid2)"});
+
+  // room walls (with door gap)
+  const wall = {stroke:"rgba(255,248,241,.62)", "stroke-width":1.6, fill:"none", "stroke-linecap":"square"};
+  el("path", Object.assign({d:`M${DOOR.x-22},${DOOR.y} H6 V6 H336 V${DOOR.y} H${DOOR.x+22}`}, wall));
+  // door jambs, leaf and swing
+  el("path", {d:`M${DOOR.x-22},${DOOR.y-4} v8 M${DOOR.x+22},${DOOR.y-4} v8`, stroke:"rgba(255,248,241,.62)", "stroke-width":1.6});
+  el("path", {d:`M${DOOR.x+22},${DOOR.y} L${DOOR.x+22},${DOOR.y-44}`, stroke:"rgba(255,248,241,.62)", "stroke-width":1.2});
+  el("path", {d:`M${DOOR.x+22},${DOOR.y-44} A44,44 0 0 0 ${DOOR.x-22},${DOOR.y}`, stroke:"rgba(255,248,241,.32)", "stroke-width":1, fill:"none", "stroke-dasharray":"2 3"});
+  txt("DOOR", {x:DOOR.x+30, y:H-3, "font-size":12, "font-weight":700, fill:"rgba(255,248,241,.74)", "letter-spacing":"1.4"});
+
+
+  // waiting bench
+  el("rect", {x:BENCH[0].x-16, y:BENCH[0].y+11, width:BENCH[2].x-BENCH[0].x+32, height:9, rx:2, fill:"rgba(255,248,241,.06)", stroke:"rgba(255,248,241,.62)", "stroke-width":1.1});
+  BENCH.forEach(b=>el("circle",{cx:b.x, cy:b.y, r:9.5, fill:"none", stroke:"rgba(255,248,241,.22)", "stroke-width":1, "stroke-dasharray":"2 2.5"}));
+  txt("WAITING", {x:BENCH[0].x-16, y:BENCH[0].y-22, "font-size":12, "font-weight":700, fill:"rgba(255,248,241,.74)", "letter-spacing":"1.4"});
+
+  // counter
+  el("rect", {x:240, y:221, width:90, height:20, rx:3, fill:"rgba(255,248,241,.06)", stroke:"rgba(255,248,241,.62)", "stroke-width":1.1, id:"counterRect"});
+  txt("CASH · UPI", {x:285, y:235.5, "text-anchor":"middle", "font-size":12, "font-weight":700, fill:"rgba(255,248,241,.74)", "letter-spacing":".8"});
+  txt("COUNTER", {x:330, y:259, "text-anchor":"end", "font-size":12, "font-weight":700, fill:"rgba(255,248,241,.74)", "letter-spacing":"1.4"});
+
+  // paths (dotted)
+  const pathEls = {};
+  const gPaths = el("g", {});
+  for (const k in P){
+    pathEls[k] = el("path", {d:P[k], fill:"none", stroke:"rgba(255,248,241,.2)", "stroke-width":1.3, "stroke-dasharray":"0.1 5", "stroke-linecap":"round"}, gPaths);
+  }
+
+  // chair zones
+  const gZones = el("g", {});
+  chairs.forEach((c,i)=>{
+    const g = el("g", {class:"zone", "data-i":i, tabindex:0, role:"button", "aria-label":`Chair ${c.no}`}, gZones);
+    c.zone = g;
+    c.zr = el("rect", {class:"z", x:c.x0, y:12, width:zoneW, height:100, rx:12, fill:c.hue, "fill-opacity":.12, stroke:c.hue, "stroke-opacity":.6, "stroke-width":1.2}, g);
+    // mirror on wall
+    el("line", {x1:c.cx-18, y1:9, x2:c.cx+18, y2:9, stroke:"#FFF8F1", "stroke-opacity":.75, "stroke-width":2.2, "stroke-linecap":"round"}, g);
+    // top-down chair: backrest + seat + arms
+    el("path", {d:`M${c.cx-13},${c.cy+3} V${c.cy-9} a13,9 0 0 1 26,0 V${c.cy+3}`, fill:"none", stroke:"rgba(255,248,241,.5)", "stroke-width":1.2}, g);
+    el("rect", {x:c.cx-11, y:c.cy-7, width:22, height:20, rx:5, fill:"rgba(255,248,241,.05)", stroke:"rgba(255,248,241,.42)", "stroke-width":1}, g);
+    // progress ring
+    el("circle", {cx:c.cx, cy:c.cy, r:18.5, fill:"none", stroke:"rgba(255,248,241,.14)", "stroke-width":3}, g);
+    c.ring = el("circle", {cx:c.cx, cy:c.cy, r:18.5, fill:"none", stroke:c.hue, "stroke-width":3, "stroke-linecap":"round",
+      transform:`rotate(-90 ${c.cx} ${c.cy})`, "stroke-dasharray":`0 999`, class:"dyn"}, g);
+    // stylist token (head + shoulders, solid hue)
+    c.st = el("g", {}, g);
+    el("path", {d:"M-10,10 V7 a10,8.5 0 0 1 20,0 V10 Z", fill:c.hue}, c.st);
+    el("circle", {cx:0, cy:-4.5, r:5.6, fill:c.hue, stroke:"#2a1b17", "stroke-width":1.6}, c.st);
+    // labels
+    c.lNo = txt(String(c.no).padStart(2,"0"), {x:c.x0+9, y:104, "font-size":12.5, "font-weight":800, fill:c.hue}, g);
+    c.lLeft = txt("", {x:c.x0+zoneW-9, y:104, "text-anchor":"end", "font-size":12.5, "font-weight":600, fill:"#FFF8F1", class:"dyn"}, g);
+    c.lName = txt("", {x:c.cx + (wide?9:0), y:85, "text-anchor":"middle", "font-size":12.5, "font-weight":700, fill:"#FFF8F1", class:"dyn"}, g);
+    if (!wide){ c.lNo.setAttribute("x", c.x0+6); c.lLeft.setAttribute("x", c.x0+zoneW-6); c.lName.style.display="none"; }
+  });
+
+  // PAID moment
+  const gPaid = el("g", {opacity:0});
+  const paidGlow = el("circle", {cx:COUNTER.x, cy:COUNTER.y, r:30, fill:"url(#goldGlow)"}, gPaid);
+  const paidRing = el("circle", {cx:COUNTER.x, cy:COUNTER.y, r:14, fill:"none", stroke:"#E4A67B", "stroke-width":1.5}, gPaid);
+  const chip = el("g", {}, gPaid);
+  el("rect", {x:-42, y:-13, width:84, height:26, rx:13, fill:"#E4A67B"}, chip);
+  txt("₹300 PAID", {x:0, y:4.5, "text-anchor":"middle", "font-size":13, "font-weight":800, fill:"#2A1712", "letter-spacing":".5"}, chip);
+
+  // people layer (customers)
+  const gPeople = el("g", {class:"dyn"});
+  function customer(initial){
+    const g = el("g", {}, gPeople);
+    el("ellipse", {cx:0, cy:2.5, rx:12.5, ry:7, fill:"rgba(10,6,5,.35)"}, g);
+    el("circle", {cx:0, cy:0, r:10.5, fill:"#FFF8F1"}, g);
+    const t = txt(initial, {x:0, y:4.4, "text-anchor":"middle", "font-size":12.5, "font-weight":800, fill:"#3A241E"}, g);
+    g._t = t; return g;
+  }
+  const seated = chairs.map((c,i)=> c.cust && i!==2 ? customer(c.cust[0]) : null);
+  const rahul = customer("R"), dev = customer("D"), neha = customer("N");
+
+  // ---------- list ----------
+  const list = document.getElementById("list");
+  const rows = chairs.map((c,i)=>{
+    const r = document.createElement("div");
+    r.className = "row"; r.dataset.i = i; r.tabIndex = 0; r.setAttribute("role","button");
+    r.innerHTML = `<div class="num" style="color:${c.hue}">${String(c.no).padStart(2,"0")}</div>
+      <div class="who dyn"><div class="name"></div><div class="svc"><span class="s"></span><span class="tag" style="color:${c.hue};border-color:${c.hue}55;background:${c.hue}1f"><i></i><span style="color:var(--cream)">${c.stylist}</span></span></div></div>
+      <div class="right dyn"><div class="amt"></div><div class="left"></div></div>
+      <div class="bar dyn"><b style="background:${c.hue}"></b></div>`;
+    list.appendChild(r);
+    return { r, name:r.querySelector(".name"), s:r.querySelector(".s"), amt:r.querySelector(".amt"), left:r.querySelector(".left"), bar:r.querySelector(".bar b") };
+  });
+  const wrow = document.createElement("div");
+  wrow.className = "row wait";
+  wrow.innerHTML = `<div class="num" style="color:var(--cream)">W</div>
+    <div class="who dyn"><div class="name"></div><div class="svc"><span class="s"></span></div></div>
+    <div class="right dyn"><div class="amt"></div><div class="left"></div></div>`;
+  list.appendChild(wrow);
+  const W_ = { name:wrow.querySelector(".name"), s:wrow.querySelector(".s"), amt:wrow.querySelector(".amt"), left:wrow.querySelector(".left") };
+
+  const dotsEl = document.getElementById("busyDots");
+  chairs.forEach(c=>{ const i = document.createElement("i"); i.style.color = c.hue; dotsEl.appendChild(i); c.dot = i; });
+
+  // ---------- selection (floor <-> list) ----------
+  let sel = -1;
+  function select(i){
+    sel = (sel === i) ? -1 : i;
+    chairs.forEach((c,k)=>{ c.zone.classList.toggle("sel", k===sel); rows[k].r.classList.toggle("sel", k===sel); });
+    if (sel >= 0) rows[sel].r.scrollIntoView({block:"nearest", behavior:"smooth"});
+  }
+  chairs.forEach((c,i)=>{
+    c.zone.addEventListener("click", ()=>select(i));
+    rows[i].r.addEventListener("click", ()=>select(i));
+    [c.zone, rows[i].r].forEach(e=>e.addEventListener("keydown", ev=>{ if (ev.key==="Enter"||ev.key===" "){ ev.preventDefault(); select(i);} }));
+  });
+
+  // ---------- math ----------
+  const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+  const ease = x => x<.5 ? 4*x*x*x : 1-Math.pow(-2*x+2,3)/2;
+  const prog = (t,a,b)=>clamp((t-a)/(b-a),0,1);
+  const lens = {}; for (const k in pathEls) lens[k] = pathEls[k].getTotalLength();
+  function at(k, f){ const p = pathEls[k].getPointAtLength(lens[k]*f); return p; }
+  function place(g, x, y, s, o){ g.setAttribute("transform", `translate(${x.toFixed(2)} ${y.toFixed(2)}) scale(${s.toFixed(3)})`); g.setAttribute("opacity", o.toFixed(3)); }
+  const rupee = v => "₹" + Math.round(v).toLocaleString("en-IN");
+  function clockStr(min){ const m = 11*60+38+Math.floor(min); const h = Math.floor(m/60), mm = m%60; return `Wed 14 Oct · ${h}:${String(mm).padStart(2,"0")} AM`; }
+  function setText(e, s){ if (e.textContent !== s) e.textContent = s; }
+  const CIRC = 2*Math.PI*18.5;
+  function ring(c, f){ c.ring.style.visibility = f > 0.005 ? "visible" : "hidden"; c.ring.setAttribute("stroke-dasharray", `${(CIRC*clamp(f,0,1)).toFixed(2)} ${CIRC.toFixed(2)}`); }
+
+  // ---------- render ----------
+  const dynEls = [...document.querySelectorAll(".dyn")];
+  const totalEl = document.getElementById("total"), visitsEl = document.getElementById("visits");
+  const waitEl = document.getElementById("waitN"), busyEl = document.getElementById("busyN"), clockEl = document.getElementById("clock");
+  let lastSR = "";
+
+  function render(tRaw, still){
+    let t = ((tRaw % LOOP) + LOOP) % LOOP;
+    // seamless loop: soft dip on live values only during the last 1.2 s
+    let dip = 1;
+    if (t >= T.dipA && t < T.dipM){ dip = 1 - .78*ease(prog(t,T.dipA,T.dipM)); t = T.dipA; }
+    else if (t >= T.dipM){ dip = .22 + .78*ease(prog(t,T.dipM,LOOP)); t = 0; }
+    dynEls.forEach(e=>e.style.opacity = dip);
+
+    const mins = t*RATE;
+    setText(clockEl, clockStr(mins));
+
+    // stylists: subtle working sway (period 3 s divides the 24 s loop)
+    chairs.forEach((c,i)=>{
+      const a = still ? 0 : Math.sin((tRaw/3 + i*.31)*Math.PI*2)*7;
+      c.st.setAttribute("transform", `translate(${c.sx} ${c.sy}) rotate(${a.toFixed(2)})`);
+    });
+
+    // chairs 1..n except 3
+    let busy = 0;
+    chairs.forEach((c,i)=>{
+      const R = rows[i];
+      if (i === 2) return;
+      if (!c.cust){
+        ring(c,0); setText(c.lLeft,"free"); setText(c.lName,"");
+        R.r.classList.add("free"); setText(R.name,"Free"); setText(R.s,"Ready ·"); setText(R.amt,"—"); setText(R.left,"no customer"); R.bar.style.width="0";
+        c.dot.style.background="transparent"; return;
+      }
+      busy++;
+      const done = Math.min(c.done + mins, c.total - .5);
+      const left = Math.max(1, Math.ceil(c.total - done));
+      ring(c, done/c.total);
+      setText(c.lLeft, wide ? `${left} min` : `${left}m`);
+      setText(c.lName, c.cust.split(" ")[0]);
+      place(seated[i], c.cx, c.cy, 1, 1);
+      setText(R.name, c.cust); setText(R.s, c.svc + " ·"); setText(R.amt, rupee(c.amt));
+      setText(R.left, `${left} min left`);
+      R.bar.style.width = (100*done/c.total).toFixed(2)+"%";
+      c.dot.style.background = c.hue;
+    });
+
+    // chair 3 story
+    const c3 = chairs[2], R3 = rows[2];
+    let c3state;
+    if (t < T.c3done){ c3state = "rahul"; }
+    else if (t < T.stand){ c3state = "done"; }
+    else if (t < T.devSeat){ c3state = "free"; }
+    else c3state = "dev";
+
+    // Rahul
+    if (t < T.c3done){ place(rahul, SEAT3.x, SEAT3.y, 1, 1); }
+    else if (t < T.stand){ const f = ease(prog(t,T.c3done,T.stand)); place(rahul, SEAT3.x, SEAT3.y, 1+.12*f, 1); }
+    else if (t < T.atCounter){ const p = at("toCounter", ease(prog(t,T.stand,T.atCounter))); place(rahul, p.x, p.y, 1.12, 1); }
+    else if (t < T.leave){ place(rahul, COUNTER.x, COUNTER.y, 1.12, 1); }
+    else if (t < T.outDoor){ const f = ease(prog(t,T.leave,T.outDoor)); const p = at("toDoor", f); place(rahul, p.x, p.y, 1.12, p.y > DOOR.y ? clamp(1-(p.y-DOOR.y)/22,0,1) : 1); }
+    else place(rahul, DOOR.x, DOOR.y+30, 1, 0);
+
+    // Dev
+    if (t < T.devGo){ place(dev, BSEAT.x, BSEAT.y, 1, 1); }
+    else if (t < T.devSeat){ const f = ease(prog(t,T.devGo,T.devSeat)); const p = at("toChair", f); place(dev, p.x, p.y, 1 + .12*Math.sin(Math.PI*f), 1); }
+    else place(dev, SEAT3.x, SEAT3.y, 1, 1);
+
+    // Neha
+    if (t < T.nehaIn){ place(neha, DOOR.x, DOOR.y+26, 1, 0); }
+    else if (t < T.nehaSeat){ const f = ease(prog(t,T.nehaIn,T.nehaSeat)); const p = at("toBench", f); place(neha, p.x, p.y, 1 + .12*Math.sin(Math.PI*f), p.y > DOOR.y ? clamp(1-(p.y-DOOR.y)/22,0,1) : 1); }
+    else place(neha, BSEAT.x, BSEAT.y, 1, 1);
+
+    // active path highlight
+    const act = (t>=T.stand && t<T.atCounter) ? "toCounter" : (t>=T.leave && t<T.outDoor) ? "toDoor" : (t>=T.devGo && t<T.devSeat) ? "toChair" : (t>=T.nehaIn && t<T.nehaSeat) ? "toBench" : null;
+    for (const k in pathEls){
+      const on = k===act;
+      pathEls[k].setAttribute("stroke", on ? (k==="toChair" ? c3.hue : "rgba(255,248,241,.75)") : "rgba(255,248,241,.2)");
+      pathEls[k].setAttribute("stroke-width", on ? 1.8 : 1.3);
+      pathEls[k].setAttribute("stroke-dashoffset", on && !still ? (-tRaw*10).toFixed(1) : 0);
+    }
+
+    // chair 3 visuals + row
+    R3.r.classList.toggle("free", c3state==="free");
+    if (c3state === "rahul" || c3state === "done"){
+      busy++;
+      const done = Math.min(c3.done + mins, c3.total);
+      const left = Math.ceil(c3.total - done - 1e-6);
+      ring(c3, done/c3.total);
+      c3.ring.setAttribute("stroke", c3state==="done" ? "#9CCB8F" : c3.hue);
+      setText(c3.lLeft, c3state==="done" ? "done" : (wide ? `${left} min` : `${left}m`));
+      setText(c3.lName, "Rahul");
+      setText(R3.name, "Rahul Jain"); setText(R3.s, "Haircut ·"); setText(R3.amt, "₹300");
+      setText(R3.left, c3state==="done" ? "Done ✓" : `${left} min left`);
+      R3.bar.style.width = (100*done/30).toFixed(2)+"%";
+      c3.zr.setAttribute("fill-opacity", .12);
+      c3.dot.style.background = c3.hue;
+    } else if (c3state === "free"){
+      ring(c3, 0);
+      c3.ring.setAttribute("stroke", c3.hue);
+      setText(c3.lLeft, "free"); setText(c3.lName, "");
+      setText(R3.name, "Free");
+      setText(R3.s, t < T.leave ? "Rahul paying ·" : (t < T.devGo ? "Next: Dev Arora ·" : "Dev on the way ·"));
+      setText(R3.amt, "—"); setText(R3.left, "chair ready");
+      R3.bar.style.width = "0";
+      c3.zr.setAttribute("fill-opacity", .04 + .03*Math.sin(tRaw*2.6)**2);
+      c3.dot.style.background = "transparent";
+    } else {
+      busy++;
+      const done = (t - T.devSeat)*RATE;
+      ring(c3, done/15);
+      c3.ring.setAttribute("stroke", c3.hue);
+      setText(c3.lLeft, wide ? `${Math.ceil(15-done)} min` : `${Math.ceil(15-done)}m`); setText(c3.lName, "Dev");
+      setText(R3.name, "Dev Arora"); setText(R3.s, "Beard trim ·"); setText(R3.amt, "₹150");
+      setText(R3.left, `${Math.ceil(15-done)} min left`);
+      R3.bar.style.width = (100*done/15).toFixed(2)+"%";
+      c3.zr.setAttribute("fill-opacity", .12);
+      c3.dot.style.background = c3.hue;
+    }
+
+    // PAID moment + total
+    const paidIn = prog(t, T.atCounter, T.atCounter+.45), paidOut = prog(t, T.paidEnd-.5, T.paidEnd);
+    const paidOp = t < T.atCounter || t > T.paidEnd ? 0 : Math.min(paidIn, 1-paidOut);
+    gPaid.setAttribute("opacity", paidOp.toFixed(3));
+    const pop = 1 + .18*Math.sin(Math.PI*paidIn)*(1-paidIn*0.4);
+    chip.setAttribute("transform", `translate(${COUNTER.x} ${COUNTER.y-32 - 6*ease(paidIn)}) scale(${pop.toFixed(3)})`);
+    const rp = prog(t, T.atCounter, T.atCounter+1.4);
+    paidRing.setAttribute("r", (12 + 22*rp).toFixed(2)); paidRing.setAttribute("stroke-opacity", (1-rp).toFixed(3));
+    document.getElementById("counterRect").setAttribute("stroke", paidOp>0.05 ? "#E4A67B" : "rgba(255,248,241,.62)");
+    const tick = ease(prog(t, T.tickA, T.tickB));
+    setText(totalEl, rupee(6800 + 300*tick));
+    setText(visitsEl, `${t >= T.tickA ? 11 : 10} visits`);
+
+    // waiting
+    let waitN, wn, ws, wa, wl;
+    if (t < T.devGo){ waitN = 1; wn = "Dev Arora"; ws = "Beard trim · booked 11:40"; wa = "₹150"; wl = "on bench"; }
+    else if (t < T.nehaIn + 1.6){ waitN = 0; wn = "Bench empty"; ws = t < T.devSeat ? "Dev → chair 03" : "No one waiting"; wa = ""; wl = ""; }
+    else { waitN = 1; wn = "Neha Singh"; ws = "Walk-in · service not chosen"; wa = ""; wl = "just in"; }
+    wrow.classList.toggle("free", waitN===0);
+    setText(W_.name, wn); setText(W_.s, ws); setText(W_.amt, wa); setText(W_.left, wl);
+    setText(waitEl, String(waitN));
+    setText(busyEl, `${busy}/${n}`);
+
+    const sr = `${busy} of ${n} chairs busy. ${waitN} waiting. Today ${rupee(6800+300*tick)}.`;
+    if (sr !== lastSR){ document.getElementById("sr").textContent = sr; lastSR = sr; }
+  }
+
+  // ---------- loop ----------
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let seekT = null, t0 = performance.now();
+  window.__seek = (t) => { seekT = t; render(t, false); };
+  window.__play = () => { seekT = null; t0 = performance.now(); };
+  if (reduce){ render(0, true); }
+  else {
+    const frame = (now)=>{ if (seekT === null) render((now - t0)/1000, false); requestAnimationFrame(frame); };
+    requestAnimationFrame(frame);
+  }
+  render(0, reduce);
+})();
+</script>
+</body>
+</html>

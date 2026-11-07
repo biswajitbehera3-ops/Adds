@@ -1,0 +1,13 @@
+{
+  "id": "P005",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I have written every bill in my register for years and I count the drawer myself every night, so I know exactly where every rupee is. Ten thousand upfront plus five hundred a month to make my staff type bills on their phones fixes a problem I don't have.",
+  "objection": "If the phone dies, the internet goes, or a stylist fiddles the entry, my record is gone or wrong. My register can't crash, and I don't want my staff's billing living on their own phones.",
+  "would_change_my_mind": "Seeing it run for a month in my own salon for free, side by side with my register, and catching a real leak in cash or cancelled bills that my register missed.",
+  "price_too_cheap": 2000,
+  "price_cheap": 4000,
+  "price_expensive": 8000,
+  "price_too_expensive": 12000
+}

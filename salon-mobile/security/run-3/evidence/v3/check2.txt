@@ -1,0 +1,60 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/v3/scratch[39m
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mF3 staff cancel near the start[2m > [22m[2moriginal payload: book 12:30, real 13:10 set clock 12:25, cancel -> owner sees it
+[22m[39mOBS F3 orig: cancel ok backJumps [33m0[39m items [ [32m"Asha's booking marked cancelled shortly before the time"[39m ]
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mF3 staff cancel near the start[2m > [22m[2mAppState: clock set back while idle after a save is logged on return
+[22m[39mOBS F3 AppState backJumps [
+  { from: [32m'2026-10-14T07:40:00.000Z'[39m, to: [32m'2026-10-14T03:00:00.000Z'[39m }
+]
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mF3 staff cancel near the start[2m > [22m[2mvariant: first booking of the day 10:30, no app use since last evening, real 11:10 clock set to 07:25 -> cancel leaves no item and no back-jump
+[22m[39mOBS F3 variant: cancel ok closedAt 2026-10-15T01:55:00.000Z backJumps [33m0[39m items []
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mF4 backup future slack[2m > [22m[2mreminder 23h ahead refused; 4 min ahead accepted; 6 min refused
+[22m[39mOBS F4: +23h ERR This backup can't be used: a date in reminders is in the future +4min ok +6min ERR This backup can't be used: a date in reminders is in the future
+OBS F4: topUp 1 min after restoring +4min record ok
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mF5 backup ids and nested fields[2m > [22m[2moriginal payloads refused
+[22m[39mOBS F5 orig: owner id ERR This backup can't be used: a record in staff has a missing or repeated id extras 'x' ERR This backup can't be used: a bill isn't valid 'Owner' id (case variant) ERR This backup can't be used: a bill isn't valid mv7o7sg0j5vdza
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mF5 backup ids and nested fields[2m > [22m[2mgenuine data passes: demo data, and a full day of normal use
+[22m[39mOBS F5 demo export: ok
+OBS F5 normal-use export: ok
+OBS F5 'Other' service name of [33m85[39m chars saved by the app; export: ok
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mF5 backup ids and nested fields[2m > [22m[2mlong void reason / cash-count note accepted by the app but refused on restore
+[22m[39mOBS F5 600-char void reason saved; export: ERR This backup can't be used: a bill isn't valid
+OBS F5 600-char cash-count note saved; export: ERR This backup can't be used: a cash count isn't valid
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mF6 dropUnusedPhotos[2m > [22m[2mrestore/clear/demo delete dropped selfies, never a key the new data still names
+[22m[39mOBS F6 restore older: deleted [ [32m'selfie-new'[39m ]
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mF6 dropUnusedPhotos[2m > [22m[2mrestore/clear/demo delete dropped selfies, never a key the new data still names
+[22m[39mOBS F6 demo: deleted [ [32m'selfie-shared'[39m, [32m'staff-imran'[39m ] demo photo keys [33m0[39m
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mF6 dropUnusedPhotos[2m > [22m[2mrestore/clear/demo delete dropped selfies, never a key the new data still names
+[22m[39mOBS F6 clearAll after demo: deleted []
+
+[90mstderr[2m | y.test.ts[2m > [22m[2mF6 dropUnusedPhotos[2m > [22m[2mrecovery restore never deletes the unreadable data's selfies
+[22m[39mCould not load saved data; showing the recovery screen Error: The salon's data is missing but its owner password is saved
+    at Module.loadStore (/home/user/Adds/salon-mobile/src/domain/store.ts:60:64)
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at [90m/root/security-audit-skill/Adds/run-3/agents/v3/scratch/[39my.test.ts:164:36
+    at file:///home/user/Adds/salon-mobile/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:20
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mF6 dropUnusedPhotos[2m > [22m[2mrecovery restore never deletes the unreadable data's selfies
+[22m[39mOBS F6 recovery: prev state attendance [33m0[39m (unreadable data's photo keys unknown, so never deleted)
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mloadStore first launch[2m > [22m[2mfirst launch -> demo, then restarts and clearAll restarts stay out of recovery
+[22m[39mOBS first launch demo [33mtrue[39m keys [ [32m'salon:data:v1'[39m, [32m'salon:owner'[39m ] restart commit ok after clearAll keys [ [32m'salon:data:v1'[39m, [32m'salon:owner'[39m ] restart commit ok
+
+ [32m✓[39m y.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 846[2mms[22m[39m
+   [33m[2m✓[22m[39m loadStore first launch[2m > [22mfirst launch -> demo, then restarts and clearAll restarts stay out of recovery [33m 540[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m10 passed[39m[22m[90m (10)[39m
+[2m   Start at [22m 15:01:37
+[2m   Duration [22m 1.42s[2m (transform 310ms, setup 0ms, collect 333ms, tests 846ms, environment 0ms, prepare 66ms)[22m
+

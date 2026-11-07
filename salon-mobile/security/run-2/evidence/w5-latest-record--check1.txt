@@ -1,0 +1,21 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-2/agents/w5-latest-record/scratch[39m
+
+[90mstdout[2m | v.test.ts[2m > [22m[2mverifier[2m > [22m[2monly-appointment newest record: set-back accepted
+[22m[39mV appt.createdAt 2026-10-28T04:50:00.000Z latestRecordTime 2026-10-01T03:30:00.000Z
+V accepted checkInAt 2026-10-28T04:28:00.000Z late [33mfalse[39m late@10:40 [33mtrue[39m
+
+[90mstdout[2m | v.test.ts[2m > [22m[2mverifier[2m > [22m[2mleave approval newest record: set-back accepted
+[22m[39mV leave createdAt 2026-10-28T04:52:00.000Z decidedAt 2026-10-28T04:55:00.000Z latestRecordTime 2026-10-01T03:30:00.000Z
+V accepted (leave case) checkInAt 2026-10-28T04:28:00.000Z
+
+[90mstdout[2m | v.test.ts[2m > [22m[2mverifier[2m > [22m[2mcontrol: visit at 10:20 refuses
+[22m[39mV control error: This phone's clock is behind. Set the date and time to automatic, then check in again.
+
+ [32m✓[39m v.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 07:01:04
+[2m   Duration [22m 557ms[2m (transform 202ms, setup 0ms, collect 204ms, tests 7ms, environment 0ms, prepare 76ms)[22m
+

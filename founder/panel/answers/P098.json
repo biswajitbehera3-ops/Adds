@@ -1,0 +1,13 @@
+{
+  "id": "P098",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "Checking the cash drawer and who left without service is tempting, but ₹4,999 upfront plus ₹999 every month, even in slow months, is too much for something WhatsApp and my register already mostly do. My girls are used to WhatsApp, not a new English app with selfies.",
+  "objection": "₹999 a month is one more fixed cost that I pay even when the salon is quiet, and if my staff don't actually use it after the first week, the ₹4,999 is gone.",
+  "would_change_my_mind": "No setup fee and a monthly price around ₹499 that I can stop any time, plus seeing another salon nearby actually catch cash leakage with it.",
+  "price_too_cheap": 149,
+  "price_cheap": 399,
+  "price_expensive": 699,
+  "price_too_expensive": 1299
+}

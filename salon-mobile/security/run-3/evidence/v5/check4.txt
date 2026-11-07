@@ -1,0 +1,34 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/v5/scratch[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck4: hunting new problems[2m > [22m[2mA (note): if the owner never confirms, nothing is ever cleaned up
+[22m[39mA: after 800 real days with no owner confirmation, selfie still kept: selfie (retention 365; age now [33m1100[39m days) held: [33mtrue[39m ownerChecks: [ [32m"Confirm today's date"[39m ]
+
+[90mstderr[2m | x.test.ts[2m > [22m[2mcheck4: hunting new problems[2m > [22m[2mB: recovery restore at a forward clock confirms that date without showing it; next start deletes recent selfies and erases customers
+[22m[39mCould not load saved data; showing the recovery screen Error: CursorWindow
+    at Object.getItem [90m(/root/security-audit-skill/Adds/run-3/agents/v5/scratch/[39mx.test.ts:2:257[90m)[39m
+    at Module.loadStore (/home/user/Adds/salon-mobile/src/domain/store.ts:56:36)
+    at [90m/root/security-audit-skill/Adds/run-3/agents/v5/scratch/[39mx.test.ts:40:17
+[90m    at processTicksAndRejections (node:internal/process/task_queues:105:5)[39m
+    at file:///home/user/Adds/salon-mobile/node_modules/[4m@vitest/runner[24m/dist/chunk-hooks.js:752:20
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck4: hunting new problems[2m > [22m[2mB: recovery restore at a forward clock confirms that date without showing it; next start deletes recent selfies and erases customers
+[22m[39mB: confirmedAt after recovery = 2029-11-17T05:30:00.000Z
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck4: hunting new problems[2m > [22m[2mB: recovery restore at a forward clock confirms that date without showing it; next start deletes recent selfies and erases customers
+[22m[39mB: deleted selfie files: [ [32m'selfie-10d'[39m ] customer erased: 2029-11-17T05:30:00.000Z name: Deleted customer
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck4: hunting new problems[2m > [22m[2mC (pre-existing, residual): undo hours later if the app never came to the front between bill and set-back
+[22m[39mC: undo allowed with no observation in between: [33mtrue[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mcheck4: hunting new problems[2m > [22m[2mD: forward jump (anchor follows) gives no worse power than a lock-out
+[22m[39mD: forward jump -> held cleanup, lock-out, owner confirm clears; no early delete, no undo
+
+ [32m✓[39m x.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 458[2mms[22m[39m
+   [33m[2m✓[22m[39m check4: hunting new problems[2m > [22mB: recovery restore at a forward clock confirms that date without showing it; next start deletes recent selfies and erases customers [33m 424[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m4 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m 05:14:41
+[2m   Duration [22m 1.25s[2m (transform 479ms, setup 0ms, collect 471ms, tests 458ms, environment 0ms, prepare 85ms)[22m
+

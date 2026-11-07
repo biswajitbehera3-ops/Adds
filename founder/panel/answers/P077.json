@@ -1,0 +1,13 @@
+{
+  "id": "P077",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "I have one or two chairs and I cut hair myself, so I already know who is in which chair and I count the drawer every night. Paying ₹4,999 upfront and then ₹999 every month, forever, is about ₹17,000 in the first year for things my notebook and WhatsApp already do for free.",
+  "objection": "It's another monthly bill that never stops. And if the app hangs on a busy Sunday with customers waiting, who do I call? I can't stop cutting to sit on the phone with support.",
+  "would_change_my_mind": "No monthly fee: one payment around ₹3,000 that I own, with a local person I can call on Sundays, and proof from another small shop near me that the WhatsApp reminders actually brought customers back.",
+  "price_too_cheap": 99,
+  "price_cheap": 199,
+  "price_expensive": 499,
+  "price_too_expensive": 999
+}

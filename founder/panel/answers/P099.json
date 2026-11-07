@@ -1,0 +1,13 @@
+{
+  "id": "P099",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "convenience",
+  "reason": "With 8 chairs and a register I can't see from outside, the drawer-cash check, cancelled bills and per-stylist earnings alone are worth ₹999 a month to me, and an app with my own logo makes the salon look modern. ₹4,999 setup with training at the salon is fine if the first month really is free.",
+  "objection": "Who will help me when the app stops working on a busy Sunday or in Diwali week with a full waiting area? If billing freezes then, I lose money and my staff go straight back to the notebook.",
+  "would_change_my_mind": "If they can't promise same-day phone or WhatsApp support on Sundays and festival days, or there is no way to keep billing offline when the internet drops, I would not continue after the free month.",
+  "price_too_cheap": 199,
+  "price_cheap": 599,
+  "price_expensive": 1999,
+  "price_too_expensive": 3499
+}

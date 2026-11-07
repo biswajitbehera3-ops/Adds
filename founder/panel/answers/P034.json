@@ -1,0 +1,13 @@
+{
+  "id": "P034",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "₹4,999 upfront and then ₹999 every month, forever, is around ₹17,000 in the first year for something my register and WhatsApp already do for free. I don't pay monthly for software, and the free first month doesn't change what I pay after that.",
+  "objection": "Half my walk-ins won't give their mobile number, so the reminders, the wallet and the top-customer list only work for some of them, and I'd still be paying ₹999 every month.",
+  "would_change_my_mind": "No monthly fee: one payment of about ₹5,000 to ₹6,000 total, or a few months free so I can first see if my staff use it and if it catches cash missing from the drawer.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

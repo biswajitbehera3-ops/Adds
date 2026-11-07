@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salon redesign B: the apothecary label</title>
+<!--
+  Direction B · Logic 2 (real-world reference / benchmark transfer)
+  Reference: Aesop (aesop.com, and the Webby-winning "Aesop presents: Three Aromatique Candles
+  & Other Stories" by Studio Regale, 2021). Aesop began in 1987 as Emeis, a hair salon in
+  Armadale, Melbourne. Borrowed: ivory paper ground (#FFFEF2), one warm charcoal ink, sharp 0px
+  corners, 1px ink hairlines instead of cards, no shadows or gradients, a neutral grotesque set
+  small and calm, a serif kept for a few display moments, ingredient-list typography
+  (label on the left, value on the right), text-only navigation.
+  Transferred: Aesop's amber apothecary bottle becomes this salon's gold #E4A67B, used only for
+  the one main action per screen and for "how full" (calendar load). The bill is an apothecary
+  label. Status bar + frame geometry adapted from huashu ios_frame.jsx (padding 12, screen inset,
+  status-bar row, centred camera, bottom indicator) to an Android punch-hole frame.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFEF2;      /* Aesop ivory */
+  --sand:#F4E8D6;       /* label stock / inset panel */
+  --off:#EDE3D3;        /* Tuesday off */
+  --ink:#2B211C;        /* salon brown-black ink */
+  --ink2:#6B5B51;       /* secondary ink, 6.4:1 on paper */
+  --rule:#DCCFBC;       /* soft hairline */
+  --amber:#E4A67B;      /* salon gold = Aesop amber bottle */
+  --amberInk:#8E4A22;   /* amber as text, 6.6:1 on paper */
+  --ok:#3A5A40;
+  --canvas:#E7E4DF;
+  --sans:"Hanken Grotesk", system-ui, sans-serif;
+  --serif:"Newsreader", Georgia, serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--canvas)}
+body{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1,"lnum" 1}
+::selection{background:var(--amber);color:var(--ink)}
+
+/* ---------- canvas row ---------- */
+.row{display:flex;gap:44px;padding:56px 56px 48px;width:max-content;align-items:flex-start}
+.cell{display:flex;flex-direction:column;align-items:center;gap:18px}
+.cap{font-size:14px;color:#4b443f;letter-spacing:.01em}
+.cap b{font-weight:600;color:#2b2622;margin-right:6px}
+
+/* ---------- Android frame (geometry from huashu ios_frame.jsx, adapted) ---------- */
+.phone{display:inline-block;padding:12px;background:#1d1916;border-radius:52px;position:relative;
+  box-shadow:0 0 0 2px #35302b,0 20px 60px rgba(40,30,20,.28)}
+.screen{position:relative;width:390px;height:844px;border-radius:40px;overflow:hidden;background:var(--paper)}
+.sb{position:absolute;top:0;left:0;right:0;height:36px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;font:500 14px/1 var(--sans);color:var(--ink);z-index:20}
+.cam{position:absolute;top:12px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:#0e0c0b;z-index:30}
+.sbi{display:flex;align-items:center;gap:6px}
+.sig{display:flex;align-items:flex-end;gap:2px;height:11px}.sig i{width:3px;background:currentColor;border-radius:1px}
+.bat{width:24px;height:12px;border:1.5px solid currentColor;border-radius:3px;padding:1px;position:relative;opacity:.85}
+.bat::after{content:"";position:absolute;top:3px;right:-3.5px;width:2px;height:5px;background:currentColor;border-radius:0 1px 1px 0}
+.bat b{display:block;height:100%;width:78%;background:currentColor;border-radius:1px}
+.content{position:absolute;top:36px;left:0;right:0;bottom:0;display:flex;flex-direction:column}
+.gest{position:absolute;bottom:8px;left:50%;width:108px;height:4px;margin-left:-54px;border-radius:4px;background:rgba(43,33,28,.4);z-index:10}
+.on-dark .sb{color:var(--paper)}
+
+/* ---------- shared type + structure ---------- */
+.pad{padding:0 20px}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px 14px;border-bottom:1px solid var(--ink)}
+.hd .who{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:40px;height:40px;display:block;flex:none}
+.t-serif{font-family:var(--serif);font-weight:400;letter-spacing:-.01em}
+.h1{font-size:24px;line-height:1.1}
+.meta{font-size:13px;color:var(--ink2);line-height:1.35}
+.lbl{font-size:13px;color:var(--ink2);line-height:1.3}
+.num{font-variant-numeric:tabular-nums lining-nums}
+.ico{width:18px;height:18px;fill:currentColor;flex:none}
+
+/* the ingredient-list row: label column + value column */
+.sheet{display:grid;grid-template-columns:108px 1fr;column-gap:12px}
+.sec{padding:20px 20px;border-bottom:1px solid var(--rule)}
+.sec.ink{border-bottom-color:var(--ink)}
+
+/* buttons: sharp, Aesop CTA shape; amber = the one main action */
+.btn{display:flex;align-items:center;justify-content:space-between;height:52px;padding:0 18px;font:600 16px/1 var(--sans);
+  border:0;width:100%;color:var(--ink);background:var(--amber);letter-spacing:.005em}
+.btn.ghost{background:transparent;border:1px solid var(--ink);height:44px;font-size:15px;padding:0 14px}
+.link{font-size:14px;color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.link.quiet{color:var(--ink2)}
+
+/* bottom bar: text only, like Aesop's nav */
+.nav{margin-top:auto;border-top:1px solid var(--ink);display:flex;align-items:stretch;height:84px;padding-bottom:20px;background:var(--paper)}
+.nav a{flex:1;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--ink2);text-decoration:none;position:relative}
+.nav a.on{color:var(--ink);font-weight:600}
+.nav a.on::before{content:"";position:absolute;top:-1px;left:22%;right:22%;height:3px;background:var(--ink)}
+.nav .walk{flex:none;width:64px;display:flex;align-items:center;justify-content:center}
+.nav .walk span{width:48px;height:48px;background:var(--ink);color:var(--paper);display:grid;place-items:center}
+.nav .walk .ico{width:24px;height:24px}
+
+/* ---------- 1 · Login ---------- */
+.login{padding:0 24px;display:flex;flex-direction:column;height:100%;background:var(--paper)}
+.login .top{margin:0 -24px;padding:28px 24px 26px;background:var(--sand);border-bottom:1px solid var(--ink);display:flex;flex-direction:column;flex:1}
+.login .mark{width:104px;height:104px;display:block}
+.login h1{font-family:var(--serif);font-weight:400;font-size:44px;line-height:1.05;letter-spacing:-.015em;margin-top:auto;padding-top:24px}
+.login .when{margin-top:10px;font-size:15px;color:var(--ink2)}
+.field{margin-top:22px}
+.field label{display:block;font-size:13px;color:var(--ink2);margin-bottom:8px}
+.box{height:54px;border:1px solid var(--ink);display:flex;align-items:center;padding:0 14px;gap:12px;font-size:17px;background:var(--paper)}
+.box .pre{color:var(--ink);padding-right:12px;border-right:1px solid var(--rule);height:24px;display:flex;align-items:center}
+.box .ph{color:var(--ink2)}
+.box .dots{letter-spacing:.2em;font-size:18px}
+.box .ico{margin-left:auto;color:var(--ink2);width:20px;height:20px}
+.login .btn{margin-top:28px;height:56px;font-size:17px}
+.login .alt{margin-top:22px;font-size:15px;color:var(--ink2)}
+.login .foot{margin-top:40px;padding:18px 0 34px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center}
+
+/* ---------- 2 · Staff home ---------- */
+.walkin{background:var(--sand);padding:16px 20px 18px;border-bottom:1px solid var(--ink)}
+.walkin .lbl{color:var(--ink);font-weight:600;font-size:14px;margin-bottom:10px}
+.walkin .entry{display:flex;height:54px;border:1px solid var(--ink);background:var(--paper)}
+.walkin .entry .in{flex:1;display:flex;align-items:center;gap:12px;padding:0 14px;font-size:17px}
+.walkin .entry .in .pre{padding-right:12px;border-right:1px solid var(--rule);height:24px;display:flex;align-items:center}
+.walkin .entry .go{width:56px;background:var(--amber);display:grid;place-items:center;border-left:1px solid var(--ink)}
+.walkin .entry .go .ico{width:22px;height:22px}
+.money{font-size:52px;font-weight:500;letter-spacing:-.02em;line-height:1}
+.split{margin-top:12px;display:grid;grid-template-columns:auto 1fr;row-gap:5px;column-gap:16px;font-size:14px}
+.split dt{color:var(--ink2)}.split dd{text-align:right;font-weight:600}
+.counts{display:grid;grid-template-columns:repeat(4,1fr)}
+.counts div{display:flex;flex-direction:column;gap:2px}
+.counts b{font-size:24px;font-weight:500;line-height:1.1}
+.counts span{font-size:12px;color:var(--ink2)}
+.chair-name{font-size:17px;font-weight:600;line-height:1.25}
+.chair-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px}
+.lines{display:flex;flex-direction:column}
+.lines a{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:17px 20px;border-bottom:1px solid var(--rule);color:var(--ink);text-decoration:none;font-size:15px}
+.lines a .ico{color:var(--ink2)}
+.lines .wa{display:flex;align-items:center;gap:10px}
+.lines .wa .ico{color:var(--ok);width:20px;height:20px}
+.pill-n{font-weight:600}
+
+/* ---------- 3 · Bill ---------- */
+.back{display:flex;align-items:center;gap:6px;font-size:15px;color:var(--ink)}
+.cust{padding:22px 20px 18px}
+.cust h2{font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.05;letter-spacing:-.015em}
+.cust .meta{margin-top:6px;font-size:14px}
+.cust .meta b{color:var(--ink);font-weight:600}
+.label{margin:0 20px;border:1px solid var(--ink);background:var(--sand)}
+.label .lhead{display:flex;justify-content:space-between;align-items:baseline;padding:10px 14px;border-bottom:1px solid var(--ink);font-size:13px;color:var(--ink2)}
+.li{display:grid;grid-template-columns:1fr auto;gap:8px;padding:15px 14px;border-bottom:1px solid var(--rule);font-size:16px}
+.li .amt{font-weight:600}
+.li small{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--amberInk);margin-top:4px;font-weight:500}
+.li small .ico{width:15px;height:15px}
+.tot{display:flex;justify-content:space-between;align-items:baseline;padding:12px 14px 14px;border-top:1px solid var(--ink);margin-top:-1px}
+.tot span{font-size:15px;font-weight:600}
+.tot b{font-size:44px;font-weight:500;letter-spacing:-.02em;line-height:1}
+.opt{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--rule)}
+.opt .t{font-size:16px;font-weight:600}
+.opt .s{font-size:14px;color:var(--ink2);margin-top:3px}
+.sw{width:52px;height:30px;background:var(--ink);position:relative;flex:none}
+.sw::after{content:"";position:absolute;top:4px;right:4px;width:22px;height:22px;background:var(--amber)}
+.ok{display:flex;align-items:center;gap:10px;padding:14px 20px;font-size:15px;color:var(--ok);border-bottom:1px solid var(--rule)}
+.ok .ico{width:20px;height:20px}
+.ok b{font-weight:600}
+.ok .n{color:var(--ink);letter-spacing:.06em;margin-left:auto}
+.billfoot{margin-top:auto;padding:16px 20px 36px;display:flex;flex-direction:column;gap:16px;align-items:center}
+.billfoot .btn{height:58px;font-size:18px}
+
+/* ---------- 4 · Calendar ---------- */
+.mon{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px}
+.mon h2{font-family:var(--serif);font-weight:400;font-size:30px;letter-spacing:-.015em;line-height:1}
+.mon .ctl{display:flex;gap:0}
+.mon .ctl span{width:44px;height:44px;display:grid;place-items:center;border:1px solid var(--ink)}
+.mon .ctl span+span{border-left:0}
+.cal{margin:0 20px;display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--ink);border-left:1px solid var(--rule)}
+.cal .dh{height:30px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink2);border-right:1px solid var(--rule);border-bottom:1px solid var(--ink)}
+.cal .dh.off{background:var(--off)}
+.d{position:relative;height:56px;border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);overflow:hidden}
+.d .fill{position:absolute;left:0;right:0;bottom:0;background:var(--amber)}
+.d .dn{position:absolute;top:5px;left:6px;font-size:14px;font-weight:600;z-index:2}
+.d .bk{position:absolute;bottom:4px;right:5px;font-size:12px;font-weight:500;z-index:2}
+.d.past .dn{color:var(--ink2);font-weight:500}
+.d.past .fill{opacity:.45}
+.d.off{background:var(--off)}
+.d.off .dn{color:var(--ink2);font-weight:400}
+.d.blank{background:transparent}
+.d.today{outline:2px solid var(--ink);outline-offset:-2px;z-index:3}
+.d.today .dn{background:var(--ink);color:var(--paper);padding:2px 5px;top:4px;left:4px}
+.key{display:flex;justify-content:space-between;align-items:center;padding:10px 20px 0;font-size:12px;color:var(--ink2)}
+.key i{display:inline-block;width:12px;height:12px;background:var(--amber);vertical-align:-2px;margin-right:6px}
+.todayc{margin:14px 20px 0;border:1px solid var(--ink)}
+.todayc .top{display:flex;justify-content:space-between;align-items:baseline;padding:12px 14px;border-bottom:1px solid var(--rule)}
+.todayc .top b{font-size:17px;font-weight:600}
+.todayc .top span{font-size:14px;color:var(--ink2)}
+.todayc .nx{display:grid;grid-template-columns:76px 1fr;padding:12px 14px;border-bottom:1px solid var(--rule);align-items:baseline}
+.todayc .nx .tm{font-size:15px;font-weight:600}
+.todayc .nx .nm{font-size:16px;font-weight:600}
+.todayc .nx .sv{font-size:14px;color:var(--ink2);margin-top:2px}
+.todayc .bar{padding:12px 14px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.todayc .bar .lbl{font-size:14px;color:var(--ink)}
+.todayc .bar .lbl span{display:block;color:var(--ink2);font-size:13px;margin-top:2px}
+.todayc .bar .btn{width:auto;height:46px;padding:0 16px;gap:8px;font-size:16px}
+
+/* ---------- 5 · Owner live ---------- */
+.lhd{padding:14px 20px 14px;display:grid;grid-template-columns:1fr auto;row-gap:4px;border-bottom:1px solid var(--ink)}
+.lhd h2{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1;letter-spacing:-.015em;display:flex;align-items:center;gap:12px}
+.live{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--amberInk)}
+.live i{width:8px;height:8px;background:var(--amberInk)}
+.lhd .today{grid-row:1/3;grid-column:2;text-align:right;align-self:end}
+.lhd .today span{display:block;font-size:13px;color:var(--ink2)}
+.lhd .today b{font-size:30px;font-weight:500;letter-spacing:-.02em;line-height:1.05}
+.plate{position:relative;width:390px;height:262px;overflow:hidden;background:#4a3029 url(../../assets/live/plate2.webp) center/auto 100% no-repeat;border-bottom:1px solid var(--ink)}
+.sp{position:absolute;transform:translate(-50%,-100%);pointer-events:none}
+.sp img{height:100%;display:block;transform:scaleX(-1)}
+.tag{position:absolute;transform:translate(-50%,-100%);display:flex;align-items:stretch;background:var(--paper);border:1px solid var(--ink);font-size:12px;white-space:nowrap;z-index:900;height:24px}
+.tag b{background:var(--ink);color:var(--paper);width:20px;display:grid;place-items:center;font-weight:700}
+.tag span{padding:0 7px;display:flex;align-items:center;font-weight:500}
+.tag.free span{color:var(--ink2)}
+.tag::after{content:"";position:absolute;left:195.0px;top:262.0px;width:1px;height:10px;background:var(--paper);margin-left:-.5px}
+.chairs .ch{display:grid;grid-template-columns:32px 1fr auto;column-gap:10px;padding:11px 20px;border-bottom:1px solid var(--rule);align-items:start}
+.chairs .no{width:24px;height:24px;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-size:13px;font-weight:700;margin-top:1px}
+.chairs .no.free{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.chairs .nm{font-size:16px;font-weight:600;line-height:1.3}
+.chairs .sv{font-size:13px;color:var(--ink2);line-height:1.35}
+.chairs .rt{text-align:right}
+.chairs .rt b{font-size:17px;font-weight:600;display:block;line-height:1.3}
+.chairs .rt span{font-size:13px;color:var(--ink2)}
+.checks .h{display:flex;justify-content:space-between;align-items:baseline;padding:14px 20px 8px;border-top:1px solid var(--ink);margin-top:10px}
+.checks .h b{font-size:16px;font-weight:600}
+.checks .h span{font-size:13px;color:var(--amberInk);font-weight:600}
+.checks .c{padding:10px 20px 12px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;gap:12px;align-items:center}
+.checks .c .t{font-size:15px;line-height:1.35}
+.checks .c .t span{display:block;font-size:13px;color:var(--ink2)}
+.checks .c .a{font-size:14px;font-weight:600;white-space:nowrap;border:1px solid var(--ink);height:40px;padding:0 12px;display:flex;align-items:center}
+.checks .c .a.main{background:var(--amber);border-color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="row">
+
+<!-- ===================== 1 · LOGIN ===================== -->
+<div class="cell">
+<div class="phone"><div class="screen" style="background:var(--sand)">
+  <div class="sb"><span>11:40</span><div class="sbi"><div class="sig"><i style="height:4px"></i><i style="height:6px"></i><i style="height:9px"></i><i style="height:11px"></i></div><svg class="ico" style="width:16px;height:12px" viewBox="0 0 16 12"><path d="M8 11.5a1 1 0 100-2 1 1 0 000 2z"/><path d="M3 7.5a7 7 0 0110 0" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M1 4.5a11 11 0 0114 0" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".7"/></svg><div class="bat"><b></b></div></div></div>
+  <div class="cam"></div>
+  <div class="content">
+    <div class="login">
+      <div class="top"><img class="mark" src="../../assets/brand/logo-clean.png" alt="Salon logo">
+      <h1>Welcome back</h1>
+      <p class="when num">Wednesday, 21 October · 11:40 AM</p></div>
+      <div class="field" style="margin-top:26px">
+        <label>Mobile number</label>
+        <div class="box num"><span class="pre">+91</span><span class="ph">10-digit number</span></div>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <div class="box"><span class="dots">••••••••</span><svg class="ico" viewBox="0 0 256 256"><path d="M52.44,36A6,6,0,0,0,43.56,44L64.44,67c-37.28,21.9-53.23,57-53.920,58.57a6,6,0,0,0,0,4.88c.34.77,8.660,19.22,27.24,37.8C55,185.47,84.62,206,128,206a124.91,124.91,0,0,0,52.57-11.25l23,25.29a6,6,0,0,0,8.88-8.08Zm48.62,71.32,45,49.52a34,34,0,0,1-45-49.52ZM128,194c-31.38,0-58.78-11.42-81.45-33.93A134.57,134.57,0,0,1,22.69,128c4.29-8.2,20.1-35.18,50-51.91L92.89,98.3a46,46,0,0,0,61.35,67.48l17.81,19.6A113.47,113.47,0,0,1,128,194Zm6.4-99.4a6,6,0,0,1,2.25-11.79,46.17,46.17,0,0,1,37.15,40.87,6,6,0,0,1-5.42,6.53l-.56,0a6,6,0,0,1-6-5.45A34.1,34.1,0,0,0,134.4,94.6Zm111.08,35.85c-.41.92-10.37,23-32.86,43.12a6,6,0,1,1-8-8.94A134.07,134.07,0,0,0,233.31,128a134.67,134.67,0,0,0-23.860-32.07C186.78,73.42,159.38,62,128,62a120.19,120.19,0,0,0-19.69,1.6,6,6,0,1,1-2-11.83A131.12,131.12,0,0,1,128,50c43.38,0,73,20.54,90.24,37.76,18.58,18.58,26.9,37,27.24,37.81A6,6,0,0,1,245.48,130.45Z"/></svg></div>
+      </div>
+      <a class="btn" style="text-decoration:none">Log in<svg class="ico" style="width:22px;height:22px" viewBox="0 0 256 256"><path d="M220.24,132.24l-72,72a6,6,0,0,1-8.48-8.48L201.51,134H40a6,6,0,0,1,0-12H201.51L139.76,60.24a6,6,0,0,1,8.48-8.48l72,72A6,6,0,0,1,220.24,132.24Z"/></svg></a>
+      <p class="alt">Owner? <a class="link" href="#">Sign in here</a></p>
+      <div class="foot"><a class="link quiet" href="#">Privacy &amp; terms</a></div>
+    </div>
+  </div>
+  <div class="gest"></div>
+</div></div>
+<div class="cap"><b>1</b>Login</div>
+</div>
+
+<!-- ===================== 2 · STAFF HOME ===================== -->
+<div class="cell">
+<div class="phone"><div class="screen">
+  <div class="sb"><span>11:40</span><div class="sbi"><div class="sig"><i style="height:4px"></i><i style="height:6px"></i><i style="height:9px"></i><i style="height:11px"></i></div><svg class="ico" style="width:16px;height:12px" viewBox="0 0 16 12"><path d="M8 11.5a1 1 0 100-2 1 1 0 000 2z"/><path d="M3 7.5a7 7 0 0110 0" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M1 4.5a11 11 0 0114 0" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".7"/></svg><div class="bat"><b></b></div></div></div>
+  <div class="cam"></div>
+  <div class="content">
+    <div class="hd">
+      <div class="who"><img class="logo" src="../../assets/brand/logo-clean.png" alt=""><div><div class="t-serif h1">Imran Khan</div></div></div>
+      <div class="meta" style="color:var(--ink);font-weight:600;font-size:14px">Chair 1</div>
+    </div>
+    <div class="walkin">
+      <div class="lbl">Customer walked in</div>
+      <div class="entry"><div class="in num"><span class="pre">+91</span><span style="color:var(--ink2)">Mobile number</span></div><div class="go"><svg class="ico" viewBox="0 0 256 256"><path d="M220.24,132.24l-72,72a6,6,0,0,1-8.48-8.48L201.51,134H40a6,6,0,0,1,0-12H201.51L139.76,60.24a6,6,0,0,1,8.48-8.48l72,72A6,6,0,0,1,220.24,132.24Z"/></svg></div></div>
+    </div>
+    <div class="sec sheet">
+      <div class="lbl" style="padding-top:4px">My earnings today</div>
+      <div>
+        <div class="money num">₹1,350</div>
+        <dl class="split num"><dt>Cash/UPI/card</dt><dd>₹900</dd><dt>Wallet</dt><dd>₹450</dd><dt>This month</dt><dd>₹8,150</dd></dl>
+      </div>
+    </div>
+    <div class="sec sheet">
+      <div class="lbl" style="padding-top:2px">My customers today</div>
+      <div class="counts num"><div><b>4</b><span>handled</span></div><div><b>3</b><span>paid</span></div><div><b>1</b><span>in chair</span></div><div><b>1</b><span>new</span></div></div>
+    </div>
+    <div class="sec sheet ink">
+      <div class="lbl" style="padding-top:3px">My chair</div>
+      <div>
+        <div class="chair-name">Karan Mehta</div>
+        <div class="meta num" style="font-size:14px">Haircut + Beard trim · since 11:10</div>
+        <a class="btn ghost num" style="margin-top:12px;text-decoration:none"><span>Pay <b>₹450</b></span><svg class="ico" viewBox="0 0 256 256"><path d="M220.24,132.24l-72,72a6,6,0,0,1-8.48-8.48L201.51,134H40a6,6,0,0,1,0-12H201.51L139.76,60.24a6,6,0,0,1,8.48-8.48l72,72A6,6,0,0,1,220.24,132.24Z"/></svg></a>
+      </div>
+    </div>
+    <div class="lines">
+      <a><span>Your bookings today · <span class="pill-n num">3</span></span><svg class="ico" viewBox="0 0 256 256"><path d="M180.24,132.24l-80,80a6,6,0,0,1-8.48-8.48L167.51,128,91.76,52.24a6,6,0,0,1,8.48-8.48l80,80A6,6,0,0,1,180.24,132.24Z"/></svg></a>
+      <a><span class="wa"><svg class="ico" viewBox="0 0 256 256"><path d="M186.68,146.63l-32-16a6,6,0,0,0-6,.38L133,141.46A42.49,42.49,0,0,1,114.54,123L125,107.33a6,6,0,0,0,.38-6l-16-32A6,6,0,0,0,104,66a38,38,0,0,0-38,38,86.1,86.1,0,0,0,86,86,38,38,0,0,0,38-38A6,6,0,0,0,186.68,146.63ZM152,178a74.090,74.090,0,0,1-74-74,26,26,0,0,1,22.42-25.75l12.66,25.32-10.39,15.58a6,6,0,0,0-.54,5.63,54.43,54.43,0,0,0,29.07,29.07,6,6,0,0,0,5.63-.54l15.58-10.39,25.32,12.66A26,26,0,0,1,152,178ZM128,26A102,102,0,0,0,38.35,176.69L26.73,211.56a14,14,0,0,0,17.71,17.71l34.87-11.62A102,102,0,1,0,128,26Zm0,192a90,90,0,0,1-45.06-12.08,6.090,6.090,0,0,0-3-.81,6.2,6.2,0,0,0-1.9.31L40.65,217.88a2,2,0,0,1-2.53-2.53L50.58,178a6,6,0,0,0-.5-4.91A90,90,0,1,1,128,218Z"/></svg><span>Salon: <b class="num">2</b> on-the-day reminders to send</span></span><svg class="ico" viewBox="0 0 256 256"><path d="M180.24,132.24l-80,80a6,6,0,0,1-8.48-8.48L167.51,128,91.76,52.24a6,6,0,0,1,8.48-8.48l80,80A6,6,0,0,1,180.24,132.24Z"/></svg></a>
+    </div>
+    <nav class="nav"><a class="on">Home</a><a>Customers</a><div class="walk"><span aria-label="Walk-in"><svg class="ico" viewBox="0 0 256 256"><path d="M222,128a6,6,0,0,1-6,6H134v82a6,6,0,0,1-12,0V134H40a6,6,0,0,1,0-12h82V40a6,6,0,0,1,12,0v82h82A6,6,0,0,1,222,128Z"/></svg></span></div><a>Calendar</a><a>Profile</a></nav>
+  </div>
+  <div class="gest"></div>
+</div></div>
+<div class="cap"><b>2</b>Staff home</div>
+</div>
+
+<!-- ===================== 3 · BILL ===================== -->
+<div class="cell">
+<div class="phone"><div class="screen">
+  <div class="sb"><span>11:40</span><div class="sbi"><div class="sig"><i style="height:4px"></i><i style="height:6px"></i><i style="height:9px"></i><i style="height:11px"></i></div><svg class="ico" style="width:16px;height:12px" viewBox="0 0 16 12"><path d="M8 11.5a1 1 0 100-2 1 1 0 000 2z"/><path d="M3 7.5a7 7 0 0110 0" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M1 4.5a11 11 0 0114 0" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".7"/></svg><div class="bat"><b></b></div></div></div>
+  <div class="cam"></div>
+  <div class="content">
+    <div class="hd" style="padding:10px 20px">
+      <span class="back"><svg class="ico" viewBox="0 0 256 256"><path d="M164.24,203.76a6,6,0,1,1-8.48,8.48l-80-80a6,6,0,0,1,0-8.48l80-80a6,6,0,0,1,8.48,8.48L88.49,128Z"/></svg>Bill</span>
+      <span class="meta" style="font-size:14px">Imran · Chair 1</span>
+    </div>
+    <div class="cust">
+      <h2>Aditya Rao</h2>
+      <p class="meta num">Returning customer · Wallet <b>₹4,850</b></p>
+    </div>
+    <div class="label num">
+      <div class="lhead"><span>Service</span><span>Amount</span></div>
+      <div class="li"><span>Hair colour</span><span class="amt">₹1,200</span></div>
+      <div class="li" style="border-bottom:0"><span>Keratin touch-up<small><svg class="ico" viewBox="0 0 256 256"><path d="M228.24,76.24l-128,128a6,6,0,0,1-8.48,0l-56-56a6,6,0,0,1,8.48-8.48L96,191.51,219.76,67.76a6,6,0,0,1,8.48,8.48Z"/></svg>owner approved</small></span><span class="amt">₹800</span></div>
+      <div class="tot"><span>Total</span><b>₹2,000</b></div>
+    </div>
+    <div class="opt num" style="margin-top:12px;border-top:1px solid var(--rule)">
+      <div><div class="t">Pay from wallet</div><div class="s">₹2,000 of ₹4,850</div></div>
+      <div class="sw" role="switch" aria-checked="true"></div>
+    </div>
+    <div class="ok"><svg class="ico" viewBox="0 0 256 256"><path d="M228.24,76.24l-128,128a6,6,0,0,1-8.48,0l-56-56a6,6,0,0,1,8.48-8.48L96,191.51,219.76,67.76a6,6,0,0,1,8.48,8.48Z"/></svg><b>Number confirmed</b><span class="n num">••••• •5028</span></div>
+    <div class="billfoot">
+      <a class="btn num" style="text-decoration:none">Collect ₹2,000<svg class="ico" style="width:22px;height:22px" viewBox="0 0 256 256"><path d="M220.24,132.24l-72,72a6,6,0,0,1-8.48-8.48L201.51,134H40a6,6,0,0,1,0-12H201.51L139.76,60.24a6,6,0,0,1,8.48-8.48l72,72A6,6,0,0,1,220.24,132.24Z"/></svg></a>
+      <a class="link quiet" href="#">Customer left without a service</a>
+    </div>
+  </div>
+  <div class="gest"></div>
+</div></div>
+<div class="cap"><b>3</b>Bill / Collect</div>
+</div>
+
+<!-- ===================== 4 · CALENDAR ===================== -->
+<div class="cell">
+<div class="phone"><div class="screen">
+  <div class="sb"><span>11:40</span><div class="sbi"><div class="sig"><i style="height:4px"></i><i style="height:6px"></i><i style="height:9px"></i><i style="height:11px"></i></div><svg class="ico" style="width:16px;height:12px" viewBox="0 0 16 12"><path d="M8 11.5a1 1 0 100-2 1 1 0 000 2z"/><path d="M3 7.5a7 7 0 0110 0" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M1 4.5a11 11 0 0114 0" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".7"/></svg><div class="bat"><b></b></div></div></div>
+  <div class="cam"></div>
+  <div class="content">
+    <div class="mon">
+      <div><div class="meta" style="font-size:14px;margin-bottom:6px">My calendar</div><h2>October 2026</h2></div>
+      <div class="ctl"><span><svg class="ico" viewBox="0 0 256 256"><path d="M164.24,203.76a6,6,0,1,1-8.48,8.48l-80-80a6,6,0,0,1,0-8.48l80-80a6,6,0,0,1,8.48,8.48L88.49,128Z"/></svg></span><span><svg class="ico" viewBox="0 0 256 256"><path d="M180.24,132.24l-80,80a6,6,0,0,1-8.48-8.48L167.51,128,91.76,52.24a6,6,0,0,1,8.48-8.48l80,80A6,6,0,0,1,180.24,132.24Z"/></svg></span></div>
+    </div>
+    <div class="cal num">
+<div class="dh">Mon</div><div class="dh off">Tue</div><div class="dh">Wed</div><div class="dh">Thu</div><div class="dh">Fri</div><div class="dh">Sat</div><div class="dh">Sun</div><div class="d blank"></div><div class="d off blank"></div><div class="d blank"></div><div class="d past"><div class="fill" style="height:37.5%"></div><span class="dn">1</span><span class="bk">3</span></div><div class="d past"><div class="fill" style="height:62.5%"></div><span class="dn">2</span><span class="bk">5</span></div><div class="d past"><div class="fill" style="height:75.0%"></div><span class="dn">3</span><span class="bk">6</span></div><div class="d past"><div class="fill" style="height:50.0%"></div><span class="dn">4</span><span class="bk">4</span></div><div class="d past"><div class="fill" style="height:25.0%"></div><span class="dn">5</span><span class="bk">2</span></div><div class="d off"><span class="dn">6</span></div><div class="d past"><div class="fill" style="height:37.5%"></div><span class="dn">7</span><span class="bk">3</span></div><div class="d past"><div class="fill" style="height:50.0%"></div><span class="dn">8</span><span class="bk">4</span></div><div class="d past"><div class="fill" style="height:62.5%"></div><span class="dn">9</span><span class="bk">5</span></div><div class="d past"><div class="fill" style="height:75.0%"></div><span class="dn">10</span><span class="bk">6</span></div><div class="d past"><div class="fill" style="height:50.0%"></div><span class="dn">11</span><span class="bk">4</span></div><div class="d past"><div class="fill" style="height:25.0%"></div><span class="dn">12</span><span class="bk">2</span></div><div class="d off"><span class="dn">13</span></div><div class="d past"><div class="fill" style="height:37.5%"></div><span class="dn">14</span><span class="bk">3</span></div><div class="d past"><div class="fill" style="height:50.0%"></div><span class="dn">15</span><span class="bk">4</span></div><div class="d past"><div class="fill" style="height:62.5%"></div><span class="dn">16</span><span class="bk">5</span></div><div class="d past"><div class="fill" style="height:100.0%"></div><span class="dn">17</span><span class="bk">8</span></div><div class="d past"><div class="fill" style="height:62.5%"></div><span class="dn">18</span><span class="bk">5</span></div><div class="d past"><div class="fill" style="height:37.5%"></div><span class="dn">19</span><span class="bk">3</span></div><div class="d off"><span class="dn">20</span></div><div class="d today"><div class="fill" style="height:37.5%"></div><span class="dn">21</span><span class="bk">3</span></div><div class="d"><div class="fill" style="height:50.0%"></div><span class="dn">22</span><span class="bk">4</span></div><div class="d"><div class="fill" style="height:62.5%"></div><span class="dn">23</span><span class="bk">5</span></div><div class="d"><div class="fill" style="height:100.0%"></div><span class="dn">24</span><span class="bk">8</span></div><div class="d"><div class="fill" style="height:87.5%"></div><span class="dn">25</span><span class="bk">7</span></div><div class="d"><div class="fill" style="height:25.0%"></div><span class="dn">26</span><span class="bk">2</span></div><div class="d off"><span class="dn">27</span></div><div class="d"><div class="fill" style="height:50.0%"></div><span class="dn">28</span><span class="bk">4</span></div><div class="d"><div class="fill" style="height:37.5%"></div><span class="dn">29</span><span class="bk">3</span></div><div class="d"><div class="fill" style="height:62.5%"></div><span class="dn">30</span><span class="bk">5</span></div><div class="d"><div class="fill" style="height:87.5%"></div><span class="dn">31</span><span class="bk">7</span></div><div class="d blank"></div>
+    </div>
+    <div class="key"><span><i></i>Bookings per day</span><span>Tue · weekly off</span></div>
+    <div class="todayc num">
+      <div class="top"><b>Today · Wed 21</b><span>3 bookings · 3 left</span></div>
+      <div class="nx"><span class="tm">10:30 AM<span style="display:block;font-size:12px;font-weight:500;color:var(--ink2)">Next</span></span><div><div class="nm">Varun Malhotra</div><div class="sv">Hair colour</div></div></div>
+      <div class="bar"><div class="lbl">Your day is 35% booked<span>10:00 am – 8:00 pm</span></div><a class="btn" style="text-decoration:none"><svg class="ico" viewBox="0 0 256 256"><path d="M222,128a6,6,0,0,1-6,6H134v82a6,6,0,0,1-12,0V134H40a6,6,0,0,1,0-12h82V40a6,6,0,0,1,12,0v82h82A6,6,0,0,1,222,128Z"/></svg>Book</a></div>
+    </div>
+    <nav class="nav"><a>Home</a><a>Customers</a><div class="walk"><span aria-label="Walk-in"><svg class="ico" viewBox="0 0 256 256"><path d="M222,128a6,6,0,0,1-6,6H134v82a6,6,0,0,1-12,0V134H40a6,6,0,0,1,0-12h82V40a6,6,0,0,1,12,0v82h82A6,6,0,0,1,222,128Z"/></svg></span></div><a class="on">Calendar</a><a>Profile</a></nav>
+  </div>
+  <div class="gest"></div>
+</div></div>
+<div class="cap"><b>4</b>My calendar</div>
+</div>
+
+<!-- ===================== 5 · OWNER LIVE ===================== -->
+<div class="cell">
+<div class="phone"><div class="screen">
+  <div class="sb"><span>11:40</span><div class="sbi"><div class="sig"><i style="height:4px"></i><i style="height:6px"></i><i style="height:9px"></i><i style="height:11px"></i></div><svg class="ico" style="width:16px;height:12px" viewBox="0 0 16 12"><path d="M8 11.5a1 1 0 100-2 1 1 0 000 2z"/><path d="M3 7.5a7 7 0 0110 0" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round"/><path d="M1 4.5a11 11 0 0114 0" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round" opacity=".7"/></svg><div class="bat"><b></b></div></div></div>
+  <div class="cam"></div>
+  <div class="content">
+    <div class="lhd num">
+      <h2>Live floor <span class="live"><i></i>LIVE</span></h2>
+      <div class="meta" style="font-size:14px">Wed 21 Oct · 11:40 AM</div>
+      <div class="today"><span>Today</span><b>₹6,800</b></div>
+    </div>
+    <div class="plate">
+<div class="sp" style="left:206.1px;top:121.5px;height:44.5px;z-index:262"><img src="../../assets/live/s3.webp" alt=""></div><div class="sp" style="left:259.0px;top:144.7px;height:44.5px;z-index:312"><img src="../../assets/live/s4.webp" alt=""></div><div class="sp" style="left:182.9px;top:130.8px;height:56.6px;z-index:282"><img src="../../assets/live/s0.webp" alt=""></div><div class="sp" style="left:235.8px;top:154.0px;height:56.6px;z-index:332"><img src="../../assets/live/s1.webp" alt=""></div><div class="sp" style="left:291.5px;top:186.4px;height:56.6px;z-index:402"><img src="../../assets/live/s2.webp" alt=""></div><div class="tag" style="left:181.1px;top:61.2px"><b>1</b><span>Karan · 18 min</span></div><div class="tag" style="left:246.9px;top:92.7px"><b>2</b><span>Priya · 33 min</span></div><div class="tag free" style="left:315.6px;top:125.2px"><b>3</b><span>Free</span></div>
+    </div>
+    <div class="chairs num">
+      <div class="ch"><span class="no">1</span><div><div class="nm">Karan Mehta</div><div class="sv">Haircut + Beard trim · Imran</div></div><div class="rt"><b>₹450</b><span>12 min left</span></div></div>
+      <div class="ch"><span class="no">2</span><div><div class="nm">Priya Patel</div><div class="sv">Facial · Sunita</div></div><div class="rt"><b>₹900</b><span>33 min left</span></div></div>
+      <div class="ch"><span class="no free">3</span><div><div class="nm">Free</div><div class="sv">Next Dev Arora 12:30 · Rakesh</div></div><div class="rt"></div></div>
+    </div>
+    <div class="checks num">
+      <div class="h"><b>Today's checks</b><span>2 to look at</span></div>
+      <div class="c"><div class="t">Imran undid a ₹300 bill<span>Rohan Gupta · ‘Wrong service’</span></div><svg class="ico" style="color:var(--ink2)" viewBox="0 0 256 256"><path d="M180.24,132.24l-80,80a6,6,0,0,1-8.48-8.48L167.51,128,91.76,52.24a6,6,0,0,1,8.48-8.48l80,80A6,6,0,0,1,180.24,132.24Z"/></svg></div>
+      <div class="c"><div class="t">Cash in the drawer should be ₹2,400</div><span class="a main">Count the cash</span></div>
+    </div>
+    <nav class="nav"><a class="on">Live</a><a>Earnings</a><a>Staff</a><a>Customers</a></nav>
+  </div>
+  <div class="gest"></div>
+</div></div>
+<div class="cap"><b>5</b>Owner · Live floor</div>
+</div>
+
+</div>
+</body>
+</html>

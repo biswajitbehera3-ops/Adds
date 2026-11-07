@@ -1,0 +1,13 @@
+{
+  "id": "P002",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My whole salon already runs on WhatsApp on one phone and it works; asking 5 to 10 stylists to take selfies and type every walk-in's number in an English app is a fight I don't want in a normal week. The cash-drawer and cancelled-bill checks do interest me, but not enough to pay ₹4,999 upfront for software my staff may quietly stop using.",
+  "objection": "Many of my customers won't give their mobile number, so half the reminders, wallet and top-customer reports will be empty, and my stylists will just skip the entry and keep taking cash.",
+  "would_change_my_mind": "Seeing it actually running in another salon of my size nearby, with the setup fee charged only after the free month if my staff are still using it.",
+  "price_too_cheap": 199,
+  "price_cheap": 499,
+  "price_expensive": 1500,
+  "price_too_expensive": 2500
+}

@@ -1,0 +1,2 @@
+NVIDIA/SkillSpector skills/skill-inspector, commit e48d771 (Apache-2.0), installed 7 Nov 2026 after reading it.
+CLI: uv tool install "git+https://github.com/NVIDIA/SkillSpector.git@e48d771"

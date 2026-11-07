@@ -1,0 +1,13 @@
+{
+  "id": "P052",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "convenience",
+  "reason": "My own branded app on the stylists' phones, WhatsApp bills and the cash-drawer check would make the parlour look modern and stop me chasing the register, and with the first month free I can test it properly. ₹999 is one or two haircuts a month, so if the wallet and reminders bring even a few customers back it pays for itself.",
+  "objection": "₹4,999 setup up front plus ₹999 every month even in slow months, and I'm not sure my staff will actually do the selfie check-in and type every walk-in number instead of skipping it when it's busy.",
+  "would_change_my_mind": "If after the free month my stylists aren't using it and I can't see real repeat customers from the WhatsApp reminders, I'd cancel; and if the setup fee can't be refunded or waived for that case, I'd hold off at the start.",
+  "price_too_cheap": 199,
+  "price_cheap": 499,
+  "price_expensive": 1499,
+  "price_too_expensive": 2499
+}

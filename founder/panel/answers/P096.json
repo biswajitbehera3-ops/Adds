@@ -1,0 +1,13 @@
+{
+  "id": "P096",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "I already paid for salon software once and my staff never touched it, so we cancelled. The money is not the issue, but I'm not putting my customer list into some app on a phone without knowing where it lives and that my stylists will actually use it.",
+  "objection": "What if a phone breaks or a stylist leaves with the phone, and I lose all my customer data? Also, my staff ignored the last software and this one asks them to take selfies and type numbers for every walk-in.",
+  "would_change_my_mind": "A written promise that the data is backed up off the phone and I can export it any time, plus seeing it running for a month in a salon like mine where the staff really use it every day.",
+  "price_too_cheap": 199,
+  "price_cheap": 499,
+  "price_expensive": 1499,
+  "price_too_expensive": 2999
+}

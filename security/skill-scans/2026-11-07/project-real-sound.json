@@ -1,0 +1,3496 @@
+{
+  "skill": {
+    "name": "real-sound",
+    "source": "/home/user/Adds/.claude/skills/real-sound",
+    "scanned_at": "2026-11-07T14:31:36.021334+00:00"
+  },
+  "risk_assessment": {
+    "score": 81,
+    "severity": "CRITICAL",
+    "recommendation": "DO_NOT_INSTALL",
+    "max_issue_severity": "HIGH"
+  },
+  "components": [
+    {
+      "path": "LICENSE",
+      "type": "other",
+      "lines": 21,
+      "executable": false,
+      "size_bytes": 1065,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "SKILL.md",
+      "type": "markdown",
+      "lines": 199,
+      "executable": false,
+      "size_bytes": 15521,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "SOURCE",
+      "type": "other",
+      "lines": 2,
+      "executable": false,
+      "size_bytes": 117,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "references/design-format.md",
+      "type": "markdown",
+      "lines": 251,
+      "executable": false,
+      "size_bytes": 16712,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "references/licences.md",
+      "type": "markdown",
+      "lines": 94,
+      "executable": false,
+      "size_bytes": 7346,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "references/process.md",
+      "type": "markdown",
+      "lines": 135,
+      "executable": false,
+      "size_bytes": 14064,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "references/sound-design.md",
+      "type": "markdown",
+      "lines": 123,
+      "executable": false,
+      "size_bytes": 11143,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "references/troubleshooting.md",
+      "type": "markdown",
+      "lines": 66,
+      "executable": false,
+      "size_bytes": 6281,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "scripts/analyze.py",
+      "type": "python",
+      "lines": 268,
+      "executable": true,
+      "size_bytes": 13724,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "scripts/arrange.py",
+      "type": "python",
+      "lines": 351,
+      "executable": true,
+      "size_bytes": 21412,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "scripts/audit.py",
+      "type": "python",
+      "lines": 400,
+      "executable": true,
+      "size_bytes": 23878,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "scripts/credits.py",
+      "type": "python",
+      "lines": 213,
+      "executable": true,
+      "size_bytes": 11933,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "scripts/licences.py",
+      "type": "python",
+      "lines": 122,
+      "executable": true,
+      "size_bytes": 6954,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "scripts/master.py",
+      "type": "python",
+      "lines": 342,
+      "executable": true,
+      "size_bytes": 15202,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "scripts/mix.py",
+      "type": "python",
+      "lines": 690,
+      "executable": true,
+      "size_bytes": 34125,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "scripts/mux.mjs",
+      "type": "javascript",
+      "lines": 72,
+      "executable": true,
+      "size_bytes": 4488,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "scripts/qa.py",
+      "type": "python",
+      "lines": 965,
+      "executable": true,
+      "size_bytes": 54768,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "scripts/variant.py",
+      "type": "python",
+      "lines": 320,
+      "executable": true,
+      "size_bytes": 16103,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/SOUND_BRIEF.md",
+      "type": "markdown",
+      "lines": 79,
+      "executable": false,
+      "size_bytes": 6387,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/arc.json",
+      "type": "json",
+      "lines": 7,
+      "executable": false,
+      "size_bytes": 736,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/audit_entry.json",
+      "type": "json",
+      "lines": 16,
+      "executable": false,
+      "size_bytes": 1587,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/cues.json",
+      "type": "json",
+      "lines": 29,
+      "executable": false,
+      "size_bytes": 2784,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/design_fragment.json",
+      "type": "json",
+      "lines": 81,
+      "executable": false,
+      "size_bytes": 8087,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/manifest_entry.json",
+      "type": "json",
+      "lines": 42,
+      "executable": false,
+      "size_bytes": 2727,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/prompts/critic_director.md",
+      "type": "markdown",
+      "lines": 36,
+      "executable": false,
+      "size_bytes": 2494,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/prompts/critic_edges.md",
+      "type": "markdown",
+      "lines": 33,
+      "executable": false,
+      "size_bytes": 2249,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/prompts/critic_masking.md",
+      "type": "markdown",
+      "lines": 34,
+      "executable": false,
+      "size_bytes": 2388,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/prompts/critic_sync.md",
+      "type": "markdown",
+      "lines": 40,
+      "executable": false,
+      "size_bytes": 2678,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/prompts/critic_tonal.md",
+      "type": "markdown",
+      "lines": 36,
+      "executable": false,
+      "size_bytes": 2454,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/prompts/designer.md",
+      "type": "markdown",
+      "lines": 49,
+      "executable": false,
+      "size_bytes": 3627,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/prompts/fixer.md",
+      "type": "markdown",
+      "lines": 51,
+      "executable": false,
+      "size_bytes": 3507,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/prompts/licence_audit.md",
+      "type": "markdown",
+      "lines": 44,
+      "executable": false,
+      "size_bytes": 2914,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/prompts/music_supervisor.md",
+      "type": "markdown",
+      "lines": 50,
+      "executable": false,
+      "size_bytes": 3862,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/prompts/sourcing.md",
+      "type": "markdown",
+      "lines": 60,
+      "executable": false,
+      "size_bytes": 4620,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    },
+    {
+      "path": "templates/sounddesign.json",
+      "type": "json",
+      "lines": 22,
+      "executable": false,
+      "size_bytes": 1585,
+      "source_url": null,
+      "source_identity": null,
+      "source_digest": null
+    }
+  ],
+  "structured_summaries": [],
+  "issues": [
+    {
+      "id": "AE1",
+      "finding_id": "finding-523815e818684c088e96ec13ae9659b9",
+      "category": "analysis-evasion",
+      "pattern": "Incomplete referenced artifact analysis",
+      "severity": "HIGH",
+      "confidence": 1.0,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 35,
+        "end_line": null
+      },
+      "finding": "scripts/audit.py (partial)",
+      "explanation": "Referenced artifact was not completely inspected",
+      "remediation": "Review the target's analysis-completeness ledger and resolve all limitations. Keep required references; incomplete analysis is not proof of malicious evasion.",
+      "code_snippet": "| 3. licence audit | auditor | `audit.json` | `audit.py` exit 0 for what the film uses |",
+      "intent": null,
+      "tags": [
+        "coverage",
+        "reference",
+        "target-disposition:partial"
+      ],
+      "evidence": {
+        "target_path": "scripts/audit.py",
+        "target_disposition": "partial",
+        "reasons": [
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_agent_snooping"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_anti_refusal"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_deserialization"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_excessive_agency"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_harmful_content"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_memory_poisoning"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_privilege_escalation"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_prompt_injection"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_rogue_agent"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_ssrf"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_supply_chain"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_system_prompt_leakage"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_tool_misuse"
+            ]
+          }
+        ]
+      },
+      "match_fingerprint": "b69fe82100cdef04f64fae3bef672c3ada7e6c3e512bc4d2f7a55aa815fb558a",
+      "occurrences": [
+        {
+          "file": "SKILL.md",
+          "start_line": 35,
+          "end_line": null
+        }
+      ],
+      "surface": "instructions"
+    },
+    {
+      "id": "AE1",
+      "finding_id": "finding-ad1b4a2f17d04d89b90fe2381faebb37",
+      "category": "analysis-evasion",
+      "pattern": "Incomplete referenced artifact analysis",
+      "severity": "HIGH",
+      "confidence": 1.0,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 167,
+        "end_line": null
+      },
+      "finding": "scripts/audit.py (partial)",
+      "explanation": "Referenced artifact was not completely inspected",
+      "remediation": "Review the target's analysis-completeness ledger and resolve all limitations. Keep required references; incomplete analysis is not proof of malicious evasion.",
+      "code_snippet": "| licence + file audit | `scripts/audit.py` (policy in `scripts/licences.py`) |",
+      "intent": null,
+      "tags": [
+        "coverage",
+        "reference",
+        "target-disposition:partial"
+      ],
+      "evidence": {
+        "target_path": "scripts/audit.py",
+        "target_disposition": "partial",
+        "reasons": [
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_agent_snooping"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_anti_refusal"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_deserialization"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_excessive_agency"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_harmful_content"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_memory_poisoning"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_privilege_escalation"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_prompt_injection"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_rogue_agent"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_ssrf"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_supply_chain"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_system_prompt_leakage"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_tool_misuse"
+            ]
+          }
+        ]
+      },
+      "match_fingerprint": "b69fe82100cdef04f64fae3bef672c3ada7e6c3e512bc4d2f7a55aa815fb558a",
+      "occurrences": [
+        {
+          "file": "SKILL.md",
+          "start_line": 167,
+          "end_line": null
+        }
+      ],
+      "surface": "instructions"
+    },
+    {
+      "id": "AE1",
+      "finding_id": "finding-a7aa4a6ca6454d70b0f71798303799be",
+      "category": "analysis-evasion",
+      "pattern": "Incomplete referenced artifact analysis",
+      "severity": "HIGH",
+      "confidence": 1.0,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 139,
+        "end_line": null
+      },
+      "finding": "scripts/mux.mjs (partial)",
+      "explanation": "Referenced artifact was not completely inspected",
+      "remediation": "Review the reported expression and analyzer's parsing limitation; correct the scanner if it misinterprets valid source, then rerun the scan. Keep required references; incomplete analysis is not proof of malicious evasion.",
+      "code_snippet": "`mux.mjs` stream-copies the picture and cuts the AAC audio to the picture's duration.",
+      "intent": null,
+      "tags": [
+        "coverage",
+        "reference",
+        "target-disposition:partial"
+      ],
+      "evidence": {
+        "target_path": "scripts/mux.mjs",
+        "target_disposition": "partial",
+        "reasons": [
+          {
+            "reason_code": "static_parse_limit",
+            "message": "A security-relevant expression could not be fully resolved by the bounded static parser.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_tool_misuse"
+            ]
+          }
+        ]
+      },
+      "match_fingerprint": "ced2138a05df835f19e02abfaa53748ddfa550372e1236958d8828302ce4cdb1",
+      "occurrences": [
+        {
+          "file": "SKILL.md",
+          "start_line": 139,
+          "end_line": null
+        }
+      ],
+      "surface": "instructions"
+    },
+    {
+      "id": "AE1",
+      "finding_id": "finding-589360ff42e149dd8d5611fc3ea5683e",
+      "category": "analysis-evasion",
+      "pattern": "Incomplete referenced artifact analysis",
+      "severity": "HIGH",
+      "confidence": 1.0,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 174,
+        "end_line": null
+      },
+      "finding": "scripts/mux.mjs (partial)",
+      "explanation": "Referenced artifact was not completely inspected",
+      "remediation": "Review the reported expression and analyzer's parsing limitation; correct the scanner if it misinterprets valid source, then rerun the scan. Keep required references; incomplete analysis is not proof of malicious evasion.",
+      "code_snippet": "| put the soundtrack on the picture | `scripts/mux.mjs` |",
+      "intent": null,
+      "tags": [
+        "coverage",
+        "reference",
+        "target-disposition:partial"
+      ],
+      "evidence": {
+        "target_path": "scripts/mux.mjs",
+        "target_disposition": "partial",
+        "reasons": [
+          {
+            "reason_code": "static_parse_limit",
+            "message": "A security-relevant expression could not be fully resolved by the bounded static parser.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_tool_misuse"
+            ]
+          }
+        ]
+      },
+      "match_fingerprint": "ced2138a05df835f19e02abfaa53748ddfa550372e1236958d8828302ce4cdb1",
+      "occurrences": [
+        {
+          "file": "SKILL.md",
+          "start_line": 174,
+          "end_line": null
+        }
+      ],
+      "surface": "instructions"
+    },
+    {
+      "id": "AE1",
+      "finding_id": "finding-5e08272889284253950ac07b7551d73c",
+      "category": "analysis-evasion",
+      "pattern": "Incomplete referenced artifact analysis",
+      "severity": "HIGH",
+      "confidence": 1.0,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 168,
+        "end_line": null
+      },
+      "finding": "scripts/arrange.py (partial)",
+      "explanation": "Referenced artifact was not completely inspected",
+      "remediation": "Review the target's analysis-completeness ledger and resolve all limitations. Keep required references; incomplete analysis is not proof of malicious evasion.",
+      "code_snippet": "| music grid, downbeats, bar-line edit draft | `scripts/arrange.py` |",
+      "intent": null,
+      "tags": [
+        "coverage",
+        "reference",
+        "target-disposition:partial"
+      ],
+      "evidence": {
+        "target_path": "scripts/arrange.py",
+        "target_disposition": "partial",
+        "reasons": [
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_agent_snooping"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_anti_refusal"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_deserialization"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_excessive_agency"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_harmful_content"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_memory_poisoning"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_privilege_escalation"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_prompt_injection"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_rogue_agent"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_ssrf"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_supply_chain"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_system_prompt_leakage"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_tool_misuse"
+            ]
+          }
+        ]
+      },
+      "match_fingerprint": "e9bef02e654a773ee357cefcfc1835121673289ce21a74bbcdf1b735d2f16ddf",
+      "occurrences": [
+        {
+          "file": "SKILL.md",
+          "start_line": 168,
+          "end_line": null
+        }
+      ],
+      "surface": "instructions"
+    },
+    {
+      "id": "AE1",
+      "finding_id": "finding-cc0f9c23f03044cc8768c3b3fcc3f39f",
+      "category": "analysis-evasion",
+      "pattern": "Incomplete referenced artifact analysis",
+      "severity": "HIGH",
+      "confidence": 1.0,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 172,
+        "end_line": null
+      },
+      "finding": "scripts/variant.py (partial)",
+      "explanation": "Referenced artifact was not completely inspected",
+      "remediation": "Review the target's analysis-completeness ledger and resolve all limitations. Keep required references; incomplete analysis is not proof of malicious evasion.",
+      "code_snippet": "| critic variants, the fixer's apply | `scripts/variant.py` |",
+      "intent": null,
+      "tags": [
+        "coverage",
+        "reference",
+        "target-disposition:partial"
+      ],
+      "evidence": {
+        "target_path": "scripts/variant.py",
+        "target_disposition": "partial",
+        "reasons": [
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_agent_snooping"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_anti_refusal"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_deserialization"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_excessive_agency"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_harmful_content"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_memory_poisoning"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_privilege_escalation"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_prompt_injection"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_rogue_agent"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_ssrf"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_supply_chain"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_system_prompt_leakage"
+            ]
+          },
+          {
+            "reason_code": "obfuscated_instruction_text",
+            "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+            "phase": "static",
+            "analyzers": [
+              "static_patterns_tool_misuse"
+            ]
+          }
+        ]
+      },
+      "match_fingerprint": "5b1b1b4b0ff57fca872f1e2a4389434de1e31c2961b36c0c64e548bfc5c611f8",
+      "occurrences": [
+        {
+          "file": "SKILL.md",
+          "start_line": 172,
+          "end_line": null
+        }
+      ],
+      "surface": "instructions"
+    },
+    {
+      "id": "LP3",
+      "finding_id": "finding-3580897b78464cf1aaec662eae82c85b",
+      "category": "MCP Least Privilege",
+      "pattern": "Skill declares no tool scope ('permissions' or 'allowed-tools') but code capabilities were detected: file_read, file_write, network, shell.",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "SKILL.md",
+        "start_line": 1,
+        "end_line": null
+      },
+      "finding": "Skill declares no tool scope ('permissions' or 'allowed-tools') but code capabilities were detected: file_read, file_write, network, shell.",
+      "explanation": "Without declared permissions the skill's intent is opaque and cannot be validated.",
+      "remediation": "Clarify the skill's intended tool scope and review how the host runtime enforces it; runtime permissions are unknown unless separately verified. For Claude Code / Agent Skills SKILL.md, 'allowed-tools' records preapproved tools, not a permission ceiling; add a tool only when it is independently approved as necessary, not to silence this finding. For MCP server manifests, use a 'permissions' list naming the required capabilities.",
+      "code_snippet": null,
+      "intent": null,
+      "tags": [
+        "ASI02"
+      ],
+      "evidence": {},
+      "match_fingerprint": null,
+      "occurrences": [
+        {
+          "file": "SKILL.md",
+          "start_line": 1,
+          "end_line": null
+        }
+      ],
+      "surface": "instructions"
+    },
+    {
+      "id": "AST4",
+      "finding_id": "finding-d279cc244cba47e2a52c386e670fcad8",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/analyze.py",
+        "start_line": 32,
+        "end_line": 34,
+        "start_column": 14,
+        "end_column": 95
+      },
+      "finding": "subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'a:0', '-show_entries',\n                              'stream=codec_name,sample_rate,channels,bit_rate:format=bit_rate,duration',\n         ",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "\ndef probe(path):\n    try:\n        out = subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'a:0', '-show_entries',\n                              'stream=codec_name,sample_rate,channels,bit_rate:format=bit_rate,duration',\n                              '-of', 'json', path], capture_output=True, text=True, timeout=60).stdout\n        j = json.loads(out)",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "evidence": {},
+      "match_fingerprint": "9487cbc85737f54f302f0834c39b0f9e553250609ec920bb13d1f4f1a109c14e",
+      "occurrences": [
+        {
+          "file": "scripts/analyze.py",
+          "start_line": 32,
+          "end_line": 34,
+          "start_column": 14,
+          "end_column": 95
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "AST4",
+      "finding_id": "finding-a2b5dc6b8506465f820262cd16b4ebc4",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/analyze.py",
+        "start_line": 48,
+        "end_line": 49,
+        "start_column": 8,
+        "end_column": 95
+      },
+      "finding": "subprocess.run(['ffmpeg', '-v', 'error', '-i', path, '-map', '0:a:0', '-f', 'f32le', '-acodec', 'pcm_f32le',\n                        '-ac', str(ch), '-ar', str(SR), '-'], capture_output=True, timeout=",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "def decode(path, channels=2):\n    \"\"\"(n, 2) float32 at SR; a mono source is duplicated at unity gain (ffmpeg's own upmix is 3 dB down)\"\"\"\n    ch = 1 if channels == 1 else 2\n    p = subprocess.run(['ffmpeg', '-v', 'error', '-i', path, '-map', '0:a:0', '-f', 'f32le', '-acodec', 'pcm_f32le',\n                        '-ac', str(ch), '-ar', str(SR), '-'], capture_output=True, timeout=600)\n    if p.returncode != 0 or not p.stdout:\n        raise RuntimeError(p.stderr.decode(errors='replace').strip()[:400] or 'no audio decoded')",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "evidence": {},
+      "match_fingerprint": "6d9b9a0f2ee49b956e11c3660e755eb1f6d5adfc76c3c35d16ceef3519286110",
+      "occurrences": [
+        {
+          "file": "scripts/analyze.py",
+          "start_line": 48,
+          "end_line": 49,
+          "start_column": 8,
+          "end_column": 95
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "AST4",
+      "finding_id": "finding-0fb9655b69304a938a9866306fa4d2cb",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/analyze.py",
+        "start_line": 186,
+        "end_line": 188,
+        "start_column": 8,
+        "end_column": 56
+      },
+      "finding": "subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', path, '-lavfi',\n                        'showspectrumpic=s=1400x420:mode=combined:color=intensity:scale=log:legend=1', out],\n                      ",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "    os.makedirs(outdir, exist_ok=True)\n    base = os.path.splitext(os.path.basename(path))[0]\n    out = os.path.join(outdir, base + '_spec.png')\n    p = subprocess.run(['ffmpeg', '-v', 'error', '-y', '-i', path, '-lavfi',\n                        'showspectrumpic=s=1400x420:mode=combined:color=intensity:scale=log:legend=1', out],\n                       capture_output=True, timeout=300)\n    if p.returncode or not os.path.exists(out):",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "evidence": {},
+      "match_fingerprint": "fce105af41f56667be1a70f0d56adeaa99eba23def9fc70da2a87ee7a6c358e9",
+      "occurrences": [
+        {
+          "file": "scripts/analyze.py",
+          "start_line": 186,
+          "end_line": 188,
+          "start_column": 8,
+          "end_column": 56
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "AST4",
+      "finding_id": "finding-87809f528eb5453780a7f301ebef300b",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/arrange.py",
+        "start_line": 66,
+        "end_line": 67,
+        "start_column": 8,
+        "end_column": 43
+      },
+      "finding": "subprocess.run(['ffmpeg', '-v', 'error', '-nostdin', '-i', path, '-f', 'f32le', '-ac', '1', '-ar', str(SR), '-'],\n                       capture_output=True)",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "\n\ndef decode(path):\n    p = subprocess.run(['ffmpeg', '-v', 'error', '-nostdin', '-i', path, '-f', 'f32le', '-ac', '1', '-ar', str(SR), '-'],\n                       capture_output=True)\n    if p.returncode != 0 or not p.stdout:\n        sys.exit(f'cannot decode {path}: {p.stderr.decode(errors=\"replace\")[:300]}')",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "evidence": {},
+      "match_fingerprint": "ca5b89887b9e7bbfbde0ec4e9207148885a8cdfc53b6f41f7d369211e365bbd8",
+      "occurrences": [
+        {
+          "file": "scripts/arrange.py",
+          "start_line": 66,
+          "end_line": 67,
+          "start_column": 8,
+          "end_column": 43
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "AST4",
+      "finding_id": "finding-bc4a053b3ad644b59ee52183d1bd227b",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/audit.py",
+        "start_line": 53,
+        "end_line": 55,
+        "start_column": 8,
+        "end_column": 67
+      },
+      "finding": "subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'stream=codec_type,codec_name,sample_rate,channels,'\n                        'bit_rate:stream_disposition=attached_pic:format=duration,bit_ra",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "\ndef ffprobe(path):\n    \"\"\"first audio stream's codec / rate / channels / bit rate, the duration, and any real video stream (not cover art)\"\"\"\n    p = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'stream=codec_type,codec_name,sample_rate,channels,'\n                        'bit_rate:stream_disposition=attached_pic:format=duration,bit_rate', '-of', 'json', path],\n                       capture_output=True, text=True, timeout=120)\n    j = json.loads(p.stdout or '{}')",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "evidence": {},
+      "match_fingerprint": "07edc4c679e1e8199720d8995edc4c7518c3db9ff3b7a616d04db5a6bf56a4c3",
+      "occurrences": [
+        {
+          "file": "scripts/audit.py",
+          "start_line": 53,
+          "end_line": 55,
+          "start_column": 8,
+          "end_column": 67
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "AST4",
+      "finding_id": "finding-8eb024696d8148ff8b4b0706505b6904",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/audit.py",
+        "start_line": 70,
+        "end_line": 71,
+        "start_column": 8,
+        "end_column": 100
+      },
+      "finding": "subprocess.run(['ffmpeg', '-hide_banner', '-nostdin', '-loglevel', 'level+info', '-i', path, '-map', '0:a:0',\n                        '-af', 'volumedetect', '-f', 'null', '-'], capture_output=True, ti",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "\ndef decodes_clean(path):\n    \"\"\"(decodes without errors, first error line, max volume dBFS) from one full ffmpeg decode of the audio stream\"\"\"\n    p = subprocess.run(['ffmpeg', '-hide_banner', '-nostdin', '-loglevel', 'level+info', '-i', path, '-map', '0:a:0',\n                        '-af', 'volumedetect', '-f', 'null', '-'], capture_output=True, timeout=600)\n    lines = p.stderr.decode(errors='replace').splitlines()\n    err = [ln for ln in lines if '[error]' in ln or '[fatal]' in ln]",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "evidence": {},
+      "match_fingerprint": "814c6f5900f3615bffbcef0054ecbb1f9854c4530fb51712d533697f43db3271",
+      "occurrences": [
+        {
+          "file": "scripts/audit.py",
+          "start_line": 70,
+          "end_line": 71,
+          "start_column": 8,
+          "end_column": 100
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "AST4",
+      "finding_id": "finding-e4beba9ac8da4c43a272d7269f854b8a",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/mix.py",
+        "start_line": 82,
+        "end_line": 83,
+        "start_column": 12,
+        "end_column": 82
+      },
+      "finding": "subprocess.run(['ffmpeg', '-v', 'error', '-nostdin', '-i', path, '-f', 'f32le', '-acodec', 'pcm_f32le',\n                            '-ac', '2', '-ar', str(SR), '-'], capture_output=True)",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "    if os.path.exists(npy):\n        x = np.load(npy)\n    else:\n        p = subprocess.run(['ffmpeg', '-v', 'error', '-nostdin', '-i', path, '-f', 'f32le', '-acodec', 'pcm_f32le',\n                            '-ac', '2', '-ar', str(SR), '-'], capture_output=True)\n        if p.returncode != 0:\n            raise RuntimeError(f'decode failed {path}: {p.stderr.decode(errors=\"replace\")[:300]}')",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "evidence": {},
+      "match_fingerprint": "1499c5f3414bc5875fc887bd9b852f22971cc22739a5167008214f24c2147fae",
+      "occurrences": [
+        {
+          "file": "scripts/mix.py",
+          "start_line": 82,
+          "end_line": 83,
+          "start_column": 12,
+          "end_column": 82
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "TT2",
+      "finding_id": "finding-fcc10374da86495abd15c67625096ddf",
+      "category": "Data Flow",
+      "pattern": "Tainted flow: 'path' from open (line 97, file read) \u2192 subprocess.run (code execution)",
+      "severity": "MEDIUM",
+      "confidence": 0.65,
+      "location": {
+        "file": "scripts/mix.py",
+        "start_line": 82,
+        "end_line": 83,
+        "start_column": 12,
+        "end_column": 82
+      },
+      "finding": "subprocess.run(['ffmpeg', '-v', 'error', '-nostdin', '-i', path, '-f', 'f32le', '-acodec', 'pcm_f32le',\n                            '-ac', '2', '-ar', str(SR), '-'], capture_output=True)",
+      "explanation": "Data from a source is assigned to a variable that is later passed to a sink, creating a variable-mediated taint flow.",
+      "remediation": "Validate tainted variables before passing them to sinks. Use allowlists, type checks, or sanitization functions on data from external sources.",
+      "code_snippet": "    if os.path.exists(npy):\n        x = np.load(npy)\n    else:\n        p = subprocess.run(['ffmpeg', '-v', 'error', '-nostdin', '-i', path, '-f', 'f32le', '-acodec', 'pcm_f32le',\n                            '-ac', '2', '-ar', str(SR), '-'], capture_output=True)\n        if p.returncode != 0:\n            raise RuntimeError(f'decode failed {path}: {p.stderr.decode(errors=\"replace\")[:300]}')",
+      "intent": null,
+      "tags": [
+        "Data Flow"
+      ],
+      "evidence": {},
+      "match_fingerprint": "3fdcf05b8763137cab8424482a75aadbc3a4db1d4f977fc498f9029a72f89a3e",
+      "occurrences": [
+        {
+          "file": "scripts/mix.py",
+          "start_line": 82,
+          "end_line": 83,
+          "start_column": 12,
+          "end_column": 82
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "AST4",
+      "finding_id": "finding-fd493bf17ff8410bab6a4c3cbe623065",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/mix.py",
+        "start_line": 107,
+        "end_line": 108,
+        "start_column": 12,
+        "end_column": 75
+      },
+      "finding": "subprocess.run(['ffmpeg', '-v', 'error', '-nostdin', '-y', '-i', src, '-af', af, '-ar', str(SR), '-ac', '2',\n                            '-c:a', 'pcm_f32le', tmp], capture_output=True)",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "        af = (f'rubberband=tempo={ratio:.6f}:transients=mixed:detector=compound:phase=laminar:window=standard:'\n              f'smoothing=off:formant=shifted:pitchq=quality:channels=together')\n        tmp = out.replace('.wav', f'.{os.getpid()}.tmp.wav')\n        r = subprocess.run(['ffmpeg', '-v', 'error', '-nostdin', '-y', '-i', src, '-af', af, '-ar', str(SR), '-ac', '2',\n                            '-c:a', 'pcm_f32le', tmp], capture_output=True)\n        if r.returncode != 0:\n            raise RuntimeError('rubberband failed: ' + r.stderr.decode(errors='replace')[:400])",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "evidence": {},
+      "match_fingerprint": "45c6fa73c7d4ce875d98946271276d518d370710fd114c89c820e6c846a53d2f",
+      "occurrences": [
+        {
+          "file": "scripts/mix.py",
+          "start_line": 107,
+          "end_line": 108,
+          "start_column": 12,
+          "end_column": 75
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "TT2",
+      "finding_id": "finding-282f07d21fd0475092c19cf0e2c70711",
+      "category": "Data Flow",
+      "pattern": "Tainted flow: 'src' from open (line 98, file read) \u2192 subprocess.run (code execution)",
+      "severity": "MEDIUM",
+      "confidence": 0.65,
+      "location": {
+        "file": "scripts/mix.py",
+        "start_line": 107,
+        "end_line": 108,
+        "start_column": 12,
+        "end_column": 75
+      },
+      "finding": "subprocess.run(['ffmpeg', '-v', 'error', '-nostdin', '-y', '-i', src, '-af', af, '-ar', str(SR), '-ac', '2',\n                            '-c:a', 'pcm_f32le', tmp], capture_output=True)",
+      "explanation": "Data from a source is assigned to a variable that is later passed to a sink, creating a variable-mediated taint flow.",
+      "remediation": "Validate tainted variables before passing them to sinks. Use allowlists, type checks, or sanitization functions on data from external sources.",
+      "code_snippet": "        af = (f'rubberband=tempo={ratio:.6f}:transients=mixed:detector=compound:phase=laminar:window=standard:'\n              f'smoothing=off:formant=shifted:pitchq=quality:channels=together')\n        tmp = out.replace('.wav', f'.{os.getpid()}.tmp.wav')\n        r = subprocess.run(['ffmpeg', '-v', 'error', '-nostdin', '-y', '-i', src, '-af', af, '-ar', str(SR), '-ac', '2',\n                            '-c:a', 'pcm_f32le', tmp], capture_output=True)\n        if r.returncode != 0:\n            raise RuntimeError('rubberband failed: ' + r.stderr.decode(errors='replace')[:400])",
+      "intent": null,
+      "tags": [
+        "Data Flow"
+      ],
+      "evidence": {},
+      "match_fingerprint": "fdfdb71c6c026bbd86625bc17a464f5165cfa1bc38370f84d3f4ad28f474276b",
+      "occurrences": [
+        {
+          "file": "scripts/mix.py",
+          "start_line": 107,
+          "end_line": 108,
+          "start_column": 12,
+          "end_column": 75
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "AST4",
+      "finding_id": "finding-fbd19c42d2dd49ac9a16dd72e6166128",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/mix.py",
+        "start_line": 650,
+        "end_line": 650,
+        "start_column": 12,
+        "end_column": 63
+      },
+      "finding": "subprocess.run(cmd, capture_output=True, text=True)",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "            cmd.append('--no-comp')\n        if m.get('mono_hz') is not None:\n            cmd += ['--mono-hz', str(m['mono_hz'])]\n        r = subprocess.run(cmd, capture_output=True, text=True)\n        print(r.stdout[-1500:], r.stderr[-1500:])\n        if r.returncode != 0:\n            print('master gate FAILED')",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "evidence": {},
+      "match_fingerprint": "e55aac9e108cbbef10353ab0cd0c5c768c57c57e907c37b506cfe011b5574c4c",
+      "occurrences": [
+        {
+          "file": "scripts/mix.py",
+          "start_line": 650,
+          "end_line": 650,
+          "start_column": 12,
+          "end_column": 63
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "TT2",
+      "finding_id": "finding-fae3a4ab675b4cbc91a6d3f8350e4c01",
+      "category": "Data Flow",
+      "pattern": "Tainted flow: 'cmd' from open (line 642, file read) \u2192 subprocess.run (code execution)",
+      "severity": "MEDIUM",
+      "confidence": 0.65,
+      "location": {
+        "file": "scripts/mix.py",
+        "start_line": 650,
+        "end_line": 650,
+        "start_column": 12,
+        "end_column": 63
+      },
+      "finding": "subprocess.run(cmd, capture_output=True, text=True)",
+      "explanation": "Data from a source is assigned to a variable that is later passed to a sink, creating a variable-mediated taint flow.",
+      "remediation": "Validate tainted variables before passing them to sinks. Use allowlists, type checks, or sanitization functions on data from external sources.",
+      "code_snippet": "            cmd.append('--no-comp')\n        if m.get('mono_hz') is not None:\n            cmd += ['--mono-hz', str(m['mono_hz'])]\n        r = subprocess.run(cmd, capture_output=True, text=True)\n        print(r.stdout[-1500:], r.stderr[-1500:])\n        if r.returncode != 0:\n            print('master gate FAILED')",
+      "intent": null,
+      "tags": [
+        "Data Flow"
+      ],
+      "evidence": {},
+      "match_fingerprint": "8f6ea3fdd1b5f75d76617e2cdde6a33ae662f6c8cc9f907ceefaea85ba669ed6",
+      "occurrences": [
+        {
+          "file": "scripts/mix.py",
+          "start_line": 650,
+          "end_line": 650,
+          "start_column": 12,
+          "end_column": 63
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "AST4",
+      "finding_id": "finding-dbd65404ca604ad1acc3df8e108298f1",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/variant.py",
+        "start_line": 307,
+        "end_line": 307,
+        "start_column": 12,
+        "end_column": 71
+      },
+      "finding": "subprocess.run(cmd + cache, capture_output=True, text=True)",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "        cmd = [sys.executable, '-I', os.path.join(HERE, 'mix.py'), '--root', root, '--design', dest, '--out', o('soundtrack.wav'),\n               '--stems', o('stems'), '--report', o('report.json'), '--cues-out', o('cues.json'), '--trace', o('adds.json')]\n        cache = ['--cache', R(a.cache)] if a.cache else []\n        r = subprocess.run(cmd + cache, capture_output=True, text=True)\n        print(r.stdout[-1200:], r.stderr[-800:])\n        if r.returncode:\n            return r.returncode",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "evidence": {},
+      "match_fingerprint": "dd8471dd15b0cb34034622dd3141f1c588629d3ce5141acf0a0d1ecea670f21c",
+      "occurrences": [
+        {
+          "file": "scripts/variant.py",
+          "start_line": 307,
+          "end_line": 307,
+          "start_column": 12,
+          "end_column": 71
+        }
+      ],
+      "surface": "code"
+    },
+    {
+      "id": "AST4",
+      "finding_id": "finding-d33633e0493944c084cdaea0e5aa6ea3",
+      "category": "Dangerous Code Execution",
+      "pattern": "subprocess module call",
+      "severity": "MEDIUM",
+      "confidence": 0.7,
+      "location": {
+        "file": "scripts/variant.py",
+        "start_line": 312,
+        "end_line": 314,
+        "start_column": 16,
+        "end_column": 128
+      },
+      "finding": "subprocess.run([sys.executable, '-I', os.path.join(HERE, 'qa.py'), '--root', root, '--design', dest,\n                                '--report', o('report.json'), '--trace', o('adds.json'), '--stems',",
+      "explanation": "subprocess module calls execute external commands. Without careful input validation, this enables command injection.",
+      "remediation": "Use subprocess.run() with shell=False and an explicit argument list. Validate all inputs and avoid passing user-controlled data to commands.",
+      "code_snippet": "        if r.returncode:\n            return r.returncode\n        if a.qa:\n            r = subprocess.run([sys.executable, '-I', os.path.join(HERE, 'qa.py'), '--root', root, '--design', dest,\n                                '--report', o('report.json'), '--trace', o('adds.json'), '--stems', o('stems'),\n                                '--master', o('soundtrack.wav'), '--out', o('qa.json')] + cache, capture_output=True, text=True)\n            print(r.stdout, r.stderr[-800:])",
+      "intent": null,
+      "tags": [
+        "Dangerous Code Execution"
+      ],
+      "evidence": {},
+      "match_fingerprint": "e441a749485e602396f12b7488544cdc2c9ab3839ba0d86e3b35c76f2f259183",
+      "occurrences": [
+        {
+          "file": "scripts/variant.py",
+          "start_line": 312,
+          "end_line": 314,
+          "start_column": 16,
+          "end_column": 128
+        }
+      ],
+      "surface": "code"
+    }
+  ],
+  "suppressed_count": 0,
+  "suppressed": [],
+  "metadata": {
+    "has_executable_scripts": true,
+    "skillspector_version": "2.12.0",
+    "llm_requested": false,
+    "llm_available": false,
+    "meta_analysis_applied": false,
+    "inference_usage": [],
+    "llm_provenance": {
+      "schema_version": 1,
+      "provider": {
+        "configured_adapter": "unknown",
+        "resolved_adapter": "unknown",
+        "effective_adapter": "not_applicable",
+        "effective_adapters": [],
+        "service": "unknown",
+        "routing": {
+          "deployment_override": null,
+          "deployment_source": "unknown",
+          "api_version": null,
+          "api_version_source": "unknown"
+        }
+      },
+      "analyzers": [
+        {
+          "analyzer_id": "mcp_tool_poisoning",
+          "model": "z-ai/glm-5.3",
+          "model_source": "resolved_configuration",
+          "analyzer_revision": {
+            "value": "2.12.0",
+            "source": "skillspector_package",
+            "source_revision": {
+              "value": "e48d771a26f7398b36256ceb8d8f94adce3d5c44",
+              "source": "package_vcs_metadata"
+            }
+          }
+        },
+        {
+          "analyzer_id": "semantic_developer_intent",
+          "model": "z-ai/glm-5.3",
+          "model_source": "resolved_configuration",
+          "analyzer_revision": {
+            "value": "2.12.0",
+            "source": "skillspector_package",
+            "source_revision": {
+              "value": "e48d771a26f7398b36256ceb8d8f94adce3d5c44",
+              "source": "package_vcs_metadata"
+            }
+          }
+        },
+        {
+          "analyzer_id": "semantic_quality_policy",
+          "model": "z-ai/glm-5.3",
+          "model_source": "resolved_configuration",
+          "analyzer_revision": {
+            "value": "2.12.0",
+            "source": "skillspector_package",
+            "source_revision": {
+              "value": "e48d771a26f7398b36256ceb8d8f94adce3d5c44",
+              "source": "package_vcs_metadata"
+            }
+          }
+        },
+        {
+          "analyzer_id": "semantic_security_discovery",
+          "model": "z-ai/glm-5.3",
+          "model_source": "resolved_configuration",
+          "analyzer_revision": {
+            "value": "2.12.0",
+            "source": "skillspector_package",
+            "source_revision": {
+              "value": "e48d771a26f7398b36256ceb8d8f94adce3d5c44",
+              "source": "package_vcs_metadata"
+            }
+          }
+        },
+        {
+          "analyzer_id": "meta_analyzer",
+          "model": "z-ai/glm-5.3",
+          "model_source": "resolved_configuration",
+          "analyzer_revision": {
+            "value": "2.12.0",
+            "source": "skillspector_package",
+            "source_revision": {
+              "value": "e48d771a26f7398b36256ceb8d8f94adce3d5c44",
+              "source": "package_vcs_metadata"
+            }
+          }
+        }
+      ],
+      "sampling": {
+        "temperature": {
+          "requested": null,
+          "source": "provider_default",
+          "forwarded_to_client": null,
+          "adapter_support": false,
+          "provider_support": "unknown"
+        },
+        "seed": {
+          "requested": null,
+          "source": "unset",
+          "forwarded_to_client": null,
+          "adapter_support": false,
+          "provider_support": "unknown"
+        },
+        "reasoning_effort": {
+          "requested": null,
+          "source": "provider_default",
+          "forwarded_to_client": null,
+          "adapter_support": false,
+          "provider_support": "unknown"
+        }
+      },
+      "determinism": {
+        "classification": "not_applicable",
+        "control_status": "not_applied",
+        "provider_guarantee": false,
+        "reason": "LLM analysis was not executed for this scan."
+      }
+    },
+    "filtering_mode": "heuristic"
+  },
+  "execution_successful": true,
+  "analysis_completeness": {
+    "total_components": 35,
+    "scanned_components": 31,
+    "coverage_percent": 88.6,
+    "is_complete": false,
+    "status": "partial",
+    "execution_successful": true,
+    "fully_inspected_files": 31,
+    "partially_inspected_files": 4,
+    "entirely_uninspected_files": 0,
+    "ledger_exceptions": [
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 16,
+        "end_line": 16,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 32,
+        "end_line": 32,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 33,
+        "end_line": 33,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 35,
+        "end_line": 35,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 36,
+        "end_line": 36,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 39,
+        "end_line": 39,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 42,
+        "end_line": 42,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 49,
+        "end_line": 49,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 50,
+        "end_line": 50,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 54,
+        "end_line": 54,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 65,
+        "end_line": 65,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 74,
+        "end_line": 74,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 77,
+        "end_line": 77,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 85,
+        "end_line": 85,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 98,
+        "end_line": 98,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 103,
+        "end_line": 103,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 104,
+        "end_line": 104,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 105,
+        "end_line": 105,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 110,
+        "end_line": 110,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 112,
+        "end_line": 112,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 113,
+        "end_line": 113,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 114,
+        "end_line": 114,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 117,
+        "end_line": 117,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 123,
+        "end_line": 123,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 133,
+        "end_line": 133,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 134,
+        "end_line": 134,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 135,
+        "end_line": 135,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 136,
+        "end_line": 136,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 138,
+        "end_line": 138,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 166,
+        "end_line": 166,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 180,
+        "end_line": 180,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 183,
+        "end_line": 183,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 184,
+        "end_line": 184,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 186,
+        "end_line": 186,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 187,
+        "end_line": 187,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 190,
+        "end_line": 190,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "reference_resolution",
+        "reason_code": "reference_missing",
+        "message": "A local path-like reference does not match any bundled artifact, such as a file the skill writes at runtime.",
+        "path": "SKILL.md",
+        "start_line": 199,
+        "end_line": 199,
+        "fatal": false
+      },
+      {
+        "outcome": "partial",
+        "phase": "static",
+        "reason_code": "obfuscated_instruction_text",
+        "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+        "path": "scripts/arrange.py",
+        "start_line": null,
+        "end_line": null,
+        "fatal": false,
+        "analyzers": [
+          "static_patterns_agent_snooping",
+          "static_patterns_anti_refusal",
+          "static_patterns_deserialization",
+          "static_patterns_excessive_agency",
+          "static_patterns_harmful_content",
+          "static_patterns_memory_poisoning",
+          "static_patterns_privilege_escalation",
+          "static_patterns_prompt_injection",
+          "static_patterns_rogue_agent",
+          "static_patterns_ssrf",
+          "static_patterns_supply_chain",
+          "static_patterns_system_prompt_leakage",
+          "static_patterns_tool_misuse"
+        ]
+      },
+      {
+        "outcome": "partial",
+        "phase": "static",
+        "reason_code": "obfuscated_instruction_text",
+        "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+        "path": "scripts/audit.py",
+        "start_line": null,
+        "end_line": null,
+        "fatal": false,
+        "analyzers": [
+          "static_patterns_agent_snooping",
+          "static_patterns_anti_refusal",
+          "static_patterns_deserialization",
+          "static_patterns_excessive_agency",
+          "static_patterns_harmful_content",
+          "static_patterns_memory_poisoning",
+          "static_patterns_privilege_escalation",
+          "static_patterns_prompt_injection",
+          "static_patterns_rogue_agent",
+          "static_patterns_ssrf",
+          "static_patterns_supply_chain",
+          "static_patterns_system_prompt_leakage",
+          "static_patterns_tool_misuse"
+        ]
+      },
+      {
+        "outcome": "partial",
+        "phase": "static",
+        "reason_code": "static_parse_limit",
+        "message": "A security-relevant expression could not be fully resolved by the bounded static parser. Full inspection depends on information available only when this code runs. Check: command string runtime; location: reported source range; unchecked scope: remaining input. Relevant parser input not fully checked.",
+        "path": "scripts/mux.mjs",
+        "start_line": null,
+        "end_line": null,
+        "fatal": false,
+        "analyzers": [
+          "static_patterns_tool_misuse"
+        ],
+        "parser_diagnostic": {
+          "cause": "runtime_dependent",
+          "check": "command_string_runtime",
+          "source_start_offset": 1196,
+          "source_end_offset": 4488,
+          "start_line": 18,
+          "end_line": 72,
+          "unchecked_scope": "remaining_input",
+          "observed_is_lower_bound": false,
+          "full_input_checked": false,
+          "location_precision": "source_span"
+        }
+      },
+      {
+        "outcome": "partial",
+        "phase": "static",
+        "reason_code": "obfuscated_instruction_text",
+        "message": "Obfuscated instruction text could not be fully evaluated by the deterministic layer.",
+        "path": "scripts/variant.py",
+        "start_line": null,
+        "end_line": null,
+        "fatal": false,
+        "analyzers": [
+          "static_patterns_agent_snooping",
+          "static_patterns_anti_refusal",
+          "static_patterns_deserialization",
+          "static_patterns_excessive_agency",
+          "static_patterns_harmful_content",
+          "static_patterns_memory_poisoning",
+          "static_patterns_privilege_escalation",
+          "static_patterns_prompt_injection",
+          "static_patterns_rogue_agent",
+          "static_patterns_ssrf",
+          "static_patterns_supply_chain",
+          "static_patterns_system_prompt_leakage",
+          "static_patterns_tool_misuse"
+        ]
+      }
+    ],
+    "scope_exclusions": [],
+    "analyzer_statuses": [
+      {
+        "analyzer_id": "artifact_integrity",
+        "status": "completed",
+        "planned_work": 35,
+        "completed": 35,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "behavioral_ast",
+        "status": "completed",
+        "planned_work": 9,
+        "completed": 9,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "behavioral_taint_tracking",
+        "status": "completed",
+        "planned_work": 9,
+        "completed": 9,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "bundled_execution_surface",
+        "status": "not_applicable",
+        "planned_work": 0,
+        "completed": 0,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0,
+        "reason_code": "no_applicable_files",
+        "message": "No files matched this analyzer's applicability contract."
+      },
+      {
+        "analyzer_id": "mcp_least_privilege",
+        "status": "completed",
+        "planned_work": 11,
+        "completed": 11,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "mcp_rug_pull",
+        "status": "completed",
+        "planned_work": 35,
+        "completed": 35,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "mcp_tool_poisoning",
+        "status": "completed",
+        "planned_work": 1,
+        "completed": 1,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "meta_analyzer",
+        "status": "disabled",
+        "planned_work": 0,
+        "completed": 0,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0,
+        "reason_code": "disabled_by_configuration",
+        "message": "Analyzer was disabled by the requested configuration."
+      },
+      {
+        "analyzer_id": "reference_coverage",
+        "status": "completed",
+        "planned_work": 6,
+        "completed": 6,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "semantic_developer_intent",
+        "status": "disabled",
+        "planned_work": 0,
+        "completed": 0,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0,
+        "reason_code": "disabled_by_configuration",
+        "message": "Analyzer was disabled by the requested configuration."
+      },
+      {
+        "analyzer_id": "semantic_quality_policy",
+        "status": "disabled",
+        "planned_work": 0,
+        "completed": 0,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0,
+        "reason_code": "disabled_by_configuration",
+        "message": "Analyzer was disabled by the requested configuration."
+      },
+      {
+        "analyzer_id": "semantic_security_discovery",
+        "status": "disabled",
+        "planned_work": 0,
+        "completed": 0,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0,
+        "reason_code": "disabled_by_configuration",
+        "message": "Analyzer was disabled by the requested configuration."
+      },
+      {
+        "analyzer_id": "static_patterns_agent_snooping",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_anti_refusal",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_data_exfiltration",
+        "status": "completed",
+        "planned_work": 35,
+        "completed": 35,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_deserialization",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_excessive_agency",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_harmful_content",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_memory_poisoning",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_output_handling",
+        "status": "completed",
+        "planned_work": 35,
+        "completed": 35,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_privilege_escalation",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_prompt_injection",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_rogue_agent",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_ssrf",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_supply_chain",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_system_prompt_leakage",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 32,
+        "partial": 3,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_patterns_tool_misuse",
+        "status": "degraded",
+        "planned_work": 35,
+        "completed": 31,
+        "partial": 4,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      },
+      {
+        "analyzer_id": "static_yara",
+        "status": "completed",
+        "planned_work": 35,
+        "completed": 35,
+        "partial": 0,
+        "skipped": 0,
+        "failed": 0,
+        "unaccounted": 0
+      }
+    ],
+    "references": [
+      {
+        "source_path": "SKILL.md",
+        "line": 16,
+        "column": 2,
+        "evidence": "`references/sound-design.md` (and the earshot repo's `docs/launch-video-sound.md` for the bundled reference profile:",
+        "target_path": "references/sound-design.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 16,
+        "column": 55,
+        "evidence": "`references/sound-design.md` (and the earshot repo's `docs/launch-video-sound.md` for the bundled reference profile:",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 24,
+        "column": 29,
+        "evidence": "placeholders are listed in `references/process.md`). Run the scripts with `-I` (isolated: downloaded files can never",
+        "target_path": "references/process.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 25,
+        "column": 40,
+        "evidence": "shadow a module); every script except `scripts/licences.py` (the licence policy module that audit.py and credits.py",
+        "target_path": "scripts/licences.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 32,
+        "column": 25,
+        "evidence": "| 0. cue list | lead | `out/cues.json` | sync frames computed from the picture code |",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 33,
+        "column": 22,
+        "evidence": "| 1. brief | lead | `audio/SOUND_BRIEF.md` | every cue has a sound need (or \"nothing\") |",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 35,
+        "column": 33,
+        "evidence": "| 3. licence audit | auditor | `audit.json` | `audit.py` exit 0 for what the film uses |",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 35,
+        "column": 48,
+        "evidence": "| 3. licence audit | auditor | `audit.json` | `audit.py` exit 0 for what the film uses |",
+        "target_path": "scripts/audit.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 36,
+        "column": 39,
+        "evidence": "| 4. music edit | music supervisor | `audio/design/music.json` | grid verified, drop on the reveal, splices clean |",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 39,
+        "column": 31,
+        "evidence": "| 7. QA + listening | lead | `out/qa/qa.json`, earshot timeline / sheet / critique | no qa fail |",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 42,
+        "column": 38,
+        "evidence": "| 10. master, credits, mux | lead | `CREDITS.md`, description text, the film | credits exit 0, lag 0 |",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 44,
+        "column": 69,
+        "evidence": "The detail of every step, the roles and what each critic measures: `references/process.md`. Every sub-agent prompt",
+        "target_path": "references/process.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 49,
+        "column": 91,
+        "evidence": "peak, a riser's hit, the frame the wordmark becomes readable. Cinetic films already have `out/cues.json`",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 50,
+        "column": 3,
+        "evidence": "(`export-cues.ts`); for anything else write the same format (`templates/cues.json`) from the timeline constants.",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 50,
+        "column": 63,
+        "evidence": "(`export-cues.ts`); for anything else write the same format (`templates/cues.json`) from the timeline constants.",
+        "target_path": "templates/cues.json",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 54,
+        "column": 7,
+        "evidence": "Copy `templates/SOUND_BRIEF.md` to `audio/SOUND_BRIEF.md`: concept (palette, the music's arc, places), the picture map",
+        "target_path": "templates/SOUND_BRIEF.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 54,
+        "column": 37,
+        "evidence": "Copy `templates/SOUND_BRIEF.md` to `audio/SOUND_BRIEF.md`: concept (palette, the music's arc, places), the picture map",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 56,
+        "column": 76,
+        "evidence": "contract every sub-agent gets verbatim. Pick the brand's personality row (`references/sound-design.md` \u00a73).",
+        "target_path": "references/sound-design.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 58,
+        "column": 33,
+        "evidence": "### 2. Sourcing, per category (`templates/prompts/sourcing.md`)",
+        "target_path": "templates/prompts/sourcing.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 63,
+        "column": 8,
+        "evidence": "page (`references/licences.md`); polite sequential downloads; every file measured:",
+        "target_path": "references/licences.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 65,
+        "column": 88,
+        "evidence": "{{PY}} -I <skill>/scripts/analyze.py audio/assets/ui/* --png out/audio-review/ui --out out/audio-review/ui.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 72,
+        "column": 24,
+        "evidence": "### 3. Licence audit (`templates/prompts/licence_audit.md`)",
+        "target_path": "templates/prompts/licence_audit.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 74,
+        "column": 2,
+        "evidence": "`audio/assets/manifests/audit.json`; the script checks the rest (classification, ids vs URLs, files decode, durations,",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 77,
+        "column": 54,
+        "evidence": "{{PY}} -I <skill>/scripts/audit.py --root . --report out/qa/mix_report.json [--fetch]",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 82,
+        "column": 16,
+        "evidence": "### 4. Music (`templates/prompts/music_supervisor.md`)",
+        "target_path": "templates/prompts/music_supervisor.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 83,
+        "column": 80,
+        "evidence": "One licensed track whose structure fits the film. Write the arc per film bar (`templates/arc.json`), then:",
+        "target_path": "templates/arc.json",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 85,
+        "column": 86,
+        "evidence": "{{PY}} -I <skill>/scripts/arrange.py audio/assets/music/<track> --film-bpm 120 --arc audio/arc.json --out out/audio-review/music/arrange.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 85,
+        "column": 107,
+        "evidence": "{{PY}} -I <skill>/scripts/arrange.py audio/assets/music/<track> --film-bpm 120 --arc audio/arc.json --out out/audio-review/music/arrange.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 94,
+        "column": 41,
+        "evidence": "### 5. Design fragments, per category (`templates/prompts/designer.md`)",
+        "target_path": "templates/prompts/designer.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 97,
+        "column": 2,
+        "evidence": "`references/design-format.md`; a complete launch-video example: `templates/design_fragment.json` (its file names are",
+        "target_path": "references/design-format.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 97,
+        "column": 66,
+        "evidence": "`references/design-format.md`; a complete launch-video example: `templates/design_fragment.json` (its file names are",
+        "target_path": "templates/design_fragment.json",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 98,
+        "column": 23,
+        "evidence": "placeholders such as `mk-0000_mouse-click.wav`: it renders once each one is replaced by a real recording from your",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 103,
+        "column": 52,
+        "evidence": "{{PY}} -I <skill>/scripts/mix.py --only ui --trace out/audio-review/ui/adds.json --out out/audio-review/ui/solo.wav",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 103,
+        "column": 88,
+        "evidence": "{{PY}} -I <skill>/scripts/mix.py --only ui --trace out/audio-review/ui/adds.json --out out/audio-review/ui/solo.wav",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 104,
+        "column": 52,
+        "evidence": "{{PY}} -I <skill>/scripts/qa.py --only ui --report out/audio-review/ui/solo_report.json --stems out/audio-review/ui/solo_stems --trace out/audio-review/ui/adds.",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 104,
+        "column": 136,
+        "evidence": "audio-review/ui/solo_report.json --stems out/audio-review/ui/solo_stems --trace out/audio-review/ui/adds.json --out out/audio-review/ui/qa.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 104,
+        "column": 172,
+        "evidence": "tems out/audio-review/ui/solo_stems --trace out/audio-review/ui/adds.json --out out/audio-review/ui/qa.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 105,
+        "column": 28,
+        "evidence": "{{PY}} -m earshot timeline out/audio-review/ui/solo.wav --cues out/cues.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 105,
+        "column": 64,
+        "evidence": "{{PY}} -m earshot timeline out/audio-review/ui/solo.wav --cues out/cues.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 110,
+        "column": 52,
+        "evidence": "{{PY}} -I <skill>/scripts/mix.py --root . --design audio/sounddesign.json --cues out/cues.json --trace out/qa/adds.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 110,
+        "column": 82,
+        "evidence": "{{PY}} -I <skill>/scripts/mix.py --root . --design audio/sounddesign.json --cues out/cues.json --trace out/qa/adds.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 110,
+        "column": 104,
+        "evidence": "{{PY}} -I <skill>/scripts/mix.py --root . --design audio/sounddesign.json --cues out/cues.json --trace out/qa/adds.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 112,
+        "column": 61,
+        "evidence": "{{PY}} -I <skill>/scripts/qa.py --listen --realness --video out/film.mp4 # + earshot timeline, sheet, critique, realness",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 113,
+        "column": 28,
+        "evidence": "{{PY}} -m earshot critique out/audio/soundtrack.wav --video out/film.mp4 # scorecard vs professional launch films",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 113,
+        "column": 61,
+        "evidence": "{{PY}} -m earshot critique out/audio/soundtrack.wav --video out/film.mp4 # scorecard vs professional launch films",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 114,
+        "column": 25,
+        "evidence": "{{PY}} -m earshot sheet out/audio/soundtrack.wav -o out/qa/sheet.png --video out/film.mp4 --cues out/qa/cues_sounded.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 114,
+        "column": 53,
+        "evidence": "{{PY}} -m earshot sheet out/audio/soundtrack.wav -o out/qa/sheet.png --video out/film.mp4 --cues out/qa/cues_sounded.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 114,
+        "column": 78,
+        "evidence": "{{PY}} -m earshot sheet out/audio/soundtrack.wav -o out/qa/sheet.png --video out/film.mp4 --cues out/qa/cues_sounded.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 114,
+        "column": 98,
+        "evidence": "{{PY}} -m earshot sheet out/audio/soundtrack.wav -o out/qa/sheet.png --video out/film.mp4 --cues out/qa/cues_sounded.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 116,
+        "column": 2,
+        "evidence": "`qa.py` ties every finding to the rule and sample that caused it (the trace). It is usable without the models;",
+        "target_path": "scripts/qa.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 117,
+        "column": 40,
+        "evidence": "`--listen` adds earshot's transcript (`out/qa/qa_timeline.txt`), annotated sheet and scorecard.",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 120,
+        "column": 60,
+        "evidence": "Five read-only critics in parallel, each with its prompt: `critic_sync.md`, `critic_edges.md`, `critic_masking.md`,",
+        "target_path": "templates/prompts/critic_sync.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 120,
+        "column": 78,
+        "evidence": "Five read-only critics in parallel, each with its prompt: `critic_sync.md`, `critic_edges.md`, `critic_masking.md`,",
+        "target_path": "templates/prompts/critic_edges.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 120,
+        "column": 97,
+        "evidence": "Five read-only critics in parallel, each with its prompt: `critic_sync.md`, `critic_edges.md`, `critic_masking.md`,",
+        "target_path": "templates/prompts/critic_masking.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 121,
+        "column": 2,
+        "evidence": "`critic_tonal.md`, `critic_director.md`. Each tests its fixes as a variant in its own folder:",
+        "target_path": "templates/prompts/critic_tonal.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 121,
+        "column": 21,
+        "evidence": "`critic_tonal.md`, `critic_director.md`. Each tests its fixes as a variant in its own folder:",
+        "target_path": "templates/prompts/critic_director.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 123,
+        "column": 44,
+        "evidence": "{{PY}} -I <skill>/scripts/variant.py --ops out/audio-review/critic_tonal/ops_v1.json --out out/audio-review/critic_tonal/v1 --render --qa",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 125,
+        "column": 95,
+        "evidence": "and returns ranked issues with exact operations and before -> after numbers. Then ONE fixer (`fixer.md`) merges the",
+        "target_path": "templates/prompts/fixer.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 131,
+        "column": 2,
+        "evidence": "`mix.py` masters with `master.py` (-14 LUFS, true-peak limiter, ceiling 0.77 linear; gate +-0.5 LU and <= -1.5 dBTP).",
+        "target_path": "scripts/mix.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 131,
+        "column": 24,
+        "evidence": "`mix.py` masters with `master.py` (-14 LUFS, true-peak limiter, ceiling 0.77 linear; gate +-0.5 LU and <= -1.5 dBTP).",
+        "target_path": "scripts/master.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 133,
+        "column": 54,
+        "evidence": "{{PY}} -I <skill>/scripts/audit.py --root . --report out/qa/mix_report.json # exit 0",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 134,
+        "column": 56,
+        "evidence": "{{PY}} -I <skill>/scripts/credits.py --root . --design audio/sounddesign.json --audit audio/assets/manifests/audit.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 134,
+        "column": 87,
+        "evidence": "{{PY}} -I <skill>/scripts/credits.py --root . --design audio/sounddesign.json --audit audio/assets/manifests/audit.json",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 135,
+        "column": 38,
+        "evidence": "node <skill>/scripts/mux.mjs --video out/film.mp4 --audio out/audio/soundtrack.wav --out out/film_sound.mp4",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 135,
+        "column": 59,
+        "evidence": "node <skill>/scripts/mux.mjs --video out/film.mp4 --audio out/audio/soundtrack.wav --out out/film_sound.mp4",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 135,
+        "column": 90,
+        "evidence": "node <skill>/scripts/mux.mjs --video out/film.mp4 --audio out/audio/soundtrack.wav --out out/film_sound.mp4",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 136,
+        "column": 28,
+        "evidence": "{{PY}} -m earshot timeline out/film_sound.mp4 --cues out/qa/cues_sounded.json # the finished file, heard",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 136,
+        "column": 54,
+        "evidence": "{{PY}} -m earshot timeline out/film_sound.mp4 --cues out/qa/cues_sounded.json # the finished file, heard",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 138,
+        "column": 2,
+        "evidence": "`CREDITS.md` + `out/CREDITS_description.txt` (paste into the video description: CC BY credits are required there).",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 138,
+        "column": 17,
+        "evidence": "`CREDITS.md` + `out/CREDITS_description.txt` (paste into the video description: CC BY credits are required there).",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 139,
+        "column": 2,
+        "evidence": "`mux.mjs` stream-copies the picture and cuts the AAC audio to the picture's duration.",
+        "target_path": "scripts/mux.mjs",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 158,
+        "column": 2,
+        "evidence": "`references/sound-design.md`.",
+        "target_path": "references/sound-design.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 164,
+        "column": 100,
+        "evidence": "| measure recordings (format, floor, bandwidth, onsets, spikes, tempo / key) + spectrogram PNGs | `scripts/analyze.py` |",
+        "target_path": "scripts/analyze.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 166,
+        "column": 175,
+        "evidence": "arshot measure` (Python: `from earshot import api; api.measure(...)`, likewise `api.find`, `api.realness` ...) |",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 166,
+        "column": 187,
+        "evidence": "re` (Python: `from earshot import api; api.measure(...)`, likewise `api.find`, `api.realness` ...) |",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 167,
+        "column": 27,
+        "evidence": "| licence + file audit | `scripts/audit.py` (policy in `scripts/licences.py`) |",
+        "target_path": "scripts/audit.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 167,
+        "column": 57,
+        "evidence": "| licence + file audit | `scripts/audit.py` (policy in `scripts/licences.py`) |",
+        "target_path": "scripts/licences.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 168,
+        "column": 49,
+        "evidence": "| music grid, downbeats, bar-line edit draft | `scripts/arrange.py` |",
+        "target_path": "scripts/arrange.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 169,
+        "column": 76,
+        "evidence": "| render the design (+ solo `--only`, `--dump` trims, `--trace` for QA) | `scripts/mix.py` |",
+        "target_path": "scripts/mix.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 170,
+        "column": 38,
+        "evidence": "| master and loudness measurement | `scripts/master.py` (`--measure`) |",
+        "target_path": "scripts/master.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 171,
+        "column": 38,
+        "evidence": "| objective QA tied to placements | `scripts/qa.py` (`--layers`, `--listen`, `--realness`) |",
+        "target_path": "scripts/qa.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 172,
+        "column": 41,
+        "evidence": "| critic variants, the fixer's apply | `scripts/variant.py` |",
+        "target_path": "scripts/variant.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 173,
+        "column": 55,
+        "evidence": "| credits for CREDITS.md and the video description | `scripts/credits.py` |",
+        "target_path": "scripts/credits.py",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 174,
+        "column": 40,
+        "evidence": "| put the soundtrack on the picture | `scripts/mux.mjs` |",
+        "target_path": "scripts/mux.mjs",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 180,
+        "column": 1,
+        "evidence": "audio/SOUND_BRIEF.md the contract (templates/SOUND_BRIEF.md)",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 180,
+        "column": 65,
+        "evidence": "audio/SOUND_BRIEF.md the contract (templates/SOUND_BRIEF.md)",
+        "target_path": "templates/SOUND_BRIEF.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 182,
+        "column": 65,
+        "evidence": "audio/assets/manifests/<cat>.json one entry per recording (templates/manifest_entry.json)",
+        "target_path": "templates/manifest_entry.json",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 183,
+        "column": 1,
+        "evidence": "audio/assets/manifests/audit.json licence audit (templates/audit_entry.json)",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 183,
+        "column": 65,
+        "evidence": "audio/assets/manifests/audit.json licence audit (templates/audit_entry.json)",
+        "target_path": "templates/audit_entry.json",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 184,
+        "column": 1,
+        "evidence": "audio/sounddesign.json top level: includes, buses, master (templates/sounddesign.json)",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 184,
+        "column": 76,
+        "evidence": "audio/sounddesign.json top level: includes, buses, master (templates/sounddesign.json)",
+        "target_path": "templates/sounddesign.json",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 185,
+        "column": 77,
+        "evidence": "audio/design/<category>.json one fragment per designer (templates/design_fragment.json)",
+        "target_path": "templates/design_fragment.json",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 186,
+        "column": 1,
+        "evidence": "out/cues.json the picture's cue events (templates/cues.json)",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 186,
+        "column": 77,
+        "evidence": "out/cues.json the picture's cue events (templates/cues.json)",
+        "target_path": "templates/cues.json",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 187,
+        "column": 1,
+        "evidence": "out/audio/soundtrack.wav, stems/ the master and its stems",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 190,
+        "column": 13,
+        "evidence": "CREDITS.md, out/CREDITS_description.txt",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "plain_path"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 194,
+        "column": 4,
+        "evidence": "- `references/process.md`: roles, steps, what each critic measures, thresholds and their sources, variants, rounds.",
+        "target_path": "references/process.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 195,
+        "column": 4,
+        "evidence": "- `references/design-format.md`: every design key, defaults, processing order, outputs, real examples.",
+        "target_path": "references/design-format.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 196,
+        "column": 4,
+        "evidence": "- `references/sound-design.md`: launch-video and film sound rules, levels, sync, variation, tuning, selection, cheap tells.",
+        "target_path": "references/sound-design.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 197,
+        "column": 4,
+        "evidence": "- `references/licences.md`: allowed / forbidden, verification per site, attribution, Content ID.",
+        "target_path": "references/licences.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 198,
+        "column": 4,
+        "evidence": "- `references/troubleshooting.md`: errors and fixes.",
+        "target_path": "references/troubleshooting.md",
+        "status": "resolved",
+        "disposition": "analyzed",
+        "reference_kind": "quoted_or_code"
+      },
+      {
+        "source_path": "SKILL.md",
+        "line": 199,
+        "column": 19,
+        "evidence": "- Cinetic films: `docs/INTEGRATION.md` in the earshot repo (how the cue file, timeline and review loop connect).",
+        "target_path": null,
+        "status": "missing",
+        "disposition": "partial",
+        "reference_kind": "quoted_or_code"
+      }
+    ],
+    "limitations": [
+      "Analyzer static_patterns_agent_snooping status: degraded.",
+      "Analyzer static_patterns_anti_refusal status: degraded.",
+      "Analyzer static_patterns_deserialization status: degraded.",
+      "Analyzer static_patterns_excessive_agency status: degraded.",
+      "Analyzer static_patterns_harmful_content status: degraded.",
+      "Analyzer static_patterns_memory_poisoning status: degraded.",
+      "Analyzer static_patterns_privilege_escalation status: degraded.",
+      "Analyzer static_patterns_prompt_injection status: degraded.",
+      "Analyzer static_patterns_rogue_agent status: degraded.",
+      "Analyzer static_patterns_ssrf status: degraded.",
+      "Analyzer static_patterns_supply_chain status: degraded.",
+      "Analyzer static_patterns_system_prompt_leakage status: degraded.",
+      "Analyzer static_patterns_tool_misuse status: degraded."
+    ],
+    "findings_before_filtering": 21,
+    "findings_after_filtering": 21,
+    "dependency_inspection": {
+      "enabled": false,
+      "status": "not_requested",
+      "mode": "static_local",
+      "locked_entries": 0,
+      "inspected_artifacts": 0,
+      "artifacts": []
+    }
+  }
+}

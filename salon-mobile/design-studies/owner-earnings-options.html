@@ -1,0 +1,257 @@
+<title>Owner Earnings Options</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: three owner home screens side by side (stacked on phones), each with a different earnings hero; everything else on the screen stays as approved. Single dark look by design. */
+:root{
+  --glow:#8E5B4E; --mid:#4A3029; --deep:#1A1210; --page:#140d0b;
+  --gold:#E4A67B; --gold2:#F5C9A0; --cream:#FFF8F1; --soft:rgba(255,248,241,.72); --faint:rgba(255,248,241,.45);
+  --rose:#B98E78; --glass:rgba(255,244,236,.12); --line:rgba(255,244,236,.24);
+  --ok:#9CCB8F;
+  --font:Urbanist,"Avenir Next","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--page);color:var(--cream);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{padding-block:28px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.page{max-width:1240px;margin:0 auto 22px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between}
+header.page h1{font-size:28px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+header.page p{color:var(--soft);font-size:15px;max-width:62ch;margin-top:6px;line-height:1.5}
+.replay{font:600 14px var(--font);color:#2a1a12;background:var(--gold);border:0;border-radius:999px;padding:10px 18px;cursor:pointer}
+.replay:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
+.grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px}
+figure{display:flex;flex-direction:column;gap:14px;min-width:0}
+figcaption b{display:block;font-size:17px;margin-bottom:4px}
+figcaption span{color:var(--soft);font-size:14px;line-height:1.5}
+.tag{display:inline-block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;font-weight:700}
+
+.phone{position:relative;width:100%;max-width:380px;margin:0 auto;aspect-ratio:390/800;border-radius:40px;overflow:hidden;
+  background:radial-gradient(120% 70% at 12% 0%,var(--glow) 0%,var(--mid) 46%,var(--deep) 100%);
+  box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,244,236,.08);container-type:inline-size}
+.scr{position:absolute;inset:0;padding:6cqw 5cqw 22cqw;display:flex;flex-direction:column;gap:3.6cqw}
+.top{display:flex;justify-content:space-between;align-items:flex-end}
+.who{font-size:3.3cqw;color:var(--soft)}
+.ttl{font-size:6.6cqw;font-weight:700;letter-spacing:-.01em}
+.live{font-size:2.8cqw;font-weight:700;letter-spacing:.1em;padding:1.4cqw 2.6cqw;border-radius:999px;background:var(--glass);border:1px solid var(--line);display:flex;gap:1.4cqw;align-items:center}
+.live i{width:1.8cqw;height:1.8cqw;border-radius:50%;background:#F08C6A}
+.hero{position:relative;flex:0 0 auto}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:5.5cqw;padding:3.6cqw 4cqw;box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
+.lbl{font-size:2.9cqw;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:600}
+.big{font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.up{display:inline-flex;gap:1cqw;align-items:center;font-size:3cqw;font-weight:600;color:var(--ok);background:rgba(156,203,143,.14);border-radius:999px;padding:1cqw 2.4cqw}
+.legend{display:flex;justify-content:center;gap:3.6cqw;font-size:3cqw;color:var(--soft);flex-wrap:wrap}
+.legend i{display:inline-block;width:2cqw;height:2cqw;border-radius:50%;margin-right:1.2cqw;vertical-align:middle}
+.mini{display:grid;gap:2.4cqw}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:3.6cqw}
+.row .nm{font-weight:600}
+.bar{height:1.4cqw;border-radius:999px;background:rgba(255,244,236,.1);overflow:hidden;margin-top:1.2cqw}
+.bar i{display:block;height:100%;border-radius:inherit;background:var(--cream)}
+.bar i.g{background:var(--gold)}
+.dock{position:absolute;left:3.5cqw;right:3.5cqw;bottom:3.5cqw;display:grid;grid-template-columns:repeat(5,1fr);padding:2cqw;border-radius:6cqw;background:rgba(38,22,17,.6);border:1px solid var(--line)}
+.dock span{display:flex;flex-direction:column;align-items:center;gap:.8cqw;font-size:2.7cqw;color:var(--soft);padding:1.6cqw 0;border-radius:4cqw}
+.dock span.on{background:var(--gold);color:#2a1a12;font-weight:700}
+.dock svg{width:5cqw;height:5cqw;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+svg text{font-family:var(--font)}
+
+/* A · Gold pour */
+.pour{display:grid;grid-template-columns:1fr auto;gap:4cqw;align-items:center;padding:1cqw 1cqw 0}
+.pour .num .big{font-size:12.5cqw}
+.pour .num .sub{font-size:3.2cqw;color:var(--soft);margin:1.6cqw 0 2.6cqw;line-height:1.4}
+.pour .split{display:grid;gap:1.8cqw;margin-top:3cqw}
+.pour .split div{display:flex;justify-content:space-between;font-size:3.3cqw;color:var(--soft)}
+.pour .split b{color:var(--cream);font-variant-numeric:tabular-nums}
+.pour .split i{display:inline-block;width:2.2cqw;height:2.2cqw;border-radius:50%;margin-right:1.6cqw;vertical-align:middle}
+.vessel{width:31cqw}
+
+/* B · Day curve */
+.curvehead{display:flex;justify-content:space-between;align-items:flex-end;gap:2cqw}
+.curvehead .big{font-size:12cqw}
+.ahead{font-size:3.1cqw;color:var(--soft);text-align:right;line-height:1.4}
+.ahead b{color:var(--ok)}
+
+/* C · Bloom */
+.bloomwrap{position:relative;width:86%;margin:0 auto}
+.bloomwrap .ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;padding-top:3cqw}
+.bloomwrap .ctr .big{font-size:10cqw}
+.bloomwrap .ctr .sm{font-size:3cqw;color:var(--soft);margin-top:1.4cqw}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="page">
+  <div>
+    <h1>New earnings hero for the owner home</h1>
+    <p>Three replacements for the earnings circle, each shown on the owner home with the same data: ₹6,800 today from 10 visits (cash ₹2,500, UPI ₹2,000, wallet ₹2,300), 4:10 PM on a Wednesday. The visits and staff cards below stay as approved.</p>
+  </div>
+  <button class="replay" id="replay" type="button">Replay animations</button>
+</header>
+
+<main class="grid">
+  <figure>
+    <div class="phone"><div class="scr">
+      <div class="top"><div><div class="who">Owner · Wed 14 Oct · 4:10 PM</div><div class="ttl">Today</div></div><div class="live"><i></i>LIVE</div></div>
+      <div class="hero glass pour">
+        <div class="num">
+          <div class="lbl">Earned today</div>
+          <div class="big js-count" data-to="6800" style="margin-top:1.6cqw">₹6,800</div>
+          <div class="sub">76% of a usual Wednesday<br>(₹9,000)</div>
+          <span class="up">▲ 12% vs last Wed</span>
+          <div class="split">
+            <div><span><i style="background:var(--gold)"></i>Wallet</span><b>₹2,300</b></div>
+            <div><span><i style="background:var(--rose)"></i>UPI</span><b>₹2,000</b></div>
+            <div><span><i style="background:var(--cream)"></i>Cash</span><b>₹2,500</b></div>
+          </div>
+        </div>
+        <svg class="vessel" id="vessel" viewBox="0 0 100 200" role="img" aria-label="Glass filling with gold: 76 percent of a usual Wednesday">
+          <defs>
+            <clipPath id="vclip"><rect x="14" y="14" width="72" height="176" rx="30"/></clipPath>
+            <linearGradient id="vglass" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".16"/><stop offset=".35" stop-color="#fff" stop-opacity=".03"/><stop offset="1" stop-color="#fff" stop-opacity=".1"/></linearGradient>
+            <linearGradient id="vgold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7C894"/><stop offset="1" stop-color="#D98E4E"/></linearGradient>
+          </defs>
+          <rect x="14" y="14" width="72" height="176" rx="30" fill="rgba(20,10,8,.35)"/>
+          <g clip-path="url(#vclip)" id="liquid"></g>
+          <line x1="8" x2="92" y1="14" y2="14" stroke="rgba(255,244,236,.4)" stroke-dasharray="2 3"/>
+          <text x="50" y="9" text-anchor="middle" font-size="7" fill="rgba(255,248,241,.6)">usual ₹9,000</text>
+          <rect x="14" y="14" width="72" height="176" rx="30" fill="url(#vglass)" stroke="rgba(255,244,236,.45)" stroke-width="1.4"/>
+          <rect x="22" y="26" width="5" height="120" rx="2.5" fill="#fff" opacity=".18"/>
+        </svg>
+      </div>
+      <div class="glass mini">
+        <div class="row"><span class="lbl">Visits</span><span><b>10</b> today · 2 new</span></div>
+        <div class="row"><span class="lbl">Staff today</span><span style="color:var(--gold);font-size:3.2cqw">3 of 3 in</span></div>
+        <div><div class="row"><span class="nm">Sunita · 4</span><span>₹4,100</span></div><div class="bar"><i class="g" style="width:100%"></i></div></div>
+        <div><div class="row"><span class="nm">Rakesh · 3</span><span>₹1,650</span></div><div class="bar"><i style="width:40%"></i></div></div>
+      </div>
+    </div><div class="dock" aria-hidden="true">__DOCK__</div></div>
+    <figcaption><div class="tag">A · Gold pour</div><b>The day fills up with gold</b><span>A glass that fills with liquid gold as money comes in, layered cash, UPI and wallet. The dotted line is a usual Wednesday, so the owner sees at a glance how full the day is. The surface ripples and a new payment pours in with a splash.</span></figcaption>
+  </figure>
+
+  <figure>
+    <div class="phone"><div class="scr">
+      <div class="top"><div><div class="who">Owner · Wed 14 Oct · 4:10 PM</div><div class="ttl">Today</div></div><div class="live"><i></i>LIVE</div></div>
+      <div class="hero glass" style="display:grid;gap:2.6cqw">
+        <div class="curvehead">
+          <div><div class="lbl">Earned today</div><div class="big js-count" data-to="6800" style="margin-top:1.6cqw">₹6,800</div></div>
+          <div class="ahead"><b>▲ ₹730 ahead</b><br>of last Wed by 4 PM</div>
+        </div>
+        <svg id="curve" viewBox="0 0 320 170" role="img" aria-label="Running total through the day, 10 AM to 8 PM, compared with last Wednesday"></svg>
+        <div class="legend"><span><i style="background:var(--cream)"></i>Cash</span><span><i style="background:var(--rose)"></i>UPI</span><span><i style="background:var(--gold)"></i>Wallet</span><span><i style="background:transparent;border:1px dashed var(--faint)"></i>Last Wed</span></div>
+      </div>
+      <div class="glass mini">
+        <div class="row"><span class="lbl">Visits</span><span><b>10</b> today · 2 new</span></div>
+        <div class="row"><span class="lbl">Staff today</span><span style="color:var(--gold);font-size:3.2cqw">3 of 3 in</span></div>
+        <div><div class="row"><span class="nm">Sunita · 4</span><span>₹4,100</span></div><div class="bar"><i class="g" style="width:100%"></i></div></div>
+        <div><div class="row"><span class="nm">Rakesh · 3</span><span>₹1,650</span></div><div class="bar"><i style="width:40%"></i></div></div>
+      </div>
+    </div><div class="dock" aria-hidden="true">__DOCK__</div></div>
+    <figcaption><div class="tag">B · Day curve</div><b>The day as a rising line</b><span>The running total climbs from opening at 10 AM, each bill a dot sized by its amount and coloured by how it was paid. Last Wednesday is the dashed ghost line, so "ahead or behind" is obvious. The gold point glows at the current time and moves as payments arrive.</span></figcaption>
+  </figure>
+
+  <figure>
+    <div class="phone"><div class="scr">
+      <div class="top"><div><div class="who">Owner · Wed 14 Oct · 4:10 PM</div><div class="ttl">Today</div></div><div class="live"><i></i>LIVE</div></div>
+      <div class="hero glass" style="padding-top:2cqw">
+        <div class="bloomwrap">
+          <svg id="bloom" viewBox="0 0 300 300" role="img" aria-label="Salon clock from 10 AM to 8 PM with one petal per bill, length by amount"></svg>
+          <div class="ctr"><div class="lbl">Earned</div><div class="big js-count" data-to="6800" style="margin-top:1.2cqw">₹6,800</div><div class="sm">10 bills · ▲ 12% vs last Wed</div></div>
+        </div>
+        <div class="legend" style="margin-top:-2cqw"><span><i style="background:var(--cream)"></i>Cash ₹2,500</span><span><i style="background:var(--rose)"></i>UPI ₹2,000</span><span><i style="background:var(--gold)"></i>Wallet ₹2,300</span></div>
+      </div>
+      <div class="glass mini">
+        <div class="row"><span class="lbl">Visits</span><span><b>10</b> today · 2 new</span></div>
+        <div><div class="row"><span class="nm">Sunita · 4</span><span>₹4,100</span></div><div class="bar"><i class="g" style="width:100%"></i></div></div>
+      </div>
+    </div><div class="dock" aria-hidden="true">__DOCK__</div></div>
+    <figcaption><div class="tag">C · Salon clock bloom</div><b>Every bill becomes a petal</b><span>The opening hours are a clock face from 10 AM to 8 PM. Each bill grows a petal at the time it was paid, longer for bigger bills, coloured by payment type. The flower fills in through the day; the hand shows the current time.</span></figcaption>
+  </figure>
+</main>
+
+<script>
+const DOCK='<span><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M5 12a7 7 0 0 1 14 0"/></svg>Live</span><span class="on"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>Earnings</span><span><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4"/></svg>Attendance</span><span><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5"/></svg>Staff</span><span><svg viewBox="0 0 24 24"><path d="M5 4h14v16l-3-2-2 2-2-2-2 2-2-2-3 2z"/></svg>Visits</span>';
+document.querySelectorAll('.dock').forEach(d=>d.innerHTML=DOCK);
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const NS='http://www.w3.org/2000/svg';
+const el=(tag,attrs={},parent)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;};
+const COL={cash:'#FFF8F1',upi:'#B98E78',wallet:'#E4A67B'};
+// Today's 10 bills (time in hours, amount, method) — totals: cash 2,500 · UPI 2,000 · wallet 2,300
+const BILLS=[[10.25,450,'cash'],[10.67,900,'wallet'],[11.33,150,'cash'],[12.08,1200,'wallet'],[12.83,300,'upi'],[13.58,1000,'cash'],[14.33,1100,'upi'],[15,600,'upi'],[15.5,200,'wallet'],[15.92,900,'cash']];
+const NOW=16.17;
+const LASTWED=[[10,0],[11,600],[12,1150],[13,2300],[14,3400],[15,4600],[16,6070],[17,7200],[18,8100],[19,8800],[20,9300]];
+const ease=t=>1-Math.pow(1-t,3);
+
+function countUp(){document.querySelectorAll('.js-count').forEach(n=>{const to=+n.dataset.to;if(RM){n.textContent='₹'+to.toLocaleString('en-IN');return;}const t0=performance.now();
+  (function f(now){const k=Math.min(1,(now-t0)/1400);n.textContent='₹'+Math.round(to*ease(k)).toLocaleString('en-IN');if(k<1)requestAnimationFrame(f);})(t0);});}
+
+/* A · Gold pour */
+const liquid=document.getElementById('liquid');
+const LAYERS=[['cash',2500,'#F3E6D8'],['upi',2000,'#B98E78'],['wallet',2300,'url(#vgold)']];
+const FULL=9000, TOP=14, BOT=190, H=BOT-TOP;
+const layerEls=LAYERS.map(()=>null);[2,1,0].forEach(i=>{layerEls[i]=el('path',{fill:LAYERS[i][2]},liquid);}); // top layer drawn first so lower layers stay visible
+const bubbles=[...Array(7)].map((_,i)=>el('circle',{r:1+Math.random()*1.6,fill:'#fff',opacity:.35},liquid));
+let pourStart=performance.now();
+function wave(yTop,phase,amp){let d=`M14 ${BOT} L14 ${yTop}`;for(let x=14;x<=86;x+=2){d+=` L${x} ${(yTop+Math.sin(x/9+phase)*amp).toFixed(2)}`;}return d+` L86 ${BOT} Z`;}
+function drawPour(now){
+  const k=RM?1:ease(Math.min(1,(now-pourStart)/1800)), t=now/1000;
+  let acc=0;
+  LAYERS.forEach(([key,v],i)=>{acc+=v;const y=BOT-H*(acc/FULL)*k;layerEls[i].setAttribute('d',wave(y,t*1.6+i*1.3,i===2?1.8:1.1));});
+  const level=BOT-H*(6800/FULL)*k;
+  bubbles.forEach((b,i)=>{const p=((t*0.18+i/7)%1);b.setAttribute('cx',24+((i*37)%56));b.setAttribute('cy',BOT-(BOT-level)*p);b.setAttribute('opacity',(.35*(1-p)).toFixed(2));});
+}
+
+/* B · Day curve */
+const cv=document.getElementById('curve');
+const X=h=>20+(h-10)/10*290, Y=v=>150-v/10000*135;
+function buildCurve(){
+  cv.innerHTML='';
+  const defs=el('defs',{},cv);const g=el('linearGradient',{id:'cfill',x1:0,y1:0,x2:0,y2:1},defs);el('stop',{offset:0,'stop-color':'#E4A67B','stop-opacity':.45},g);el('stop',{offset:1,'stop-color':'#E4A67B','stop-opacity':0},g);
+  const glow=el('filter',{id:'cglow',x:'-50%',y:'-50%',width:'200%',height:'200%'},defs);el('feGaussianBlur',{stdDeviation:3},glow);
+  [0,2500,5000,7500,10000].forEach(v=>{el('line',{x1:20,x2:310,y1:Y(v),y2:Y(v),stroke:'rgba(255,244,236,.08)'},cv);if(v)el('text',{x:310,y:Y(v)-3,'text-anchor':'end','font-size':8,fill:'rgba(255,248,241,.45)'},cv).textContent=(v/1000)+'k';});
+  [10,12,14,16,18,20].forEach(h=>{el('text',{x:X(h),y:165,'text-anchor':'middle','font-size':8.5,fill:'rgba(255,248,241,.55)'},cv).textContent=(h>12?h-12:h)+(h>=12?' PM':' AM');});
+  el('rect',{x:X(NOW),y:12,width:X(20)-X(NOW),height:138,fill:'rgba(255,244,236,.035)'},cv);
+  el('path',{d:'M'+LASTWED.map(([h,v])=>`${X(h)} ${Y(v)}`).join(' L'),fill:'none',stroke:'rgba(255,248,241,.4)','stroke-width':1.3,'stroke-dasharray':'3 4'},cv);
+  let acc=0;const pts=[[10,0]];BILLS.forEach(([h,a])=>{acc+=a;pts.push([h,acc]);});pts.push([NOW,acc]);
+  const line='M'+pts.map(([h,v])=>`${X(h).toFixed(1)} ${Y(v).toFixed(1)}`).join(' L');
+  const area=el('path',{d:line+` L${X(NOW)} 150 L${X(10)} 150 Z`,fill:'url(#cfill)',opacity:0},cv);
+  const path=el('path',{d:line,fill:'none',stroke:'#F5C9A0','stroke-width':2.4,'stroke-linejoin':'round','stroke-linecap':'round'},cv);
+  const L=path.getTotalLength();path.style.strokeDasharray=L;path.style.strokeDashoffset=RM?0:L;
+  const dots=[];acc=0;BILLS.forEach(([h,a,m])=>{acc+=a;dots.push(el('circle',{cx:X(h),cy:Y(acc),r:2+a/260,fill:COL[m],stroke:'#2a1a12','stroke-width':1,opacity:RM?1:0},cv));});
+  const halo=el('circle',{cx:X(NOW),cy:Y(acc),r:7,fill:'#E4A67B',filter:'url(#cglow)',opacity:RM?.9:0},cv);
+  const head=el('circle',{cx:X(NOW),cy:Y(acc),r:4,fill:'#FFF8F1',opacity:RM?1:0},cv);
+  if(RM){area.setAttribute('opacity',1);return;}
+  const t0=performance.now();
+  (function f(now){const k=Math.min(1,(now-t0)/1800);path.style.strokeDashoffset=L*(1-ease(k));area.setAttribute('opacity',ease(k));
+    dots.forEach((d,i)=>{if(k>(i+1)/(BILLS.length+1))d.setAttribute('opacity',1);});
+    if(k>=1){head.setAttribute('opacity',1);halo.setAttribute('opacity',(.55+.35*Math.sin(now/300)).toFixed(2));}
+    requestAnimationFrame(f);})(t0);
+}
+
+/* C · Salon clock bloom */
+const bl=document.getElementById('bloom');
+const C=150, R0=98, A0=-225, SPAN=270;      // 10 AM at lower-left, 8 PM at lower-right
+const ang=h=>(A0+(h-10)/10*SPAN)*Math.PI/180;
+const pol=(r,a)=>[C+r*Math.cos(a),C+r*Math.sin(a)];
+function buildBloom(){
+  bl.innerHTML='';
+  const defs=el('defs',{},bl);const glow=el('filter',{id:'bglow',x:'-50%',y:'-50%',width:'200%',height:'200%'},defs);el('feGaussianBlur',{stdDeviation:2.4},glow);
+  const arc=(r,h1,h2)=>{const [x1,y1]=pol(r,ang(h1)),[x2,y2]=pol(r,ang(h2));const large=(h2-h1)/10*SPAN>180?1:0;return `M${x1} ${y1} A${r} ${r} 0 ${large} 1 ${x2} ${y2}`;};
+  el('path',{d:arc(R0-6,10,20),fill:'none',stroke:'rgba(255,244,236,.12)','stroke-width':1.2},bl);
+  el('path',{d:arc(R0-6,10,NOW),fill:'none',stroke:'rgba(228,166,123,.6)','stroke-width':1.6},bl);
+  for(let h=10;h<=20;h++){const [x1,y1]=pol(R0-9,ang(h)),[x2,y2]=pol(R0-3,ang(h));el('line',{x1,y1,x2,y2,stroke:'rgba(255,244,236,.35)','stroke-width':h%2?0.8:1.4},bl);
+    if(h%2===0){const [tx,ty]=pol(R0-19,ang(h));el('text',{x:tx,y:ty+3,'text-anchor':'middle','font-size':8.5,fill:'rgba(255,248,241,.5)'},bl).textContent=(h>12?h-12:h)+(h>=12?'p':'a');}}
+  const petals=BILLS.map(([h,a,m],i)=>{
+    const a0=ang(h), len=20+a/1200*30, w=0.09+a/1200*0.06;
+    const [bx,by]=pol(R0,a0),[tx,ty]=pol(R0+len,a0),[lx,ly]=pol(R0+len*.55,a0-w),[rx,ry]=pol(R0+len*.55,a0+w);
+    const p=el('path',{d:`M${bx} ${by} Q${lx} ${ly} ${tx} ${ty} Q${rx} ${ry} ${bx} ${by} Z`,fill:COL[m],opacity:.92,stroke:'rgba(42,26,18,.6)','stroke-width':.8},bl);
+    p.style.transformOrigin=`${bx}px ${by}px`;p.style.transform=RM?'scale(1)':'scale(0)';return p;});
+  const [hx,hy]=pol(R0+46,ang(NOW)),[hx0,hy0]=pol(R0-4,ang(NOW));
+  el('line',{x1:hx0,y1:hy0,x2:hx,y2:hy,stroke:'#F5C9A0','stroke-width':1.4,'stroke-dasharray':'2 3',filter:'url(#bglow)'},bl);
+  el('circle',{cx:hx0,cy:hy0,r:3.2,fill:'#FFF8F1'},bl);
+  if(RM)return;
+  petals.forEach((p,i)=>{p.style.transition=`transform .7s cubic-bezier(.2,1.4,.4,1) ${0.25+i*0.13}s`;requestAnimationFrame(()=>requestAnimationFrame(()=>p.style.transform='scale(1)'));});
+}
+
+function start(){pourStart=performance.now();countUp();buildCurve();buildBloom();}
+(function loop(now){drawPour(now);requestAnimationFrame(loop);})(performance.now());
+start();
+document.getElementById('replay').addEventListener('click',start);
+</script>

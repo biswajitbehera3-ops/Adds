@@ -1,0 +1,13 @@
+{
+  "id": "P015",
+  "buys": true,
+  "purchases_first_month": 1,
+  "reason_code": "trust",
+  "reason": "I got burned paying for software my staff never touched, but here I only risk ₹5,000 and the second half is paid only if my stylists actually bill in it, with my money back if not. For ₹500 a month, with someone setting it up in my salon and training staff in Odia, I'll try it, cautiously.",
+  "objection": "My senior stylists will feel I'm watching them with the live chair view and the cash-drawer checks, and they'll quietly go back to the register like last time. If they feel I don't trust them I lose more than the software is worth.",
+  "would_change_my_mind": "If on setup day my senior stylists push back hard and treat it as spying on them, I'd stop before paying the second half.",
+  "price_too_cheap": 2000,
+  "price_cheap": 6000,
+  "price_expensive": 18000,
+  "price_too_expensive": 30000
+}

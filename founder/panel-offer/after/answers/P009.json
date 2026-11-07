@@ -1,0 +1,13 @@
+{
+  "id": "P009",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My register has never lost a bill and I know every page of it; ₹500 a month is not the problem, putting eight stylists on a phone app right before Puja and wedding season is. And if every bill and every chair is watched from my phone, my senior staff will read it as me not trusting them.",
+  "objection": "My stylists will feel watched and the old ones may push back or leave, and if billing slows down on a crowded festival day I lose more than the app could ever save me.",
+  "would_change_my_mind": "Seeing it run smoothly in a busy salon near me for a month, with that owner telling me his staff were fine with it, and a setup date after the wedding season rush.",
+  "price_too_cheap": 150,
+  "price_cheap": 300,
+  "price_expensive": 1000,
+  "price_too_expensive": 2000
+}

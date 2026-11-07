@@ -1,0 +1,267 @@
+{
+ "business": "A salon's own staff-and-owner phone app (billing, walk-ins, wallet, WhatsApp reminders, attendance, live floor), set up per salon",
+ "seed": 339387,
+ "dealt": 100,
+ "answered": 100,
+ "skipped": [],
+ "buys": 9,
+ "passes": 91,
+ "buy_rate": 0.09,
+ "by_segment": [
+  [
+   "Established salon with 5 to 8 chairs and 5 to 10 staff",
+   20,
+   0.2
+  ],
+  [
+   "Premium or franchise salon outlet owner, sometimes 2 outlets",
+   5,
+   0.2
+  ],
+  [
+   "Neighbourhood unisex salon or ladies' parlour with 2 to 4 chairs and 2 to 4 staff",
+   40,
+   0.1
+  ],
+  [
+   "One-chair or two-chair men's salon or barber shop, owner also cuts hair",
+   35,
+   0.0
+  ]
+ ],
+ "by_behaviour": [
+  [
+   "Owner who isn't always at the salon",
+   12,
+   0.3333333333333333
+  ],
+  [
+   "Young owner who likes tech",
+   14,
+   0.2857142857142857
+  ],
+  [
+   "Runs everything on WhatsApp",
+   15,
+   0.06666666666666667
+  ],
+  [
+   "Asks other owners first",
+   12,
+   0.0
+  ],
+  [
+   "Counts every rupee",
+   15,
+   0.0
+  ],
+  [
+   "Paper register loyalist",
+   20,
+   0.0
+  ],
+  [
+   "Tried an app before and stopped",
+   12,
+   0.0
+  ]
+ ],
+ "by_income": [
+  [
+   "₹1,310,000 and up",
+   34,
+   0.17647058823529413
+  ],
+  [
+   "₹631,000 to ₹1,310,000",
+   33,
+   0.06060606060606061
+  ],
+  [
+   "under ₹631,000",
+   33,
+   0.030303030303030304
+  ]
+ ],
+ "why_not": [
+  [
+   "habit",
+   31,
+   [
+    "My whole salon already runs on WhatsApp on one phone and it works; asking 5 to 10 stylists to take selfies and type every walk-in's number in an English app is a fight I don't want in a normal week. The cash-drawer and cancelled-bill checks do interest me, but not enough to pay ₹4,999 upfront for software my staff may quietly stop using.",
+    "I have one or two chairs and I count the drawer myself every night, so I already know what came in. My bookings and customers are all on WhatsApp and it works; ₹999 every month plus ₹4,999 upfront is a lot from what I earn for something I mostly do with my own eyes."
+   ],
+   [
+    "P002",
+    "P004"
+   ]
+  ],
+  [
+   "price",
+   24,
+   [
+    "Five thousand rupees up front and then a thousand every month, forever, for something my register and WhatsApp already do for free. I avoid monthly payments, and twelve thousand a year is real money for a small parlour like mine.",
+    "I run one or two chairs and cut most of the hair myself, so I already know who is in the chair and what is in the drawer. ₹4,999 upfront plus ₹999 every month forever is too much for something my notebook and WhatsApp already do for free."
+   ],
+   [
+    "P005",
+    "P012"
+   ]
+  ],
+  [
+   "trust",
+   22,
+   [
+    "I have one or two chairs and I cut hair myself, so I already know who is in the chair and what is in the drawer. No owner I know uses this, and I am not paying ₹4,999 plus ₹999 every month for an app nobody around me has tried.",
+    "My register has never crashed on a Sunday with ten customers waiting. ₹999 a month is nothing for me, but if the app stops billing in the rush and nobody picks up the phone, I lose money and face in front of customers."
+   ],
+   [
+    "P001",
+    "P006"
+   ]
+  ],
+  [
+   "need",
+   13,
+   [
+    "I cut hair myself in a one or two chair shop and count my own drawer every night, so the stylist check-ins, attendance and 'see from anywhere' parts are for a bigger salon than mine. ₹4,999 upfront plus ₹999 every month is real money on what I earn, for things my notebook and WhatsApp already do.",
+    "I'm standing at my own chair all day and I count the drawer myself every night, so I already know who's in which chair and what the takings are. ₹999 every month plus ₹4,999 upfront is a lot to pay to watch a shop I'm already standing in, and WhatsApp does my bookings for free."
+   ],
+   [
+    "P007",
+    "P008"
+   ]
+  ],
+  [
+   "convenience",
+   1,
+   [
+    "₹999 a month is not the issue for a salon my size, but half my staff will not work in an English app, and my whole business already runs fine on WhatsApp. If my stylists fumble at the counter, I end up back on WhatsApp and the register anyway."
+   ],
+   [
+    "P027"
+   ]
+  ]
+ ],
+ "why_yes": [
+  [
+   "need",
+   6,
+   [
+    "With 8 staff I honestly don't know if the cash in the drawer matches the bills or if someone is doing customers off the book, and ₹999 a month is nothing next to that leak. The first month is free, so I'd try it, though the ₹4,999 setup only feels fair if they actually train my people in the salon.",
+    "I count the drawer myself every night with 5 to 10 staff, so seeing cancelled bills, walk-outs and what cash should be there, from my phone, is exactly the leak I worry about. With the first month free I'll try it, and a branded app makes the salon look modern."
+   ],
+   [
+    "P003",
+    "P020"
+   ]
+  ],
+  [
+   "convenience",
+   3,
+   [
+    "An app with my salon's name, WhatsApp bills and a prepaid wallet makes my place look modern next to the other parlours, and I could finally see the takings and the drawer cash without standing at the counter. The first month is free, so I can test it, but I'd make the selfie check-in optional for my staff.",
+    "My own branded app on the stylists' phones, WhatsApp bills and the cash-drawer check would make the parlour look modern and stop me chasing the register, and with the first month free I can test it properly. ₹999 is one or two haircuts a month, so if the wallet and reminders bring even a few customers back it pays for itself."
+   ],
+   [
+    "P036",
+    "P052"
+   ]
+  ]
+ ],
+ "flip": [
+  "If another salon owner I know, or my product distributor, was already using it and showed me it keeps the data safe even when the phone is lost.",
+  "Seeing it actually running in another salon of my size nearby, with the setup fee charged only after the free month if my staff are still using it.",
+  "If it worked inside WhatsApp itself with no typing for the staff, and cost a few hundred rupees a month with no setup fee.",
+  "No setup fee, a one-time price or a yearly plan under ₹5,000, a Hindi/local-language option, and a phone number that is actually answered on Sundays.",
+  "A written promise of same-day phone support on Sundays and holidays, plus seeing it running smoothly in another salon owner's shop near me for a few months.",
+  "No setup fee and a cheaper solo plan around ₹299 a month, so I can try it on my own shop first and see if regulars actually come back from the WhatsApp reminders.",
+  "No setup fee and around ₹299 a month, with proof that my customer list is backed up and I can download it any time, even if the phone breaks or I stop paying.",
+  "A small-shop plan around ₹299-399 a month with no setup fee, just billing on WhatsApp, reminders and the wallet, with proof that my data is backed up online and comes back on a new phone.",
+  "If it was only the customer side, the WhatsApp reminders, wallet and referral, for around ₹299-399 a month with no setup fee, and someone showed me it actually brings old customers back.",
+  "A cheaper version for a one-chair shop with no setup fee, only the WhatsApp reminders and customer list, and proof that my data stays safe if the phone is lost.",
+  "A one-time price with no monthly fee, around ₹3,000, with a phone number that actually answers on Sundays.",
+  "No setup fee and pay only after my stylists have actually used it every day for a full month, so I see it working in my own salon before any money goes out.",
+  "If I could switch off the selfie and staff tracking and just use the WhatsApp reminders and billing myself, with no setup fee, so I only pay if my customers actually come back more.",
+  "Drop the selfie check-in and staff tracking, and give me only the WhatsApp reminders and prepaid wallet for my customers at around ₹300-400 a month with no setup fee, so I can try it without upsetting my staff.",
+  "If another salon owner near me showed me it actually brought customers back and caught money going missing, and it worked even for customers who don't give a number, with no setup fee so I could just try it.",
+  "If the app came in Hindi and a salon owner near me showed me it running in her parlour for a few months.",
+  "No setup fee: let me use it free for a month first, and show me my customer data is backed up and that I can download it any time even if I stop paying.",
+  "No monthly fee: one payment of around ₹3,000 for life, or my distributor including it free with my monthly supplies order.",
+  "No setup charge and a one-time or yearly price around ₹3,000, plus seeing another salon nearby actually catching cash leaks with the drawer check.",
+  "If it was only the WhatsApp bill and 'customer due back' reminder for maybe ₹199 a month with no setup fee, and a barber friend showed me it actually brought customers back.",
+  "Seeing it running in another salon owner's shop that I know, plus something in writing that my data is backed up and stays mine if I stop paying.",
+  "No setup fee and pay only after it has actually been used by my staff for two to three months, ideally with the app in Hindi as well and billing without needing a mobile number.",
+  "If it came in Hindi and someone like a nearby salon owner showed me it working for months, with no big setup fee, I might try it.",
+  "If two or three salon owners I know in my area were already using it happily, and I could switch off the selfie check-in and just use the billing and WhatsApp reminders.",
+  "A full Hindi version, for the app and the WhatsApp bills and reminders, with someone showing my staff how it works and then two weeks of it running properly in my salon.",
+  "No setup fee, or the setup fee back if it doesn't work, plus a Hindi or local-language phone number that actually answers on Sundays.",
+  "No setup fee and around ₹299 a month or one-time payment, with the WhatsApp reminders proven to bring customers back.",
+  "No setup fee: you move my existing customer list over for free and I try it for a month. If I'm not happy, I walk away without paying anything.",
+  "No setup fee and a small-shop plan around ₹399 a month, with a clear promise that my customer data is saved online and I can get it back on a new phone.",
+  "Seeing it running at another salon owner's outlet I know, with the stylists actually using it on a busy day, plus a free month where my front desk does all the entries instead of the stylists.",
+  "No monthly fee: one payment of about ₹5,000 to ₹6,000 total, or a few months free so I can first see if my staff use it and if it catches cash missing from the drawer.",
+  "No setup fee and around ₹299-399 a month, plus a clear backup where I can download my full customer list to my own phone any time, even if I stop paying.",
+  "No setup fee, and I only pay after one month where my staff actually billed everything through the app, so I can see it works in my salon first.",
+  "No monthly fee: one payment of about ₹3,000-4,000 with the setup included, and the selfie check-in made optional so I can switch it off.",
+  "Seeing it actually catch missing cash or cancelled bills in a salon my size, and setup waived so I can try it without paying ₹4,999 first.",
+  "A one-time price with no monthly fee, or no setup charge and much cheaper monthly, and the selfie check-in made optional so my staff don't feel watched.",
+  "If it came fully in Hindi, with no setup fee, and another salon owner I know showed me it actually caught cash going missing from the drawer.",
+  "If it was only the WhatsApp reminder and wallet for customers, with no staff selfie or tracking, for a couple of hundred rupees a month and no setup fee, I might try it after the free month.",
+  "A named local person I can call or WhatsApp on Sundays, Hindi on the staff screens, and setup charged only after the free month if I keep it.",
+  "A clear promise that everything is saved online and comes back on a new phone, plus letting me pay the ₹4,999 setup only after the free month if I decide to stay.",
+  "No setup fee and a small-salon plan around ₹399 a month with just billing, WhatsApp reminders and the wallet, with my logo so it looks modern to customers.",
+  "If another parlour owner I know nearby used it for a full festival season without trouble, and they gave a Hindi option and a local person who comes the same day when it breaks.",
+  "Two or three salon owners I know personally running it for a few months without trouble, plus a named person I can call on Sundays and festival days who actually answers.",
+  "No setup fee and around ₹399-499 a month, or a cheaper plan for 1-2 chair shops, plus proof from another small barber nearby that it actually caught missing cash.",
+  "Seeing it running at another salon owner's shop near me for a few months, and them telling me the data is safe even when a phone is lost.",
+  "No setup fee and a Hindi option, with the first month showing me the reminder messages actually brought old customers back.",
+  "No setup fee and a much lower monthly price, and seeing another small barber like me whose staff actually still use it after three months.",
+  "If you moved my existing customer and billing data over for free with no setup fee, and showed me in the free month that it catches cash leakage my current app misses.",
+  "If a salon owner I know nearby shows me it actually caught cash going missing from the drawer, and I can bill a customer without a mobile number.",
+  "Seeing it running for a few months in a salon my size nearby, where the owner shows me the cash drawer check actually caught missing money and the staff did not leave over it.",
+  "No monthly fee: a one-time price, or one year paid upfront at a real discount with the setup fee waived, and my customer data exportable if I stop.",
+  "If an owner I know near me was using it and told me it brings customers back, and it came in Hindi for around ₹300 a month with no setup fee.",
+  "A cheaper solo-owner plan with no setup fee, around ₹299-399 a month, focused on WhatsApp reminders, bills and the referral reward, without the staff-monitoring part.",
+  "Seeing it actually running in another salon owner's outlet that I know, with staff using it daily, and the setup fee waived or charged only after the free month if we keep it.",
+  "A much cheaper plan, maybe ₹299 a month with no setup fee, that only does the WhatsApp due-back reminders and the refer-a-friend thing so it actually brings me more customers.",
+  "If it worked fully in Hindi, there was no setup fee or it was refundable, and they showed me my staff actually using it during the free month.",
+  "A one-time price with no monthly fee, and a Hindi version with a local person I can phone on Sundays.",
+  "Seeing it running in another salon my size nearby, where the stylists actually use it on a busy Saturday and the owner shows me it caught missing cash or brought customers back.",
+  "No setup fee, or setup only paid after the free month once I see the cash-drawer check actually matches my count, plus a local number someone picks up on Sundays.",
+  "A local person I can call or WhatsApp who actually picks up on Sundays, no setup fee, and proof from another small barber near me that the reminders and wallet brought regulars back more often.",
+  "No monthly fee: one small payment, under ₹2,000, that I pay once, with the app in Hindi or my language, and only the WhatsApp reminders so customers come back.",
+  "No setup fee, and a local person I can actually call on Sundays who comes to the salon if it breaks, with my old register entries kept safe as a backup.",
+  "A small-shop plan around ₹299 a month with no setup fee, just the WhatsApp due-back reminders and the refer-a-friend ₹100. That part could actually bring customers back, and I'd try it.",
+  "No setup fee, and seeing it running in another small parlour like mine where the staff actually use it every day, with a way to bill a customer without taking her number.",
+  "No setup fee and around ₹299 a month, just for the WhatsApp reminders and the customer list, without any selfie check-in for staff.",
+  "No setup fee and a one-time or yearly price I can pay once, or proof from another small salon nearby that the reminders and wallet actually brought back enough customers to cover the cost.",
+  "If it worked from just the UPI payments already coming to my phone, with no typing, and the WhatsApp reminders actually brought old customers back, at around ₹299 a month with no setup fee.",
+  "Written proof that all my data is backed up off the phone and can be restored on a new one. Also, no setup fee until my staff are actually using it after the free month.",
+  "No monthly fee: one payment around ₹3,000 that I own, with a local person I can call on Sundays, and proof from another small shop near me that the WhatsApp reminders actually brought customers back.",
+  "No setup fee and a one-time or yearly price under ₹3,000, with proof from a nearby salon that it actually stopped cash going missing from the drawer.",
+  "If it worked without needing the customer's mobile number and another salon owner nearby showed me it actually stopped cash going missing from the drawer.",
+  "A small-shop plan with no setup fee and only the customer side (WhatsApp reminders, prepaid wallet, referral reward) for around ₹299-399 a month, no selfie check-in.",
+  "Seeing it running for a few months in a salon owned by someone I know, or my distributor recommending it, and hearing from that owner that the staff actually use it every day.",
+  "A free month where I keep my register going too, plus a printed or downloadable copy of all my customers and bills that I can keep even if I stop paying, and no ₹4,999 setup fee.",
+  "No setup fee, or the setup refunded if I cancel after the free month, so I only start paying once I've seen my staff use it through one busy festival week.",
+  "No setup fee, around ₹399-499 a month, and a clear promise that my data is backed up and I can download it even if I stop paying.",
+  "If another salon owner near me showed me it actually caught cash going missing from the drawer, and my staff could bill in under 30 seconds without me forcing them.",
+  "Another salon owner I know, or my product distributor, using it for a few months and telling me it actually stopped cash leakage without staff complaining.",
+  "No setup fee, written proof that my data is safe online if the phone breaks, and about ₹499 a month for a one or two chair shop.",
+  "If another salon owner near me showed me their staff really using it for a few months and it caught cash missing from the drawer, and I could try it with no setup fee before paying anything.",
+  "A small-shop plan around ₹299-399 a month with no setup fee, where the selfie check-in can be switched off and I only get the cash-drawer and cancelled-bill check on my phone.",
+  "If it were only the WhatsApp due-back reminders for my regular customers, very simple, with no setup fee and under ₹200 a month, and my distributor or a fellow shop owner showed me it bringing customers back.",
+  "The app in Hindi, and letting me pay the ₹4,999 setup only after the first free month if my staff are actually billing on it every day.",
+  "If they took the setup money only after a month where my staff actually billed every customer in it, and I could see that the drawer figure matched my own count.",
+  "If you moved my existing customer data and wallet balances over for free and let me run the cash and staff checks for a full month alongside my current app, and it caught real leakage, I would switch.",
+  "Another salon owner I know, or my product distributor, running it for a few months and telling me support actually shows up on weekends.",
+  "If it was fully in Hindi and a salon owner I know nearby showed me it actually caught cash going missing from the drawer.",
+  "A written promise that the data is backed up off the phone and I can export it any time, plus seeing it running for a month in a salon like mine where the staff really use it every day.",
+  "If another small salon owner near me was using it and showed me the WhatsApp reminders actually brought customers back enough to cover the monthly fee.",
+  "No setup fee and a monthly price around ₹499 that I can stop any time, plus seeing another salon nearby actually catch cash leakage with it.",
+  "Seeing another salon owner nearby use it for a few months and tell me support picks up the phone fast, especially on weekends."
+ ],
+ "purchases_first_month_per_buyer": 1.0,
+ "price_answers": 100
+}

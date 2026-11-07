@@ -1,0 +1,43 @@
+{
+ "run_id": "adds-salon-mobile-run-2",
+ "repo": "biswajitbehera3-ops/Adds",
+ "target": "/home/user/Adds/salon-mobile",
+ "source_ref": {
+  "commit": "ca474f5",
+  "salon_mobile_app_source_last_changed": "0729859d8fc0cb92e3dacbdffd861c62118b6715",
+  "note": "app source identical to run 1 (05910c6)",
+  "salon_mobile_dirty": false
+ },
+ "profile": "quick",
+ "scope_paths": [
+  "the 5 coverage units deferred by run 1 (attendance/leave, appointments, customer privacy lifecycle, owner cash count, legal build script)"
+ ],
+ "budget": 24,
+ "execution_policy": "sandboxed-source-and-local-only",
+ "sandbox": "sbx.sh (same as run 1)",
+ "promotion": "promote.py (same as run 1)",
+ "selected_companions": [
+  "CLIENT-SIDE.md",
+  "DESKTOP-MOBILE-AND-LOCAL-IPC.md",
+  "DATA-ISOLATION-AND-LIFECYCLE.md"
+ ],
+ "prior_runs": [
+  {
+   "path": "salon-mobile/security/run-1",
+   "ledger": "coverage-ledger.json",
+   "findings": "findings.json",
+   "same_source": true
+  }
+ ],
+ "prior_findings_handling": "Run-1 records belong to out-of-scope units at unchanged source; they stand as recorded in run 1 and are not re-verified in this scoped run.",
+ "shared_file_owner": "parent",
+ "run_status": "complete",
+ "agents_spent": {
+  "recon": 4,
+  "hunters": 5,
+  "critic": 1,
+  "verifiers": 6,
+  "total": 16
+ },
+ "coverage_note": "scoped quick run: partial pass; 1 critic-proposed unit deferred (quick_profile_final_critic)"
+}

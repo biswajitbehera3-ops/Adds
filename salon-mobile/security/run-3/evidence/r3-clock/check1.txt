@@ -1,0 +1,32 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/r3-clock/scratch[39m
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mr3-clock[2m > [22m[2mA: one big jump is held, 29-day steps (one app start each) are never held and erase today's data
+[22m[39msingle jump held: [33mtrue[39m hold: {"from":"2026-10-14T05:30:00.000Z","to":"2029-10-20T05:30:00.000Z"}
+stepped: any hold: [33mfalse[39m photo keys deleted: ["selfie_today"] customers erased: [33m1[39m
+customer after: [{"name":"Deleted customer","phone":"","deletedAt":"2029-10-20T05:30:00.000Z"}]
+lastSeen: 2029-10-20T05:30:00.000Z latestRecordTime: 2029-10-20T05:30:00.000Z
+owner clock checks after reset: ["The phone's clock was set back"]
+markAttendance refused: This phone's clock is behind. Set the date and time to automatic, then try again.
+topUp refused: This phone's clock is behind. Set the date and time to automatic, then try again.
+closeDay refused: This phone's clock is behind. Set the date and time to automatic, then try again.
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mr3-clock[2m > [22m[2mB: one forward-dated save locks every guarded save at the real time; confirmClock does not clear it
+[22m[39mforward check-in saved; hold set: [33mfalse[39m
+after confirmClock, latestRecordTime: 2036-10-11T05:30:00.000Z
+startVisit at real time: refused: This phone's clock is behind. Set the date and time to automatic, then try again.
+topUp refused: This phone's clock is behind. Set the date and time to automatic, then try again.
+closeDay refused: This phone's clock is behind. Set the date and time to automatic, then try again.
+voidVisit(owner) refused: This phone's clock is behind. Set the date and time to automatic, then try again.
+readBackup refused: This backup can't be used: a date in attendance is in the future
+
+[90mstdout[2m | x.test.ts[2m > [22m[2mr3-clock[2m > [22m[2mC: undo window fix holds
+[22m[39mundo at paidAt-1min: [33mfalse[39m at +1min: [33mtrue[39m at +3min: [33mfalse[39m
+
+ [32m✓[39m x.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 14:36:44
+[2m   Duration [22m 717ms[2m (transform 397ms, setup 0ms, collect 467ms, tests 15ms, environment 0ms, prepare 63ms)[22m
+

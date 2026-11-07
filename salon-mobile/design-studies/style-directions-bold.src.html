@@ -1,0 +1,232 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Bold Style Directions</title>
+<style>
+__FONTS__
+  * { box-sizing: border-box; margin: 0; }
+  body { background: #0c0a09; font-family: Inter, sans-serif; padding: 24px; display: grid; gap: 24px; justify-content: center; }
+  .dir { width: 1360px; height: 820px; border-radius: 28px; overflow: hidden; display: grid; grid-template-columns: 420px 1fr; background: var(--page); color: var(--ink); position: relative; }
+  .info { padding: 48px 40px; display: flex; flex-direction: column; gap: 22px; border-right: 1px solid var(--line); }
+  .num { font: 700 13px/1 Inter; letter-spacing: .2em; color: var(--accent); text-transform: uppercase; }
+  .info h2 { font-family: var(--fh); font-weight: var(--fhw); font-size: 46px; line-height: 1.02; letter-spacing: var(--fhls, -.01em); }
+  .from { font-size: 14px; color: var(--muted); }
+  .from b { color: var(--ink); }
+  .mood { font-size: 16px; line-height: 1.5; color: var(--ink); opacity: .86; }
+  .sw { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: auto; }
+  .sw div { display: grid; gap: 6px; font: 600 10.5px/1.2 Inter; color: var(--muted); }
+  .sw i { height: 58px; border-radius: 10px; box-shadow: inset 0 0 0 1px rgba(127,127,127,.25); }
+  .sw b { color: var(--ink); font-size: 11px; }
+  .fonts { font-size: 13px; color: var(--muted); display: grid; gap: 4px; }
+  .fonts span { color: var(--ink); font-size: 20px; }
+  .stage { display: flex; align-items: center; justify-content: center; gap: 48px; background: var(--stage); }
+  /* phone */
+  .ph { width: 300px; height: 636px; border-radius: 42px; overflow: hidden; position: relative; background: var(--phbg); box-shadow: 0 0 0 8px var(--frame), 0 40px 70px -30px rgba(0,0,0,.6); font-family: var(--fb); color: var(--pink, var(--ink)); }
+  .scr { position: absolute; inset: 0; padding: 30px 18px 90px; display: flex; flex-direction: column; gap: 12px; }
+  .card { background: var(--card); border: var(--cborder); border-radius: var(--r); box-shadow: var(--cshadow); backdrop-filter: blur(14px); padding: 14px; }
+  .lbl { font: 700 9.5px/1 var(--fb); letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+  .search { height: 46px; border-radius: var(--rp); display: flex; align-items: center; padding: 0 6px 0 18px; font-size: 14px; color: var(--muted); background: var(--card); border: var(--cborder); box-shadow: var(--cshadow); }
+  .search i { margin-left: auto; width: 34px; height: 34px; border-radius: var(--rp); background: var(--accent); display: grid; place-items: center; color: var(--accentInk); font-style: normal; font-weight: 800; }
+  .ring { width: 168px; height: 168px; margin: 2px auto 0; position: relative; }
+  .ring svg { position: absolute; inset: 0; transform: rotate(-90deg); }
+  .ring .c { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; gap: 2px; }
+  .money { font-family: var(--fn); font-weight: var(--fnw); font-size: 30px; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .sm { font-size: 11.5px; color: var(--muted); }
+  .tbl { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; margin-top: 8px; }
+  .tbl div { border-left: 1px solid var(--line); display: grid; gap: 2px; }
+  .tbl div:first-child { border: 0; }
+  .tbl b { font-family: var(--fn); font-weight: var(--fnw); font-size: 22px; }
+  .tbl div:first-child b { color: var(--accent); }
+  .tbl span { font-size: 9.5px; color: var(--muted); }
+  .row { display: flex; align-items: center; gap: 10px; }
+  .grow { flex: 1; min-width: 0; }
+  .nm { font-size: 14px; font-weight: 600; }
+  .pay { background: var(--accent); color: var(--accentInk); border-radius: var(--rp); padding: 7px 11px; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
+  .dock { position: absolute; left: 12px; right: 12px; bottom: 14px; height: 56px; border-radius: var(--rd); background: var(--dock); border: var(--cborder); display: flex; align-items: center; justify-content: space-around; font-size: 9px; color: var(--muted); font-weight: 600; }
+  .dock span { display: grid; justify-items: center; gap: 3px; }
+  .dock span::before { content: ""; width: 16px; height: 16px; border-radius: 5px; border: 1.6px solid currentColor; }
+  .dock .on { color: var(--accent); }
+  .fab { width: 50px; height: 50px; margin-top: -30px; border-radius: var(--rp); background: var(--accent); color: var(--accentInk); display: grid; place-items: center; font-size: 26px; font-weight: 400; box-shadow: 0 8px 18px rgba(0,0,0,.3), 0 0 0 4px var(--phsolid); }
+  .ttl { font-family: var(--fh); font-weight: var(--fhw); font-size: 28px; line-height: 1.05; }
+  .live { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 800; letter-spacing: .1em; color: var(--live); border: 1px solid var(--live); padding: 4px 8px; border-radius: var(--rp); }
+  .live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--live); }
+  .chair { display: grid; grid-template-columns: 34px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--line); }
+  .chair:first-of-type { border-top: 0; }
+  .no { width: 34px; height: 34px; border-radius: var(--rp); display: grid; place-items: center; font-weight: 800; font-size: 13px; background: var(--accent); color: var(--accentInk); }
+  .no.free { background: transparent; border: 1.5px dashed var(--muted); color: var(--muted); }
+  .pb { height: 5px; border-radius: 4px; background: var(--line); margin-top: 6px; overflow: hidden; }
+  .pb i { display: block; height: 100%; background: var(--accent); }
+  .bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; height: 64px; align-items: end; margin-top: 10px; }
+  .bars i { display: block; background: var(--bar); border-radius: var(--rb); }
+  .bars i.t { background: var(--accent); }
+  .bars i.x { background: transparent; border: 1px dashed var(--line); height: 6px !important; }
+  .days { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; text-align: center; font-size: 9px; color: var(--muted); margin-top: 4px; }
+
+  .ph > .deco { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .ph > .scr, .ph > .dock { z-index: 2; }
+  .ph .dock { z-index: 3; }
+  /* 1 Liquid glass */
+  .lg .ph { background: #0b1020; }
+  .lg .deco i { position: absolute; border-radius: 50%; filter: blur(26px); opacity: .85; }
+  .lg .card, .lg .search, .lg .dock { backdrop-filter: blur(18px) saturate(190%); -webkit-backdrop-filter: blur(18px) saturate(190%); }
+  .lg .card { position: relative; }
+  .lg .card::after, .lg .search::after, .lg .dock::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(140deg, rgba(255,255,255,.55), rgba(255,255,255,0) 28%, rgba(255,255,255,0) 70%, rgba(255,255,255,.25)); mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); mask-composite: exclude; -webkit-mask-composite: xor; padding: 1.2px; }
+  .lg .search { position: relative; }
+  /* 2 Aurora */
+  .au .deco i { position: absolute; border-radius: 50%; filter: blur(38px); opacity: .9; }
+  .au .money, .au .ttl { background: linear-gradient(90deg,#7CF7FF,#C084FC,#FF7AC6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .au .pay, .au .fab, .au .no:not(.free), .au .search i { background: linear-gradient(120deg,#22D3EE,#A855F7 55%,#F472B6); }
+  .au .pb i, .au .bars i.t { background: linear-gradient(90deg,#22D3EE,#A855F7,#F472B6); }
+  /* 3 Clay */
+  .cl .card, .cl .search, .cl .dock { box-shadow: 14px 14px 28px rgba(124,58,237,.16), -10px -10px 22px rgba(255,255,255,.95), inset 4px 4px 8px rgba(255,255,255,.9), inset -4px -4px 10px rgba(124,58,237,.08); }
+  .cl .pay, .cl .fab, .cl .no:not(.free), .cl .search i { background: linear-gradient(160deg,#A78BFA,#7C3AED); box-shadow: 0 8px 16px rgba(124,58,237,.35), inset 2px 2px 4px rgba(255,255,255,.45), inset -3px -3px 6px rgba(60,20,140,.35); }
+  .cl .fab { box-shadow: 0 10px 20px rgba(124,58,237,.4), inset 3px 3px 6px rgba(255,255,255,.5), inset -4px -4px 8px rgba(60,20,140,.35), 0 0 0 5px #F4F1FA; }
+  .cl .tbl b:nth-child(1) { color: #DB2777; }
+  .cl .deco i { position: absolute; border-radius: 50%; box-shadow: inset 6px 6px 12px rgba(255,255,255,.7), inset -8px -8px 14px rgba(0,0,0,.12), 8px 12px 20px rgba(124,58,237,.18); }
+  /* 4 Neo brutalism */
+  .nb .card { transform: rotate(-.6deg); }
+  .nb .card + .card { transform: rotate(.7deg); }
+  .nb .pay, .nb .no:not(.free) { border: 2.5px solid #000; box-shadow: 3px 3px 0 #000; }
+  .nb .fab { border: 3px solid #000; box-shadow: 4px 4px 0 #000, 0 0 0 0 transparent; }
+  .nb .search i { border: 2.5px solid #000; }
+  .nb .live { background: #FFD93D; color: #000; border: 2.5px solid #000; transform: rotate(4deg); box-shadow: 3px 3px 0 #000; }
+  .nb .live::before { background: #FF6B6B; }
+  .nb .bars i { border: 2px solid #000; }
+  .nb .sticker { position: absolute; z-index: 4; font: 800 11px/1 "Space Grotesk"; background: #C4B5FD; border: 2.5px solid #000; padding: 6px 9px; border-radius: 999px; box-shadow: 3px 3px 0 #000; transform: rotate(-8deg); }
+  /* 5 Cyberpunk */
+  .cp .card, .cp .search, .cp .dock { clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px); }
+  .cp .card { border-color: #2A2A3A; box-shadow: none; background: linear-gradient(180deg, rgba(0,255,136,.06), #12121A 40%); }
+  .cp .money, .cp .ttl { text-shadow: 0 0 12px rgba(0,255,136,.7); }
+  .cp .tbl b { color: #00D4FF; text-shadow: 0 0 10px rgba(0,212,255,.6); }
+  .cp .tbl div:first-child b { color: #FF00FF; text-shadow: 0 0 10px rgba(255,0,255,.7); }
+  .cp .pay, .cp .fab, .cp .search i, .cp .no:not(.free) { box-shadow: 0 0 14px rgba(0,255,136,.7); }
+  .cp .deco { background: repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 3px); }
+  .cp .deco::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 160px; background: radial-gradient(60% 100% at 50% 0, rgba(255,0,255,.25), transparent); }
+  .cp .lbl { color: #00FF88; }
+  /* 6 Y2K chrome */
+  .y2 .card, .y2 .search, .y2 .dock { background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(235,240,255,.7)); }
+  .y2 .money, .y2 .ttl { background: linear-gradient(180deg,#ffffff 0%,#c9d2e6 35%,#6b7488 50%,#e6ecf7 62%,#8d97ad 100%); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-stroke: .4px #4a3d78; filter: drop-shadow(0 1px 0 rgba(74,61,120,.35)); }
+  .y2 .pay, .y2 .fab, .y2 .search i, .y2 .no:not(.free) { background: linear-gradient(180deg,#ffb3dc,#FF69B4 45%,#c2187a); color: #fff; box-shadow: inset 0 2px 0 rgba(255,255,255,.7), 0 6px 14px rgba(255,105,180,.45); }
+  .y2 .deco i { position: absolute; border-radius: 50%; }
+  .y2 .pb i, .y2 .bars i.t { background: linear-gradient(90deg,#00FFFF,#FF69B4,#9400D3); }
+  /* 7 Modern dark cinema */
+  .md .deco i { position: absolute; border-radius: 50%; filter: blur(40px); }
+  .md .card { background: rgba(255,255,255,.04); }
+  .md .pay, .md .fab, .md .search i, .md .no:not(.free) { box-shadow: 0 0 0 1px rgba(255,255,255,.12) inset, 0 8px 24px rgba(94,106,210,.45); }
+  /* 8 Kinetic acid */
+  .ka .ttl, .ka .money { text-transform: uppercase; letter-spacing: -.02em; }
+  .ka .marquee { position: absolute; z-index: 1; left: -20px; right: -20px; white-space: nowrap; font: 800 34px/1 "Space Grotesk"; color: #DFE104; text-transform: uppercase; opacity: .9; }
+  .ka .card { border-color: #3F3F46; }
+  .ka .chair:first-of-type, .ka .flood { background: #DFE104; color: #000; margin: 0 -14px; padding-inline: 14px; }
+  .ka .chair:first-of-type .sm { color: #27272A; } .ka .chair:first-of-type .no { background: #000; color: #DFE104; } .ka .chair:first-of-type .pb i { background: #000; } .ka .chair:first-of-type .pb { background: rgba(0,0,0,.2); }
+</style>
+<body>
+<div id="out"></div>
+<script>
+const D = [
+ { cls: "lg", n: "01", name: "Liquid Glass", from: "<b>ui-ux-pro-max</b> · Liquid Glass (iOS 26 style)", mood: "Clear optical glass floating over a vivid colour backdrop. Edges catch light like real glass, everything behind shows through softly blurred.",
+   fh: "Urbanist", fhw: 600, fb: "Urbanist", fn: "Urbanist", fnw: 700,
+   page: "#0b1020", stage: "radial-gradient(70% 80% at 70% 30%, #1d2a5a, #070a14)", ink: "#FFFFFF", muted: "rgba(255,255,255,.7)", line: "rgba(255,255,255,.22)",
+   phbg: "#0b1020", phsolid: "#141a33", frame: "#1b2240",
+   card: "rgba(255,255,255,.14)", cborder: "1px solid rgba(255,255,255,.18)", cshadow: "0 10px 30px rgba(0,0,0,.25)",
+   accent: "#FFFFFF", accentInk: "#0b1020", accent2: "#7DD3FC", live: "#FF8FA3", dock: "rgba(255,255,255,.14)", bar: "rgba(255,255,255,.4)",
+   r: "26px", rp: "999px", rd: "30px", rb: "8px",
+   deco: '<i style="width:260px;height:260px;left:-80px;top:-40px;background:#FF5F8F"></i><i style="width:240px;height:240px;right:-90px;top:170px;background:#3B82F6"></i><i style="width:220px;height:220px;left:-40px;bottom:-40px;background:#F59E0B"></i><i style="width:160px;height:160px;right:-30px;bottom:120px;background:#22C55E"></i>',
+   sw: [["#0B1020","Night"],["rgba(255,255,255,.18)","Glass"],["#FF5F8F","Coral"],["#3B82F6","Blue"],["#F59E0B","Amber"]] },
+ { cls: "au", n: "02", name: "Aurora Mesh", from: "<b>ui-ux-pro-max</b> · Gradient Mesh / Aurora Evolved", mood: "Northern-lights colour clouds glowing behind dark glass. Numbers and buttons shimmer cyan → violet → pink.",
+   fh: "Unbounded", fhw: 500, fb: "DM Sans", fn: "Unbounded", fnw: 800,
+   page: "#07051a", stage: "radial-gradient(60% 70% at 25% 30%, rgba(34,211,238,.25), transparent), radial-gradient(60% 70% at 80% 70%, rgba(168,85,247,.35), transparent), #07051a", ink: "#F5F3FF", muted: "rgba(245,243,255,.62)", line: "rgba(245,243,255,.14)",
+   phbg: "#0a0620", phsolid: "#0f0a2a", frame: "#17113a",
+   card: "rgba(15,10,42,.55)", cborder: "1px solid rgba(255,255,255,.12)", cshadow: "0 20px 40px -20px rgba(0,0,0,.6)",
+   accent: "#C084FC", accentInk: "#fff", accent2: "#22D3EE", live: "#F472B6", dock: "rgba(15,10,42,.7)", bar: "rgba(245,243,255,.25)",
+   r: "22px", rp: "999px", rd: "28px", rb: "6px",
+   deco: '<i style="width:300px;height:220px;left:-90px;top:-60px;background:#22D3EE"></i><i style="width:280px;height:260px;right:-120px;top:120px;background:#A855F7"></i><i style="width:240px;height:200px;left:-60px;top:330px;background:#F472B6"></i><i style="width:200px;height:200px;right:-60px;bottom:-40px;background:#2563EB"></i>',
+   sw: [["#22D3EE","Cyan"],["#A855F7","Violet"],["#F472B6","Pink"],["#2563EB","Blue"],["#07051A","Space"]] },
+ { cls: "cl", n: "03", name: "Clay 3D", from: "<b>ui-ux-pro-max</b> · Claymorphism (Mobile)", mood: "Soft, chunky, toy-like 3D. Puffy cards and candy buttons that look squeezable, with floating clay shapes.",
+   fh: "Nunito", fhw: 900, fb: "DM Sans", fn: "Nunito", fnw: 900,
+   page: "#EFE9FA", stage: "linear-gradient(160deg,#F4F1FA,#E6DDF8)", ink: "#332F3A", muted: "#635F69", line: "#E4DCF3",
+   phbg: "#F4F1FA", phsolid: "#F4F1FA", frame: "#E2D8F5",
+   card: "rgba(255,255,255,.75)", cborder: "0", cshadow: "none",
+   accent: "#7C3AED", accentInk: "#fff", accent2: "#F59E0B", live: "#DB2777", dock: "#FBF9FF", bar: "#D9CCF5",
+   r: "32px", rp: "20px", rd: "30px", rb: "10px",
+   deco: '<i style="width:70px;height:70px;right:-14px;top:250px;background:linear-gradient(160deg,#F9A8D4,#DB2777)"></i><i style="width:44px;height:44px;left:-12px;top:420px;background:linear-gradient(160deg,#6EE7B7,#10B981)"></i><i style="width:30px;height:30px;right:30px;top:20px;background:linear-gradient(160deg,#FCD34D,#F59E0B)"></i>',
+   sw: [["#F4F1FA","Canvas"],["#7C3AED","Violet"],["#DB2777","Hot pink"],["#10B981","Emerald"],["#F59E0B","Amber"]] },
+ { cls: "nb", n: "04", name: "Neo Brutalism Pop", from: "<b>ui-ux-pro-max</b> · Neo Brutalism (Mobile)", mood: "Pop-art stickers on cream paper. Thick black outlines, hard shadows, tilted cards and loud red and yellow.",
+   fh: "Space Grotesk", fhw: 700, fhls: "-.03em", fb: "Space Grotesk", fn: "Space Grotesk", fnw: 700,
+   page: "#FFFDF5", stage: "#FFD93D", ink: "#000", muted: "#3b3b3b", line: "#000",
+   phbg: "#FFFDF5", phsolid: "#FFFDF5", frame: "#000",
+   card: "#fff", cborder: "3px solid #000", cshadow: "6px 6px 0 #000",
+   accent: "#FF6B6B", accentInk: "#000", accent2: "#FFD93D", live: "#000", dock: "#fff", bar: "#C4B5FD",
+   r: "14px", rp: "999px", rd: "16px", rb: "0px",
+   deco: '<span class="sticker" style="right:14px;top:220px">NEW ✦</span>',
+   sw: [["#FFFDF5","Cream"],["#000000","Ink"],["#FF6B6B","Hot red"],["#FFD93D","Yellow"],["#C4B5FD","Violet"]] },
+ { cls: "cp", n: "05", name: "Cyberpunk HUD", from: "<b>ui-ux-pro-max</b> · Cyberpunk Mobile HUD", mood: "A sci-fi control panel. Neon green, magenta and cyan glowing in the dark, cut corners and faint CRT scanlines.",
+   fh: "Orbitron", fhw: 800, fb: "JetBrains Mono", fn: "Orbitron", fnw: 800,
+   page: "#0A0A0F", stage: "radial-gradient(60% 60% at 70% 30%, rgba(255,0,255,.18), transparent), radial-gradient(50% 60% at 20% 80%, rgba(0,255,136,.12), transparent), #0A0A0F", ink: "#E0E0E0", muted: "#8b8ba3", line: "#2A2A3A",
+   phbg: "#0A0A0F", phsolid: "#0A0A0F", frame: "#1c1c2e",
+   card: "#12121A", cborder: "1px solid #2A2A3A", cshadow: "none",
+   accent: "#00FF88", accentInk: "#0A0A0F", accent2: "#FF00FF", live: "#FF3366", dock: "#12121A", bar: "#2f3a4a",
+   r: "0px", rp: "0px", rd: "0px", rb: "0px",
+   deco: '',
+   sw: [["#0A0A0F","Void"],["#00FF88","Neon green"],["#FF00FF","Magenta"],["#00D4FF","Cyber cyan"],["#FF3366","Alert"]] },
+ { cls: "y2", n: "06", name: "Y2K Chrome", from: "<b>ui-ux-pro-max</b> · Y2K Aesthetic", mood: "Early-2000s gloss: liquid chrome headings, bubblegum-pink glossy buttons, iridescent bubbles and holographic gradients.",
+   fh: "Unbounded", fhw: 800, fb: "DM Sans", fn: "Unbounded", fnw: 800,
+   page: "#E9E4FF", stage: "linear-gradient(135deg,#c7f9ff,#f3d1ff 45%,#ffd6ec)", ink: "#2b2150", muted: "#6e6596", line: "#d9d2f5",
+   phbg: "linear-gradient(160deg,#dff9ff,#f3e2ff 50%,#ffe0f1)", phsolid: "#f3e2ff", frame: "#c0c0c0",
+   card: "#fff", cborder: "1.5px solid #fff", cshadow: "0 10px 26px -12px rgba(148,0,211,.35), inset 0 -3px 0 rgba(148,0,211,.08)",
+   accent: "#FF69B4", accentInk: "#fff", accent2: "#00E5FF", live: "#9400D3", dock: "#fff", bar: "#c9c2ef",
+   r: "26px", rp: "999px", rd: "30px", rb: "999px",
+   deco: '<i style="width:80px;height:80px;right:-20px;top:230px;background:radial-gradient(circle at 30% 30%,#fff,rgba(0,255,255,.35) 40%,rgba(255,105,180,.35) 70%,rgba(148,0,211,.35));box-shadow:inset 0 0 12px rgba(255,255,255,.8)"></i><i style="width:46px;height:46px;left:-10px;top:440px;background:radial-gradient(circle at 30% 30%,#fff,rgba(255,105,180,.4) 50%,rgba(0,255,255,.35))"></i>',
+   sw: [["#FF69B4","Hot pink"],["#00FFFF","Cyan"],["#C0C0C0","Chrome"],["#9400D3","Purple"],["#F3E2FF","Lilac"]] },
+ { cls: "md", n: "07", name: "Midnight Cinema", from: "<b>ui-ux-pro-max</b> · Modern Dark (Cinema Mobile)", mood: "Near-black like a film screen, with slow indigo light glowing behind. Quiet, expensive, very modern tech.",
+   fh: "Instrument Serif", fhw: 400, fb: "Inter", fn: "Inter", fnw: 600,
+   page: "#050506", stage: "radial-gradient(50% 60% at 60% 40%, rgba(94,106,210,.28), transparent), #020203", ink: "#EDEDEF", muted: "#8A8F98", line: "rgba(255,255,255,.08)",
+   phbg: "#050506", phsolid: "#0a0a0c", frame: "#141418",
+   card: "rgba(255,255,255,.04)", cborder: "1px solid rgba(255,255,255,.08)", cshadow: "0 30px 60px -30px rgba(0,0,0,.8)",
+   accent: "#5E6AD2", accentInk: "#fff", accent2: "#EDEDEF", live: "#F87171", dock: "rgba(10,10,12,.85)", bar: "rgba(237,237,239,.18)",
+   r: "16px", rp: "999px", rd: "22px", rb: "4px",
+   deco: '<i style="width:260px;height:200px;left:-60px;top:80px;background:rgba(94,106,210,.45)"></i><i style="width:200px;height:200px;right:-80px;top:380px;background:rgba(147,51,234,.25)"></i>',
+   sw: [["#020203","Deep"],["#0A0A0C","Elevated"],["#5E6AD2","Indigo"],["#EDEDEF","Fore"],["#8A8F98","Muted"]] },
+ { cls: "ka", n: "08", name: "Acid Kinetic", from: "<b>ui-ux-pro-max</b> · Kinetic Brutalism (Mobile)", mood: "Black with electric acid yellow, giant uppercase type and a scrolling marquee. The busy row floods yellow. Aggressive and unforgettable.",
+   fh: "Space Grotesk", fhw: 700, fhls: "-.04em", fb: "Space Grotesk", fn: "Space Grotesk", fnw: 700,
+   page: "#09090B", stage: "#09090B", ink: "#FAFAFA", muted: "#A1A1AA", line: "#3F3F46",
+   phbg: "#09090B", phsolid: "#09090B", frame: "#27272A",
+   card: "#09090B", cborder: "2px solid #3F3F46", cshadow: "none",
+   accent: "#DFE104", accentInk: "#000", accent2: "#FAFAFA", live: "#DFE104", dock: "#09090B", bar: "#3F3F46",
+   r: "0px", rp: "0px", rd: "0px", rb: "0px",
+   deco: '<div class="marquee" style="bottom:86px">TODAY ₹7,100 ✦ 10 VISITS ✦ TODAY ₹7,100 ✦</div>',
+   sw: [["#09090B","Black"],["#DFE104","Acid yellow"],["#FAFAFA","Off-white"],["#27272A","Dark grey"],["#A1A1AA","Zinc"]] },
+];
+const C = 2 * Math.PI * 70;
+function ring(d) {
+  const a = 450 / 1050 * C, b = 600 / 1050 * C;
+  return `<svg viewBox="0 0 168 168"><circle cx="84" cy="84" r="70" fill="none" stroke="${d.line}" stroke-width="12"/>
+  <circle cx="84" cy="84" r="70" fill="none" stroke="${d.accent2}" stroke-width="12" stroke-dasharray="${a - 4} ${C}"/>
+  <circle cx="84" cy="84" r="70" fill="none" stroke="${d.accent}" stroke-width="12" stroke-dasharray="${b - 4} ${C}" stroke-dashoffset="${-a}"/></svg>`;
+}
+const staff = (d) => `<div class="ph"><div class="deco">${d.deco||""}</div><div class="scr">
+  <div class="search">Customer's mobile number <i>›</i></div>
+  <div class="ring">${ring(d)}<div class="c"><div class="lbl">My earnings</div><div class="money">₹1,050</div><div class="sm">Today · Imran</div></div></div>
+  <div class="sm" style="text-align:center">Cash ₹450 · Wallet ₹600 · Month ₹18,950</div>
+  <div class="card"><div class="lbl">My customers today</div><div class="tbl"><div><b>3</b><span>Handled</span></div><div><b>2</b><span>Paid</span></div><div><b>1</b><span>In chair</span></div><div><b>0</b><span>New</span></div></div></div>
+  <div class="card"><div class="lbl" style="margin-bottom:10px">My chair · Chair 1</div><div class="row"><div class="grow"><div class="nm">Karan Mehta</div><div class="sm">since 11:28 · Haircut + Beard</div></div><span class="pay">Pay ₹450</span></div></div>
+  </div><div class="dock"><span class="on">Home</span><span>Customers</span><div class="fab">+</div><span>Reminders</span><span>Refer</span></div></div>`;
+const owner = (d) => `<div class="ph"><div class="deco">${d.cls==="lg"||d.cls==="au"||d.cls==="md"||d.cls==="cp"?d.deco:""}</div><div class="scr">
+  <div class="row"><div class="grow"><div class="sm">Owner · from anywhere</div><div class="ttl">Live floor</div></div><span class="live">LIVE</span></div>
+  <div class="card" style="padding-block:6px 10px">
+   <div class="chair"><span class="no">1</span><div><div class="nm">Karan Mehta</div><div class="sm">Haircut + Beard · Imran</div><div class="pb"><i style="width:62%"></i></div></div><div class="sm" style="text-align:right"><b style="color:${d.ink}">₹450</b><br>11 min</div></div>
+   <div class="chair"><span class="no">2</span><div><div class="nm">Priya Patel</div><div class="sm">Facial · Sunita</div><div class="pb"><i style="width:30%"></i></div></div><div class="sm" style="text-align:right"><b style="color:${d.ink}">₹900</b><br>31 min</div></div>
+   <div class="chair"><span class="no free">3</span><div><div class="nm">Free</div><div class="sm">Rakesh · ready</div></div><div class="sm">1 waiting</div></div>
+  </div>
+  <div class="card"><div class="row"><div class="grow"><div class="lbl">Today</div><div class="money" style="font-size:34px">₹7,100</div></div><div class="sm" style="text-align:right">10 visits<br>▲ 12% vs last Wed</div></div>
+   <div class="bars">${[62,70,90,100,56,0,30].map((v,i)=>`<i class="${i==6?'t':v==0?'x':''}" style="height:${v}%"></i>`).join("")}</div>
+   <div class="days"><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span><span>Mo</span><span>Tu</span><span>We</span></div></div>
+  </div><div class="dock"><span class="on">Live</span><span>Earnings</span><span>Attend.</span><span>Staff</span><span>Visits</span></div></div>`;
+document.getElementById("out").innerHTML = D.map((d) => {
+  const vars = Object.entries({ page: d.page, stage: d.stage, ink: d.ink, muted: d.muted, line: d.line, phbg: d.phbg, phsolid: d.phsolid, frame: d.frame, card: d.card, cborder: d.cborder, cshadow: d.cshadow, accent: d.accent, accentInk: d.accentInk, live: d.live, dock: d.dock, bar: d.bar, r: d.r, rp: d.rp, rd: d.rd, rb: d.rb, fh: `"${d.fh}"`, fhw: d.fhw, fb: `"${d.fb}"`, fn: `"${d.fn}"`, fnw: d.fnw, fhls: d.fhls || "-.01em" }).map(([k, v]) => `--${k}:${v}`).join(";");
+  return `<section class="dir ${d.cls}" style='${vars}'>
+   <div class="info"><div class="num">Direction ${d.n}</div><h2>${d.name}</h2><div class="from">From ${d.from}</div><p class="mood">${d.mood}</p>
+   <div class="fonts">Fonts<span style="font-family:'${d.fh}';font-weight:${d.fhw}">${d.fh}</span><span style="font-family:'${d.fb}'">${d.fb} for text</span></div>
+   <div class="sw">${d.sw.map(([h, n]) => `<div><i style="background:${h}"></i><b>${n}</b>${h}</div>`).join("")}</div></div>
+   <div class="stage">${staff(d)}${owner(d)}</div></section>`;
+}).join("");
+</script>

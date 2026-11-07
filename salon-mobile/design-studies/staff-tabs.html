@@ -1,0 +1,299 @@
+<title>Staff App Tabs</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&display=swap">
+<style>
+
+/* Layout: three phones — customer list (search, filters), a customer's profile, and a bill with Cancel bill. Brown glass, single dark look by design. */
+:root{
+  --glow:#8E5B4E; --mid:#4A3029; --deep:#1A1210; --page:#140d0b;
+  --gold:#E4A67B; --gold2:#F5C9A0; --cream:#FFF8F1; --soft:rgba(255,248,241,.72); --faint:rgba(255,248,241,.42);
+  --glass:rgba(255,244,236,.11); --glass2:rgba(255,244,236,.18); --line:rgba(255,244,236,.22);
+  --ok:#9CCB8F; --warn:#F0A86A; --red:#F08C6A; --blue:#9FB8E6; --ink:#2a1a12;
+  --font:Urbanist,"Avenir Next","Segoe UI",system-ui,sans-serif; color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--page);color:var(--cream);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1320px;margin:0 auto}
+h1{font-size:28px;font-weight:700;text-wrap:balance}
+.lead{color:var(--soft);font-size:15px;line-height:1.55;max-width:74ch;margin-top:8px}
+.trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,300px));gap:28px;margin-top:26px;justify-content:start}
+figcaption{margin-top:12px}
+figcaption b{display:block;font-size:16px}
+figcaption span{display:block;color:var(--soft);font-size:13.5px;line-height:1.5;margin-top:4px}
+.phone{position:relative;width:100%;aspect-ratio:390/820;border-radius:40px;overflow:hidden;
+  background:radial-gradient(120% 70% at 12% 0%,var(--glow) 0%,var(--mid) 46%,var(--deep) 100%);
+  box-shadow:0 30px 70px rgba(0,0,0,.55),0 0 0 1px rgba(255,244,236,.08);container-type:inline-size}
+.scr{position:absolute;inset:0;padding:6cqw 4.6cqw 24cqw;display:flex;flex-direction:column;gap:3cqw;overflow-y:auto;scrollbar-width:none}
+.scr::-webkit-scrollbar{display:none}
+.who{font-size:3.2cqw;color:var(--soft)}
+.ttl{font-size:6.6cqw;font-weight:700;letter-spacing:-.01em}
+.lbl{font-size:2.8cqw;letter-spacing:.12em;text-transform:uppercase;color:var(--soft);font-weight:600}
+.sm{font-size:3cqw;color:var(--soft)}
+.num{font-variant-numeric:tabular-nums}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:5cqw;padding:3.4cqw 3.8cqw}
+.search{display:flex;align-items:center;gap:2.4cqw;padding:3cqw 3.6cqw;border-radius:999px;background:rgba(26,18,16,.5);border:1px solid var(--line);font-size:3.5cqw;color:var(--faint)}
+.search svg{width:4.6cqw;height:4.6cqw;stroke:var(--soft);fill:none;stroke-width:2}
+.filters{display:flex;gap:1.8cqw;overflow-x:auto;scrollbar-width:none}
+.filters span{white-space:nowrap;font-size:3cqw;font-weight:600;padding:1.6cqw 3cqw;border-radius:999px;background:var(--glass);border:1px solid var(--line);color:var(--soft)}
+.filters span.on{background:var(--gold);color:var(--ink);border-color:transparent}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.kpi{background:var(--glass);border:1px solid var(--line);border-radius:4cqw;padding:2.6cqw;display:grid;gap:.6cqw}
+.kpi b{font-size:5cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.kpi span{font-size:2.6cqw;color:var(--soft)}
+.list{background:var(--glass);border:1px solid var(--line);border-radius:5cqw;overflow:hidden}
+.cust{display:grid;grid-template-columns:10cqw 1fr auto;gap:3cqw;align-items:center;padding:3cqw 3.6cqw;border-top:1px solid rgba(255,244,236,.08)}
+.cust:first-child{border-top:0}
+.av{width:10cqw;height:10cqw;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:3.3cqw;color:var(--ink)}
+.cust .nm{font-size:3.8cqw;font-weight:700;display:flex;align-items:center;gap:1.6cqw}
+.cust .sub{font-size:2.9cqw;color:var(--soft);margin-top:.5cqw}
+.cust .r{text-align:right}
+.cust .r b{font-size:3.6cqw;font-variant-numeric:tabular-nums}
+.tag{font-size:2.4cqw;font-weight:700;padding:.5cqw 1.6cqw;border-radius:999px;letter-spacing:.03em}
+.tag.reg{background:rgba(228,166,123,.2);color:var(--gold2)}
+.tag.lapse{background:rgba(240,168,106,.16);color:var(--warn)}
+.tag.new{background:rgba(156,203,143,.16);color:var(--ok)}
+.wal{font-size:2.8cqw;color:var(--gold2);margin-top:.4cqw}
+/* profile */
+.back{font:600 3.4cqw var(--font);color:var(--soft);background:none;border:0;text-align:left;padding:0}
+.phead{display:flex;gap:3.6cqw;align-items:center}
+.phead .av{width:16cqw;height:16cqw;font-size:5cqw}
+.phead .nm{font-size:6cqw;font-weight:800}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.actions span{display:flex;flex-direction:column;align-items:center;gap:1cqw;padding:2.6cqw 0;border-radius:4cqw;background:var(--glass);border:1px solid var(--line);font-size:2.8cqw;font-weight:600}
+.actions svg{width:5.4cqw;height:5.4cqw;stroke:var(--gold2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.walcard{display:flex;justify-content:space-between;align-items:center;padding:3.6cqw 4cqw;border-radius:5cqw;background:linear-gradient(135deg,rgba(228,166,123,.34),rgba(228,166,123,.08));border:1px solid rgba(228,166,123,.5)}
+.walcard b{font-size:7cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.btn{font:700 3.1cqw var(--font);padding:2cqw 3.4cqw;border-radius:999px;background:var(--gold);color:var(--ink);border:0}
+.visit{display:grid;grid-template-columns:13cqw 1fr auto;gap:2.6cqw;align-items:center;padding:2.6cqw 0;border-top:1px solid rgba(255,244,236,.08);font-size:3.2cqw}
+.visit:first-of-type{border-top:0}
+.visit .d{color:var(--soft);font-size:2.9cqw;line-height:1.3}
+.visit .s{font-weight:600}
+.visit .x{font-size:2.8cqw;color:var(--soft);margin-top:.3cqw}
+.visit .a{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.visit .a small{display:block;font-size:2.5cqw;color:var(--soft);font-weight:600;letter-spacing:.05em}
+.void{color:var(--faint);text-decoration:line-through}
+.row2{display:flex;justify-content:space-between;align-items:center;padding:2.4cqw 0;border-top:1px solid rgba(255,244,236,.08);font-size:3.3cqw}
+.row2:first-of-type{border-top:0}
+.tog{width:10cqw;height:5.6cqw;border-radius:999px;background:var(--ok);position:relative}
+.tog::after{content:"";position:absolute;right:.7cqw;top:.7cqw;width:4.2cqw;height:4.2cqw;border-radius:50%;background:#fff}
+.dangerlink{color:var(--red);font-weight:700}
+/* bill */
+.bill{background:#f6efe6;color:#2a1a12;border-radius:5cqw;padding:4cqw;display:grid;gap:1.6cqw;position:relative}
+.bill .h{display:flex;justify-content:space-between;font-size:3cqw;color:#6b5448}
+.bill .it{display:flex;justify-content:space-between;font-size:3.4cqw}
+.bill .tot{display:flex;justify-content:space-between;font-size:4.2cqw;font-weight:800;border-top:1px dashed #b9a596;padding-top:2cqw;margin-top:1cqw}
+.bill .pay{font-size:2.9cqw;color:#6b5448}
+.sheet{position:absolute;left:0;right:0;bottom:0;top:38%;z-index:7;border-radius:7cqw 7cqw 0 0;background:linear-gradient(180deg,#5a3b32,#2b1c17);border-top:1px solid var(--line);padding:3cqw 5cqw 6cqw;display:flex;flex-direction:column;gap:2.6cqw}
+.dim{position:absolute;inset:0;background:rgba(10,6,5,.5);z-index:6}
+.grab{width:12cqw;height:1.2cqw;border-radius:999px;background:rgba(255,244,236,.35);margin:0 auto}
+.reasons{display:flex;flex-wrap:wrap;gap:1.8cqw}
+.reasons span{font-size:3cqw;padding:1.8cqw 3cqw;border-radius:999px;background:rgba(26,18,16,.45);border:1px solid var(--line)}
+.reasons span.on{background:var(--gold);color:var(--ink);font-weight:700;border-color:transparent}
+.eff{display:grid;gap:1.4cqw;font-size:3cqw;color:var(--soft)}
+.eff div{display:flex;gap:2cqw;align-items:flex-start}
+.eff i{font-style:normal;color:var(--gold2)}
+.cancel{margin-top:auto;padding:3.4cqw;border-radius:999px;background:var(--red);color:#2a1210;font-weight:800;font-size:3.8cqw;text-align:center}
+.sort{font-size:3cqw;font-weight:600;color:var(--gold2);padding:1.2cqw 2.6cqw;border-radius:999px;border:1px solid rgba(228,166,123,.45)}
+.seg{display:grid;grid-template-columns:1fr 1fr;padding:1cqw;border-radius:999px;background:rgba(26,18,16,.5);border:1px solid var(--line)}
+.seg span{text-align:center;font-size:3.3cqw;font-weight:600;padding:1.8cqw 0;border-radius:999px;color:var(--soft)}
+.seg span.on{background:var(--gold);color:var(--ink)}
+.pchips{display:flex;gap:1.6cqw}
+.pchips span{font-size:2.9cqw;padding:1.3cqw 2.6cqw;border-radius:999px;background:var(--glass);border:1px solid var(--line);color:var(--soft)}
+.pchips span.on{color:var(--cream);border-color:rgba(228,166,123,.7);background:rgba(228,166,123,.18)}
+.share{padding:3.4cqw 3.8cqw;border-radius:5cqw;background:linear-gradient(135deg,rgba(228,166,123,.3),rgba(228,166,123,.08));border:1px solid rgba(228,166,123,.5);display:grid;gap:1.6cqw}
+.share b{font-size:6cqw;font-weight:800;font-variant-numeric:tabular-nums}
+.sbar{height:2cqw;border-radius:999px;background:rgba(255,244,236,.12);overflow:hidden}.sbar i{display:block;height:100%;width:34%;background:var(--gold);border-radius:inherit}
+.rank{display:grid;grid-template-columns:7cqw 9cqw 1fr auto;gap:2.4cqw;align-items:center;padding:2.5cqw 3.4cqw;border-top:1px solid rgba(255,244,236,.08)}
+.rank:first-child{border-top:0}
+.rank .n{font-size:3.6cqw;font-weight:800;color:var(--soft);text-align:center;font-variant-numeric:tabular-nums}
+.rank .n.m1{color:#F5C9A0}.rank .n.m2{color:#E8E2DA}.rank .n.m3{color:#C9946E}
+.rank .av{width:9cqw;height:9cqw;font-size:3cqw}
+.rank .nm{font-size:3.6cqw;font-weight:700}
+.rank .sub{font-size:2.8cqw;color:var(--soft);margin-top:.3cqw}
+.rank .amt{text-align:right;font-weight:800;font-size:3.6cqw;font-variant-numeric:tabular-nums}
+.rank .bar{height:1cqw;border-radius:999px;background:rgba(255,244,236,.08);margin-top:.9cqw;overflow:hidden}.rank .bar i{display:block;height:100%;background:var(--gold);border-radius:inherit}
+.dock{position:absolute;left:3.5cqw;right:3.5cqw;bottom:3.5cqw;display:grid;grid-template-columns:repeat(4,1fr);padding:2cqw;border-radius:6cqw;background:rgba(38,22,17,.7);border:1px solid var(--line);z-index:5}
+.dock span{display:flex;flex-direction:column;align-items:center;gap:.8cqw;font-size:2.8cqw;color:var(--soft);padding:1.6cqw 0;border-radius:4cqw}
+.dock span.on{background:var(--gold);color:var(--ink);font-weight:700}
+.dock svg{width:5.2cqw;height:5.2cqw;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* staff extras */
+.trio{grid-template-columns:repeat(auto-fit,minmax(260px,300px))!important}
+.wrap{max-width:1320px!important}
+.dock5{position:absolute;left:3.5cqw;right:3.5cqw;bottom:3.5cqw;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;padding:2cqw;border-radius:6cqw;background:rgba(38,22,17,.72);border:1px solid var(--line);z-index:5}
+.dock5 span{display:flex;flex-direction:column;align-items:center;gap:.8cqw;font-size:2.7cqw;color:var(--soft);padding:1.6cqw 0;border-radius:4cqw}
+.dock5 span.on{background:var(--gold);color:var(--ink);font-weight:700}
+.dock5 svg{width:5.2cqw;height:5.2cqw;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.dock5 .plus{width:13cqw;height:13cqw;margin:-7cqw auto 0;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;padding:0;box-shadow:0 8px 20px rgba(0,0,0,.45),0 0 0 3cqw rgba(38,22,17,.72)}
+.dock5 .plus svg{width:6.4cqw;height:6.4cqw;stroke-width:2.6}
+.badge{position:relative}
+.badge i{position:absolute;top:-1.2cqw;right:-2.6cqw;font-style:normal;font-size:2.3cqw;font-weight:800;background:var(--red);color:#2a1210;border-radius:999px;padding:.2cqw 1.2cqw}
+.remind{display:flex;justify-content:space-between;align-items:center;padding:3cqw 3.6cqw;border-radius:5cqw;background:linear-gradient(135deg,rgba(228,166,123,.3),rgba(228,166,123,.08));border:1px solid rgba(228,166,123,.5)}
+.remind b{font-size:4cqw}
+.rrow{display:grid;grid-template-columns:10cqw 1fr auto;gap:3cqw;align-items:center;padding:3cqw 3.6cqw;border-top:1px solid rgba(255,244,236,.08)}
+.rrow:first-child{border-top:0}
+.rrow .nm{font-size:3.7cqw;font-weight:700}
+.rrow .sub{font-size:2.9cqw;color:var(--soft);margin-top:.4cqw}
+.send{font:700 3cqw var(--font);padding:1.8cqw 3.2cqw;border-radius:999px;background:var(--gold);color:var(--ink)}
+.sent{font-size:2.9cqw;color:var(--ok);font-weight:700}
+.msg{padding:3cqw 3.4cqw;border-radius:4cqw;background:rgba(26,18,16,.45);border:1px solid var(--line);font-size:3cqw;line-height:1.45;color:var(--soft)}
+.ownonly{font-size:2.8cqw;color:var(--faint);text-align:center}
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:1.2cqw;text-align:center}
+.cal .h{font-size:2.6cqw;color:var(--faint);font-weight:700}
+.cal .d{position:relative;padding:2.2cqw 0;border-radius:3cqw;font-size:3.3cqw;font-variant-numeric:tabular-nums}
+.cal .d.x{color:var(--faint);opacity:.45}
+.cal .d.t{box-shadow:inset 0 0 0 1.5px var(--gold2)}
+.cal .d.s{background:var(--gold);color:var(--ink);font-weight:800}
+.cal .d i{position:absolute;top:.3cqw;right:.6cqw;font-style:normal;font-size:2.2cqw;font-weight:800;color:var(--gold2)}
+.cal .d.s i{color:var(--ink)}
+.bk{display:grid;grid-template-columns:12cqw 1fr auto;gap:2.6cqw;align-items:center;padding:2.8cqw 0;border-top:1px solid rgba(255,244,236,.08);font-size:3.3cqw}
+.bk:first-of-type{border-top:0}
+.bk .t{font-weight:800;font-variant-numeric:tabular-nums}
+.st{font-size:2.6cqw;font-weight:700;padding:.8cqw 2cqw;border-radius:999px}
+.st.b{background:rgba(255,244,236,.12);color:var(--soft)}.st.a{background:rgba(156,203,143,.16);color:var(--ok)}.st.n{background:rgba(240,140,106,.16);color:var(--red)}
+/* profile */
+.me{display:grid;grid-template-columns:30cqw 1fr;gap:4cqw;align-items:end}
+.me .pic{border-radius:5cqw;overflow:hidden;aspect-ratio:4/4.6;border:1px solid var(--line)}
+.me .pic svg{width:100%;height:100%;display:block}
+.me .nm{font-size:6.2cqw;font-weight:800;line-height:1.1}
+.mini{display:grid;grid-template-columns:repeat(7,1fr);gap:1cqw}
+.mini span{aspect-ratio:1;border-radius:1.6cqw;display:grid;place-items:center;font-size:2.4cqw;color:var(--ink);font-weight:700}
+.legend{display:flex;gap:3cqw;font-size:2.7cqw;color:var(--soft);flex-wrap:wrap}
+.legend i{display:inline-block;width:2.2cqw;height:2.2cqw;border-radius:.6cqw;margin-right:1cqw;vertical-align:middle}
+.stats4{display:grid;grid-template-columns:repeat(4,1fr);gap:2cqw}
+.stats4 div{background:var(--glass);border:1px solid var(--line);border-radius:4cqw;padding:2.4cqw;text-align:center}
+.stats4 b{display:block;font-size:4.6cqw;font-weight:800}
+.stats4 span{font-size:2.6cqw;color:var(--soft)}
+.opts{background:var(--glass);border:1px solid var(--line);border-radius:5cqw;overflow:hidden}
+.opt{display:grid;grid-template-columns:9cqw 1fr auto;gap:3cqw;align-items:center;padding:3cqw 3.6cqw;border-top:1px solid rgba(255,244,236,.08)}
+.opt:first-child{border-top:0}
+.opt .ic{width:9cqw;height:9cqw;border-radius:3cqw;background:rgba(228,166,123,.16);display:grid;place-items:center;color:var(--gold2)}
+.opt .ic svg{width:5cqw;height:5cqw;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.opt .t{font-size:3.6cqw;font-weight:700}
+.opt .d{font-size:2.8cqw;color:var(--soft);margin-top:.3cqw}
+.opt .r{font-size:2.9cqw;color:var(--soft)}
+.field{display:grid;gap:1.2cqw}
+.field label{font-size:2.9cqw;color:var(--soft);font-weight:600}
+.field .in{padding:3cqw 3.6cqw;border-radius:3.6cqw;background:rgba(26,18,16,.45);border:1px solid var(--line);font-size:3.5cqw}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:3cqw}
+</style>
+
+<div class="wrap">
+  <h1>Staff app: Customers, Calendar and Profile</h1>
+  <p class="lead">The stylist's bottom bar: Home · Customers · + (customer walked in) · Calendar · Profile. Home stays as approved. Customers is the owner's design, with reminders inside it; cancelling a bill and deleting a customer stay owner-only. Example data for Imran, Wednesday 14 Oct.</p>
+  <div class="trio">
+    <figure><div class="phone" id="s1"></div><figcaption><b>1 · Customers</b><span>Same as the owner's: search, counts, filters (with ⭐ Top spenders), sorted by highest spending. The gold banner on top shows today's reminders due.</span></figcaption></figure>
+    <figure><div class="phone" id="s2"></div><figcaption><b>2 · Reminders (inside Customers)</b><span>Customers due back today, with the service and how long since their last visit. One tap sends the WhatsApp reminder; only customers who agreed to messages appear.</span></figcaption></figure>
+    <figure><div class="phone" id="s3"></div><figcaption><b>3 · Customer profile</b><span>Same as the owner's: Call, WhatsApp, Book, wallet with Top up, visits and bills, next booking, reminders on/off. Cancel bill and Delete are owner-only, so the stylist sees a note instead.</span></figcaption></figure>
+    <figure><div class="phone" id="s4"></div><figcaption><b>4 · Calendar</b><span>The month with booking counts, today ringed, Tuesday closed. Tap a day for its bookings with status; "+ Book" adds one; on the day, "Arrived" starts the visit.</span></figcaption></figure>
+    <figure><div class="phone" id="s5"></div><figcaption><b>5 · My profile</b><span>Photo (uploaded by the owner), chair and shift, this month's attendance grid, my numbers, leave, and account: change password, privacy & terms, log out.</span></figcaption></figure>
+    <figure><div class="phone" id="s6"></div><figcaption><b>6 · Request leave</b><span>Pick the dates and type, add a note, send. The owner gets the request in Staff and approves it; until then it shows as "Waiting for owner".</span></figcaption></figure>
+  </div>
+</div>
+
+<script>
+const DOCK=on=>`<div class="dock5">${[
+ ['home','<path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-6h4v6"/>','Home'],
+ ['cust','<circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.6 7-5.6s6.2 2 7 5.6"/>','Customers'],
+ ['plus','',''],
+ ['cal','<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/>','Calendar'],
+ ['me','<circle cx="12" cy="8" r="3.5"/><path d="M6 20c.5-3 3-5 6-5s5.5 2 6 5"/><path d="M16.5 4.5l1.5 1.5"/>','Profile']
+].map(([k,p,l])=>k==='plus'?'<span class="plus"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span>':`<span class="${k===on?'on':''}">${k==='cust'?`<span class="badge"><svg viewBox="0 0 24 24">${p}</svg><i>6</i></span>`:`<svg viewBox="0 0 24 24">${p}</svg>`}${l}</span>`).join('')}</div>`;
+const COLS=['#E4A67B','#F3E6D8','#B98E78','#D9B79E','#C99A7E'];
+const TAG={reg:'<span class="tag reg">Regular</span>',lapse:'<span class="tag lapse">Not seen 40 days</span>',new:'<span class="tag new">New</span>',none:''};
+const C=[['Vikram Shah','VS','Today · Rakesh',22,'₹11,900','₹200','reg'],['Meghna Rao','MR','Today · Sunita',9,'₹10,800','₹1,350','reg'],['Aarav Sharma','AS','Today · Imran',14,'₹9,450','₹600','reg'],['Kavya Iyer','KI','2 Sep · Sunita',6,'₹6,200','₹450','lapse'],['Sana Khan','SK','Today · Sunita',3,'₹3,100','','new'],['Rohan Gupta','RG','28 Aug · Rakesh',4,'₹1,900','₹100','lapse']];
+const ic=p=>`<svg viewBox="0 0 24 24">${p}</svg>`;
+
+document.getElementById('s1').innerHTML=`<div class="scr">
+  <div><div class="who">Imran · Wed 14 Oct</div><div class="ttl">Customers</div></div>
+  <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4-4"/></svg>Search name or mobile</div>
+  <div class="remind"><div><div class="lbl" style="color:var(--gold2)">Reminders due today</div><b>6 customers to remind</b></div><span class="send">Open</span></div>
+  <div class="filters"><span class="on">All</span><span>My customers</span><span>⭐ Top spenders</span><span>Regulars</span><span>Not seen 30+</span><span>New</span></div>
+  <div style="display:flex;justify-content:space-between;align-items:center"><span class="lbl">412 customers</span><span class="sort">Sort: Highest spending ▾</span></div>
+  <div class="list">${C.map(([n,i,l,v,t,w,k],x)=>`<div class="cust"><div class="av" style="background:${COLS[x%5]}">${i}</div><div><div class="nm">${n} ${TAG[k]}</div><div class="sub">${l} · ${v} visits</div></div><div class="r"><b>${t}</b>${w?`<div class="wal">Wallet ${w}</div>`:''}</div></div>`).join('')}</div>
+  </div>${DOCK('cust')}`;
+
+const R=[['Rohan Gupta','RG','Haircut','Message 1 · due today · last 28 Aug','send'],['Kavya Iyer','KI','Hair spa','Message 2 · 1st sent 14 Sep, no visit','send2'],['Pooja Reddy','PR','Facial','Call · you served her last · 2 messages, no visit','call'],['Amit Joshi','AJ','Beard trim','Message 1 sent by Rakesh today','sent'],['Divya Nair','DN','Hair colour','Message 1 · due today · last 15 Aug','send'],['Ishaan Verma','IV','Haircut','Call · Sunita served him last','other']];
+document.getElementById('s2').innerHTML=`<div class="scr">
+  <button class="back">‹ Customers</button>
+  <div class="ttl" style="font-size:6.2cqw">Reminders</div>
+  <div class="filters"><span class="on">Due today · 6</span><span>This week · 19</span><span>Sent · 4</span></div>
+  <div class="list">${R.map(([n,i,s,d,a],x)=>`<div class="rrow"><div class="av" style="background:${COLS[x%5]}">${i}</div><div><div class="nm">${n}</div><div class="sub">${s} · ${d}</div></div>${({send:'<span class="send">Send</span>',send2:'<span class="send">Send 2nd</span>',call:'<span class="send" style="background:var(--ok)">Call</span>',sent:'<span class="sent" style="text-align:right;line-height:1.3">Sent ✓<br><small style="color:var(--faint);font-weight:600">2nd from 13 Nov</small></span>',other:'<span class="sent" style="color:var(--faint);text-align:right;line-height:1.3">Sunita<br>calls</span>'})[a]}</div>`).join('')}</div>
+  <div class="lbl">Message preview</div>
+  <div class="msg">Hi Kavya, it's been 6 weeks since your hair spa at the salon. Book your next visit: reply with a day and time. Reply STOP to stop these messages.</div>
+  <div class="ownonly">Message 1 when due, message 2 a month later, then a call from whoever served them last. Each step is done once for the whole salon; after the call, no more reminders until they visit.</div>
+  </div>${DOCK('cust')}`;
+
+document.getElementById('s3').innerHTML=`<div class="scr">
+  <button class="back">‹ Customers</button>
+  <div class="phead"><div class="av" style="background:#E4A67B">AS</div><div><div class="nm">Aarav Sharma</div><div class="sm">98765 43210 · since Jan 2025</div><div style="margin-top:1.4cqw">${TAG.reg}</div></div></div>
+  <div class="actions"><span>${ic('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>')}Call</span><span>${ic('<path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/>')}WhatsApp</span><span>${ic('<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M12 11v6M9 14h6"/>')}Book</span></div>
+  <div class="walcard"><div><div class="lbl" style="color:var(--gold2)">Wallet</div><b>₹600</b></div><span class="btn">Top up</span></div>
+  <div class="glass">
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1cqw"><span class="lbl">Visits &amp; bills</span><span class="sm">14 visits</span></div>
+    <div class="visit"><div class="d">Today<br>11:20</div><div><div class="s">Haircut + Beard trim</div><div class="x">Imran · bill #1043</div></div><div class="a">₹600<small>CASH</small></div></div>
+    <div class="visit"><div class="d">18 Sep</div><div><div class="s">Haircut</div><div class="x">Imran · bill #0981</div></div><div class="a">₹300<small>WALLET</small></div></div>
+    <div class="visit"><div class="d">20 Aug</div><div><div class="s">Haircut + Head massage</div><div class="x">Rakesh · bill #0890</div></div><div class="a">₹600<small>UPI</small></div></div>
+  </div>
+  <div class="glass"><div class="lbl" style="margin-bottom:1.4cqw">Next booking</div><div style="font-size:3.4cqw"><b>Sat 17 Oct · 5:00 PM</b><br><span class="sm">Haircut · Imran</span></div></div>
+  <div class="glass"><div class="row2"><span>WhatsApp reminders &amp; offers</span><span class="tog"></span></div><div class="row2"><span>Send them their data</span><span class="sm">›</span></div></div>
+  <div class="ownonly">Wrong bill or delete request? Ask the owner: only the owner can cancel bills or delete a customer.</div>
+  </div>${DOCK('cust')}`;
+
+const days=[];for(let i=0;i<3;i++)days.push('<span class="d"></span>');
+const cnt={14:2,15:1,16:1,17:2,18:2,23:1,24:3};
+for(let d=1;d<=31;d++){const dow=(d+2)%7;const tue=dow===1;days.push(`<span class="d ${tue?'x':''} ${d===14?'t':''} ${d===17?'s':''}">${d}${cnt[d]?`<i>${cnt[d]}</i>`:''}</span>`);}
+document.getElementById('s4').innerHTML=`<div class="scr">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="who">October 2026</div><div class="ttl">Calendar</div></div><span class="send">+ Book</span></div>
+  <div class="filters"><span class="on">My bookings</span><span>Whole salon</span></div>
+  <div class="glass"><div class="cal">${['M','T','W','T','F','S','S'].map(x=>`<span class="h">${x}</span>`).join('')}${days.join('')}</div></div>
+  <div style="display:flex;justify-content:space-between"><span class="lbl">Saturday 17</span><span class="sm">2 booked</span></div>
+  <div class="glass">
+    <div class="bk"><span class="t">11:00</span><div><b>Neha Singh</b><div class="sm">Facial · Sunita</div></div><span class="st b">Booked</span></div>
+    <div class="bk"><span class="t">5:00 PM</span><div><b>Aarav Sharma</b><div class="sm">Haircut · Imran</div></div><span class="st b">Booked</span></div>
+  </div>
+  <div style="display:flex;justify-content:space-between"><span class="lbl">Today · Wed 14</span><span class="sm">2 booked</span></div>
+  <div class="glass">
+    <div class="bk"><span class="t">11:40</span><div><b>Dev Arora</b><div class="sm">Beard trim · Rakesh</div></div><span class="st a">Arrived</span></div>
+    <div class="bk"><span class="t">6:30 PM</span><div><b>Farhan Qureshi</b><div class="sm">Haircut · Imran</div></div><span class="send" style="font-size:2.7cqw;padding:1.4cqw 2.4cqw">Arrived</span></div>
+  </div>
+  </div>${DOCK('cal')}`;
+
+const pic=`<svg viewBox="0 0 100 110" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#A57461"/><stop offset="1" stop-color="#5B3A30"/></linearGradient></defs><rect width="100" height="110" fill="url(#gp)"/><path d="M18 112c2-20 15-31 32-31s30 11 32 31z" fill="#1d1411" opacity=".88"/><path d="M38 80h24l-3 9H41z" fill="#C99A78"/><ellipse cx="50" cy="56" rx="17" ry="20" fill="#C99A78"/><path d="M33 52c-1-14 8-24 18-24 12 0 18 9 17 22-3-6-8-9-17-9-8 0-14 3-18 11z" fill="#1d1411"/></svg>`;
+const att=[];for(let i=0;i<3;i++)att.push('<span></span>');
+const late=[5,9,12],leave=[22],cur=14;
+for(let d=1;d<=31;d++){const dow=(d+2)%7;let c='rgba(255,244,236,.08)',t='var(--faint)';
+  if(d<=cur){if(dow===1){c='rgba(255,244,236,.05)';}else if(late.includes(d)){c='var(--warn)';t='var(--ink)';}else{c='var(--ok)';t='var(--ink)';}}
+  if(leave.includes(d)){c='var(--blue)';t='var(--ink)';}
+  att.push(`<span style="background:${c};color:${t}">${d}</span>`);}
+document.getElementById('s5').innerHTML=`<div class="scr">
+  <div class="me"><div class="pic">${pic}</div><div><div class="nm">Imran Khan</div><div class="sm" style="margin-top:1cqw;line-height:1.45">Chair 1 · Shift 10:00<br>Weekly off: Tuesday</div><span class="chip" style="margin-top:2cqw"><span class="dot" style="background:var(--ok)"></span>In · 9:52 today</span></div></div>
+  <div class="glass"><div style="display:flex;justify-content:space-between;margin-bottom:2cqw"><span class="lbl">My attendance · October</span><span class="sm">12 days · 3 late</span></div>
+    <div class="mini">${att.join('')}</div>
+    <div class="legend" style="margin-top:2cqw"><span><i style="background:var(--ok)"></i>On time</span><span><i style="background:var(--warn)"></i>Late</span><span><i style="background:var(--blue)"></i>Leave</span><span><i style="background:rgba(255,244,236,.08)"></i>Off / to come</span></div></div>
+  <div class="stats4"><div><b>41</b><span>customers</span></div><div><b style="color:var(--gold2)">₹18.9k</b><span>earned</span></div><div><b>₹460</b><span>avg bill</span></div><div><b>68%</b><span>came back</span></div></div>
+  <div class="opts">
+    <div class="opt"><div class="ic">${ic('<path d="M3 12h18M12 3c4 3 4 15 0 18M12 3c-4 3-4 15 0 18"/>')}</div><div><div class="t">Leave</div><div class="d">Request leave · 1 upcoming (Thu 22, approved)</div></div><div class="r">›</div></div>
+    <div class="opt"><div class="ic">${ic('<rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>')}</div><div><div class="t">Change password</div><div class="d">Login: 98110 00001</div></div><div class="r">›</div></div>
+    <div class="opt"><div class="ic">${ic('<path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/>')}</div><div><div class="t">Privacy &amp; terms</div><div class="d">How customer data is used</div></div><div class="r">›</div></div>
+    <div class="opt"><div class="ic" style="background:rgba(240,140,106,.14);color:var(--red)">${ic('<path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/>')}</div><div><div class="t" style="color:var(--red)">Log out</div></div><div class="r">›</div></div>
+  </div>
+  </div>${DOCK('me')}`;
+
+document.getElementById('s6').innerHTML=`<div class="scr">
+  <button class="back">‹ My profile</button>
+  <div class="ttl" style="font-size:6.2cqw">Request leave</div>
+  <div class="two"><div class="field"><label>From</label><div class="in">Mon 26 Oct</div></div><div class="field"><label>To</label><div class="in">Tue 27 Oct</div></div></div>
+  <div class="field"><label>Type</label><div class="filters"><span class="on">Casual</span><span>Sick</span><span>Other</span></div></div>
+  <div class="field"><label>Note for the owner</label><div class="in" style="min-height:18cqw;color:var(--soft)">Family function in Jaipur</div></div>
+  <div class="msg">1 working day (Tuesday is your weekly off). Your chair will show "Off today" on the Live floor once approved.</div>
+  <div class="cancel" style="background:var(--gold);color:var(--ink)">Send to owner</div>
+  <div class="lbl" style="margin-top:2cqw">My requests</div>
+  <div class="glass">
+    <div class="bk"><span class="t" style="font-size:3cqw">22 Oct</span><div><b>Casual</b><div class="sm">1 day</div></div><span class="st a">Approved</span></div>
+    <div class="bk"><span class="t" style="font-size:3cqw">26–27</span><div><b>Casual</b><div class="sm">1 day</div></div><span class="st b">Waiting for owner</span></div>
+  </div>
+  </div>${DOCK('me')}`;
+</script>

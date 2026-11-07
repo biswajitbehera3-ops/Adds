@@ -1,0 +1,20 @@
+
+ RUN  v3.2.7 /root/security-audit-skill/Adds/run-2/agents/r2-attendance-leave/scratch
+
+stdout | x.test.ts > check 1: future-dated check-in (phone clock moved forward) is accepted > A pre-marks tomorrow on time the evening before; tomorrow A is never asked to check in and is shown Present
+CHECK1 pre-marked record: {"id":"mvqc22bb56md25","staffId":"mvqc22bb15kn0d","date":"2026-10-28","checkInAt":"2026-10-28T03:30:00.000Z","photoKey":"a-28"}
+CHECK1 todaysAttendance(A, 28 Oct 11:40): {"id":"mvqc22bb56md25","staffId":"mvqc22bb15kn0d","date":"2026-10-28","checkInAt":"2026-10-28T03:30:00.000Z","photoKey":"a-28"} late: [33mfalse[39m
+CHECK1 owner export 2026-10-28: [["Staff","Mobile","Chair","Status","Check-in (IST)","Selfie"],["Dummy A","9811100001","Chair 1","Present","09:00","Saved in app"],["Dummy B","9811100002","Chair 2","Present","09:58","Saved in app"]]
+
+stdout | x.test.ts > check 2: latestRecordTime ignores bookings and leave decisions saved on the phone > a check-in with the clock set back before an owner booking and a leave approval is accepted; the same with a visit is refused
+CHECK2 latestRecordTime: 2026-10-01T03:30:00.000Z appointment.createdAt: 2026-10-28T04:50:00.000Z
+CHECK2 accepted: {"id":"mvqc22bhd1zmgj","staffId":"mvqc22bf7xr2vn","date":"2026-10-28","checkInAt":"2026-10-28T04:28:00.000Z","photoKey":"a-28"} late: [33mfalse[39m
+CHECK2 control (visit at 10:20) error: This phone's clock is behind. Set the date and time to automatic, then check in again.
+
+ ✓ x.test.ts (2 tests) 9ms
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  06:57:14
+   Duration  485ms (transform 260ms, setup 0ms, collect 265ms, tests 9ms, environment 0ms, prepare 54ms)
+

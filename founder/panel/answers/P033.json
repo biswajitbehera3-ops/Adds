@@ -1,0 +1,13 @@
+{
+  "id": "P033",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My register has never failed me and I know every bill in it. The money isn't the problem, but on a busy Saturday my stylists won't stop between clients to take a selfie and type numbers into a phone, and I'm not risking upsetting the good staff I still have.",
+  "objection": "My staff are busy with customers. They won't type everything into an app, so in two weeks I'll be back to the register and paying ₹999 a month for nothing.",
+  "would_change_my_mind": "Seeing it running at another salon owner's outlet I know, with the stylists actually using it on a busy day, plus a free month where my front desk does all the entries instead of the stylists.",
+  "price_too_cheap": 199,
+  "price_cheap": 499,
+  "price_expensive": 1999,
+  "price_too_expensive": 3499
+}

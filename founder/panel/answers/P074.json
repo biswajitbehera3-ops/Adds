@@ -1,0 +1,13 @@
+{
+  "id": "P074",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "price",
+  "reason": "₹4,999 upfront and then ₹999 every month is too much fixed cost for my small parlour when some months are slow; my register and WhatsApp already work and cost nothing. The cash-drawer checks sound useful, but not enough to pay every month.",
+  "objection": "₹999 a month forever is one more fixed bill I have to pay even in slow months, plus ₹4,999 before I see any result, and my staff may not even use it properly.",
+  "would_change_my_mind": "No setup fee and a one-time or yearly price I can pay once, or proof from another small salon nearby that the reminders and wallet actually brought back enough customers to cover the cost.",
+  "price_too_cheap": 99,
+  "price_cheap": 299,
+  "price_expensive": 599,
+  "price_too_expensive": 999
+}

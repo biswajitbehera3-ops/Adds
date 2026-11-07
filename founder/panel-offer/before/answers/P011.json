@@ -1,0 +1,13 @@
+{
+  "id": "P011",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "I already paid for salon software once and my staff never touched it, so it got cancelled. The money is not the issue. The issue is that on a busy Sunday my stylists will not stop to type numbers into a phone, and then I am paying ₹500 a month for an app nobody uses.",
+  "objection": "My staff are busy with customers and they won't type everything into an app. The cash-drawer check and the live chair view only work if every bill goes in, and I know from last time that it won't happen.",
+  "would_change_my_mind": "A free trial of one month where you come back after two weeks and show me my staff actually billed most walk-ins through it, with no upfront fee until it is proven.",
+  "price_too_cheap": 2000,
+  "price_cheap": 5000,
+  "price_expensive": 15000,
+  "price_too_expensive": 25000
+}

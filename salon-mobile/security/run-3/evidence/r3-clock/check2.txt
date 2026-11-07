@@ -1,0 +1,18 @@
+
+[1m[46m RUN [49m[22m [36mv3.2.7 [39m[90m/root/security-audit-skill/Adds/run-3/agents/r3-clock/scratch[39m
+
+[90mstdout[2m | y.test.ts[2m > [22m[2mr3-clock save-then-restart[2m > [22m[2mD: clock +1102 days with the app open, one save, then an app start: no hold, everything purged
+[22m[39mafter the save: hold = null
+app start purge: held = [33mfalse[39m photoKeys = ["selfie_today"] customersErased = [33m1[39m
+customer: [{"name":"Deleted customer","phone":""}]
+owner checks: ["Sunita has a check-in saved for 2029-10-20","The phone's clock was set back"]
+after restore of today's backup, customer: [{"name":"Deleted customer","phone":""}]
+closeDay after restore refused: This phone's clock is behind. Set the date and time to automatic, then try again.
+
+ [32m✓[39m y.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 15[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m   Start at [22m 14:37:28
+[2m   Duration [22m 572ms[2m (transform 278ms, setup 0ms, collect 300ms, tests 15ms, environment 0ms, prepare 69ms)[22m
+
