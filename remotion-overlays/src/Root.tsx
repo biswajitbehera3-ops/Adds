@@ -1,4 +1,7 @@
-import { Composition } from "remotion";
+import { Composition, Folder, Still } from "remotion";
+import { Avatar, ReelCover, YouTubeBanner } from "./gta/AccountKit";
+import { ResultStamp } from "./gta/ResultStamp";
+import { WantedHook } from "./gta/WantedHook";
 import { ContestantTracker } from "./ContestantTracker";
 import { Countdown } from "./Countdown";
 import { MoneyCounter } from "./MoneyCounter";
@@ -76,6 +79,41 @@ export const RemotionRoot: React.FC = () => {
           ],
         }}
       />
+      <Folder name="Gaming">
+        <Composition
+          id="WantedHook"
+          component={WantedHook}
+          durationInFrames={120}
+          fps={30}
+          width={1080}
+          height={1920}
+          defaultProps={{ hook: "He thought he lost the cops", stars: 5, siren: true, transparent: false }}
+        />
+        <Composition
+          id="ResultStamp"
+          component={ResultStamp}
+          durationInFrames={75}
+          fps={30}
+          width={1080}
+          height={1920}
+          defaultProps={{ text: "Plan failed", subtext: "5 stars in 10 seconds", tone: "fail" as const, transparent: false }}
+        />
+        <Still id="Avatar" component={Avatar} width={1080} height={1080} defaultProps={{ initials: "WC" }} />
+        <Still
+          id="YouTubeBanner"
+          component={YouTubeBanner}
+          width={2560}
+          height={1440}
+          defaultProps={{ name: "Wanted Clips", tagline: "Gaming's wildest moments", schedule: "New clips every day" }}
+        />
+        <Still
+          id="ReelCover"
+          component={ReelCover}
+          width={1080}
+          height={1920}
+          defaultProps={{ title: "Craziest chase yet", episode: "Ep. 1" }}
+        />
+      </Folder>
     </>
   );
 };

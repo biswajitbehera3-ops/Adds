@@ -13,6 +13,25 @@ Built with Remotion (free for individuals and teams of up to 3).
 | `ContestantTracker` | "Who's left" row across the top. On elimination the icon shakes, a red ✕ slams on, it greys out and the "N left" count updates. Uses an initial in a coloured circle, or a face image from `public/`. | `contestants` (`name`, `color`, `image`, `eliminatedAtSec`, −1 = never), `transparent` |
 | `ZoomPunch` | An effect on a real clip, not an overlay: a spring zoom-in with a short shake and optional white flash on each beat, then eases back. Put the clip in `public/clips/`. | `src`, `punches` (`atSec`, `scale`), `flash` |
 
+| `WantedHook` *(Gaming)* | Chase hook: a slanted hook band slides in, five stars light up one by one, optional red/blue siren glow on the edges for the first 2.5s. | `hook`, `stars` (1–5), `siren`, `transparent` |
+| `ResultStamp` *(Gaming)* | Payoff stamp: the frame tints, an angled band slams in ("PLAN FAILED" red / "STUNT LANDED" green), the subtext drops under it. | `text`, `subtext`, `tone` (`fail` / `win`), `transparent` |
+
+### Account kit (stills, Gaming folder)
+
+| id | Size | Use |
+|---|---|---|
+| `Avatar` | 1080×1080 | Profile picture for Instagram and YouTube (circle-safe). Prop: `initials`. |
+| `YouTubeBanner` | 2560×1440 | Channel banner; text inside the 1546×423 phone-safe area. Props: `name`, `tagline`, `schedule`. |
+| `ReelCover` | 1080×1920 | Reel/Shorts cover; title inside the 1080×1440 grid area. Props: `title`, `episode`. |
+
+Original design only: no game logos, fonts or official art. Re-render a still, for example:
+
+```bash
+npx remotion still ReelCover out/account-kit/ep2.png --image-format=png --props='{"title":"He jumped the bridge","episode":"Ep. 2"}' --browser-executable=/opt/pw-browsers/chromium
+```
+
+Setup guide for the accounts: `../accounts/gaming-page-setup.md`.
+
 Match each composition's length to the clip by passing `--frames=0-<last frame>` or by editing `durationInFrames` in `src/Root.tsx`.
 Don't cover graphics that are already in MrBeast's footage (timers, money, name tags). Add what's missing.
 
