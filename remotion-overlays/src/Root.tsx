@@ -2,6 +2,7 @@ import { Composition, Folder, Still } from "remotion";
 import { Avatar, ReelCover, YouTubeBanner } from "./gta/AccountKit";
 import { ResultStamp } from "./gta/ResultStamp";
 import { WantedHook } from "./gta/WantedHook";
+import { ClipShort } from "./shorts/ClipShort";
 import { ContestantTracker } from "./ContestantTracker";
 import { Countdown } from "./Countdown";
 import { MoneyCounter } from "./MoneyCounter";
@@ -112,6 +113,38 @@ export const RemotionRoot: React.FC = () => {
           width={1080}
           height={1920}
           defaultProps={{ title: "Craziest chase yet", episode: "Ep. 1" }}
+        />
+      </Folder>
+      <Folder name="Shorts">
+        <Composition
+          id="BattleKingScram"
+          component={ClipShort}
+          durationInFrames={994}
+          fps={30}
+          width={1080}
+          height={1920}
+          defaultProps={{
+            src: "clips/battleking-scram-base.mp4",
+            hook: "He found the nuclear kill switch...",
+            hookSeconds: 3.6,
+            credit: "GAMEPLAY: @BATTLEKINGPC",
+            punches: [24.0, 28.0],
+            captions: [
+              { text: "That's the kill switch", start: 0, end: 1.6, highlight: "kill" },
+              { text: "Find the SCRAM button", start: 4.0, end: 6.5, highlight: "SCRAM" },
+              { text: "I don't see it", start: 6.9, end: 9.5, highlight: "" },
+              { text: "Which one?", start: 9.8, end: 11.2, highlight: "" },
+              { text: "This whole room is a control panel", start: 11.2, end: 13.0, highlight: "whole" },
+              { text: "Be more specific!", start: 13.0, end: 14.8, highlight: "specific!" },
+              { text: "Center of the room", start: 14.8, end: 16.5, highlight: "center" },
+              { text: "I found it!", start: 18.0, end: 20.5, highlight: "found" },
+              { text: "Nothing's happening", start: 23.8, end: 26.4, highlight: "nothing's" },
+              { text: "Did it work?", start: 26.6, end: 28.0, highlight: "" },
+              { text: "There isn't one", start: 30.2, end: 31.6, highlight: "isn't" },
+              { text: "There's gotta be something", start: 31.6, end: 33.2, highlight: "something" },
+            ],
+            stamps: [{ text: "It didn't work", start: 28.0, end: 30.2, tone: "fail" as const }],
+          }}
         />
       </Folder>
     </>
