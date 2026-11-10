@@ -41,3 +41,39 @@ Use the **facts** (credited to Edge, Game Informer and Rockstar), not BreeZe's s
 - **"GTA 5 habits that will get you caught in GTA 6"** (police memory, cameras, fuel, six stars, the bus trick)
 - **"GTA 6's police system fully explained"** (deep dive on features 13–15)
 - **"Jason & Lucia's relationship system explained"** (features 1, 4, 10)
+
+---
+
+# Fact-check (10 Nov 2026)
+
+Edge is a print magazine (Nov 2026 issue: a 90-minute gameplay demo played by Rob Nelson, plus interviews with Aaron Garbut and
+Phil Hooker), so I checked the claims against outlets that reported it, and against the other primary sources:
+- **GTAVice.net Edge summary (29 Oct 2026):** https://www.gtavice.net/news/gta-vi-edge-preview-reveals-huge-new-details-on-gameplay-police-relationships-and-more
+- **Game Informer exclusive, "over 170 animal species" (29 Sep 2026):** https://gameinformer.com/exclusive/2026/09/29/exclusive-grand-theft-auto-vi-includes-over-170-animal-species
+- **GameSpot, wanted levels (from the Extended Look):** https://www.gamespot.com/articles/gta-6-wanted-levels/
+- **TopGear / TechRadar, radio and podcasts on foot (Rockstar):** https://www.topgear.com/car-news/gaming/gta-6-will-let-you-listen-podcasts-and-radio-when-youre-not-a-car
+- **IGN, Rob Nelson interview (robbing, safes):** https://www.ign.com/articles/gta-6-the-big-interview (reported; the IGN site couldn't be fetched)
+
+✅ = confirmed by the sources above · 🟡 = partly confirmed, extra details unverified · ❓ = not found in any source checked
+
+| # | Claim | Verdict | Evidence |
+|---|---|---|---|
+| 1 | Gym | 🟡 | Membership confirmed (Edge). "3 exercises, strength→health, cardio→stamina, body changes" not found. |
+| 2 | Radio on foot + podcasts | ✅ | Headphones/earbuds and on-demand podcasts (Rockstar, via IGN interview; TopGear, TechRadar). He credits Edge; it was IGN. |
+| 3 | Fuel + engine health | ✅ | Fuel gauge + engine-health indicator; a stolen car may have an "almost empty fuel tank" (Edge). "Forgiving range, EVs charge" unverified. |
+| 4 | Fishing + hobbies | ❓ | Catch-and-release fishing, kayak, basketball, pool, mini golf and zoo dates not verified here. |
+| 5 | Buses/trains + bus hiding | ✅ | Phil Hooker quote confirmed word for word (Edge). |
+| 6 | 10× interiors | ✅ | "An order of magnitude more interiors" — Aaron Garbut (Edge). |
+| 7 | NPC interactions | 🟡 | NPCs remember behaviour + dog-attack demo confirmed (Edge). "Hold left trigger" not found. **South Park "dog poop" clip: unverified, don't use.** |
+| 8 | Weather | 🟡 | Independent moving clouds + extended day cycle confirmed (Edge). Hurricanes not in the Edge write-up (reported elsewhere; treat as unconfirmed). |
+| 9 | Animals | ✅ | 170+ species; flamingos, manatees, pelicans, alligators, iguanas, cane toads, feral cats, macaque monkeys; Rare / Discoverable / Legendary tracking (Game Informer). "Pet the dogs" unverified. |
+| 10 | Relationship | 🟡 | Four-point scale + "marriage remains unconfirmed" confirmed (Edge). "Affection gets locked" not found. |
+| 11 | Criminal profile | 🟡 | Professional → Irredeemable, angel/devil icons, affects the story (Edge). Focus-aim red/yellow weak points not found. |
+| 12 | AI drives while you shoot | 🟡 | Confirmed (Edge). "Give orders, target tires/engine/fuel tank" not found. |
+| 13 | Rob almost anything | 🟡 | "Rob pretty much anything" incl. a bank and a payday loan place; small targets not on the map; explosives damage the safe's valuables (Rob Nelson, IGN). Jewelry store seen in the Extended Look. Gang strongholds + "estimated take" not verified. |
+| 14 | Six stars + police | ✅ | Six-star return + hollow stars (GameSpot, Extended Look); spike strips + K-9 dogs (Edge). Solid/flashing/red meanings are community explanations; "whole-map search at 6 stars" unverified. |
+| 15 | Police heat memory | ✅ | Tracks description, one vs two suspects, clothing, CCTV, weapons; reduce it by splitting up, changing clothes, ditching the weapon (Edge). Mask + water-depth details unverified. |
+
+**Verdict:** the core of all 15 features is real. About 6 are fully confirmed, 7 are confirmed with some added specifics we
+couldn't verify, and 1 (fishing/hobby details) wasn't found. He sometimes credits Edge for things that came from the IGN interview.
+**For our scripts: use ✅ facts freely, state 🟡 extras only if we find a source, and drop ❓ and the South Park claim.**
