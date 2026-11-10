@@ -32,3 +32,22 @@ Channel: **T5G (@T5G2)** — 1.51M subscribers, 582 videos, business email T5G@L
 - Value: your own researched **Hindi script** plus your own voiceover, with the official facts and your opinions.
 - Edit: Remotion graphics (lists, counters, map callouts, "MISTAKE #3" cards) over the B-roll.
 - Avoid: reposting other creators' videos, leaked footage, and cutscene compilations (see `gta6-clipping-2026-11.md`).
+
+---
+
+# Second example: Hazard — "GTA 6's Safehouse System FULLY Explained..." (checked 10 Nov 2026)
+
+https://youtu.be/Zsicj_pzIFA — 10:55, **477K views** in 8 days. Channel: **Hazard (@HazardousHDTV)**, a long-running GTA creator
+who uploads daily and streams on Twitch.
+
+**No outside footage source is credited.** It isn't free-to-use gameplay. The narration points at specific shots ("in the second
+trailer…", "in the extended look…", "this scene here…", "this screenshot of this resort…"), so the visuals are:
+1. **Official Rockstar trailers:** Trailer 1, Trailer 2, the Launch Trailer and the "Extended Look", paused and zoomed frame by
+   frame to point out details (the snake in the cabinet, the photo on the fridge, the light-switch prompt, fridge items).
+2. **Official Rockstar screenshots and website pages:** character descriptions and Ultimate Edition bonus items.
+3. **The fan-made "GTA 6 Mapping Project" map** to show locations.
+4. **Information (not footage) from other creators,** credited out loud: "per TGG", "according to Rob Nelson".
+   He also mentions the 2022 leaks verbally. Showing leaked footage is a Rockstar takedown trigger.
+
+**The format: trailer analysis.** Original script and voice, with official footage shown in pieces to back up each point. That
+makes it commentary, which is transformative. No gameplay recording or PS5 is needed.
