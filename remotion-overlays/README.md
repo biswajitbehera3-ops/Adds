@@ -105,3 +105,30 @@ Reusable template in `src/shorts/ClipShort.tsx`, with timings set by props. The 
 6. **Check frames** with `scripts/check-frames.mjs` before delivering.
 
 Source and base videos in `public/clips/` and renders in `out/` are git-ignored, because they're the streamer's footage.
+
+
+## GTA 6 channel kit (`src/gta6/`)
+
+Built for video 006, reusable for every video. Authored on a 1920×1080 grid and scaled, so everything renders sharp at the
+3840×2160 master. Brand colours/fonts from `production/style-guide.md`. Each composition has a `bg` prop pointing at a frame in
+`public/frames/` for previews; **set `bg: ""` to render a transparent overlay** for the edit.
+
+| Folder | Compositions |
+|---|---|
+| GTA6-Kit | `NumberCard`, `SourceTag`, `DetailCallout`, `ProgressBar`, `QuoteCard`, `IconPanel`, `StarRow`, `DispatchScreen`, `SplitCompare` |
+| GTA6-Illustrations | `IllGunAwareness`, `IllVictimLunge`, `IllOwnerCall`, `IllTracker`, `IllSearchlight`, `IllStinger`, `IllStoreClear` |
+| (root) | `KitReel`: every graphic back to back, for review |
+
+```bash
+# preview stills (one bundle, many comps):
+node scripts/render-kit.mjs out/kit NumberCard:50 IconPanel:260 IllTracker:140
+# review reel:
+npx remotion render src/index.ts KitReel out/kit/006-graphics-preview.mp4 --browser-executable=/opt/pw-browsers/chromium
+# a transparent 4K overlay for the edit (ProRes 4444):
+npx remotion render src/index.ts SourceTag out/sourcetag-edge.mov --codec=prores --prores-profile=4444 \
+  --pixel-format=yuva444p10le --image-format=png --props='{"tier":"REPORTED","outlet":"Edge magazine","bg":""}' \
+  --browser-executable=/opt/pw-browsers/chromium
+```
+
+Test frames: `public/frames/` is gitignored. Re-pull them from Rockstar's server with the commands in
+`research/footage/extended-look-shotlist.md` (e.g. `-ss 1088` for the hollow-stars frame).

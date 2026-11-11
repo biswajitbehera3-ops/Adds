@@ -8,3 +8,6 @@ out
 
 # Clips dropped in for ZoomPunch (regenerate the sample with the README command)
 public/clips/
+
+# 4K reference frames pulled from Rockstar trailers for graphic tests
+public/frames/

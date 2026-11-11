@@ -37,15 +37,17 @@ and it aims to beat them on each point.
 ### Motion-graphics library (Remotion — ✅ built, 🛠 to build)
 | Component | Use | Status |
 |---|---|---|
-| `NumberCard` | "#10" chapter cards with a whoosh-in and the chapter title | 🛠 |
-| `DetailCallout` | Push-in on a frame, ring draws on, label types in | 🛠 |
-| `SourceTag` | Lower-third: CONFIRMED / REPORTED / THEORY + outlet name | 🛠 |
-| `ProgressBar` | Thin chapter bar at the top: "4 / 10" | 🛠 |
+| `NumberCard` | "#10" chapter cards with a whoosh-in and the chapter title | ✅ |
+| `DetailCallout` | Push-in on a frame, ring draws on, label types in | ✅ |
+| `SourceTag` | Lower-third: CONFIRMED / REPORTED / THEORY + outlet name | ✅ |
+| `ProgressBar` | Thin chapter bar at the top: "4 / 10" | ✅ |
 | `WorldClockMap` | World map; countries light up with their unlock times | 🛠 |
-| `IconPanel` | Police "heat" icons (face, clothes, weapon, CCTV, 2 suspects) that light up and cross out | 🛠 |
-| `QuoteCard` | Quote + speaker + outlet | 🛠 |
+| `IconPanel` | Police "heat" icons (face, clothes, weapon, CCTV, 2 suspects) that light up and cross out | ✅ |
+| `QuoteCard` | Quote + speaker + outlet | ✅ |
 | `ChecklistCard` | Items tick on one by one | 🛠 |
 | `SplitCompare` | GTA 5 vs GTA 6 side by side | 🛠 |
+| `StarRow`, `DispatchScreen`, `SplitCompare` (before/after crops of real frames) | Star states, the 006 dispatch console, HUD comparisons | ✅ |
+| `IllGunAwareness`, `IllVictimLunge`, `IllOwnerCall`, `IllTracker`, `IllSearchlight`, `IllStinger`, `IllStoreClear` | Labelled "ILLUSTRATION" diagrams for moments only described in print | ✅ |
 | `MoneyCounter`, `Countdown`, `ResultStamp`, `WantedHook`, `ZoomPunch`, `MrBeastCaptions` | Count-ups, timers, stamps, stars, punch zooms, keyword captions | ✅ |
 
 ## 4. Audio system

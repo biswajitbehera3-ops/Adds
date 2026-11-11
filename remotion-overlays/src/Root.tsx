@@ -3,6 +3,9 @@ import { Avatar, ReelCover, YouTubeBanner } from "./gta/AccountKit";
 import { ResultStamp } from "./gta/ResultStamp";
 import { WantedHook } from "./gta/WantedHook";
 import { ClipShort } from "./shorts/ClipShort";
+import { IllGunAwareness, IllOwnerCall, IllSearchlight, IllStinger, IllStoreClear, IllTracker, IllVictimLunge } from "./gta6/Illustrations";
+import { KitReel, KIT_REEL_FRAMES } from "./gta6/KitReel";
+import { DetailCallout, DispatchScreen, IconPanel, NumberCard, ProgressBar, QuoteCard, SourceTag, SplitCompare, StarRow } from "./gta6/Kit";
 import { ContestantTracker } from "./ContestantTracker";
 import { Countdown } from "./Countdown";
 import { MoneyCounter } from "./MoneyCounter";
@@ -146,6 +149,46 @@ export const RemotionRoot: React.FC = () => {
             stamps: [{ text: "It didn't work", start: 28.0, end: 30.2, tone: "fail" as const }],
           }}
         />
+      </Folder>
+      <Folder name="GTA6-Kit">
+        <Composition id="NumberCard" component={NumberCard} durationInFrames={120} fps={30} width={3840} height={2160}
+          defaultProps={{ num: 7, title: "The car snitches", bg: "frames/el-1404-heli.jpg" }} />
+        <Composition id="SourceTag" component={SourceTag} durationInFrames={120} fps={30} width={3840} height={2160}
+          defaultProps={{ tier: "REPORTED" as const, outlet: "Edge magazine", bg: "frames/t2-0116-victim.jpg" }} />
+        <Composition id="DetailCallout" component={DetailCallout} durationInFrames={90} fps={30} width={3840} height={2160}
+          defaultProps={{ x: 722, y: 786, r: 64, label: "Slim Jim or smash", side: "right" as const, bg: "frames/el-0606-slimjim.jpg", zoom: 1.08 }} />
+        <Composition id="ProgressBar" component={ProgressBar} durationInFrames={60} fps={30} width={3840} height={2160}
+          defaultProps={{ current: 4, total: 10, bg: "frames/el-1813-phone.jpg" }} />
+        <Composition id="QuoteCard" component={QuoteCard} durationInFrames={420} fps={30} width={3840} height={2160}
+          defaultProps={{ quote: "I basically started picking fights with them, provoking them and then immediately defusing it. Then they would leave the store, so that would clear them out and I could rob it more cleanly.",
+            speaker: "Phil Hooker", outlet: "Rockstar North · Edge", bg: "frames/el-0906-store.jpg" }} />
+        <Composition id="IconPanel" component={IconPanel} durationInFrames={300} fps={30} width={3840} height={2160}
+          defaultProps={{ bg: "frames/el-1540-icons.jpg", icons: [
+            { key: "camera" as const, fix: "Destroy footage", onSec: 0.3, fixSec: 1.4 },
+            { key: "hanger" as const, fix: "Change unseen", onSec: 0.6, fixSec: 2.6 },
+            { key: "duo" as const, fix: "Split up", onSec: 0.9, fixSec: 3.8 },
+            { key: "gun" as const, fix: "Ditch it", onSec: 1.2, fixSec: 5.0 },
+            { key: "car" as const, fix: "Swap car", onSec: 1.5, fixSec: 6.0 },
+            { key: "face" as const, fix: "Mask?", onSec: 1.8, fixSec: 7.2, theory: true },
+          ] }} />
+        <Composition id="StarRow" component={StarRow} durationInFrames={150} fps={30} width={3840} height={2160}
+          defaultProps={{ mode: "hollow" as const, lit: 2, label: "Hollow stars", sub: "They don't know who they're looking for", bg: "frames/el-1808-hollow.jpg" }} />
+        <Composition id="DispatchScreen" component={DispatchScreen} durationInFrames={120} fps={30} width={3840} height={2160}
+          defaultProps={{ entries: ["REPORT #10 · WEAPON SEEN", "REPORT #9 · ROBBERY · VICTIM HOSTILE", "REPORT #8 · VEHICLE THEFT · OWNER CALLED", "REPORT #7 · TRACKER ACTIVE"], radius: 230 }} />
+        <Composition id="SplitCompare" component={SplitCompare} durationInFrames={150} fps={30} width={3840} height={2160}
+          defaultProps={{ title: "WHAT THE COPS KNOW",
+            left: { img: "frames/el-1540-icons.jpg", crop: [3200, 20, 640, 240] as [number, number, number, number], label: "15:40 · 4 ICONS", color: "#FF3B3B" },
+            right: { img: "frames/el-1808-hollow.jpg", crop: [3200, 20, 640, 240] as [number, number, number, number], label: "18:08 · NONE", color: "#3CFF6B" } }} />
+      </Folder>
+      <Composition id="KitReel" component={KitReel} durationInFrames={KIT_REEL_FRAMES} fps={30} width={1920} height={1080} />
+      <Folder name="GTA6-Illustrations">
+        <Composition id="IllGunAwareness" component={IllGunAwareness} durationInFrames={150} fps={30} width={3840} height={2160} defaultProps={{}} />
+        <Composition id="IllVictimLunge" component={IllVictimLunge} durationInFrames={120} fps={30} width={3840} height={2160} defaultProps={{}} />
+        <Composition id="IllOwnerCall" component={IllOwnerCall} durationInFrames={180} fps={30} width={3840} height={2160} defaultProps={{}} />
+        <Composition id="IllTracker" component={IllTracker} durationInFrames={150} fps={30} width={3840} height={2160} defaultProps={{}} />
+        <Composition id="IllSearchlight" component={IllSearchlight} durationInFrames={150} fps={30} width={3840} height={2160} defaultProps={{ bg: "frames/lt-0053-night-heli.jpg" }} />
+        <Composition id="IllStinger" component={IllStinger} durationInFrames={180} fps={30} width={3840} height={2160} defaultProps={{}} />
+        <Composition id="IllStoreClear" component={IllStoreClear} durationInFrames={210} fps={30} width={3840} height={2160} defaultProps={{}} />
       </Folder>
     </>
   );
