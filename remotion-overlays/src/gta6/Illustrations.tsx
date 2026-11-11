@@ -145,8 +145,8 @@ export const IllOwnerCall: React.FC<{ bg?: string }> = ({ bg }) => {
 };
 
 /* #7 — the tracker, the fence's signal blocker, and the payout */
-export const IllTracker: React.FC<{ bg?: string }> = ({ bg }) => {
-  const f = useCurrentFrame(); const { fps } = useVideoConfig(); const t = sec(f, fps);
+export const IllTracker: React.FC<{ bg?: string; speed?: number }> = ({ bg, speed = 1 }) => {
+  const f = useCurrentFrame(); const { fps } = useVideoConfig(); const t = sec(f, fps) * speed;
   const move = at(t, 0.3, 4.0);
   const carX = 300 + move * 1150, carY = 760 - Math.sin(move * Math.PI) * 220 - move * 120;
   const inFence = move > 0.97;
@@ -210,8 +210,8 @@ export const IllSearchlight: React.FC<{ bg?: string }> = ({ bg }) => {
 };
 
 /* #5 — radio → stinger → crash → dog */
-export const IllStinger: React.FC<{ bg?: string }> = ({ bg }) => {
-  const f = useCurrentFrame(); const { fps } = useVideoConfig(); const t = sec(f, fps);
+export const IllStinger: React.FC<{ bg?: string; speed?: number }> = ({ bg, speed = 1 }) => {
+  const f = useCurrentFrame(); const { fps } = useVideoConfig(); const t = sec(f, fps) * speed;
   const radio = t > 0.3 && t < 1.6;
   const strip = at(t, 1.0, 1.5);
   const ride = at(t, 0.2, 2.6, 0, 1, Easing.linear);

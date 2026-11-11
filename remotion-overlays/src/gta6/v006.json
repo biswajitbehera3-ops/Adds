@@ -361,7 +361,9 @@
    "visual": {
     "kind": "comp",
     "name": "IllTracker",
-    "props": {}
+    "props": {
+     "speed": 0.45
+    }
    },
    "overlays": []
   },
@@ -535,7 +537,9 @@
    "visual": {
     "kind": "comp",
     "name": "IllStinger",
-    "props": {}
+    "props": {
+     "speed": 0.5
+    }
    },
    "overlays": []
   },
@@ -1136,10 +1140,10 @@
    "dur": 177,
    "visual": {
     "kind": "clip",
-    "src": "clips/006p/zip_cover_art.mp4",
-    "startFrom": 0,
-    "rate": 1.0,
-    "play": 177
+    "src": "clips/006p/el_1848_skydive.mp4",
+    "startFrom": 150,
+    "rate": 0.508,
+    "play": 176
    },
    "overlays": []
   }

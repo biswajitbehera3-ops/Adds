@@ -47,7 +47,7 @@ S = [
       (6, C("t1_0103_cash"), []),
       (13, C("el_1620_van"), [("source", {"tier": "REPORTED", "outlet": "Edge magazine"})])]),
  (5, [(7, C("lt_0047_supercars"), []),
-      (31, I("IllTracker"), []),
+      (31, I("IllTracker", speed=0.45), []),
       (12, C("el_1524_chase"), [("caption", {"text": "WRECK IT = LESS CASH", "hi": "LESS"})]),
       (14, C("el_1552_garage"), [("source", {"tier": "REPORTED", "outlet": "Edge magazine"})])]),
  (4, [(8, C("t2_0146_alley"), []),
@@ -57,7 +57,7 @@ S = [
  (6, [(13, C("t2_0046_police"), []),
       (17, C("lt_0111_policecar"), [("source", {"tier": "REPORTED", "outlet": "Edge magazine"})]),
       (8, C("t2_0229_bike"), []),
-      (29, I("IllStinger"), []),
+      (29, I("IllStinger", speed=0.5), []),
       (8, C("el_1544_police"), [("stamp", {"text": "CAUGHT"})])]),
  (6, [(4, C("el_1404_heli"), []),
       (15, {"kind": "clip", "src": "clips/006p/el_1524_chase.mp4", "startFrom": 300}, [("source", {"tier": "REPORTED", "outlet": "GameSpot"})]),
@@ -87,7 +87,7 @@ S = [
       (7, C("t1_0109_mask"), [("caption", {"text": "NO REPORT FILED", "hi": "NO"})])]),
  (None, [(25, C("el_1848_skydive"), []),
          (14, C("lt_0027_hero"), [("caption", {"text": "WHICH GETS YOU FIRST? 👇", "hi": "FIRST?"})]),
-         (10, C("zip_cover_art"), [])]),
+         (10, {"kind": "clip", "src": "clips/006p/el_1848_skydive.mp4", "startFrom": 150}, [])]),
 ]
 NUM = [None, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, None]
 TITLES = [None, "They clock your gun", "The victim fights back", "The owner calls it in", "The car snitches", "The searchlight",
