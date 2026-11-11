@@ -342,3 +342,20 @@ Footage & images: Rockstar Games (official trailers, Extended Look, key art, map
       screen.
 - [ ] Record VO section by section (hook, #10–#6, #5–#3, #2–#1, close), so each section's energy matches its music.
 - [ ] Run the style-guide delivery checklist (−14 LUFS, no frame held > 4 s, a SourceTag on every fact).
+
+## Shots available now — Trailer 1 (official master, `research/footage/trailer-1-shotlist.md`)
+Fill these ⏱ slots from Trailer 1 until the Extended Look arrives:
+| Beat | Trailer 1 shot |
+|---|---|
+| B1 (calm street, first 7 s) | 0:27 lowrider street, day |
+| B2 freeze ("WITNESS") | 0:21 busy beach crowd |
+| B3 turn ("they build a case") | **0:49 police body-cam** → 0:45 night aerial with police lights |
+| B7 #9 robbery | **1:09 Lucia masked in the store** (cut before anything happens) |
+| B9 #8 owner calls it in | 1:00–1:03 Jason driving, Lucia holding cash |
+| B11 #7 tracker | 1:10 car on a dusty street |
+| B13 #6 searchlight | 0:45–0:46 night aerial |
+| B15 #5 radio / cops | **1:04 Weazel News "COPS ARREST MAN…" aerial** (show with the ticker, for commentary) |
+| B19 #3 police report | **0:48 store CCTV** for the camera icon · **1:05 Sheriff's Office mugshot** for the face icon · **1:09 bandana** for "MASK?" |
+| B21 #2 getting away | **1:07 Weazel News "COPS FAIL TO STOP THUGS…"** (the hollow-stars shot itself still needs the Extended Look) |
+| B23 #1 store | 1:09 store interior · 0:50 gas station |
+| B24 outro | 1:12–1:16 motel room, or 0:03 sunset highway |
