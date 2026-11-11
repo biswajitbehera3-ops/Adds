@@ -1,0 +1,39 @@
+name,source,start_sec,dur_sec,use
+t1_0022_crowd,GTAVI_Trailer_1,21.78,1.45,hook: witness freeze (beach crowd)
+t1_0027_street,GTAVI_Trailer_1,27.48,1.45,hook open + #10 calm street
+t1_0048_cctv,GTAVI_Trailer_1,47.53,0.28,#3 CCTV (0.3 s flash; use the still t1_0048_cctv.png)
+t1_0049_bodycam,GTAVI_Trailer_1,48.9,1.6,spare: police body-cam
+t1_0100_driving,GTAVI_Trailer_1,60.45,2.3,#8 driving
+t1_0103_cash,GTAVI_Trailer_1,62.9,1.2,#8 Lucia with cash
+t1_0105_mugshot,GTAVI_Trailer_1,64.9,1.2,#3 face icon
+t1_0109_mask,GTAVI_Trailer_1,68.9,1.3,#9 / #3 mask / #1 store
+t2_0043_storedoor,GTAVI_Trailer_2,42.8,2.6,#10 / #1 Jason at store door
+t2_0046_police,GTAVI_Trailer_2,45.8,4.0,#5 police arrest street
+t2_0050_prison,GTAVI_Trailer_2,50.0,2.5,spare: prison tower
+t2_0115_robber,GTAVI_Trailer_2,75.0,1.8,#9 masked robber + victim
+t2_0146_alley,GTAVI_Trailer_2,105.6,1.5,#6 dark alley
+t2_0156_turn,GTAVI_Trailer_2,116.0,1.5,#10 woman turns (after the kick)
+t2_0229_bike,GTAVI_Trailer_2,148.5,2.0,#5 night motorbike
+lt_0027_hero,GTAVI_Launch_Trailer,26.42,1.38,close: hero shot
+lt_0047_supercars,GTAVI_Launch_Trailer,47.0,2.5,#7 expensive cars
+lt_0053_heli,GTAVI_Launch_Trailer (still at 53.2),53.2,3.0,#6 night helicopter — 3 s slow push-in on a still (the real shot is ~5 frames before an explosion)
+lt_0111_policecar,GTAVI_Launch_Trailer,70.85,1.1,#5 night police car
+el_0606_slimjim,GTAVI_An_Extended_Look,365.5,4.0,#8 car theft prompts
+el_0906_store,GTAVI_An_Extended_Look,544.15,2.45,#10 / #3 clothing store
+el_1404_heli,GTAVI_An_Extended_Look,843.8,2.2,#6 helicopter + HUD (ends before gunfire)
+el_1517_tunnel,GTAVI_An_Extended_Look,917.0,4.0,#4 flashing
+el_1524_chase,GTAVI_An_Extended_Look,924.0,16.0,#7 / #6 / #4 getaway (trim in edit)
+el_1544_police,GTAVI_An_Extended_Look,944.0,4.0,#5 police pass
+el_1552_garage,GTAVI_An_Extended_Look,952.0,11.0,#7 / #4 / #3 car swap (stops before 16:04 explosion)
+el_1620_van,GTAVI_An_Extended_Look,980.0,12.0,#8 / #2 calm van
+el_1640_split,GTAVI_An_Extended_Look,1000.0,3.7,#3 van crew (before the split)
+el_1704_cameras,GTAVI_An_Extended_Look,1023.0,3.0,#3 camera warning sign
+el_1752_strip,GTAVI_An_Extended_Look,1072.0,4.0,hook / #1 jewellery strip mall
+el_1759_entrance,GTAVI_An_Extended_Look,1079.0,1.0,#9 masked robber walks into the jewellery store (ends before scuffle)
+el_1804_hollow,GTAVI_An_Extended_Look,1084.0,7.0,#2 hollow stars getaway
+el_1812_phone,GTAVI_An_Extended_Look,1092.0,8.0,hook / #1 man filming
+el_1824_live,GTAVI_An_Extended_Look,1104.0,4.0,#1 livestream
+el_1848_skydive,GTAVI_An_Extended_Look,1128.0,8.0,close: skydive
+t1_0048_cctv_hold,GTAVI_Trailer_1 (still at 47.65),47.65,2.0,#3 CCTV — 2 s push-in on a still (the real shot is 0.3 s)
+el_1644_split,GTAVI_An_Extended_Look,1003.75,13.0,#3 crew splits up (trimmed at scene change)
+t2_0116_victim,GTAVI_Trailer_2,75.9,1.6,#9 victim hands up
