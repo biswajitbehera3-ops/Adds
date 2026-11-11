@@ -1,6 +1,6 @@
 # 006 — upload package
 
-**File:** `remotion-overlays/out/006-final-1080.mp4` (1080p, voice + SFX, −14 LUFS) · **Thumbnails:** `remotion-overlays/out/thumbs/Thumb006A-0.png`
+**File:** `remotion-overlays/out/006-final-1080.mp4` (1080p, voice + SFX, −14 LUFS) · **Main thumbnail:** `remotion-overlays/out/thumbs/Thumb006-AI.jpg` (Nano Banana Pro, 2 credits, from Rockstar's Robbery artwork as reference: photoreal masked close-up, police lights, "DON'T GET CAUGHT"). **Backups:** `Thumb006A-0.png`
 (A "DON'T GET CAUGHT") and `Thumb006B-0.png` (B "THEY KNOW"), 1280×720, built on Rockstar's official "Jason and Lucia Robbery" artwork (no-logo version; artwork © Rockstar Games). Upload both with **Test & Compare**.
 
 ## Title (≤60 chars, linted 100/100)
