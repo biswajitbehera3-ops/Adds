@@ -381,3 +381,19 @@ These replace the Trailer 1 picks wherever they're better. Pull each one straigh
 | B21 #2 hollow stars | **18:04–18:11** motorbike getaway, **18:08** freeze on 2 hollow stars and no icons |
 | B23 #1 witnesses | **17:52** "JOYERÍA" strip mall · **18:12–18:23 a man filming on his phone** · **18:24 "LIVE 51k" livestream** |
 | B24 outro | **18:48–18:56** skydive over Vice City |
+
+## Final footage coverage (every official video on rockstargames.com/VI/media/videos checked)
+| Part | Real footage | Our illustration only for |
+|---|---|---|
+| Hook + turn | T1 0:27, T1 0:21, T1 0:49 body-cam, EL 14:04 helicopter, **T2 0:46–0:49 police arrest street**, **T2 0:50 prison tower** | — |
+| #10 They clock your gun | EL 9:06 people outside a store; T2 1:56 woman turns as Jason walks in with a pistol (brief) | The back-vs-hands reaction |
+| #9 The victim fights back | **T2 1:15–1:16 masked robber, victim's hands up**; T1 1:09; EL 17:52 | The victim turning on you |
+| #8 The owner calls it in | **EL 6:06–6:09 "SLIM JIM / SMASH WINDOW"**; T1 1:00 driving | The owner's phone call |
+| #7 The car snitches | EL 15:52–16:16 car swap + torch | The tracker signal (no footage exists) |
+| #6 The searchlight | **LT 0:53 helicopter at night**; EL 14:04 helicopter (day) | The searchlight beam (graphic overlay, labelled) |
+| #5 They talk to each other | **T2 0:46–0:49**, **LT 1:11–1:12 night police car**, EL 15:44–15:48 | Stinger strip + dog (Edge demo only) |
+| #4 Star colours | EL 15:40 solid, EL 18:08 hollow | Flashing + red (our star-row graphic) |
+| #3 Police report | EL 15:40 icons, EL 17:04 camera sign, EL 16:40 split, EL 15:52 car swap, **EL 9:06 clothing store**, T1 1:05 mugshot, T1 1:09 mask | — |
+| #2 Hollow stars | EL 18:04–18:11 | — |
+| #1 No witnesses | EL 18:12 phone filmer, EL 18:24 livestream, EL 17:52 storefronts | The developer's provoke-and-defuse trick |
+| Outro | EL 18:48 skydive, LT 0:27 hero shot, cover-art animation (clips zip) | — |
