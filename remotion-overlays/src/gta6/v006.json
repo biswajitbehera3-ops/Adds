@@ -1,0 +1,1384 @@
+{
+ "fps": 30,
+ "durationInFrames": 8513,
+ "items": [
+  {
+   "from": 8,
+   "dur": 72,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t1_0027_street.mp4",
+    "startFrom": 0,
+    "rate": 0.611,
+    "play": 71
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "10 HIDDEN DETAILS",
+     "hi": "10"
+    }
+   ]
+  },
+  {
+   "from": 80,
+   "dur": 73,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1752_strip.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 73
+   },
+   "overlays": []
+  },
+  {
+   "from": 153,
+   "dur": 64,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t1_0022_crowd.mp4",
+    "startFrom": 0,
+    "rate": 0.688,
+    "play": 63
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "THEY GET YOU CAUGHT",
+     "hi": "CAUGHT"
+    }
+   ]
+  },
+  {
+   "from": 217,
+   "dur": 78,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1812_phone.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 78
+   },
+   "overlays": []
+  },
+  {
+   "from": 295,
+   "dur": 72,
+   "visual": {
+    "kind": "title",
+    "num": 10,
+    "title": "They clock your gun",
+    "under": "clips/006p/el_0906_store.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 367,
+   "dur": 132,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_0906_store.mp4",
+    "startFrom": 0,
+    "rate": 0.561,
+    "play": 131
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "GTA 5: NOBODY BLINKED",
+     "hi": "NOBODY"
+    }
+   ]
+  },
+  {
+   "from": 499,
+   "dur": 117,
+   "visual": {
+    "kind": "comp",
+    "name": "QuoteCard",
+    "props": {
+     "quote": "If you can produce an automatic shotgun out of nowhere and they don't react, then that doesn't work.",
+     "speaker": "Rob Nelson",
+     "outlet": "Rockstar North \u00b7 Edge",
+     "bg": ""
+    }
+   },
+   "overlays": [
+    {
+     "type": "dim"
+    }
+   ]
+  },
+  {
+   "from": 616,
+   "dur": 195,
+   "visual": {
+    "kind": "comp",
+    "name": "IllGunAwareness",
+    "props": {}
+   },
+   "overlays": []
+  },
+  {
+   "from": 811,
+   "dur": 90,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0156_turn.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 63
+   },
+   "overlays": []
+  },
+  {
+   "from": 901,
+   "dur": 118,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t1_0027_street.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 87
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 1019,
+   "dur": 81,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0043_storedoor.mp4",
+    "startFrom": 0,
+    "rate": 0.889,
+    "play": 80
+   },
+   "overlays": []
+  },
+  {
+   "from": 1100,
+   "dur": 84,
+   "visual": {
+    "kind": "title",
+    "num": 9,
+    "title": "The victim fights back",
+    "under": "clips/006p/t2_0115_robber.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 1184,
+   "dur": 62,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0115_robber.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 51
+   },
+   "overlays": []
+  },
+  {
+   "from": 1246,
+   "dur": 104,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0116_victim.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 41
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 1350,
+   "dur": 94,
+   "visual": {
+    "kind": "comp",
+    "name": "IllVictimLunge",
+    "props": {}
+   },
+   "overlays": []
+  },
+  {
+   "from": 1444,
+   "dur": 102,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1759_entrance.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 59
+   },
+   "overlays": []
+  },
+  {
+   "from": 1546,
+   "dur": 88,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t1_0109_mask.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 77
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "NO SCRIPT ANYMORE",
+     "hi": "NO"
+    }
+   ]
+  },
+  {
+   "from": 1634,
+   "dur": 81,
+   "visual": {
+    "kind": "title",
+    "num": 8,
+    "title": "The owner calls it in",
+    "under": "clips/006p/el_0606_slimjim.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 1715,
+   "dur": 98,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_0606_slimjim.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 98
+   },
+   "overlays": [
+    {
+     "type": "callout",
+     "x": 722,
+     "y": 786,
+     "r": 64,
+     "label": "Slim Jim or smash"
+    }
+   ]
+  },
+  {
+   "from": 1813,
+   "dur": 22,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t1_0100_driving.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 22
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "YOU'RE NOT",
+     "hi": "NOT"
+    }
+   ]
+  },
+  {
+   "from": 1835,
+   "dur": 158,
+   "visual": {
+    "kind": "comp",
+    "name": "IllOwnerCall",
+    "props": {}
+   },
+   "overlays": []
+  },
+  {
+   "from": 1993,
+   "dur": 59,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t1_0103_cash.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 35
+   },
+   "overlays": []
+  },
+  {
+   "from": 2052,
+   "dur": 143,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1620_van.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 143
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 2195,
+   "dur": 57,
+   "visual": {
+    "kind": "title",
+    "num": 7,
+    "title": "The car snitches",
+    "under": "clips/006p/lt_0047_supercars.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 2252,
+   "dur": 79,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0047_supercars.mp4",
+    "startFrom": 0,
+    "rate": 0.709,
+    "play": 78
+   },
+   "overlays": []
+  },
+  {
+   "from": 2331,
+   "dur": 290,
+   "visual": {
+    "kind": "comp",
+    "name": "IllTracker",
+    "props": {}
+   },
+   "overlays": []
+  },
+  {
+   "from": 2621,
+   "dur": 119,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1524_chase.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 119
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "WRECK IT = LESS CASH",
+     "hi": "LESS"
+    }
+   ]
+  },
+  {
+   "from": 2740,
+   "dur": 153,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1552_garage.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 153
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 2893,
+   "dur": 68,
+   "visual": {
+    "kind": "title",
+    "num": 6,
+    "title": "The searchlight",
+    "under": "clips/006p/t2_0146_alley.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 2961,
+   "dur": 62,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0146_alley.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 27
+   },
+   "overlays": []
+  },
+  {
+   "from": 3023,
+   "dur": 76,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0053_heli.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 76
+   },
+   "overlays": [
+    {
+     "type": "searchlight"
+    }
+   ]
+  },
+  {
+   "from": 3099,
+   "dur": 163,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1517_tunnel.mp4",
+    "startFrom": 0,
+    "rate": 0.736,
+    "play": 162
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 3262,
+   "dur": 122,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1524_chase.mp4",
+    "startFrom": 240,
+    "rate": 1.0,
+    "play": 122
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "BACK ALLEYS > FULL SPEED",
+     "hi": "ALLEYS"
+    }
+   ]
+  },
+  {
+   "from": 3384,
+   "dur": 75,
+   "visual": {
+    "kind": "title",
+    "num": 5,
+    "title": "They talk to each other",
+    "under": "clips/006p/t2_0046_police.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 3459,
+   "dur": 139,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0046_police.mp4",
+    "startFrom": 0,
+    "rate": 0.863,
+    "play": 138
+   },
+   "overlays": []
+  },
+  {
+   "from": 3598,
+   "dur": 154,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0111_policecar.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 65
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 3752,
+   "dur": 81,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0229_bike.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 41
+   },
+   "overlays": []
+  },
+  {
+   "from": 3833,
+   "dur": 291,
+   "visual": {
+    "kind": "comp",
+    "name": "IllStinger",
+    "props": {}
+   },
+   "overlays": []
+  },
+  {
+   "from": 4124,
+   "dur": 101,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1544_police.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 101
+   },
+   "overlays": [
+    {
+     "type": "stamp",
+     "text": "CAUGHT"
+    }
+   ]
+  },
+  {
+   "from": 4225,
+   "dur": 93,
+   "visual": {
+    "kind": "title",
+    "num": 4,
+    "title": "The stars change colour",
+    "under": "clips/006p/el_1404_heli.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 4318,
+   "dur": 18,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1404_heli.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 18
+   },
+   "overlays": []
+  },
+  {
+   "from": 4336,
+   "dur": 189,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1524_chase.mp4",
+    "startFrom": 300,
+    "rate": 0.952,
+    "play": 188
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "GameSpot"
+    }
+   ]
+  },
+  {
+   "from": 4525,
+   "dur": 37,
+   "visual": {
+    "kind": "comp",
+    "name": "StarRow",
+    "props": {
+     "mode": "white",
+     "lit": 4,
+     "label": "Solid white",
+     "sub": "They can see you",
+     "bg": ""
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/006p/el_1524_chase.mp4"
+    }
+   ]
+  },
+  {
+   "from": 4562,
+   "dur": 66,
+   "visual": {
+    "kind": "comp",
+    "name": "StarRow",
+    "props": {
+     "mode": "flashing",
+     "lit": 4,
+     "label": "Flashing",
+     "sub": "You've broken line of sight",
+     "bg": ""
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/006p/el_1517_tunnel.mp4"
+    }
+   ]
+  },
+  {
+   "from": 4628,
+   "dur": 235,
+   "visual": {
+    "kind": "comp",
+    "name": "StarRow",
+    "props": {
+     "mode": "red",
+     "lit": 4,
+     "label": "Solid red",
+     "sub": "They're looking. They don't know where.",
+     "bg": ""
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/006p/el_1552_garage.mp4"
+    }
+   ]
+  },
+  {
+   "from": 4863,
+   "dur": 72,
+   "visual": {
+    "kind": "title",
+    "num": 3,
+    "title": "The police report",
+    "under": "clips/006p/el_1524_chase.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 4935,
+   "dur": 107,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1524_chase.mp4",
+    "startFrom": 380,
+    "rate": 0.935,
+    "play": 106
+   },
+   "overlays": []
+  },
+  {
+   "from": 5042,
+   "dur": 190,
+   "visual": {
+    "kind": "comp",
+    "name": "IconPanel",
+    "props": {
+     "bg": "",
+     "icons": [
+      {
+       "key": "camera",
+       "fix": "",
+       "onSec": 0.4,
+       "fixSec": 99
+      },
+      {
+       "key": "hanger",
+       "fix": "",
+       "onSec": 0.75,
+       "fixSec": 99
+      },
+      {
+       "key": "duo",
+       "fix": "",
+       "onSec": 1.1,
+       "fixSec": 99
+      },
+      {
+       "key": "gun",
+       "fix": "",
+       "onSec": 1.4499999999999997,
+       "fixSec": 99
+      },
+      {
+       "key": "car",
+       "fix": "",
+       "onSec": 1.7999999999999998,
+       "fixSec": 99
+      },
+      {
+       "key": "face",
+       "fix": "",
+       "onSec": 2.15,
+       "fixSec": 99
+      }
+     ]
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/006p/el_1524_chase.mp4"
+    },
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 5232,
+   "dur": 120,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1704_cameras.mp4",
+    "startFrom": 0,
+    "rate": 0.75,
+    "play": 119
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "CCTV \u2192 DESTROY FOOTAGE",
+     "hi": "DESTROY"
+    }
+   ]
+  },
+  {
+   "from": 5352,
+   "dur": 206,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_0906_store.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 147
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "CLOTHES \u2192 CHANGE, UNSEEN",
+     "hi": "CHANGE"
+    }
+   ]
+  },
+  {
+   "from": 5558,
+   "dur": 124,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1644_split.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 124
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "TWO PEOPLE \u2192 SPLIT UP",
+     "hi": "SPLIT"
+    }
+   ]
+  },
+  {
+   "from": 5682,
+   "dur": 91,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0115_robber.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 51
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "GUN \u2192 DITCH IT",
+     "hi": "DITCH"
+    }
+   ]
+  },
+  {
+   "from": 5773,
+   "dur": 69,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1552_garage.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 69
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "CAR \u2192 SWAP IT",
+     "hi": "SWAP"
+    }
+   ]
+  },
+  {
+   "from": 5842,
+   "dur": 82,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t1_0105_mugshot.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 41
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "FACE \u2192 MASK?",
+     "hi": "MASK?",
+     "top": true
+    }
+   ]
+  },
+  {
+   "from": 5924,
+   "dur": 111,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t1_0109_mask.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 77
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "THEORY",
+     "outlet": "GameSpot's suggestion"
+    }
+   ]
+  },
+  {
+   "from": 6035,
+   "dur": 74,
+   "visual": {
+    "kind": "title",
+    "num": 2,
+    "title": "Hollow stars",
+    "under": "clips/006p/el_1620_van.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 6109,
+   "dur": 94,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1620_van.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 94
+   },
+   "overlays": []
+  },
+  {
+   "from": 6203,
+   "dur": 157,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1804_hollow.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 157
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "GameSpot"
+    }
+   ]
+  },
+  {
+   "from": 6360,
+   "dur": 277,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1804_hollow.mp4",
+    "startFrom": 90,
+    "rate": 0.5,
+    "play": 239
+   },
+   "overlays": [
+    {
+     "type": "callout",
+     "x": 1790,
+     "y": 46,
+     "r": 70,
+     "label": "Hollow stars",
+     "side": "left"
+    }
+   ]
+  },
+  {
+   "from": 6637,
+   "dur": 124,
+   "visual": {
+    "kind": "comp",
+    "name": "SplitCompare",
+    "props": {
+     "title": "WHAT THE COPS KNOW",
+     "left": {
+      "img": "frames/el-1540-icons.jpg",
+      "crop": [
+       3200,
+       20,
+       640,
+       240
+      ],
+      "label": "BEFORE \u00b7 4 ICONS",
+      "color": "#FF3B3B"
+     },
+     "right": {
+      "img": "frames/el-1808-hollow.jpg",
+      "crop": [
+       3200,
+       20,
+       640,
+       240
+      ],
+      "label": "AFTER \u00b7 NONE",
+      "color": "#3CFF6B"
+     },
+     "bg": ""
+    }
+   },
+   "overlays": []
+  },
+  {
+   "from": 6761,
+   "dur": 104,
+   "visual": {
+    "kind": "comp",
+    "name": "StarRow",
+    "props": {
+     "mode": "hollow",
+     "lit": 2,
+     "label": "Hollow stars",
+     "sub": "Still wanted. Nothing on you.",
+     "bg": ""
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/006p/el_1804_hollow.mp4"
+    }
+   ]
+  },
+  {
+   "from": 6865,
+   "dur": 93,
+   "visual": {
+    "kind": "title",
+    "num": 1,
+    "title": "No witnesses, no report",
+    "under": "clips/006p/el_1752_strip.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 6958,
+   "dur": 86,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1752_strip.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 86
+   },
+   "overlays": []
+  },
+  {
+   "from": 7044,
+   "dur": 172,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1812_phone.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 172
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "GameSpot \u00b7 Rob Nelson"
+    }
+   ]
+  },
+  {
+   "from": 7216,
+   "dur": 45,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1824_live.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 45
+   },
+   "overlays": []
+  },
+  {
+   "from": 7261,
+   "dur": 142,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0043_storedoor.mp4",
+    "startFrom": 0,
+    "rate": 0.507,
+    "play": 141
+   },
+   "overlays": []
+  },
+  {
+   "from": 7403,
+   "dur": 182,
+   "visual": {
+    "kind": "comp",
+    "name": "IllStoreClear",
+    "props": {}
+   },
+   "overlays": []
+  },
+  {
+   "from": 7585,
+   "dur": 205,
+   "visual": {
+    "kind": "comp",
+    "name": "QuoteCard",
+    "props": {
+     "quote": "I basically started picking fights with them, provoking them and then immediately defusing it. Then they would leave the store, so that would clear them out and I could rob it more cleanly.",
+     "speaker": "Phil Hooker",
+     "outlet": "Rockstar North \u00b7 Edge",
+     "wps": 9,
+     "bg": ""
+    }
+   },
+   "overlays": [
+    {
+     "type": "dim"
+    }
+   ]
+  },
+  {
+   "from": 7790,
+   "dur": 72,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t1_0109_mask.mp4",
+    "startFrom": 0,
+    "rate": 0.542,
+    "play": 71
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "NO REPORT FILED",
+     "hi": "NO"
+    }
+   ]
+  },
+  {
+   "from": 7862,
+   "dur": 293,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1848_skydive.mp4",
+    "startFrom": 0,
+    "rate": 0.819,
+    "play": 292
+   },
+   "overlays": []
+  },
+  {
+   "from": 8155,
+   "dur": 181,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0027_hero.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 83
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "WHICH GETS YOU FIRST? \ud83d\udc47",
+     "hi": "FIRST?"
+    }
+   ]
+  },
+  {
+   "from": 8336,
+   "dur": 177,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/zip_cover_art.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 177
+   },
+   "overlays": []
+  }
+ ],
+ "audio": [
+  {
+   "src": "clips/006/vo/00.wav",
+   "from": 8
+  },
+  {
+   "src": "clips/006/vo/01.wav",
+   "from": 295
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 295,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 298,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/radio.wav",
+   "from": 297,
+   "vol": 0.35
+  },
+  {
+   "src": "clips/006/vo/02.wav",
+   "from": 1100
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 1100,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 1103,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/vo/03.wav",
+   "from": 1634
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 1634,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 1637,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 1735,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/vo/04.wav",
+   "from": 2195
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 2195,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 2198,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/vo/05.wav",
+   "from": 2893
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 2893,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 2896,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/vo/06.wav",
+   "from": 3384
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 3384,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 3387,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 4130,
+   "vol": 0.6
+  },
+  {
+   "src": "clips/006/sfx/radio.wav",
+   "from": 3386,
+   "vol": 0.35
+  },
+  {
+   "src": "clips/006/vo/07.wav",
+   "from": 4225
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 4225,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 4228,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/vo/08.wav",
+   "from": 4863
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 4863,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 4866,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/vo/09.wav",
+   "from": 6035
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 6035,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 6038,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 6380,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/vo/10.wav",
+   "from": 6865
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 6865,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 6868,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/vo/11.wav",
+   "from": 7862
+  }
+ ],
+ "sections": [
+  {
+   "num": null,
+   "from": 8,
+   "to": 295
+  },
+  {
+   "num": 10,
+   "from": 295,
+   "to": 1100
+  },
+  {
+   "num": 9,
+   "from": 1100,
+   "to": 1634
+  },
+  {
+   "num": 8,
+   "from": 1634,
+   "to": 2195
+  },
+  {
+   "num": 7,
+   "from": 2195,
+   "to": 2893
+  },
+  {
+   "num": 6,
+   "from": 2893,
+   "to": 3384
+  },
+  {
+   "num": 5,
+   "from": 3384,
+   "to": 4225
+  },
+  {
+   "num": 4,
+   "from": 4225,
+   "to": 4863
+  },
+  {
+   "num": 3,
+   "from": 4863,
+   "to": 6035
+  },
+  {
+   "num": 2,
+   "from": 6035,
+   "to": 6865
+  },
+  {
+   "num": 1,
+   "from": 6865,
+   "to": 7862
+  },
+  {
+   "num": null,
+   "from": 7862,
+   "to": 8513
+  }
+ ]
+}
