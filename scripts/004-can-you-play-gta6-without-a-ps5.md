@@ -1,6 +1,6 @@
 # 004 — Can You Play GTA 6 Without a PS5? — Production script v1
 
-**Standard:** `production/style-guide.md` · **Runtime:** ~5:50 · **VO:** ~880 words · **Music:** synthwave/Miami-night (energy) →
+**Standard:** `production/style-guide.md` · **Runtime:** ~5:50 · **VO:** ≈660 words (≈4:25 of voice at 150 wpm, plus chapter cards and stings) · **Music:** synthwave/Miami-night (energy) →
 dark pulse (the catch) → soft pads (outro)
 
 **Title (pick one, ≤60 chars):**
@@ -29,21 +29,26 @@ Console product shots: draw them as simple flat icons (our own graphic) — don'
 
 ## Beat-by-beat
 
-**B1 · 0:00–0:05 · COLD OPEN**
-- **VO:** "Rockstar just confirmed GTA 6 will run on a console from twenty thirteen."
+**Hook (v2, scored with `yt-script/hookscore.py`):** "No PS5? Before you spend money on GTA 6, you need to know why a 2013 Xbox can
+play it, and what that costs you." **76 · STRONG** (The Warning). Backup: "Before you buy a console for GTA 6, you need to know which
+1 gets ray-traced shadows, and why it's not Xbox." **76 · STRONG**. Old v1 hook scored 39 · WEAK.
+
+**B1 · 0:00–0:07 · COLD OPEN**
+- **VO:** "No PS5? Before you spend money on GTA 6, you need to know why a twenty-thirteen Xbox can play it…"
 - **VISUAL:** black → hard cut to an Extended Look highway shot at sunset, slow push.
-- **GFX:** a flat Xbox One icon drops in centre; a gold stamp "2013" slams on it (`ResultStamp`, gold).
+- **GFX:** caption "NO PS5?" types in (white); a flat Xbox One icon drops in centre and a gold "2013" stamp slams on it
+  (`ResultStamp`, gold).
 - **AUDIO:** sub-boom on the stamp; the synthwave bed starts on the downbeat.
 
-**B2 · 0:05–0:13 · PATTERN BREAK**
-- **VO:** "Not a port. Not a cut-down version. The full game. But there's a catch, and most people are going to miss it."
+**B2 · 0:07–0:14 · PATTERN BREAK**
+- **VO:** "…and what that costs you. It's the full game, not a cut-down version. But there's a catch."
 - **VISUAL:** freeze-frame with a camera-shutter flash; the frame drops to grey.
 - **GFX:** keyword captions "FULL GAME" (green) → "THE CATCH" (red), the second one shaking slightly.
 - **AUDIO:** shutter SFX; a low riser.
 
-**B3 · 0:13–0:25 · STAKES + PROMISE**
-- **VO:** "So in this video I'll go through every way to play GTA 6 on launch day, from the best version to the cheapest. And I'll show you
-  which one you should pick, so you don't spend money on the wrong one."
+**B3 · 0:14–0:25 · STAKES + PROMISE**
+- **VO:** "So here's every way to play GTA 6 on launch day, ranked, from the best version down to that 2013 Xbox. And at the end, which
+  one you should actually pick."
 - **VISUAL:** three fast B-roll cuts: a speedboat, a neon street, Lucia on a motorbike.
 - **GFX:** a 4-row "tier list" skeleton slides in (rows S / A / B / C, all empty, with blurred icons). It fills in through the video.
 - **AUDIO:** a whoosh per row; the music lifts into the main groove at 0:25.
@@ -152,8 +157,9 @@ Console product shots: draw them as simple flat icons (our own graphic) — don'
 - **AUDIO:** a tick per highlight; the music builds.
 
 **B18 · 5:20–5:50 · OUTRO**
-- **VO:** "I'm covering GTA 6 every day through launch week, with only confirmed facts, and the source on screen every time. Subscribe
-  so you don't miss it. And tell me in the comments: what are you playing GTA 6 on? See you in the next one."
+- **VO:** "Every fact in this video had its source on screen, and they're all in the description. So, one question, and tell me in the
+  comments: what are you playing GTA 6 on? The full unlock times are in the next video, right here."
+- **Note:** one ask only (the comment question). No subscribe pitch; the end screen carries the subscribe button.
 - **VISUAL:** the Launch Trailer hero shot (Jason and Lucia at sunset), slow push.
 - **GFX:** end screen: next video (#001 unlock times) on the left, subscribe on the right; the comment question as a card.
 - **AUDIO:** the music resolves into soft pads.
@@ -161,6 +167,7 @@ Console product shots: draw them as simple flat icons (our own graphic) — don'
 ---
 
 ## Thumbnails (A/B)
+Both pairs linted with `yt-package/title.py`: **100/100**, no duplicate words between title and thumbnail.
 - **A — "XBOX ONE?!"** Left: a flat Xbox One icon with a cloud above it and a gold "2013" tag. Right: Jason key-art crop with a blue
   rim light. Text "XBOX ONE?!" (Anton, white, thick black outline).
 - **B — "30 FPS"** A giant white "30 FPS" with a gold "PRO ONLY" badge in the corner. Behind it: a dark Vice City skyline. A small
