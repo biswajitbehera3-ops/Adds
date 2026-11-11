@@ -6,7 +6,8 @@ import { ClipShort } from "./shorts/ClipShort";
 import { IllGunAwareness, IllOwnerCall, IllSearchlight, IllStinger, IllStoreClear, IllTracker, IllVictimLunge } from "./gta6/Illustrations";
 import { KitReel, KIT_REEL_FRAMES } from "./gta6/KitReel";
 import { Video006, VIDEO006_FRAMES } from "./gta6/Video006";
-import { Thumb006A, Thumb006B } from "./gta6/Thumbs006";
+import { ThumbFloorPaint, ThumbFloorStand } from "./gta6/ThumbFloor";
+import { Thumb006A, Thumb006B, Thumb006Pro } from "./gta6/Thumbs006";
 import { DetailCallout, DispatchScreen, IconPanel, NumberCard, ProgressBar, QuoteCard, SourceTag, SplitCompare, StarRow } from "./gta6/Kit";
 import { ContestantTracker } from "./ContestantTracker";
 import { Countdown } from "./Countdown";
@@ -182,6 +183,9 @@ export const RemotionRoot: React.FC = () => {
             left: { img: "frames/el-1540-icons.jpg", crop: [3200, 20, 640, 240] as [number, number, number, number], label: "15:40 · 4 ICONS", color: "#FF3B3B" },
             right: { img: "frames/el-1808-hollow.jpg", crop: [3200, 20, 640, 240] as [number, number, number, number], label: "18:08 · NONE", color: "#3CFF6B" } }} />
       </Folder>
+      <Still id="Thumb006Pro" component={Thumb006Pro} width={1280} height={720} />
+      <Still id="ThumbFloorPaint" component={ThumbFloorPaint} width={1280} height={720} />
+      <Still id="ThumbFloorStand" component={ThumbFloorStand} width={1280} height={720} />
       <Still id="Thumb006A" component={Thumb006A} width={1280} height={720} />
       <Still id="Thumb006B" component={Thumb006B} width={1280} height={720} />
       <Composition id="Video006" component={Video006} durationInFrames={VIDEO006_FRAMES} fps={30} width={1920} height={1080} />

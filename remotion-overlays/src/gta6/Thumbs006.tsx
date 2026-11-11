@@ -53,3 +53,30 @@ export const Thumb006B: React.FC = () => (
     </div>
   </AbsoluteFill>
 );
+
+// PRO — the "ALL GANGS" technique on a real 4K game frame (Trailer 1, 1:09): background frame, then huge text,
+// then the cut-out characters (rembg / BiRefNet, free) placed IN FRONT of the text for depth. No AI imagery.
+const FRAME = "frames/c5-t1-lucia-mask.jpg"; // 3840×2160
+const CUT = "frames/c5-cut.png";             // same size, transparent background
+const SCALE = 1280 / 3840 * 1.12;            // slight zoom-in
+const OX = -250, OY = -30;
+const layer: React.CSSProperties = { position: "absolute", left: OX, top: OY, width: 3840 * SCALE, height: 2160 * SCALE };
+
+export const Thumb006Pro: React.FC = () => (
+  <AbsoluteFill style={{ background: "#000", overflow: "hidden" }}>
+    {/* 1. background frame, darker + cooler so the people pop */}
+    <Img src={staticFile(FRAME)} style={{ ...layer, filter: "brightness(0.55) contrast(1.15) saturate(1.15) blur(2px)" }} />
+    <AbsoluteFill style={{ background: "radial-gradient(ellipse at 45% 55%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.7) 100%)" }} />
+    {/* police light spill */}
+    <AbsoluteFill style={{ background: "radial-gradient(circle at -5% 30%, rgba(255,30,50,0.65) 0%, rgba(255,30,50,0) 45%), radial-gradient(circle at 105% 30%, rgba(30,110,255,0.65) 0%, rgba(30,110,255,0) 45%)", mixBlendMode: "screen" }} />
+    {/* 2. the text, BEHIND the people */}
+    <div style={{ position: "absolute", right: 26, top: 6, fontFamily: ANTON, fontSize: 124, lineHeight: 1, color: "#FFFFFF", letterSpacing: 1,
+      textShadow: "0 0 0 #000, 5px 6px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000" }}>DON'T GET</div>
+    <div style={{ position: "absolute", right: 20, top: 112, fontFamily: ANTON, fontSize: 246, lineHeight: 0.95, color: "#FF2222", letterSpacing: 2,
+      textShadow: "6px 8px 0 #000, -3px -3px 0 #000, 3px -3px 0 #000, -3px 3px 0 #000, 0 0 40px rgba(255,0,0,0.45)" }}>CAUGHT</div>
+    {/* 3. cut-out characters IN FRONT of the text, brightened, with a soft rim light */}
+    <Img src={staticFile(CUT)} style={{ ...layer, filter: "brightness(1.45) contrast(1.15) saturate(1.3) drop-shadow(0 0 3px rgba(255,255,255,0.75)) drop-shadow(0 12px 22px rgba(0,0,0,0.75))" }} />
+    {/* 4. small wanted stars, bottom-right */}
+    <div style={{ position: "absolute", right: 30, bottom: 30 }}><Stars lit={6} size={60} /></div>
+  </AbsoluteFill>
+);
