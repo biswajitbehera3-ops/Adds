@@ -264,11 +264,17 @@ instead, never a different scene described as that one.
 - **AUDIO:** the music lifts into the big cue.
 
 **B21 · 5:06–5:30**
-- **VO:** "Hollow stars. GameSpot says that means the police have no idea who they're looking for. And you can see it in the Extended
-  Look: Lucia drives right past the cops with hollow stars, flips them off, and they do nothing."
-- **B-ROLL:** [B1] the Extended Look Lucia drive-past moment ⏱ at normal speed → [B2] freeze + push on the hollow stars → resume.
-- **ANIMATION:** [A2] ring on the hollow stars: "THEY DON'T KNOW IT'S YOU". [A8] ZoomPunch on the gesture. [A3] REPORTED · GameSpot.
-- **AUDIO:** the music hits on the gesture; a record-stop on the freeze; resume.
+- **VO:** "Hollow stars. GameSpot says that means the police have no idea who they're looking for. Watch the Extended Look right after
+  the jewellery-store job: the getaway rider pulls away with two hollow stars, and look under them. The icons are gone. No face, no
+  clothes, no car. They're still wanted, and the cops have nothing."
+- **B-ROLL:** [B1] **Extended Look 18:04–18:11** (rider in the #69 jersey runs to the motorbike and pulls away) at normal speed →
+  [B2] freeze at **18:08** + push into the top-right HUD (two hollow stars, no icons) → [B5] split with **15:40** (four solid stars
+  with four icons) labelled "BEFORE" / "AFTER" → resume. Start the clip at 18:04, **after** the store scuffle (18:01–18:03).
+- **ANIMATION:** [A2] ring on the hollow stars: "THEY DON'T KNOW IT'S YOU"; a second ring on the empty space under them: "NO
+  ICONS". [A8] ZoomPunch on the freeze. [A3] REPORTED · GameSpot (meaning) · our own frame check (the footage).
+- **AUDIO:** the music hits on the freeze; a record-stop; resume.
+- **Note:** GameSpot also describes Lucia flipping off police with hollow stars. A scan of the Extended Look (every 20 s, plus
+  every 4 s from 13:20 to 18:56) didn't find that shot, so the VO doesn't claim it. If you spot it, swap it in.
 
 **B22 · 5:30–5:36 · #1 CARD (the promised payoff)**
 - **VO:** "And number one starts before you commit the crime."
@@ -359,3 +365,19 @@ Fill these ⏱ slots from Trailer 1 until the Extended Look arrives:
 | B21 #2 getting away | **1:07 Weazel News "COPS FAIL TO STOP THUGS…"** (the hollow-stars shot itself still needs the Extended Look) |
 | B23 #1 store | 1:09 store interior · 0:50 gas station |
 | B24 outro | 1:12–1:16 motel room, or 0:03 sunset highway |
+
+## Shots from An Extended Look (official master, `research/footage/extended-look-shotlist.md`)
+These replace the Trailer 1 picks wherever they're better. Pull each one straight from Rockstar's server; you don't need the
+14 GB file (commands in the shot list).
+| Beat | Extended Look shot |
+|---|---|
+| B3 turn ("they build a case") | **14:04** police helicopter with 4 stars + heat icons on the HUD |
+| B9 #8 owner calls it in | **~6:05** Jason at a car with "SLIM JIM / SMASH WINDOW" prompts |
+| B11 #7 the car snitches | **15:52–16:16** parking-garage car swap, old car torched |
+| B13 #6 searchlight | **14:04** helicopter over the high-rises |
+| B15 #5 they talk to each other | **15:44–15:48** police cars pass right by · 15:24–15:40 street chase |
+| B17 #4 star colours | **15:40** solid stars (freeze) |
+| B19 #3 police report | **15:40** the 4 heat icons under the stars (freeze + IconPanel over them) · **17:04 "WARNING: WE OPERATE CAMERAS IN THIS AREA"** sign for CCTV · **16:40–16:56** the crew splitting up · **~9:05** clothing store |
+| B21 #2 hollow stars | **18:04–18:11** motorbike getaway, **18:08** freeze on 2 hollow stars and no icons |
+| B23 #1 witnesses | **17:52** "JOYERÍA" strip mall · **18:12–18:23 a man filming on his phone** · **18:24 "LIVE 51k" livestream** |
+| B24 outro | **18:48–18:56** skydive over Vice City |
