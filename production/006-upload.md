@@ -1,7 +1,7 @@
 # 006 — upload package
 
 **File:** `remotion-overlays/out/006-final-1080.mp4` (1080p, voice + SFX, −14 LUFS) · **Thumbnails:** `remotion-overlays/out/thumbs/Thumb006A-0.png`
-(A) and `Thumb006B-0.png` (B), 1280×720. Upload both with **Test & Compare**.
+(A "DON'T GET CAUGHT") and `Thumb006B-0.png` (B "THEY KNOW"), 1280×720, built on Rockstar's official "Jason and Lucia Robbery" artwork (no-logo version; artwork © Rockstar Games). Upload both with **Test & Compare**.
 
 ## Title (≤60 chars, linted 100/100)
 `10 Hidden Details in GTA 6 That Will Get You Caught`
