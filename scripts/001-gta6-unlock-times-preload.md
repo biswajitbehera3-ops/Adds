@@ -4,12 +4,14 @@
 dark pulse (warnings) → soft pads (outro)
 
 **Title (pick one, ≤60 chars):**
-- A: `When EXACTLY Can You Play GTA 6? (Every Country)`
+- A: `When EXACTLY Can You Play GTA 6? (Every Time Zone)`
 - B: `GTA 6 Unlocks EARLY Here — Exact Times + Pre-Load`
 
 **Facts (all Tier 1–2):** release Thu 19 Nov 2026 on PS5 / Xbox Series X|S (Rockstar Newswire) · PS5 pre-download from 10 Nov
-(PlayStation Blog) · midnight local unlock, one time zone per country, NZ first, US = midnight ET / 9 PM PT on 18 Nov — **from store
-listings; Rockstar hasn't announced a launch hour** (The Leonida) · PS5 pre-load at local midnight, Xbox at midnight GMT · up to
+(PlayStation Blog) · **unlock = midnight local time in each time zone, a rolling launch starting 12:00 AM NZDT** (PlayStation Blog,
+10 Nov 2026 — CONFIRMED; Rockstar's per-time-zone rule reported by Digital Foundry). Countries with several zones (US, Canada, Australia)
+do **not** share one time: the US West Coast waits for its own midnight · Xbox Cloud Gaming from 1 AM ET on 19 Nov (Xbox Wire) ·
+most pre-ordered game ever on PS Store and Microsoft Store (PlayStation Blog / Xbox Wire) · PS5 pre-load at local midnight, Xbox at midnight GMT · up to
 212 GB · physical Standard Edition = code in a box, in stores from 12 Nov · Vintage Vice City Pack for purchases before 20 Nov ·
 digital pre-orders get a free month of GTA+.
 
@@ -53,10 +55,11 @@ digital pre-orders get a free month of GTA+.
 - **AUDIO:** soft hit on the strike icon.
 
 **B6 · 0:45–1:05**
-- **VO:** "Now, the time. Based on the store listings, the game unlocks at midnight local time in each country, one time zone per
-  country. So it rolls around the world like New Year's Eve."
-- **VISUAL:** `WorldClockMap` full screen; a clock hand sweeps; fireworks-style light pops on each midnight.
-- **GFX:** `SourceTag` REPORTED · store listings (The Leonida).
+- **VO:** "Now, the time. Rockstar and PlayStation have confirmed it: GTA 6 unlocks at midnight, local time, in every time zone. Not
+  every country. Every time zone. So it rolls around the world like New Year's Eve."
+- **VISUAL:** `WorldClockMap` full screen; a clock hand sweeps; fireworks-style light pops on each time-zone band (bands, not country
+  borders).
+- **GFX:** `SourceTag` CONFIRMED · PlayStation Blog. Keyword caption "EVERY TIME ZONE" (gold).
 - **AUDIO:** gentle tick under the sweep; pop SFX on each country.
 
 **B7 · 1:05–1:30**
@@ -68,17 +71,20 @@ digital pre-orders get a free month of GTA+.
 - **AUDIO:** map ping per country; typing ticks on the labels.
 
 **B8 · 1:30–1:45**
-- **VO:** "And in the United States, it's one time for the whole country: midnight Eastern. So if you're on the West Coast, you can
-  start playing at nine PM on November eighteenth."
-- **VISUAL:** the map pans to the US; East Coast and West Coast clocks side by side (12:00 AM vs 9:00 PM).
-- **GFX:** a split clock graphic; "9 PM PT · NOV 18" highlighted in gold.
-- **AUDIO:** two clock dings.
+- **VO:** "And this is where a lot of people got it wrong, me included at first. The US doesn't get one time for the whole country.
+  New York unlocks at midnight Eastern. Los Angeles waits for midnight Pacific, three hours later. Same in Canada and Australia: every
+  zone waits for its own midnight. The one exception is the cloud. Xbox Cloud Gaming opens at one AM Eastern, everywhere it's available."
+- **VISUAL:** the map pans to the US; four clocks light up east to west (ET 12:00 → CT → MT → PT 12:00), each 1 hour apart.
+- **GFX:** a row of four clocks; a red strike over an old "9 PM PT" label (the myth); a small card "XBOX CLOUD · 1 AM ET" with
+  `SourceTag` CONFIRMED · Xbox Wire.
+- **AUDIO:** a clock ding per zone; a record-scratch-lite SFX on the strike.
 
 **B9 · 1:45–2:00 · TRUST MOMENT**
-- **VO:** "One honest warning: Rockstar itself hasn't announced an exact launch hour. These times come from the store listings, so I'll pin
-  an update in the comments the moment anything changes."
+- **VO:** "Can you cheat the clock? Digital Foundry reports that on Xbox, switching your console region to New Zealand and restarting
+  can get you in early. On PlayStation, you'd have to buy the game again on a New Zealand account, and you can't move it to your main
+  one. So for most people: it's not worth it. I'll keep the full list of times pinned in the comments."
 - **VISUAL:** the map dims; a pinned-comment mock-up slides up (our own design, not the YouTube UI).
-- **GFX:** `SourceTag` THEORY-amber variant "NOT YET ANNOUNCED BY ROCKSTAR".
+- **GFX:** `SourceTag` REPORTED · Digital Foundry. A two-column card: "XBOX · REGION SWITCH ✓" / "PS5 · BUY AGAIN ✕".
 - **AUDIO:** the music drops to the filtered bed (a lowpass sweep) for this beat. This is the moment that earns trust.
 
 **B10 · 2:00–2:06 · RE-HOOK + CHAPTER 2**
@@ -179,11 +185,11 @@ digital pre-orders get a free month of GTA+.
 
 ## Description
 ```
-When exactly can you play GTA 6? Unlock times by country, the 212 GB pre-load, the no-disc physical edition, the Nov 20 bonus
+When exactly can you play GTA 6? Unlock times by time zone, the 212 GB pre-load, the no-disc physical edition, the Nov 20 bonus
 deadline and a launch-night checklist.
 
 0:00 Not everyone plays at the same time
-0:24 Unlock times by country
+0:24 Unlock times by time zone
 2:00 Pre-load — do this today
 3:05 The physical copy trap
 3:55 The free bonus deadline
@@ -192,8 +198,10 @@ deadline and a launch-night checklist.
 Sources:
 - Rockstar Newswire — release date: https://www.rockstargames.com/newswire/article/ak3ak31a49a221/grand-theft-auto-vi-is-now-set-to-launch-november-19-2026
 - PlayStation Blog — pre-download Nov 10: https://blog.playstation.com/2026/11/03/grand-theft-auto-vi-pre-download-begins-november-10/
-- Unlock times from store listings (The Leonida): https://theleonida.com/guides/gta-6-launch-calendar
+- PlayStation Blog — rolling midnight launch from 12:00 AM NZDT: https://blog.playstation.com/2026/11/10/pre-load-grand-theft-auto-vi-on-ps5-starting-today/
+- Digital Foundry — midnight local per time zone, region switching: https://www.digitalfoundry.net/news/2026/11/rockstar-officially-confirms-gta-6-regional-release-times-and-theyre-not-what-we-thought
+- Xbox Wire — Xbox Cloud Gaming from 1 AM ET: https://news.xbox.com/en-us/2026/11/10/grand-theft-auto-6-comes-to-xbox-cloud-gaming-november-19/
 
 Footage & images: Rockstar Games (official trailers, Extended Look, key art), used for commentary.
-Unlock hours come from store listings; Rockstar hasn't announced a launch hour. Updates in the pinned comment.
+Unlock = midnight local time in each time zone (not one time per country). Updates in the pinned comment.
 ```
