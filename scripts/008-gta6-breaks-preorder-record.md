@@ -1,8 +1,12 @@
 # 008 — 10 Million Pre-Orders? The GTA 6 Numbers, Explained — Production script v2 (12 Nov 2026)
 
-**Standard:** `production/style-guide.md` + `yt-script` shape · **Spoken words:** ≈720 → **≈4:50 of voice at 150 wpm**, ≈5:20
-with chapter cards and stings · **Music:** synthwave (energy) → tense pulse (the "estimate" section) → big lift (the world stops)
-→ pads (close)
+**Standard:** `production/style-guide.md` + `yt-script` shape · **Spoken words:** 417 → **≈2:47 of voice at 150 wpm**, **≈3:05
+total** with chapter cards and stings (timestamps below are computed from the word count) · **Music:** synthwave (energy) → tense
+pulse (the "estimate" section) → big lift (the world stops) → pads (close)
+
+> **Length note:** this is shorter than the channel's 5–7 minute target. It's a news video with seven facts; padding it to 5
+> minutes is what `voice.md` says the audience hates. Either ship it at ~3 minutes, or add one real segment (see the end of this
+> file).
 
 ## Packaging
 - **Title (use this one):** `10 Million Pre-Orders? The GTA 6 Numbers, Explained` — the hook is about the "ten million" number, so
@@ -46,17 +50,17 @@ open (what *did* Sony and Xbox confirm?) and B answers its own question in the s
 [ON SCREEN: EL night skyline, fast push. A white counter races 0 → 10,000,000; on "Before you repeat it" an amber **ESTIMATE?**
 stamp slams onto it. SFX: counter ticks → stamp hit.]
 
-**B2 · STAKES + TURN · 0:08–0:25**
+**B2 · STAKES + TURN · 0:08–0:24**
 > Because if the number is right, GTA 6 just beat a record that stood for six years, a week before launch. So here's where ten
 > million comes from, what's actually official, and why even the internet is struggling.
 
 [ON SCREEN: T2 nightlife cuts → LT 0:27 hero shot. Three icons type in: "THE NUMBER" · "WHAT'S OFFICIAL" · "THE WORLD STOPS".
 ProgressBar 0/4.]
 
-**B3 · CHAPTER 1 · 0:25–0:29**
+**B3 · CHAPTER 1 · 0:24–0:27**
 [ON SCREEN: NumberCard "1 · WHERE 10 MILLION COMES FROM". ProgressBar 1/4.]
 
-**B4 · 0:29–1:05**
+**B4 · 0:27–0:48**
 > The number comes from Sensor Tower, a company that tracks store data. Their estimate: about ten million pre-orders, worth
 > roughly a billion dollars. GameSpot's report says nine point seven million. Here's the catch. Rockstar and Take-Two haven't
 > confirmed any of it. It's a good estimate. It's not a sales figure.
@@ -65,29 +69,29 @@ ProgressBar 0/4.]
 "9.69M · $942M (GameSpot)". Amber banner "ESTIMATE · NOT CONFIRMED". SourceTag REPORTED · Sensor Tower. Music drops to the tense
 pulse on "Here's the catch."]
 
-**B5 · 1:05–1:30**
+**B5 · 0:48–0:58**
 > And the split is brutal. About seventy-five percent on PlayStation 5, and twenty-five on Xbox. Three PlayStation players for
 > every one on Xbox.
 
 [ON SCREEN: our own bar chart over a blurred skyline: blue "PS5 · 75% · 7.23M" grows, then green "XBOX · 25% · 2.46M". Four
 little player icons, three blue, one green. SourceTag REPORTED · GameSpot / Sensor Tower.]
 
-**B6 · RE-HOOK + CHAPTER 2 · 1:30–1:37**
+**B6 · RE-HOOK + CHAPTER 2 · 0:58–1:03**
 > So which record did it beat?
 
 [ON SCREEN: NumberCard "2 · THE 6-YEAR RECORD". ProgressBar 2/4. Riser → synthwave returns.]
 
-**B7 · 1:37–2:05**
+**B7 · 1:03–1:17**
 > The biggest pre-order number on record was Cyberpunk 2077, with eight million, back in 2020. If Sensor Tower is right, GTA 6
 > passed it by about two million copies. Before it's even out.
 
 [ON SCREEN: LT supercars 0:47 → T2 jet ski 2:21. Two-bar race: "CYBERPUNK 2077 · 8M · 2020" vs "GTA 6 · ~10M · 2026"; the GTA bar
 overtakes with a hit. SourceTag REPORTED · GameSpot.]
 
-**B8 · CHAPTER 3 · 2:05–2:10**
+**B8 · CHAPTER 3 · 1:17–1:19**
 [ON SCREEN: NumberCard "3 · WHAT'S ACTUALLY OFFICIAL". ProgressBar 3/4.]
 
-**B9 · PAYOFF · 2:10–2:45**
+**B9 · PAYOFF · 1:19–1:43**
 > Now, the part you can actually quote. Sony says GTA 6 is the most pre-ordered game in PlayStation Store history. Xbox says it's
 > the most pre-ordered title of all time on the Microsoft Store. Neither one gave a number. But both used the words "all time".
 > That's confirmed. So if someone asks in the comments, that's your answer.
@@ -95,25 +99,25 @@ overtakes with a hit. SourceTag REPORTED · GameSpot.]
 [ON SCREEN: T1 beach crowd; EL night city. Two QuoteCards slide in: PlayStation Blog (10 Nov) and Xbox Wire (10 Nov), with "ALL
 TIME" highlighted gold in both. SourceTag CONFIRMED.]
 
-**B10 · CHAPTER 4 · 2:45–2:51**
+**B10 · CHAPTER 4 · 1:43–1:49**
 > And the real world is already feeling it.
 
 [ON SCREEN: NumberCard "4 · THE WORLD STOPS". ProgressBar 4/4. Big music lift.]
 
-**B11 · 2:51–3:20**
+**B11 · 1:49–2:06**
 > In the UK, Virgin Media says GTA 6 pre-loads gave it the biggest traffic peak it has ever recorded. And the most data it has
 > ever moved in a single day. That's just the download. Nobody can play it yet.
 
 [ON SCREEN: EL highway at night (traffic streaks), slow push. Our own line graph "VIRGIN MEDIA TRAFFIC" spiking to a red
 "ALL-TIME PEAK" marker (labelled ILLUSTRATION, no real figures). SourceTag REPORTED · Forbes / Virgin Media.]
 
-**B12 · 3:20–3:45**
+**B12 · 2:06–2:14**
 > Logitech, the company that makes gaming mice and keyboards, is giving around seven thousand employees the day off to play.
 
 [ON SCREEN: T2 0:39 beach gym / lifestyle. Card "7,000 EMPLOYEES · DAY OFF" with a calendar flipping to "19". SourceTag REPORTED ·
 Kotaku / VGC.]
 
-**B13 · 3:45–4:20**
+**B13 · 2:14–2:36**
 > And Hollywood is nervous. The Hollywood Reporter calls it the biggest entertainment launch in history, and the new Hunger Games
 > film opens the very next day. When the Take-Two boss was asked about competition, he said: "You compete against everything and
 > nothing. It's our job to make the best entertainment on Earth."
@@ -121,14 +125,14 @@ Kotaku / VGC.]
 [ON SCREEN: official artwork Jason & Lucia Rooftop, slow push; EL skyline. QuoteCard: Strauss Zelnick, Take-Two (via GamesBeat).
 SourceTag REPORTED · THR / GameSpot.]
 
-**B14 · YOUR WEEK · 4:20–4:55**
+**B14 · YOUR WEEK · 2:36–2:55**
 > So here's what to do. Pre-load is open now, so check your free space today. On the eighteenth, New Zealand unlocks first. Buy
 > before the twentieth if you want the Vintage Vice City Pack. And the GTA Six festival in Miami is on the twenty-first.
 
 [ON SCREEN: B-roll montage behind a frosted panel. Calendar strip ticking: "NOW · PRE-LOAD" · "18 · NZ FIRST" · "19 · LAUNCH" ·
 "20 · BONUS DEADLINE" · "21 · FESTIVAL". SourceTag CONFIRMED · Rockstar / PlayStation.]
 
-**B15 · CLOSE (one ask) · 4:55–5:20**
+**B15 · CLOSE (one ask) · 2:55–3:06**
 > Ten million or not, next Thursday is going to be huge. One question: are you taking the day off like Logitech, or playing after
 > work?
 
@@ -143,11 +147,11 @@ GTA 6 has reportedly passed 10 million pre-orders, around $1 billion, a week bef
 hitting the internet, offices and Hollywood.
 
 0:00 "Ten million"… with a catch
-0:25 Where 10 million comes from
-1:30 The 6-year record
-2:05 What's actually official
-2:45 The world stops
-4:20 Your launch week
+0:24 Where 10 million comes from
+0:58 The 6-year record
+1:17 What's actually official
+1:43 The world stops
+2:36 Your launch week
 
 Sources:
 - GameSpot (Sensor Tower estimate): https://www.gamespot.com/articles/gta-6-has-sold-almost-8-million-copies-so-far-and-ps5-is-dominating-the-split-of-course/
@@ -168,3 +172,8 @@ Footage © Rockstar Games, used for commentary. Fan channel, not affiliated with
 - The two PlayStation Blog / Xbox Wire quotes: open both links and copy the exact "all time" wording onto the QuoteCards.
 - The Forbes piece cites Virgin Media's own statement; if you can open it, match the wording ("biggest-ever traffic peak",
   "highest-ever daily data volume").
+
+## If you want it longer (one real segment, ≈+1:30)
+Add a chapter between 3 and 4: **"Will it be the biggest launch ever?"** — GTA 5's official day-one record (Guinness World Records:
+$815.7M in 24 hours, $1B in 3 days, 2013) against the GTA 6 estimate. Only Tier 1–2 figures; I'll verify the Guinness numbers
+before writing it.
