@@ -79,7 +79,7 @@ const Shot: React.FC<{ it: Item }> = ({ it }) => {
         {React.createElement(REG[v.name!], v.props ?? {})}
       </> : null}
       {it.overlays.map((o, i) => {
-        if (o.type === "caption") return <Sequence key={i} from={6} durationInFrames={Math.max(it.dur - 6, 1)}><Caption text={o.text as string} hi={o.hi as string} top={o.top as boolean} /></Sequence>;
+        if (o.type === "caption") { const dl = (o.delay as number | undefined) ?? 6; return <Sequence key={i} from={dl} durationInFrames={Math.max(it.dur - dl, 1)}><Caption text={o.text as string} hi={o.hi as string} top={o.top as boolean} /></Sequence>; }
         if (o.type === "source") return <Sequence key={i} from={8} durationInFrames={Math.min(130, Math.max(it.dur - 8, 1))}><SourceTag tier={o.tier as never} outlet={o.outlet as string} /></Sequence>;
         if (o.type === "callout") return <Sequence key={i} from={4} durationInFrames={Math.max(it.dur - 4, 1)}><DetailCallout x={o.x as number} y={o.y as number} r={o.r as number} label={o.label as string} side={(o.side as never) ?? "right"} /></Sequence>;
         if (o.type === "stamp") return <Sequence key={i} durationInFrames={it.dur}><Stamp text={o.text as string} /></Sequence>;

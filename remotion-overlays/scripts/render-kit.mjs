@@ -21,3 +21,5 @@ for (const [id, frame] of jobs) {
   console.log(output);
 }
 await browser.close({ silent: true });
+// The bundle copies public/ (GBs of clips); remove it so repeated runs do not fill the disk.
+fs.rmSync(serveUrl, { recursive: true, force: true });

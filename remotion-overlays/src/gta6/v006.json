@@ -1107,19 +1107,269 @@
   },
   {
    "from": 7862,
-   "dur": 293,
+   "dur": 48,
    "visual": {
     "kind": "clip",
-    "src": "clips/006p/el_1848_skydive.mp4",
+    "src": "clips/006p/el_1544_police.mp4",
     "startFrom": 0,
-    "rate": 0.819,
-    "play": 292
+    "rate": 1.0,
+    "play": 48
    },
-   "overlays": []
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "THE CASE FILE",
+     "hi": "CASE"
+    }
+   ]
   },
   {
-   "from": 8155,
-   "dur": 181,
+   "from": 7910,
+   "dur": 24,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0156_turn.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 24
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "#10 YOUR GUN",
+     "hi": "#10",
+     "top": true,
+     "delay": 1
+    }
+   ]
+  },
+  {
+   "from": 7934,
+   "dur": 23,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0116_victim.mp4",
+    "startFrom": 0,
+    "rate": 0.913,
+    "play": 22
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "#9 THE VICTIM",
+     "hi": "#9",
+     "top": true,
+     "delay": 1
+    }
+   ]
+  },
+  {
+   "from": 7957,
+   "dur": 24,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_0606_slimjim.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 24
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "#8 THE OWNER",
+     "hi": "#8",
+     "top": true,
+     "delay": 1
+    }
+   ]
+  },
+  {
+   "from": 7981,
+   "dur": 25,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0047_supercars.mp4",
+    "avail": 9,
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 17
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "#7 THE TRACKER",
+     "hi": "#7",
+     "top": true,
+     "delay": 1
+    }
+   ]
+  },
+  {
+   "from": 8006,
+   "dur": 32,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0053_heli.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 32
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "#6 SEARCHLIGHT",
+     "hi": "#6",
+     "top": true,
+     "delay": 1
+    }
+   ]
+  },
+  {
+   "from": 8038,
+   "dur": 25,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0111_policecar.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 25
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "#5 THE RADIO",
+     "hi": "#5",
+     "top": true,
+     "delay": 1
+    }
+   ]
+  },
+  {
+   "from": 8063,
+   "dur": 26,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1404_heli.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 26
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "#4 THE STARS",
+     "hi": "#4",
+     "top": true,
+     "delay": 1
+    }
+   ]
+  },
+  {
+   "from": 8089,
+   "dur": 28,
+   "visual": {
+    "kind": "comp",
+    "name": "IconPanel",
+    "props": {
+     "bg": "",
+     "title": "POLICE REPORT",
+     "icons": [
+      {
+       "key": "camera",
+       "fix": "",
+       "onSec": 0.05,
+       "fixSec": 99
+      },
+      {
+       "key": "hanger",
+       "fix": "",
+       "onSec": 0.13,
+       "fixSec": 99
+      },
+      {
+       "key": "duo",
+       "fix": "",
+       "onSec": 0.21000000000000002,
+       "fixSec": 99
+      },
+      {
+       "key": "gun",
+       "fix": "",
+       "onSec": 0.29,
+       "fixSec": 99
+      },
+      {
+       "key": "car",
+       "fix": "",
+       "onSec": 0.37,
+       "fixSec": 99
+      },
+      {
+       "key": "face",
+       "fix": "",
+       "onSec": 0.45,
+       "fixSec": 99
+      }
+     ]
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/006p/el_1524_chase.mp4"
+    },
+    {
+     "type": "caption",
+     "text": "#3 THE REPORT",
+     "hi": "#3",
+     "top": true,
+     "delay": 1
+    }
+   ]
+  },
+  {
+   "from": 8117,
+   "dur": 40,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1804_hollow.mp4",
+    "startFrom": 120,
+    "rate": 1.0,
+    "play": 40
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "#2 HOLLOW STARS",
+     "hi": "#2",
+     "top": true,
+     "delay": 1
+    }
+   ]
+  },
+  {
+   "from": 8157,
+   "dur": 40,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1812_phone.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 40
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "#1 THE WITNESSES",
+     "hi": "#1",
+     "top": true,
+     "delay": 1
+    }
+   ]
+  },
+  {
+   "from": 8197,
+   "dur": 141,
    "visual": {
     "kind": "clip",
     "src": "clips/006p/lt_0027_hero.mp4",
@@ -1136,14 +1386,14 @@
    ]
   },
   {
-   "from": 8336,
-   "dur": 177,
+   "from": 8338,
+   "dur": 175,
    "visual": {
     "kind": "clip",
     "src": "clips/006p/el_1848_skydive.mp4",
     "startFrom": 150,
-    "rate": 0.508,
-    "play": 176
+    "rate": 0.514,
+    "play": 174
    },
    "overlays": []
   }
@@ -1321,6 +1571,56 @@
   {
    "src": "clips/006/vo/11.wav",
    "from": 7862
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 7910,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 7934,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 7957,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 7981,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 8006,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 8038,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 8063,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 8089,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 8117,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/tick.wav",
+   "from": 8157,
+   "vol": 0.55
   }
  ],
  "sections": [

@@ -90,6 +90,21 @@ S = [
          (10, {"kind": "clip", "src": "clips/006p/el_1848_skydive.mp4", "startFrom": 150}, [])]),
 ]
 NUM = [None, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, None]
+CLOSE = [  # (start_s, visual, overlays) — each item cut ~0.07 s before its word lands
+ (0.0,  C("el_1544_police"), [("caption", {"text": "THE CASE FILE", "hi": "CASE"})]),
+ (1.58, C("t2_0156_turn"), [("caption", {"text": "#10 YOUR GUN", "hi": "#10", "top": True, "delay": 1})]),
+ (2.38, C("t2_0116_victim"), [("caption", {"text": "#9 THE VICTIM", "hi": "#9", "top": True, "delay": 1})]),
+ (3.14, C("el_0606_slimjim"), [("caption", {"text": "#8 THE OWNER", "hi": "#8", "top": True, "delay": 1})]),
+ (3.94, {"kind": "clip", "src": "clips/006p/lt_0047_supercars.mp4", "avail": 9}, [("caption", {"text": "#7 THE TRACKER", "hi": "#7", "top": True, "delay": 1})]),
+ (4.79, C("lt_0053_heli"), [("caption", {"text": "#6 SEARCHLIGHT", "hi": "#6", "top": True, "delay": 1})]),
+ (5.85, C("lt_0111_policecar"), [("caption", {"text": "#5 THE RADIO", "hi": "#5", "top": True, "delay": 1})]),
+ (6.68, C("el_1404_heli"), [("caption", {"text": "#4 THE STARS", "hi": "#4", "top": True, "delay": 1})]),
+ (7.55, I("IconPanel", bg="", title="POLICE REPORT", icons=[{"key": k, "fix": "", "onSec": 0.05 + i * 0.08, "fixSec": 99} for i, k in enumerate(["camera", "hanger", "duo", "gun", "car", "face"])]), [("dimclip", {"src": "clips/006p/el_1524_chase.mp4"}), ("caption", {"text": "#3 THE REPORT", "hi": "#3", "top": True, "delay": 1})]),
+ (8.50, {"kind": "clip", "src": "clips/006p/el_1804_hollow.mp4", "startFrom": 120}, [("caption", {"text": "#2 HOLLOW STARS", "hi": "#2", "top": True, "delay": 1})]),
+ (9.82, C("el_1812_phone"), [("caption", {"text": "#1 THE WITNESSES", "hi": "#1", "top": True, "delay": 1})]),
+ (11.15, C("lt_0027_hero"), [("caption", {"text": "WHICH GETS YOU FIRST? 👇", "hi": "FIRST?"})]),
+ (15.85, {"kind": "clip", "src": "clips/006p/el_1848_skydive.mp4", "startFrom": 150}, []),
+]
 TITLES = [None, "They clock your gun", "The victim fights back", "The owner calls it in", "The car snitches", "The searchlight",
           "They talk to each other", "The stars change colour", "The police report", "Hollow stars", "No witnesses, no report", None]
 
@@ -99,7 +114,7 @@ def clipframes(src):
     return _cl[src]
 def annotate(v, slot):
     if v.get("kind") != "clip": return v
-    v = dict(v); sf = v.get("startFrom", 0); avail = max(clipframes(v["src"]) - sf, 2)
+    v = dict(v); sf = v.get("startFrom", 0); avail = max(min(clipframes(v["src"]) - sf, v.get("avail", 10**6)), 2)
     rate = max(0.5, min(1.0, avail / slot)); play = min(slot, int(avail / rate) - 1)
     v.update(startFrom=sf, rate=round(rate, 3), play=max(play, 1)); return v
 sections = []
@@ -113,6 +128,17 @@ for si, (title_w, shots) in enumerate(S):
     def snap(x):
         c = [p for p in ps if abs(p - x) <= 0.7]
         return min(c, key=lambda p: abs(p - x)) if c else x
+    if si == len(S) - 1:   # closing recap: explicit word-synced cuts
+        end = d + 2.5
+        for k, (st, vis, ov) in enumerate(CLOSE):
+            en = CLOSE[k + 1][0] if k + 1 < len(CLOSE) else end
+            fa, fb = round((t + st) * FPS), round((t + en) * FPS)
+            items.append({"from": fa, "dur": fb - fa, "visual": annotate(vis, fb - fa), "overlays": [{"type": x, **p} for x, p in ov]})
+            if 1 <= k <= 10:
+                audio.append({"src": "clips/006/sfx/tick.wav", "from": fa, "vol": 0.55})
+        sections.append({"num": None, "from": round(t * FPS), "to": round((t + end) * FPS)})
+        t += end
+        continue
     cuts = [0.0]
     acc = title_w or 0
     if title_w:
