@@ -11,6 +11,9 @@ Parked work, saved to pick up later. Newest first.
 | 006 | **Finished**, ready to upload | `remotion-overlays/out/006-final-1080.mp4` · `production/006-upload.md` | Upload (download page: claude.ai artifact "Video 006 Upload Kit") | now |
 
 Notes for 009:
+- **Add before rendering:** Rockstar's official "A Night in Vice City" — the Miami HEAT become Vice City for their home game vs
+  the Bucks on **18 Nov, 7 PM ET (5:30 AM IST 19 Nov)** on ESPN (Rockstar YouTube Short, 9 Nov). Strong beat between the Kaseya sign
+  and the festival (the game is played in the Kaseya Center). Trim elsewhere to stay under 60 s.
 - The Kaseya Center / Miami airport photos (Wikimedia Commons, CC licences) were rate-limited (HTTP 429) on 12 Nov; the fetch script
   retries the Kaseya one. If they still fail, use the drone clips there — the script works without them.
 - No free photo of the real "Welcome to Vice City" sign exists yet; the edit uses our own neon sign graphic labelled ILLUSTRATION.
