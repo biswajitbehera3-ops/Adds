@@ -54,25 +54,31 @@ timestamps from the generated voice (same method as the 006 recap).
 | Green lowrider, zebra seats | 16.5–18.5 | fast cut #5 / ending |
 | Lowrider wide (opening) | 5.0–7.0 | 0:00 open + loop frame |
 
-## Beat sheet (every beat has something to look at)
-**Always on screen from 0:00 to the end:** a small credit, bottom-left above the subtitles: `Clip: @onlyindade · shared by Rockstar
-Games`.
+## Beat sheet — v5: the footage shows what the voice is saying, at the moment it says it
+Rule: every phrase cuts to footage of the thing being named. Text on screen is kept to the minimum (credit, the stamp, the
+question). All cuts land on the first frame of the named word (Whisper word timestamps from the generated voice).
+**Always on screen:** small credit `Clip: @onlyindade · shared by Rockstar Games`.
 
-| Time | Spoken | ON SCREEN |
+| Spoken phrase | Footage on screen at that moment | Source |
 |---|---|---|
-| 0:00–0:04 | *(silence; street ambience)* | **[ON SCREEN: CLEAN clip (our crop, no Instagram bars) — the green lowrider rolling past the pink Art Deco strip. Small white text top-centre: "REAL MIAMI?"]** |
-| 0:04–0:09 | "Before you swipe, look closely… Or are you?" | **[ON SCREEN: clean clip continues with a slow push-in; karaoke subtitles start.]** |
-| 0:09–0:15 | "It's GTA 6. The Miami page OnlyInDade posted it, and Rockstar shared it on its official Instagram." | **[ON SCREEN: freeze → red stamp "IT'S GTA 6" (hit SFX) → cut to the SAME moment WITH Instagram's header (the proof); rings on "rockstargames ✓" and "onlyindade". Tag: CONFIRMED · Rockstar's Instagram Story.]** |
-| 0:15–0:27 | "Here's why… rebuilt inside the game." | **[ON SCREEN: real Miami footage (Pexels: Ocean Drive neon at night, Brickell traffic) with three comment bubbles popping: "this looks like GTA" (our own text, no real usernames) → text card "A REAL MIAMI STREET VIDEO WENT VIRAL" (described, not shown) → clean clip again: "…SO IT WAS REBUILT IN GTA 6".]** |
-| (word-synced) | "Look at the details." | **[ON SCREEN: clean clip slows to 50 %, slight darken, text "LOOK CLOSER".]** |
-| ↳ on the word **"cars"** | "The cars." | **[ON SCREEN: hard cut to the POLICE car (source 3.5–4.5 s), zoom punch 1.0→1.25 on the car, ring + label "CARS" pops exactly on the word.]** |
-| ↳ on **"shop signs"** | "The shop signs." | **[ON SCREEN: hard cut to the diner sign / umbrellas (source 5.0–5.6 s), zoom punch onto the sign, ring + label "SHOP SIGNS".]** |
-| ↳ on **"people"** | "The people on the street." | **[ON SCREEN: hard cut to the man in the red cap (source 7.0–8.0 s), zoom punch onto him, ring + label "PEOPLE".]** |
-| 0:35–0:41 | "One catch: Rockstar hasn't said…" | **[ON SCREEN: clean clip, darkened; card "GAMEPLAY or IN-ENGINE? — Rockstar hasn't said". Tag: UNCONFIRMED.]** |
-| 0:41–0:47 | "But the joke has flipped…" | **[ON SCREEN: split top/bottom: real Miami Beach aerial (Pexels) vs GTA 6 Trailer 1 beach aerial (0:12). Labels "MIAMI" / "VICE CITY" swap on "Now GTA looks like Miami".]** |
-| 0:47–0:54 | "So be honest. Did it fool you?" | **[ON SCREEN: the clean clip restarts from its first frame under "DID IT FOOL YOU?" — the loop.]** |
-
-**Loop:** the last frame is the clean clip's first frame, so the reel plays straight back into "REAL MIAMI?".
+| *(0:00–0:02, no voice)* | The GTA clip, wide: green lowrider rolling past the pink Art Deco strip — looks like a phone video | `clean.mp4` 5.0–7.0 |
+| "Before you swipe, look closely." | Same clip pushes in slowly (the viewer "looks closely") | `clean.mp4` 7.0–8.5 |
+| "You're watching a street in **Miami**." | Cuts across the clip's street: pink supercar → classic car → palm trees (the "Miami street") | `clean.mp4` 0.0–1.0, 9.0–10.0, 12.3–13.0 |
+| "Or are you?" | Freeze on the lowrider frame | `clean.mp4` 16.8 |
+| "It's **GTA Six**." | Red stamp "IT'S GTA 6" slams onto the freeze | freeze |
+| "The Miami page **Only In Dade** posted it," | The Instagram version: push-in onto the **"onlyindade"** name | `named.mp4` ~5.0 |
+| "and **Rockstar** shared it on its official **Instagram**." | Same frame, push moves up to **"rockstargames ✓ · Watch Full Reel"** | `named.mp4` ~5.0 |
+| "For years, **people filmed real Miami**" | Real person filming a street on a phone, then real Miami Ocean Drive | Pexels `px-15689208` 0–1.5 s → `px-36032435` (Colony Hotel, day) |
+| "and said: **this looks like GTA**." | Real Ocean Drive at night, neon Colony Hotel (the most "GTA-looking" real shot) | Pexels `px-32438231` |
+| "So that scene was **rebuilt inside the game**." | Hard cut to the GTA clip, the same kind of street | `clean.mp4` 0.0–2.0 |
+| "Look at the **details**." | GTA clip slows to 50 % | `clean.mp4` 2.0–3.5 |
+| "The **cars**." | The black-and-white police car fills the frame (zoom punch) | `clean.mp4` 3.5–4.5 |
+| "The **shop signs**." | The diner sign and red umbrellas (zoom punch) | `clean.mp4` 5.0–5.6 |
+| "The **people** on the street." | The man in the red cap / the scooter rider (zoom punch) | `clean.mp4` 7.0–8.0 |
+| "Rockstar hasn't said if it's **live gameplay**." | The Instagram version again (Rockstar's post), slightly darkened | `named.mp4` ~10 |
+| "But the joke has flipped. **Miami** used to look like GTA." | Real Miami: Ocean Drive / Miami Beach aerial | Pexels `px-32438232` (Park Central night) or `px-15999293` |
+| "Now **GTA** looks like Miami." | GTA 6 Trailer 1 beach aerial, then the GTA clip | `clips/GTAVI_Trailer_1.mp4` 0:12 → `clean.mp4` |
+| "So be honest. **Did it fool you?**" | The GTA clip from its first frame (loops back to 0:00), text "DID IT FOOL YOU?" | `clean.mp4` 5.0 → loop |
 
 ## Edit plan
 - **Source:** `remotion-overlays/public/clips/010/rec1.mov` (your screen recording of Rockstar's Story: 19 s, 888×1920, 60 fps,
