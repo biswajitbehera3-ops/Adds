@@ -11,3 +11,7 @@ public/clips/
 
 # 4K reference frames pulled from Rockstar trailers for graphic tests
 public/frames/
+
+# Miami B-roll (Pexels/Commons/Rockstar) — large media stays local; credits are committed
+public/miami/*
+!public/miami/credits-*.json
