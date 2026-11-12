@@ -37,7 +37,7 @@ open (what *did* Sony and Xbox confirm?) and B answers its own question in the s
 - Take-Two CEO Strauss Zelnick: "You compete against everything and nothing… it's our job to make the best entertainment on
   Earth." — **REPORTED · GameSpot via GamesBeat**.
 
-**Do NOT say:** "GTA 6 sold ten million" as fact · any price · that Rockstar or Take-Two confirmed a number · that the internet
+**Do NOT say:** "GTA 6 sold ten million" as fact · that Rockstar or Take-Two confirmed a number · that the internet
 "crashed" (Virgin Media said record traffic, not an outage).
 
 ---
