@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, Audio, Freeze, interpolate, Loop, OffthreadVideo, Sequence, spring, staticFile, useCurrentFrame, useVideoConfig } from "remotion";
 import words from "./r010-words.json";
-import { ANTON, C, clamp, INTER, outline } from "./theme";
+import { ANTON, C, clamp, outline } from "./theme";
 
 // Reel 010 — "Real Miami… or GTA 6?" (1080×1920, 30 fps). Every cut is timed to the voiceover's word timestamps (Whisper),
 // so the footage shows the thing being named at the moment it is said. See scripts/010-real-miami-or-gta6-reel.md.
@@ -70,19 +70,6 @@ const Shot: React.FC<{ s: Seg }> = ({ s }) => {
   );
 };
 
-const Stamp: React.FC = () => {
-  const fr = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const k = spring({ frame: fr, fps, config: { damping: 9, stiffness: 260 } });
-  return (
-    <AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
-      <div style={{ marginTop: -380, fontFamily: ANTON, fontSize: 170, color: C.red, border: `14px solid ${C.red}`, padding: "4px 44px", borderRadius: 16,
-        transform: `rotate(-8deg) scale(${interpolate(k, [0, 1], [2.4, 1])})`, textShadow: outline(5), background: "rgba(7,7,12,0.35)",
-        boxShadow: "0 0 60px rgba(255,59,59,0.6)", whiteSpace: "nowrap" }}>IT'S GTA 6</div>
-    </AbsoluteFill>
-  );
-};
-
 const Title: React.FC<{ text: string; top: number; size?: number; color?: string }> = ({ text, top, size = 112, color = C.white }) => {
   const fr = useCurrentFrame();
   const { fps, durationInFrames } = useVideoConfig();
@@ -138,32 +125,20 @@ const Subs: React.FC = () => {
   );
 };
 
-const Credit: React.FC = () => {
-  const t = useCurrentFrame() / FPS;
-  if ((t >= 9.9 && t < 15.38) || (t >= 28.24 && t < 30.78)) return null; // Instagram header already shows the names
-  return (
-  <div style={{ position: "absolute", left: 0, right: 0, top: 96, textAlign: "center", fontFamily: INTER, fontWeight: 700, fontSize: 30,
-    color: "rgba(255,255,255,0.92)", textShadow: outline(2.5) }}>Clip: @onlyindade · shared by Rockstar Games</div>
-  );
-};
-
 export const Reel010: React.FC = () => (
   <AbsoluteFill style={{ background: C.night }}>
     {SEGS.map((s, i) => (
       <Sequence key={i} from={f(s.at)} durationInFrames={f(s.end) - f(s.at)}><Shot s={s} /></Sequence>
     ))}
     <Sequence from={0} durationInFrames={f(4.56)}><Title text="REAL MIAMI?" top={300} /></Sequence>
-    <Sequence from={f(8.5)} durationInFrames={f(9.9) - f(8.5)}><Stamp /></Sequence>
     <Sequence from={f(38.3)} durationInFrames={f(40) - f(38.3)}><Title text="DID IT FOOL YOU?" top={420} size={120} color={C.gold} /></Sequence>
     <Subs />
-    <Credit />
     {/* audio */}
     <Loop durationInFrames={f(3)}><Audio src={staticFile("clips/010/amb.wav")} volume={(fr) => (fr < f(2) ? 0.35 : 0.12)} /></Loop>
     <Sequence from={f(VO)}><Audio src={staticFile("clips/010/vo.wav")} /></Sequence>
     {[4.56, 9.9, 15.38, 30.78, 34.66].map((t, i) => (
       <Sequence key={`w${i}`} from={f(t) - 3}><Audio src={staticFile("clips/006/sfx/whoosh.wav")} volume={0.35} /></Sequence>
     ))}
-    <Sequence from={f(8.5)}><Audio src={staticFile("clips/006/sfx/hit.wav")} volume={0.6} /></Sequence>
     {[24.7, 25.58, 26.74].map((t, i) => (
       <Sequence key={`t${i}`} from={f(t)}><Audio src={staticFile("clips/006/sfx/tick.wav")} volume={0.45} /></Sequence>
     ))}
