@@ -40,6 +40,9 @@ B gives it away in its second sentence.
 the question title. Our edge: fast cuts on details + the proof (Rockstar's header) + an honest one-line catch, in ~40 s.
 Not used: the "people called it AI" angle — only in creator descriptions, no outlet I could read confirms it.
 
+**Word sync:** every visual change on "cars / shop signs / people" lands on the first frame of that word, using Whisper word
+timestamps from the generated voice (same method as the 006 recap).
+
 ## Cut map (source: `clips/010/clean.mp4`, 1080×1920 30 fps, 19 s; `named.mp4` = with Rockstar header)
 | Moment | Source time | Use |
 |---|---|---|
@@ -61,7 +64,10 @@ Games`.
 | 0:04–0:09 | "Before you swipe, look closely… Or are you?" | **[ON SCREEN: clean clip continues with a slow push-in; karaoke subtitles start.]** |
 | 0:09–0:15 | "It's GTA 6. The Miami page OnlyInDade posted it, and Rockstar shared it on its official Instagram." | **[ON SCREEN: freeze → red stamp "IT'S GTA 6" (hit SFX) → cut to the SAME moment WITH Instagram's header (the proof); rings on "rockstargames ✓" and "onlyindade". Tag: CONFIRMED · Rockstar's Instagram Story.]** |
 | 0:15–0:27 | "Here's why… rebuilt inside the game." | **[ON SCREEN: real Miami footage (Pexels: Ocean Drive neon at night, Brickell traffic) with three comment bubbles popping: "this looks like GTA" (our own text, no real usernames) → text card "A REAL MIAMI STREET VIDEO WENT VIRAL" (described, not shown) → clean clip again: "…SO IT WAS REBUILT IN GTA 6".]** |
-| 0:27–0:35 | "Then fans went frame by frame…" | **[ON SCREEN: freeze on the clean clip; three rings pop on beat: "CAR" (green lowrider) · "SHOP SIGN" (the diner sign) · "PEOPLE" (the scooter rider). Amber tag: FAN ANALYSIS.]** |
+| (word-synced) | "Look at the details." | **[ON SCREEN: clean clip slows to 50 %, slight darken, text "LOOK CLOSER".]** |
+| ↳ on the word **"cars"** | "The cars." | **[ON SCREEN: hard cut to the POLICE car (source 3.5–4.5 s), zoom punch 1.0→1.25 on the car, ring + label "CARS" pops exactly on the word.]** |
+| ↳ on **"shop signs"** | "The shop signs." | **[ON SCREEN: hard cut to the diner sign / umbrellas (source 5.0–5.6 s), zoom punch onto the sign, ring + label "SHOP SIGNS".]** |
+| ↳ on **"people"** | "The people on the street." | **[ON SCREEN: hard cut to the man in the red cap (source 7.0–8.0 s), zoom punch onto him, ring + label "PEOPLE".]** |
 | 0:35–0:41 | "One catch: Rockstar hasn't said…" | **[ON SCREEN: clean clip, darkened; card "GAMEPLAY or IN-ENGINE? — Rockstar hasn't said". Tag: UNCONFIRMED.]** |
 | 0:41–0:47 | "But the joke has flipped…" | **[ON SCREEN: split top/bottom: real Miami Beach aerial (Pexels) vs GTA 6 Trailer 1 beach aerial (0:12). Labels "MIAMI" / "VICE CITY" swap on "Now GTA looks like Miami".]** |
 | 0:47–0:54 | "So be honest. Did it fool you?" | **[ON SCREEN: the clean clip restarts from its first frame under "DID IT FOOL YOU?" — the loop.]** |
