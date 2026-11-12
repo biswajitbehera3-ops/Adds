@@ -17,7 +17,7 @@ back until the stamp at 0:09; B gives the answer away in its second sentence.
 ## Script (spoken words exactly as recorded)
 > *(0:00–0:04 — no voice. The clip plays untouched with its own street sound.)*
 > Before you swipe, look closely: you're watching a street in Miami. Or are you?
-> It's GTA 6. Rockstar posted this on its official Instagram this week.
+> It's GTA 6. The Miami page OnlyInDade posted it, and Rockstar shared it on its official Instagram.
 > Here's why. For years, people have filmed real Miami and said the same thing: this looks like GTA. One of those street videos
 > went viral. So Rockstar rebuilt that scene inside the game.
 > Then fans went frame by frame. The cars, the shop signs, the people. They match what we've seen in GTA 6.
@@ -32,7 +32,7 @@ back until the stamp at 0:09; B gives the answer away in its second sentence.
 |---|---|---|
 | 0:00–0:04 | *(silence, clip audio only)* | **[ON SCREEN: Rockstar's clip, full screen, untouched. Small white text top-centre: "REAL MIAMI?" No logo, no watermark of ours.]** |
 | 0:04–0:09 | Hook A | **[ON SCREEN: clip keeps playing; subtitles appear; a slow push-in.]** |
-| 0:09–0:14 | "It's GTA 6. Rockstar posted this…" | **[ON SCREEN: freeze frame → red stamp slams in: "IT'S GTA 6". Source tag: REPORTED · Kotaku. Small card "Rockstar Games · Instagram Story · 11 Nov".]** |
+| 0:09–0:14 | "It's GTA 6. The Miami page OnlyInDade posted it…" | **[ON SCREEN: freeze frame → red stamp slams in: "IT'S GTA 6". Then cut to the **receipt**: the same moment WITH Instagram's header, rings on "rockstargames ✓" and "onlyindade". Tag: CONFIRMED · Rockstar's Instagram Story.]** |
 | 0:14–0:27 | "Here's why… rebuilt that scene inside the game." | **[ON SCREEN: real Miami street footage (Pexels: Ocean Drive neon, Brickell traffic) with comment bubbles popping up: "this looks like GTA" ×3 (our own text, not real usernames). Then a text card "A REAL MIAMI VIDEO WENT VIRAL" (we describe it — the original isn't ours to show) → cut back to Rockstar's clip: "…SO ROCKSTAR REBUILT IT".]** |
 | 0:27–0:35 | "Then fans went frame by frame…" | **[ON SCREEN: freeze, three DetailCallout rings: "CAR" · "SHOP SIGN" · "PEOPLE". Amber tag: FAN ANALYSIS.]** |
 | 0:35–0:41 | "One catch…" | **[ON SCREEN: card "GAMEPLAY or IN-ENGINE? — Rockstar hasn't said". Tag: UNCONFIRMED.]** |
@@ -41,8 +41,22 @@ back until the stamp at 0:09; B gives the answer away in its second sentence.
 
 **Loop:** the last frame is the clip's first frame, so the reel replays straight into the "REAL MIAMI?" opening.
 
+
+## Edit plan (from your screen recording, 12 Nov)
+- **Source:** `remotion-overlays/public/clips/010/rec1.mov` — Rockstar's Instagram Story, 19 s, 888×1920, 60 fps. The header reads
+  **"rockstargames ✓ · Watch Full Reel"** with **"onlyindade"** under it: Rockstar **reshared OnlyInDade's reel** to its Story.
+  The recording has **no sound**.
+- **Clean version (no Rockstar name):** we cut it ourselves from the same recording: crop `776×1356` at `x=56, y=304` (drops the
+  status bar, Story header, timer and like/send buttons), scaled to 1080×1920. Looks like a real phone video. Your second Drive file
+  (the cropped one) is private, so it isn't needed — or share it with "Anyone with the link" if you prefer your cut.
+- **Order:** clean clip first (0:00–0:09, the viewer guesses) → freeze + "IT'S GTA 6" → **version with Rockstar's name** as the
+  receipt (0:09–0:14) → explanation over the rest of the clip and real Miami footage → loop back to the clean clip's first frame.
+- **Sound:** Miami street traffic from Pexels clip `px-9620604` (5 s, looped, low) under the silent opening; Bram's voice after.
+- **The video only shows in-game footage at Rockstar's resolution through a phone screen recording** (888 px wide): fine on
+  phones, slightly soft on big screens. That's expected for an Instagram capture.
+
 ## Facts and labels (only these)
-- Rockstar posted a GTA 6 clip as an Instagram Story on 11 Nov that recreates a viral real Miami street video; some people
+- OnlyInDade posted the GTA 6 reel and Rockstar reshared it to its Instagram Story (seen in our screen recording: "rockstargames · Watch Full Reel · onlyindade"). Rockstar's Story, 11 Nov, that recreates a viral real Miami street video; some people
   thought it was real — **REPORTED · Kotaku** (also Polygon, IGN, NDTV).
 - Who filmed the original is disputed (Kotaku: an OnlyInDade viral post; Metro: Rockstar's developers on a Miami visit) — so the
   script says only "one of those street videos went viral".
