@@ -42,7 +42,8 @@ Which one do you think gets you caught first: the car that snitches, or the witn
 - **Altered or synthetic content:** **Yes**. The narration is an AI voice (Higgsfield / ElevenLabs). YouTube requires this disclosure for realistic
   synthetic voices; it doesn't hurt reach.
 - Made for kids: No. Category: Gaming. Game title: Grand Theft Auto VI.
-- Captions: upload `production/006-voiceover-tts.txt` with "Auto-sync" in YouTube Studio → Subtitles (YouTube times it to the audio).
+- Subtitles are **burned into the video** (GTA neon karaoke: spoken word turns pink), timed word-by-word with Whisper. Also upload
+  `production/006-subs.srt` in YouTube Studio → Subtitles → Upload file ("With timing") as closed captions — YouTube indexes the text for search; viewers can leave CC off.
 - End screen: subscribe + the unlock-times video once it's up.
 - Tags (minor): GTA 6, GTA VI, GTA 6 police, GTA 6 wanted level, GTA 6 hidden details, Grand Theft Auto 6
 

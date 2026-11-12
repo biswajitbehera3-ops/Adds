@@ -1,0 +1,236 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1920
+PlayResY: 1080
+WrapStyle: 2
+ScaledBorderAndShadow: yes
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: GTA,Anton,66,&H00882EFF,&H00FFFFFF,&H00260012,&H96000000,0,0,0,0,100,100,1,0,1,5,3,2,120,120,26,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.27,0:00:01.45,GTA,,0,0,0,,{\blur1.2}{\k28}BEFORE {\k24}YOU {\k22}ROB {\k22}YOUR {\k24}FIRST
+Dialogue: 0,0:00:01.47,0:00:03.12,GTA,,0,0,0,,{\blur1.2}{\k36}STORE {\k24}IN {\k16}GTA {\k64}6,
+Dialogue: 0,0:00:03.23,0:00:03.67,GTA,,0,0,0,,{\blur1.2}{\k2}YOU {\k14}NEED {\k14}TO {\k16}KNOW
+Dialogue: 0,0:00:03.69,0:00:05.09,GTA,,0,0,0,,{\blur1.2}{\k28}WHICH {\k40}TEN {\k28}HIDDEN {\k46}DETAILS
+Dialogue: 0,0:00:05.11,0:00:05.73,GTA,,0,0,0,,{\blur1.2}{\k22}GET {\k18}YOU {\k24}CAUGHT,
+Dialogue: 0,0:00:05.75,0:00:07.27,GTA,,0,0,0,,{\blur1.2}{\k52}AND {\k20}HOW {\k36}ONE {\k46}ROCKSTAR
+Dialogue: 0,0:00:07.29,0:00:09.36,GTA,,0,0,0,,{\blur1.2}{\k30}DEVELOPER {\k42}GOT {\k26}AROUND {\k18}THE {\k30}BIGGEST {\k36}ONE.
+Dialogue: 0,0:00:09.83,0:00:10.58,GTA,,0,0,0,,{\blur1.2}{\k20}NUMBER {\k30}10.
+Dialogue: 0,0:00:10.77,0:00:12.16,GTA,,0,0,0,,{\blur1.2}{\k8}THEY {\k24}CLOCK {\k56}YOUR {\k26}GUN.
+Dialogue: 0,0:00:12.37,0:00:13.13,GTA,,0,0,0,,{\blur1.2}{\k8}IN {\k14}GTA {\k56}5,
+Dialogue: 0,0:00:13.15,0:00:13.97,GTA,,0,0,0,,{\blur1.2}{\k18}YOU {\k10}COULD {\k18}PULL {\k10}A {\k28}SHOTGUN
+Dialogue: 0,0:00:13.99,0:00:14.77,GTA,,0,0,0,,{\blur1.2}{\k38}OUT {\k18}ON {\k6}A {\k18}BUSY
+Dialogue: 0,0:00:14.79,0:00:16.46,GTA,,0,0,0,,{\blur1.2}{\k50}STREET {\k26}AND {\k36}NOBODY {\k30}BLINKED.
+Dialogue: 0,0:00:16.77,0:00:17.97,GTA,,0,0,0,,{\blur1.2}{\k18}ROB {\k20}NELSON {\k44}FROM {\k40}ROCKSTAR
+Dialogue: 0,0:00:17.99,0:00:19.78,GTA,,0,0,0,,{\blur1.2}{\k74}SAYS {\k4}THAT {\k34}DOESN'T {\k18}WORK {\k24}ANYMORE.
+Dialogue: 0,0:00:20.27,0:00:21.40,GTA,,0,0,0,,{\blur1.2}{\k26}NOW {\k30}PEOPLE {\k32}NOTICE.
+Dialogue: 0,0:00:21.55,0:00:22.15,GTA,,0,0,0,,{\blur1.2}{\k18}AND {\k14}THEY {\k14}CAN {\k16}TELL
+Dialogue: 0,0:00:22.17,0:00:23.29,GTA,,0,0,0,,{\blur1.2}{\k14}THE {\k30}DIFFERENCE {\k38}BETWEEN {\k14}A {\k18}GUN
+Dialogue: 0,0:00:23.31,0:00:24.75,GTA,,0,0,0,,{\blur1.2}{\k22}ON {\k18}YOUR {\k28}BACK {\k46}AND {\k10}A {\k22}GUN
+Dialogue: 0,0:00:24.77,0:00:25.78,GTA,,0,0,0,,{\blur1.2}{\k28}IN {\k14}YOUR {\k34}HANDS.
+Dialogue: 0,0:00:26.03,0:00:26.92,GTA,,0,0,0,,{\blur1.2}{\k20}SOME {\k22}WALK {\k22}AWAY,
+Dialogue: 0,0:00:27.03,0:00:27.96,GTA,,0,0,0,,{\blur1.2}{\k38}SOME {\k30}RUN,
+Dialogue: 0,0:00:27.99,0:00:28.85,GTA,,0,0,0,,{\blur1.2}{\k20}AND {\k28}SOME {\k18}WILL {\k22}COME
+Dialogue: 0,0:00:28.87,0:00:30.06,GTA,,0,0,0,,{\blur1.2}{\k30}AND {\k34}CHALLENGE {\k30}YOU.
+Dialogue: 0,0:00:30.21,0:00:30.82,GTA,,0,0,0,,{\blur1.2}{\k6}THE {\k14}GOOD {\k16}NEWS:
+Dialogue: 0,0:00:30.93,0:00:32.51,GTA,,0,0,0,,{\blur1.2}{\k28}CARRYING {\k34}ONE {\k50}DOESN'T {\k48}AUTOMATICALLY
+Dialogue: 0,0:00:32.53,0:00:34.00,GTA,,0,0,0,,{\blur1.2}{\k38}MEAN {\k24}A {\k24}WANTED {\k36}LEVEL.
+Dialogue: 0,0:00:34.11,0:00:35.09,GTA,,0,0,0,,{\blur1.2}{\k6}PUT {\k10}IT {\k20}AWAY {\k16}IN {\k22}TIME,
+Dialogue: 0,0:00:35.11,0:00:36.14,GTA,,0,0,0,,{\blur1.2}{\k12}AND {\k8}IT {\k34}CALMS {\k24}DOWN.
+Dialogue: 0,0:00:36.67,0:00:37.52,GTA,,0,0,0,,{\blur1.2}{\k18}NUMBER {\k42}9.
+Dialogue: 0,0:00:37.61,0:00:39.34,GTA,,0,0,0,,{\blur1.2}{\k16}THE {\k34}VICTIM {\k56}FIGHTS {\k42}BACK.
+Dialogue: 0,0:00:39.61,0:00:40.68,GTA,,0,0,0,,{\blur1.2}{\k6}WHEN {\k14}YOU {\k18}ROB {\k44}SOMEONE,
+Dialogue: 0,0:00:40.75,0:00:42.08,GTA,,0,0,0,,{\blur1.2}{\k38}DON'T {\k22}TURN {\k16}YOUR {\k32}BACK.
+Dialogue: 0,0:00:42.47,0:00:43.43,GTA,,0,0,0,,{\blur1.2}{\k6}EDGE {\k32}SAYS {\k28}A {\k32}PERSON
+Dialogue: 0,0:00:43.45,0:00:44.57,GTA,,0,0,0,,{\blur1.2}{\k24}YOU'RE {\k30}ROBBING {\k28}MIGHT {\k32}HAND
+Dialogue: 0,0:00:44.59,0:00:45.22,GTA,,0,0,0,,{\blur1.2}{\k14}IT {\k24}OVER,
+Dialogue: 0,0:00:45.37,0:00:46.71,GTA,,0,0,0,,{\blur1.2}{\k12}THEN {\k30}GO {\k24}FOR {\k20}YOU {\k14}THE {\k36}SECOND
+Dialogue: 0,0:00:46.73,0:00:47.70,GTA,,0,0,0,,{\blur1.2}{\k18}YOU {\k18}TURN {\k36}AROUND.
+Dialogue: 0,0:00:48.03,0:00:48.84,GTA,,0,0,0,,{\blur1.2}{\k6}AND {\k10}IN {\k8}A {\k32}STORE,
+Dialogue: 0,0:00:49.05,0:00:50.35,GTA,,0,0,0,,{\blur1.2}{\k24}ANOTHER {\k40}CUSTOMER {\k38}CAN {\k30}DECIDE
+Dialogue: 0,0:00:50.37,0:00:51.38,GTA,,0,0,0,,{\blur1.2}{\k22}TO {\k16}BE {\k10}A {\k28}HERO.
+Dialogue: 0,0:00:51.85,0:00:53.88,GTA,,0,0,0,,{\blur1.2}{\k32}ROBBERIES {\k38}DON'T {\k32}FOLLOW {\k14}A {\k30}SCRIPT {\k32}ANYMORE.
+Dialogue: 0,0:00:54.47,0:00:55.28,GTA,,0,0,0,,{\blur1.2}{\k18}NUMBER {\k38}8.
+Dialogue: 0,0:00:55.65,0:00:57.04,GTA,,0,0,0,,{\blur1.2}{\k1}THE {\k26}OWNER {\k40}CALLS {\k26}IT {\k22}IN.
+Dialogue: 0,0:00:57.43,0:00:58.48,GTA,,0,0,0,,{\blur1.2}{\k10}YOU {\k24}STOLE {\k22}A {\k24}CAR,
+Dialogue: 0,0:00:58.57,0:00:59.73,GTA,,0,0,0,,{\blur1.2}{\k32}NOBODY {\k34}CHASED {\k36}YOU,
+Dialogue: 0,0:00:59.75,0:01:01.02,GTA,,0,0,0,,{\blur1.2}{\k16}YOU {\k26}THINK {\k26}YOU'RE {\k34}CLEAN.
+Dialogue: 0,0:01:01.23,0:01:01.98,GTA,,0,0,0,,{\blur1.2}{\k24}YOU'RE {\k26}NOT.
+Dialogue: 0,0:01:02.39,0:01:03.55,GTA,,0,0,0,,{\blur1.2}{\k8}EDGE {\k30}SAYS {\k36}EVEN {\k14}IF {\k12}THE {\k18}CAR
+Dialogue: 0,0:01:03.57,0:01:04.66,GTA,,0,0,0,,{\blur1.2}{\k26}HAS {\k22}NO {\k36}TRACKER,
+Dialogue: 0,0:01:04.91,0:01:05.75,GTA,,0,0,0,,{\blur1.2}{\k4}THE {\k26}OWNER {\k22}CAN {\k34}STILL
+Dialogue: 0,0:01:05.77,0:01:06.84,GTA,,0,0,0,,{\blur1.2}{\k38}REPORT {\k20}IT {\k24}STOLEN.
+Dialogue: 0,0:01:07.21,0:01:07.99,GTA,,0,0,0,,{\blur1.2}{\k1}SO {\k8}A {\k26}CAR {\k22}YOU {\k24}TOOK
+Dialogue: 0,0:01:08.01,0:01:09.79,GTA,,0,0,0,,{\blur1.2}{\k44}TEN {\k28}MINUTES {\k40}AGO {\k48}CAN {\k20}COME
+Dialogue: 0,0:01:09.81,0:01:10.81,GTA,,0,0,0,,{\blur1.2}{\k24}BACK {\k22}TO {\k24}BITE {\k32}YOU,
+Dialogue: 0,0:01:10.83,0:01:12.70,GTA,,0,0,0,,{\blur1.2}{\k40}LONG {\k48}AFTER {\k22}YOU {\k14}DROVE {\k38}AWAY.
+Dialogue: 0,0:01:13.17,0:01:14.08,GTA,,0,0,0,,{\blur1.2}{\k20}NUMBER {\k46}7.
+Dialogue: 0,0:01:14.15,0:01:15.66,GTA,,0,0,0,,{\blur1.2}{\k26}THE {\k30}CAR {\k70}SNITCHES.
+Dialogue: 0,0:01:16.09,0:01:17.38,GTA,,0,0,0,,{\blur1.2}{\k10}AND {\k10}IF {\k12}THE {\k38}CAR'S {\k34}EXPENSIVE,
+Dialogue: 0,0:01:17.69,0:01:18.54,GTA,,0,0,0,,{\blur1.2}{\k32}IT'S {\k28}WORSE.
+Dialogue: 0,0:01:18.97,0:01:20.55,GTA,,0,0,0,,{\blur1.2}{\k48}EXPENSIVE {\k22}MODERN {\k44}CARS {\k28}CAN {\k18}HAVE
+Dialogue: 0,0:01:20.57,0:01:21.95,GTA,,0,0,0,,{\blur1.2}{\k50}TRACKERS {\k16}THAT {\k18}KEEP {\k56}BROADCASTING
+Dialogue: 0,0:01:21.97,0:01:23.09,GTA,,0,0,0,,{\blur1.2}{\k44}WHERE {\k18}THEY {\k18}ARE {\k34}AFTER
+Dialogue: 0,0:01:23.11,0:01:24.06,GTA,,0,0,0,,{\blur1.2}{\k20}YOU {\k20}STEAL {\k30}THEM.
+Dialogue: 0,0:01:24.15,0:01:25.09,GTA,,0,0,0,,{\blur1.2}{\k8}IF {\k12}YOU'RE {\k34}STEALING {\k24}TO {\k18}SELL
+Dialogue: 0,0:01:25.11,0:01:25.92,GTA,,0,0,0,,{\blur1.2}{\k22}TO {\k12}A {\k22}FENCE,
+Dialogue: 0,0:01:26.01,0:01:26.88,GTA,,0,0,0,,{\blur1.2}{\k24}THERE'S {\k14}GOOD {\k24}NEWS:
+Dialogue: 0,0:01:27.11,0:01:27.99,GTA,,0,0,0,,{\blur1.2}{\k8}THEY {\k16}HAVE {\k22}SIGNAL {\k44}BLOCKERS
+Dialogue: 0,0:01:28.01,0:01:29.20,GTA,,0,0,0,,{\blur1.2}{\k36}AT {\k12}THE {\k46}DROP-OFF.
+Dialogue: 0,0:01:29.23,0:01:30.24,GTA,,0,0,0,,{\blur1.2}{\k22}AND {\k28}THERE'S {\k6}A {\k20}CATCH:
+Dialogue: 0,0:01:30.47,0:01:31.29,GTA,,0,0,0,,{\blur1.2}{\k10}THEY {\k20}PAY {\k24}YOU {\k30}LESS
+Dialogue: 0,0:01:31.31,0:01:32.58,GTA,,0,0,0,,{\blur1.2}{\k40}IF {\k20}YOU {\k20}WRECK {\k22}IT.
+Dialogue: 0,0:01:32.61,0:01:33.71,GTA,,0,0,0,,{\blur1.2}{\k16}SO {\k12}YOU'RE {\k24}RUNNING {\k22}FROM {\k14}THE {\k24}COPS
+Dialogue: 0,0:01:33.73,0:01:35.05,GTA,,0,0,0,,{\blur1.2}{\k42}WHILE {\k38}TRYING {\k18}NOT {\k16}TO {\k20}SCRATCH
+Dialogue: 0,0:01:35.07,0:01:35.82,GTA,,0,0,0,,{\blur1.2}{\k32}THE {\k18}PAINT.
+Dialogue: 0,0:01:36.43,0:01:37.26,GTA,,0,0,0,,{\blur1.2}{\k16}NUMBER {\k42}6.
+Dialogue: 0,0:01:37.39,0:01:38.48,GTA,,0,0,0,,{\blur1.2}{\k20}THE {\k64}SEARCHLIGHT.
+Dialogue: 0,0:01:38.71,0:01:39.37,GTA,,0,0,0,,{\blur1.2}{\k44}AT {\k24}NIGHT,
+Dialogue: 0,0:01:39.39,0:01:40.41,GTA,,0,0,0,,{\blur1.2}{\k56}HIDING {\k20}IN {\k8}THE {\k20}DARK
+Dialogue: 0,0:01:40.43,0:01:41.46,GTA,,0,0,0,,{\blur1.2}{\k54}ISN'T {\k24}ENOUGH.
+Dialogue: 0,0:01:41.85,0:01:43.37,GTA,,0,0,0,,{\blur1.2}{\k1}POLICE {\k40}HELICOPTERS {\k50}USE {\k64}SEARCHLIGHTS
+Dialogue: 0,0:01:43.39,0:01:44.32,GTA,,0,0,0,,{\blur1.2}{\k24}TO {\k24}FIND {\k20}YOU.
+Dialogue: 0,0:01:44.69,0:01:46.13,GTA,,0,0,0,,{\blur1.2}{\k38}ROCKSTAR'S {\k16}WHOLE {\k44}IDEA {\k22}IS {\k12}THAT {\k14}YOU
+Dialogue: 0,0:01:46.15,0:01:46.91,GTA,,0,0,0,,{\blur1.2}{\k26}ESCAPE {\k52}SMART,
+Dialogue: 0,0:01:46.93,0:01:48.57,GTA,,0,0,0,,{\blur1.2}{\k58}THROUGH {\k26}BACK {\k48}ALLEYS {\k20}AND {\k14}ABANDONED
+Dialogue: 0,0:01:48.59,0:01:50.19,GTA,,0,0,0,,{\blur1.2}{\k52}CARS, {\k60}INSTEAD {\k28}OF {\k22}JUST
+Dialogue: 0,0:01:50.21,0:01:51.45,GTA,,0,0,0,,{\blur1.2}{\k56}FLOORING {\k12}IT {\k20}UNTIL {\k14}THE {\k24}STARS
+Dialogue: 0,0:01:51.47,0:01:52.28,GTA,,0,0,0,,{\blur1.2}{\k28}GO {\k28}AWAY.
+Dialogue: 0,0:01:52.80,0:01:53.77,GTA,,0,0,0,,{\blur1.2}{\k18}NUMBER {\k54}5.
+Dialogue: 0,0:01:53.82,0:01:55.21,GTA,,0,0,0,,{\blur1.2}{\k22}THEY {\k26}TALK {\k22}TO {\k16}EACH {\k28}OTHER.
+Dialogue: 0,0:01:55.48,0:01:56.18,GTA,,0,0,0,,{\blur1.2}{\k16}FROM {\k38}HERE,
+Dialogue: 0,0:01:56.20,0:01:56.84,GTA,,0,0,0,,{\blur1.2}{\k16}IT {\k14}GETS {\k36}WORSE,
+Dialogue: 0,0:01:56.86,0:01:58.06,GTA,,0,0,0,,{\blur1.2}{\k48}BECAUSE {\k34}NOW {\k18}THE {\k22}COPS
+Dialogue: 0,0:01:58.08,0:01:59.61,GTA,,0,0,0,,{\blur1.2}{\k38}START {\k46}WORKING {\k44}TOGETHER.
+Dialogue: 0,0:02:00.14,0:02:01.12,GTA,,0,0,0,,{\blur1.2}{\k10}IN {\k40}EDGE'S {\k26}DEMO,
+Dialogue: 0,0:02:01.14,0:02:02.14,GTA,,0,0,0,,{\blur1.2}{\k4}THE {\k28}POLICE {\k40}TALK {\k30}OVER
+Dialogue: 0,0:02:02.16,0:02:03.36,GTA,,0,0,0,,{\blur1.2}{\k10}THE {\k26}RADIO {\k62}AND {\k24}LAY
+Dialogue: 0,0:02:03.38,0:02:04.74,GTA,,0,0,0,,{\blur1.2}{\k26}A {\k38}STINGER {\k42}STRIP {\k32}ACROSS
+Dialogue: 0,0:02:04.76,0:02:05.69,GTA,,0,0,0,,{\blur1.2}{\k40}THE {\k28}ROAD.
+Dialogue: 0,0:02:06.02,0:02:06.79,GTA,,0,0,0,,{\blur1.2}{\k8}IT {\k14}WAS {\k30}NIGHT,
+Dialogue: 0,0:02:07.04,0:02:08.10,GTA,,0,0,0,,{\blur1.2}{\k8}ROB {\k22}NELSON {\k56}DIDN'T {\k22}SEE
+Dialogue: 0,0:02:08.12,0:02:09.14,GTA,,0,0,0,,{\blur1.2}{\k38}IT, {\k6}THE {\k24}FRONT {\k36}TYRE
+Dialogue: 0,0:02:09.16,0:02:10.78,GTA,,0,0,0,,{\blur1.2}{\k28}BURST, {\k74}AND {\k20}JASON {\k28}AND {\k14}LUCIA
+Dialogue: 0,0:02:10.80,0:02:12.59,GTA,,0,0,0,,{\blur1.2}{\k52}WENT {\k34}OVER {\k16}THE {\k52}HANDLEBARS.
+Dialogue: 0,0:02:12.90,0:02:13.74,GTA,,0,0,0,,{\blur1.2}{\k14}THEY {\k22}TRIED {\k26}TO {\k24}RUN,
+Dialogue: 0,0:02:13.76,0:02:14.72,GTA,,0,0,0,,{\blur1.2}{\k30}AND {\k8}A {\k24}POLICE {\k36}DOG
+Dialogue: 0,0:02:14.74,0:02:16.32,GTA,,0,0,0,,{\blur1.2}{\k34}CAUGHT {\k36}JASON {\k64}AND {\k26}PINNED
+Dialogue: 0,0:02:16.34,0:02:17.31,GTA,,0,0,0,,{\blur1.2}{\k22}HIM {\k14}TO {\k10}THE {\k26}GROUND.
+Dialogue: 0,0:02:17.86,0:02:18.58,GTA,,0,0,0,,{\blur1.2}{\k1}ONE {\k34}RADIO {\k40}CALL,
+Dialogue: 0,0:02:18.60,0:02:20.37,GTA,,0,0,0,,{\blur1.2}{\k36}AND {\k14}THE {\k26}ESCAPE {\k48}WAS {\k28}OVER.
+Dialogue: 0,0:02:20.83,0:02:21.68,GTA,,0,0,0,,{\blur1.2}{\k16}NUMBER {\k44}4.
+Dialogue: 0,0:02:22.07,0:02:23.70,GTA,,0,0,0,,{\blur1.2}{\k1}THE {\k42}STARS {\k38}CHANGE {\k58}COLOUR.
+Dialogue: 0,0:02:24.16,0:02:25.62,GTA,,0,0,0,,{\blur1.2}{\k27}SIX {\k32}STARS {\k36}ARE {\k26}BACK.
+Dialogue: 0,0:02:25.77,0:02:26.96,GTA,,0,0,0,,{\blur1.2}{\k12}BUT {\k22}WATCH {\k30}THEIR {\k30}COLOUR,
+Dialogue: 0,0:02:27.17,0:02:28.73,GTA,,0,0,0,,{\blur1.2}{\k16}BECAUSE {\k70}GAMESPOT'S {\k30}BREAKDOWN {\k42}SAYS
+Dialogue: 0,0:02:28.75,0:02:29.63,GTA,,0,0,0,,{\blur1.2}{\k18}IT {\k26}TELLS {\k26}YOU {\k20}WHAT
+Dialogue: 0,0:02:29.65,0:02:30.78,GTA,,0,0,0,,{\blur1.2}{\k14}THE {\k20}COPS {\k54}KNOW.
+Dialogue: 0,0:02:31.07,0:02:31.88,GTA,,0,0,0,,{\blur1.2}{\k24}SOLID {\k32}WHITE:
+Dialogue: 0,0:02:32.23,0:02:33.20,GTA,,0,0,0,,{\blur1.2}{\k4}THEY {\k14}CAN {\k26}SEE {\k28}YOU.
+Dialogue: 0,0:02:33.57,0:02:34.17,GTA,,0,0,0,,{\blur1.2}{\k28}FLASHING:
+Dialogue: 0,0:02:34.45,0:02:35.80,GTA,,0,0,0,,{\blur1.2}{\k14}YOU'VE {\k20}BROKEN {\k34}LINE {\k18}OF {\k24}SIGHT.
+Dialogue: 0,0:02:36.55,0:02:37.15,GTA,,0,0,0,,{\blur1.2}{\k1}SOLID {\k24}RED:
+Dialogue: 0,0:02:37.33,0:02:38.25,GTA,,0,0,0,,{\blur1.2}{\k4}YOU'RE {\k24}STILL {\k20}NEAR {\k20}THE {\k26}SCENE,
+Dialogue: 0,0:02:38.27,0:02:39.32,GTA,,0,0,0,,{\blur1.2}{\k34}AND {\k14}THEY'RE {\k32}LOOKING,
+Dialogue: 0,0:02:39.39,0:02:40.13,GTA,,0,0,0,,{\blur1.2}{\k18}BUT {\k12}THEY {\k34}DON'T {\k12}KNOW
+Dialogue: 0,0:02:40.15,0:02:41.64,GTA,,0,0,0,,{\blur1.2}{\k32}EXACTLY {\k50}WHERE {\k16}YOU {\k26}ARE.
+Dialogue: 0,0:02:42.10,0:02:43.07,GTA,,0,0,0,,{\blur1.2}{\k28}NUMBER {\k44}3.
+Dialogue: 0,0:02:43.26,0:02:44.25,GTA,,0,0,0,,{\blur1.2}{\k6}THE {\k34}POLICE {\k34}REPORT.
+Dialogue: 0,0:02:44.78,0:02:45.82,GTA,,0,0,0,,{\blur1.2}{\k8}AND {\k36}UNDER {\k28}THOSE {\k34}STARS
+Dialogue: 0,0:02:45.84,0:02:47.34,GTA,,0,0,0,,{\blur1.2}{\k44}IS {\k22}THE {\k28}MOST {\k58}IMPORTANT
+Dialogue: 0,0:02:47.36,0:02:48.85,GTA,,0,0,0,,{\blur1.2}{\k36}THING {\k28}IN {\k16}THIS {\k44}VIDEO.
+Dialogue: 0,0:02:49.06,0:02:50.28,GTA,,0,0,0,,{\blur1.2}{\k12}THOSE {\k28}LITTLE {\k30}ICONS {\k54}UNDER
+Dialogue: 0,0:02:50.30,0:02:52.39,GTA,,0,0,0,,{\blur1.2}{\k24}THE {\k26}STARS {\k52}ARE {\k14}THE {\k32}POLICE {\k36}REPORT.
+Dialogue: 0,0:02:52.60,0:02:53.54,GTA,,0,0,0,,{\blur1.2}{\k14}EDGE {\k34}SAYS {\k26}THEY {\k22}SHOW
+Dialogue: 0,0:02:53.56,0:02:54.80,GTA,,0,0,0,,{\blur1.2}{\k42}EXACTLY {\k54}WHAT {\k12}THE {\k18}COPS
+Dialogue: 0,0:02:54.82,0:02:55.97,GTA,,0,0,0,,{\blur1.2}{\k40}KNOW {\k28}ABOUT {\k22}YOU.
+Dialogue: 0,0:02:56.20,0:02:57.26,GTA,,0,0,0,,{\blur1.2}{\k4}A {\k42}CAMERA {\k38}MEANS {\k24}YOU'RE
+Dialogue: 0,0:02:57.28,0:02:57.89,GTA,,0,0,0,,{\blur1.2}{\k14}ON {\k22}CCTV,
+Dialogue: 0,0:02:57.92,0:02:59.38,GTA,,0,0,0,,{\blur1.2}{\k68}SO {\k16}YOU'LL {\k18}NEED {\k14}TO {\k32}DESTROY
+Dialogue: 0,0:02:59.40,0:03:00.11,GTA,,0,0,0,,{\blur1.2}{\k22}THE {\k24}FOOTAGE.
+Dialogue: 0,0:03:00.50,0:03:01.66,GTA,,0,0,0,,{\blur1.2}{\k4}A {\k36}HANGER {\k40}MEANS {\k20}THEY {\k18}KNOW
+Dialogue: 0,0:03:01.68,0:03:02.41,GTA,,0,0,0,,{\blur1.2}{\k18}YOUR {\k30}CLOTHES,
+Dialogue: 0,0:03:02.66,0:03:03.28,GTA,,0,0,0,,{\blur1.2}{\k22}SO {\k26}CHANGE,
+Dialogue: 0,0:03:03.30,0:03:04.26,GTA,,0,0,0,,{\blur1.2}{\k38}BUT {\k16}NOT {\k20}WHERE {\k24}ANYONE
+Dialogue: 0,0:03:04.28,0:03:05.33,GTA,,0,0,0,,{\blur1.2}{\k28}CAN {\k24}SEE {\k28}YOU.
+Dialogue: 0,0:03:05.50,0:03:06.80,GTA,,0,0,0,,{\blur1.2}{\k6}TWO {\k42}PEOPLE {\k38}MEANS {\k22}THEY {\k24}SAW
+Dialogue: 0,0:03:06.82,0:03:08.34,GTA,,0,0,0,,{\blur1.2}{\k26}JASON {\k30}AND {\k10}LUCIA {\k68}TOGETHER,
+Dialogue: 0,0:03:08.36,0:03:09.08,GTA,,0,0,0,,{\blur1.2}{\k24}SO {\k24}SPLIT {\k26}UP.
+Dialogue: 0,0:03:09.10,0:03:10.72,GTA,,0,0,0,,{\blur1.2}{\k52}A {\k26}GUN {\k48}MEANS {\k20}THEY {\k18}KNOW
+Dialogue: 0,0:03:10.74,0:03:11.51,GTA,,0,0,0,,{\blur1.2}{\k20}YOUR {\k32}WEAPON,
+Dialogue: 0,0:03:11.68,0:03:12.45,GTA,,0,0,0,,{\blur1.2}{\k8}SO {\k24}DITCH {\k20}IT.
+Dialogue: 0,0:03:12.60,0:03:13.88,GTA,,0,0,0,,{\blur1.2}{\k2}A {\k40}CAR {\k40}MEANS {\k24}THEY {\k24}KNOW
+Dialogue: 0,0:03:13.90,0:03:14.65,GTA,,0,0,0,,{\blur1.2}{\k22}YOUR {\k28}CAR.
+Dialogue: 0,0:03:14.90,0:03:15.94,GTA,,0,0,0,,{\blur1.2}{\k8}AND {\k14}A {\k32}FACE {\k52}MEANS
+Dialogue: 0,0:03:15.96,0:03:17.31,GTA,,0,0,0,,{\blur1.2}{\k28}THEY {\k22}KNOW {\k26}YOUR {\k34}FACE,
+Dialogue: 0,0:03:17.58,0:03:19.04,GTA,,0,0,0,,{\blur1.2}{\k6}AND {\k48}GAMESPOT {\k34}THINKS {\k30}A {\k30}MASK
+Dialogue: 0,0:03:19.06,0:03:20.79,GTA,,0,0,0,,{\blur1.2}{\k44}IS {\k16}THE {\k34}ANSWER {\k18}TO {\k16}THAT {\k20}ONE.
+Dialogue: 0,0:03:21.17,0:03:22.08,GTA,,0,0,0,,{\blur1.2}{\k30}NUMBER {\k36}2.
+Dialogue: 0,0:03:22.41,0:03:23.18,GTA,,0,0,0,,{\blur1.2}{\k6}HOLLOW {\k46}STARS.
+Dialogue: 0,0:03:23.77,0:03:24.87,GTA,,0,0,0,,{\blur1.2}{\k40}NOW, {\k32}HERE'S {\k12}WHAT {\k28}HAPPENS
+Dialogue: 0,0:03:24.89,0:03:25.73,GTA,,0,0,0,,{\blur1.2}{\k24}WHEN {\k12}YOU {\k16}GET {\k34}ALL
+Dialogue: 0,0:03:25.75,0:03:26.66,GTA,,0,0,0,,{\blur1.2}{\k14}OF {\k20}THAT {\k32}RIGHT.
+Dialogue: 0,0:03:26.85,0:03:28.16,GTA,,0,0,0,,{\blur1.2}{\k22}HOLLOW {\k84}STARS.
+Dialogue: 0,0:03:28.27,0:03:29.49,GTA,,0,0,0,,{\blur1.2}{\k52}GAMESPOT {\k30}SAYS {\k28}THAT {\k14}MEANS
+Dialogue: 0,0:03:29.51,0:03:30.37,GTA,,0,0,0,,{\blur1.2}{\k18}THE {\k24}POLICE {\k24}HAVE {\k22}NO
+Dialogue: 0,0:03:30.39,0:03:31.96,GTA,,0,0,0,,{\blur1.2}{\k36}IDEA {\k22}WHO {\k14}THEY'RE {\k24}LOOKING {\k36}FOR.
+Dialogue: 0,0:03:32.17,0:03:33.39,GTA,,0,0,0,,{\blur1.2}{\k30}WATCH {\k26}THE {\k32}EXTENDED {\k36}LOOK
+Dialogue: 0,0:03:33.41,0:03:35.24,GTA,,0,0,0,,{\blur1.2}{\k26}RIGHT {\k30}AFTER {\k12}THE {\k54}JEWELLERY-STORE {\k36}JOB:
+Dialogue: 0,0:03:35.51,0:03:36.37,GTA,,0,0,0,,{\blur1.2}{\k2}THE {\k24}GETAWAY {\k28}RIDER {\k34}PULLS
+Dialogue: 0,0:03:36.39,0:03:37.93,GTA,,0,0,0,,{\blur1.2}{\k36}AWAY {\k22}WITH {\k32}TWO {\k66}HOLLOW
+Dialogue: 0,0:03:37.95,0:03:39.96,GTA,,0,0,0,,{\blur1.2}{\k54}STARS, {\k62}AND {\k12}LOOK {\k22}UNDER {\k26}THEM.
+Dialogue: 0,0:03:40.31,0:03:41.96,GTA,,0,0,0,,{\blur1.2}{\k6}THE {\k24}ICONS {\k80}ARE {\k30}GONE.
+Dialogue: 0,0:03:42.51,0:03:43.20,GTA,,0,0,0,,{\blur1.2}{\k18}NO {\k26}FACE,
+Dialogue: 0,0:03:43.41,0:03:44.02,GTA,,0,0,0,,{\blur1.2}{\k10}NO {\k26}CLOTHES,
+Dialogue: 0,0:03:44.41,0:03:45.10,GTA,,0,0,0,,{\blur1.2}{\k14}NO {\k30}CAR.
+Dialogue: 0,0:03:45.57,0:03:46.23,GTA,,0,0,0,,{\blur1.2}{\k10}THEY'RE {\k22}STILL {\k36}WANTED,
+Dialogue: 0,0:03:46.25,0:03:48.24,GTA,,0,0,0,,{\blur1.2}{\k46}AND {\k10}THE {\k22}COPS {\k52}HAVE {\k44}NOTHING.
+Dialogue: 0,0:03:48.83,0:03:49.58,GTA,,0,0,0,,{\blur1.2}{\k12}NUMBER {\k38}1.
+Dialogue: 0,0:03:49.71,0:03:50.56,GTA,,0,0,0,,{\blur1.2}{\k26}NO {\k34}WITNESSES,
+Dialogue: 0,0:03:50.87,0:03:51.76,GTA,,0,0,0,,{\blur1.2}{\k30}NO {\k34}REPORT.
+Dialogue: 0,0:03:52.15,0:03:52.99,GTA,,0,0,0,,{\blur1.2}{\k6}AND {\k18}NUMBER {\k30}1 {\k32}STARTS
+Dialogue: 0,0:03:53.01,0:03:54.76,GTA,,0,0,0,,{\blur1.2}{\k30}BEFORE {\k50}YOU {\k22}COMMIT {\k20}THE {\k28}CRIME.
+Dialogue: 0,0:03:54.87,0:03:55.93,GTA,,0,0,0,,{\blur1.2}{\k10}IN {\k16}GTA {\k62}6,
+Dialogue: 0,0:03:55.95,0:03:56.99,GTA,,0,0,0,,{\blur1.2}{\k14}A {\k24}CRIME {\k38}ONLY {\k30}GETS
+Dialogue: 0,0:03:57.01,0:03:58.57,GTA,,0,0,0,,{\blur1.2}{\k36}REPORTED {\k56}IF {\k30}SOMEONE {\k36}SEES
+Dialogue: 0,0:03:58.59,0:03:59.63,GTA,,0,0,0,,{\blur1.2}{\k30}IT {\k38}OR {\k10}AN {\k28}ALARM
+Dialogue: 0,0:03:59.65,0:04:00.46,GTA,,0,0,0,,{\blur1.2}{\k26}GOES {\k30}OFF.
+Dialogue: 0,0:04:00.69,0:04:01.91,GTA,,0,0,0,,{\blur1.2}{\k6}AND {\k30}PEOPLE {\k28}REMEMBER {\k60}WHAT
+Dialogue: 0,0:04:01.93,0:04:02.70,GTA,,0,0,0,,{\blur1.2}{\k28}THEY'VE {\k24}SEEN.
+Dialogue: 0,0:04:02.97,0:04:04.23,GTA,,0,0,0,,{\blur1.2}{\k4}SO {\k26}PHIL {\k42}HOOKER {\k20}FROM {\k36}ROCKSTAR
+Dialogue: 0,0:04:04.25,0:04:05.45,GTA,,0,0,0,,{\blur1.2}{\k32}NORTH {\k54}FOUND {\k18}A {\k18}WAY
+Dialogue: 0,0:04:05.47,0:04:06.49,GTA,,0,0,0,,{\blur1.2}{\k16}TO {\k28}EMPTY {\k28}A {\k32}STORE
+Dialogue: 0,0:04:06.51,0:04:07.93,GTA,,0,0,0,,{\blur1.2}{\k36}BEFORE {\k58}ROBBING {\k26}IT.
+Dialogue: 0,0:04:07.95,0:04:08.80,GTA,,0,0,0,,{\blur1.2}{\k12}IN {\k16}HIS {\k32}WORDS:
+Dialogue: 0,0:04:08.87,0:04:10.07,GTA,,0,0,0,,{\blur1.2}{\k18}I {\k32}BASICALLY {\k42}STARTED {\k30}PICKING
+Dialogue: 0,0:04:10.09,0:04:11.09,GTA,,0,0,0,,{\blur1.2}{\k32}FIGHTS {\k28}WITH {\k20}THEM,
+Dialogue: 0,0:04:11.11,0:04:12.31,GTA,,0,0,0,,{\blur1.2}{\k26}PROVOKING {\k66}THEM {\k14}AND {\k16}THEN
+Dialogue: 0,0:04:12.33,0:04:13.83,GTA,,0,0,0,,{\blur1.2}{\k38}IMMEDIATELY {\k68}DEFUSING {\k22}IT.
+Dialogue: 0,0:04:13.85,0:04:14.45,GTA,,0,0,0,,{\blur1.2}{\k16}THEN {\k14}THEY {\k14}WOULD {\k18}LEAVE
+Dialogue: 0,0:04:14.47,0:04:15.18,GTA,,0,0,0,,{\blur1.2}{\k18}THE {\k28}STORE,
+Dialogue: 0,0:04:15.33,0:04:15.95,GTA,,0,0,0,,{\blur1.2}{\k12}SO {\k14}THAT {\k18}WOULD {\k20}CLEAR
+Dialogue: 0,0:04:15.97,0:04:16.85,GTA,,0,0,0,,{\blur1.2}{\k24}THEM {\k18}OUT {\k38}AND {\k10}I
+Dialogue: 0,0:04:16.87,0:04:17.55,GTA,,0,0,0,,{\blur1.2}{\k14}COULD {\k20}ROB {\k18}IT {\k18}MORE
+Dialogue: 0,0:04:17.57,0:04:19.52,GTA,,0,0,0,,{\blur1.2}{\k52}CLEANLY. {\k54}NO {\k30}PUNCHES {\k34}THROWN.
+Dialogue: 0,0:04:19.71,0:04:20.58,GTA,,0,0,0,,{\blur1.2}{\k22}NO {\k40}WITNESSES.
+Dialogue: 0,0:04:20.93,0:04:21.54,GTA,,0,0,0,,{\blur1.2}{\k8}NO {\k28}REPORT.
+Dialogue: 0,0:04:22.07,0:04:23.42,GTA,,0,0,0,,{\blur1.2}{\k20}SO {\k34}THAT'S {\k10}THE {\k18}CASE {\k28}FILE:
+Dialogue: 0,0:04:23.77,0:04:24.37,GTA,,0,0,0,,{\blur1.2}{\k1}YOUR {\k30}GUN,
+Dialogue: 0,0:04:24.55,0:04:25.15,GTA,,0,0,0,,{\blur1.2}{\k4}THE {\k28}VICTIM,
+Dialogue: 0,0:04:25.29,0:04:25.92,GTA,,0,0,0,,{\blur1.2}{\k10}THE {\k28}OWNER,
+Dialogue: 0,0:04:26.07,0:04:26.68,GTA,,0,0,0,,{\blur1.2}{\k4}THE {\k32}TRACKER,
+Dialogue: 0,0:04:26.91,0:04:27.82,GTA,,0,0,0,,{\blur1.2}{\k6}THE {\k60}SEARCHLIGHT,
+Dialogue: 0,0:04:27.85,0:04:28.62,GTA,,0,0,0,,{\blur1.2}{\k18}THE {\k34}RADIO,
+Dialogue: 0,0:04:28.77,0:04:29.44,GTA,,0,0,0,,{\blur1.2}{\k8}THE {\k34}STARS,
+Dialogue: 0,0:04:29.69,0:04:30.29,GTA,,0,0,0,,{\blur1.2}{\k4}THE {\k30}REPORT,
+Dialogue: 0,0:04:30.61,0:04:31.60,GTA,,0,0,0,,{\blur1.2}{\k10}THE {\k24}HOLLOW {\k40}STARS,
+Dialogue: 0,0:04:32.01,0:04:32.72,GTA,,0,0,0,,{\blur1.2}{\k6}AND {\k12}THE {\k28}WITNESSES.
+Dialogue: 0,0:04:33.37,0:04:33.89,GTA,,0,0,0,,{\blur1.2}{\k6}ONE {\k48}QUESTION,
+Dialogue: 0,0:04:33.91,0:04:35.04,GTA,,0,0,0,,{\blur1.2}{\k42}IN {\k10}THE {\k36}COMMENTS:
+Dialogue: 0,0:04:35.37,0:04:36.25,GTA,,0,0,0,,{\blur1.2}{\k10}WHICH {\k28}ONE {\k20}DO {\k10}YOU {\k22}THINK
+Dialogue: 0,0:04:36.27,0:04:37.70,GTA,,0,0,0,,{\blur1.2}{\k34}GETS {\k18}YOU {\k22}CAUGHT {\k44}FIRST?
+Dialogue: 0,0:04:38.13,0:04:39.11,GTA,,0,0,0,,{\blur1.2}{\k8}THE {\k22}FULL {\k36}LIST {\k14}OF {\k20}LAUNCH
+Dialogue: 0,0:04:39.13,0:04:41.20,GTA,,0,0,0,,{\blur1.2}{\k48}TIMES {\k36}IS {\k20}ON {\k32}SCREEN {\k46}NOW.
