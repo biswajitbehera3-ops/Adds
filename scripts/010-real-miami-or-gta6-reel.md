@@ -1,4 +1,4 @@
-# 010 — Reel / Short: "Real Miami… or GTA 6?" — FINAL v3 (one subject, ~54 s)
+# 010 — Reel / Short: "Real Miami… or GTA 6?" — v4 (one subject, ~40 s)
 
 **Idea:** for years people filmed real Miami and said "this looks like GTA". That scene was rebuilt inside GTA 6, the Miami page
 OnlyInDade posted it, Rockstar shared it to its Instagram Story, and people couldn't tell which was real.
@@ -16,18 +16,40 @@ Instagram Reels.
 **Why A:** the reel only works while the viewer is still guessing. The Question keeps the answer back until the stamp at 0:09;
 B gives it away in its second sentence.
 
-## Spoken script (exactly as recorded)
-> *(0:00–0:04 — no voice. The clean clip plays with quiet Miami street sound.)*
-> Before you swipe, look closely: you're watching a street in Miami. Or are you?
+## Spoken script — v4 (tightened after competitor check; exact TTS text in `scripts/010-voiceover-tts.txt`)
+> *(0:00–0:02 — no voice. Clean clip + quiet Miami street sound.)*
+> Before you swipe, look closely. You're watching a street in Miami. Or are you?
 > It's GTA 6. The Miami page OnlyInDade posted it, and Rockstar shared it on its official Instagram.
-> Here's why. For years, people have filmed real Miami and said the same thing: this looks like GTA. One of those street videos
-> went viral. So that scene was rebuilt inside the game.
-> Then fans went frame by frame. The cars, the shop signs, the people. They match what we've seen in GTA 6.
-> One catch: Rockstar hasn't said if this is live gameplay or a scene made in the game's engine.
+> For years, people filmed real Miami and said: this looks like GTA. So that scene was rebuilt inside the game.
+> Look at the details. The cars. The shop signs. The people on the street.
+> Rockstar hasn't said if it's live gameplay.
 > But the joke has flipped. Miami used to look like GTA. Now GTA looks like Miami.
 > So be honest. Did it fool you?
 
-**Runtime:** 126 spoken words ÷ 150 wpm ≈ 50 s of voice + 4 s silent open ≈ **54 s**.
+**Runtime:** 97 words ÷ 150 wpm ≈ 39 s of voice + 2 s silent open ≈ **~40 s** (final timing from the generated voice).
+
+## Competitor check (YouTube, 12 Nov, same clip)
+| Video | Length | Views | Format |
+|---|---|---|---|
+| TheGamingRevolution — "GTA 6 Gameplay VS Real Life Miami" | 0:11 | **14,650 / 16 h** | Silent side-by-side |
+| GTA VI Kingdom — "GTA 6's Phone Camera Is PHOTOREALISTIC" | 1:16 | 76 | Talk + clip |
+| Kryvo — "This Is Not Real Life. It's GTA 6" | 2:03 | 37 | Explainer |
+| PS5 Gamer — "…Wait, That's Not Real Miami" | 1:03 | 3 | Explainer |
+| 12+ long videos (3–14 min) | — | 1–800 | Explainers |
+**Takeaways:** short + visual wins; long talk loses. "This isn't real life, it's GTA 6" titles are saturated (5+ channels) → we use
+the question title. Our edge: fast cuts on details + the proof (Rockstar's header) + an honest one-line catch, in ~40 s.
+Not used: the "people called it AI" angle — only in creator descriptions, no outlet I could read confirms it.
+
+## Cut map (source: `clips/010/clean.mp4`, 1080×1920 30 fps, 19 s; `named.mp4` = with Rockstar header)
+| Moment | Source time | Use |
+|---|---|---|
+| Pink-wrapped supercar | 0.0–1.0 | fast cut #1 |
+| POLICE car | 3.5–4.5 | fast cut #2 + "the cars" |
+| Scooter rider + diner sign | 5.0–5.6 | fast cut #3 + "the shop signs" |
+| Man in red cap | 7.0–8.0 | "the people" |
+| Pink-and-teal classic car | 9.0–10.5 | fast cut #4 |
+| Green lowrider, zebra seats | 16.5–18.5 | fast cut #5 / ending |
+| Lowrider wide (opening) | 5.0–7.0 | 0:00 open + loop frame |
 
 ## Beat sheet (every beat has something to look at)
 **Always on screen from 0:00 to the end:** a small credit, bottom-left above the subtitles: `Clip: @onlyindade · shared by Rockstar
