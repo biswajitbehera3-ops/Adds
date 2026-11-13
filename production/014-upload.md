@@ -1,6 +1,6 @@
 # 014 — "GTA 6 vs GTA 5: 11 Things Rockstar Changed" — upload package
 
-**Script:** `scripts/014-gta6-vs-gta5-11-changes.md` (v4 tightened, ≈2:45, 368 words; voice text in `scripts/014-voiceover.txt`) · **Post:** Sat 14 or Sun 15 Nov, 5:30 PM IST.
+**Script:** `scripts/014-gta6-vs-gta5-11-changes.md` (v5, ≈2:37, 352 words, no warning; voice text in `scripts/014-voiceover.txt`) · **Post:** Sat 14 or Sun 15 Nov, 5:30 PM IST.
 **Thumbnails:** A is the main one (the video opens on its promise); B is the Test & Compare challenger. `remotion-overlays/out/thumbs/Thumb014A.jpg` ("IT JUDGES YOU") ·
 `Thumb014B.jpg` ("OLD HABITS DIE"). Built on Rockstar's official Jason & Lucia artwork, no AI, no credits.
 
@@ -19,8 +19,7 @@ GTA 6 vs GTA 5: the 11 biggest changes Rockstar has made, starting with a game t
 1:20 #6 Buses and trains
 1:30 #7–#8 170+ animals, radio on foot
 1:48 #9–#10 Fuel, rob almost anything
-2:07 #11 Six stars and police memory
-2:30 Warning: the fake GTA 6 PC download
+2:10 #11 Six stars and police memory
 
 GTA 6 launches November 19, 2026 on PS5 and Xbox Series X|S.
 Full police breakdown: [link video 006]
@@ -32,13 +31,12 @@ Sources:
 - IGN, Rob Nelson interview (robbing): https://www.ign.com/articles/gta-6-the-big-interview
 - GameSpot (wanted levels): https://www.gamespot.com/articles/gta-6-wanted-levels/
 - GameSpot (Macca & Friends): https://www.gamespot.com/articles/gta-6-in-game-tv-show-macca-friends-looks-ridiculous-in-the-best-way/
-- Help Net Security (fake GTA 6 download): https://www.helpnetsecurity.com/2026/11/13/fake-gta-6-download-scam/
 
 Footage © Rockstar Games, used for commentary. GTA 5 shown as our own illustrations.
 Fan channel, not affiliated with Rockstar Games or Take-Two Interactive.
 #GTA6 #GTA5 #GTAVI
 ```
-**Chapters rule check (YouTube):** starts at 0:00 ✓ · 8 entries (≥3) ✓ · shortest is 10 s (#6, 1:20–1:30) (≥10 s) ✓ — short items are grouped so none is under 10 s.
+**Chapters rule check (YouTube):** starts at 0:00 ✓ · 7 entries (≥3) ✓ · shortest is 10 s (#6, 1:20–1:30) (≥10 s) ✓ — short items are grouped so none is under 10 s.
 ⚠ These come from the word count. After the voice is generated, re-time them from the real audio with
 `python3 .claude/skills/yt-chapters/chapters.py <voice>.srt` and fix the description.
 
@@ -52,7 +50,7 @@ GTA 6 criminal profile, GTA 6 Lucia, GTA 6 Jason, GTA 6 Leonida, GTA 6 fuel, GTA
 ## Settings
 - **Altered or synthetic content: Yes** (AI narration voice).
 - Made for kids: No · Category: Gaming · Game: Grand Theft Auto VI.
-- End screen: video 006 (best for viewer) + reel 010. Card at 2:25 → video 006 (#11 says "linked right here") (the police item points to it).
+- End screen: video 006 (best for viewer) + reel 010. Card at 2:28 → video 006 (#11 says "linked right here") (the police item points to it).
 - Subtitles: upload the .srt from the voice.
 
 ## Instagram / Shorts cut-down (optional)

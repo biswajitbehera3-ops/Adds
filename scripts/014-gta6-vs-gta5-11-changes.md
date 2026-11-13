@@ -5,6 +5,7 @@
 **Why this video:** `research/trends/2026-11-13-competitors.md`. GTA 5-vs-GTA 6 comparisons are the month's biggest outliers (BreeZe GTA,
 21K subs: 2.2M and 2.0M views). We use the format, not their list: our own order, proof for every item, CONFIRMED / REPORTED tags.
 
+**v5 (13 Nov):** the fake-PC-download warning is removed; the 4 punch lines are kept and the #10→#11 one restored in full. Beat B17b is dropped.
 **v4 (13 Nov, your note "too many words"):** squeezed from 793 to **368 words, ≈2:45**. The recording text is now
 `scripts/014-voiceover.txt` (it replaces the spoken lines below); the beat order, ON SCREEN plan, sources and clip list below still apply.
 **v3 (13 Nov evening):** adds today's Macca & Friends teaser to #5 and a fake-PC-download warning before the close.
