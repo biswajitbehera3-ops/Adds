@@ -21,6 +21,6 @@ Notes for 009:
   Re-check before rendering in case one appears.
 - Re-check facts on the day of upload (festival lineup changes, sign status).
 
-**014 long video — "GTA 6 vs GTA 5: 11 Things Rockstar Changed"** (13 Nov): script v2 (≈5:08) · thumbnails A/B rendered ·
+**014 long video — "GTA 6 vs GTA 5: 11 Things Rockstar Changed"** (13 Nov): **RENDERED** `remotion-overlays/out/014-final.mp4` (4:13, −14 LUFS, 91 word-synced shots; phone copy `014-phone.mp4`) · thumbnail D main / C challenger · no music bed yet · was script v2 (≈5:08) · thumbnails A/B rendered ·
 upload package `production/014-upload.md`. Next: frame checks (earbuds, boar, bar) → quote Bram voice → build `ProfileMeter`,
 `SplitCompare`, recap grid → edit → render. Post Sat 14 / Sun 15 Nov, 5:30 PM IST.
