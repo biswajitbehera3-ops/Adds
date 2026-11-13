@@ -191,7 +191,11 @@ export const Thumb014E: React.FC = () => {
   return (
     <AbsoluteFill style={{ background: C.night, overflow: "hidden" }}>
       <Img src={staticFile(USER)} style={{ position: "absolute", width: 1170 * s, height: 1546 * s, left: -X0 * s, top: -Y0 * s,
-        filter: "saturate(1.25) contrast(1.12) brightness(1.02)" }} />
+        filter: "hue-rotate(-14deg) saturate(1.15) contrast(1.12) brightness(1.03)" }} />
+      {/* GTA 6 sunset grade: blue-violet sky up top, orange-gold toward the horizon (less pink overall) */}
+      <AbsoluteFill style={{ background: "linear-gradient(180deg, #2A3A8C 0%, #4B3A9A 18%, rgba(120,70,160,0) 42%)", mixBlendMode: "color", opacity: 0.55 }} />
+      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(255,150,60,0) 18%, #FF9A3C 40%, #FFB35A 55%, rgba(255,150,60,0) 75%)", mixBlendMode: "soft-light", opacity: 0.85 }} />
+      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(255,170,80,0) 25%, rgba(255,140,50,0.22) 45%, rgba(255,140,50,0) 65%)", mixBlendMode: "screen" }} />
       {/* vignette + bottom shade for the text */}
       <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 40%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 100%)" }} />
       <AbsoluteFill style={{ background: "linear-gradient(0deg, rgba(8,2,20,0.92) 0%, rgba(8,2,20,0.55) 26%, rgba(8,2,20,0) 46%)" }} />
@@ -211,8 +215,8 @@ export const Thumb014E: React.FC = () => {
       <div style={{ position: "absolute", left: 0, right: 0, bottom: 18, textAlign: "center", transform: "skewX(-6deg)" }}>
         <span style={{ fontFamily: ANTON, fontSize: 150, lineHeight: 1, color: "#FFFFFF", letterSpacing: 2,
           textShadow: "0 0 0 #000, 6px 6px 0 #000, -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000, 0 6px 0 #000, 0 -5px 0 #000, 6px 0 0 #000, -5px 0 0 #000, 10px 12px 0 rgba(0,0,0,0.6)" }}>IT JUDGES </span>
-        <span style={{ fontFamily: ANTON, fontSize: 150, lineHeight: 1, color: "#FF2E88", letterSpacing: 2,
-          textShadow: "6px 6px 0 #000, -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000, 0 6px 0 #000, 0 -5px 0 #000, 6px 0 0 #000, -5px 0 0 #000, 0 0 40px rgba(255,46,136,0.9)" }}>YOU</span>
+        <span style={{ fontFamily: ANTON, fontSize: 150, lineHeight: 1, color: "#FFC93C", letterSpacing: 2,
+          textShadow: "6px 6px 0 #000, -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000, 0 6px 0 #000, 0 -5px 0 #000, 6px 0 0 #000, -5px 0 0 #000, 0 0 40px rgba(255,170,40,0.85)" }}>YOU</span>
       </div>
     </AbsoluteFill>
   );
