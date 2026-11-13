@@ -1,7 +1,7 @@
 # 014 — "GTA 6 vs GTA 5: 11 Things Rockstar Changed" — upload package
 
-**Script:** `scripts/014-gta6-vs-gta5-11-changes.md` (v5, ≈2:37, 352 words, no warning; voice text in `scripts/014-voiceover.txt`) · **Post:** Sat 14 or Sun 15 Nov, 5:30 PM IST.
-**Thumbnails:** A is the main one (the video opens on its promise); B is the Test & Compare challenger. `remotion-overlays/out/thumbs/Thumb014A.jpg` ("IT JUDGES YOU") ·
+**Script:** `scripts/014-gta6-vs-gta5-11-changes.md` (**long version used**: `scripts/014-voiceover-long.txt`, 734 words, voice-over 4:10 — Bram/ElevenLabs, 12 credits; the short 2:12 voice (6 credits) is kept for a possible Short; voice text in `scripts/014-voiceover.txt`) · **Post:** Sat 14 or Sun 15 Nov, 5:30 PM IST.
+**Thumbnails (13 Nov evening):** **D is the main one** (`Thumb014D.jpg`: Lucia full-frame, V struck → VI, six stars, "IT JUDGES YOU"); **C** (`Thumb014C.jpg`: 2013 vs 2026 comparison) is the Test & Compare challenger. Older A/B kept as backups: `remotion-overlays/out/thumbs/Thumb014A.jpg` ("IT JUDGES YOU") ·
 `Thumb014B.jpg` ("OLD HABITS DIE"). Built on Rockstar's official Jason & Lucia artwork, no AI, no credits.
 
 ## Title (linted with `yt-package/title.py`: 100/100 with "IT JUDGES YOU", 42 chars)

@@ -137,3 +137,47 @@ export const Thumb014C: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+// D — full-bleed Launch Trailer 0:27 (Lucia looking back from the convertible, Jason driving). Grey "V" struck out → neon "VI",
+// six wanted stars, "IT JUDGES YOU". One focal face, high contrast. Official Rockstar 4K frame; no AI.
+const LT27 = "frames/lt-27.5.jpg"; // picture rows ~120–2039
+
+const Stars6: React.FC<{ size: number }> = ({ size }) => (
+  <div style={{ display: "flex", gap: size * 0.1 }}>
+    {[0, 1, 2, 3, 4, 5].map((i) => (
+      <svg key={i} viewBox="0 0 100 100" width={size} height={size} style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.85))" }}>
+        <path d="M50 4 L61.8 37.6 L97.6 38.2 L69 59.8 L79.4 94 L50 73.6 L20.6 94 L31 59.8 L2.4 38.2 L38.2 37.6 Z"
+          fill={i === 5 ? C.gold : "#fff"} stroke="#000" strokeWidth={5} strokeLinejoin="round" />
+      </svg>
+    ))}
+  </div>
+);
+
+export const Thumb014D: React.FC = () => {
+  const s = 0.43;
+  return (
+    <AbsoluteFill style={{ background: C.night, overflow: "hidden" }}>
+      <Img src={staticFile(LT27)} style={{ position: "absolute", width: 3840 * s, height: 2160 * s, left: -40, top: -120 * s - 40,
+        filter: "saturate(1.35) contrast(1.15) brightness(1.05)" }} />
+      <AbsoluteFill style={{ background: "linear-gradient(270deg, rgba(10,4,24,0.88) 0%, rgba(10,4,24,0.45) 30%, rgba(10,4,24,0) 48%)" }} />
+      <AbsoluteFill style={{ background: "radial-gradient(circle at 100% 0%, rgba(255,46,136,0.55) 0%, rgba(255,46,136,0) 40%)", mixBlendMode: "screen" }} />
+      {/* V (old, grey, struck) → VI (neon) */}
+      <div style={{ position: "absolute", right: 40, top: 20, display: "flex", alignItems: "center", gap: 18 }}>
+        <div style={{ position: "relative", fontFamily: ANTON, fontSize: 150, color: "#8A8A90", lineHeight: 1, textShadow: "5px 6px 0 #000" }}>
+          V
+          <svg viewBox="0 0 100 100" width={130} height={130} style={{ position: "absolute", left: -18, top: 18 }}>
+            <path d="M10 90 L90 10" stroke="#FF2222" strokeWidth="14" strokeLinecap="round" />
+          </svg>
+        </div>
+        <div style={{ fontFamily: ANTON, fontSize: 90, color: "#fff", textShadow: "4px 5px 0 #000" }}>→</div>
+        <div style={{ fontFamily: ANTON, fontSize: 210, color: "#fff", lineHeight: 1,
+          textShadow: `0 0 18px ${C.pink}, 0 0 40px ${C.pink}, 6px 8px 0 #000` }}>VI</div>
+      </div>
+      <div style={{ position: "absolute", right: 44, top: 262 }}><Stars6 size={62} /></div>
+      <div style={{ position: "absolute", right: 30, bottom: 34, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 18 }}>
+        <Block text="IT JUDGES" bg="#FFFFFF" color="#0B0B10" size={104} rot={2} />
+        <Block text="YOU" bg="#FF2222" color="#FFFFFF" size={170} rot={-3} />
+      </div>
+    </AbsoluteFill>
+  );
+};

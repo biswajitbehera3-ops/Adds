@@ -9,7 +9,7 @@ import { Video006, VIDEO006_FRAMES } from "./gta6/Video006";
 import { Reel010, REEL010_FRAMES } from "./gta6/Reel010";
 import { ThumbFloorPaint, ThumbFloorStand } from "./gta6/ThumbFloor";
 import { Thumb006A, Thumb006B, Thumb006Pro } from "./gta6/Thumbs006";
-import { Thumb014A, Thumb014B, Thumb014C } from "./gta6/Thumbs014";
+import { Thumb014A, Thumb014B, Thumb014C, Thumb014D } from "./gta6/Thumbs014";
 import { DetailCallout, DispatchScreen, IconPanel, NumberCard, ProgressBar, QuoteCard, SourceTag, SplitCompare, StarRow } from "./gta6/Kit";
 import { ContestantTracker } from "./ContestantTracker";
 import { Countdown } from "./Countdown";
@@ -193,6 +193,7 @@ export const RemotionRoot: React.FC = () => {
       <Still id="Thumb014A" component={Thumb014A} width={1280} height={720} />
       <Still id="Thumb014B" component={Thumb014B} width={1280} height={720} />
       <Still id="Thumb014C" component={Thumb014C} width={1280} height={720} />
+      <Still id="Thumb014D" component={Thumb014D} width={1280} height={720} />
       <Composition id="Reel010" component={Reel010} durationInFrames={REEL010_FRAMES} fps={30} width={1080} height={1920} />
       <Composition id="Video006" component={Video006} durationInFrames={VIDEO006_FRAMES} fps={30} width={1920} height={1080} />
       <Composition id="Video006-4K" component={Video006} durationInFrames={VIDEO006_FRAMES} fps={30} width={3840} height={2160} />
