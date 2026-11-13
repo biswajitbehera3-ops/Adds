@@ -1,0 +1,89 @@
+import React from "react";
+import { AbsoluteFill, Img, staticFile } from "remotion";
+import { ANTON, C } from "./theme";
+
+// 1280×720 thumbnails for video 014 "GTA 6 vs GTA 5: 12 Things Rockstar Changed" (A/B test).
+// Built on Rockstar's official "Jason and Lucia Robbery" artwork (art © Rockstar Games) + its free rembg cut-out.
+// Thumbnail text never repeats the title (linted with yt-package/title.py: 100/100 for both).
+const ART = "frames/art-robbery.jpg";      // 3840×2160
+const CUT = "frames/art-robbery-cut.png";  // same size, transparent; people span x 1461–3259
+
+const Block: React.FC<{ text: string; bg: string; color: string; size: number; rot?: number }> = ({ text, bg, color, size, rot = -3 }) => (
+  <div style={{ display: "inline-block", background: bg, color, fontFamily: ANTON, fontSize: size, lineHeight: 1, padding: "10px 26px 6px",
+    transform: `rotate(${rot}deg)`, boxShadow: "8px 8px 0 rgba(0,0,0,0.85)", letterSpacing: 1 }}>{text}</div>
+);
+
+// Angel (halo + wings) and devil (horns + tail) badges — our own vector icons.
+const Angel: React.FC<{ size: number }> = ({ size }) => (
+  <svg viewBox="0 0 100 100" width={size} height={size} style={{ filter: "drop-shadow(4px 5px 0 rgba(0,0,0,0.85))" }}>
+    <circle cx="50" cy="50" r="46" fill="#FFFFFF" stroke="#000" strokeWidth="5" />
+    <ellipse cx="50" cy="26" rx="22" ry="7" fill="none" stroke={C.gold} strokeWidth="6" />
+    <circle cx="50" cy="56" r="17" fill={C.gold} stroke="#000" strokeWidth="4" />
+    <path d="M30 60 Q12 50 16 34 Q26 46 34 52 Z M70 60 Q88 50 84 34 Q74 46 66 52 Z" fill="#DDEBFF" stroke="#000" strokeWidth="3" />
+  </svg>
+);
+const Devil: React.FC<{ size: number }> = ({ size }) => (
+  <svg viewBox="0 0 100 100" width={size} height={size} style={{ filter: "drop-shadow(4px 5px 0 rgba(0,0,0,0.85))" }}>
+    <circle cx="50" cy="50" r="46" fill="#FF2222" stroke="#000" strokeWidth="5" />
+    <path d="M28 40 L22 12 L42 32 Z M72 40 L78 12 L58 32 Z" fill="#7A0000" stroke="#000" strokeWidth="3" />
+    <circle cx="50" cy="56" r="20" fill="#B30000" stroke="#000" strokeWidth="4" />
+    <path d="M40 52 L46 56 M60 52 L54 56" stroke="#FFC93C" strokeWidth="5" strokeLinecap="round" />
+    <path d="M40 66 Q50 72 60 66" stroke="#000" strokeWidth="4" fill="none" strokeLinecap="round" />
+  </svg>
+);
+
+// A meter from angel to devil with the needle pinned near the devil end.
+const Meter: React.FC<{ w: number }> = ({ w }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+    <Angel size={92} />
+    <div style={{ position: "relative", width: w, height: 30, borderRadius: 15, border: "5px solid #000",
+      background: `linear-gradient(90deg, #FFFFFF 0%, ${C.gold} 45%, #FF2222 100%)`, boxShadow: "6px 6px 0 rgba(0,0,0,0.85)" }}>
+      <div style={{ position: "absolute", left: w * 0.84, top: -22, width: 14, height: 64, background: "#000", borderRadius: 4,
+        border: "3px solid #fff" }} />
+    </div>
+    <Devil size={92} />
+  </div>
+);
+
+const layer = (scale: number, ox: number, oy: number): React.CSSProperties =>
+  ({ position: "absolute", left: ox, top: oy, width: 3840 * scale, height: 2160 * scale });
+
+// A — "IT JUDGES YOU": the two leads big on the right, the angel ↔ devil meter + text on the left.
+export const Thumb014A: React.FC = () => {
+  const L = layer(0.5, -330, -20);
+  return (
+    <AbsoluteFill style={{ background: C.night, overflow: "hidden" }}>
+      <Img src={staticFile(ART)} style={{ ...L, filter: "brightness(0.5) saturate(1.2) blur(3px)" }} />
+      <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(10,4,24,0.92) 0%, rgba(10,4,24,0.55) 42%, rgba(10,4,24,0) 62%)" }} />
+      <AbsoluteFill style={{ background: "radial-gradient(circle at 100% 100%, rgba(255,34,34,0.55) 0%, rgba(255,34,34,0) 45%), radial-gradient(circle at 60% 0%, rgba(255,201,60,0.35) 0%, rgba(255,201,60,0) 40%)", mixBlendMode: "screen" }} />
+      <Img src={staticFile(CUT)} style={{ ...L, filter: "brightness(1.2) contrast(1.1) saturate(1.25) drop-shadow(0 0 3px rgba(255,255,255,0.7)) drop-shadow(0 14px 24px rgba(0,0,0,0.8))" }} />
+      <div style={{ position: "absolute", left: 34, top: 60 }}><Meter w={250} /></div>
+      <div style={{ position: "absolute", left: 30, bottom: 44, display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 20 }}>
+        <Block text="IT JUDGES" bg="#FFFFFF" color="#0B0B10" size={118} />
+        <Block text="YOU" bg="#FF2222" color="#FFFFFF" size={200} rot={-4} />
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+// B — "OLD HABITS DIE": left third is a grey "2013" panel with a red cross, right two-thirds the neon 2026 artwork.
+export const Thumb014B: React.FC = () => {
+  const L = layer(0.42, -150, -40);
+  return (
+    <AbsoluteFill style={{ background: C.night, overflow: "hidden" }}>
+      <Img src={staticFile(ART)} style={{ ...L, filter: "saturate(1.3) contrast(1.08)" }} />
+      <div style={{ position: "absolute", left: 0, top: 0, width: 420, height: 720, background: "#2A2A2E",
+        borderRight: "10px solid #000", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+        <div style={{ fontFamily: ANTON, fontSize: 210, color: "#7A7A80", lineHeight: 1 }}>2013</div>
+        <svg viewBox="0 0 100 100" width={360} height={360} style={{ position: "absolute" }}>
+          <path d="M12 12 L88 88 M88 12 L12 88" stroke="#FF2222" strokeWidth="13" strokeLinecap="round" />
+        </svg>
+      </div>
+      <Img src={staticFile(CUT)} style={{ ...L, filter: "brightness(1.12) contrast(1.08) saturate(1.3) drop-shadow(0 12px 22px rgba(0,0,0,0.8))" }} />
+      <div style={{ position: "absolute", right: 24, bottom: 34, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 16 }}>
+        <Block text="OLD HABITS" bg="#FFFFFF" color="#0B0B10" size={100} rot={3} />
+        <Block text="DIE" bg={C.pink} color="#FFFFFF" size={180} rot={-3} />
+      </div>
+    </AbsoluteFill>
+  );
+};
