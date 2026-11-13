@@ -1,10 +1,11 @@
-# 014 — "GTA 6 vs GTA 5: 11 Things Rockstar Changed" — Production script v2 (13 Nov 2026)
+# 014 — "GTA 6 vs GTA 5: 11 Things Rockstar Changed" — Production script v3 (13 Nov 2026)
 
 **Standard:** `production/style-guide.md` · **Voice:** `youtube/voice.md` · **Format:** long video, 3840×2160 master, voice Bram ·
-**Runtime:** ≈5:08 (717 spoken words ÷ 150 wpm + 2 s per number card; final timing from the voice) · **Post:** Sat 14 or Sun 15 Nov, 5:30 PM IST.
+**Runtime:** ≈5:39 (793 spoken words ÷ 150 wpm + 2 s per number card; final timing from the voice) · **Post:** Sat 14 or Sun 15 Nov, 5:30 PM IST.
 **Why this video:** `research/trends/2026-11-13-competitors.md`. GTA 5-vs-GTA 6 comparisons are the month's biggest outliers (BreeZe GTA,
 21K subs: 2.2M and 2.0M views). We use the format, not their list: our own order, proof for every item, CONFIRMED / REPORTED tags.
 
+**v3 (13 Nov evening):** adds today's Macca & Friends teaser to #5 and a fake-PC-download warning before the close.
 **v2 changes (your notes, 13 Nov):**
 - "The box" item is cut (it had nothing to do with the thumbnail). 12 → **11** items.
 - The thumbnail says **IT JUDGES YOU**, so the video opens on exactly that and pays it off as **#1, the criminal profile**, inside
@@ -87,47 +88,50 @@ Rockstar. 3/11.]**
 **[ON SCREEN: NumberCard "4 · THE MAP" → our map card "LOS SANTOS + BLAINE COUNTY (2013)" morphing into "LEONIDA (2026)" with "VICE
 CITY" lit → T2 0:07 Keys island aerial → T1 0:18 Everglades → T1 0:30 night causeway. SourceTag CONFIRMED · Rockstar. 4/11.]**
 
-**B7 · #5 INTERIORS · 1:54–2:12**
+**B7 · #5 INTERIORS · 1:54–2:24**
 > Five. And you can go inside it. In GTA 5, most doors were painted on. Rockstar North's Aaron Garbut told Edge GTA 6 has an order of
-> magnitude more interiors. That's roughly ten times as many. Bars, clubs, apartments, stores, offices.
+> magnitude more interiors. That's roughly ten times as many. Bars, clubs, apartments, stores, offices. And once you're inside,
+> there's even TV to watch. Today Rockstar showed the first in-game show, Macca and Friends, a pink alligator in sunglasses. It's on
+> Weazel from November nineteenth.
 **[ON SCREEN: NumberCard "5 · INTERIORS" → "×10" stamp → quick cuts every 2 s: T2 1:21 bar → T2 1:41 nightclub → EL 0:30 crowded
-apartment hallway → T2 0:43 convenience-store door → LT 0:36 vault door. SourceTag REPORTED · Edge (Aaron Garbut). 5/11.]**
+apartment hallway → T2 0:43 convenience-store door → LT 0:36 vault door → 2–3 s of the Macca & Friends teaser (credit "Rockstar Games via
+DiscussingFilm") → T1 1:04 Weazel News frame. SourceTag REPORTED · Edge (Aaron Garbut) / CONFIRMED · Rockstar (Macca & Friends). 5/11.]**
 
-**B8 · PUNCH LINE · 2:12–2:17**
+**B8 · PUNCH LINE · 2:24–2:29**
 > Halfway. And the next one is the escape trick nobody's using yet.
 **[ON SCREEN: ProgressBar 5/11 with "HALFWAY"; quick flash of a bus pulling away. AUDIO: whoosh.]**
 
-**B9 · #6 BUSES AND TRAINS · 2:17–2:40**
+**B9 · #6 BUSES AND TRAINS · 2:29–2:52**
 > Six. You can ride the bus, and the train. In GTA 5, if you didn't want to drive, you took a taxi. In GTA 6, Rockstar's Phil Hooker
 > told Edge a bus can even hide you. If the police didn't see you get on, you can ride away with everyone else.
 **[ON SCREEN: NumberCard "6 · BUS & TRAIN" → EL 14:40 street with a bus → our illustration: a bus pulling away while a police car passes
 the other way (ILLUSTRATION) → QuoteCard paraphrase "If they didn't see you get on…" — Phil Hooker, Rockstar North (Edge). SourceTag
 REPORTED · Edge. 6/11.]**
 
-**B10 · #7 ANIMALS · 2:40–2:58**
+**B10 · #7 ANIMALS · 2:52–3:10**
 > Seven. GTA 5 had deer, cougars and sharks. Game Informer reports GTA 6 has over a hundred and seventy animal species. Flamingos,
 > manatees, pelicans, alligators, even monkeys. Some are rare, or legendary, and the game tracks the ones you find.
 **[ON SCREEN: NumberCard "7 · ANIMALS" → count-up "0 → 170+" in gold → EL ~7:45 boar in the forest → T1 0:18 Everglades grass → T1 0:42
 the alligator-in-a-pool social post. Name chips pop in on each word: FLAMINGO · MANATEE · PELICAN · ALLIGATOR · MONKEY. SourceTag
 REPORTED · Game Informer. 7/11.]**
 
-**B11 · #8 RADIO ON FOOT · 2:58–3:13**
+**B11 · #8 RADIO ON FOOT · 3:10–3:25**
 > Eight. The radio doesn't stop when you get out of the car. Jason and Lucia can listen through earbuds while they walk. And Rockstar
 > says there are podcasts you can play whenever you want.
 **[ON SCREEN: NumberCard "8 · RADIO ON FOOT" → our earbud + waveform graphic that keeps playing as the shot cuts from a car interior
 (T1 1:00) to walking (EL 9:06). SourceTag REPORTED · Rockstar to IGN. 8/11. TODO frame check: a trailer shot with earbuds.]**
 
-**B12 · PUNCH LINE · 3:13–3:18**
+**B12 · PUNCH LINE · 3:25–3:30**
 > Three left. And from here, every change can cost you a getaway.
 **[ON SCREEN: ProgressBar 8/11, "3 LEFT"; red "#11 🚔" card again. AUDIO: switch to dark pulse.]**
 
-**B13 · #9 FUEL · 3:18–3:40**
+**B13 · #9 FUEL · 3:30–3:52**
 > Nine. In GTA 5, your car never ran out of gas. In GTA 6 there's a fuel gauge and an engine-health indicator. And Edge says a car you
 > steal might have an almost empty tank. So the car you grab in a panic might not get you very far.
 **[ON SCREEN: NumberCard "9 · FUEL" → T1 0:50 gas station in the rain → our HUD illustration: a fuel needle dropping to "E" next to an
 engine icon (ILLUSTRATION) → EL 6:06 Jason at a red car ("SLIM JIM / SMASH WINDOW"). SourceTag REPORTED · Edge. 9/11.]**
 
-**B14 · #10 ROB ALMOST ANYTHING · 3:40–4:04**
+**B14 · #10 ROB ALMOST ANYTHING · 3:52–4:16**
 > Ten. In GTA 5, a robbery outside a mission meant pointing a gun at a cashier and grabbing the register. Rob Nelson from Rockstar
 > North told IGN you can rob pretty much anything in GTA 6. Including a bank, and a payday loan store. And if you blow open a safe, the
 > explosion can damage what's inside.
@@ -135,11 +139,11 @@ engine icon (ILLUSTRATION) → EL 6:06 Jason at a red car ("SLIM JIM / SMASH WIN
 vault door opening → our safe graphic: explosion with "$$$ ↓" (ILLUSTRATION). Cut before any violence. SourceTag REPORTED · IGN (Rob
 Nelson). 10/11.]**
 
-**B15 · PUNCH LINE · 4:04–4:11**
+**B15 · PUNCH LINE · 4:16–4:23**
 > And that's where number eleven comes in. Because in GTA 6, the robbery is the easy part.
 **[ON SCREEN: ProgressBar 10/11; siren light sweep across the frame. AUDIO: riser → hit.]**
 
-**B16 · #11 THE POLICE (finale) · 4:11–4:47**
+**B16 · #11 THE POLICE (finale) · 4:23–4:59**
 > Eleven. The police. GTA 5 stopped at five stars. GTA 6 brings back six. And the cops remember. Edge says they track your
 > description, your clothes, your weapon, whether you were alone, and what the cameras caught. That's how a GTA 5 player gets arrested
 > in the first hour. The way out: GameSpot says hollow stars mean they don't know who you are. Change your clothes, swap the car, split
@@ -148,12 +152,18 @@ Nelson). 10/11.]**
 4 stars + icons → IconPanel lights up: FACE · CLOTHES · WEAPON · 1 OR 2 · CCTV → EL 15:52 car swap in the garage → EL 18:04 hollow stars,
 freeze. Card + end-screen element → video 006. SourceTag REPORTED · Edge / GameSpot. 11/11. AUDIO: big lift.]**
 
-**B17 · PAYOFF RECAP · 4:47–5:03**
+**B17 · PAYOFF RECAP · 4:59–5:15**
 > So that's eleven: a game that judges you, a relationship, two leads, Leonida, ten times the interiors, buses, a hundred and seventy
 > animals, radio on foot, fuel, rob anything, and police that remember. Every source is in the description.
 **[ON SCREEN: an 11-tile grid fills one tile per word (word-synced). Callout: "ALL SOURCES IN THE DESCRIPTION".]**
 
-**B18 · CLOSE (one ask) · 5:03–5:08**
+**B17b · ONE WARNING · 5:15–5:33**
+> One last thing before you go. There's no PC version of GTA 6 announced. A fake GTA 6 PC download is going round, and security
+> researchers at Cynet found it steals Steam logins and crypto wallets. Don't download it. Share this with the friend who would.
+**[ON SCREEN: red "FAKE" stamp over a blurred "GTA6_PC_Setup.zip" icon (our illustration) → chips "STEAM LOGINS" · "CRYPTO WALLETS" →
+"PS5 · XBOX SERIES X|S ONLY". SourceTag REPORTED · Help Net Security (Cynet research) / CONFIRMED · Rockstar (platforms).]**
+
+**B18 · CLOSE (one ask) · 5:33–5:39**
 > So which way are you playing? Professional, or irredeemable? Tell me in the comments.
 **[ON SCREEN: back to the angel ↔ devil meter over T1 0:03 Vice City highway at sunset, the needle swinging with "YOU?"; end screen:
 006 + reel 010.]**
