@@ -1,6 +1,6 @@
 # 012 — "Everything From Old GTA Games That's Back in GTA 6 (With Proof)" — Production script v1 (13 Nov 2026)
 
-**Standard:** `production/style-guide.md` · **Target:** ~5:40 (≈820 spoken words) · **Music:** synthwave with a retro 80s lead (open)
+**Standard:** `production/style-guide.md` · **Target:** ~3:40 (512 spoken words at 150 wpm, plus number cards — computed from the word count) · **Music:** synthwave with a retro 80s lead (open)
 → dark pulse (the identity debate) → big lift (the 1997 deep cut) → pads (close)
 **Research + proof frames:** `research/returning/README.md` (each item has a tier and a checked frame or a TODO).
 
@@ -31,7 +31,7 @@ that fails its frame check gets cut, not guessed.
   theory, I'll tell you it's a theory. Let's start with the easy ones."
 - **GFX:** three tags animate in: CONFIRMED (green) · REPORTED (blue) · THEORY (amber). ProgressBar 0/8.
 
-**B3 · #8 THE BRANDS · 0:35–1:05**
+**B3 · #8 THE BRANDS · 0:35–0:57**
 - **VO:** "Number eight: the brands. Ammu-Nation, the gun shop that's been in GTA since the early games. Burger Shot. Cluckin' Bell.
   Sprunk. And Weazel News, the TV channel from GTA Four and Five. In the very first trailer, Weazel News is already reporting on
   Leonida: cops failing to stop thugs on motorbikes."
@@ -39,46 +39,46 @@ that fails its frame check gets cut, not guessed.
 - **GFX:** logo-style **text** chips (our typography, not their logos) pop in one per name; NumberCard "8 · THE BRANDS".
   SourceTag CONFIRMED (Weazel, footage) / REPORTED (brands, Augustman).
 
-**B4 · #7 BRASS KNUCKLES · 1:05–1:20**
+**B4 · #7 BRASS KNUCKLES · 0:57–1:07**
 - **VO:** "Seven, a small one. Jason holds brass knuckles in the launch trailer. They've been a GTA staple since Vice City."
 - **VISUAL:** Launch Trailer shot (TODO: timestamp) · our illustration of the classic HUD weapon icon.
 - **GFX:** NumberCard "7". SourceTag REPORTED · Postmode.
 
-**B5 · #6 VICE CITY ITSELF · 1:20–1:50**
+**B5 · #6 VICE CITY ITSELF · 1:07–1:25**
 - **VO:** "Six. The city. Vice City first appeared in 2002, and again in Vice City Stories in 2006. GTA 6 is the first time we're back in
   twenty years. Same neon, same beaches, but now it's part of a whole state called Leonida."
 - **VISUAL:** T1 0:30 night causeway aerial → T2 skyline → EL night city.
 - **GFX:** timeline "2002 · 2006 · 2026"; map card "VICE CITY → LEONIDA". SourceTag CONFIRMED · Rockstar.
 
-**B6 · RE-HOOK · 1:50–1:57**
+**B6 · RE-HOOK · 1:25–1:32**
 - **VO:** "Five more, and number one goes back further than most of you have been alive."
 - **GFX:** ProgressBar 3/8; "1997?" flickers. **AUDIO:** riser.
 
-**B7 · #5 THE CHEETAH · 1:57–2:25**
+**B7 · #5 THE CHEETAH · 1:32–1:46**
 - **VO:** "Five. The Cheetah. In Vice City it was the white supercar everyone wanted. Rockstar's own pre-order page lists a
   ninety-five Grotti Cheetah in the Vintage Vice City Pack. So yes, it's back, officially."
 - **VISUAL:** screenshot of Rockstar's editions page (the line "'95 Grotti Cheetah" highlighted) → trailer shot of the white Cheetah
   (TODO frame check; if it fails, use the editions page only).
 - **GFX:** NumberCard "5". SourceTag CONFIRMED · Rockstar.
 
-**B8 · #4 TOMMY'S SHIRT · 2:25–2:55**
+**B8 · #4 TOMMY'S SHIRT · 1:46–2:07**
 - **VO:** "Four. Tommy Vercetti's shirt. In the second trailer, at thirty-three seconds, look at the wall behind Jason. There's a lizard
   decoration wearing a turquoise patterned shirt. GamingBible and fans read it as Tommy's famous Hawaiian shirt. It's tiny, and it's
   exactly the kind of thing Rockstar does on purpose."
 - **VISUAL:** T2 0:33 frame, slow push into the lizard (proof: `research/returning/t2-0033-lizard-shirt.jpg`). Avoid the slap moment.
 - **GFX:** ring draws on the lizard; side card with our own illustrated Hawaiian shirt. SourceTag REPORTED · GamingBible.
 
-**B9 · #3 THE OCEAN VIEW HOTEL · 2:55–3:20**
+**B9 · #3 THE OCEAN VIEW HOTEL · 2:07–2:23**
 - **VO:** "Three. In Vice City, your first home was the Ocean View Hotel. In a GTA 6 trailer, Jason stands across from what looks like
   the same hotel, wearing a palm-tree shirt. Coincidence? With Rockstar, probably not."
 - **VISUAL:** the Trailer 2 shot (TODO frame check). **If the frame check fails, cut this beat.**
 - **GFX:** NumberCard "3"; label "OCEAN VIEW?" SourceTag REPORTED · Beebom.
 
-**B10 · RE-HOOK · 3:20–3:25**
+**B10 · RE-HOOK · 2:23–2:26**
 - **VO:** "Now the one everyone argues about."
 - **AUDIO:** switch to dark pulse.
 
-**B11 · #2 PHIL · 3:25–4:15**
+**B11 · #2 PHIL · 2:26–3:01**
 - **VO:** "Number two. Phil. In the second trailer there's a TV ad for Phil's Ammu-Nation. And fans went crazy, because Phil Cassidy was
   the gun dealer in GTA Three, Vice City and San Andreas. GamesRadar, Radio Times and ScreenRant all covered it. Here's the catch.
   GTA Four, Five and Six are a different universe from those older games. So this could be a new Phil, or a nod to the old one.
@@ -87,19 +87,19 @@ that fails its frame check gets cut, not guessed.
 - **GFX:** NumberCard "2"; split card "3D UNIVERSE (2001–2006)" vs "HD UNIVERSE (2008– )". SourceTag REPORTED · GamesRadar / Radio Times;
   identity tag THEORY.
 
-**B12 · #1 NORTH FORT LAW · 4:15–5:00**
+**B12 · #1 NORTH FORT LAW · 3:01–3:23**
 - **VO:** "And number one. In the launch trailer, Jason's shirt says he trained at North Fort Law. That name comes from the very first
   Grand Theft Auto, from 1997. It's a military base in a mission called Heist Almighty. Rockstar reached back almost thirty years for
   one word on a shirt."
 - **VISUAL:** Launch Trailer shirt frame (TODO frame check) with a slow push → our illustrated top-down 1997-style map tile.
 - **GFX:** NumberCard "1"; date flip "1997 → 2026"; SourceTag REPORTED · Postmode. **AUDIO:** big lift.
 
-**B13 · WHAT'S NOT CONFIRMED · 5:00–5:20**
+**B13 · WHAT'S NOT CONFIRMED · 3:23–3:31**
 - **VO:** "What about returning missions, or Tommy himself? Nothing confirmed. Anyone telling you otherwise is guessing. We'll know
   on November nineteenth."
 - **GFX:** "MISSIONS: NOT CONFIRMED" stamp in amber.
 
-**B14 · CLOSE (one ask) · 5:20–5:40**
+**B14 · CLOSE (one ask) · 3:31–3:40**
 - **VO:** "So which one got you? And which old character do you want back the most? Tell me in the comments."
 - **VISUAL:** T1 0:03 Vice City highway at sunset.
 - **GFX:** comment question card; end screen: reel 010 + 006.
@@ -117,14 +117,14 @@ Confirmed, reported and theory, labelled.
 
 0:00 Back to Vice City
 0:35 #8 The brands
-1:05 #7 Brass knuckles
-1:20 #6 Vice City itself
-1:57 #5 The Cheetah
-2:25 #4 Tommy's shirt
-2:55 #3 The Ocean View Hotel
-3:25 #2 Phil
-4:15 #1 A 1997 deep cut
-5:00 What's NOT confirmed
+0:57 #7 Brass knuckles
+1:07 #6 Vice City itself
+1:32 #5 The Cheetah
+1:46 #4 Tommy's shirt
+2:07 #3 The Ocean View Hotel
+2:26 #2 Phil
+3:01 #1 A 1997 deep cut
+3:23 What's NOT confirmed
 
 Sources:
 - Rockstar Games, GTA VI editions (Vintage Vice City Pack): https://www.rockstargames.com/VI/editions
