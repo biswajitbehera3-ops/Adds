@@ -5,6 +5,8 @@
 **Why this video:** `research/trends/2026-11-13-competitors.md`. GTA 5-vs-GTA 6 comparisons are the month's biggest outliers (BreeZe GTA,
 21K subs: 2.2M and 2.0M views). We use the format, not their list: our own order, proof for every item, CONFIRMED / REPORTED tags.
 
+**v4 (13 Nov, your note "too many words"):** squeezed from 793 to **368 words, ≈2:45**. The recording text is now
+`scripts/014-voiceover.txt` (it replaces the spoken lines below); the beat order, ON SCREEN plan, sources and clip list below still apply.
 **v3 (13 Nov evening):** adds today's Macca & Friends teaser to #5 and a fake-PC-download warning before the close.
 **v2 changes (your notes, 13 Nov):**
 - "The box" item is cut (it had nothing to do with the thumbnail). 12 → **11** items.
