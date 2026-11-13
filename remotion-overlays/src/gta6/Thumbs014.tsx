@@ -87,3 +87,53 @@ export const Thumb014B: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+// C — COMPARISON (v2 main): left, grey 2013 panel with three generic silhouettes (our illustration = GTA 5's three leads);
+// right, Rockstar's Launch Trailer 0:41 frame of Jason & Lucia (official 4K master). VS badge on the seam, angel ↔ devil meter,
+// "IT JUDGES YOU". Text ≠ title words (title.py 100/100).
+const LT = "frames/lt-41.5.jpg"; // 3840×2160, picture rows 120–2039
+
+const Person: React.FC<{ x: number; s: number }> = ({ x, s }) => (
+  <svg viewBox="0 0 100 200" width={100 * s} height={200 * s} style={{ position: "absolute", left: x, bottom: 0 }}>
+    <circle cx="50" cy="38" r="26" fill="#5A5A60" stroke="#1A1A1E" strokeWidth="4" />
+    <path d="M8 200 L14 104 Q18 74 50 72 Q82 74 86 104 L92 200 Z" fill="#4A4A50" stroke="#1A1A1E" strokeWidth="4" />
+  </svg>
+);
+
+export const Thumb014C: React.FC = () => {
+  const s = 0.36; // frame scale (both leads in frame)
+  const SEAM = 470;
+  return (
+    <AbsoluteFill style={{ background: C.night, overflow: "hidden" }}>
+      {/* right: the GTA 6 frame */}
+      <Img src={staticFile(LT)} style={{ position: "absolute", width: 3840 * s, height: 2160 * s, left: 330, top: -120 * s,
+        filter: "saturate(1.35) contrast(1.12) brightness(1.05)" }} />
+      <AbsoluteFill style={{ background: "linear-gradient(0deg, rgba(10,4,24,0.75) 0%, rgba(10,4,24,0) 40%)" }} />
+      {/* left: grey 2013 panel, slanted seam */}
+      <div style={{ position: "absolute", left: 0, top: 0, width: SEAM + 70, height: 720, background: "linear-gradient(160deg, #3A3A40 0%, #222226 100%)",
+        clipPath: `polygon(0 0, 100% 0, ${SEAM - 10}px 100%, 0 100%)`, borderRight: "8px solid #000" }}>
+        <div style={{ position: "absolute", left: 34, top: 40, fontFamily: ANTON, fontSize: 110, color: "#8A8A90", lineHeight: 1 }}>2013</div>
+        <div style={{ position: "absolute", left: 30, bottom: 0, width: 420, height: 360, filter: "grayscale(1)" }}>
+          <Person x={0} s={1.5} /><Person x={130} s={1.75} /><Person x={270} s={1.5} />
+        </div>
+        <svg viewBox="0 0 100 100" width={300} height={300} style={{ position: "absolute", left: 70, top: 300 }}>
+          <path d="M14 14 L86 86 M86 14 L14 86" stroke="#FF2222" strokeWidth="12" strokeLinecap="round" />
+        </svg>
+      </div>
+      <svg width="1280" height="720" style={{ position: "absolute", left: 0, top: 0 }}>
+        <line x1={SEAM + 70} y1={0} x2={SEAM - 10} y2={720} stroke="#000" strokeWidth={14} />
+        <line x1={SEAM + 70} y1={0} x2={SEAM - 10} y2={720} stroke={C.gold} strokeWidth={6} />
+      </svg>
+      {/* VS badge on the seam */}
+      <div style={{ position: "absolute", left: SEAM - 40, top: 300, width: 130, height: 130, borderRadius: 65, background: C.gold, border: "7px solid #000",
+        display: "flex", alignItems: "center", justifyContent: "center", fontFamily: ANTON, fontSize: 74, color: "#000", boxShadow: "6px 6px 0 rgba(0,0,0,0.85)" }}>VS</div>
+      <div style={{ position: "absolute", right: 30, top: 34, fontFamily: ANTON, fontSize: 110, color: "#FFFFFF", lineHeight: 1,
+        textShadow: "5px 6px 0 #000, 0 0 30px rgba(255,46,136,0.6)" }}>2026</div>
+      {/* meter + text */}
+      <div style={{ position: "absolute", right: 34, bottom: 172, transform: "scale(0.82)", transformOrigin: "right bottom" }}><Meter w={230} /></div>
+      <div style={{ position: "absolute", right: 26, bottom: 30 }}>
+        <Block text="IT JUDGES YOU" bg="#FF2222" color="#FFFFFF" size={112} rot={-2} />
+      </div>
+    </AbsoluteFill>
+  );
+};
