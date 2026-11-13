@@ -300,3 +300,33 @@ export const Thumb014G: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+// H — the AI-widened 16:9 scene (GPT Image 2.6, 0.25 cr): everyone head to toe, text ON the photo in the open sky.
+const WIDE = "frames/scoot-wide.png"; // 1344×752
+export const Thumb014H: React.FC = () => {
+  const s = 1280 / 1344;
+  return (
+    <AbsoluteFill style={{ background: C.night, overflow: "hidden" }}>
+      <Img src={staticFile(WIDE)} style={{ position: "absolute", width: 1280, height: 752 * s, left: 0, top: (720 - 752 * s) / 2,
+        filter: "saturate(1.1) contrast(1.08)" }} />
+      <AbsoluteFill style={{ background: "radial-gradient(ellipse at 30% 30%, rgba(20,6,40,0.45) 0%, rgba(20,6,40,0) 55%)" }} />
+      <svg width="1280" height="720" style={{ position: "absolute", left: 0, top: 0 }}>
+        <circle cx={783} cy={402} r={40} fill="none" stroke="#000" strokeWidth={12} />
+        <circle cx={783} cy={402} r={40} fill="none" stroke="#FF2222" strokeWidth={6} />
+      </svg>
+      <div style={{ position: "absolute", left: 40, top: 28, display: "flex", gap: 8 }}>
+        {[0, 1, 2, 3, 4, 5].map((i) => (
+          <svg key={i} viewBox="0 0 100 100" width={50} height={50} style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.9))" }}>
+            <path d="M50 4 L61.8 37.6 L97.6 38.2 L69 59.8 L79.4 94 L50 73.6 L20.6 94 L31 59.8 L2.4 38.2 L38.2 37.6 Z" fill="#fff" stroke="#000" strokeWidth={6} strokeLinejoin="round" />
+          </svg>
+        ))}
+      </div>
+      <div style={{ position: "absolute", left: 34, top: 90, transform: "skewX(-6deg)", lineHeight: 0.9 }}>
+        <div style={{ fontFamily: ANTON, fontSize: 150, color: "#FFFFFF", letterSpacing: 2,
+          textShadow: "7px 7px 0 #000, -5px -5px 0 #000, 5px -5px 0 #000, -5px 5px 0 #000, 0 7px 0 #000, 0 -6px 0 #000, 7px 0 0 #000, -6px 0 0 #000, 12px 14px 0 rgba(0,0,0,0.45)" }}>IT JUDGES</div>
+        <div style={{ fontFamily: ANTON, fontSize: 210, color: "#FFC93C", letterSpacing: 3,
+          textShadow: "8px 8px 0 #000, -6px -6px 0 #000, 6px -6px 0 #000, -6px 6px 0 #000, 0 8px 0 #000, 0 -7px 0 #000, 8px 0 0 #000, -7px 0 0 #000, 0 0 40px rgba(255,170,40,0.85)" }}>YOU</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
