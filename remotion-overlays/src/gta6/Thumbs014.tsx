@@ -221,3 +221,42 @@ export const Thumb014E: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+// F — AI-edited version of the user's scooter artwork (GPT Image 2.6, 0.25 cr: police officer in the back, logo removed,
+// GTA VI sunset sky). 16:9 crop from heads to the officer's chest; red ring on the officer's side-eye; text lower right.
+const AIV = "frames/scoot-ai-2.png"; // 880×1168, picture x 27–835
+export const Thumb014F: React.FC = () => {
+  const X0 = 27, X1 = 835, Y0 = 292;
+  const s = 1280 / (X1 - X0);
+  const fx = (310 - X0) * s, fy = (652 - Y0) * s; // officer's face
+  return (
+    <AbsoluteFill style={{ background: C.night, overflow: "hidden" }}>
+      <Img src={staticFile(AIV)} style={{ position: "absolute", width: 880 * s, height: 1168 * s, left: -X0 * s, top: -Y0 * s,
+        filter: "saturate(1.12) contrast(1.1)" }} />
+      <AbsoluteFill style={{ background: "radial-gradient(ellipse at 45% 45%, rgba(0,0,0,0) 50%, rgba(0,0,0,0.5) 100%)" }} />
+      <AbsoluteFill style={{ background: "linear-gradient(300deg, rgba(8,2,20,0.85) 0%, rgba(8,2,20,0.35) 30%, rgba(8,2,20,0) 50%)" }} />
+      {/* police light spill */}
+      <AbsoluteFill style={{ background: "radial-gradient(circle at -6% 100%, rgba(255,30,50,0.55) 0%, rgba(255,30,50,0) 35%), radial-gradient(circle at 30% 105%, rgba(30,110,255,0.5) 0%, rgba(30,110,255,0) 30%)", mixBlendMode: "screen" }} />
+      {/* red ring on the officer's side-eye */}
+      <svg width="1280" height="720" style={{ position: "absolute", left: 0, top: 0 }}>
+        <circle cx={fx} cy={fy} r={82} fill="none" stroke="#000" strokeWidth={16} />
+        <circle cx={fx} cy={fy} r={82} fill="none" stroke="#FF2222" strokeWidth={9} />
+      </svg>
+      {/* six wanted stars */}
+      <div style={{ position: "absolute", left: 28, top: 24, display: "flex", gap: 8 }}>
+        {[0, 1, 2, 3, 4, 5].map((i) => (
+          <svg key={i} viewBox="0 0 100 100" width={52} height={52} style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.9))" }}>
+            <path d="M50 4 L61.8 37.6 L97.6 38.2 L69 59.8 L79.4 94 L50 73.6 L20.6 94 L31 59.8 L2.4 38.2 L38.2 37.6 Z" fill="#fff" stroke="#000" strokeWidth={6} strokeLinejoin="round" />
+          </svg>
+        ))}
+      </div>
+      {/* GTA-style lettering, lower right */}
+      <div style={{ position: "absolute", right: 30, bottom: 22, textAlign: "right", transform: "skewX(-6deg)", lineHeight: 0.92 }}>
+        <div style={{ fontFamily: ANTON, fontSize: 132, color: "#FFFFFF", letterSpacing: 2,
+          textShadow: "6px 6px 0 #000, -4px -4px 0 #000, 4px -4px 0 #000, -4px 4px 0 #000, 0 6px 0 #000, 0 -5px 0 #000, 6px 0 0 #000, -5px 0 0 #000, 10px 12px 0 rgba(0,0,0,0.55)" }}>IT JUDGES</div>
+        <div style={{ fontFamily: ANTON, fontSize: 200, color: "#FFC93C", letterSpacing: 3,
+          textShadow: "7px 7px 0 #000, -5px -5px 0 #000, 5px -5px 0 #000, -5px 5px 0 #000, 0 7px 0 #000, 0 -6px 0 #000, 7px 0 0 #000, -6px 0 0 #000, 0 0 40px rgba(255,170,40,0.8)" }}>YOU</div>
+      </div>
+    </AbsoluteFill>
+  );
+};
