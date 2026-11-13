@@ -91,7 +91,7 @@ CITY" lit → T2 0:07 Keys island aerial → T1 0:18 Everglades → T1 0:30 nigh
 **B7 · #5 INTERIORS · 1:54–2:24**
 > Five. And you can go inside it. In GTA 5, most doors were painted on. Rockstar North's Aaron Garbut told Edge GTA 6 has an order of
 > magnitude more interiors. That's roughly ten times as many. Bars, clubs, apartments, stores, offices. And once you're inside,
-> there's even TV to watch. Today Rockstar showed the first in-game show, Macca and Friends, a pink alligator in sunglasses. It's on
+> there's even TV to watch. This week Rockstar showed the first in-game show, Macca and Friends, a pink alligator in sunglasses. It's on
 > Weazel from November nineteenth.
 **[ON SCREEN: NumberCard "5 · INTERIORS" → "×10" stamp → quick cuts every 2 s: T2 1:21 bar → T2 1:41 nightclub → EL 0:30 crowded
 apartment hallway → T2 0:43 convenience-store door → LT 0:36 vault door → 2–3 s of the Macca & Friends teaser (credit "Rockstar Games via
