@@ -260,3 +260,43 @@ export const Thumb014F: React.FC = () => {
     </AbsoluteFill>
   );
 };
+
+// G — the whole edited artwork (all three people head to toe) on the right, blurred copy filling the frame,
+// "IT / JUDGES / YOU" stacked in the open space on the left.
+export const Thumb014G: React.FC = () => {
+  const X0 = 27, X1 = 835;                 // picture area (no white borders)
+  const h = 720, s = h / 1168, w = (X1 - X0) * s;   // ≈ 498 px wide
+  const left = 1280 - w;
+  return (
+    <AbsoluteFill style={{ background: C.night, overflow: "hidden" }}>
+      {/* blurred fill */}
+      <Img src={staticFile(AIV)} style={{ position: "absolute", width: 1280 * 1.2, height: 1280 * 1.2 * 1168 / 880, left: -128, top: -500,
+        filter: "blur(28px) brightness(0.55) saturate(1.2)" }} />
+      <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(8,2,20,0.75) 0%, rgba(8,2,20,0.35) 55%, rgba(8,2,20,0) 100%)" }} />
+      {/* the full picture */}
+      <div style={{ position: "absolute", left, top: 0, width: w, height: h, overflow: "hidden", boxShadow: "-18px 0 40px rgba(0,0,0,0.7)" }}>
+        <Img src={staticFile(AIV)} style={{ position: "absolute", width: 880 * s, height: h, left: -X0 * s, top: 0, filter: "saturate(1.1) contrast(1.08)" }} />
+        <svg width={w} height={h} style={{ position: "absolute", left: 0, top: 0 }}>
+          <circle cx={(310 - X0) * s} cy={652 * s} r={44} fill="none" stroke="#000" strokeWidth={12} />
+          <circle cx={(310 - X0) * s} cy={652 * s} r={44} fill="none" stroke="#FF2222" strokeWidth={6} />
+        </svg>
+      </div>
+      {/* police light spill */}
+      <AbsoluteFill style={{ background: "radial-gradient(circle at -5% 0%, rgba(255,30,50,0.55) 0%, rgba(255,30,50,0) 40%), radial-gradient(circle at -5% 100%, rgba(30,110,255,0.55) 0%, rgba(30,110,255,0) 40%)", mixBlendMode: "screen" }} />
+      {/* stars + stacked GTA-style text */}
+      <div style={{ position: "absolute", left: 46, top: 40, display: "flex", gap: 8 }}>
+        {[0, 1, 2, 3, 4, 5].map((i) => (
+          <svg key={i} viewBox="0 0 100 100" width={56} height={56} style={{ filter: "drop-shadow(3px 4px 0 rgba(0,0,0,0.9))" }}>
+            <path d="M50 4 L61.8 37.6 L97.6 38.2 L69 59.8 L79.4 94 L50 73.6 L20.6 94 L31 59.8 L2.4 38.2 L38.2 37.6 Z" fill="#fff" stroke="#000" strokeWidth={6} strokeLinejoin="round" />
+          </svg>
+        ))}
+      </div>
+      <div style={{ position: "absolute", left: 40, top: 130, transform: "skewX(-6deg)", lineHeight: 0.9 }}>
+        {[["IT", "#FFFFFF", 170], ["JUDGES", "#FFFFFF", 170], ["YOU", "#FFC93C", 230]].map(([t, col, fs]) => (
+          <div key={t as string} style={{ fontFamily: ANTON, fontSize: fs as number, color: col as string, letterSpacing: 2,
+            textShadow: "7px 7px 0 #000, -5px -5px 0 #000, 5px -5px 0 #000, -5px 5px 0 #000, 0 7px 0 #000, 0 -6px 0 #000, 7px 0 0 #000, -6px 0 0 #000" + (t === "YOU" ? ", 0 0 40px rgba(255,170,40,0.85)" : "") }}>{t}</div>
+        ))}
+      </div>
+    </AbsoluteFill>
+  );
+};
