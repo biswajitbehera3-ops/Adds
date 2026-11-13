@@ -199,7 +199,7 @@ const ICON_PATHS: Record<string, React.ReactNode> = {
 
 export type IconSpec = { key: keyof typeof ICON_PATHS; fix: string; onSec: number; fixSec: number; theory?: boolean };
 
-export const IconPanel: React.FC<{ icons: IconSpec[]; title?: string; bg?: string }> = ({ icons, title = "POLICE REPORT", bg }) => {
+export const IconPanel: React.FC<{ icons: IconSpec[]; title?: string; bg?: string; caseNo?: string }> = ({ icons, title = "POLICE REPORT", bg, caseNo = "CASE #006" }) => {
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   const exit = useExit(10);
@@ -211,7 +211,7 @@ export const IconPanel: React.FC<{ icons: IconSpec[]; title?: string; bg?: strin
         background: "rgba(7,7,12,0.82)", borderRadius: 20, padding: "34px 50px 50px", boxSizing: "border-box",
         border: "2px solid rgba(255,255,255,0.08)" }}>
         <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 30, letterSpacing: 6, color: C.red, marginBottom: 30, display: "flex", justifyContent: "space-between" }}>
-          <span>● {title}</span><span style={{ color: "rgba(255,255,255,0.45)" }}>CASE #006</span>
+          <span>● {title}</span><span style={{ color: "rgba(255,255,255,0.45)" }}>{caseNo}</span>
         </div>
         <div style={{ display: "flex", gap }}>
           {icons.map((ic, i) => {

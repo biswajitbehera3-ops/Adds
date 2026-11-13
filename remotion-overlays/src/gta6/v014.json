@@ -1,0 +1,1812 @@
+{
+ "fps": 30,
+ "durationInFrames": 7596,
+ "items": [
+  {
+   "from": 0,
+   "dur": 69,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0027_hero.mp4",
+    "startFrom": 0,
+    "rate": 0.609,
+    "play": 68
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "IT JUDGES YOU",
+     "hi": "JUDGES"
+    }
+   ]
+  },
+  {
+   "from": 69,
+   "dur": 60,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_highway.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 60
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "GTA 5 NEVER DID",
+     "hi": "NEVER"
+    }
+   ]
+  },
+  {
+   "from": 129,
+   "dur": 79,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1404_heli.mp4",
+    "startFrom": 0,
+    "rate": 0.835,
+    "play": 78
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "\u2026AND THE COPS ARE NEXT",
+     "hi": "COPS"
+    }
+   ]
+  },
+  {
+   "from": 208,
+   "dur": 26,
+   "visual": {
+    "kind": "title",
+    "num": 1,
+    "title": "The criminal profile",
+    "under": "clips/014/c/lt_bycar.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 234,
+   "dur": 108,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_skydive.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 108
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 342,
+   "dur": 304,
+   "visual": {
+    "kind": "comp",
+    "name": "ProfileMeter",
+    "props": {
+     "stops": [
+      [
+       0,
+       0.5
+      ],
+      [
+       1.28,
+       0.08
+      ],
+      [
+       4.26,
+       0.92
+      ],
+      [
+       5.52,
+       0.18
+      ],
+      [
+       7.72,
+       0.86
+      ]
+     ]
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/014/c/t1_causeway.mp4"
+    }
+   ]
+  },
+  {
+   "from": 646,
+   "dur": 68,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/lt_bycar.mp4",
+    "startFrom": 0,
+    "rate": 0.588,
+    "play": 67
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 714,
+   "dur": 107,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_lowriders.mp4",
+    "startFrom": 0,
+    "rate": 0.841,
+    "play": 106
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "GTA 5: NO CONSEQUENCES",
+     "hi": "NO"
+    }
+   ]
+  },
+  {
+   "from": 821,
+   "dur": 92,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0027_hero.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 83
+   },
+   "overlays": [
+    {
+     "type": "stamp",
+     "text": "IT NOTICES"
+    }
+   ]
+  },
+  {
+   "from": 913,
+   "dur": 124,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1524_chase.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 124
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "THAT'S JUST #1",
+     "hi": "#1"
+    }
+   ]
+  },
+  {
+   "from": 1037,
+   "dur": 134,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_cops_pass.mp4",
+    "startFrom": 0,
+    "rate": 0.896,
+    "play": 133
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "10 MORE",
+     "hi": "10"
+    }
+   ]
+  },
+  {
+   "from": 1171,
+   "dur": 80,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0111_policecar.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 65
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "#11 GETS YOU ARRESTED",
+     "hi": "ARRESTED"
+    }
+   ]
+  },
+  {
+   "from": 1251,
+   "dur": 83,
+   "visual": {
+    "kind": "title",
+    "num": 2,
+    "title": "The relationship",
+    "under": "clips/014/c/t2_beachgym.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 1334,
+   "dur": 86,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t2_beachgym.mp4",
+    "startFrom": 0,
+    "rate": 0.872,
+    "play": 85
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 1420,
+   "dur": 155,
+   "visual": {
+    "kind": "comp",
+    "name": "Hearts",
+    "props": {
+     "every": 0.45
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/014/c/t1_motel.mp4"
+    }
+   ]
+  },
+  {
+   "from": 1575,
+   "dur": 107,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_motel.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 107
+   },
+   "overlays": [
+    {
+     "type": "stamp",
+     "text": "NOT CONFIRMED"
+    }
+   ]
+  },
+  {
+   "from": 1682,
+   "dur": 91,
+   "visual": {
+    "kind": "title",
+    "num": 3,
+    "title": "Who you play",
+    "under": "clips/014/c/t2_reunion.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 1773,
+   "dur": 152,
+   "visual": {
+    "kind": "comp",
+    "name": "ThreeMen",
+    "props": {}
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/014/c/t1_lowriders.mp4"
+    }
+   ]
+  },
+  {
+   "from": 1925,
+   "dur": 134,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t2_reunion.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 134
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "CONFIRMED",
+     "outlet": "Rockstar Games"
+    },
+    {
+     "type": "caption",
+     "text": "JASON & LUCIA",
+     "hi": "JASON",
+     "top": true
+    }
+   ]
+  },
+  {
+   "from": 2059,
+   "dur": 123,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/lt_bycar.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 79
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "A WOMAN LEADS",
+     "hi": "WOMAN"
+    }
+   ]
+  },
+  {
+   "from": 2182,
+   "dur": 42,
+   "visual": {
+    "kind": "title",
+    "num": 4,
+    "title": "The map",
+    "under": "clips/014/c/t2_keys.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 2224,
+   "dur": 109,
+   "visual": {
+    "kind": "comp",
+    "name": "TextCard",
+    "props": {
+     "text": "LOS SANTOS",
+     "sub": "GTA 5 \u00b7 2013",
+     "color": "#9A9AA0"
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/014/c/t1_highway.mp4"
+    }
+   ]
+  },
+  {
+   "from": 2333,
+   "dur": 97,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t2_keys.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 97
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "LEONIDA",
+     "hi": "LEONIDA"
+    },
+    {
+     "type": "source",
+     "tier": "CONFIRMED",
+     "outlet": "Rockstar Games"
+    }
+   ]
+  },
+  {
+   "from": 2430,
+   "dur": 37,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_causeway.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 37
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "VICE CITY",
+     "hi": "VICE"
+    }
+   ]
+  },
+  {
+   "from": 2467,
+   "dur": 88,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_everglades.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 88
+   },
+   "overlays": []
+  },
+  {
+   "from": 2555,
+   "dur": 117,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_highway.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 117
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "FIRST TIME IN 20 YEARS",
+     "hi": "20"
+    }
+   ]
+  },
+  {
+   "from": 2672,
+   "dur": 56,
+   "visual": {
+    "kind": "title",
+    "num": 5,
+    "title": "Interiors",
+    "under": "clips/014/c/t2_nightclub.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 2728,
+   "dur": 93,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t2_storedoor.mp4",
+    "startFrom": 0,
+    "rate": 0.806,
+    "play": 92
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "GTA 5: PAINTED-ON DOORS",
+     "hi": "PAINTED-ON"
+    }
+   ]
+  },
+  {
+   "from": 2821,
+   "dur": 179,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_apartment.mp4",
+    "startFrom": 0,
+    "rate": 0.503,
+    "play": 178
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge (Aaron Garbut)"
+    }
+   ]
+  },
+  {
+   "from": 3000,
+   "dur": 81,
+   "visual": {
+    "kind": "comp",
+    "name": "TextCard",
+    "props": {
+     "text": "\u00d710",
+     "sub": "INTERIORS"
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/014/c/t2_nightclub.mp4"
+    }
+   ]
+  },
+  {
+   "from": 3081,
+   "dur": 28,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t2_nightclub.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 28
+   },
+   "overlays": []
+  },
+  {
+   "from": 3109,
+   "dur": 22,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_apartment.mp4",
+    "startFrom": 40,
+    "rate": 1.0,
+    "play": 22
+   },
+   "overlays": []
+  },
+  {
+   "from": 3131,
+   "dur": 17,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_stripmall.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 17
+   },
+   "overlays": []
+  },
+  {
+   "from": 3148,
+   "dur": 28,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/lt_vault.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 27
+   },
+   "overlays": []
+  },
+  {
+   "from": 3176,
+   "dur": 88,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_weazel.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 27
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "TV ON WEAZEL",
+     "hi": "TV"
+    }
+   ]
+  },
+  {
+   "from": 3264,
+   "dur": 261,
+   "visual": {
+    "kind": "comp",
+    "name": "MaccaCard",
+    "props": {}
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/014/c/t1_everglades.mp4"
+    },
+    {
+     "type": "source",
+     "tier": "CONFIRMED",
+     "outlet": "Rockstar Games"
+    }
+   ]
+  },
+  {
+   "from": 3525,
+   "dur": 21,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_calm_van.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 21
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "HALFWAY",
+     "hi": "HALFWAY"
+    }
+   ]
+  },
+  {
+   "from": 3546,
+   "dur": 99,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_cops_pass.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 99
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "THE ESCAPE TRICK",
+     "hi": "ESCAPE"
+    }
+   ]
+  },
+  {
+   "from": 3645,
+   "dur": 24,
+   "visual": {
+    "kind": "title",
+    "num": 6,
+    "title": "Buses & trains",
+    "under": "clips/014/c/el_bus.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 3669,
+   "dur": 47,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_bus.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 47
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "RIDE THE BUS",
+     "hi": "BUS"
+    }
+   ]
+  },
+  {
+   "from": 3716,
+   "dur": 104,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_driving_cash.mp4",
+    "startFrom": 0,
+    "rate": 0.865,
+    "play": 103
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "GTA 5: TAKE A TAXI",
+     "hi": "TAXI"
+    }
+   ]
+  },
+  {
+   "from": 3820,
+   "dur": 146,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_bus.mp4",
+    "startFrom": 60,
+    "rate": 0.616,
+    "play": 145
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge (Phil Hooker)"
+    }
+   ]
+  },
+  {
+   "from": 3966,
+   "dur": 51,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_cops_pass.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 51
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "THEY DIDN'T SEE YOU",
+     "hi": "DIDN'T"
+    }
+   ]
+  },
+  {
+   "from": 4017,
+   "dur": 62,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_calm_van.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 62
+   },
+   "overlays": []
+  },
+  {
+   "from": 4079,
+   "dur": 42,
+   "visual": {
+    "kind": "title",
+    "num": 7,
+    "title": "Animals",
+    "under": "clips/014/c/el_boar.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 4121,
+   "dur": 72,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_boar.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 72
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "GTA 5: DEER \u00b7 COUGARS \u00b7 SHARKS",
+     "hi": "DEER"
+    }
+   ]
+  },
+  {
+   "from": 4193,
+   "dur": 147,
+   "visual": {
+    "kind": "comp",
+    "name": "TextCard",
+    "props": {
+     "text": "170+",
+     "sub": "ANIMAL SPECIES"
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/014/c/t1_everglades.mp4"
+    },
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Game Informer"
+    }
+   ]
+  },
+  {
+   "from": 4340,
+   "dur": 65,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_everglades.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 65
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "FLAMINGOS \u00b7 MANATEES \u00b7 PELICANS",
+     "hi": "FLAMINGOS"
+    }
+   ]
+  },
+  {
+   "from": 4405,
+   "dur": 55,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_alligator_post.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 55
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "ALLIGATORS",
+     "hi": "ALLIGATORS"
+    }
+   ]
+  },
+  {
+   "from": 4460,
+   "dur": 124,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_lifestyle.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 124
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "RARE \u00b7 LEGENDARY",
+     "hi": "LEGENDARY"
+    }
+   ]
+  },
+  {
+   "from": 4584,
+   "dur": 22,
+   "visual": {
+    "kind": "title",
+    "num": 8,
+    "title": "Radio on foot",
+    "under": "clips/014/c/el_walk_store.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 4606,
+   "dur": 70,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_driving_cash.mp4",
+    "startFrom": 20,
+    "rate": 1.0,
+    "play": 69
+   },
+   "overlays": []
+  },
+  {
+   "from": 4676,
+   "dur": 96,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_walk_store.mp4",
+    "startFrom": 0,
+    "rate": 0.938,
+    "play": 95
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "\ud83c\udfa7 EARBUDS",
+     "hi": "EARBUDS"
+    },
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Rockstar via IGN"
+    }
+   ]
+  },
+  {
+   "from": 4772,
+   "dur": 108,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t2_highway.mp4",
+    "startFrom": 0,
+    "rate": 0.694,
+    "play": 107
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "PODCASTS ON DEMAND",
+     "hi": "PODCASTS"
+    }
+   ]
+  },
+  {
+   "from": 4880,
+   "dur": 127,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1517_tunnel.mp4",
+    "startFrom": 0,
+    "rate": 0.945,
+    "play": 126
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "3 LEFT",
+     "hi": "3"
+    }
+   ]
+  },
+  {
+   "from": 5007,
+   "dur": 45,
+   "visual": {
+    "kind": "title",
+    "num": 9,
+    "title": "Fuel",
+    "under": "clips/014/c/t1_gas_rain.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 5052,
+   "dur": 59,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/lt_supercars.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 59
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "GTA 5: NEVER RAN DRY",
+     "hi": "NEVER"
+    }
+   ]
+  },
+  {
+   "from": 5111,
+   "dur": 102,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_gas_rain.mp4",
+    "startFrom": 0,
+    "rate": 0.588,
+    "play": 101
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "FUEL GAUGE + ENGINE HEALTH",
+     "hi": "FUEL"
+    }
+   ]
+  },
+  {
+   "from": 5213,
+   "dur": 127,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_slimjim.mp4",
+    "startFrom": 0,
+    "rate": 0.827,
+    "play": 126
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 5340,
+   "dur": 110,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1524_chase.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 110
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "ALMOST EMPTY",
+     "hi": "EMPTY"
+    }
+   ]
+  },
+  {
+   "from": 5450,
+   "dur": 40,
+   "visual": {
+    "kind": "title",
+    "num": 10,
+    "title": "Rob almost anything",
+    "under": "clips/014/c/el_stripmall.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 5490,
+   "dur": 149,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t2_storedoor.mp4",
+    "startFrom": 0,
+    "rate": 0.503,
+    "play": 147
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "GTA 5: JUST THE REGISTER",
+     "hi": "REGISTER"
+    }
+   ]
+  },
+  {
+   "from": 5639,
+   "dur": 178,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_stripmall.mp4",
+    "startFrom": 0,
+    "rate": 0.674,
+    "play": 177
+   },
+   "overlays": [
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "IGN (Rob Nelson)"
+    }
+   ]
+  },
+  {
+   "from": 5817,
+   "dur": 81,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/lt_vault.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 27
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "EVEN A BANK",
+     "hi": "BANK"
+    }
+   ]
+  },
+  {
+   "from": 5898,
+   "dur": 116,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1759_entrance.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 59
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "BLOW THE SAFE = LESS LOOT",
+     "hi": "LESS"
+    }
+   ]
+  },
+  {
+   "from": 6014,
+   "dur": 54,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0111_policecar.mp4",
+    "startFrom": 0,
+    "rate": 0.611,
+    "play": 52
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "#11",
+     "hi": "#11"
+    }
+   ]
+  },
+  {
+   "from": 6068,
+   "dur": 114,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/t2_0046_police.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 114
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "THE ROBBERY IS THE EASY PART",
+     "hi": "EASY"
+    }
+   ]
+  },
+  {
+   "from": 6182,
+   "dur": 53,
+   "visual": {
+    "kind": "title",
+    "num": 11,
+    "title": "The police",
+    "under": "clips/006p/el_1404_heli.mp4"
+   },
+   "overlays": []
+  },
+  {
+   "from": 6235,
+   "dur": 69,
+   "visual": {
+    "kind": "comp",
+    "name": "StarRow",
+    "props": {
+     "mode": "white",
+     "lit": 5,
+     "label": "GTA 5: FIVE STARS",
+     "sub": "Max wanted level",
+     "bg": ""
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/014/c/t1_causeway.mp4"
+    }
+   ]
+  },
+  {
+   "from": 6304,
+   "dur": 64,
+   "visual": {
+    "kind": "comp",
+    "name": "StarRow",
+    "props": {
+     "mode": "red",
+     "lit": 6,
+     "label": "GTA 6: SIX STARS",
+     "sub": "Back for the first time since GTA 4",
+     "bg": ""
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/014/c/t1_causeway.mp4"
+    }
+   ]
+  },
+  {
+   "from": 6368,
+   "dur": 43,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1404_heli.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 43
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "THE COPS REMEMBER",
+     "hi": "REMEMBER"
+    }
+   ]
+  },
+  {
+   "from": 6411,
+   "dur": 180,
+   "visual": {
+    "kind": "comp",
+    "name": "IconPanel",
+    "props": {
+     "bg": "",
+     "title": "WHAT THEY TRACK",
+     "caseNo": "GTA 6",
+     "icons": [
+      {
+       "key": "face",
+       "fix": "",
+       "onSec": 0.25,
+       "fixSec": 99
+      },
+      {
+       "key": "hanger",
+       "fix": "",
+       "onSec": 0.5700000000000001,
+       "fixSec": 99
+      },
+      {
+       "key": "gun",
+       "fix": "",
+       "onSec": 0.89,
+       "fixSec": 99
+      },
+      {
+       "key": "duo",
+       "fix": "",
+       "onSec": 1.21,
+       "fixSec": 99
+      },
+      {
+       "key": "camera",
+       "fix": "",
+       "onSec": 1.53,
+       "fixSec": 99
+      }
+     ]
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/006p/el_1524_chase.mp4"
+    },
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "Edge magazine"
+    }
+   ]
+  },
+  {
+   "from": 6591,
+   "dur": 107,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0111_policecar.mp4",
+    "startFrom": 0,
+    "rate": 0.5,
+    "play": 65
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "ARRESTED IN HOUR ONE",
+     "hi": "ARRESTED"
+    }
+   ]
+  },
+  {
+   "from": 6698,
+   "dur": 135,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1804_hollow.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 135
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "HOLLOW STARS = THEY DON'T KNOW YOU",
+     "hi": "HOLLOW"
+    },
+    {
+     "type": "source",
+     "tier": "REPORTED",
+     "outlet": "GameSpot"
+    }
+   ]
+  },
+  {
+   "from": 6833,
+   "dur": 35,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_0906_store.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 35
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "CHANGE CLOTHES",
+     "hi": "CLOTHES"
+    }
+   ]
+  },
+  {
+   "from": 6868,
+   "dur": 20,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1552_garage.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 20
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "SWAP THE CAR",
+     "hi": "SWAP"
+    }
+   ]
+  },
+  {
+   "from": 6888,
+   "dur": 15,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1640_split.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 15
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "SPLIT UP",
+     "hi": "SPLIT"
+    }
+   ]
+  },
+  {
+   "from": 6903,
+   "dur": 42,
+   "visual": {
+    "kind": "comp",
+    "name": "TextCard",
+    "props": {
+     "text": "THE 11",
+     "sub": "GTA 5 \u2192 GTA 6"
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/014/c/el_skydive.mp4"
+    }
+   ]
+  },
+  {
+   "from": 6945,
+   "dur": 36,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/lt_0027_hero.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 36
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "JUDGES YOU",
+     "hi": "JUDGES"
+    }
+   ]
+  },
+  {
+   "from": 6981,
+   "dur": 32,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t2_beachgym.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 32
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "RELATIONSHIP",
+     "hi": "RELATIONSHIP"
+    }
+   ]
+  },
+  {
+   "from": 7013,
+   "dur": 23,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t2_reunion.mp4",
+    "startFrom": 150,
+    "rate": 1.0,
+    "play": 23
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "TWO LEADS",
+     "hi": "TWO"
+    }
+   ]
+  },
+  {
+   "from": 7036,
+   "dur": 25,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t2_keys.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 25
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "LEONIDA",
+     "hi": "LEONIDA"
+    }
+   ]
+  },
+  {
+   "from": 7061,
+   "dur": 48,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t2_nightclub.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 48
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "\u00d710 INTERIORS",
+     "hi": "\u00d710"
+    }
+   ]
+  },
+  {
+   "from": 7109,
+   "dur": 24,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_bus.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 24
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "BUSES",
+     "hi": "BUSES"
+    }
+   ]
+  },
+  {
+   "from": 7133,
+   "dur": 48,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_boar.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 48
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "170 ANIMALS",
+     "hi": "170"
+    }
+   ]
+  },
+  {
+   "from": 7181,
+   "dur": 34,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_walk_store.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 34
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "RADIO ON FOOT",
+     "hi": "RADIO"
+    }
+   ]
+  },
+  {
+   "from": 7215,
+   "dur": 27,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/t1_gas_rain.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 27
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "FUEL",
+     "hi": "FUEL"
+    }
+   ]
+  },
+  {
+   "from": 7242,
+   "dur": 26,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/lt_vault.mp4",
+    "startFrom": 0,
+    "rate": 0.538,
+    "play": 25
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "ROB ANYTHING",
+     "hi": "ROB"
+    }
+   ]
+  },
+  {
+   "from": 7268,
+   "dur": 44,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/006p/el_1404_heli.mp4",
+    "startFrom": 0,
+    "rate": 1.0,
+    "play": 44
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "POLICE THAT REMEMBER",
+     "hi": "REMEMBER"
+    }
+   ]
+  },
+  {
+   "from": 7312,
+   "dur": 63,
+   "visual": {
+    "kind": "clip",
+    "src": "clips/014/c/el_skydive.mp4",
+    "startFrom": 60,
+    "rate": 1.0,
+    "play": 63
+   },
+   "overlays": [
+    {
+     "type": "caption",
+     "text": "ALL SOURCES IN THE DESCRIPTION",
+     "hi": "SOURCES"
+    }
+   ]
+  },
+  {
+   "from": 7375,
+   "dur": 221,
+   "visual": {
+    "kind": "comp",
+    "name": "ProfileMeter",
+    "props": {
+     "label": "WHICH WAY ARE YOU PLAYING?",
+     "stops": [
+      [
+       0,
+       0.5
+      ],
+      [
+       1.98,
+       0.1
+      ],
+      [
+       1.98,
+       0.9
+      ],
+      [
+       3.48,
+       0.5
+      ]
+     ]
+    }
+   },
+   "overlays": [
+    {
+     "type": "dimclip",
+     "src": "clips/014/c/t1_highway.mp4"
+    }
+   ]
+  }
+ ],
+ "audio": [
+  {
+   "src": "clips/014/vo-long.mp3",
+   "from": 9
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 208,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 211,
+   "vol": 0.45
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 827,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 1251,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 1254,
+   "vol": 0.45
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 1581,
+   "vol": 0.55
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 1682,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 1685,
+   "vol": 0.45
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 2182,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 2185,
+   "vol": 0.45
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 2672,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 2675,
+   "vol": 0.45
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 3645,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 3648,
+   "vol": 0.45
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 4079,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 4082,
+   "vol": 0.45
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 4584,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 4587,
+   "vol": 0.45
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 5007,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 5010,
+   "vol": 0.45
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 5450,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 5453,
+   "vol": 0.45
+  },
+  {
+   "src": "clips/006/sfx/whoosh.wav",
+   "from": 6182,
+   "vol": 0.5
+  },
+  {
+   "src": "clips/006/sfx/hit.wav",
+   "from": 6185,
+   "vol": 0.45
+  }
+ ],
+ "sections": [
+  {
+   "num": 1,
+   "from": 208,
+   "to": 1251
+  },
+  {
+   "num": 2,
+   "from": 1251,
+   "to": 1682
+  },
+  {
+   "num": 3,
+   "from": 1682,
+   "to": 2182
+  },
+  {
+   "num": 4,
+   "from": 2182,
+   "to": 2672
+  },
+  {
+   "num": 5,
+   "from": 2672,
+   "to": 3645
+  },
+  {
+   "num": 6,
+   "from": 3645,
+   "to": 4079
+  },
+  {
+   "num": 7,
+   "from": 4079,
+   "to": 4584
+  },
+  {
+   "num": 8,
+   "from": 4584,
+   "to": 5007
+  },
+  {
+   "num": 9,
+   "from": 5007,
+   "to": 5450
+  },
+  {
+   "num": 10,
+   "from": 5450,
+   "to": 6182
+  },
+  {
+   "num": 11,
+   "from": 6182,
+   "to": 6903
+  }
+ ]
+}

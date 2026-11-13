@@ -6,6 +6,7 @@ import { ClipShort } from "./shorts/ClipShort";
 import { IllGunAwareness, IllOwnerCall, IllSearchlight, IllStinger, IllStoreClear, IllTracker, IllVictimLunge } from "./gta6/Illustrations";
 import { KitReel, KIT_REEL_FRAMES } from "./gta6/KitReel";
 import { Video006, VIDEO006_FRAMES } from "./gta6/Video006";
+import { Video014, VIDEO014_FRAMES } from "./gta6/Video014";
 import { Reel010, REEL010_FRAMES } from "./gta6/Reel010";
 import { ThumbFloorPaint, ThumbFloorStand } from "./gta6/ThumbFloor";
 import { Thumb006A, Thumb006B, Thumb006Pro } from "./gta6/Thumbs006";
@@ -195,6 +196,7 @@ export const RemotionRoot: React.FC = () => {
       <Still id="Thumb014C" component={Thumb014C} width={1280} height={720} />
       <Still id="Thumb014D" component={Thumb014D} width={1280} height={720} />
       <Composition id="Reel010" component={Reel010} durationInFrames={REEL010_FRAMES} fps={30} width={1080} height={1920} />
+      <Composition id="Video014" component={Video014} durationInFrames={VIDEO014_FRAMES} fps={30} width={1920} height={1080} />
       <Composition id="Video006" component={Video006} durationInFrames={VIDEO006_FRAMES} fps={30} width={1920} height={1080} />
       <Composition id="Video006-4K" component={Video006} durationInFrames={VIDEO006_FRAMES} fps={30} width={3840} height={2160} />
       <Composition id="KitReel" component={KitReel} durationInFrames={KIT_REEL_FRAMES} fps={30} width={1920} height={1080} />
