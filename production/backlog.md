@@ -4,6 +4,8 @@ Parked work, saved to pick up later. Newest first.
 
 | Item | Status | Files | Next step | Post by |
 |---|---|---|---|---|
+| **020 Short — "GTA 6 Could Drain $1 Billion From the US in One Day 💸"** (58.7 s, receipt style) | **Posted on YouTube 14 Nov** with cover C ("SORRY BOSS, I'M SICK") — `remotion-overlays/out/020-final.mp4` | `scripts/020-short-out-of-office.md` · `src/gta6/Short020.tsx` | Check views + swipe-away rate after 24 h | done |
+| **021 Short idea — "India Gets GTA 6 Before America"** | Idea; fact CONFIRMED (Rockstar Support: midnight local time, all regions, PS5 + Xbox) | — | Write script → quote Bram voice → render | 15–18 Nov |
 | **010 Reel — "Real Miami… or GTA 6?"** (~59 s, video first, then explanation) | **Posted on YouTube 13 Nov** (Instagram Reel: not confirmed) — `remotion-overlays/out/010-reel-final.mp4` (40 s) | `scripts/010-real-miami-or-gta6-reel.md` · `production/010-upload.md` | Post the Instagram Reel if not done; check views after 24 h | done |
 | **009 Short — "Miami Is Turning Into Vice City for GTA 6"** (~58 s, one subject, ends on "which one is real?") | Script final · B-roll chosen · **saved for later** | `scripts/009-miami-turns-into-vice-city-short.md` · media list `remotion-overlays/public/miami/credits-pexels-rockstar.json` · previews `production/previews/009-*.jpg` | Run `production/fetch_009_media.sh` (re-downloads all clips/photos) → quote Bram voice → edit 9:16 → render | **18–20 Nov** (before the 21 Nov festival) |
 | 008 Shorts ×4 (internet record, 10M pre-orders, Hollywood, day off) | Scripts final | `scripts/008-shorts.md` | Voice quote → render | 13–18 Nov |
