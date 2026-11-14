@@ -37,7 +37,21 @@ New order and new style compared with the source script: money first, people sec
 | "Your boss will… eighty hours… two weeks" | Calendar flips through 10 work days; "80 HOURS"; LT 0:27 Jason & Lucia; SourceTag REPORTED · NYT/IGN |
 | "who's really paying the bill?" | Receipt footer "PAID BY: ???" → end card |
 
+## yt-viral check (14 Nov) — multiple over each channel's median
+| Video | Views | Channel median | Multiple |
+|---|---|---|---|
+| FOX 2 Detroit — "GTA 6 launch could drain $1 billion from US economy" | 546,526 | ~2,600 | **~210×** |
+| BFM Business — "GTA VI: The Video Game Shaking the Economy" | 37,895 | ~3,600 | **~10×** |
+| FOX 13 Seattle — "Survey predicts 1.5M will call out sick for GTA 6 release" | 2,624 | ~1,700 | 1.5× |
+| Firstpost — "Why GTA VI Could Cost US Economy $1 Billion…" | 10,971 | ~8,300 | 1.3× |
+| TLDR Business — "The Insane Economics of GTA VI" | 211K | ~201K | 1.0× |
+| Lumber Zach — "Is GTA 6 About to Break the Economy?" | 772 | ~800 | 1.0× |
+| Finance Bureau — "How GTA 6 Could Break the US Economy" | 44K | ~59K | 0.75× |
+Shared trait of the winners: a statement, not a question, with the $1B figure, the US, and a concrete verb (drain / shake).
+"Break the economy" and "Is…? / Will…?" titles sit at or below 1×. **"The $1 Billion GTA 6 Sick Day" is already taken word for
+word** (GeoRush, 277 views, 4 days ago) — so we don't use it.
+
 ## Title / caption
-- **Title:** `The $1 Billion GTA 6 Sick Day 💸` (alt: `GTA 6 Will Cost America $1 Billion in One Day?`)
+- **Title:** `GTA 6 Could Drain $1 Billion From the US in One Day 💸` (51 chars; v1 title `The $1 Billion GTA 6 Sick Day` dropped as a duplicate)
 - **Description:** `One estimate says GTA 6 launch day costs the US $1 billion in lost work. 1 in 5 workers plan to skip (Gen Z: 1 in 3). But that's ~1% of one day's output. Sources: WGN/Nexstar, BambooHR, Business Insider, ABP Live, NYT via IGN. #GTA6 #GTAVI #Shorts`
 - **Pinned comment:** `Are you taking the 19th off? 💸👇`
