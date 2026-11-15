@@ -31,15 +31,17 @@ im = Image.alpha_composite(im, dk); im = Image.alpha_composite(im, txt)
 d = ImageDraw.Draw(im)
 # PART 1 tag
 f = ImageFont.truetype(F, 72); d.rounded_rectangle((50, 80, 330, 190), 18, fill=(255, 201, 60), outline=(0, 0, 0), width=6); d.text((78, 92), "PART 1", font=f, fill=(0, 0, 0))
-# name tags on the two leads (instead of the $0 stamp)
+# small script name labels (Pacifico) with a soft neon glow; no boxes, no question marks
 if TAGS:
-    ft = ImageFont.truetype(F, 64)
-    for name, (x, y), col in (("LUCIA", (150, 560), (255, 46, 136)), ("JASON", (800, 600), (31, 184, 255))):
-        tw = d.textlength(name, font=ft); d.rounded_rectangle((x - 18, y - 6, x + tw + 18, y + 84), 16, fill=col, outline=(0, 0, 0), width=6)
-        d.text((x, y), name, font=ft, fill=(255, 255, 255), stroke_width=3, stroke_fill=(0, 0, 0))
-    q = ImageFont.truetype(F, 150)
-    for (x, y) in ((70, 300), (960, 300)):
-        d.text((x, y), "?", font=q, fill=(255, 201, 60), stroke_width=8, stroke_fill=(0, 0, 0))
+    ft = ImageFont.truetype("remotion-overlays/public/fonts/Pacifico-Regular.woff", 58)
+    glow = Image.new("RGBA", (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(glow)
+    lab = Image.new("RGBA", (W, H), (0, 0, 0, 0)); ld = ImageDraw.Draw(lab)
+    for name, (x, y), col in (("Lucia", (110, 540), (255, 46, 136)), ("Jason", (790, 580), (31, 184, 255))):
+        gd.text((x, y), name, font=ft, fill=col + (255,))
+        ld.text((x, y), name, font=ft, fill=(255, 255, 255), stroke_width=3, stroke_fill=col)
+    glow = glow.filter(ImageFilter.GaussianBlur(10))
+    im = Image.alpha_composite(im, glow); im = Image.alpha_composite(im, glow); im = Image.alpha_composite(im, lab)
+    d = ImageDraw.Draw(im)
 # credit
 fc = ImageFont.truetype("/usr/share/fonts/opentype/inter/Inter-Bold.otf", 30); d = ImageDraw.Draw(im)
 d.text((W - 300, H - 60), "Art: Artora Studio", font=fc, fill=(255, 255, 255, 200), stroke_width=2, stroke_fill=(0, 0, 0))
