@@ -253,8 +253,8 @@ const BG1: Bg[] = [
   { a: 37.4, b: 38.9, src: C06 + "t1_0022_crowd.mp4", start: 0, x: 50 },
   { a: 38.9, b: 40.6, src: X + "t2_nightclub.mp4", start: 0.5, x: 50 },
   { a: 40.6, b: 44.9, src: P + "boobie_official.mp4", start: 0, x: 55, rate: 0.93 },
-  { a: 44.9, b: 47.6, src: P + "drequan_t2.mp4", start: 0.6, x: 68, rate: 0.44 },
-  { a: 47.6, b: 48.4, src: P + "drequan_official.mp4", start: 0, x: 58 },
+  { a: 44.9, b: 46.3, src: P + "drequan_t2c.mp4", start: 0, x: 68 },
+  { a: 46.3, b: 48.4, src: P + "drequan_official.mp4", start: 0, x: 58 },
   { a: 48.4, b: 52.2, src: P + "dimez_official.mp4", start: 0, x: 55 },
   // Raul
   { a: 52.2, b: 53.6, src: P + "raul_lt.mp4", start: 0, x: 53 },
