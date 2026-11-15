@@ -47,3 +47,13 @@ Private (invite-only): Kick Clipping, Stake Media IG / Stake X Media (gambling �
 2. While waiting: the open per-view campaigns (GFuel $125/100K, John Malek $250/100K, Clix & Lacy $110/100K) take clips now.
 3. Target for GTA 6 week: big English GTA streamers (xQc, Buddha, NoPixel crowd) + Indian Soulcity/YatraRP streamers — only where a bounty covers them.
 4. Thresholds are high (100K–700K views), so quality > quantity: our shock/"cleared it" detector matters.
+
+## 6. How to access (clipping.net docs, quickstart + submitting)
+- Open = anyone signed in can join and submit. Private = invite-only; brief/bounties hidden until approved (apply in discord.gg/clipping).
+- Hosted on clipping.net: public list at clipping.net/c/discover; your dashboard → Campaigns after login.
+1. clipping.net/auth/login → "Sign in as Clipper" → **Continue with Discord** (Discord account needed).
+2. Setup: Profile (optional) → Accounts: Link account → Payouts: PayPal / USDT / USDC (Ethereum).
+3. Verify each account: put the 5-digit code in that account's bio → "Check my bio". Only verified accounts count.
+4. Campaigns → open a bounty → tabs Overview / Brief / Assets / Submit. Read the brief, download assets.
+5. Post from the verified account (required tag/sound if the brief says), then paste the link (up to 25 at once) in Submit → "Ready" → Submit.
+- Auto-checks: platform allowed, your verified account, inside the post window (e.g. 72 h), not a duplicate, bounty live, required sound/tag, account limit (e.g. max 2 TikTok accounts per campaign).
