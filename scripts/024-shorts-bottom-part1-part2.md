@@ -9,7 +9,7 @@ that goes wrong. Ends by pointing back: *"Why are they this desperate? That's pa
 v1 problem fixed: Part 2 was a list of separate facts. Now every fact is a step in the same week, in order, and each step causes the next.
 
 **Format:** 1080×1920, ~50 s each, voice Bram. **Post:** Part 1 first, Part 2 two to three hours later.
-**Honesty rule:** Part 2 says once, clearly, that this week is built from what the Guardian saw — it is not Rockstar's actual mission list.
+**Honesty rule:** Part 2's Step 1 opens with "The Guardian went inside Rockstar North", so viewers know this week is built from what the Guardian saw — it is not Rockstar's actual mission list.
 
 ## How the two pull viewers into each other
 | Tool | Part 1 → Part 2 | Part 2 → Part 1 |
@@ -66,15 +66,11 @@ v1 problem fixed: Part 2 was a list of separate facts. Now every fact is a step 
 > Day one in GTA 6. You're broke, and the supercar is locked. Here's how your first week plays out.
 [ON SCREEN: supercar row, red padlock · caption "DAY 1 · BROKE" · tag "PART 2 / 2" + "WATCH PART 1 ↩" for 2 s]
 
-**0:06 THE FRAME (one line, honest)**
-> All of this is what the Guardian saw inside Rockstar North.
-[ON SCREEN: card "THE GUARDIAN · INSIDE ROCKSTAR NORTH" · SourceTag REPORTED]
+**0:06 STEP 1 — START SMALL**
+> The Guardian went inside Rockstar North. Jason and Lucia start small: cheaper cars to hotwire, basic locks to pick. So that's where your week begins. You need wheels. That expensive car on the street? You can't take it yet. You need tools you only get later. So you hotwire something cheap. Or you pull someone out of a car they're already driving.
+[ON SCREEN: card "THE GUARDIAN · INSIDE ROCKSTAR NORTH" (SourceTag REPORTED) → step counter "1 · START SMALL" · chips "CHEAP CARS · BASIC LOCKS" · padlocked sports car → cheap sedan, "HOTWIRE" · chip "CARJACK = STILL WORKS"]
 
-**0:09 STEP 1 — WHEELS**
-> First, you need wheels. That expensive car on the street? You can't take it yet. You need tools you only get later. So you hotwire something cheap. Or you pull someone out of a car they're already driving.
-[ON SCREEN: step counter "1 · WHEELS" · padlocked sports car → cheap sedan, "HOTWIRE" · chip "CARJACK = STILL WORKS"]
-
-**0:21 STEP 2 — CASH**
+**0:22 STEP 2 — CASH**
 > Next, you need cash. So you case a store. Find the back door. Find the safe code. Kill the cameras, or take the footage with you.
 [ON SCREEN: "2 · CASH" · store interior with checklist ticks "BACK DOOR ✓ SAFE CODE ✓ CCTV ✓"]
 
@@ -107,7 +103,7 @@ v1 problem fixed: Part 2 was a list of separate facts. Now every fact is a step 
 | Scope a robbery: back entrance, safe code, disable/take CCTV | REPORTED | The Guardian via Vice |
 | A liquor-store robbery can count as a date | REPORTED | The Guardian via Vice |
 | Demo: a guard opened fire in a jewellery store → police cars and helicopters | REPORTED | The Guardian via Vice |
-| The order "wheels → cash → date → wrong" | **our storytelling** — the steps are real features, the sequence is ours (Part 2 says "this is what the Guardian saw", not "this is the first mission") | — |
+| The order "wheels → cash → date → wrong" | **our storytelling** — the steps are real features, the sequence is ours (Step 1 opens with the Guardian as the source; we never call it the first mission) | — |
 
 ## Cover text (9:16)
 - Part 1: Lucia in the cell · "STARTS YOU BROKE" · "PART 1"
