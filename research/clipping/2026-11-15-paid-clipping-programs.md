@@ -32,3 +32,12 @@ Also: X (Twitter) announced it will pay creators and clippers (Mashable, Nov 202
   skill already picks moments + cuts; this is a direct income path alongside our own Shorts.
 - Before joining: confirm Whop payouts work to an Indian bank/PayPal (not verified here), read each brief's footage rules,
   and only clip streams a campaign covers.
+
+## Where to find programs (added 15 Nov, evening)
+1. **Content Rewards** (contentrewards.com, formerly Whop Content Rewards) — biggest board; streamers, podcasts, brands. No follower minimum.
+2. **Vyro** (vyro) — creator campaigns; homepage says trusted by MrBeast and Unwell; Tubefilter: Mark Rober among first creators there.
+3. **Clipster** and **clipping.net** — more boards listing brand/creator campaigns (per clyper.io guide, Oct 2026).
+4. **Kick's own clipping program** — run by CLIPPING, $40 / 100K views (legit2clip).
+5. **Streamer Discords** — e.g. N3on's network (~1,000 clippers, half in a group built with Adin Ross; Tubefilter/Business Insider, Apr 2026). Check a streamer's Discord, About page and pinned posts for "clipping program" / clip rules.
+Rule of thumb: a live campaign = written permission with a brief. No campaign = check the streamer's own rules first.
+Risk: YouTube's reused-content policy can demonetise clip channels even with permission — campaign pay comes from views, not YouTube ads.
