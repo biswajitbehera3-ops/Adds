@@ -130,6 +130,17 @@ Story and characters: Rockstar Games, rockstargames.com/VI
 #GTA6 #GTAVI #Shorts
 ```
 
+**Part 1 v2 (full cast, 71 s) — final packaging, 15 Nov:** title unchanged, `Who You Really Are in GTA 6 (Part 1)` (lint 100/100 with cover "MEET YOUR CREW FIRST").
+```
+Before you play GTA 6, meet who you really are: Lucia, fresh out of prison, and Jason, paying his rent with shakedowns in the Keys. Plus the crew around them: Brian, Cal, Boobie Ike, Dre'Quan, Real Dimez and Raul. It all starts when an easy score goes wrong.
+
+Part 2, your first week step by step: [link]
+
+Characters and story: Rockstar Games, rockstargames.com/VI (Only in Leonida)
+Cover art: Artora Studio
+#GTA6 #GTAVI #Shorts
+```
+
 **Part 2 title:** `Your First Week in GTA 6, Step by Step (Part 2)` (47 chars, lint 100/100 with cover "NO SUPERCAR")
 **Part 2 description:**
 ```
