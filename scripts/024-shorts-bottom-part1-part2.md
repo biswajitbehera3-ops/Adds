@@ -24,7 +24,7 @@
 
 ---
 
-## PART 1 — "GTA 6 Starts You Broke. Here's Who You Are (Part 1)" · ~50 s · 128 words
+## PART 1 — "GTA 6 Starts You Broke. Here's Who You Are (Part 1)" · ~53 s · 137 words
 
 **0:00–0:04 HOOK**
 > Before you play GTA 6, you need to know who you are, because Rockstar starts you broke.
@@ -57,7 +57,7 @@
 
 ---
 
-## PART 2 — "GTA 6 Won't Give You a Supercar on Day One (Part 2)" · ~52 s · 134 words
+## PART 2 — "GTA 6 Won't Give You a Supercar on Day One (Part 2)" · ~44 s · 114 words
 
 **0:00–0:05 HOOK (answers Part 1's question)**
 > In GTA 6, you can't steal a supercar on day one. Here's what Rockstar makes you do instead.
