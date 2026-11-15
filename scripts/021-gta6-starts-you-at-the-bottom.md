@@ -1,7 +1,7 @@
 # 021 — "GTA 6 Starts You at the Bottom. Here's What That Means" — Production script v1 (15 Nov 2026)
 
 **Standard:** `production/style-guide.md` · **Voice:** `youtube/voice.md` · **Format:** long video, 3840×2160 master, voice Bram ·
-**Runtime:** ≈6:00 (≈900 spoken words) · **Post:** Mon 16 Nov, 5:30 PM IST.
+**Runtime:** ≈4:45 (709 spoken words + number cards; kept tight — you asked for shorter scripts. To reach 6:00, expand B5 and B11 with the extra Guardian quotes) · **Post:** Mon 16 Nov, 5:30 PM IST.
 **Angle:** not "everything from the new interview" (Hazard, Flare already did that). This is your **first week** in GTA 6: what you
 *can't* do yet, what opens up later, and why Rockstar built it that way. Every item is framed against a GTA 5 habit. Strongest last
 (empathy — the line everyone is quoting, explained with what it actually means in play).
