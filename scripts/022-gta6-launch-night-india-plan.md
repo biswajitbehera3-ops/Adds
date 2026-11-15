@@ -52,7 +52,7 @@ label "12:00 AM IST · THU 19 NOV"; stamp "YOUR 12 AM PLAN"; ProgressBar 0/6. AU
 
 **B3 · #1 PRE-LOAD TONIGHT · 1:00–1:40**
 > Step one. Pre-load now, not on Wednesday night. Pre-loading opened on the tenth for everyone who pre-ordered digitally. Rockstar says
-> the PS5 version is around two hundred and twelve gigabytes. That's roughly a quarter of the console. On a hundred megabit line, that's
+> you need up to two hundred and twelve gigabytes of free space. That's roughly a quarter of the console. On a hundred megabit line, that's
 > nearly five hours, and that's if nothing else in your house is using the Wi-Fi.
 **[VISUAL: T2 0:34 highway timelapse. GFX: NumberCard "1 · PRE-LOAD TONIGHT"; storage bar fills to "212 GB ≈ ¼ OF A PS5"; download timer card
 "100 Mbps ≈ 4.7 h (our maths)". SourceTag CONFIRMED · Rockstar. ProgressBar 1/6.]**
