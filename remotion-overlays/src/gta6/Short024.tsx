@@ -209,7 +209,7 @@ const BG1: Bg[] = [
   { a: 11.5, b: 12.9, src: P + "prison_fence.mp4", start: 1.4, rate: 0.9 },
   { a: 12.9, b: 15.4, src: P + "lucia_gate.mp4", start: 2.0, x: 44, rate: 0.9 },
   { a: 15.4, b: 16.5, src: P + "jason_porch.mp4", start: 2.4, x: 45, rate: 0.7 },
-  { a: 16.5, b: 18.5, src: P + "jason_porch.mp4", start: 6.0, x: 52 },
+  { a: 16.5, b: 18.5, src: P + "jason_porch.mp4", start: 6.4, x: 52, rate: 0.8 },
   { a: 18.5, b: 19.6, src: P + "jason_drive.mp4", start: 2.6, x: 70 },
   { a: 19.6, b: 21.1, src: P + "keys_aerial.mp4", start: 1.6 },
   { a: 21.1, b: 23.0, src: P + "brian_keys.mp4", start: 6.0, x: 72 },
