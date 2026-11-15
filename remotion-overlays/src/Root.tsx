@@ -8,6 +8,7 @@ import { KitReel, KIT_REEL_FRAMES } from "./gta6/KitReel";
 import { Video006, VIDEO006_FRAMES } from "./gta6/Video006";
 import { Video014, VIDEO014_FRAMES } from "./gta6/Video014";
 import { Short020, SHORT020_FRAMES, Short020Cover, Thumb020 } from "./gta6/Short020";
+import { Short024A, SHORT024A_FRAMES, Short024B, SHORT024B_FRAMES } from "./gta6/Short024";
 import { Reel010, REEL010_FRAMES } from "./gta6/Reel010";
 import { ThumbFloorPaint, ThumbFloorStand } from "./gta6/ThumbFloor";
 import { Thumb006A, Thumb006B, Thumb006Pro } from "./gta6/Thumbs006";
@@ -202,6 +203,8 @@ export const RemotionRoot: React.FC = () => {
       <Still id="Thumb014H" component={Thumb014H} width={1280} height={720} />
       <Composition id="Reel010" component={Reel010} durationInFrames={REEL010_FRAMES} fps={30} width={1080} height={1920} />
       <Composition id="Short020" component={Short020} durationInFrames={SHORT020_FRAMES} fps={30} width={1080} height={1920} />
+      <Composition id="Short024A" component={Short024A} durationInFrames={SHORT024A_FRAMES} fps={30} width={1080} height={1920} />
+      <Composition id="Short024B" component={Short024B} durationInFrames={SHORT024B_FRAMES} fps={30} width={1080} height={1920} />
       <Still id="Short020Cover" component={Short020Cover} width={1080} height={1920} />
       <Still id="Thumb020" component={Thumb020} width={1280} height={720} />
       <Composition id="Video014" component={Video014} durationInFrames={VIDEO014_FRAMES} fps={30} width={1920} height={1080} />
