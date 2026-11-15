@@ -9,12 +9,12 @@ that goes wrong. Ends by pointing back: *"Why are they this desperate? That's pa
 v1 problem fixed: Part 2 was a list of separate facts. Now every fact is a step in the same week, in order, and each step causes the next.
 
 **Format:** 1080×1920, ~50 s each, voice Bram. **Post:** Part 1 first, Part 2 two to three hours later.
-**Honesty rule:** Part 2's Step 1 opens with "The Guardian went inside Rockstar North", so viewers know this week is built from what the Guardian saw — it is not Rockstar's actual mission list.
+**Honesty rule:** the Guardian isn't spoken in Part 2 (you asked to cut that line), so a **REPORTED · The Guardian** tag stays on screen through Steps 1–4 and the source is in the description. We never call the steps "the first mission".
 
 ## How the two pull viewers into each other
 | Tool | Part 1 → Part 2 | Part 2 → Part 1 |
 |---|---|---|
-| Story | Ends on a question: what do they do for money? | Starts with that exact question ("Day one. You're broke."), ends on "why are they this desperate? Part one." |
+| Story | Ends on a question: what do they do for money? | Starts with "Part one left you broke…", ends on "Why is Lucia this desperate? Part one. It starts in a prison cell." — and Part 1 opens in that cell |
 | YouTube "Related video" (Shorts → Edit → Related video) | Link Part 2 | Link Part 1 |
 | On screen | "PART 1 / 2" corner tag; last 3 s "PART 2 ➜ WEEK ONE" | "PART 2 / 2"; first 2 s and last 3 s "WATCH PART 1 ↩" |
 | Pinned comment | "Part 2: their first week, step by step 👉 [link]" | "Part 1: who Jason & Lucia really are 👉 [link]" |
@@ -24,7 +24,7 @@ v1 problem fixed: Part 2 was a list of separate facts. Now every fact is a step 
 | Short | Hook | Score |
 |---|---|---|
 | Part 1 | "Before you play GTA 6, you need to know who you are, because Rockstar starts you broke." | 55 WORKABLE |
-| Part 2 | "Day one in GTA 6. You're broke, and the supercar is locked. Here's how your first week plays out." | **61 WORKABLE** |
+| Part 2 | "Part one left you broke in GTA 6. Here's how you go from zero to your first robbery, and why it goes wrong." | **70 WORKABLE** (The Impossible Claim) |
 
 ---
 
@@ -62,33 +62,34 @@ v1 problem fixed: Part 2 was a list of separate facts. Now every fact is a step 
 
 ## PART 2 — "Your First Week in GTA 6, Step by Step (Part 2)"
 
-**0:00 HOOK (picks up Part 1's question)**
-> Day one in GTA 6. You're broke, and the supercar is locked. Here's how your first week plays out.
-[ON SCREEN: supercar row, red padlock · caption "DAY 1 · BROKE" · tag "PART 2 / 2" + "WATCH PART 1 ↩" for 2 s]
+**0:00 HOOK (connects to Part 1)**
+> Part one left you broke in GTA 6. Here's how you go from zero to your first robbery, and why it goes wrong.
+[ON SCREEN: Lucia leaving prison (T2 1:06) freeze → empty wallet → red padlock on a supercar · caption "ZERO → FIRST ROBBERY" · tag "PART 2 / 2" + "WATCH PART 1 ↩" for 2 s · AUDIO: record-scratch → pulse]
 
 **0:06 STEP 1 — START SMALL**
-> The Guardian went inside Rockstar North. Jason and Lucia start small: cheaper cars to hotwire, basic locks to pick. So that's where your week begins. You need wheels. That expensive car on the street? You can't take it yet. You need tools you only get later. So you hotwire something cheap. Or you pull someone out of a car they're already driving.
-[ON SCREEN: card "THE GUARDIAN · INSIDE ROCKSTAR NORTH" (SourceTag REPORTED) → step counter "1 · START SMALL" · chips "CHEAP CARS · BASIC LOCKS" · padlocked sports car → cheap sedan, "HOTWIRE" · chip "CARJACK = STILL WORKS"]
+> Week one, you start small. Cheaper cars to hotwire, basic locks to pick. That expensive car on the street? Locked for now. You need tools you only get later. So you hotwire something cheap. Or you pull someone out of a car they're already driving.
+[ON SCREEN: step counter "1 · START SMALL" · chips "CHEAP CARS · BASIC LOCKS" · padlocked sports car → cheap sedan, "HOTWIRE" · chip "CARJACK = STILL WORKS" · SourceTag REPORTED · The Guardian (on screen the whole of Steps 1–4)]
 
-**0:22 STEP 2 — CASH**
-> Next, you need cash. So you case a store. Find the back door. Find the safe code. Kill the cameras, or take the footage with you.
-[ON SCREEN: "2 · CASH" · store interior with checklist ticks "BACK DOOR ✓ SAFE CODE ✓ CCTV ✓"]
+**0:19 STEP 2 — CASH**
+> Next, you need cash. So you case a store. Back door. Safe code. Kill the cameras, or take the footage with you.
+[ON SCREEN: "2 · CASH" · store interior · checklist ticks "BACK DOOR ✓ SAFE CODE ✓ CCTV ✓"]
 
-**0:31 STEP 3 — LUCIA**
+**0:27 STEP 3 — LUCIA**
 > And you bring Lucia. Because in GTA 6, a liquor store robbery can count as a date.
 [ON SCREEN: "3 · THE DATE" · hearts meter fills · caption "ROBBERY = DATE"]
 
-**0:37 STEP 4 — IT GOES WRONG**
-> But plans break. In Rockstar's demo, a guard opened fire, and one robbery became police cars and helicopters.
-[ON SCREEN: "4 · IT GOES WRONG" · night helicopter (LT 0:53) · red flash]
+**0:33 STEP 4 — IT GOES WRONG**
+> But plans break. In Rockstar's demo, a guard opened fire, and one robbery turned into police cars and helicopters.
+[ON SCREEN: "4 · IT GOES WRONG" · night helicopter (LT 0:53) · red flash · siren swell]
 
-**0:45 LANDING → PART 1**
-> A broke couple. Small jobs. A score that goes wrong. That's how Rockstar says the whole story begins. Why are they this desperate? That's part one.
-[ON SCREEN: quote card "AN EASY SCORE GOES WRONG" → Lucia in the cell · card "WATCH PART 1 ↩ WHO THEY ARE" · arrow to the Related-video bar]
+**0:41 PUNCHLINE → PART 1**
+> A broke couple. Small jobs. One score that goes wrong. That's exactly how Rockstar says GTA 6 begins. But why is Lucia this desperate? Part one. It starts in a prison cell.
+[ON SCREEN: quote card "AN EASY SCORE GOES WRONG" (CONFIRMED · Rockstar) → hard cut to Lucia in the cell (T1 0:08) · card "WATCH PART 1 ↩ IT STARTS IN A PRISON CELL" · arrow to the Related-video bar]
+*(Loop: "…It starts in a prison cell." → "Part one left you broke…")*
 
 **Title:** `Your First Week in GTA 6, Step by Step (Part 2)`
-**Description:** `Day one in GTA 6: no supercar, no money. Here's how a first week plays out, built from what the Guardian saw inside Rockstar North: cheap cars, casing a store, a robbery that counts as a date, and a job that goes wrong. Part 1: who Jason and Lucia are. Sources: The Guardian via Vice and Forbes; Rockstar (story line). #GTA6 #GTAVI #Shorts`
-**Pinned comment:** `Part 1: who Jason & Lucia really are 👉 [link Part 1]`
+**Description:** `Part 1 left you broke. Here's how a first week in GTA 6 plays out: cheap cars, casing a store, a robbery that counts as a date, and a job that goes wrong. Gameplay details: The Guardian's Rockstar North visit (via Vice, Forbes). Story line: Rockstar. Part 1: who Jason and Lucia are. #GTA6 #GTAVI #Shorts`
+**Pinned comment:** `Part 1: why Lucia is this desperate 👉 [link Part 1]`
 
 ---
 
@@ -103,7 +104,7 @@ v1 problem fixed: Part 2 was a list of separate facts. Now every fact is a step 
 | Scope a robbery: back entrance, safe code, disable/take CCTV | REPORTED | The Guardian via Vice |
 | A liquor-store robbery can count as a date | REPORTED | The Guardian via Vice |
 | Demo: a guard opened fire in a jewellery store → police cars and helicopters | REPORTED | The Guardian via Vice |
-| The order "wheels → cash → date → wrong" | **our storytelling** — the steps are real features, the sequence is ours (Step 1 opens with the Guardian as the source; we never call it the first mission) | — |
+| The order "wheels → cash → date → wrong" | **our storytelling** — the steps are real features, the sequence is ours (the Guardian is credited on screen and in the description; we never call it the first mission) | — |
 
 ## Cover text (9:16)
 - Part 1: Lucia in the cell · "STARTS YOU BROKE" · "PART 1"
