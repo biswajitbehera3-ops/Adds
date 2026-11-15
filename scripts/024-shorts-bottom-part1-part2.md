@@ -109,3 +109,34 @@ v1 problem fixed: Part 2 was a list of separate facts. Now every fact is a step 
 ## Cover text (9:16)
 - Part 1: Lucia in the cell · "STARTS YOU BROKE" · "PART 1"
 - Part 2: padlocked supercar · "WEEK ONE" · "PART 2"
+
+---
+
+## Final packaging (yt-viral run, 15 Nov)
+**What's working (views ÷ that channel's median):** LuhHaiti "7 Things You NEED To Do On DAY 1 in GTA 6! (Copy Me)" 7.8× · TheThirdMeteorite
+"13 Things You Can Get FREE Early in GTA 6!" 7.2× · GTA Insights "Rockstar HID GTA 6's Entire Story in This Trailer…" 5.2× · JoblessGarrett
+"13 THINGS You NEED To Do On DAY 1 in GTA 6" 4.0× · Hazard "GTA 6 in 1 WEEK - The Complete Guide Before You Play" 2.0×.
+Plain "GTA 6 Story Explained" Shorts this month: 3–176 views. Shared trait of the winners: the title is about **you** and **your first days**
+(or a hidden story), not "explained".
+
+**Part 1 title:** `Who You Really Are in GTA 6 (Part 1)` (36 chars, lint 100/100 with cover "STARTS YOU BROKE")
+**Part 1 description:**
+```
+Before you play GTA 6, meet who you really are: Lucia, fresh out of prison, and Jason, paying his rent with shakedowns in the Keys. It all starts when an easy score goes wrong.
+
+Part 2, your first week step by step: [link]
+
+Story and characters: Rockstar Games, rockstargames.com/VI
+#GTA6 #GTAVI #Shorts
+```
+
+**Part 2 title:** `Your First Week in GTA 6, Step by Step (Part 2)` (47 chars, lint 100/100 with cover "NO SUPERCAR")
+**Part 2 description:**
+```
+Day one in GTA 6: you're broke and the supercar is locked. Cheap cars, casing a store, a robbery that counts as a date, and the job that goes wrong.
+
+Part 1, who Jason and Lucia really are: [link]
+
+Gameplay details: The Guardian's visit to Rockstar North (via Vice and Forbes). Story line: Rockstar Games.
+#GTA6 #GTAVI #Shorts
+```
