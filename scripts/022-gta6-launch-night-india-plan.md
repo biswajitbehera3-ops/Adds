@@ -21,7 +21,7 @@ flashlight trick. No GTA Online release date stated as fact.
 | 1 | GTA 6 releases at midnight local time on 19 Nov in all regions, PS5 and Xbox Series X\|S → India 12:00 AM IST Thu 19 Nov | CONFIRMED | Rockstar Support |
 | 2 | IST midnight = 18:30 UTC 18 Nov; New York midnight = 05:00 UTC → India ≈10.5 h earlier; LA ≈13.5 h; UK ≈5.5 h; NZ first (≈7.5 h before India) | our maths from #1 | — |
 | 3 | Pre-load live since 10 Nov for digital pre-orders; code-in-box owners can activate the code and pre-load when it arrives | CONFIRMED | Rockstar Newswire |
-| 4 | ≈212 GB on PS5, about a quarter of the console's storage | REPORTED | Push Square |
+| 4 | Up to 212 GB of free space, depending on console (about a quarter of a PS5) | CONFIRMED | Rockstar Newswire (3 Nov pre-load post); Push Square |
 | 5 | A small update already landed (~2.2 GB Xbox, ~1 GB PS5), no patch notes | REPORTED | Pure Xbox |
 | 6 | 30 fps target on both; PS5 Pro adds PSSR and ray-traced shadows (Pro only); DualSense haptics; Xbox Cloud Gaming on Series X\|S and **Xbox One** using Series S settings; Remote Play on both | CONFIRMED | Rockstar Newswire (Pre-Load post) |
 | 7 | Some boxed copies: code visible through the case / already redeemed; some arrive without a code | REPORTED | GameSpot; Polygon |
@@ -51,11 +51,11 @@ label "12:00 AM IST · THU 19 NOV"; stamp "YOUR 12 AM PLAN"; ProgressBar 0/6. AU
 "+13.5 h" chips. SourceTag CONFIRMED · Rockstar Support (times = our maths). AUDIO: map ping per city.]**
 
 **B3 · #1 PRE-LOAD TONIGHT · 1:00–1:40**
-> Step one. Pre-load now, not on Wednesday night. Pre-loading opened on the tenth for everyone who pre-ordered digitally. Push Square reports
+> Step one. Pre-load now, not on Wednesday night. Pre-loading opened on the tenth for everyone who pre-ordered digitally. Rockstar says
 > the PS5 version is around two hundred and twelve gigabytes. That's roughly a quarter of the console. On a hundred megabit line, that's
 > nearly five hours, and that's if nothing else in your house is using the Wi-Fi.
 **[VISUAL: T2 0:34 highway timelapse. GFX: NumberCard "1 · PRE-LOAD TONIGHT"; storage bar fills to "212 GB ≈ ¼ OF A PS5"; download timer card
-"100 Mbps ≈ 4.7 h (our maths)". SourceTags CONFIRMED · Rockstar · REPORTED · Push Square. ProgressBar 1/6.]**
+"100 Mbps ≈ 4.7 h (our maths)". SourceTag CONFIRMED · Rockstar. ProgressBar 1/6.]**
 
 **B4 · #2 THE BOX · 1:40–2:15**
 > Step two, if you bought a box. There's no disc inside, it's a download code. Rockstar says you can activate it and pre-load as soon as you
