@@ -12,9 +12,12 @@ named. No leaks, no datamine, no story spoilers (nothing beyond what Rockstar/pr
 ## Hooks (scored with `hookscore.py`)
 | | Hook | Verdict |
 |---|---|---|
-| **A** | "In GTA 6, you can't steal a supercar on day one. Rockstar just explained why, and it changes how your first week plays." | 57 WORKABLE |
-| B | "Rockstar just told the Guardian GTA 6 starts you at the bottom. Cheap cars, basic locks, and a robbery that counts as a date." | 43 WEAK |
-**Why A:** a concrete GTA 5 habit broken in the first sentence, then the promise of a reason.
+| **A** | "Three days before GTA 6, here's where the story starts: one easy job that goes wrong. Here's who you are, and what you can't do yet." | **64 WORKABLE** (stakes 62 · curiosity 58) |
+| B | "In GTA 6, you can't steal a supercar on day one. Rockstar just explained why, and it changes how your first week plays." | 57 WORKABLE (address 96 · stakes 36) |
+| — | "GTA 5 gave you any car in the first hour. GTA 6 won't, and the reason is the whole story of Jason and Lucia." | 56 (The Origin) |
+| — | "Rockstar just told the Guardian that GTA 6 starts you broke…" | 46 WEAK |
+| — | "Lucia walks out of prison with nothing. Jason lives rent-free because he does shakedowns…" | 39 WEAK |
+**Why A:** it matches the new story-first structure, promises two payoffs (who you are + what you can't do) and names a stake (the job goes wrong). Change "Three days" to the real count on posting day.
 
 ## Facts
 | # | Fact | Tag | Source |
@@ -43,32 +46,31 @@ named. No leaks, no datamine, no story spoilers (nothing beyond what Rockstar/pr
 ## Script
 
 **B1 · HOOK · 0:00–0:20**
-> In GTA 6, you can't steal a supercar on day one. Rockstar just explained why, and it changes how your first week plays. The Guardian
-> spent time inside Rockstar North, and what they saw is a game that starts you small, on purpose. First, the story: who
-> they are and where your first week happens. Then six things that'll feel different from GTA 5. And the last one is the change nobody
-> expected from a Grand Theft Auto.
-**[VISUAL: T2 supercar row → freeze-frame, red "LOCKED" padlock slams on → LT 0:27 Jason & Lucia. GFX: stamp "DAY 1"; QuoteCard teaser
-"THE GUARDIAN · INSIDE ROCKSTAR NORTH"; ProgressBar 0/6. AUDIO: record-scratch → synthwave pulse.]**
+> Three days before GTA 6, here's where the story starts: one easy job that goes wrong. Here's who you are, and what you can't do yet. The
+> Guardian spent time inside Rockstar North, and what they saw is a game that starts you small, on purpose. So, the story first. Then six
+> things your first week won't let you do the GTA 5 way. Stay for the last one. It's the change nobody expected from a Grand Theft Auto.
+**[ON SCREEN: T2 supercar row → freeze-frame, red "LOCKED" padlock slams on → LT 0:27 Jason & Lucia. GFX: stamp "3 DAYS"; QuoteCard teaser
+"THE GUARDIAN · INSIDE ROCKSTAR NORTH"; two chips "THE STORY" → "6 CHANGES"; ProgressBar 0/6. AUDIO: record-scratch → synthwave pulse.]**
 
 **B1a · PART 1: THE STORY · 0:20–0:55**
 > Here's the setup, in Rockstar's own words. "Jason and Lucia have always known the deck is stacked against them. But when an easy score goes
 > wrong, they find themselves on the darkest side of the sunniest place in America." So the whole game starts from one job that goes wrong.
 > And before that job, neither of them has much. Let's start with him.
-**[VISUAL: T2 opening Keys aerial → T1 Vice City sunset. GFX: chapter card "PART 1 · THE STORY"; QuoteCard with Rockstar's synopsis line,
+**[ON SCREEN: T2 opening Keys aerial → T1 Vice City sunset. GFX: chapter card "PART 1 · THE STORY"; QuoteCard with Rockstar's synopsis line,
 "AN EASY SCORE GOES WRONG" highlighted. SourceTag CONFIRMED · Rockstar. AUDIO: low pads, a single piano note.]**
 
 **B1b · JASON · 0:55–1:20**
 > Jason grew up around grifters and crooks. Rockstar says he tried the Army to get away from his teenage years, then ended up in the Keys,
 > doing what he knows best: working for local drug runners. One line sums him up. "Jason wants an easy life, but things just keep getting
 > harder."
-**[VISUAL: T2 0:13–0:22 Jason on the porch / ladder (official) → Keys houses. GFX: character card "JASON DUVAL" with three chips EX-ARMY ·
+**[ON SCREEN: T2 0:13–0:22 Jason on the porch / ladder (official) → Keys houses. GFX: character card "JASON DUVAL" with three chips EX-ARMY ·
 THE KEYS · WORKS FOR DRUG RUNNERS. SourceTag CONFIRMED · Rockstar.]**
 
 **B1c · LUCIA · 1:20–1:45**
 > Lucia's father taught her to fight as soon as she could walk. Fighting for her family put her in the Leonida Penitentiary, and in Rockstar's
 > words, "sheer luck got her out." She's fresh out of prison, she wants the good life her mom dreamed about back in Liberty City, and she's
 > got a plan. And Rockstar adds one more line: "A life with Jason could be her way out."
-**[VISUAL: T1 0:08 Lucia in the cell → T2 1:06 Lucia walking out of the prison gate. GFX: character card "LUCIA CAMINOS" — PRISON → OUT →
+**[ON SCREEN: T1 0:08 Lucia in the cell → T2 1:06 Lucia walking out of the prison gate. GFX: character card "LUCIA CAMINOS" — PRISON → OUT →
 "HER PLAN"; small "LIBERTY CITY" map pin. SourceTag CONFIRMED · Rockstar.]**
 
 **B1d · YOUR FIRST WEEK · 1:45–2:05**
@@ -76,7 +78,7 @@ THE KEYS · WORKS FOR DRUG RUNNERS. SourceTag CONFIRMED · Rockstar.]**
 > long as Jason helps with local shakedowns. And Raul, a bank robber, is "always on the hunt for talent". My bet, and this is my theory, not
 > Rockstar's: the first jobs are small ones for Brian in the Keys, and the big bank jobs with Raul come later. Which fits exactly what the
 > Guardian saw.
-**[VISUAL: Brian Heder official clip (boat yard) → Raul official still. GFX: "WEEK 1" map: Keys pin "BRIAN · SHAKEDOWNS" (CONFIRMED) → arrow
+**[ON SCREEN: Brian Heder official clip (boat yard) → Raul official still. GFX: "WEEK 1" map: Keys pin "BRIAN · SHAKEDOWNS" (CONFIRMED) → arrow
 → Vice City pin "RAUL · BANK JOBS?" with a yellow THEORY tag. SourceTags CONFIRMED · Rockstar + THEORY · our read. AUDIO: riser into #1.]**
 
 **B2 · #1 CHEAP CARS FIRST · 2:05–2:50**
@@ -84,26 +86,26 @@ THE KEYS · WORKS FOR DRUG RUNNERS. SourceTag CONFIRMED · Rockstar.]**
 > In GTA 6, the Guardian says Jason and Lucia start with smaller jobs. Hotwiring cheaper cars. Picking basic locks. Some parked cars need
 > tools you only get later in the story. But here's the loophole: if someone's already driving the car you want, you can still take it from
 > them. So the supercar isn't impossible. It's just going to cost you a scene.
-**[VISUAL: T2/LT parked cars → our "CAR TIER" ladder graphic (BASIC → LOCKED · TOOL NEEDED) → LT convertible on the road. GFX: NumberCard
+**[ON SCREEN: T2/LT parked cars → our "CAR TIER" ladder graphic (BASIC → LOCKED · TOOL NEEDED) → LT convertible on the road. GFX: NumberCard
 "1 · CHEAP CARS FIRST"; DetailCallout on a door handle "HOTWIRE"; chip "CARJACK = STILL WORKS". SourceTag REPORTED · The Guardian (via
 Vice). ProgressBar 1/6. AUDIO: whoosh, lock click, engine rev.]**
 
 **B3 · WHY · 2:50–3:15**
-> Why? Rockstar North's Rob Nelson calls them "a younger couple with their backs against the wall." They're not Michael with a mansion.
-> They're broke. And the game makes you feel it.
-**[VISUAL: T1 0:08 Lucia in prison → T2 1:06 Lucia leaving the gate. GFX: QuoteCard "A YOUNGER COUPLE WITH THEIR BACKS AGAINST THE WALL" —
+> Why so small? Rob Nelson calls them "a younger couple with their backs against the wall." That's the story from part one, turned into
+> gameplay. They're not Michael with a mansion. They're broke, and the game makes you feel it.
+**[ON SCREEN: T1 0:08 Lucia in prison → T2 1:06 Lucia leaving the gate. GFX: QuoteCard "A YOUNGER COUPLE WITH THEIR BACKS AGAINST THE WALL" —
 Rob Nelson, The Guardian. AUDIO: music drops to pads.]**
 
 **B4 · RE-HOOK · 3:15–3:20**
 > And if they're broke, the robberies have to be smarter.
-**[GFX: ProgressBar 1/6 → "5 LEFT". AUDIO: riser.]**
+**[ON SCREEN: GFX: ProgressBar 1/6 → "5 LEFT". AUDIO: riser.]**
 
 **B5 · #2 SCOPE IT FIRST · 3:20–4:05**
 > Number two. You can case a job before you pull it. In GTA 5, a store robbery outside a mission was: walk in, point the gun, grab the till.
 > In GTA 6, the Guardian describes scoping the place first. Look for a back entrance. Find a safe code. Disable the security cameras, or take
 > the footage with you. A little prep, less heat. And when it goes wrong, it really goes wrong. In Rockstar's demo, a guard opened fire in a
 > jewellery store, and it turned into a chase with police cars and helicopters.
-**[VISUAL: EL 9:06 store interior → LT 0:53 night heli. GFX: NumberCard "2 · SCOPE IT FIRST"; ChecklistCard "BACK DOOR ✓ · SAFE CODE ✓ · CCTV
+**[ON SCREEN: EL 9:06 store interior → LT 0:53 night heli. GFX: NumberCard "2 · SCOPE IT FIRST"; ChecklistCard "BACK DOOR ✓ · SAFE CODE ✓ · CCTV
 ✓"; IconPanel CCTV icon crosses out. SourceTag REPORTED · The Guardian (via Vice). ProgressBar 2/6. AUDIO: typing on each tick, siren swell.]**
 
 **B6 · #3 A ROBBERY CAN BE A DATE · 4:05–4:50**
@@ -111,29 +113,29 @@ Rob Nelson, The Guardian. AUDIO: music drops to pads.]**
 > text each other when they're apart. When they're together, they can go to the gym, grab a drink, and yes, there's a button to hold hands.
 > But Rob Nelson says you can look after the relationship, or let it fall apart. And the Guardian says ignoring it has consequences. How big?
 > Rockstar isn't saying yet.
-**[VISUAL: T2 0:46 couple → LT 0:27 car. GFX: NumberCard "3 · A ROBBERY CAN BE A DATE"; phone-text mock-up "you up? 🍾" (ILLUSTRATION);
+**[ON SCREEN: T2 0:46 couple → LT 0:27 car. GFX: NumberCard "3 · A ROBBERY CAN BE A DATE"; phone-text mock-up "you up? 🍾" (ILLUSTRATION);
 Hearts meter from 014 filling, then a crack "NEGLECT = CONSEQUENCES". SourceTag REPORTED · The Guardian (via Vice). ProgressBar 3/6.]**
 
 **B7 · RE-HOOK · 4:50–4:55**
 > Halfway. And the next one fixes the thing GTA 5 players complained about most with three characters.
-**[GFX: ProgressBar 3/6 "HALFWAY". AUDIO: hit.]**
+**[ON SCREEN: GFX: ProgressBar 3/6 "HALFWAY". AUDIO: hit.]**
 
 **B8 · #4 SWITCH, MOSTLY · 4:55–5:30**
 > Number four. You can switch between Jason and Lucia most of the time, like Michael, Franklin and Trevor. But not always. The Guardian says
 > some parts of the story lock you into one of them. So when the game takes the switch away, pay attention. It means something.
-**[VISUAL: split screen Jason / Lucia (official stills) → one side greys out. GFX: NumberCard "4 · SWITCH, MOSTLY"; toggle UI "JASON ⇄ LUCIA"
+**[ON SCREEN: split screen Jason / Lucia (official stills) → one side greys out. GFX: NumberCard "4 · SWITCH, MOSTLY"; toggle UI "JASON ⇄ LUCIA"
 → "LOCKED: STORY". SourceTag REPORTED · The Guardian (via Vice). ProgressBar 4/6.]**
 
 **B9 · #5 SIXTY-TWO BIRDS · 5:30–6:05**
 > Number five, for the people who filled every page of Red Dead 2's compendium. GTA 6 has sixty-two kinds of birds to spot. In the demo, Jason
 > pulled out binoculars at the beach, spotted a gull, and it went into a wildlife logbook. It sounds small. But it tells you the slow days in
 > Leonida are designed, not empty.
-**[VISUAL: T1 0:10 aerial beach → T2 1:54 airboat swamp. GFX: NumberCard "5 · 62 BIRDS"; binocular vignette + counter 0 → 62; logbook card
+**[ON SCREEN: T1 0:10 aerial beach → T2 1:54 airboat swamp. GFX: NumberCard "5 · 62 BIRDS"; binocular vignette + counter 0 → 62; logbook card
 "GULL ✓". SourceTag REPORTED · The Guardian (via Vice). ProgressBar 5/6.]**
 
 **B10 · RE-HOOK · 6:05–6:10**
 > And the last one is the line every channel is quoting. Here's what it actually means.
-**[GFX: ProgressBar 5/6 "LAST ONE". AUDIO: riser into silence.]**
+**[ON SCREEN: GFX: ProgressBar 5/6 "LAST ONE". AUDIO: riser into silence.]**
 
 **B11 · #6 EMPATHY, IF YOU WANT IT · 6:10–7:15**
 > Number six. Rob Nelson told the Guardian this is the first GTA that tries to encourage empathy. His words: "We've tried for the first time in
@@ -142,14 +144,14 @@ Hearts meter from 014 filling, then a crack "NEGLECT = CONSEQUENCES". SourceTag 
 > a dog's owner if he can pet the dog. And if you barge into someone's conversation, they react. Some ask who you are. Some aren't so friendly.
 > Put that next to the criminal profile Edge reported, Professional on one end, Irredeemable on the other, and the picture is clear. GTA 6
 > isn't stopping you being a monster. It's just keeping score.
-**[VISUAL: LT 0:47 street → an official frame with a dog (find one in the Extended Look; if none, use our ILLUSTRATION card) → T2 1:16 crowd. GFX: NumberCard "6 · EMPATHY, IF YOU WANT IT"; QuoteCard
+**[ON SCREEN: LT 0:47 street → an official frame with a dog (find one in the Extended Look; if none, use our ILLUSTRATION card) → T2 1:16 crowd. GFX: NumberCard "6 · EMPATHY, IF YOU WANT IT"; QuoteCard
 (two lines, highlighted "FOR THOSE WHO WANT TO"); ProfileMeter from 014 swinging between PROFESSIONAL 😇 and IRREDEEMABLE 😈. SourceTags
 REPORTED · The Guardian (via RPS/IGN) and REPORTED · Edge. ProgressBar 6/6.]**
 
 **B12 · OUTRO · 7:15–7:45**
 > So that's your first week. Cheap cars. Cased jobs. Dates that might be robberies. A switch that sometimes says no. Sixty-two birds. And a game
 > that notices how you treat people. Every source is in the description. So tell me: are you starting GTA 6 as the professional, or the monster?
-**[VISUAL: montage of the six items in 1-s cuts → LT 0:27 end. GFX: recap ChecklistCard (6 ticks); end screen → 014 "GTA 6 vs GTA 5" + 022.
+**[ON SCREEN: montage of the six items in 1-s cuts → LT 0:27 end. GFX: recap ChecklistCard (6 ticks); end screen → 014 "GTA 6 vs GTA 5" + 022.
 AUDIO: synthwave resolves; pads.]**
 
 ---
