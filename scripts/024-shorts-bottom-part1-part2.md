@@ -151,3 +151,21 @@ Part 1, who Jason and Lucia really are: [link]
 Gameplay details: The Guardian's visit to Rockstar North (via Vice and Forbes). Story line: Rockstar Games.
 #GTA6 #GTAVI #Shorts
 ```
+
+**Part 2 v2 packaging (/yt-seo, 16 Nov), matches cover v6 "WEEK 1 TO-DO":**
+- Title: `What to Do First in GTA 6: Your Week 1 To-Do (Part 2)` (52 chars). Fallback: `Your GTA 6 Week 1 To-Do List (Part 2)` (37).
+- Queries it should win: "what to do first in gta 6" · "gta 6 first week" · "gta 6 store robbery".
+- Description:
+```
+What to do first in GTA 6: your week 1 to-do list. Steal a cheap car, rob a store, make it a date with Lucia, and try not to get caught.
+
+Part 1, who Jason and Lucia really are: [link Part 1]
+
+Jason and Lucia start small in GTA 6: cheap cars to hotwire, basic locks to pick, and only later the big jobs. A store robbery can even count as a date. Then one easy score goes wrong.
+
+Gameplay details: The Guardian's visit to Rockstar North (15 Nov 2026). Story: Rockstar Games (rockstargames.com/VI).
+Cover art: [artist name]
+
+#GTA6 #GTAVI #Shorts
+```
+- Tags: GTA 6, GTA VI, Grand Theft Auto 6, GTA 6 first week, what to do first GTA 6, GTA 6 beginner, GTA 6 store robbery, Jason and Lucia, GTA 6 Lucia, GTA 6 gameplay, Rockstar Games, GTA 6 Shorts
