@@ -1,6 +1,6 @@
-# 027 — GTA 6 Won't Let You Play Like GTA 5 — Production script v2
+# 027 — GTA 6 Won't Let You Play Like GTA 5 — Production script v3 (/yt-script pass)
 
-**Standard:** `production/style-guide.md` · **Runtime:** ~5:23 · **VO:** ~778 words · **Music:** synthwave (body part) → dark
+**Standard:** `production/style-guide.md` · **Runtime:** ~3:57 at 150 wpm · **VO:** ~593 words · **Music:** synthwave (body part) → dark
 pulse (weapons, cars, police) → soft pads (rumour corner + outro)
 **Inspired by:** Dattrax Plays, "15 CRAZY Features In GTA 6 That Were NOT In GTA 5!" (Hindi). We use the same "your GTA 5 habits
 will hurt you" frame. We use a different order and our own wording, and only the claims we could source. His unsourced claims go in
@@ -80,151 +80,120 @@ Already covered there, so here it's a **one-line callback** at most:
 
 ---
 
-## Beat-by-beat
+## Hooks (hookscore.py)
+| # | Hook | Score | Weakest |
+|---|---|---|---|
+| **A (use)** | "GTA 6 is watching what you eat, how you sleep and what's in your pockets, and one of those will cost you your first heist." | **69 WORKABLE** (Spec 56 · Addr 100 · Stakes 62 · Curio 75 · Brev 93) | Specificity |
+| B | "GTA 6 checks your weight, your sleep and your 4 guns, and one GTA 5 habit gets you reported before you see a cop." | 65 WORKABLE (Spec 100 · Addr 100 · Stakes 62 · Curio 41 · Brev 100), The Warning | Curiosity |
 
-**B1 · 0:00–0:07 · COLD OPEN**
-- **VO:** "In GTA 5, you could eat nothing, sleep never, and carry a rocket launcher in your pocket."
-- **VISUAL:** a fast GTA 5-style montage in our illustration: a stick-figure "Trevor" with a weapon wheel spinning endlessly.
-- **GFX:** a weapon wheel that keeps adding slots, "∞".
-- **AUDIO:** a cartoon pop per slot; the synthwave bed starts.
+Ten more were tested and scored 45–64. Hook A wins because it opens a question the viewer can't close: *which* one costs the heist?
+It is answered explicitly at the payoff (B16).
 
-**B2 · 0:07–0:17 · PATTERN BREAK**
-- **VO:** "GTA 6 won't let you play like that. It watches what you eat, how you sleep, what you carry and what you steal."
-- **VISUAL:** hard cut to an Extended Look street at golden hour; a freeze-frame on Jason.
-- **GFX:** the weapon wheel cracks and drops to **4 slots**, red; stamp "BAD HABITS".
-- **AUDIO:** a glass-crack SFX and a stamp hit.
+## Beat-by-beat (every beat: VO + [ON SCREEN])
 
-**B3 · 0:17–0:35 · STAKES + PROMISE**
-- **VO:** "So here are ten GTA 5 habits that'll get you in trouble in GTA 6, every one with its source on screen. Then the cops, who
-  remember your face. And at the end, a few rumours I really hope turn out to be true."
-- **GFX:** four icons type in: 🍔 "YOUR BODY" → 🔫 "YOUR GUNS" → 🚗 "YOUR CARS" → 🚔 (blurred) · a small amber "RUMOURS ▸ END" chip.
-- **AUDIO:** a whoosh per icon.
+**B1 · HOOK 1/3 · PATTERN BREAK**
+- **VO:** "GTA 6 is watching what you eat, how you sleep and what's in your pockets…"
+- **[ON SCREEN:** Extended Look street, frozen on Jason. Three icons pop over him, one per phrase: 🍔 → 😴 → 🔫, each with a red eye.
+  Synthwave starts on "watching".**]**
 
-**B4 · 0:35–0:52 · #1 YOU ARE WHAT YOU EAT**
-- **GFX:** `NumberCard` "1 · WHAT YOU EAT" · `ProgressBar` 1/10.
-- **VO:** "Habit one: eating junk with no consequences. Rockstar's developers told Dazed that Jason's and Lucia's bodies change with
-  what you do. Eat too much, and they put on weight. Michael, Franklin and Trevor never gained a pound. Jason and Lucia will."
-- **VISUAL:** Trailer 2 Vice City food spots and neon diners → a slow push on Jason.
-- **GFX:** our illustration: a weight bar sliding up with burger icons · `SourceTag` REPORTED · Dazed (Rockstar devs).
-- **AUDIO:** a soft "ding" per burger.
+**B2 · HOOK 2/3 · STAKES**
+- **VO:** "…and one of those will cost you your first heist."
+- **[ON SCREEN:** the three icons spin like a slot machine and stop on "?" · a red stamp "YOUR FIRST HEIST" · SFX stamp hit.**]**
 
-**B5 · 0:52–1:03 · #2 SLEEP SHOWS ON YOUR FACE**
-- **GFX:** `NumberCard` "2 · SLEEP" · `ProgressBar` 2/10.
-- **VO:** "Habit two: never sleeping. The same interview says skipping sleep, long police chases, or what they call multi-day benders
-  show up on their faces and bodies."
-- **VISUAL:** Trailer 1 motel room → Launch Trailer night city → a dawn shot.
-- **GFX:** a Zzz meter draining to red · keyword caption "MULTI-DAY BENDERS" · `SourceTag` REPORTED · Dazed.
-- **AUDIO:** a clock ticking that speeds up.
+**B3 · HOOK 3/3 · PROOF THE PAYOFF EXISTS**
+- **VO:** "Ten GTA 5 habits, every one sourced on screen. Then which one costs you, and the rumours I really hope are true."
+- **[ON SCREEN:** a `ProgressBar` 0/10 slides in · a gold "SOURCED" chip · a small amber "RUMOURS ▸ END" chip.**]**
 
-**B6 · 1:03–1:20 · #3 THE GYM IS BACK**
-- **GFX:** `NumberCard` "3 · THE GYM" · `ProgressBar` 3/10.
-- **VO:** "The fix? Work out. Working out sheds the weight and builds muscle tone, and Edge reports there's a gym membership. San
-  Andreas fans, the gym is back. Whether it changes your stats or just your look, nobody's said yet."
-- **VISUAL:** Trailer 2 beach gym (T2 0:39) → Trailer 1 (1:12).
-- **GFX:** the weight bar drops; a muscle icon fills · `SourceTag` REPORTED · Dazed / Edge · amber chip "STATS? NOT CONFIRMED".
-- **AUDIO:** a barbell clank.
+**B4 · THE TURN**
+- **VO:** "So let's go habit by habit, starting with your body."
+- **[ON SCREEN:** hard cut, `NumberCard` "1".**]**
 
-**B7 · 1:20–1:27 · RE-HOOK**
-- **VO:** "So your body keeps score. But the bigger change is what's in your pockets. Or isn't."
-- **AUDIO:** a riser; the music switches to the dark-pulse cue.
+**B5 · #1 WHAT YOU EAT**
+- **VO:** "Habit one: eating junk for free. Rockstar's developers told Dazed that Jason's and Lucia's bodies change with what you do.
+  Eat too much, and they put on weight. Michael, Franklin and Trevor never gained a pound. Jason and Lucia will."
+- **[ON SCREEN:** Trailer 2 neon diners → a push on Jason · a weight bar sliding up with burger icons · `SourceTag` REPORTED · Dazed
+  (Rockstar devs) · `ProgressBar` 1/10.**]**
 
-**B8 · 1:27–1:45 · #4 FOUR GUNS, NOT FORTY**
-- **GFX:** `NumberCard` "4 · FOUR GUNS" · `ProgressBar` 4/10.
-- **VO:** "Habit four: carrying every gun in the game. Hands-on previews report you can carry up to four weapons. Two concealed
-  handguns, and two long guns, like a rifle or a shotgun. GameByte reports Rob Nelson pointed to Red Dead Redemption 2 as the model."
-- **VISUAL:** Launch Trailer weapon shots (cut before any violence) → Trailer 2 Jason with a rifle.
-- **GFX:** four slots, "SIDEARM · SIDEARM · LONG GUN · LONG GUN" · `SourceTag` REPORTED · GameByte (hands-on previews).
-- **AUDIO:** four "slot" clicks.
+**B6 · #2 SLEEP**
+- **VO:** "Habit two: never sleeping. Skip sleep, run from the cops for too long, or go on what they call multi-day benders, and it shows
+  on their faces."
+- **[ON SCREEN:** Trailer 1 motel → night city → dawn · a Zzz meter draining red · caption "MULTI-DAY BENDERS" · `SourceTag` REPORTED · Dazed ·
+  2/10.**]**
 
-**B9 · 1:45–1:57 · #5 YOUR TRUNK IS YOUR ARMOURY**
-- **GFX:** `NumberCard` "5 · THE TRUNK" · `ProgressBar` 5/10.
-- **VO:** "The rest lives in your car's trunk. So before a job, you pick your loadout. And if your car's three streets away when it
-  goes wrong, so are your guns."
-- **VISUAL:** our illustration of an open trunk with a loadout grid.
-- **GFX:** a trunk grid filling with icons; caption "PLAN YOUR LOADOUT" · `SourceTag` REPORTED · GameByte.
-- **AUDIO:** a trunk slam.
+**B7 · #3 THE GYM**
+- **VO:** "The fix: work out. It sheds the weight and builds muscle tone, and Edge reports a gym membership. San Andreas fans, the
+  gym is back. Whether it changes your stats too? Nobody's said."
+- **[ON SCREEN:** Trailer 2 beach gym (T2 0:39) · the weight bar drops, a muscle icon fills · amber chip "STATS? NOT CONFIRMED" · `SourceTag`
+  REPORTED · Dazed / Edge · 3/10.**]**
 
-**B10 · 1:57–2:15 · #6 HOW YOU CARRY IT MATTERS**
-- **GFX:** `NumberCard` "6 · ON YOUR BACK" · `ProgressBar` 6/10.
-- **VO:** "Habit six: thinking nobody notices. Edge reports people react differently to a gun on your back than a gun in your
-  hands. Carrying one doesn't automatically get you a wanted level, but leave it out and it can escalate. Put it away."
-- **VISUAL:** Extended Look busy street → a pedestrian turning their head (freeze, ring).
-- **GFX:** "ON YOUR BACK" vs "IN YOUR HANDS" (the second flashing red) · `SourceTag` REPORTED · Edge.
-- **AUDIO:** a soft heartbeat.
+**B8 · RE-HOOK (≈1:10)**
+- **VO:** "That's your body. But remember the hook: one habit costs you your first heist. It's coming up in the next three."
+- **[ON SCREEN:** the slot machine from B2 flashes, with three reels now showing 🔫 🧳 🚗 · the music switches to dark pulse.**]**
 
-**B11 · 2:15–2:30 · #7 YOUR PARTNER DRIVES, YOU SHOOT**
-- **GFX:** `NumberCard` "7 · TEAMWORK" · `ProgressBar` 7/10.
-- **VO:** "Habit seven: doing everything alone. Edge reports your partner can take the wheel while you shoot. And the Guardian
-  says you start small, with cheap cars and basic locks, so the team earns the big jobs together."
-- **VISUAL:** Trailer 2 Jason driving with Lucia in the passenger seat → Launch Trailer convertible.
-- **GFX:** two seat icons, "DRIVER: LUCIA · SHOOTER: YOU" · `SourceTag` REPORTED · Edge / The Guardian.
-- **AUDIO:** an engine rev.
+**B9 · #4 FOUR GUNS**
+- **VO:** "Habit four: carrying every gun in the game. Hands-on previews report you can carry four. Two hidden handguns, two long
+  guns. GameByte says Rob Nelson pointed to Red Dead 2 as the model."
+- **[ON SCREEN:** Launch Trailer weapon shot (cut before violence) · four slots "SIDEARM · SIDEARM · LONG GUN · LONG GUN" · the GTA 5 wheel
+  shatters behind them · `SourceTag` REPORTED · GameByte (hands-on previews) · 4/10.**]**
 
-**B12 · 2:30–2:36 · RE-HOOK**
-- **VO:** "And speaking of cheap cars, in GTA 6 the expensive ones fight back."
-- **AUDIO:** a riser.
+**B10 · #5 THE TRUNK**
+- **VO:** "Everything else lives in your car's trunk. So before every job, you choose. Remember that one."
+- **[ON SCREEN:** our illustration: an open trunk with a loadout grid · caption "PLAN YOUR LOADOUT" · a small gold "📌 REMEMBER" pin · `SourceTag`
+  REPORTED · GameByte · 5/10.**]**
 
-**B13 · 2:36–3:00 · #8 NOT EVERY CAR OPENS THE SAME WAY**
-- **GFX:** `NumberCard` "8 · CAR SECURITY" · `ProgressBar` 8/10.
-- **VO:** "Habit eight: one button, any car. Not anymore. Previews report older cars open with a simple tool. Newer cars with
-  electronic security need a key cloner. And keyless cars need a trick that copies the key's signal. Your phone even shows you a
-  car's security, what it's worth, and what it would cost to register it as yours."
-- **VISUAL:** Trailer 2 parking-lot and street car shots → a supercar push-in.
-- **GFX:** a three-tier card, "OLD · SIMPLE TOOL" → "ELECTRONIC · KEY CLONER" → "KEYLESS · SIGNAL TRICK"; a phone mock-up (ours, labelled
-  ILLUSTRATION) with "SECURITY · VALUE · REGISTER $" · `SourceTag` REPORTED · Kotaku (previews).
-- **AUDIO:** a lock-click per tier.
+**B11 · #6 ON YOUR BACK**
+- **VO:** "Habit six: thinking nobody notices. Edge reports people react differently to a gun on your back than a gun in your hands.
+  Carrying isn't an instant wanted level, but leave it out and it escalates."
+- **[ON SCREEN:** Extended Look busy street, a pedestrian turning their head (freeze, ring) · split card "ON YOUR BACK" / "IN YOUR HANDS"
+  with the second flashing red · `SourceTag` REPORTED · Edge · 6/10.**]**
 
-**B14 · 3:00–3:22 · #9 NO MARKER, AND YOU STILL HAVE TO SELL IT**
-- **GFX:** `NumberCard` "9 · THE FENCE" · `ProgressBar` 9/10.
-- **VO:** "Habit nine: waiting for a mission marker, and expecting cash straight after. Rob Nelson says robbery targets don't
-  have a mission marker, and the small ones aren't even on the map. And when you do steal something, it isn't money yet. You take
-  it to a fence, and different loot goes to different fences."
-- **VISUAL:** Extended Look strip mall / jewellery-store shot → a night drive.
-- **GFX:** a map with no icons, then one amber "?" pin; a "LOOT → FENCE → $" arrow strip · `SourceTag` REPORTED · IGN (Rob Nelson) /
-  TweakTown.
-- **AUDIO:** a cash-register "ka-ching" that's cut off.
+**B12 · #7 TEAMWORK**
+- **VO:** "Habit seven: doing it all alone. Edge reports your partner can drive while you shoot. And the Guardian says you start small:
+  cheap cars, basic locks."
+- **[ON SCREEN:** Trailer 2 Jason driving with Lucia beside him · seat icons "DRIVER: LUCIA · SHOOTER: YOU" · `SourceTag` REPORTED · Edge /
+  The Guardian · 7/10.**]**
 
-**B15 · 3:22–3:42 · #10 MORE THAN ONE WAY OUT**
-- **GFX:** `NumberCard` "10 · YOUR WAY OUT" · `ProgressBar` 10/10.
-- **VO:** "Habit ten: taking one wrong turn and failing the mission. Rob Nelson told IGN the opening mission has more than one way
-  to escape. In his words, Rockstar made a very conscious effort to open things up where possible. So if the road's blocked, find
-  your own way."
-- **VISUAL:** Extended Look tower-block / city aerial → a car taking a side street.
-- **GFX:** our two-route map (ILLUSTRATION), with one route turning red and the second lighting up · `QuoteCard` "a very conscious effort
-  to open things up" — Rob Nelson · `SourceTag` REPORTED · IGN.
-- **AUDIO:** a GPS "recalculating" blip.
+**B13 · #8 CAR SECURITY (≈2:02)**
+- **VO:** "Habit eight: one button, any car. Previews report older cars open with a simple tool, newer ones need a key cloner, and keyless
+  ones need a trick that copies the key's signal. Your phone even shows a car's security, its value, and what it costs to register it
+  as yours."
+- **[ON SCREEN:** Trailer 2 street cars → a supercar push · a three-tier card "OLD · SIMPLE TOOL / ELECTRONIC · KEY CLONER / KEYLESS ·
+  SIGNAL TRICK" · a phone mock-up labelled ILLUSTRATION with "SECURITY · VALUE · REGISTER $" · `SourceTag` REPORTED · Kotaku (previews) ·
+  8/10.**]**
 
-**B16 · 3:42–4:20 · BONUS · THEY REMEMBER YOUR FACE**
-- **VO:** "And the last GTA 5 habit: hiding in a bush until the stars go away. In GTA 6, a crime only gets reported if someone sees it
-  or an alarm goes off. But once it is, Edge says the report tracks what you look like, what you're wearing, whether there were
-  one or two of you, cameras, and your weapon. So you change clothes, split up, and lose the gun. In GTA 5, the cops forgot you.
-  In GTA 6, they're looking for you. The full breakdown is in our ten hidden details video."
-- **VISUAL:** a GTA 5-style bush illustration → Extended Look police car rolling past → a helicopter at night.
-- **GFX:** a police report card ticking on FACE · CLOTHES · 1/2 SUSPECTS · CCTV · WEAPON · stamp "THEY REMEMBER" · `SourceTag`
-  REPORTED · Edge / GameSpot · a link card to 006.
-- **AUDIO:** a radio-chatter bed and a stamp hit.
+**B14 · #9 NO MARKER, THEN THE FENCE**
+- **VO:** "Habit nine: waiting for a mission marker, and expecting cash straight away. Rob Nelson says robbery targets don't get a
+  marker, and small ones aren't even on the map. And loot isn't money until you take it to a fence."
+- **[ON SCREEN:** an Extended Look jewellery-store shot · a map with no icons, then one amber "?" pin · strip "LOOT → FENCE → $" ·
+  `SourceTag` REPORTED · IGN (Rob Nelson) / TweakTown · 9/10.**]**
 
-**B17 · 4:20–4:54 · RUMOUR CORNER**
-- **VO:** "Now, a few things going round that are rumours. Not confirmed. But honestly, I'd love it if they're true. One: passing
-  your gun to your partner when they run out of ammo. Two: overhearing a stranger's conversation that leads to a new job. Three:
-  golf and tennis in Vice City. And four: natural disasters, like a hurricane or even a tsunami hitting Leonida. None of that is
-  confirmed by Rockstar. We'll find out on Thursday, and if any of it's real, I'll show you."
-- **VISUAL:** slow, wide Leonida shots; a stormy sky from the Extended Look if present; beach waves.
-- **GFX:** an amber "RUMOUR" border for the whole beat, permanent tag "RUMOUR · NOT CONFIRMED"; four cards flipping in with
-  question marks: "🔫→🧍 PASS THE GUN?" · "👂 NEW JOB?" · "⛳🎾 GOLF & TENNIS?" · "🌀 DISASTERS?"; a closing card "WE'LL CHECK ON 19 NOV".
-- **AUDIO:** the music drops to soft pads; a gentle wind under the disasters line.
+**B15 · #10 MORE THAN ONE WAY OUT**
+- **VO:** "Habit ten: one wrong turn, mission failed. Rob Nelson told IGN the opening mission has more than one way to escape. In his
+  words, a very conscious effort to open things up."
+- **[ON SCREEN:** an Extended Look city aerial → a car cutting down a side street · our two-route map (ILLUSTRATION), one route turning red and
+  the other lighting up · `QuoteCard` "a very conscious effort to open things up" — Rob Nelson · `SourceTag` REPORTED · IGN · 10/10.**]**
 
-**B18 · 4:54–5:13 · SUMMARY**
-- **VO:** "So: eat right, sleep, hit the gym. Four guns, the rest in the trunk, and put it away. Let your partner drive. Know which
-  car you're stealing, and where to sell it. Find your own way out. And if the cops are looking, change your clothes."
-- **GFX:** `ChecklistCard` ticking ten lines plus "CHANGE CLOTHES".
-- **AUDIO:** a tick per line.
+**B16 · PAYOFF: THE ONE THAT COSTS YOU THE HEIST (≈2:53)**
+- **VO:** "So, which habit costs you your first heist? Your pockets. In GTA 5, you walked in with everything. In GTA 6, you walk in
+  with four guns, and the rest is in a trunk. Now add the last thing: a crime gets reported when someone sees it. Edge says the
+  police report tracks your face, your clothes, whether there were two of you, cameras, and your weapon. So the wrong gun on your
+  back, a car three streets away, and a witness who saw you. That's how a GTA 5 habit ends a GTA 6 heist. Change your clothes,
+  split up, lose the gun."
+- **[ON SCREEN:** the slot machine from B2 finally stops: 🔫 + 🧳 + 👁 = "HEIST FAILED" (red stamp) · a police report card ticking FACE ·
+  CLOTHES · 2 SUSPECTS · CCTV · WEAPON · a blue "OUR READ" tag on the chain of events · `SourceTag` REPORTED · GameByte / Edge / GameSpot ·
+  the line "Change clothes · split up · lose the gun" as a checklist.**]**
 
-**B19 · 5:13–5:23 · OUTRO**
-- **VO:** "Which GTA 5 habit are you dropping first? And which rumour do you want to be real? Tell me in the comments."
-- **VISUAL:** Launch Trailer end shot.
-- **GFX:** end screen: 006 "10 Hidden Details" + subscribe; comment question card "HABIT? RUMOUR?".
-- **AUDIO:** the music resolves.
+**B17 · RUMOUR CORNER (≈3:35)**
+- **VO:** "Now, the rumours. Not confirmed. But I'd love it if they're true. Passing your gun to your partner when they run out of ammo.
+  Overhearing a stranger's conversation that leads to a new job. Golf and tennis in Vice City. And natural disasters, like a
+  hurricane or even a tsunami hitting Leonida. None of it's confirmed by Rockstar. On Thursday we find out."
+- **[ON SCREEN:** an amber "RUMOUR · NOT CONFIRMED" border for the whole beat · four cards flipping in with question marks: "PASS THE
+  GUN?" · "NEW JOB?" · "GOLF & TENNIS?" · "DISASTERS?" · stormy Leonida sky · closing card "WE'LL CHECK ON 19 NOV" · soft pads.**]**
+
+**B18 · CLOSE (one ask)**
+- **VO:** "Which one of those rumours do you want to be real? Tell me in the comments."
+- **[ON SCREEN:** Launch Trailer end shot · a comment card "WHICH RUMOUR?" · end screen with 006 "10 Hidden Details" + subscribe.**]**
+
 
 ---
 
@@ -242,19 +211,19 @@ Already covered there, so here it's a **one-line callback** at most:
 ```
 GTA 6 won't let you play like GTA 5. Your food, sleep and gym time change Jason and Lucia's bodies, you can carry 4 weapons with the rest in your trunk, expensive cars need a key cloner, loot goes to a fence, and the police remember what you look like. Every claim is sourced on screen, and the rumours at the end are clearly marked.
 
-0:00 Your GTA 5 habits
-0:35 You are what you eat
-0:52 Sleep shows on your face
-1:03 The gym is back
-1:27 Four guns, not forty
-1:45 Your trunk is your armoury
-1:57 How you carry it matters
-2:15 Your partner drives, you shoot
-2:36 Not every car opens the same way
-3:00 No marker, and you still have to sell it
-3:22 More than one way out
-3:42 They remember your face
-4:20 Rumours (not confirmed)
+0:00 GTA 6 is watching you
+0:25 You are what you eat
+0:41 Sleep shows on your face
+0:53 The gym is back
+1:16 Four guns, not forty
+1:29 Your trunk is your armoury
+1:36 On your back vs in your hands
+1:51 Your partner drives
+2:02 Not every car opens the same way
+2:23 No marker, then the fence
+2:39 More than one way out
+2:53 The habit that costs your first heist
+3:35 Rumours (not confirmed)
 
 Sources:
 - Dazed, Rockstar developers interview (26 Aug 2026), via Kotaku: https://kotaku.com/rockstar-confirms-gta-6-is-bringing-back-san-andreas-weight-system-2000728481
