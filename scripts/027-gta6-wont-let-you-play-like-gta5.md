@@ -1,6 +1,6 @@
 # 027 — GTA 6 Won't Let You Play Like GTA 5 — Production script v1
 
-**Standard:** `production/style-guide.md` · **Runtime:** ~6:00 · **VO:** ~900 words · **Music:** synthwave (body part) → dark pulse
+**Standard:** `production/style-guide.md` · **Runtime:** ~4:15 · **VO:** ~620 words · **Music:** synthwave (body part) → dark pulse
 (weapons + police) → soft pads (outro)
 **Inspired by:** Dattrax Plays, "15 CRAZY Features In GTA 6 That Were NOT In GTA 5!" (Hindi). We use the same "your GTA 5 habits will
 hurt you" frame. We use a different order and our own wording, and only the claims we could source.
@@ -57,19 +57,19 @@ weight-scale bar, Zzz meter, trunk loadout, police report card.
 - **GFX:** a weapon wheel that keeps adding slots, "∞".
 - **AUDIO:** a cartoon pop per slot; the synthwave bed starts.
 
-**B2 · 0:05–0:14 · PATTERN BREAK**
+**B2 · 0:05–0:12 · PATTERN BREAK**
 - **VO:** "GTA 6 won't let you play like that. It watches what you eat, how you sleep, and what you carry."
 - **VISUAL:** hard cut to an Extended Look street at golden hour; a freeze-frame on Jason.
 - **GFX:** the weapon wheel cracks and drops to **4 slots**, red; stamp "BAD HABITS".
 - **AUDIO:** a glass-crack SFX and a stamp hit.
 
-**B3 · 0:14–0:25 · STAKES + PROMISE**
+**B3 · 0:12–0:22 · STAKES + PROMISE**
 - **VO:** "So here are the GTA 5 habits that'll get you in trouble in GTA 6, every one with its source on screen. And stay for the last one,
   because the cops in this game remember your face."
 - **GFX:** three icons type in: 🍔 "YOUR BODY" → 🔫 "YOUR GUNS" → 🚔 (blurred).
 - **AUDIO:** a whoosh per icon.
 
-**B4 · 0:25–0:55 · #1 YOU ARE WHAT YOU EAT**
+**B4 · 0:22–0:42 · #1 YOU ARE WHAT YOU EAT**
 - **GFX:** `NumberCard` "1 · WHAT YOU EAT" · `ProgressBar` 1/7.
 - **VO:** "Habit one: eating junk with no consequences. In GTA 6, Rockstar's developers told Dazed that Jason's and Lucia's bodies change
   with what you do. Eat too much, and they put on weight. Michael, Franklin and Trevor never gained a pound in thirteen years. Jason
@@ -78,14 +78,14 @@ weight-scale bar, Zzz meter, trunk loadout, police report card.
 - **GFX:** our illustration: a weight bar sliding up with burger icons · `SourceTag` REPORTED · Dazed (Rockstar devs).
 - **AUDIO:** a soft "ding" on each burger.
 
-**B5 · 0:55–1:20 · #2 SLEEP SHOWS ON YOUR FACE**
+**B5 · 0:42–0:58 · #2 SLEEP SHOWS ON YOUR FACE**
 - **VO:** "Habit two: never sleeping. The same interview says if you skip sleep, run from the cops for too long, or go on what they call
   multi-day benders, it shows on their faces and bodies."
 - **VISUAL:** Trailer 1 motel room → Launch Trailer night city → a dawn shot.
 - **GFX:** a Zzz meter draining to red · keyword caption "MULTI-DAY BENDERS" · `SourceTag` REPORTED · Dazed.
 - **AUDIO:** a clock ticking that speeds up.
 
-**B6 · 1:20–1:45 · #3 THE GYM IS BACK**
+**B6 · 0:58–1:20 · #3 THE GYM IS BACK**
 - **VO:** "And the fix? Work out. Working out sheds the weight and builds muscle tone. Edge also reports there's a gym membership. So
   San Andreas fans: the gym is back. One thing we can't confirm yet is whether it changes your stats or just your look. Nobody's
   said."
@@ -93,12 +93,12 @@ weight-scale bar, Zzz meter, trunk loadout, police report card.
 - **GFX:** the weight bar drops back; a muscle icon fills · `SourceTag` REPORTED · Dazed / Edge · small amber chip "STATS? NOT CONFIRMED".
 - **AUDIO:** a barbell clank on the cut.
 
-**B7 · 1:45–1:58 · RE-HOOK**
+**B7 · 1:20–1:28 · RE-HOOK**
 - **VO:** "So your body keeps score. But the bigger change is what's in your pockets. Or isn't."
 - **GFX:** the weapon wheel from B2 flickers back.
 - **AUDIO:** a riser; the music switches to the dark-pulse cue.
 
-**B8 · 1:58–2:35 · #4 FOUR GUNS, NOT FORTY**
+**B8 · 1:28–1:55 · #4 FOUR GUNS, NOT FORTY**
 - **GFX:** `NumberCard` "4 · FOUR GUNS" · `ProgressBar` 4/7.
 - **VO:** "Habit four: walking around with every gun in the game. Hands-on previews report you can carry up to four weapons. Two
   concealed handguns, and two long guns, like a rifle or a shotgun. That's it. GameByte also reports Rob Nelson pointed to Red Dead
@@ -107,14 +107,14 @@ weight-scale bar, Zzz meter, trunk loadout, police report card.
 - **GFX:** our illustration: four slots, labelled "SIDEARM · SIDEARM · LONG GUN · LONG GUN" · `SourceTag` REPORTED · GameByte (hands-on previews).
 - **AUDIO:** four "slot" clicks.
 
-**B9 · 2:35–3:05 · #5 YOUR TRUNK IS YOUR ARMOURY**
+**B9 · 1:55–2:15 · #5 YOUR TRUNK IS YOUR ARMOURY**
 - **VO:** "So where's the rest? In your car. Your main arsenal lives in your vehicle's trunk. That changes how you play. Before a job,
   you'll pick what you need, and if your car's three streets away when things go wrong, so are your guns."
 - **VISUAL:** Trailer 1 car-trunk shot if present; otherwise our illustration of an open trunk with a loadout grid.
 - **GFX:** a trunk grid filling with weapon icons; caption "PLAN YOUR LOADOUT" · `SourceTag` REPORTED · GameByte.
 - **AUDIO:** a trunk-slam SFX.
 
-**B10 · 3:05–3:30 · #6 HOW YOU CARRY IT MATTERS**
+**B10 · 2:15–2:40 · #6 HOW YOU CARRY IT MATTERS**
 - **VO:** "Habit six: thinking nobody notices. Edge reports people react differently to a gun on your back than a gun in your hands.
   Carrying one doesn't automatically mean a wanted level, but leave it out too long and it can escalate. Put it away. We broke down
   exactly how people report you in our ten hidden details video. It's linked."
@@ -122,11 +122,11 @@ weight-scale bar, Zzz meter, trunk loadout, police report card.
 - **GFX:** two cards, "ON YOUR BACK" vs "IN YOUR HANDS", with the second one flashing red · `SourceTag` REPORTED · Edge · a link card to 006.
 - **AUDIO:** a soft heartbeat under the line.
 
-**B11 · 3:30–3:45 · RE-HOOK**
+**B11 · 2:40–2:46 · RE-HOOK**
 - **VO:** "Now, the habit almost everyone has from GTA 5: doing everything alone."
 - **AUDIO:** a riser.
 
-**B12 · 3:45–4:15 · #7 YOUR PARTNER DRIVES, YOU SHOOT**
+**B12 · 2:46–3:12 · #7 YOUR PARTNER DRIVES, YOU SHOOT**
 - **GFX:** `NumberCard` "7 · TEAMWORK" · `ProgressBar` 7/7 (the finale is a bonus).
 - **VO:** "In GTA 5, you drove and shot at the same time and hoped for the best. In GTA 6, Edge reports your partner can take the wheel
   while you shoot. Jason and Lucia are a team, and the game's built around it. And remember, according to the Guardian, you start
@@ -135,7 +135,7 @@ weight-scale bar, Zzz meter, trunk loadout, police report card.
 - **GFX:** two seat icons, "DRIVER: LUCIA · SHOOTER: YOU" · `SourceTag` REPORTED · Edge · a second tag, REPORTED · The Guardian.
 - **AUDIO:** an engine rev.
 
-**B13 · 4:15–5:15 · BONUS FINALE · THEY REMEMBER YOUR FACE**
+**B13 · 3:12–3:50 · BONUS FINALE · THEY REMEMBER YOUR FACE**
 - **VO:** "And the last GTA 5 habit: hiding in a bush until the stars go away. In GTA 6, a crime only gets reported if someone sees it
   or an alarm goes off. But once it's reported, the police build a description. Edge says the report tracks what you look like,
   what you're wearing, whether there were one or two of you, cameras, and your weapon. So hiding isn't enough. You change your
@@ -145,13 +145,13 @@ weight-scale bar, Zzz meter, trunk loadout, police report card.
   GameSpot · a final stamp "THEY REMEMBER".
 - **AUDIO:** a radio-chatter bed and a stamp hit.
 
-**B14 · 5:15–5:40 · SUMMARY**
+**B14 · 3:50–4:05 · SUMMARY**
 - **VO:** "So: watch what you eat. Sleep. Hit the gym. Carry four guns, not forty. Keep the rest in the trunk. Put your gun away. Let
   your partner drive. And if the cops are looking, change your clothes."
 - **GFX:** `ChecklistCard` ticking all eight lines.
 - **AUDIO:** a tick per line.
 
-**B15 · 5:40–6:00 · OUTRO**
+**B15 · 4:05–4:15 · OUTRO**
 - **VO:** "Which GTA 5 habit are you dropping first? Tell me in the comments. And if you want the full list of ways the cops catch you,
   the ten hidden details video is right here."
 - **VISUAL:** Launch Trailer end shot.
@@ -175,14 +175,14 @@ weight-scale bar, Zzz meter, trunk loadout, police report card.
 GTA 6 won't let you play like GTA 5. Your food, sleep and gym time change Jason and Lucia's bodies, you can carry 4 weapons with the rest in your trunk, and the police remember what you look like. Every claim is sourced on screen.
 
 0:00 Your GTA 5 habits
-0:25 You are what you eat
-0:55 Sleep shows on your face
-1:20 The gym is back
-1:58 Four guns, not forty
-2:35 Your trunk is your armoury
-3:05 How you carry it matters
-3:45 Your partner drives, you shoot
-4:15 They remember your face
+0:22 You are what you eat
+0:42 Sleep shows on your face
+0:58 The gym is back
+1:28 Four guns, not forty
+1:55 Your trunk is your armoury
+2:15 How you carry it matters
+2:46 Your partner drives, you shoot
+3:12 They remember your face
 
 Sources:
 - Dazed, Rockstar developers interview (26 Aug 2026), via Kotaku: https://kotaku.com/rockstar-confirms-gta-6-is-bringing-back-san-andreas-weight-system-2000728481
