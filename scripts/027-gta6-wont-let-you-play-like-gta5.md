@@ -121,7 +121,7 @@ It is answered explicitly at the payoff (B16).
   2/10.**]**
 
 **B7 · #3 THE GYM**
-- **VO:** "The fix: work out. It sheds the weight and builds muscle tone, and Edge reports a gym membership. San Andreas fans, the
+- **VO:** "Habit three: skipping the gym. Working out sheds the weight and builds muscle tone, and Edge reports a gym membership. San Andreas fans, the
   gym is back. Whether it changes your stats too? Nobody's said."
 - **[ON SCREEN:** Trailer 2 beach gym (T2 0:39) · the weight bar drops, a muscle icon fills · amber chip "STATS? NOT CONFIRMED" · `SourceTag`
   REPORTED · Dazed / Edge · 3/10.**]**
@@ -137,7 +137,7 @@ It is answered explicitly at the payoff (B16).
   shatters behind them · `SourceTag` REPORTED · GameByte (hands-on previews) · 4/10.**]**
 
 **B10 · #5 THE TRUNK**
-- **VO:** "Everything else lives in your car's trunk. So before every job, you choose. Remember that one."
+- **VO:** "Habit five: keeping every gun on you. Everything else lives in your car's trunk. So before every job, you choose. Remember that one."
 - **[ON SCREEN:** our illustration: an open trunk with a loadout grid · caption "PLAN YOUR LOADOUT" · a small gold "📌 REMEMBER" pin · `SourceTag`
   REPORTED · GameByte · 5/10.**]**
 
