@@ -10,22 +10,23 @@ big = src.resize((W, int(src.height * W / src.width)), Image.LANCZOS)
 TOP = s(60); im = big.crop((0, TOP, W, TOP + H))
 im = ImageEnhance.Contrast(im).enhance(1.08); im = ImageEnhance.Color(im).enhance(1.1).convert("RGBA")
 g = Image.new("L", (1, H))
-for y in range(H): g.putpixel((0, y), int(max(0, 1 - (y / S) / 760) ** 1.2 * 175))
+for y in range(H): g.putpixel((0, y), int(max(0, 1 - (y / S) / 700) ** 1.2 * 165))
 sh = Image.new("RGBA", (W, H), (10, 8, 40, 255)); sh.putalpha(g.resize((W, H))); im = Image.alpha_composite(im, sh)
 F = "remotion-overlays/public/fonts/Anton-Regular.ttf"
 txt = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(txt)
-fh = ImageFont.truetype(F, s(150)); head = "WEEK 1 TO-DO"
-d.text(((W - d.textlength(head, font=fh)) / 2, s(170)), head, font=fh, fill=(255, 201, 60), stroke_width=s(11), stroke_fill=(0, 0, 0))
+fh = ImageFont.truetype(F, s(108)); head = "WEEK 1 TO-DO"
+d.text(((W - d.textlength(head, font=fh)) / 2, s(185)), head, font=fh, fill=(255, 201, 60), stroke_width=s(8), stroke_fill=(0, 0, 0))
 items = [("STEAL A CHEAP CAR", True), ("ROB A STORE", True), ("MAKE IT A DATE", True), ("DON'T GET CAUGHT", False)]
-fi = ImageFont.truetype(F, s(84)); x0, y = s(150), s(395); step = s(108); bx = s(76)
+fi = ImageFont.truetype(F, s(60)); bx = s(54); step = s(78)
+wmax = max(d.textlength(t, font=fi) for t, _ in items); x0 = int((W - (bx + s(22) + wmax)) / 2); y = s(345)
 for t, done in items:
     col = (255, 255, 255) if done else (255, 52, 52)
-    d.rounded_rectangle((x0, y + s(14), x0 + bx, y + s(14) + bx), s(12), fill=(255, 255, 255) if done else (40, 0, 0), outline=(0, 0, 0), width=s(7))
+    d.rounded_rectangle((x0, y + s(12), x0 + bx, y + s(12) + bx), s(10), fill=(255, 255, 255) if done else (40, 0, 0), outline=(0, 0, 0), width=s(5))
     if done:
-        d.line((x0 + s(14), y + s(52), x0 + s(32), y + s(72), x0 + s(64), y + s(26)), fill=(20, 170, 60), width=s(14), joint="curve")
+        d.line((x0 + s(10), y + s(40), x0 + s(23), y + s(54), x0 + s(46), y + s(21)), fill=(20, 170, 60), width=s(10), joint="curve")
     else:
-        d.rounded_rectangle((x0, y + s(14), x0 + bx, y + s(14) + bx), s(12), outline=(255, 52, 52), width=s(6))
-    d.text((x0 + bx + s(30), y), t, font=fi, fill=col, stroke_width=s(8), stroke_fill=(0, 0, 0))
+        d.rounded_rectangle((x0, y + s(12), x0 + bx, y + s(12) + bx), s(10), outline=(255, 52, 52), width=s(5))
+    d.text((x0 + bx + s(22), y), t, font=fi, fill=col, stroke_width=s(6), stroke_fill=(0, 0, 0))
     y += step
 glow = txt.filter(ImageFilter.GaussianBlur(s(18))); dk = Image.new("RGBA", (W, H), (0, 0, 0, 0)); dk.putalpha(glow.split()[3].point(lambda v: int(v * .8)))
 im = Image.alpha_composite(im, dk); im = Image.alpha_composite(im, txt); d = ImageDraw.Draw(im)
