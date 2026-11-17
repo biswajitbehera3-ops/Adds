@@ -35,6 +35,7 @@ as a selling point, "100% confirmed" (it's either CONFIRMED with a source or it 
 - Numbers nobody published (e.g. pre-order totals).
 - Story spoilers after 19 Nov without a warning.
 - That I've played the game before I have.
+- **Takedown rules (see `production/do-not-post-rules.md`):** no leaked or early-unboxing footage; no ending or big story reveals; no cutscenes posted alone; no in-game TV shows or comedy posted alone. Rockstar's permission covers non-monetised fan footage only, so paid clipping is outside it.
 
 ## My format
 
