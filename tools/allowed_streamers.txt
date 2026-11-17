@@ -1,0 +1,7 @@
+# Streamers who ALLOW clipping (a clipping program you've joined, or their written OK). One name per line, as it
+# appears in the chat file (Twitch login / display name). chat_spikes.py refuses everyone not listed here.
+# Verified campaigns on clipping.net (17 Nov) - read each brief before clipping:
+JasonTheWeen
+JohnMalek
+Lacy
+Clix
