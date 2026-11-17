@@ -1,6 +1,6 @@
 # 028 — How Rockstar Turned Real Life Into a GTA 6 Ad — Production script v1
 
-**Standard:** `production/style-guide.md` · **Runtime:** ~5:30 · **VO:** ~800 words · **Music:** synthwave/Miami-night (open) → bright
+**Standard:** `production/style-guide.md` · **Runtime:** ~3:20 · **VO:** ~480 words · **Music:** synthwave/Miami-night (open) → bright
 pop-funk (takeover montage) → soft pads (outro)
 
 **Title (pick one, ≤60 chars):**
@@ -40,26 +40,26 @@ GTA 6 screenshots (credited), 2K's NBA 2K27 Vice City Edition trailer (credited)
 
 ## Beat-by-beat
 
-**B1 · 0:00–0:05 · COLD OPEN**
+**B1 · 0:00–0:03 · COLD OPEN**
 - **VO:** "A real weather channel just gave a forecast for a city that doesn't exist."
 - **VISUAL:** The Weather Channel's GTA 6 screenshot (credited) → push in on the storm clouds.
 - **GFX:** a weather-map style card: "LEONIDA · 🌩" · a corner tag "REAL TV".
 - **AUDIO:** a weather-report jingle sting (licensed) → synthwave starts.
 
-**B2 · 0:05–0:15 · PATTERN BREAK + STAKES**
+**B2 · 0:03–0:09 · PATTERN BREAK + STAKES**
 - **VO:** "That's not a joke. It's marketing. Rockstar has posted almost nothing in a week, and GTA 6 is still everywhere. Because they're not
   buying ads. They're taking over real life."
 - **VISUAL:** fast montage: Kaseya Center roof → NBA 2K27 jersey → Burger Shot sign → Festival Short.
 - **GFX:** a counter "NEWSWIRE POSTS SINCE 10 NOV: 0" · `SourceTag` CONFIRMED · Rockstar Newswire.
 - **AUDIO:** four whooshes, one per cut.
 
-**B3 · 0:15–0:25 · PROMISE**
+**B3 · 0:09–0:15 · PROMISE**
 - **VO:** "So here are the seven places GTA 6 broke into the real world, which ones you can actually go to, and the one happening the night it
   unlocks in India."
 - **GFX:** a map of the world with seven pins dropping · `ProgressBar` 0/7.
 - **AUDIO:** a pin-drop per pin.
 
-**B4 · 0:25–1:00 · #1 THE WEATHER CHANNEL**
+**B4 · 0:15–0:36 · #1 THE WEATHER CHANNEL**
 - **GFX:** `NumberCard` "1 · THE FORECAST" · `ProgressBar` 1/7.
 - **VO:** "Number one. IGN reports The Weather Channel partnered with Rockstar on a forecast for Leonida, with brand-new screenshots of the
   dynamic weather. Think about how odd that is. A channel built on real storms, covering a fake state. And it works, because Rockstar's
@@ -68,7 +68,7 @@ GTA 6 screenshots (credited), 2K's NBA 2K27 Vice City Edition trailer (credited)
 - **GFX:** `SourceTag` REPORTED · IGN · a small chip "SCREENSHOTS: THE WEATHER CHANNEL".
 - **AUDIO:** rain ambience under the line.
 
-**B5 · 1:00–1:30 · #2 NBA 2K27**
+**B5 · 0:36–0:55 · #2 NBA 2K27**
 - **GFX:** `NumberCard` "2 · NBA 2K27" · 2/7.
 - **VO:** "Two. GTA 6 is already inside another game. NBA 2K27 is getting Vice City and Los Santos jerseys, Jason and Lucia outfits, even
   Burger Shot and Cluckin' Bell uniforms. Easy deal to make, because 2K and Rockstar have the same owner: Take-Two."
@@ -76,11 +76,11 @@ GTA 6 screenshots (credited), 2K's NBA 2K27 Vice City Edition trailer (credited)
 - **GFX:** an org chart "TAKE-TWO → ROCKSTAR + 2K" · `SourceTag` REPORTED · USA Today.
 - **AUDIO:** a basketball bounce SFX.
 
-**B6 · 1:30–1:40 · RE-HOOK**
+**B6 · 0:55–1:01 · RE-HOOK**
 - **VO:** "Those two you watch on a screen. The next ones you can walk into."
 - **AUDIO:** a riser; the music switches to pop-funk.
 
-**B7 · 1:40–2:15 · #3 THE MIAMI HEAT**
+**B7 · 1:01–1:22 · #3 THE MIAMI HEAT**
 - **GFX:** `NumberCard` "3 · A NIGHT IN VICE CITY" · 3/7.
 - **VO:** "Three. On the eighteenth, the Miami Heat are hosting what they call A Night in Vice City, the night before launch. Rockstar posted it
   as a Short on its own channel. And on top of the Heat's arena, a 'Welcome to Vice City' sign, as part of a deal with Miami-Dade."
@@ -88,7 +88,7 @@ GTA 6 screenshots (credited), 2K's NBA 2K27 Vice City Edition trailer (credited)
 - **GFX:** `SourceTag` CONFIRMED · Rockstar (YouTube) · REPORTED · local press (sign) · a date card "18 NOV".
 - **AUDIO:** a crowd roar.
 
-**B8 · 2:15–2:45 · #4 BURGER SHOT IS REAL**
+**B8 · 1:22–1:40 · #4 BURGER SHOT IS REAL**
 - **GFX:** `NumberCard` "4 · BURGER SHOT" · 4/7.
 - **VO:** "Four. You can eat at Burger Shot. IGN reports a Burger Shot collaboration with Skinny Louie restaurants in Florida, running until
   the end of December. A fake fast-food chain from a crime game, serving real burgers."
@@ -96,7 +96,7 @@ GTA 6 screenshots (credited), 2K's NBA 2K27 Vice City Edition trailer (credited)
 - **GFX:** a date strip "13 NOV → 31 DEC" · `SourceTag` REPORTED · IGN.
 - **AUDIO:** a fryer sizzle.
 
-**B9 · 2:45–3:15 · #5 THE FESTIVAL**
+**B9 · 1:40–1:58 · #5 THE FESTIVAL**
 - **GFX:** `NumberCard` "5 · THE FESTIVAL" · 5/7.
 - **VO:** "Five. Rockstar is throwing its own festival in Miami, on the twenty-first, at Mana Wynwood. This one's on the Newswire, so it's
   confirmed. Two days after launch, people will be standing in a real Vice City."
@@ -104,11 +104,11 @@ GTA 6 screenshots (credited), 2K's NBA 2K27 Vice City Edition trailer (credited)
 - **GFX:** `SourceTag` CONFIRMED · Rockstar Newswire · "21 NOV · MANA WYNWOOD".
 - **AUDIO:** a bass drop.
 
-**B10 · 3:15–3:25 · RE-HOOK**
+**B10 · 1:58–2:04 · RE-HOOK**
 - **VO:** "And then there's the stuff that's not even on a map."
 - **AUDIO:** a riser.
 
-**B11 · 3:25–3:55 · #6 THE STREET VIDEO**
+**B11 · 2:04–2:22 · #6 THE STREET VIDEO**
 - **GFX:** `NumberCard` "6 · REAL OR GAME?" · 6/7.
 - **VO:** "Six. Rockstar recreated a viral Miami street video inside the game and shared it. People couldn't tell which was which. That's the
   whole pitch in one clip: this place is so close to the real thing, you can't spot the difference."
@@ -116,7 +116,7 @@ GTA 6 screenshots (credited), 2K's NBA 2K27 Vice City Edition trailer (credited)
 - **GFX:** `SourceTag` REPORTED · Kotaku.
 - **AUDIO:** a record scratch on the reveal.
 
-**B12 · 3:55–4:25 · #7 THE DAY-OFF NOTE**
+**B12 · 2:22–2:41 · #7 THE DAY-OFF NOTE**
 - **GFX:** `NumberCard` "7 · DR. XBOX" · 7/7.
 - **VO:** "Seven. Even Xbox joined in. Variety reports Xbox and DJ Khaled launched a 'Dr. Xbox' site that writes you a day-off note for launch.
   It's a joke. Mostly."
@@ -124,7 +124,7 @@ GTA 6 screenshots (credited), 2K's NBA 2K27 Vice City Edition trailer (credited)
 - **GFX:** a fake prescription pad (ours, labelled PARODY) "Rx: 1× GTA VI, take at midnight" · `SourceTag` REPORTED · Variety.
 - **AUDIO:** a pen-scribble SFX.
 
-**B13 · 4:25–5:00 · PAYOFF: THE ONE FOR INDIA**
+**B13 · 2:41–3:02 · PAYOFF: THE ONE FOR INDIA**
 - **VO:** "And the one that matters if you're watching from India: YouTube's twenty-four-hour GTA 6 livestream. It starts at eleven PM
   Eastern on the eighteenth, which is nine thirty AM on the nineteenth here. The game unlocks for us at midnight. So by breakfast,
   you can be playing and watching the whole world play too."
@@ -133,13 +133,13 @@ GTA 6 screenshots (credited), 2K's NBA 2K27 Vice City Edition trailer (credited)
   REPORTED (livestream).
 - **AUDIO:** an alarm-clock ding.
 
-**B14 · 5:00–5:20 · SUMMARY**
+**B14 · 3:02–3:14 · SUMMARY**
 - **VO:** "So: a weather forecast, a basketball game, an arena, a burger, a festival, a street video, and a doctor's note. Seven ways GTA 6 got
   into real life without a single new trailer."
 - **GFX:** `ChecklistCard` with seven icons ticking.
 - **AUDIO:** a tick per item.
 
-**B15 · 5:20–5:30 · OUTRO (one ask)**
+**B15 · 3:14–3:20 · OUTRO (one ask)**
 - **VO:** "Which one would you actually go to? Tell me in the comments."
 - **GFX:** end screen: 027 "GTA 6 Won't Let You Play Like GTA 5" + subscribe.
 - **AUDIO:** the music resolves.
@@ -160,14 +160,14 @@ GTA 6 screenshots (credited), 2K's NBA 2K27 Vice City Edition trailer (credited)
 Rockstar has barely posted in a week, and GTA 6 is everywhere. The Weather Channel did a Leonida forecast, NBA 2K27 has Vice City jerseys, the Miami Heat host A Night in Vice City, Burger Shot is a real restaurant, and Rockstar is throwing a festival in Miami. Here are 7 ways GTA 6 took over real life, plus the launch-day timing for India.
 
 0:00 A forecast for a fake city
-0:25 The Weather Channel
-1:00 NBA 2K27
-1:40 The Miami Heat
-2:15 Burger Shot is real
-2:45 The Festival
-3:25 Real or game?
-3:55 Dr. Xbox
-4:25 India launch timing
+0:15 The Weather Channel
+0:36 NBA 2K27
+1:01 The Miami Heat
+1:22 Burger Shot is real
+1:40 The Festival
+2:04 Real or game?
+2:22 Dr. Xbox
+2:41 India launch timing
 
 Sources:
 - IGN: The Weather Channel partners with Rockstar: https://www.ign.com/articles/gta-6-gets-new-screenshots-highlighting-leonidas-dynamic-weather
