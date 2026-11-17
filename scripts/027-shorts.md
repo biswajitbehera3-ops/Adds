@@ -1,4 +1,4 @@
-# 027 Shorts — three 40–50 s Shorts cut from "GTA 6 Won't Let You Play Like GTA 5"
+# 027 Shorts — three 30–36 s Shorts cut from "GTA 6 Won't Let You Play Like GTA 5"
 
 Written with `/yt-script`. Hooks scored with `hookscore.py` (16 written, top two per Short shown). Format: 9:16, Fenrir voice, GTA
 neon karaoke captions, a SourceTag on every fact, sources in each Short's description. Runtime = spoken words ÷ 150 per minute.
@@ -19,7 +19,7 @@ Facts are the same as script 027 (Dazed via Kotaku, Edge, GameByte, GameSpot). N
 | **A (use)** | "GTA 6 is watching what you eat and how you sleep, and one of those will wreck your character's face." | **56 WORKABLE** | 56 · 100 · 36 · 58 · 100 |
 | B | "You can ruin Jason's body in GTA 6 without firing a shot, and Rockstar told us how." | 54 WEAK (Impossible Claim) | 74 · 76 · 36 · 41 · 100 |
 
-**Script (≈110 words · ≈45 s)**
+**Script (84 words · ≈34 s; beat times below are approximate)**
 1. **HOOK (0–5 s):** "GTA 6 is watching what you eat and how you sleep, and one of those will wreck your character's face."
    **[ON SCREEN: freeze on Jason (Trailer 2) · a 🍔 icon then a 😴 icon pop over him, each with a red eye · caption "WATCHING".]**
 2. **FOOD (5–15 s):** "Rockstar's developers told Dazed that Jason's and Lucia's bodies change with what you do. Eat too much, and they put on weight."
@@ -52,7 +52,7 @@ Facts are the same as script 027 (Dazed via Kotaku, Edge, GameByte, GameSpot). N
 The top-scoring draft ("one gun on your back will cost you a wanted level", 58) was **dropped**: Edge says carrying alone doesn't
 give you a wanted level, so the hook would be false.
 
-**Script (≈112 words · ≈45 s)**
+**Script (78 words · ≈31 s; beat times below are approximate)**
 1. **HOOK (0–6 s):** "If you carry a shotgun in GTA 6 like you did in GTA 5, the whole street will notice. Here's what changed."
    **[ON SCREEN: our GTA 5-style weapon wheel spinning with "∞" · it cracks · caption "GTA 5 HABIT".]**
 2. **FOUR GUNS (6–18 s):** "Hands-on previews report you can carry four weapons. Two hidden handguns, and two long guns, like a rifle or a shotgun.
@@ -83,7 +83,7 @@ give you a wanted level, so the hook would be false.
 | **A (use)** | "If you hide in a bush in GTA 6, the cops still have your description. Here's how you actually lose them." | **69 WORKABLE** (Direct Address) | 63 · 100 · 62 · 58 · 100 |
 | B | "You get reported in GTA 6 before you even see a cop, and three moves make them forget you." | 60 WORKABLE (The Warning) | 62 · 100 · 62 · 41 · 100 |
 
-**Script (≈125 words · ≈50 s)**
+**Script (90 words · ≈36 s; beat times below are approximate)**
 1. **HOOK (0–6 s):** "If you hide in a bush in GTA 6, the cops still have your description. Here's how you actually lose them."
    **[ON SCREEN: a GTA 5-style bush illustration with stars fading · hard cut to an Extended Look police car rolling past · stamp "THEY REMEMBER".]**
 2. **HOW THEY KNOW (6–20 s):** "First, a crime only gets reported if someone sees it, or an alarm goes off. But once it's reported, Edge says the police
