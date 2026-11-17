@@ -30,3 +30,14 @@ Skip: Stake Media IG / Stake X Media (gambling).
    Check each brief for allowed content.
 3. **Placements "Tokyo Girl":** easy GTA 6 edits with the song, but only $0.70/1K and TikTok/Instagram only.
 4. **Content Rewards' full board needs a login.** Sign in and filter "Gaming" / "Streamers" on 18–19 Nov for new GTA campaigns.
+
+## Do these campaign streamers play GTA? (checked 17 Nov, social posts, not confirmed schedules)
+| Streamer | GTA? | Evidence |
+|---|---|---|
+| **John Malek** | ✅ Likely | Grew through **GTA RP**; Instagram clip: "GTA is the new focus now" |
+| **Lacy** (Clix & Lacy) | ✅ Yes, planned | Lacy's own TikTok: "Lacy x Marlon x Ron x Jason x Clix" **GTA 6 marathon**; talked to Twitch's CEO about GTA 6 ad revenue |
+| **Clix** | ✅ In that marathon | Same post. Note the campaign is "Clix & Lacy – **TapCap**", which may be a brand brief, so read it. |
+| **JasonTheWeen** | ✅ Yes | Same marathon; "Jason Gives an Update on His GTA 6 Miami Stream"; GTA RP streams with CORE |
+| PlaqueBoyMax | ❓ Not found | — |
+| Preme | ❓ Not found | — |
+| Sketch | ❓ Not found | — |
