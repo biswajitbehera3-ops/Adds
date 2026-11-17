@@ -16,16 +16,16 @@ SR = 16000
 HOP = 0.5  # seconds per loudness frame
 
 # --- trigger words (lower-case; English + common Hindi/Hinglish streamer reactions) ---
-WORDS = {
-    "SHOCK": ["no way", "what", "wait what", "oh my god", "omg", "bro", "nah", "are you serious", "holy", "i can't believe",
-              "yo", "what the", "how is that", "insane", "crazy", "arey", "kya", "oh teri", "bhai", "kya baat", "pagal"],
-    "FAIL": ["again", "how", "i'm dead", "im dead", "are you kidding", "i hate", "why", "no no no", "noo", "nooo",
-             "mar gaya", "gaya", "phir se", "kya yaar", "bakwas"],
-    "WIN": ["let's go", "lets go", "finally", "yes", "we did it", "cleared", "easy", "gg", "w ", "let's gooo",
-            "ho gaya", "jeet gaya", "chal gaya", "badhiya"],
-    "DISCOVERY": ["look at this", "they actually", "you can", "did you see", "the detail", "look at that", "check this",
-                  "dekho", "yeh dekho", "notice"],
-    "FUNNY": ["haha", "hahaha", "lol", "lmao", "i'm crying", "im crying", "bruh", "hasi"],
+WORDS = {  # phrases a streamer actually shouts; common single words ("what", "how", "why") are left out on purpose
+    "SHOCK": ["no way", "wait what", "oh my god", "omg", "are you serious", "holy", "i can't believe", "what the", "how is that",
+              "insane", "that's crazy", "this is crazy", "oh teri", "kya baat", "arey bhai", "pagal hai"],
+    "FAIL": ["no no no", "i'm dead", "im dead", "are you kidding", "i hate this", "not again", "again bro", "noo", "nooo",
+             "mar gaya", "phir se", "kya yaar", "bakwas"],
+    "WIN": ["let's go", "lets go", "finally", "we did it", "cleared", "first try", "gg", "let's gooo",
+            "ho gaya", "jeet gaya", "chal gaya"],
+    "DISCOVERY": ["look at this", "they actually", "did you see", "the detail", "look at that", "check this", "you can actually",
+                  "yeh dekho", "notice that"],
+    "FUNNY": ["haha", "hahaha", "lol", "lmao", "i'm crying", "im crying", "bruh"],
 }
 EMOTES = {  # chat signals
     "FUNNY": ["kekw", "lul", "lulw", "omegalul", "icant", "lmao", "😂", "🤣"],
@@ -33,14 +33,17 @@ EMOTES = {  # chat signals
     "FAIL": ["l", "sadge", "f", "💀"],
     "SHOCK": ["monkas", "omg", "😱", "wtf", "?"],
 }
-TITLES = {
-    "SHOCK": "The moment GTA 6 shocked {who}",
-    "CLEARED": "It took {who} {n} tries to clear this. Here's how",
-    "FAIL": "{who} vs GTA 6 police: not even close",
-    "DISCOVERY": "{who} just found this in GTA 6",
-    "FUNNY": "{who} can't stop laughing at this GTA 6 moment",
-    "WIN": "{who} finally did it in GTA 6",
+TITLES = {  # ideas for OUR OWN videos about the moment (we never post the streamer's footage)
+    "SHOCK": "The GTA 6 moment that shocked streamers",
+    "CLEARED": "The part of GTA 6 that took {n} tries to clear (and the fix)",
+    "FAIL": "Why everyone is failing this part of GTA 6",
+    "DISCOVERY": "Streamers just found this in GTA 6",
+    "FUNNY": "GTA 6's funniest moment so far",
+    "WIN": "The GTA 6 moment chat lost it over",
+    "LOUD": "(loud, no trigger words: listen before using)",
 }
+INTEL_TYPE = {"SHOCK": "SURPRISE", "CLEARED": "HARD PART", "FAIL": "HARD PART", "DISCOVERY": "SYSTEM/FACT",
+              "FUNNY": "FUNNY", "WIN": "SURPRISE", "LOUD": "CHECK"}
 
 
 def ts(sec):
@@ -107,7 +110,8 @@ def transcribe(wav_path, model_name, lang, windows=None):
                     words.append({"w": wd.word.strip(), "s": round(wd.start + off, 2), "e": round(wd.end + off, 2)})
     except ImportError:
         import whisper
-        m = whisper.load_model(model_name)
+        name = f"{model_name}.en" if lang == "en" and model_name in ("tiny", "base", "small", "medium") else model_name
+        m = whisper.load_model(name)
         def run(path, off):
             r = m.transcribe(path, language=None if lang == "auto" else lang, word_timestamps=True)
             for sg in r["segments"]:
@@ -138,9 +142,25 @@ def load_chat(path, t0):
     """TwitchDownloader JSON (comments[].content_offset_seconds / message.body) or CSV/TSV 'seconds,text'."""
     rows = []
     if path.endswith(".json"):
-        d = json.load(open(path, encoding="utf-8"))
-        for c in d.get("comments", []):
-            rows.append((float(c.get("content_offset_seconds", 0)) - t0, (c.get("message") or {}).get("body", "")))
+        try:
+            d = json.load(open(path, encoding="utf-8"))
+        except json.JSONDecodeError:
+            d = None
+        if isinstance(d, dict) and "comments" in d:                     # TwitchDownloader
+            for c in d.get("comments", []):
+                rows.append((float(c.get("content_offset_seconds", 0)) - t0, (c.get("message") or {}).get("body", "")))
+        else:                                                            # yt-dlp YouTube live_chat.json (one JSON per line)
+            for line in open(path, encoding="utf-8"):
+                try: e = json.loads(line)
+                except json.JSONDecodeError: continue
+                r = e.get("replayChatItemAction") or {}
+                ms = r.get("videoOffsetTimeMsec")
+                if ms is None: continue
+                txt = ""
+                for act in r.get("actions", []):
+                    item = ((act.get("addChatItemAction") or {}).get("item") or {}).get("liveChatTextMessageRenderer") or {}
+                    txt += "".join(x.get("text", "") for x in (item.get("message") or {}).get("runs", []))
+                rows.append((int(ms) / 1000.0 - t0, txt))
     else:
         for line in open(path, encoding="utf-8"):
             p = re.split(r"[,\t]", line.strip(), 1)
@@ -164,7 +184,7 @@ def main():
     ap.add_argument("source"); ap.add_argument("-o", "--out", required=True)
     ap.add_argument("--start"); ap.add_argument("--end")
     ap.add_argument("--chat"); ap.add_argument("--markers", help="file with one timestamp per line (viewer clips)")
-    ap.add_argument("--top", type=int, default=10); ap.add_argument("--gap", type=float, default=45)
+    ap.add_argument("--top", type=int, default=10); ap.add_argument("--gap", type=float, default=30)
     ap.add_argument("--pre", type=float, default=15); ap.add_argument("--post", type=float, default=6)
     ap.add_argument("--model", default="small"); ap.add_argument("--lang", default="en")
     ap.add_argument("--full", action="store_true", help="transcribe everything (default: only around loud peaks)")
@@ -203,10 +223,12 @@ def main():
 
     # keyword score per frame
     kw = np.zeros(n, np.float32); kwcat = [dict() for _ in range(n)]
+    lo = hi = 0
     for w in words:
         i = min(n - 1, int(w["s"] / HOP))
-        ctx = " ".join(x["w"] for x in words if abs(x["s"] - w["s"]) <= 1.5)
-        h = kw_hits(ctx)
+        while words[lo]["s"] < w["s"] - 1.5: lo += 1
+        while hi < len(words) and words[hi]["s"] <= w["s"] + 1.5: hi += 1
+        h = kw_hits(" ".join(x["w"] for x in words[lo:hi]))
         if sum(h.values()):
             kw[i] = max(kw[i], min(1.0, sum(h.values()) / 3))
             for k, v in h.items(): kwcat[i][k] = kwcat[i].get(k, 0) + v
@@ -244,7 +266,10 @@ def main():
         if all(abs(i - j) * HOP >= a.gap for j in peaks): peaks.append(int(i))
         if len(peaks) >= a.top: break
 
-    fail_times = [w["s"] for w in words if kw_hits(w["w"])["FAIL"]]
+    fail_times = []
+    for j, w in enumerate(words):
+        if kw_hits(" ".join(x["w"] for x in words[max(0, j - 2):j + 3]))["FAIL"] and (not fail_times or w["s"] - fail_times[-1] > 20):  # one fail per attempt
+            fail_times.append(w["s"])
     moments = []
     for i in sorted(peaks):
         pt = i * HOP
@@ -259,10 +284,11 @@ def main():
         for j in range(max(0, i - 8), min(n, i + 8)):
             for k, v in kwcat[j].items(): cats[k] = cats.get(k, 0) + v
             for k, v in chatcat[j].items(): cats[k] = cats.get(k, 0) + v
-        kind = max(cats, key=cats.get) if cats else ("SHOCK" if burst[max(0, i - 4):i + 4].any() else "FUNNY" if z[i] > 3 else "SHOCK")
+        kind = max(cats, key=cats.get) if cats else ("SHOCK" if burst[max(0, i - 4):i + 4].any() else "LOUD")
         prior_fails = [t for t in fail_times if pt - 900 <= t < pt - 3]
         if kind == "WIN" and len(prior_fails) >= 3: kind = "CLEARED"
         text = " ".join(w["w"] for w in words if s <= w["s"] <= e)
+        said = " ".join(w["w"] for w in words if pt - 6 <= w["s"] <= e)  # just the reaction, for the intel log
         why = []
         if loud[i] > 0.3: why.append(f"loud +{z[i]:.1f}σ")
         if burst[max(0, i - 4):i + 4].any(): why.append("silence→burst")
@@ -272,7 +298,7 @@ def main():
         off = t0 or 0
         moments.append({"peak": ts(pt + off), "start": ts(s + off), "end": ts(e + off), "start_s": round(s + off, 2),
                         "end_s": round(e + off, 2), "length_s": round(e - s, 1), "type": kind, "score": round(float(sm[i]), 2),
-                        "why": why, "text": text[:400],
+                        "why": why, "text": text[:400], "said": said[:200],
                         "fails_before": [ts(t + off) for t in prior_fails][-12:] if kind == "CLEARED" else [],
                         "title_idea": TITLES[kind].format(who=a.who, n=len(prior_fails) + 1)})
     moments.sort(key=lambda m: -m["score"])
@@ -283,9 +309,16 @@ def main():
           "| # | Peak | Cut | Type | Score | Why | What's said | Title idea |", "|---|---|---|---|---|---|---|---|"]
     for k, m in enumerate(moments, 1):
         md.append(f"| {k} | {m['peak']} | {m['start']}–{m['end']} ({m['length_s']} s) | {m['type']} | {m['score']} | {', '.join(m['why'])} | "
-                  f"{m['text'][:140].replace('|', '/')} | {m['title_idea']} |")
-    md += ["", "Review every moment before cutting: hook in the first second, payoff inside the clip, campaign rules, spoilers."]
+                  f"{(m.get('said') or m['text'])[:140].replace('|', '/')} | {m['title_idea']} |")
+    md += ["", "Review every moment by eye. Never post: leaks, the ending or story reveals, cutscenes alone, in-game TV shows alone",
+           "(production/do-not-post-rules.md). Only clip streamers who allow it; for our own videos, describe the moment and use our",
+           "own footage/graphics (production/stream-intel-plan.md)."]
     open(os.path.join(a.out, "moments.md"), "w").write("\n".join(md))
+    intel = ["| # | Stream + time | What happened (our words) | Type | Streams seen on | Spoiler | Video idea |", "|---|---|---|---|---|---|---|"]
+    for k, m in enumerate(moments, 1):
+        said = (m.get("said") or m["text"])[:110].replace("|", "/")
+        intel.append(f"| {k} | {a.who} {m['peak']} | (write it) — they said: \"{said}\" | {INTEL_TYPE[m['type']]} | 1 | ? | {m['title_idea']} |")
+    open(os.path.join(a.out, "intel_rows.md"), "w").write("\n".join(intel) + "\n")
 
     if a.cut or a.sheet:
         print("5/5 clips…", flush=True)

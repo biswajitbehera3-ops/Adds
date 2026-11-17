@@ -9,7 +9,7 @@
 | Signal | Tool | Output |
 |---|---|---|
 | Chat explodes | `tools/chat_spikes.py` (TwitchDownloader JSON or YouTube live_chat.json) | peak times, cut windows starting 20 s early |
-| What the streamer says / how loud | GTA 6 Clipper's listening step, or `stream-moments/moments.py` (paused WIP: transcript + loudness + keywords SHOCK/FAIL/WIN/DISCOVERY, "CLEARED after N fails") | moment list + transcript lines |
+| What the streamer says / how loud | GTA 6 Clipper's listening step, or `stream-moments/moments.py` (tested 17 Nov: transcript + loudness + chat + trigger phrases → SHOCK/FAIL/CLEARED/DISCOVERY/FUNNY, writes `intel_rows.md` for the log) | moment list + transcript lines |
 | Both agree | — | the strongest moments |
 
 The **allow-list is not needed for research**: we read chat and listen, we don't publish anything of theirs.
