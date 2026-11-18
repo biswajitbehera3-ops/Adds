@@ -12,11 +12,11 @@ The Short version of 032. It goes up **first** (Shorts lead our channel), and it
 | **Cover** | `HOUR ONE ⏰` over an IST clock at 12:00 |
 | **Hook** | **69 WORKABLE:** "Before you press start on GTA 6 tonight, here's what 146 critics and two million stream viewers already know." |
 | **Backup hook** | 60 WORKABLE: "Here's your first hour of GTA 6 before you've played it, in thirty seconds." |
-| **Length** | ~40 s |
+| **Length** | ~33 s |
 | **Related video** | 032 long, "GTA 6's First Hour, Explained by 146 Critics" |
 | **Visuals** | official trailer shots, our score counter, chat-bubble cards ("SEEN IN CHAT"), a checklist build, the IST clock |
 
-## Script (~95 words · ≈38 s)
+## Script (82 words · ≈33 s; beat times are approximate)
 1. **HOOK (0–5 s):** "Before you press start on GTA 6 tonight, here's what 146 critics and two million stream viewers already know."
    **[ON SCREEN: IST clock 11:59 ticking · "146 CRITICS" and "2.4M WATCHING" counters]**
 2. **THE GOOD (5–11 s):** "It's a ninety-nine on Metacritic. IGN gave it a ten."
