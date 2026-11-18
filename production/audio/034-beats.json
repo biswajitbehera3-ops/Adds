@@ -1,0 +1,74 @@
+[
+ {
+  "beat": "hook",
+  "start": 0.15,
+  "end": 5.31,
+  "text": "You're playing GTA 6 tonight, and before you do, you'll want to know the reviews it got."
+ },
+ {
+  "beat": "score",
+  "start": 5.66,
+  "end": 9.31,
+  "text": "Ninety nine on Metacritic. A perfect ten from IGN."
+ },
+ {
+  "beat": "looks",
+  "start": 9.61,
+  "end": 13.49,
+  "text": "And you can see why. The water, the storms, even the hair look real."
+ },
+ {
+  "beat": "quote1",
+  "start": 13.74,
+  "end": 15.88,
+  "text": "One fan typed: Is this real life?"
+ },
+ {
+  "beat": "turn",
+  "start": 16.33,
+  "end": 18.59,
+  "text": "But the best surprises are in the small stuff."
+ },
+ {
+  "beat": "book",
+  "start": 18.89,
+  "end": 23.92,
+  "text": "Pick up a book, and you can open it and read the pages. One of twenty-seven to collect."
+ },
+ {
+  "beat": "steal",
+  "start": 24.22,
+  "end": 29.94,
+  "text": "Steal something, and the cash doesn't hit your pocket. You drop the goods at a lockup, and get paid later."
+ },
+ {
+  "beat": "gps",
+  "start": 30.24,
+  "end": 33.42,
+  "text": "Get in a car, and the GPS talks you through every turn."
+ },
+ {
+  "beat": "fp",
+  "start": 33.77,
+  "end": 39.02,
+  "text": "The one thing missing? A full first-person mode. You only go first person when you aim."
+ },
+ {
+  "beat": "fps",
+  "start": 39.32,
+  "end": 41.83,
+  "text": "The only complaint: thirty frames per second."
+ },
+ {
+  "beat": "quote2",
+  "start": 42.08,
+  "end": 45.54,
+  "text": "One fan summed it up: Bad F P S, but looks good though."
+ },
+ {
+  "beat": "close",
+  "start": 45.94,
+  "end": 48.63,
+  "text": "See you at midnight. Which one are you checking first?"
+ }
+]
