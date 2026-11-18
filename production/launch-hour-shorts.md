@@ -124,7 +124,7 @@ Rockstar's free printable GTA 6 / Leonida map is out on rockstargames.com: [PAST
 - **Cover:** `HOUR ONE 👀`
 - **Hook (60 WORKABLE):** "You haven't played GTA 6 yet, but six streamers have, and their chats kept asking the same question you'll waste your first hour on."
 
-**Script (v1, about 105 words · ≈42 s). Source: public Twitch chat on xQc, Lacy, JasonTheWeen, TypicalGamer, DarkViperAU and TGG (18 Nov). No footage.**
+**Script (v1, about 115 words · ≈46 s). Source: public Twitch chat on xQc, Lacy, JasonTheWeen, TypicalGamer, DarkViperAU and TGG (18 Nov). No footage.**
 1. **HOOK (0–5 s):** the line above. **[six streamer name cards in a grid (text only) · a clock at 12:00]**
 2. **ONE (5–12 s):** "First, every chat lost it at the graphics. Water, weather, even hair."
    **[Weather Channel screenshot (credited) · chat cards "holy" "Cinema" · SEEN IN CHAT: 6 streams]**
