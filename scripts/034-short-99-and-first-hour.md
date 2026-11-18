@@ -12,7 +12,22 @@
   - Alt: `GTA 6's First Hour Is Full of Tiny Surprises`
 - **Cover:** `HOUR ONE SECRETS`
 
-## FINAL script (chosen by the user, 18 Nov). Only the grammar in the first line is cleaned up.
+## FINAL v2: with real fan reactions (user asked for live reactions, 18 Nov)
+All three quotes are **real messages typed in public Twitch chats during the first GTA 6 streams** (saved in the scratchpad chat logs). They're anonymous
+fans, not streamers, and **no quote is made up or put in a celebrity's mouth**.
+
+> You're playing GTA 6 tonight, and before you do, you'll want to know the reviews it got. Ninety-nine on Metacritic. A perfect ten from IGN. And you can see why: the water, the storms, even the hair look real. One fan watching the first streams typed: "Is this real life?" But the best surprises are in the small stuff. Pick up a book, and you can open it and read the pages. It's one of twenty-seven to collect. Chat's verdict: "That book detail was fire." Steal something, and the cash doesn't hit your pocket. You drop the goods at a lockup and get paid once they're collected. Get in a car, and the GPS talks you through every turn. The one thing you won't find? A full first-person mode. You only go first person when you aim. And the critics' only real complaint: thirty frames per second. As one fan put it: "Bad FPS, but looks good though." See you at midnight. Which one are you checking first?
+
+**On screen for the quotes:**
+- Each quote pops up as a chat bubble (our design, no username, no Twitch UI), with a small "LIVE CHAT · 18 NOV" tag.
+- The narrator reads it with a smile; it's not a fake streamer voice.
+
+**Later tonight (optional):**
+- The 11:25 PM run can pull what streamers actually **said out loud** (from the captions of their uploaded VODs).
+- A real spoken line, credited, could replace one chat quote, e.g. "[Streamer], first time seeing the ocean: '…'".
+- Only with an exact quote and a credit.
+
+## FINAL script v1 (chosen by the user, 18 Nov). Only the grammar in the first line is cleaned up.
 > You're playing GTA 6 tonight, and before you do, you'll want to know the reviews it got. Ninety-nine on Metacritic. A perfect ten from IGN. And you can see why: the water, the storms, even the hair look real. But the best surprises are in the small stuff. Pick up a book, and you can open it and read the pages. It's one of twenty-seven magazines, books and comics to collect. Steal something, and the cash doesn't hit your pocket. You drop the goods at a lockup, and get paid once they're collected. Get in a car, and the GPS talks you through every turn. The one thing you won't find? A full first-person mode. At launch, you only go first person when you aim. And the critics' only real complaint: thirty frames per second. See you at midnight. Which one are you checking first?
 
 - **Hook:** 60 WORKABLE (the user's line as written scored 57).
