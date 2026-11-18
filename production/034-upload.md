@@ -2,7 +2,7 @@
 
 **Files:**
 - **Video:** `remotion-overlays/out/034-final.mp4` (1080×1920, 59.8 s)
-- **Cover:** `remotion-overlays/out/thumbs/034-cover.jpg` (user's Jason & Lucia art + "1ST HOUR REVIEW"; built by `production/make_cover034.py`)
+- **Cover (v2, aesthetic, 4K):** `remotion-overlays/out/thumbs/034-cover-4k.jpg` (2160×3840) + `034-cover-1080.jpg`. Built by the `Cover034` Remotion still: neon script "1st Hour", thin wide-tracked "REVIEW", film grain. v1 chunky version: `034-cover.jpg`
 
 ## Why this title (yt-viral, 218 recent uploads, 7 GTA channels, ranked by multiple of each channel's median)
 | Multiple | Views | Channel | Title | Formula |
