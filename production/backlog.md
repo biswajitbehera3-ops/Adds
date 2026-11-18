@@ -2,6 +2,32 @@
 
 Parked work, saved to pick up later. Newest first.
 
+## Launch posting schedule (saved 18 Nov 2026)
+Sources: `production/gta6-launch-week-guide-plan.md`, `production/stream-intel-plan.md`, `scripts/027-shorts.md`, `scripts/029`, `scripts/030`.
+Every post follows `production/do-not-post-rules.md`. Never post leaks, the ending or big story reveals, cutscenes alone, or in-game TV alone.
+In week 1, cover only the early game and game systems. Story items get a SPOILER card and a spoiler-free title.
+
+| When (IST) | Post | Files | Needs | Status |
+|---|---|---|---|---|
+| **18 Nov, before 4:30 PM** | Long: "GTA 6 Got Nominated for GOTY Before Anyone Played It" (~3:50) | `scripts/029-gta6-nominated-before-anyone-played-it.md` | Fenrir VO + render. Add a review beat if reviews drop today | to do |
+| **18 Nov, evening** | Long: "The Day the World Stops for GTA 6" (~3:20) | `scripts/030-the-day-the-world-stops-for-gta6.md` | Fenrir VO + render | to do |
+| **19 Nov, 12–1 AM** | Short: "GTA 6 Is Out. Do These 3 Things Before You Play" (settings, 230 GB free, patch) | to write | No gameplay needed | to do |
+| **19 Nov, within 1 h of Rockstar posting** | Short: "Rockstar's Free GTA 6 Map Is Out" (only if the printable map drops) | to write | Launch watch confirms it on Rockstar's site | watch |
+| **19 Nov, evening** | Short 3: "How to Lose the Cops in GTA 6" (hook 69) | `scripts/027-shorts.md` | Fenrir VO + render | to do |
+| **20 Nov** | Short 1: "GTA 6 Can Make Jason Fat" | `scripts/027-shorts.md` | Fenrir VO + render | to do |
+| **Before 21 Nov** | Short: "Miami Is Turning Into Vice City" (before the 21 Nov Festival) | `scripts/009-miami-turns-into-vice-city-short.md` | See the 009 row below | to do |
+| **21 Nov** | Short 2: "GTA 6 Only Lets You Carry 4 Guns" | `scripts/027-shorts.md` | Fenrir VO + render | to do |
+| **20–22 Nov, daily** | 2–3 stream-intel Shorts, e.g. "Why Everyone Is Failing This Part of GTA 6" and "Streamers Just Found This in GTA 6" | `research/stream-intel/YYYY-MM-DD.md` (filled by the scheduled task at 9:17 AM / 3:17 PM / 9:17 PM) | Only moments seen on 2+ streams. Our words, official footage, our graphics. Credit the streamer, never use their footage | auto research |
+| **21–22 Nov** | Long: "GTA 6 Day 1: 10 Things That Surprised Everyone" (5–7 min) | from the stream-intel logs | Facts SEEN IN-GAME on 2+ streams | to do |
+| **23–26 Nov** | Long + 3 Shorts: "15 GTA 6 Tips the Game Doesn't Tell You" | to write | **Our own gameplay capture** | needs capture |
+| **23–26 Nov** | "Do These 7 Things First in GTA 6" | to write | Our capture | needs capture |
+| **23–26 Nov** | "How to Make Money Fast in GTA 6" (verified methods only, no glitches) | to write | Our capture | needs capture |
+| **23–26 Nov** | "GTA 6: 25 Tiny Details You Missed" | to write | Our capture | needs capture |
+| **26 Nov–3 Dec** | "Rockstar's Own GTA 6 Tips, Tested" (when Rockstar posts official tips) | to write | Newswire tips post + our capture | watch |
+| **From 19 Nov** | Paid clipping campaigns (allowed streamers only, credited) | `tools/allowed_streamers.txt` · `production/gta6-launch-clipping-plan.md` | Campaign rules checked | optional |
+
+**Open question:** will we record our own gameplay (PS5 or Xbox)? If not, the 23–26 Nov items stay as stream-intel and official-footage videos.
+
 | Item | Status | Files | Next step | Post by |
 |---|---|---|---|---|
 | **020 Short — "GTA 6 Could Drain $1 Billion From the US in One Day 💸"** (58.7 s, receipt style) | **Posted on YouTube 14 Nov** with cover C ("SORRY BOSS, I'M SICK") — `remotion-overlays/out/020-final.mp4` | `scripts/020-short-out-of-office.md` · `src/gta6/Short020.tsx` | Check views + swipe-away rate after 24 h | done |
