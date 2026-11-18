@@ -119,37 +119,36 @@ Rockstar's free printable GTA 6 / Leonida map is out on rockstargames.com: [PAST
 
 ---
 
-## SHORT E: What streamers noticed first (post 12:30–1:00 AM; filled by the 11:25 PM run)
-- **Title options:**
-  - `Streamers Just Found This in GTA 6` (34)
-  - `GTA 6 Has Been Out for 7 Hours. Here's What Shocked Everyone` (60)
-- **Cover:** `7 HOURS IN 👀`
-- **Hook (66 WORKABLE):** "New Zealand has had GTA 6 for seven hours, and you need to see what kept shocking streamers before you play."
+## SHORT E: What streamers ran into in the first hour (post 12:30–1:00 AM; v1 from Twitch chat, upgrade at 11:25 PM)
+- **Title:** `What Streamers Saw in GTA 6's First Hour` (40 chars, title.py 100/100)
+- **Cover:** `HOUR ONE 👀`
+- **Hook (60 WORKABLE):** "You haven't played GTA 6 yet, but six streamers have, and their chats kept asking the same question you'll waste your first hour on."
 
-**Beats:**
-1. Hook.
-2. Moment 1 (seen on 2+ streams): what happened, in our words.
-3. Moment 2.
-4. Moment 3.
-5. "You'll find it in the first hour. Tell me if it gets you too."
+**Script (v1, about 85 words · ≈34 s). Source: public Twitch chat on xQc, Lacy, JasonTheWeen, TypicalGamer, DarkViperAU and TGG (18 Nov). No footage.**
+1. **HOOK (0–5 s):** the line above. **[six streamer name cards in a grid (text only) · a clock at 12:00]**
+2. **ONE (5–12 s):** "First, every chat lost it at the graphics. Water, weather, even hair."
+   **[Weather Channel screenshot (credited) · chat cards "holy" "Cinema" · SEEN IN CHAT: 6 streams]**
+3. **TWO (12–19 s):** "Second, thirty FPS. Half of chat hated it. The other half said it doesn't look terrible."
+   **[a split card "😡 30 FPS" vs "doesn't look terrible" · SEEN IN CHAT: xQc / TypicalGamer / DarkViperAU / TGG]**
+4. **THREE, the question (19–29 s):** "And the question every chat kept asking: is there first person? Nobody had a clear answer yet. I'm checking it for you."
+   **[a big "FIRST PERSON?" card · amber "NOT CONFIRMED" chip · SEEN IN CHAT: xQc / TypicalGamer / TGG]**
+5. **CLOSE (29–34 s):** "Follow, and you'll know before you've finished your first mission."
+   **[a "FOLLOW FOR THE ANSWER" card · Launch Trailer shot]**
 
-**On screen:** our graphics plus official footage of the same area or system. Text cards: "SEEN ON: Lacy · Hazard (Twitch)". **No streamer footage, no story beats.**
+**Upgrade at 11:25 PM:**
+- Replace beat 4 with the real answer (reviews or VOD captions on 2+ streams).
+- Add the iguana if it's confirmed.
 
-**Moments (fill in at 11:25 PM):**
-| # | What happened (our words) | Streams seen on | Type | Spoiler |
-|---|---|---|---|---|
-| 1 | | | | |
-| 2 | | | | |
-| 3 | | | | |
+**Never:**
+- streamer footage;
+- chat requests (strip club etc.);
+- story beats.
 
-**Description template:**
+**Description:**
 ```
-GTA 6 has been out in New Zealand for 7 hours. Here's what kept surprising streamers in the first hours (no story spoilers).
-Seen on: [streamer names + platform], credited, footage not used.
-#GTA6 #GTA6Gameplay #GTAVI #Shorts
+What 6 big GTA 6 streamers (xQc, Lacy, JasonTheWeen, TypicalGamer, DarkViperAU, TGG) ran into in their first hour, based on what their Twitch chats reacted to: the graphics, the 30 FPS debate, and the one question every chat kept asking. No story spoilers, no stream footage.
+#GTA6 #GTA6Gameplay #Shorts
 ```
-
----
 
 ## SHORT F: Reviews are in (POST NOW: reviews went live with the NZ unlock, 18 Nov)
 - **Title:** `GTA 6 Just Got a 99 on Metacritic` (33 chars, lint 100)
