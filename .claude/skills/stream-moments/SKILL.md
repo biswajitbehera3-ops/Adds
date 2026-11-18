@@ -59,3 +59,18 @@ Single common words ("what", "why", "bro") are not triggers on purpose: they fir
   - The same chat in YouTube live_chat format gave the same top 4.
   - `--cut` produced 16–22 s clips.
 - **Speed:** about 35 s on 4 CPUs with `base`. Expect about 4–6 min of compute per hour of stream with `small` in fast mode.
+
+## No audio? Use the transcript mode (cloud container)
+In this cloud container, Twitch and Kick are blocked and YouTube downloads are bot-checked. `transcript_moments.py` works from the
+**timed captions and comments** of an uploaded YouTube VOD or reaction video, which the Firecrawl Alexandria `youtube-com` provider fetches
+(`videos/video_transcript`, `videos/video_comments`, about 5 credits each):
+
+```bash
+python3 .claude/skills/stream-moments/transcript_moments.py transcript.json --comments comments.json --who "Lacy" --url https://youtu.be/ID -o OUT
+```
+
+- **Scores:** trigger phrases per 20 s window, `[Laughter]` tags, and viewer comments that quote a timestamp ("3:45 when he…").
+- **CLEARED:** the same 3-fails rule as the audio tool.
+- **Outputs:** `moments.md` with a `?t=` link per moment, plus `intel_rows.md`.
+- **Tested 18 Nov:** all 6 planted moments found, and a live Alexandria transcript fetch worked.
+- **Limits:** auto-captions miss shouting, so read the caption text around each moment.
