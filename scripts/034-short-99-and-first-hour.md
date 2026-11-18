@@ -21,21 +21,35 @@
 - The pet snake: too small.
 - The missed safe: the $5K figure is chat-only.
 
-## Script (122 words · ≈49 s; beat times are approximate)
+## Script (138 words · ≈55 s; beat times are approximate)
 1. **HOOK (0–5 s):** "GTA 6 just got a 99, but you need to see what streamers found in their first hour before you play tonight."
    **[ON SCREEN: green box slamming 99 · "IGN 10/10" chip · clock 11:59 PM IST]**
 2. **THE REVIEWS (5–11 s):** "Ninety-nine on Metacritic. IGN gave it a ten. The only real complaint: thirty FPS."
    **[ON SCREEN: 97 (GTA 5) → 99 counter · amber "30 FPS" chip · SourceTag REPORTED · Metacritic / IGN]**
-3. **FACT 1 (11–20 s):** "Now hour one. On Kai Cenat's stream, he picked up a book and actually read it. Real pages. And it's one of twenty-seven."
+3. **THE LOOKS (11–22 s):** "IGN's reviewer called it the most impressive game he's ever played. On stream, the ocean, the weather and even the hair got the biggest reactions."
+   **[ON SCREEN:**
+   - official Weather Channel / Extended Look shots of water, storm and sunset (credited);
+   - a slow push-in on Jason's hair from Trailer 2;
+   - a chat-bubble wall "Cinema ×151", "the graphics are crazy good", "hair physics insane";
+   - SourceTag REPORTED · IGN + SEEN IN CHAT · xQc / Kai Cenat / 6 streams.**]**
+4. **FACT 1 (22–30 s):** "Hour one. On Kai Cenat's stream, he picked up a book and actually read it. Real pages. One of twenty-seven."
    **[ON SCREEN: our blue book graphic opening · "1/27" counter · chat card "READ ×216" · SEEN IN-GAME: Kai Cenat (Twitch)]**
-4. **FACT 2 (20–29 s):** "On Lacy's stream, stolen stuff didn't pay instantly. You drop it at a lockup and get paid once it's collected."
+5. **FACT 2 (30–38 s):** "On Lacy's stream, stolen stuff didn't pay instantly. You drop it at a lockup and get paid once it's collected."
    **[ON SCREEN: our flow graphic "STEAL → STASH → PAID LATER" · cash $600 → $0 → ⏳ · SEEN IN-GAME: Lacy (Twitch)]**
-5. **FACT 3 (29–36 s):** "On JasonTheWeen's stream, the GPS talks you through turns, and the phone has reminders and messages."
-   **[ON SCREEN: our minimap with a "TURN RIGHT 323 FT" banner · phone icons · SEEN IN-GAME: JasonTheWeen (Twitch)]**
-6. **FACT 4 (36–43 s):** "And every chat asked for first person. There's no full first-person mode at launch, only when you aim."
+6. **FACT 3 (38–44 s):** "On JasonTheWeen's stream, the GPS talks you through every turn."
+   **[ON SCREEN: our minimap with a "TURN RIGHT 323 FT" banner · SEEN IN-GAME: JasonTheWeen (Twitch)]**
+7. **FACT 4 (44–51 s):** "And every chat asked for first person. There's no full first-person mode at launch, only when you aim."
    **[ON SCREEN: "FIRST PERSON?" → "NOT AT LAUNCH" stamp · chip "ONLY WHEN AIMING" · SourceTag REPORTED · Insider Gaming / GTA Intel]**
-7. **CLOSE (43–47 s):** "Midnight in India. Which one are you trying first?"
-   **[ON SCREEN: four icons 📖 💰 🧭 👁 · comment arrow · Launch Trailer last shot]**
+8. **CLOSE (51–55 s):** "Midnight in India. Which one are you trying first?"
+   **[ON SCREEN: icons 🌊 📖 💰 🧭 👁 · comment arrow · Launch Trailer last shot]**
+
+**Graphics notes (what we saw while watching, to guide the edit):**
+- **Daylight ocean:** turquoise water with a real wake behind a boat (xQc).
+- **Interiors:** sunlit wooden interiors with soft shadows (Kai).
+- **Night:** neon-lit night streets with deep shadows (Lacy).
+- **Driving:** hazy coastal highway heat (JasonTheWeen).
+- **For the edit:** use **official** Rockstar shots that match each look; never their stream frames.
+- **30 FPS:** it's the trade-off. Mention it once, in beat 2, and don't repeat it.
 
 **Loop:** "…trying first?" → "GTA 6 just got a 99…"
 
@@ -48,7 +62,7 @@
 
 ## Description (copy-paste)
 ```
-GTA 6 reviews are in: 99 on Metacritic, IGN 10/10 (the main complaint: 30 FPS). Then what streamers found in their first hour: readable books (Magazines, Books & Comics 1/27, seen on Kai Cenat's stream), stolen goods that pay only after a drop-off (Lacy's stream), turn-by-turn GPS and a phone with apps (JasonTheWeen's stream), and no full first-person mode at launch (reported, Rob Nelson via Insider Gaming). No story spoilers, no stream footage.
+GTA 6 reviews are in: 99 on Metacritic, IGN 10/10 (the main complaint: 30 FPS). The looks: water, weather and hair got the biggest reactions on every stream we watched. Then what streamers found in their first hour: readable books (Magazines, Books & Comics 1/27, seen on Kai Cenat's stream), stolen goods that pay only after a drop-off (Lacy's stream), turn-by-turn GPS and a phone with apps (JasonTheWeen's stream), and no full first-person mode at launch (reported, Rob Nelson via Insider Gaming). No story spoilers, no stream footage.
 
 Credit: Kai Cenat, Lacy, JasonTheWeen (Twitch, 18 Nov). Sources: Metacritic via GamesRadar/Vice, IGN, Insider Gaming, GTA Intel.
 #GTA6 #GTA6Review #GTA6Gameplay #Shorts
