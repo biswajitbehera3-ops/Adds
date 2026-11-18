@@ -6,7 +6,7 @@
 
 - **Title:** `GTA 6 Got a 99. Then Streamers Found This` (41 chars, title.py 98/100; on mobile it reads "GTA 6 Got a 99. Then Streamers Found…", which still works)
 - **Cover:** `99 → HOUR ONE`
-- **Hook (hookscore 70 WORKABLE, the best of tonight):** "GTA 6 just got a 99, but you need to see what streamers found in their first hour before you play tonight."
+- **Hook (hookscore 72 STRONG · The Warning; backup: "GTA 6 just got a 99, but you need to see what streamers found in their first hour before you play tonight." 70 WORKABLE):** "You're playing GTA 6 tonight, and before you do, you need to see what streamers found in the first hour of a 99."
 
 ## The 4 first-hour facts (all early game, no spoilers)
 | # | Fact | Evidence | How we say it |
@@ -22,7 +22,7 @@
 - The missed safe: the $5K figure is chat-only.
 
 ## Script (138 words · ≈55 s; beat times are approximate)
-1. **HOOK (0–5 s):** "GTA 6 just got a 99, but you need to see what streamers found in their first hour before you play tonight."
+1. **HOOK (0–5 s):** "You're playing GTA 6 tonight, and before you do, you need to see what streamers found in the first hour of a 99."
    **[ON SCREEN: green box slamming 99 · "IGN 10/10" chip · clock 11:59 PM IST]**
 2. **THE REVIEWS (5–11 s):** "Ninety-nine on Metacritic. IGN gave it a ten. The only real complaint: thirty FPS."
    **[ON SCREEN: 97 (GTA 5) → 99 counter · amber "30 FPS" chip · SourceTag REPORTED · Metacritic / IGN]**
@@ -51,7 +51,7 @@
 - **For the edit:** use **official** Rockstar shots that match each look; never their stream frames.
 - **30 FPS:** it's the trade-off. Mention it once, in beat 2, and don't repeat it.
 
-**Loop:** "…trying first?" → "GTA 6 just got a 99…"
+**Loop:** "…trying first?" → "You're playing GTA 6 tonight…"
 
 **Don't:**
 - show streamer video or faces;
