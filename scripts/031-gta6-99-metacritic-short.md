@@ -18,7 +18,7 @@
 **Why A:** it's a Direct Address to the exact person who clicks tonight (an Indian viewer about to play at midnight), and it promises a verdict
 they can't guess. The weakest part is stakes (36). Beat 4, the catch, supplies the stakes.
 
-## Script (89 words · ≈36 s at 150 wpm)
+## Script (103 words · ≈41 s at 150 wpm; beat times are approximate)
 
 1. **HOOK (0–4 s):** "If you're playing GTA 6 tonight, you need to hear what a hundred critics just said about it."
    **[ON SCREEN: black screen · Metacritic-style green score box (our design, no logo) counting 0 → 99 · caption "100 CRITICS"]**
