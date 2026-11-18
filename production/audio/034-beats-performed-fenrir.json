@@ -1,0 +1,74 @@
+[
+ {
+  "beat": "hook",
+  "start": 0.12,
+  "text": "You're playing GTA 6 tonight! But before you do... you'll want to hear what the critics said. ",
+  "end": 5.19
+ },
+ {
+  "beat": "score",
+  "start": 5.64,
+  "text": "Ninety nine. On Metacritic. And a perfect ten... from IGN! ",
+  "end": 9.66
+ },
+ {
+  "beat": "looks",
+  "start": 10.16,
+  "text": "And honestly? You can see why. The water. The storms. Even the hair... looks real. ",
+  "end": 16.09
+ },
+ {
+  "beat": "quote1",
+  "start": 16.49,
+  "text": "One fan literally typed... Is this real life?! ",
+  "end": 19.3
+ },
+ {
+  "beat": "turn",
+  "start": 19.9,
+  "text": "But here's the thing. The best surprises are in the small stuff. ",
+  "end": 23.22
+ },
+ {
+  "beat": "book",
+  "start": 23.72,
+  "text": "Pick up a book... and you can actually open it, and read the pages! It's one of twenty-seven to collect. ",
+  "end": 29.28
+ },
+ {
+  "beat": "steal",
+  "start": 29.78,
+  "text": "Steal something? The cash doesn't hit your pocket. You drop the goods at a lockup... and you get paid later. ",
+  "end": 35.86
+ },
+ {
+  "beat": "gps",
+  "start": 36.36,
+  "text": "Get in a car... and the GPS talks you through every single turn. ",
+  "end": 40.08
+ },
+ {
+  "beat": "fp",
+  "start": 40.63,
+  "text": "Now, the one thing that's missing? A full first-person mode. At launch, you only go first person when you aim. ",
+  "end": 46.81
+ },
+ {
+  "beat": "fps",
+  "start": 47.31,
+  "text": "And the critics' only real complaint? Thirty frames per second. ",
+  "end": 50.94
+ },
+ {
+  "beat": "quote2",
+  "start": 51.39,
+  "text": "One fan summed it up perfectly... Bad F P S... but looks good though! ",
+  "end": 55.52
+ },
+ {
+  "beat": "close",
+  "start": 56.12,
+  "text": "See you at midnight! Which one are you checking first? ",
+  "end": 58.87
+ }
+]
