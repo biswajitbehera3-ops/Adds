@@ -151,23 +151,43 @@ Seen on: [streamer names + platform], credited, footage not used.
 
 ---
 
-## SHORT F: Only if critic reviews drop
-- **Title:** `GTA 6 Reviews Are In` plus the real headline number, e.g. `GTA 6 Reviews Are In: Critics Say…` (≤40).
-- **Hook:** "Critics have finally played GTA 6, and the score isn't what the internet guessed."
-  - Change it to match reality.
-- **Rules:**
-  - Real outlet scores only, each named (IGN, GameSpot, Edge…), plus the Metacritic/OpenCritic average once it settles.
-  - No PS Store user ratings.
-  - No spoilers from the reviews.
-- **Scores (fill in when live):**
+## SHORT F: Reviews are in (POST NOW: reviews went live with the NZ unlock, 18 Nov)
+- **Title:** `GTA 6 Just Got a 99 on Metacritic` (33 chars, lint 100)
+  - Not "Best-Reviewed Game Ever": the linter flags "best" as vague.
+- **Cover:** `99 🏆`
+- **Hook (57 WORKABLE):** "If you're playing GTA 6 tonight, you need to hear what 100 critics just said about it."
 
-| Outlet | Score |
-|---|---|
-| | |
+**Facts (REPORTED · GamesRadar, Dexerto, Screen Rant, Insider Gaming, as of the evening of 18 Nov IST):**
+- **The score:** a Metascore of **99**, from about 98–109 critic reviews. The count is still moving, so say "around a hundred".
+- **The record:** it **ties Zelda: Ocarina of Time (1998)** as the highest-rated game in Metacritic history (GamesRadar, Dexerto).
+- **No negative or mixed reviews** on Metacritic, per one outlet (Insider Gaming).
+- **GTA 5 for comparison:** GTA 5 had a 97 on Metacritic.
+- **Outlet scores:** IGN Germany 100, IGN Japan 90, according to the Playfront roundup. These are secondary, so check them on the IGN pages before showing them.
+- **Criticisms:** reviewers named the **30 FPS** frame rate and **conservative mission design**. IGN Japan also mentions long car journeys breaking the flow.
 
----
+**Script (about 80 words · about 32 s)**
+1. **HOOK (0–4 s):** the line above. **[a dark screen → a "99" slams in, gold]**
+2. **THE SCORE (4–12 s):** "GTA 6 has a ninety-nine on Metacritic from around a hundred reviews. GTA 5 got a ninety-seven." **[a counter 97 → 99 · SourceTag REPORTED · GamesRadar / Dexerto]**
+3. **THE RECORD (12–20 s):** "That ties Zelda: Ocarina of Time, from 1998, as the highest-rated game ever. Funny thing: they're both up for Game of the Year." **[two cards "1998 · 99" vs "2026 · 99" · SourceTag REPORTED · Variety for the nominations]**
+4. **THE CATCH (20–28 s):** "It's not perfect. Critics called out the thirty FPS and some safe mission design." **[amber chips "30 FPS" · "SAFE MISSIONS" · SourceTag REPORTED · review roundup]**
+5. **CLOSE (28–32 s):** "Midnight in India. Is it a hundred for you? Tell me after your first hour." **[Launch Trailer shot · comment arrow]**
+
+**Don't:**
+- show a score for IGN US, GameSpot or Edge until checked on their own sites;
+- use PS Store user ratings;
+- quote any story detail from the reviews.
+
+**Description:**
+```
+GTA 6 reviews are in: a 99 on Metacritic from around 100 critics, tying Zelda: Ocarina of Time as the highest-rated game in Metacritic history (GTA 5 had a 97). Critics' main complaints: 30 FPS and some conservative mission design. GTA 6 unlocks in India at 12:00 AM IST tonight.
+
+Sources: GamesRadar, Dexerto, Screen Rant, Insider Gaming (Metacritic snapshot, 18 Nov; the score can still move).
+#GTA6 #GTA6Review #Metacritic #Shorts
+```
+
+**Also update 029 before posting it:** the "no reviews yet" section is now outdated. Replace it with "99 on Metacritic, tied with Ocarina of Time, which is also a GOTY nominee".
 
 ### Posting order recap
 1. **Today:** 029 (before 4:30 PM) → 030 + B (evening).
 2. **Midnight:** A (12:00) → C (12:10) → E (12:30–1:00).
-3. **Whenever it lands:** D (map) and F (reviews).
+3. **F (reviews): post NOW, before 030.** D (map) whenever Rockstar posts it.
