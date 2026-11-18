@@ -21,7 +21,7 @@
 - The pet snake: too small.
 - The missed safe: the $5K figure is chat-only.
 
-## Script (≈118 words · ≈47 s)
+## Script (122 words · ≈49 s; beat times are approximate)
 1. **HOOK (0–5 s):** "GTA 6 just got a 99, but you need to see what streamers found in their first hour before you play tonight."
    **[ON SCREEN: green box slamming 99 · "IGN 10/10" chip · clock 11:59 PM IST]**
 2. **THE REVIEWS (5–11 s):** "Ninety-nine on Metacritic. IGN gave it a ten. The only real complaint: thirty FPS."
