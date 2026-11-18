@@ -162,7 +162,7 @@ Seen on: [streamer names + platform], credited, footage not used.
 - **The record:** it **ties Zelda: Ocarina of Time (1998)** as the highest-rated game in Metacritic history (GamesRadar, Dexerto).
 - **No negative or mixed reviews** on Metacritic, per one outlet (Insider Gaming).
 - **GTA 5 for comparison:** GTA 5 had a 97 on Metacritic.
-- **Outlet scores:** IGN Germany 100, IGN Japan 90, according to the Playfront roundup. These are secondary, so check them on the IGN pages before showing them.
+- **Outlet scores:** **IGN 10/10** ("Unmissable"; Tom's Guide, Vice, MovieWeb roundups). By 7:30 PM IST, Metacritic showed **99 from about 146 reviews**.
 - **Criticisms:** reviewers named the **30 FPS** frame rate and **conservative mission design**. IGN Japan also mentions long car journeys breaking the flow.
 
 **Script (about 80 words · about 32 s)**
