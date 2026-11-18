@@ -13,10 +13,10 @@
 - **Cover:** `HOUR ONE SECRETS`
 
 ## FINAL v2: with real fan reactions (user asked for live reactions, 18 Nov)
-All three quotes are **real messages typed in public Twitch chats during the first GTA 6 streams** (saved in the scratchpad chat logs). They're anonymous
+Both quotes are **real messages typed in public Twitch chats during the first GTA 6 streams** (saved in the scratchpad chat logs). They're anonymous
 fans, not streamers, and **no quote is made up or put in a celebrity's mouth**.
 
-> You're playing GTA 6 tonight, and before you do, you'll want to know the reviews it got. Ninety-nine on Metacritic. A perfect ten from IGN. And you can see why: the water, the storms, even the hair look real. One fan typed: "Is this real life?" But the best surprises are in the small stuff. Pick up a book, and you can open it and read the pages. One of twenty-seven to collect. Fans called it "fire." Steal something, and the cash doesn't hit your pocket. You drop the goods at a lockup and get paid once they're collected. Get in a car, and the GPS talks you through every turn. The one thing missing? A full first-person mode. You only go first person when you aim. The critics' only complaint: thirty frames per second. Or as one fan put it: "Bad FPS, but looks good though." See you at midnight. Which one are you checking first?
+> You're playing GTA 6 tonight, and before you do, you'll want to know the reviews it got. Ninety-nine on Metacritic. A perfect ten from IGN. And you can see why: the water, the storms, even the hair look real. One fan typed: "Is this real life?" But the best surprises are in the small stuff. Pick up a book, and you can open it and read the pages. One of twenty-seven to collect. Steal something, and the cash doesn't hit your pocket. You drop the goods at a lockup and get paid later. Get in a car, and the GPS talks you through every turn. The one thing missing? A full first-person mode. You only go first person when you aim. The only complaint: thirty frames per second. One fan summed it up: "Bad FPS, but looks good though." See you at midnight. Which one are you checking first?
 
 **On screen for the quotes:**
 - Each quote pops up as a chat bubble (our design, no username, no Twitch UI), with a small "LIVE CHAT · 18 NOV" tag.
