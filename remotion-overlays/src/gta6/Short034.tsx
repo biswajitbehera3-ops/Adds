@@ -18,18 +18,20 @@ const E = "clips/006p/";
 
 /* ---------- background clips ---------- */
 type Bg = { a: number; b: number; src: string; start?: number; x?: number; x1?: number; rate?: number; zoom?: number; dim?: number };
+// Full-screen 9:16: the shot fills the whole phone screen edge to edge (no blur, no bars, no extra zoom).
+// `x` frames each shot on its subject; only a very gentle 2% push-in for movement.
 const BgClip: React.FC<{ g: Bg }> = ({ g }) => {
   const f = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const p = f / Math.max(durationInFrames, 1);
-  const s = (g.zoom ?? 1.08) + 0.06 * p;
+  const s = (g.zoom ?? 1.0) + 0.02 * p;
   const x = g.x1 !== undefined ? interpolate(p, [0, 1], [g.x ?? 50, g.x1]) : g.x ?? 50;
-  const d = g.dim ?? 0.25;
+  const d = g.dim ?? 0.2;
   return (
     <AbsoluteFill style={{ transform: `scale(${s})`, transformOrigin: `${x}% 50%` }}>
       <OffthreadVideo src={staticFile(g.src)} startFrom={Math.round((g.start ?? 0) * FPS)} playbackRate={g.rate ?? 1} muted
-        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: `${x}% 50%`, filter: "saturate(1.15) contrast(1.06)" }} />
-      <AbsoluteFill style={{ background: `linear-gradient(180deg, rgba(6,4,14,${d + 0.25}) 0%, rgba(6,4,14,${d}) 30%, rgba(6,4,14,${d}) 70%, rgba(6,4,14,${d + 0.4}) 100%)` }} />
+        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: `${x}% 50%`, filter: "saturate(1.12) contrast(1.05)" }} />
+      <AbsoluteFill style={{ background: `linear-gradient(180deg, rgba(6,4,14,${d + 0.3}) 0%, rgba(6,4,14,${d}) 25%, rgba(6,4,14,${d}) 62%, rgba(6,4,14,${d + 0.45}) 100%)` }} />
     </AbsoluteFill>
   );
 };
@@ -94,12 +96,12 @@ const Score: React.FC<{ ignAt: number }> = ({ ignAt }) => {
   const n = Math.round(interpolate(f, [0, 14], [70, 99], clamp));
   const ik = pop(f, fps, ignAt);
   return <>
-    <div style={{ position: "absolute", left: 0, right: 0, top: 330, display: "flex", justifyContent: "center", transform: `scale(${0.4 + 0.6 * k})` }}>
+    <div style={{ position: "absolute", left: 0, right: 0, top: 120, display: "flex", justifyContent: "center", transform: `scale(${0.4 + 0.6 * k})` }}>
       <div style={{ width: 430, height: 430, borderRadius: 40, background: "#22C55E", border: "12px solid #0b0b0b", display: "flex", alignItems: "center",
         justifyContent: "center", fontFamily: ANTON, fontSize: 300, color: "#fff", textShadow: outline(6), boxShadow: "0 30px 60px rgba(0,0,0,0.6)" }}>{n}</div>
     </div>
-    <div style={{ position: "absolute", left: 0, right: 0, top: 800, textAlign: "center", fontFamily: ANTON, fontSize: 76, color: C.white, textShadow: outline(6), opacity: k }}>ON METACRITIC</div>
-    {f >= ignAt && <div style={{ position: "absolute", left: 0, right: 0, top: 940, textAlign: "center", transform: `scale(${0.5 + 0.5 * ik})`, opacity: ik }}>
+    <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", fontFamily: ANTON, fontSize: 76, color: C.white, textShadow: outline(6), opacity: k }}>ON METACRITIC</div>
+    {f >= ignAt && <div style={{ position: "absolute", left: 0, right: 0, top: 1390, textAlign: "center", transform: `scale(${0.5 + 0.5 * ik})`, opacity: ik }}>
       <span style={{ display: "inline-block", background: C.red, color: "#fff", fontFamily: ANTON, fontSize: 110, padding: "4px 40px", borderRadius: 18, border: "8px solid #111" }}>IGN 10/10</span>
     </div>}
   </>;
@@ -117,7 +119,7 @@ const ChatBubble: React.FC<{ text: string; delay?: number }> = ({ text, delay = 
   const f = useCurrentFrame(); const { fps } = useVideoConfig(); const k = pop(f, fps, delay);
   if (f < delay) return null;
   const n = Math.min(text.length, Math.floor((f - delay) * 1.6) + 1); // typing effect
-  return <div style={{ position: "absolute", left: 70, right: 70, top: 640, transform: `scale(${0.7 + 0.3 * k}) rotate(-2deg)`, opacity: k }}>
+  return <div style={{ position: "absolute", left: 70, right: 70, top: 200, transform: `scale(${0.7 + 0.3 * k}) rotate(-2deg)`, opacity: k }}>
     <div style={{ background: "#fff", borderRadius: 46, padding: "40px 50px", boxShadow: "0 24px 50px rgba(0,0,0,0.55)", border: `8px solid ${C.pink}` }}>
       <div style={{ fontFamily: MONO, fontWeight: 700, fontSize: 34, color: C.pink, marginBottom: 10 }}>💬 LIVE CHAT</div>
       <div style={{ fontFamily: ANTON, fontSize: 104, lineHeight: 1.03, color: "#111" }}>{text.slice(0, n)}<span style={{ opacity: n < text.length ? 1 : 0 }}>|</span></div>
@@ -157,7 +159,7 @@ const Book: React.FC<{ openAt: number; flipAt: number; countAt: number }> = ({ o
         </div>
       </div>
     </div>
-    {f >= countAt && <div style={{ position: "absolute", left: 0, right: 0, top: 1000, textAlign: "center", transform: `scale(${0.5 + 0.5 * ck})`, opacity: ck }}>
+    {f >= countAt && <div style={{ position: "absolute", left: 0, right: 0, top: 1300, textAlign: "center", transform: `scale(${0.5 + 0.5 * ck})`, opacity: ck }}>
       <span style={{ display: "inline-block", fontFamily: ANTON, fontSize: 92, color: "#111", background: C.gold, padding: "4px 36px", borderRadius: 16, border: "8px solid #111" }}>
         📖 1 / 27 TO COLLECT</span>
     </div>}
@@ -172,7 +174,7 @@ const CashFlow: React.FC<{ drainAt: number; stashAt: number; paidAt: number }> =
   return <>
     <div style={{ position: "absolute", right: 60, top: 210, transform: `translateX(${(1 - k) * 500 + shake}px)`, fontFamily: ANTON, fontSize: 130,
       color: cash > 0 ? C.green : C.red, textShadow: outline(6) }}>${cash}</div>
-    <div style={{ position: "absolute", left: 30, right: 30, top: 1150, textAlign: "center" }}>
+    <div style={{ position: "absolute", left: 30, right: 30, top: 1300, textAlign: "center" }}>
       <Chip text="STEAL" delay={0} color={C.red} />
       <Chip text="→ STASH" delay={stashAt} color={C.amber} />
       <Chip text="→ PAID LATER ⏳" delay={paidAt} color={C.green} />
@@ -198,7 +200,7 @@ const Gps: React.FC<{ delay: number }> = ({ delay }) => {
 /** Icon row for the close. */
 const Icons: React.FC<{ delay: number }> = ({ delay }) => {
   const f = useCurrentFrame(); const { fps } = useVideoConfig();
-  return <div style={{ position: "absolute", left: 0, right: 0, top: 1050, display: "flex", justifyContent: "center", gap: 36 }}>
+  return <div style={{ position: "absolute", left: 0, right: 0, top: 1290, display: "flex", justifyContent: "center", gap: 36 }}>
     {["📖", "💰", "🧭", "👁️"].map((e, i) => { const k = pop(f, fps, delay + i * 4);
       return f < delay + i * 4 ? null : <div key={i} style={{ width: 170, height: 170, borderRadius: 30, background: "rgba(7,7,12,0.85)", border: `6px solid ${C.gold}`,
         display: "flex", alignItems: "center", justifyContent: "center", fontSize: 100, transform: `scale(${0.4 + 0.6 * k})` }}>{e}</div>; })}
@@ -238,7 +240,7 @@ const Captions: React.FC = () => {
 
 /* ---------- timeline (VO seconds) ---------- */
 const BG: Bg[] = [
-  { a: 0.0, b: 2.0, src: P + "x_lt_0027_hero.mp4", start: 0, x: 26, x1: 70, rate: 0.5 },          // "You're playing GTA 6 tonight"
+  { a: 0.0, b: 2.0, src: P + "x_lt_0027_hero.mp4", start: 0, x: 14, x1: 40, rate: 0.5 },          // "You're playing GTA 6 tonight"
   { a: 2.0, b: 5.9, src: T1, start: 2.2, x: 50, rate: 0.7 },                                      // sunset over the highway
   { a: 5.9, b: 10.0, src: E + "el_1848_skydive.mp4", start: 1.0, x: 50, dim: 0.4 },                 // 99 / IGN 10
   { a: 10.0, b: 12.1, src: T1, start: 18.0, x: 50 },                                              // "you can see why"
@@ -250,36 +252,36 @@ const BG: Bg[] = [
   { a: 23.6, b: 29.4, src: T1, start: 71.6, x: 45, rate: 0.6, dim: 0.62 },                         // book (lamp-lit room, dimmed)
   { a: 29.4, b: 32.7, src: T1, start: 67.8, x: 45, rate: 0.8 },                                    // steal: masked store robbery
   { a: 32.7, b: 36.2, src: P + "brian_official.mp4", start: 0, x: 55 },                            // the lockup owner
-  { a: 36.2, b: 37.4, src: P + "jason_t1drive.mp4", start: 0.5, x: 55 },                           // get in a car
+  { a: 36.2, b: 37.4, src: P + "jason_t1drive.mp4", start: 0.5, x: 42 },                           // get in a car
   { a: 37.4, b: 40.6, src: E + "el_1524_chase.mp4", start: 2.0, x: 35 },                           // GPS
   { a: 40.6, b: 44.2, src: P + "jason_drive.mp4", start: 2.0, x: 70, rate: 0.7 },                   // first person missing
   { a: 44.2, b: 47.2, src: P + "robbery_guns.mp4", start: 0.6, x: 40, rate: 0.6 },                  // when you aim
   { a: 47.2, b: 51.3, src: P + "x_lt_supercars.mp4", start: 0, x: 34, rate: 0.4 },                  // 30 FPS
   { a: 51.3, b: 55.7, src: T1, start: 36.05, x: 50, rate: 0.28 },                                    // "bad fps but looks good though" bridge aerial
-  { a: 55.7, b: 57.3, src: T1, start: 75.4, x: 50 },                                               // see you at midnight
+  { a: 55.7, b: 57.3, src: T1, start: 76.9, x: 50 },                                               // see you at midnight
   { a: 57.3, b: 59.6, src: T1, start: 80.2, x: 50, dim: 0.1 },                                     // VI logo
 ];
 
 type Ov = { a: number; b: number; el: (a: number) => React.ReactNode; sfx?: "hit" | "whoosh" | "tick" };
 const OV: Ov[] = [
-  { a: 0.0, b: 5.9, el: (a) => <><Clock /><Big text="BEFORE YOU PLAY…" size={110} top={1180} delay={at(2.1, a)} /></>, sfx: "tick" },
-  { a: 5.9, b: 10.0, el: (a) => <><Score ignAt={at(8.24, a)} /><Tag tier="REPORTED" text="Metacritic · IGN" /></>, sfx: "hit" },
-  { a: 10.0, b: 12.1, el: (a) => <Big text="YOU CAN SEE WHY 👀" size={110} top={760} delay={at(10.9, a)} /> },
+  { a: 0.0, b: 5.9, el: (a) => <><Clock /><Big text="BEFORE YOU PLAY…" size={110} top={1310} delay={at(2.1, a)} /></>, sfx: "tick" },
+  { a: 5.9, b: 10.0, el: (a) => <><Score ignAt={at(8.24, a)} /><Tag tier="REPORTED" text="Metacritic · IGN" top={1555} /></>, sfx: "hit" },
+  { a: 10.0, b: 12.1, el: (a) => <Big text="YOU CAN SEE WHY 👀" size={110} top={1310} delay={at(10.9, a)} /> },
   { a: 12.1, b: 13.0, el: () => <Word text="WATER" color={C.blue} />, sfx: "whoosh" },
   { a: 13.0, b: 14.2, el: () => <Word text="STORMS" color={C.amber} />, sfx: "whoosh" },
   { a: 14.2, b: 16.4, el: () => <Word text="HAIR" color={C.pink} />, sfx: "whoosh" },
   { a: 16.4, b: 19.6, el: (a) => <><ChatBubble text="IS THIS REAL LIFE?" delay={at(17.9, a)} /><Tag tier="LIVE CHAT" text="first GTA 6 streams · 18 Nov" /></> },
-  { a: 19.6, b: 23.6, el: (a) => <><Big text="THE SMALL STUFF 🔍" color={C.gold} size={120} top={760} delay={at(22.3, a)} /><Sequence from={at(21.2, a)}><Flash /></Sequence></>, sfx: "hit" },
+  { a: 19.6, b: 23.6, el: (a) => <><Big text="THE SMALL STUFF 🔍" color={C.gold} size={120} top={1300} delay={at(22.3, a)} /><Sequence from={at(21.2, a)}><Flash /></Sequence></>, sfx: "hit" },
   { a: 23.6, b: 29.4, el: (a) => <><Book openAt={at(25.5, a)} flipAt={at(26.4, a)} countAt={at(27.9, a)} /><Tag tier="SEEN IN-GAME" text="launch-day gameplay" /></>, sfx: "whoosh" },
   { a: 29.4, b: 36.2, el: (a) => <><CashFlow drainAt={at(31.2, a)} stashAt={at(33.6, a)} paidAt={at(35.0, a)} /><Tag tier="SEEN IN-GAME" text="launch-day gameplay" /></>, sfx: "whoosh" },
   { a: 36.2, b: 40.6, el: (a) => <><Gps delay={at(38.4, a)} /><Tag tier="SEEN IN-GAME" text="launch-day gameplay" /></>, sfx: "whoosh" },
   { a: 40.6, b: 47.2, el: (a) => <><Big text="FIRST PERSON?" size={140} top={300} delay={at(42.5, a)} />
       <Stamp text="NOT AT LAUNCH" top={520} delay={at(44.3, a)} />
-      <div style={{ position: "absolute", left: 30, right: 30, top: 1150, textAlign: "center" }}><Chip text="ONLY WHEN AIMING 🎯" delay={at(46.0, a)} color={C.gold} /></div>
+      <div style={{ position: "absolute", left: 30, right: 30, top: 1300, textAlign: "center" }}><Chip text="ONLY WHEN AIMING 🎯" delay={at(46.0, a)} color={C.gold} /></div>
       <Tag tier="REPORTED" text="Insider Gaming · GTA Intel" /></>, sfx: "whoosh" },
   { a: 47.2, b: 51.3, el: (a) => <><Sequence from={at(49.5, a)}><FpsChip /></Sequence><Tag tier="REPORTED" text="critic reviews" /></>, sfx: "hit" },
   { a: 51.3, b: 55.7, el: (a) => <><ChatBubble text="BAD FPS BUT LOOKS GOOD THOUGH" delay={at(53.4, a)} /><Tag tier="LIVE CHAT" text="first GTA 6 streams · 18 Nov" /></> },
-  { a: 55.7, b: 59.6, el: (a) => <><Clock flipAt={at(56.5, a)} /><Big text="WHICH ONE FIRST?" color={C.gold} size={110} top={1330} delay={at(57.4, a)} />
+  { a: 55.7, b: 59.6, el: (a) => <><Clock flipAt={at(56.5, a)} /><Big text="WHICH ONE FIRST?" color={C.gold} size={100} top={1480} delay={at(57.4, a)} />
       <Icons delay={at(57.5, a)} /></>, sfx: "tick" },
 ];
 
