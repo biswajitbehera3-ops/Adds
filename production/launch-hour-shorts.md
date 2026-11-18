@@ -135,6 +135,8 @@ Rockstar's free printable GTA 6 / Leonida map is out on rockstargames.com: [PAST
 5. **CLOSE (31–36 s):** "So don't waste your first hour looking for it. Which one bugs you more: thirty FPS, or no first person?"
    **[a comment prompt "30 FPS or NO FIRST PERSON?" · Launch Trailer shot]**
 
+**11:25 PM check:** GPS and the lockup payment are now confirmed on 2 streams each (JasonTheWeen + IShowSpeed; Lacy + TGG); first person is REPORTED + 4 chats. Books are still 1 stream.
+
 **Upgrade at 11:25 PM:**
 - Beat 4 is now answered (REPORTED via Rob Nelson). Keep it unless a review contradicts it.
 - Add the iguana if it's confirmed.
