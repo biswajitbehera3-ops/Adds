@@ -12,6 +12,13 @@
   - Alt: `GTA 6's First Hour Is Full of Tiny Surprises`
 - **Cover:** `HOUR ONE SECRETS`
 
+## FINAL script (chosen by the user, 18 Nov). Only the grammar in the first line is cleaned up.
+> You're playing GTA 6 tonight, and before you do, you'll want to know the reviews it got. Ninety-nine on Metacritic. A perfect ten from IGN. And you can see why: the water, the storms, even the hair look real. But the best surprises are in the small stuff. Pick up a book, and you can open it and read the pages. It's one of twenty-seven magazines, books and comics to collect. Steal something, and the cash doesn't hit your pocket. You drop the goods at a lockup, and get paid once they're collected. Get in a car, and the GPS talks you through every turn. The one thing you won't find? A full first-person mode. At launch, you only go first person when you aim. And the critics' only real complaint: thirty frames per second. See you at midnight. Which one are you checking first?
+
+- **Hook:** 60 WORKABLE (the user's line as written scored 57).
+- **Length:** 143 words, ≈57 s.
+- **On screen:** same as the beats below; the hook beat shows the 99 / IGN 10/10 cards.
+
 ## Hooks (hookscore.py)
 | | Hook | Verdict | Spec · Addr · Stakes · Curio · Brev |
 |---|---|---|---|---|
