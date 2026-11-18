@@ -124,19 +124,19 @@ Rockstar's free printable GTA 6 / Leonida map is out on rockstargames.com: [PAST
 - **Cover:** `HOUR ONE 👀`
 - **Hook (60 WORKABLE):** "You haven't played GTA 6 yet, but six streamers have, and their chats kept asking the same question you'll waste your first hour on."
 
-**Script (v1, about 85 words · ≈34 s). Source: public Twitch chat on xQc, Lacy, JasonTheWeen, TypicalGamer, DarkViperAU and TGG (18 Nov). No footage.**
+**Script (v1, about 105 words · ≈42 s). Source: public Twitch chat on xQc, Lacy, JasonTheWeen, TypicalGamer, DarkViperAU and TGG (18 Nov). No footage.**
 1. **HOOK (0–5 s):** the line above. **[six streamer name cards in a grid (text only) · a clock at 12:00]**
 2. **ONE (5–12 s):** "First, every chat lost it at the graphics. Water, weather, even hair."
    **[Weather Channel screenshot (credited) · chat cards "holy" "Cinema" · SEEN IN CHAT: 6 streams]**
 3. **TWO (12–19 s):** "Second, thirty FPS. Half of chat hated it. The other half said it doesn't look terrible."
    **[a split card "😡 30 FPS" vs "doesn't look terrible" · SEEN IN CHAT: xQc / TypicalGamer / DarkViperAU / TGG]**
-4. **THREE, the question (19–29 s):** "And the question every chat kept asking: is there first person? Nobody had a clear answer yet. I'm checking it for you."
-   **[a big "FIRST PERSON?" card · amber "NOT CONFIRMED" chip · SEEN IN CHAT: xQc / TypicalGamer / TGG]**
-5. **CLOSE (29–34 s):** "Follow, and you'll know before you've finished your first mission."
-   **[a "FOLLOW FOR THE ANSWER" card · Launch Trailer shot]**
+4. **THREE, the question (19–31 s):** "And the question every chat kept asking: is there first person? Not a full one. Rockstar North's Rob Nelson reportedly said there's no full first-person mode at launch. You only go first person when you aim some weapons. GTA 5 got it later."
+   **[ON SCREEN: a big "FIRST PERSON?" card → stamped "NOT AT LAUNCH" · a small "ONLY WHEN AIMING" chip · SEEN IN CHAT: xQc / TypicalGamer / TGG · SourceTag REPORTED · Insider Gaming / GTA Intel (Rob Nelson, Aug preview)]**
+5. **CLOSE (31–36 s):** "So don't waste your first hour looking for it. Which one bugs you more: thirty FPS, or no first person?"
+   **[a comment prompt "30 FPS or NO FIRST PERSON?" · Launch Trailer shot]**
 
 **Upgrade at 11:25 PM:**
-- Replace beat 4 with the real answer (reviews or VOD captions on 2+ streams).
+- Beat 4 is now answered (REPORTED via Rob Nelson). Keep it unless a review contradicts it.
 - Add the iguana if it's confirmed.
 
 **Never:**
