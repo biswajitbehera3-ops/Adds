@@ -1,0 +1,46 @@
+# Kai Cenat $10K GTA 6 Pool: posting kit (Content Rewards campaign 1d2bcb00…)
+**Campaign rules (from the brief you sent):** footage from Kai's GTA 6 marathon (Twitch/YouTube) ✅ · Kai playing GTA 6 is the main focus ✅ · caption must include **#KaiCenat** ✅.
+**Platforms the campaign pays on:** YouTube Shorts, Instagram Reels, X (TikTok too, but it's banned in India).
+**Content Rewards general rules:** public account, view and like counts visible, no bought views or bots, submit each post's link in the campaign dashboard soon after posting.
+
+## Where each video goes
+| Video | File | Length | YouTube Shorts | Instagram Reels | X |
+|---|---|---|---|---|---|
+| Store robbery while wanted | m1.mp4 | 0:27 | ✅ | ✅ | ✅ |
+| First burglary pays out | m4.mp4 | 0:26 | ✅ | ✅ | ✅ |
+| Crime spree → busted | e1.mp4 | 2:40 | ✅ (Shorts allow up to 3:00) | ✅ (Reels allow up to 3:00) | ⚠️ only with X Premium (free accounts max 2:20) |
+| Swimming with sharks | e2.mp4 | 2:54 | ✅ | ✅ | ⚠️ only with X Premium |
+
+## Copy-paste text
+### m1: store robbery
+- **YouTube title:** Kai Cenat Robbed A Store While The Cops Were Chasing Him In GTA 6 😭
+- **Description / caption:** Kai had 2 stars on him and still ran into a gas station to rob it 💀 #KaiCenat #GTA6 #GTAVI #Shorts
+  Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
+- **X:** Kai Cenat really robbed a store while the cops were on him 😭 #KaiCenat #GTA6
+
+### m4: first burglary
+- **YouTube title:** Kai Cenat's First Robbery In GTA 6 Actually Paid Off 💰
+- **Description / caption:** "OH MY GOD, YES!" Kai cracked the safe 😭💰 #KaiCenat #GTA6 #GTAVI #Shorts
+  Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
+- **X:** Kai Cenat's first robbery in GTA 6 actually worked 💰 #KaiCenat #GTA6
+
+### e1: crime spree → busted
+- **YouTube title:** Kai Cenat's First Crime Spree In GTA 6 Cost Him $527 😭
+- **Description / caption:** Beach fight, pier toss, stolen bike… then BUSTED 🚔 "This is like real… I just lost 527" 😭 #KaiCenat #GTA6 #GTAVI #Shorts
+  Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
+
+### e2: swimming with sharks
+- **YouTube title:** Kai Cenat Tried To Swim Across The Ocean In GTA 6… With Sharks 🦈
+- **Description / caption:** "Bro, ain't no boat" 😭🦈 Kai swam into the open ocean and found out what's down there #KaiCenat #GTA6 #GTAVI #Shorts
+  Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
+
+## Posting order and timing
+1. **m1 first** (strongest reaction), then m4 after a few hours, then e2, then e1. Don't post all four at once.
+2. Post on all three platforms, but **one platform per account**. Use the same video text on each.
+3. Best times for a US audience (Kai's viewers are mostly US): **7:30 PM – 11:30 PM IST** (9 AM – 1 PM US Eastern) or **5:30 – 8:30 AM IST** (evening US).
+4. Submit every post's link in the Content Rewards dashboard straight after posting.
+
+## Don't
+- Don't post these on Wanted Intel (no streamer footage there, and Rockstar's fan-content policy doesn't cover paid clipping).
+- Don't buy views, use view bots or engagement groups (Content Rewards rejects and bans).
+- Don't change #KaiCenat or leave it out.
