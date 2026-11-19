@@ -22,19 +22,28 @@ def mood(nm, t):
         ph=(t*1.4)%1; k=max(math.exp(-((ph-0.1)/0.06)**2),0.8*math.exp(-((ph-0.32)/0.06)**2)); return [(GLOW,(255,35,35),0.45+0.75*k)]
     if nm=='money':
         k=0.5+0.5*math.sin(t*2*math.pi*1.2); return [(GLOW,(255,200,70),0.55+0.45*k)]
+    if nm=='flatline':   # busted / dead: last strong pulse, weaker pulse, then drains red→grey→off
+        if t<0.25: return [(GLOW,(255,30,30),1.2)]
+        if 0.55<t<0.8: return [(GLOW,(255,30,30),0.6)]
+        k=max(0,1-(t-0.8)/1.6); c=(int(120+135*k),int(120-90*k),int(120-90*k))
+        return [(GLOW,c,0.7*k)] if t>=0.8 else []
     if nm=='relax':
         k=0.5+0.5*math.sin(t*2*math.pi*0.35); return [(GLOW,(255,int(150+40*k),int(150+20*(1-k))),0.65+0.35*k)]
     return []
+import re
 words = [w for i,w in enumerate(json.load(open(f'{name}_words.json'))) if i not in skip and t0-0.2 <= w['s'] < t1]
 # group words into short caption chunks (≤3 words, break on gaps/punctuation)
+SUB = len(sys.argv)>6 and sys.argv[6]=='sub'
+MAXW = 6 if SUB else 3
+words=[w for w in words if not re.match(r'(?i)^nigg', w['w'])]
 chunks=[]; cur=[]
 for w in words:
-    if cur and (len(cur)>=3 or w['s']-cur[-1]['e']>0.45 or cur[-1]['w'][-1:] in '.!?,'):
+    if cur and (len(cur)>=MAXW or w['s']-cur[-1]['e']>0.45 or cur[-1]['w'][-1:] in '.!?,'):
         chunks.append(cur); cur=[]
     cur.append(w)
 if cur: chunks.append(cur)
 import re
-cen=lambda x: re.sub(r'(?i)f(uck)(ing|in)?', lambda m:'F**K'+('ING' if m.group(2) else ''), re.sub(r'(?i)shit','SH*T',x))
+cen=lambda x: re.sub(r'(?i)f(uck)(ing|in)?', lambda m:'F**K'+('ING' if m.group(2) else ''), re.sub(r'(?i)bitch','B*TCH',re.sub(r'(?i)shit','SH*T',x)))
 caps=[(c[0]['s'], max(c[-1]['e'], c[0]['s']+0.5), cen(' '.join(x['w'] for x in c).upper().strip(' ,.'))) for c in chunks]
 fnt = ImageFont.truetype(ANTON, 100)
 os.makedirs(f'{name}_ov', exist_ok=True)
@@ -54,6 +63,14 @@ for fr in range(N):
     for a,b,txt in caps:
         if a <= t < b+0.15:
             # pop-in: scale 0.85→1 over the first 0.12 s
+            if SUB:
+                f2=ImageFont.truetype(ANTON,78); ws=txt.split(); lines=[txt]
+                if d.textlength(txt,font=f2)>W-120 and len(ws)>1:
+                    h=len(ws)//2+len(ws)%2; lines=[' '.join(ws[:h]),' '.join(ws[h:])]
+                y=1500-(len(lines)-1)*92
+                for ln in lines:
+                    tw=d.textlength(ln,font=f2); d.text(((W-tw)/2,y),ln,font=f2,fill='white',stroke_width=8,stroke_fill=(15,5,18)); y+=92
+                break
             k=min(1,(t-a)/0.12); f2=ImageFont.truetype(ANTON,int(100*(0.85+0.15*k)))
             tw=d.textlength(txt,font=f2)
             if tw > W-80: f2=ImageFont.truetype(ANTON,int(100*(W-80)/tw)); tw=d.textlength(txt,font=f2)
