@@ -3,3 +3,4 @@ __pycache__/
 # Kai clip renders (streamer footage, large) - not committed
 production/kai/m*.mp4
 production/kai/e*.mp4
+production/kai/p*.mp4

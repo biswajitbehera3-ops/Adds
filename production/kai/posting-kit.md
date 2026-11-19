@@ -44,3 +44,10 @@
 - Don't post these on Wanted Intel (no streamer footage there, and Rockstar's fan-content policy doesn't cover paid clipping).
 - Don't buy views, use view bots or engagement groups (Content Rewards rejects and bans).
 - Don't change #KaiCenat or leave it out.
+
+### p2: plane flight → upside-down landing (2:42)
+- **YouTube title:** Kai Cenat Flew A Plane In GTA 6… And Landed It Upside Down 😭✈️
+- **Description / caption:** Kai took off, flew over the whole Keys… then landed it UPSIDE DOWN 😭 "My first failed mission!" #KaiCenat #GTA6 #GTAVI #Shorts
+  Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
+- **X:** too long for free X (2:42). With Premium: Kai Cenat flew his first plane in GTA 6 and landed it upside down 😭✈️ #KaiCenat #GTA6
+- Note: footage is from a Chapter 1 mission. Plot dialogue cut, mission text and subtitles cropped.

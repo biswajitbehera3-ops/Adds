@@ -1,6 +1,3 @@
-# RULE (user, 19 Nov): peaceful scenes get NO light. Light only when something happens:
-#   siren = police chase/wanted · danger = fight/shock/scare/crash · flatline = busted/dead · money = loot/cash win.
-#   'relax' is kept in code but not used.
 # Kai clip render: full-screen gameplay + rounded Kai card top-left with mood glow behind it + Kai's words as captions (only text).
 import sys, json, math, os, subprocess, numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -9,6 +6,7 @@ moods = json.loads(sys.argv[4])            # [[start,end,mood],...] in raw-clip 
 skip = set(json.loads(sys.argv[5])) if len(sys.argv) > 5 else set()   # word indexes to drop (game/police voices)
 W,H,FPS = 1080,1920,30
 CAM = (45,440,365,650)                     # Kai's face inside the stream's camera box (1080p source)
+CROPH = int(os.environ.get('CROPH','1080')); CROPW = round(CROPH*9/16)
 GX = 660                                   # gameplay crop x (607 px wide, full height) → 9:16
 cw = 470; ch = round(cw*(CAM[3]-CAM[1])/(CAM[2]-CAM[0])); cx0, cy0, R = 48, 80, 34
 ANTON = '/home/user/Adds/remotion-overlays/public/fonts/Anton-Regular.ttf'
@@ -82,7 +80,7 @@ for fr in range(N):
 # rounded mask for the camera card
 m=Image.new('L',(cw,ch),0); ImageDraw.Draw(m).rounded_rectangle((0,0,cw-1,ch-1),radius=R,fill=255); m.save(f'{name}_mask.png')
 fc = (f"[0:v]fps={FPS},split[a][b];"
-      f"[a]crop=607:1080:{GX}:0,scale={W}:{H}:flags=lanczos,unsharp=5:5:0.6,vignette=angle=PI/6[g];"
+      f"[a]crop={CROPW}:{CROPH}:{GX + (607-CROPW)//2}:0,scale={W}:{H}:flags=lanczos,unsharp=5:5:0.6,vignette=angle=PI/6[g];"
       f"[b]crop={CAM[2]-CAM[0]}:{CAM[3]-CAM[1]}:{CAM[0]}:{CAM[1]},scale={cw}:{ch}:flags=lanczos,unsharp=5:5:0.5,format=rgba[c0];"
       f"[2:v]format=gray,scale={cw}:{ch}[mk];[c0][mk]alphamerge[c];"
       f"[g][1:v]overlay=0:0[go];[go][c]overlay={cx0}:{cy0},format=yuv420p[v]")
