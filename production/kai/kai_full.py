@@ -16,16 +16,16 @@ def frame(i,cx,cap):
     f=Image.open(f'{D}f_{i:04d}.jpg').convert('RGB')
     s=H/(Y1-Y0); sw=round(W/s); x0=max(215,min(905-sw,cx-sw//2))
     out=f.crop((x0,Y0,x0+sw,Y1)).resize((W,H),Image.LANCZOS).filter(SHARP)
-    cw=800; ch=round(cw*(CAM[3]-CAM[1])/(CAM[2]-CAM[0])); cx0=(W-cw)//2; cy0=110; R=52
+    cw=470; ch=round(cw*(CAM[3]-CAM[1])/(CAM[2]-CAM[0])); cx0=48; cy0=80; R=34
     cam=f.crop(CAM).resize((cw,ch),Image.LANCZOS).filter(SHARP)
-    pad=70; gm=Image.new('L',(cw+2*pad,ch+2*pad),0)
-    ImageDraw.Draw(gm).rounded_rectangle((pad-8,pad-8,pad+cw+8,pad+ch+8),radius=R+8,outline=255,width=18)
-    gm=gm.filter(ImageFilter.GaussianBlur(24)).point(lambda v:min(255,int(v*1.7)))
+    pad=50; gm=Image.new('L',(cw+2*pad,ch+2*pad),0)
+    ImageDraw.Draw(gm).rounded_rectangle((pad-8,pad-8,pad+cw+8,pad+ch+8),radius=R+8,outline=255,width=12)
+    gm=gm.filter(ImageFilter.GaussianBlur(16)).point(lambda v:min(255,int(v*1.7)))
     out.paste(hgrad(*gm.size,APRICOT,PINK),(cx0-pad,cy0-pad),gm)                 # glow halo only
     out.paste(hgrad(cw+16,ch+16,APRICOT,PINK),(cx0-8,cy0-8),rmask(cw+16,ch+16,R+8))  # border
     out.paste(cam,(cx0,cy0),rmask(cw,ch,R))
     if cap:
-        d=ImageDraw.Draw(out); fnt=ImageFont.truetype(ANTON,110); tw=d.textlength(cap,font=fnt); ty=cy0+ch+40
+        d=ImageDraw.Draw(out); fnt=ImageFont.truetype(ANTON,104); tw=d.textlength(cap,font=fnt); ty=cy0+ch+70
         m=Image.new('L',(W,H),0); ImageDraw.Draw(m).text(((W-tw)/2,ty),cap,font=fnt,fill=255,stroke_width=12,stroke_fill=255)
         out.paste(Image.new('RGB',(W,H),PINK),(0,0),m.filter(ImageFilter.GaussianBlur(18)).point(lambda v:int(v*0.75)))
         d.text(((W-tw)/2,ty),cap,font=fnt,fill='white',stroke_width=9,stroke_fill=(20,6,24))
