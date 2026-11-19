@@ -12,10 +12,32 @@ def hgrad(w,h,c0,c1):
     return g.resize((w,h))
 def rmask(w,h,r):
     m=Image.new('L',(w,h),0); ImageDraw.Draw(m).rounded_rectangle((0,0,w-1,h-1),radius=r,fill=255); return m
+import random
+def frame_fx(img):
+    import numpy as np
+    a=np.asarray(img).astype(np.float32)/255
+    yy,xx=np.mgrid[0:H,0:W]; nx=(xx-W/2)/(W/2); ny=(yy-H/2)/(H/2)
+    r=np.sqrt(nx**2*0.85+ny**2)                       # 1) gentle vignette: only the outer edge darkens
+    vig=1-0.38*np.clip((r-0.75)/0.6,0,1)**1.5
+    a*=vig[...,None]
+    top=np.clip(1-yy/380,0,1)[...,None]*0.16          # 2) faint sunset tint at top (apricot) and bottom (pink)
+    bot=np.clip((yy-(H-460))/460,0,1)[...,None]*0.20
+    a=a*(1-top)+np.array(APRICOT)/255*top
+    a=a*(1-bot)+np.array(PINK)/255*bot
+    rng=np.random.default_rng(7); a+=rng.normal(0,0.018,(H,W,1))   # 3) light film grain
+    img=Image.fromarray((np.clip(a,0,1)*255).astype(np.uint8))
+    # 4) thin inset rounded frame, apricot→pink, with a faint glow
+    m=Image.new('L',(W,H),0); ImageDraw.Draw(m).rounded_rectangle((24,24,W-25,H-25),radius=58,outline=255,width=4)
+    grad=Image.new('RGB',(1,H)); [grad.putpixel((0,y),tuple(int(APRICOT[i]+(PINK[i]-APRICOT[i])*y/(H-1)) for i in range(3))) for y in range(H)]
+    grad=grad.resize((W,H)); img.paste(grad,(0,0),m.filter(ImageFilter.GaussianBlur(9)).point(lambda x:min(255,x*2))); img.paste(grad,(0,0),m)
+    # 5) round the outer corners (outside the frame → plum)
+    c=Image.new('L',(W,H),0); ImageDraw.Draw(c).rounded_rectangle((0,0,W-1,H-1),radius=70,fill=255)
+    return Image.composite(img,Image.new('RGB',(W,H),(22,6,26)),c)
 def frame(i,cx,cap):
     f=Image.open(f'{D}f_{i:04d}.jpg').convert('RGB')
     s=H/(Y1-Y0); sw=round(W/s); x0=max(215,min(905-sw,cx-sw//2))
     out=f.crop((x0,Y0,x0+sw,Y1)).resize((W,H),Image.LANCZOS).filter(SHARP)
+    out=frame_fx(out)
     cw=470; ch=round(cw*(CAM[3]-CAM[1])/(CAM[2]-CAM[0])); cx0=48; cy0=80; R=34
     cam=f.crop(CAM).resize((cw,ch),Image.LANCZOS).filter(SHARP)
     pad=50; gm=Image.new('L',(cw+2*pad,ch+2*pad),0)
@@ -25,7 +47,7 @@ def frame(i,cx,cap):
     out.paste(hgrad(cw+16,ch+16,APRICOT,PINK),(cx0-8,cy0-8),rmask(cw+16,ch+16,R+8))  # border
     out.paste(cam,(cx0,cy0),rmask(cw,ch,R))
     if cap:
-        d=ImageDraw.Draw(out); fnt=ImageFont.truetype(ANTON,104); tw=d.textlength(cap,font=fnt); ty=cy0+ch+70
+        d=ImageDraw.Draw(out); fnt=ImageFont.truetype(ANTON,104); tw=d.textlength(cap,font=fnt); ty=1460
         m=Image.new('L',(W,H),0); ImageDraw.Draw(m).text(((W-tw)/2,ty),cap,font=fnt,fill=255,stroke_width=12,stroke_fill=255)
         out.paste(Image.new('RGB',(W,H),PINK),(0,0),m.filter(ImageFilter.GaussianBlur(18)).point(lambda v:int(v*0.75)))
         d.text(((W-tw)/2,ty),cap,font=fnt,fill='white',stroke_width=9,stroke_fill=(20,6,24))
