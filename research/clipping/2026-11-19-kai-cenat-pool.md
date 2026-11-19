@@ -17,4 +17,11 @@
 - **India:** TikTok is banned, so it's YouTube Shorts + Instagram Reels (+ X).
 - **Our standing rules:** no story, no cutscenes, no endings, no TV shows; mute licensed songs (e.g. the Phil Collins moment would risk a music claim).
 
+## Rules (from the joined brief, user-supplied 19 Nov)
+1. Content must be sourced from **Kai Cenat's GTA 6 marathon on Twitch and YouTube**.
+2. Submitted videos must feature **Kai Cenat playing GTA 6 as the main focus**.
+3. Captions must use **#KaiCenat**.
+
+**No country/Tier-1 rule, no CTA rule, no min-views rule** in the brief. Content Rewards' general rules still apply: bot/fake-view check, platform fee, likes visible.
+
 **Verdict: worth joining** (free, no promo product, legit streamer campaign). Join to unlock the rules and files, then send them to me and I'll check the country rule and plan cuts from his VOD moments.
