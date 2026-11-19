@@ -1,3 +1,6 @@
+# RULE (user, 19 Nov): peaceful scenes get NO light. Light only when something happens:
+#   siren = police chase/wanted · danger = fight/shock/scare/crash · flatline = busted/dead · money = loot/cash win.
+#   'relax' is kept in code but not used.
 # Kai clip render: full-screen gameplay + rounded Kai card top-left with mood glow behind it + Kai's words as captions (only text).
 import sys, json, math, os, subprocess, numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
