@@ -1,0 +1,21 @@
+# Kai Cenat VOD 2932305259 — big moments (full 15.5 h audio scan + frame check), 19 Nov ~10:30 AM IST
+Scan: `stream-moments` on the whole VOD audio (loud bursts, silence→burst, trigger words; no chat, since the chat replay API was blocked). Then 3–10 low-res frames per moment were checked by eye. All times = **VOD time** (raw part files: `kai-scan/`, part B +5 h, part C +10 h).
+
+## Recommended (big, no story)
+| # | Moment | VOD window | What happens (our words) | Kai says | Glow | Notes |
+|---|---|---|---|---|---|---|
+| 1 | **Store robbery while wanted** | **13:57:15 – 13:58:05** | Lucia on 2 stars runs across a gas-station lot and into a convenience store; someone is inside and Kai panics | "Yo! Who are you? Oh my God, oh my God…" | siren → danger | **Highest score of the whole stream (2.47).** Free roam, no story |
+| 2 | **Lost at sea with sea creatures** | **9:12:45 – 9:13:35** | Swims far out from the islands, no boat in sight, dives; big shapes (rays/sharks) move under him | "Ain't no boat, bro… holy shit" | relax → danger | Free roam, no story. Beautiful water shots |
+| 3 | **Steals a bike off a woman** | **2:03:10 – 2:03:35** | Runs at a cyclist, knocks her off, takes her bike, rides off (and falls) | "Give me that bike! …Oh my God! Get out!" | danger → funny | Free roam, no story |
+| 4 | **First burglary pays out** | **14:50:45 – 14:51:20** | Lucia breaks a lock, searches a house, grabs the valuables ("Key valuables", cash) | "Oh my God! Oh my God, yes!" | money (gold) | Free-roam crime system |
+| 5 | **Highway truck crash** | **14:56:20 – 14:56:50** | Drives under an overpass and smashes into a semi truck | "Oh my God!" | crash | Free roam |
+
+## Your call (side mission)
+| 6 | **Hunting Bigfoot at night** | **9:54:40 – 9:58:40** | A night side activity in the swamp with a guide, flashlights, an "EMF frequency" reading, then "Chase Mr. Mangrove" | "We're hunting Bigfoot. Oh my God, what the hell was that?" | danger (dark red) | Huge title potential, but it's a **side mission with scripted dialogue** and a possible creature reveal. Only if you're OK with that; I'd crop the mission text and stop before any reveal |
+
+## Skip
+- 0:30:54 and 8:36–8:38: story missions with subtitles (first mission; nightclub/apartment mission).
+- 0:35:48: nudity at a naturist pool (YouTube age-restriction risk).
+- 2:45:26 and 4:03:18: radio songs (music claim).
+- 11:03:38: "Destroy the truck" mission shoot-out (mission objective, story risk).
+- 3:34:12: the truck flip, the book and the snake (rejected by the user).
