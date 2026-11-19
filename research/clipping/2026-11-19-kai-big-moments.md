@@ -19,3 +19,12 @@ Scan: `stream-moments` on the whole VOD audio (loud bursts, silence→burst, tri
 - 2:45:26 and 4:03:18: radio songs (music claim).
 - 11:03:38: "Destroy the truck" mission shoot-out (mission objective, story risk).
 - 3:34:12: the truck flip, the book and the snake (rejected by the user).
+
+## Plane flights (full-VOD visual scan, 1 frame/min, 19 Nov ~12 PM IST)
+Reference the user liked: Typical Gamer, "World's First Stolen Plane in GTA 6" (youtube.com/shorts/fkXgQJbj8IE): steals a passenger jet at the airport, flies over Vice City, fighter jets chase. **Typical Gamer isn't in our campaign.**
+Kai never steals a plane in free roam (up to VOD 17:32). He flies only inside two **story missions**:
+| VOD | What happens | Ends | Notes |
+|---|---|---|---|
+| **10:18:00 – 10:23:10** | Kai flies a seaplane solo: takeoff over the Keys, banks between islands, "catch up to Pilot Pete", tries to land on an airstrip | **"FAILED: Brian's plane got stuck"** | Best plane clip: funny fail at the end. Mission text + dialogue subtitles at the bottom must be cropped. Chapter 1, no big reveal |
+| 7:22:30 – 7:31:30 | Jason + Lucia fly a seaplane out to a boat drop, land on water, take off again, land in a lagoon | mission continues | Smuggling-mission plot in the dialogue → weaker, more story |
+Needs the user's OK (mission footage, not free roam).
