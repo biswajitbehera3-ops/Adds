@@ -6,15 +6,15 @@
 ## Where each video goes
 | Video | File | Length | YouTube Shorts | Instagram Reels | X |
 |---|---|---|---|---|---|
-| Store robbery while wanted | m1.mp4 | 0:27 | ✅ | ✅ | ✅ |
-| First burglary pays out | m4.mp4 | 0:26 | ✅ | ✅ | ✅ |
-| Crime spree → busted | e1.mp4 | 2:40 | ✅ (Shorts allow up to 3:00) | ✅ (Reels allow up to 3:00) | ⚠️ only with X Premium (free accounts max 2:20) |
-| Swimming with sharks | e2.mp4 | 2:54 | ✅ | ✅ | ⚠️ only with X Premium |
+| Jewellery + store robbery → wasted | m1.mp4 | 2:45 | ✅ | ✅ | ⚠️ X Premium only |
+| First burglary pays out | m4.mp4 | 1:15 | ✅ | ✅ | ✅ |
+| Crime spree → busted | e1.mp4 | 2:45 | ✅ (Shorts allow up to 3:00) | ✅ (Reels allow up to 3:00) | ⚠️ only with X Premium (free accounts max 2:20) |
+| Swimming with sharks | e2.mp4 | 2:34 | ✅ | ✅ | ⚠️ only with X Premium |
 
 ## Copy-paste text
-### m1: store robbery
-- **YouTube title:** Kai Cenat Robbed A Store While The Cops Were Chasing Him In GTA 6 😭
-- **Description / caption:** Kai had 2 stars on him and still ran into a gas station to rob it 💀 #KaiCenat #GTA6 #GTAVI #Shorts
+### m1: two robberies → wasted (2:45)
+- **YouTube title:** Kai Cenat Robbed 2 Stores In GTA 6… Then Fell Off A Water Tower 😭
+- **Description / caption:** Jewellery store ✅ Gas station ✅ Water tower ❌ 💀 Kai's crime run ended the worst way #KaiCenat #GTA6 #GTAVI #Shorts
   Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
 - **X:** Kai Cenat really robbed a store while the cops were on him 😭 #KaiCenat #GTA6
 
@@ -26,7 +26,7 @@
 
 ### e1: crime spree → busted
 - **YouTube title:** Kai Cenat's First Crime Spree In GTA 6 Cost Him $527 😭
-- **Description / caption:** Beach fight, pier toss, stolen bike… then BUSTED 🚔 "This is like real… I just lost 527" 😭 #KaiCenat #GTA6 #GTAVI #Shorts
+- **Description / caption:** Stole a truck, fought the whole beach, tossed a guy off the pier, stole a bike… then BUSTED 🚔 "This is like real… I just lost 527" 😭 #KaiCenat #GTA6 #GTAVI #Shorts
   Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
 
 ### e2: swimming with sharks
