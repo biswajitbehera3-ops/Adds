@@ -28,3 +28,12 @@ Kai never steals a plane in free roam (up to VOD 17:32). He flies only inside tw
 | **10:18:00 – 10:23:10** | Kai flies a seaplane solo: takeoff over the Keys, banks between islands, "catch up to Pilot Pete", tries to land on an airstrip | **"FAILED: Brian's plane got stuck"** | Best plane clip: funny fail at the end. Mission text + dialogue subtitles at the bottom must be cropped. Chapter 1, no big reveal |
 | 7:22:30 – 7:31:30 | Jason + Lucia fly a seaplane out to a boat drop, land on water, take off again, land in a lagoon | mission continues | Smuggling-mission plot in the dialogue → weaker, more story |
 Needs the user's OK (mission footage, not free roam).
+
+## New 27 hours (VOD 15:27 → 42:28), audio scan 20 Nov
+- **~18:40–26:10: Kai is asleep on stream** (super-chat readouts, chat chanting "wake up"). Nothing to clip.
+- Later hours are **deeper into the story** (spoiler risk rises). Loud spots worth a frame check before use:
+  - 29:58:30: "Oh my f**king god! … that was so dumb!" (unknown scene)
+  - 35:26:57: "That's a kid! No way! … No, no, no!" (probably story, check)
+  - 37:25:54: "What the hell? What the hell?"
+  - 42:20:01: fishing again
+- Sea sequence before/after the shark Short (VOD 9:04–9:20): truck crash on the bridge 9:08:40 → walks into the sea 9:12 → "ain't no boat" → sharks 9:13 → "never again, bro" 9:17:46 → fishing boat 9:18 → "easy does it…" → the fish gets away "f**k this sh*t" 9:20:28 → Lucia's phone call / packages (story, stop before 9:21:40).
