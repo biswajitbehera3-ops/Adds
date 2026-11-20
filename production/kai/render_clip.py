@@ -28,6 +28,12 @@ def mood(nm, t):
         if 0.55<t<0.8: return [(GLOW,(255,30,30),0.6)]
         k=max(0,1-(t-0.8)/1.6); c=(int(120+135*k),int(120-90*k),int(120-90*k))
         return [(GLOW,c,0.7*k)] if t>=0.8 else []
+    if nm=='crash':      # impact / explosion: white flash, then orange fading to red
+        if t<0.15: return [(GLOW,(255,255,255),1.3)]
+        k=math.exp(-(t-0.15)*1.6); return [(GLOW,(255,int(150*k+40),int(50*k)),0.4+0.9*k)]
+    if nm=='death':      # dying / WASTED: one last red pulse, then a black light swallows the card
+        if t<0.35: return [(GLOW,(255,25,25),1.2)]
+        k=min(1,(t-0.35)/1.2); return [(GLOW,(0,0,0),0.35+0.75*k)]
     if nm=='relax':
         k=0.5+0.5*math.sin(t*2*math.pi*0.35); return [(GLOW,(255,int(150+40*k),int(150+20*(1-k))),0.65+0.35*k)]
     return []
