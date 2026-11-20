@@ -1,6 +1,11 @@
 {
- "updated": "2026-11-20T21:57:00+05:30",
+ "updated": "2026-11-21T00:57:00+05:30",
  "rockstar_newswire_latest": [
+  {
+   "id": "k4a8955a93o747",
+   "title": "Grand Theft Auto VI: The Album Now Available",
+   "date": "2026-11-20"
+  },
   {
    "id": "39akk424a9oo53",
    "title": "Grand Theft Auto VI Now Available",
@@ -172,7 +177,13 @@
   "Reddit: This is RDR3",
   "Polygon: sex-worker NPCs cut",
   "CBS PTO, Columbus schools",
-  "Heat Vice City night vs Bucks"
+  "Heat Vice City night vs Bucks",
+  "BBC $2.36B / 24.5M units (Sensor Tower) + Cloudflare traffic spikes",
+  "Reddit: obey traffic laws (9.9K)",
+  "Forbes Tassi 130h 10 tips",
+  "Outside: Mount Kalaga National Park",
+  "Guardian: parents don't buy GTA VI",
+  "Kotaku late-game cameo (SPOILER, skip)"
  ],
  "debunked": [
   "Fake \"TheGamer interview\" 60 FPS / remove cars and heads quote (r/GTA6, 12 Nov) \u2014 repeated by Notebookcheck as a 'leaked interview' (13 Nov); still no source",
@@ -196,6 +207,7 @@
   "12:57 IST: quiet; no new Newswire/YouTube",
   "15:57 IST: official credits page \u2014 Dylan Rourke = Jason; no 60fps on PS5 Pro (PC Gamer)",
   "18:57 IST: quiet",
-  "21:57 IST: quiet; Firecrawl out of credits"
+  "21:57 IST: quiet; Firecrawl out of credits",
+  "00:57 IST 21 Nov: Newswire Album post; BBC $2.36B est."
  ]
 }
