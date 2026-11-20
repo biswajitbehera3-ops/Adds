@@ -1,6 +1,6 @@
 # 038 — GTA 6's Police Are Nothing Like GTA 5's — Production script v1
 
-**Standard:** `production/style-guide.md` · **Runtime:** ~5:30 · **VO:** ~800 words · **Voice:** Fenrir (or the user's own voice)
+**Standard:** `production/style-guide.md` · **Runtime:** 4.3 min VO at 150 wpm (+~45 s graphic pauses) · **VO:** 645 words · **Voice:** Fenrir (or the user's own voice)
 **Music:** a tense synth pulse (body) → a siren-like riser for 6 stars → a calm outro pad. No GTA VI soundtrack music.
 **Spoilers:** NONE. Wanted system and free roam only.
 
@@ -37,12 +37,12 @@
 - **AUDIO:** five ticks, then a heavy impact on six.
 
 **B2 · 0:06–0:25 · PROMISE**
-- **VO:** "The police in GTA 6 work completely differently. They search for you, they tase you, and getting caught actually costs you. Here's exactly how the wanted system works, from what we saw on launch day. No story spoilers."
+- **VO:** "The police in GTA 6 work completely differently. They search for you, they tase you, and getting caught actually costs you. Here's exactly how the wanted system works, from what we saw on launch day. No story spoilers. If you played GTA 5 for years, a lot of your habits will get you caught in this one. So let's go through it properly."
 - **VISUAL:** official Extended Look police shots.
 - **GFX:** three chips: 👁 SEARCH · ⚡ TASE · 💸 COST; "NO SPOILERS" stamp.
 
 **B3 · 0:25–1:15 · RED VS WHITE STARS**
-- **VO:** "First, the colours. In GTA 5 your stars just flashed when the cops lost you. In GTA 6, watch the colour. On the launch stream we went through, the stars were red while the police could see the player. The second he broke line of sight, around a corner, behind a wall, they turned white. White means they've lost you and they're searching the area. That's your moment. Stay hidden, don't run into the open, and the stars fade away."
+- **VO:** "First, the colours. In GTA 5 your stars just flashed when the cops lost you. In GTA 6, watch the colour. On the launch stream we went through, the stars were red while the police could see the player. The second he broke line of sight, around a corner, behind a wall, they turned white. White means they've lost you and they're searching the area. That's your moment. Stay hidden, don't run into the open, and the stars fade away. Think about what that means. In GTA 5, the safest move was usually to keep driving fast until the stars disappeared. In GTA 6, speeding around in the open keeps you in their sight, and keeps your stars red. The smarter move is to break line of sight, then go quiet. Park up. Walk away. Change direction. The police are searching an area, not following a magic line to you."
 - **VISUAL:** official trailer street/police shots.
 - **GFX:** our star meter red → white with a radar-style search circle spreading out; labels "EYES ON YOU" → "SEARCHING". Tag "SEEN ON ONE STREAM".
 - **AUDIO:** radio chatter (generic, licensed).
@@ -51,13 +51,13 @@
 - **VO:** "But hiding doesn't always work, because now they don't always shoot."
 
 **B5 · 1:25–2:10 · TASERS**
-- **VO:** "Second: tasers. On three different launch videos, police used tasers instead of guns. One cop warned a player: 'Stop, or I'll hit you with four thousand volts.' Another player robbed a store and got tased right outside. There's even a random street event where police tase and arrest someone on their own. So in GTA 6, running isn't just about dodging bullets. If they get close, you're on the floor."
+- **VO:** "Second: tasers. On three different launch videos, police used tasers instead of guns. One cop warned a player: 'Stop, or I'll hit you with four thousand volts.' Another player robbed a store and got tased right outside. There's even a random street event where police tase and arrest someone on their own. So in GTA 6, running isn't just about dodging bullets. If they get close, you're on the floor. A taser also changes the feel of a chase. It's closer, more personal. You'll see cops running after you on foot, not just ramming your car."
 - **VISUAL:** official police shots.
 - **GFX:** lightning bolt + "4,000 VOLTS"; three small cards "STREAM 1 · STREAM 2 · STREET EVENT"; tag "SEEN · 3 videos".
 - **AUDIO:** zap SFX.
 
 **B6 · 2:10–2:55 · BUSTED COSTS MONEY**
-- **VO:** "Third: getting busted hurts. One streamer stole a truck, started a fight on the beach, threw a guy off a pier and stole a bike, all in a few minutes. Then the cops caught him. Busted. It cost him five hundred and twenty-seven dollars. His reaction: 'It's so hard… this is like real.' So early on, when money's tight, every arrest sets you back."
+- **VO:** "Third: getting busted hurts. One streamer stole a truck, started a fight on the beach, threw a guy off a pier and stole a bike, all in a few minutes. Then the cops caught him. Busted. It cost him five hundred and twenty-seven dollars. His reaction: 'It's so hard… this is like real.' So early on, when money's tight, every arrest sets you back. And remember, that's on top of the time you lose. You don't just respawn instantly with everything you had."
 - **VISUAL:** official key art, darkened.
 - **GFX:** our "BUSTED" card; a −$527 counter; tag "SEEN ON ONE STREAM".
 - **AUDIO:** a down-sting.
@@ -68,13 +68,13 @@
 - **AUDIO:** riser.
 
 **B8 · 3:05–4:15 · SIX STARS**
-- **VO:** "Six stars is real. IGN says you have to become a complete psychopath to even reach it. You don't get there by accident. Creators spent launch day trying: one took a tank into a six-star chase, another stole a fighter jet and a tank to get there. The titles say it all: 'immediately regretted it', 'impossible'. If five stars in GTA 5 was the army, six stars in GTA 6 is the whole state coming for you. And remember: this is from one day of play. We'll find out exactly what sends in each level as more people test it."
+- **VO:** "Six stars is real. IGN says you have to become a complete psychopath to even reach it. You don't get there by accident. Creators spent launch day trying: one took a tank into a six-star chase, another stole a fighter jet and a tank to get there. The titles say it all: 'immediately regretted it', 'impossible'. If five stars in GTA 5 was the army, six stars in GTA 6 is the whole state coming for you. And remember: this is from one day of play. We'll find out exactly what sends in each level as more people test it. Whatever it takes, it's clearly built as a last stand, not something you're meant to survive for long."
 - **VISUAL:** official Trailer 2 / Launch Trailer chase and helicopter shots.
 - **GFX:** star meter 1 → 6 with escalating icons (car → helicopter → ?); SourceTag "REPORTED · IGN"; small creator-title cards as text only.
 - **AUDIO:** escalating riser, impact on 6.
 
 **B9 · 4:15–4:50 · HOW TO SURVIVE (our advice, labelled)**
-- **VO:** "So here's how I'd play it. When your stars go white, hide; don't run. If a cop gets close, get out of taser range. Spend your cash before you go on a rampage, because getting busted costs you. And don't chase six stars until you've got money to lose."
+- **VO:** "So here's how I'd play it. When your stars go white, hide; don't run. If a cop gets close, get out of taser range. Spend your cash before you go on a rampage, because getting busted costs you. And don't chase six stars until you've got money to lose. One more: if you're about to try something big, like stealing a plane from the military base, save first. Six stars can arrive faster than you think."
 - **GFX:** a 4-point checklist; small label "OUR TIPS, NOT ROCKSTAR'S".
 
 **B10 · 4:50–5:30 · OUTRO**
