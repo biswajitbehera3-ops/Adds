@@ -1,6 +1,7 @@
 import React from 'react';
 import {Composition, Still, AbsoluteFill, interpolate, useCurrentFrame, spring, useVideoConfig} from 'remotion';
 import {StudioScene} from './studio/Studio';
+import {PlateShot, SETUPS, SetupsReel, StackedVertical} from './studio/CameraSetups';
 
 const TitleCard: React.FC<{title: string}> = ({title}) => {
   const f = useCurrentFrame();
@@ -28,5 +29,17 @@ export const Root: React.FC = () => (
     <Still id="StudioHigh" component={shot('high')} width={1920} height={1080} />
     <Composition id="StudioPushIn" component={() => <StudioScene shot="high" toShot="wide" />}
       durationInFrames={120} fps={30} width={1920} height={1080} />
+
+    {/* Camera setups cut from the locked studio plate */}
+    <Composition id="SetupsReel" component={SetupsReel} durationInFrames={450} fps={30} width={1920} height={1080} />
+    {(['wide', 'twoShot', 'genius', 'questioner', 'table'] as const).map((k) => (
+      <Composition key={k} id={`Cam-${k}`} component={() => <PlateShot setup={SETUPS[k]} />}
+        durationInFrames={150} fps={30} width={1920} height={1080} />
+    ))}
+    {(['geniusVertical', 'questionerVertical'] as const).map((k) => (
+      <Composition key={k} id={`Cam-${k}`} component={() => <PlateShot setup={SETUPS[k]} />}
+        durationInFrames={150} fps={30} width={1080} height={1920} />
+    ))}
+    <Composition id="Cam-stackedVertical" component={StackedVertical} durationInFrames={150} fps={30} width={1080} height={1920} />
   </>
 );
