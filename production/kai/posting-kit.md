@@ -66,3 +66,11 @@
 - **Description / caption:** Lucia called from prison: "They might be letting me out" 😳 so Kai went full Mr. Clean 🧽 painted the house blue ("blue is good for relationships") and picked a fit "Lucia would like" 😭💙 #KaiCenat #GTA6 #GTAVI #Shorts
   Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
 - **X:** Kai Cenat really painted the whole house blue for Lucia 😭 "She gonna like that" #KaiCenat #GTA6
+
+### s-lucia-story: Kai picks up Lucia (1:33) · VOD 4:42–5:55 · replaces s-lucia-house
+- **YouTube title:** Kai Cenat Picks Up Lucia From Prison In GTA 6 😭💕
+- **Alt titles:** Kai Cenat's First Date With Lucia In GTA 6 💕 · Kai Cenat Bought Lucia Flowers And A Necklace 😭
+- **Description / caption:** Necklace ✅ Flowers ✅ Fresh fit ✅ Kai got everything ready… then Lucia walked out 😭💕 "Nice outfit, by the way" → straight to the dance floor 🕺 #KaiCenat #GTA6 #GTAVI #Shorts
+  Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
+- **X:** Kai Cenat really bought Lucia flowers AND a necklace 😭💕 #KaiCenat #GTA6
+- **Cut on purpose:** the "four months ago" flashback (story twist), Kai's "father" jokes, the pause menu, and the slur at 5:32:01.
