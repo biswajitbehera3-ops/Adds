@@ -51,3 +51,11 @@
   Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
 - **X:** too long for free X (2:42). With Premium: Kai Cenat flew his first plane in GTA 6 and landed it upside down 😭✈️ #KaiCenat #GTA6
 - Note: footage is from a Chapter 1 mission. Plot dialogue cut, mission text and subtitles cropped.
+
+### rob: gas station → 6 stars → wasted (2:37) · thumbnail `production/thumb-police-v4-9x16-1080.jpg`
+- **YouTube title:** Kai Cenat Got 6 Stars In GTA 6… Can He Survive? 😭🚔
+- **Alt titles:** Kai Cenat Robbed A Gas Station And Got 6 STARS In GTA 6 😭 · Kai Cenat vs The Entire GTA 6 Police Force 🚔
+- **Description / caption:** "We have 6 stars in GTA, bro!" 😭 Kai robbed a gas station, outran the sheriffs, crashed into the river, stole a military jeep… and the whole state came after him 🚔⭐⭐⭐⭐⭐⭐ "I literally tried, bro." #KaiCenat #GTA6 #GTAVI #Shorts
+  Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
+  Thumbnail background art: @BOZEDD
+- **X:** Kai Cenat really hit 6 stars in GTA 6 😭 "Not like this… NOT LIKE THIS" #KaiCenat #GTA6
