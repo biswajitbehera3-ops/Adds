@@ -1,9 +1,16 @@
 # Podcast pipeline test 1: confirm the free GPU + generate two host voice lines (Kokoro TTS, Apache-2.0).
 import subprocess, time, json, os
 t0 = time.time()
-def sh(c): print("$", c); print(subprocess.run(c, shell=True, capture_output=True, text=True).stdout[-3000:])
+def sh(c, t=600):
+    print("$", c, flush=True)
+    try:
+        r = subprocess.run(c, shell=True, capture_output=True, text=True, timeout=t)
+        print((r.stdout + r.stderr)[-3000:], flush=True)
+    except subprocess.TimeoutExpired:
+        print("TIMEOUT after", t, "s", flush=True)
+sh("curl -s -o /dev/null -w 'internet check: HTTP %{http_code}' https://pypi.org/simple/kokoro/", 30)
 sh("nvidia-smi")
-sh("apt-get -qq update && apt-get -qq install -y espeak-ng > /dev/null && echo espeak ok")
+sh("apt-get -qq install -y espeak-ng > /dev/null && echo espeak ok")
 sh("pip install -q 'kokoro>=0.9.4' soundfile 2>&1 | tail -2")
 import torch, soundfile as sf
 from kokoro import KPipeline
