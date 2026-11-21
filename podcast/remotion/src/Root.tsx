@@ -1,5 +1,6 @@
 import React from 'react';
-import {Composition, AbsoluteFill, interpolate, useCurrentFrame, spring, useVideoConfig} from 'remotion';
+import {Composition, Still, AbsoluteFill, interpolate, useCurrentFrame, spring, useVideoConfig} from 'remotion';
+import {StudioScene} from './studio/Studio';
 
 const TitleCard: React.FC<{title: string}> = ({title}) => {
   const f = useCurrentFrame();
@@ -15,7 +16,17 @@ const TitleCard: React.FC<{title: string}> = ({title}) => {
   );
 };
 
+const shot = (name: 'wide' | 'left' | 'right' | 'high') => () => <StudioScene shot={name} />;
+
 export const Root: React.FC = () => (
-  <Composition id="TitleCard" component={TitleCard} durationInFrames={60} fps={30} width={1080} height={1920}
-    defaultProps={{title: 'Remotion works ✓'}} />
+  <>
+    <Composition id="TitleCard" component={TitleCard} durationInFrames={60} fps={30} width={1080} height={1920}
+      defaultProps={{title: 'Remotion works ✓'}} />
+    <Still id="StudioWide" component={shot('wide')} width={1920} height={1080} />
+    <Still id="StudioLeft" component={shot('left')} width={1920} height={1080} />
+    <Still id="StudioRight" component={shot('right')} width={1920} height={1080} />
+    <Still id="StudioHigh" component={shot('high')} width={1920} height={1080} />
+    <Composition id="StudioPushIn" component={() => <StudioScene shot="high" toShot="wide" />}
+      durationInFrames={120} fps={30} width={1920} height={1080} />
+  </>
 );
