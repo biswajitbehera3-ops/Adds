@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21T18:56:00+05:30",
+ "updated": "2026-11-21T21:56:00+05:30",
  "rockstar_newswire_latest": [
   {
    "id": "k4a8955a93o747",
@@ -221,6 +221,7 @@
   "09:56 IST 21 Nov limited check (Firecrawl out, rockstargames.com blocked): YouTube RSS unchanged",
   "12:56 IST 21 Nov limited check: YouTube RSS unchanged",
   "15:56 IST 21 Nov limited check: YouTube RSS unchanged",
-  "18:56 IST 21 Nov limited check: YouTube RSS unchanged"
+  "18:56 IST 21 Nov limited check: YouTube RSS unchanged",
+  "21:56 IST 21 Nov limited check: YouTube RSS unchanged; last run before auto-disable"
  ]
 }
