@@ -14,29 +14,25 @@ pipe = StableDiffusionXLPipeline.from_pretrained(
     variant="fp16", use_safetensors=True).to("cuda")
 print(f"model loaded in {time.time()-t0:.0f}s", flush=True)
 
-STYLE = ("2D digital illustration, hand-drawn cartoon character, clean confident ink linework, "
-         "flat muted colors with soft painterly shading, subtle paper grain texture, stylized proportions, "
-         "expressive cartoon face, half-body portrait, centered, facing camera, plain flat background")
-NEG = ("photo, photorealistic, 3d render, cgi, logo, brand, text, letters, watermark, signature, emblem, badge, "
-       "deformed, extra fingers, extra arms, blurry, lowres, cropped head, multiple people, ugly")
+# SDXL reads at most 77 tokens per text encoder: character details go in `prompt`, the art style in `prompt_2`.
+STYLE = ("2D illustrated character art, bold clean ink outlines, flat bright colors with soft cel shading, "
+         "exaggerated cartoon proportions, animation character design, half-body portrait, front view")
+NEG = ("photo, realistic, 3d render, sepia, monochrome, beige background, pencil sketch, logo, brand, text, "
+       "watermark, signature, deformed, extra fingers, blurry, multiple people")
 HOSTS = {
-  "genius": ("young Indian man around 30, warm brown skin, thin lanky build, long narrow face, "
-             "messy curly black hair sticking up on top, big round thin black-rimmed glasses, "
-             "large expressive dark brown eyes, worried raised eyebrows, pen tucked behind his ear, "
-             "white collared shirt, maroon tie, brown suspenders, khaki jacket, "
-             "plain flat muted teal background"),
-  "questioner": ("chubby Indian man around 30, warm brown skin, big round body, round full face, "
-                 "smug confident closed-mouth half smile, relaxed half-lidded eyes, thick dark eyebrows, short goatee, "
-                 "beige baseball cap, plain red and black sporty track jacket with no logos, white t-shirt, arms crossed, "
-                 "plain flat red background"),
+  "genius": ("cartoon caricature of a nerdy Indian man, big round black glasses, messy curly black hair sticking up, "
+             "worried raised eyebrows, thin long face, pen behind ear, white shirt, maroon tie, brown suspenders, "
+             "flat teal background"),
+  "questioner": ("cartoon caricature of a chubby Indian man, beige baseball cap, smug half smile, half-closed eyes, "
+                 "short goatee, round face, red and black track jacket, arms crossed, flat red background"),
 }
 os.makedirs("/kaggle/working", exist_ok=True)
 for name, desc in HOSTS.items():
     tiles = []
     for seed in [11, 22, 33, 44]:
         s = time.time()
-        img = pipe(prompt=f"{STYLE}, {desc}", negative_prompt=NEG, width=832, height=1216,
-                   num_inference_steps=30, guidance_scale=6.5,
+        img = pipe(prompt=desc, prompt_2=STYLE, negative_prompt=NEG, width=832, height=1216,
+                   num_inference_steps=30, guidance_scale=7.5,
                    generator=torch.Generator("cuda").manual_seed(seed)).images[0]
         img.save(f"/kaggle/working/{name}_seed{seed}.png")
         tiles.append(img)
