@@ -1,4 +1,4 @@
-# 3D podcast-studio view with both hosts, plus 3D portraits of each host. SDXL 1.0 (OpenRAIL++-M, commercial use allowed).
+# 3D podcast-studio view with both hosts, plus the empty studio as a background plate. SDXL 1.0 (OpenRAIL++-M, commercial use allowed).
 # Text-to-image only: the user's reference pictures guided the written description; they are not fed to the model.
 # SDXL reads at most 77 tokens per text encoder: subjects go in `prompt`, setting and look in `prompt_2`.
 import subprocess, time, os
@@ -25,14 +25,11 @@ JOBS = {
             "maroon tie, suspenders. Right: chubby man, beige cap, goatee, red and black track jacket, arms crossed"),
     prompt_2=(LOOK + ", dark navy podcast studio, deep blue velvet curtains, two black pendant lamps with warm glow, "
               "yellow cushions, headphones and a mug on the table, yellow LED strip along the stage floor, wide shot")),
-  "genius_3d": dict(w=832, h=1216, seeds=[7, 8],
-    prompt=("cartoon nerdy Indian man around 30, thin lanky, big round black glasses, messy curly black hair, "
-            "worried raised eyebrows, pen behind ear, white shirt, maroon tie, brown suspenders, khaki jacket"),
-    prompt_2=LOOK + ", half-body character portrait, front view, plain teal background"),
-  "questioner_3d": dict(w=832, h=1216, seeds=[7, 8],
-    prompt=("cartoon chubby Indian man around 30, round face, beige baseball cap, smug half smile, half-closed eyes, "
-            "short goatee, red and black track jacket with no logos, arms crossed"),
-    prompt_2=LOOK + ", half-body character portrait, front view, plain red background"),
+  "studio_empty": dict(w=1344, h=768, seeds=[1, 2],
+    prompt=("empty podcast studio set, two blue armchairs with yellow cushions facing each other across a small round "
+            "wooden table with two podcast microphones, headphones and a mug, nobody in the room"),
+    prompt_2=(LOOK + ", dark navy studio, deep blue velvet curtains, two black pendant lamps with warm glow, "
+              "yellow LED strip along the stage floor, wide shot")),
 }
 os.makedirs("/kaggle/working", exist_ok=True)
 for name, j in JOBS.items():
