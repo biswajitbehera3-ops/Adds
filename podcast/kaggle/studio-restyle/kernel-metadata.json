@@ -1,0 +1,13 @@
+{
+  "id": "biswajitbehera3/podcast-studio-restyle",
+  "title": "podcast studio restyle",
+  "code_file": "restyle.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": []
+}
