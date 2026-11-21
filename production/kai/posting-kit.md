@@ -59,3 +59,10 @@
   Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
   Thumbnail background art: @BOZEDD
 - **X:** Kai Cenat really hit 6 stars in GTA 6 😭 "Not like this… NOT LIKE THIS" #KaiCenat #GTA6
+
+### s-lucia-house: Kai gets Jason's house ready for Lucia (1:14) · VOD 1:14:22–1:32:46
+- **YouTube title:** Kai Cenat Got The House Ready For Lucia In GTA 6 😭💙
+- **Alt titles:** Kai Cenat Painted The Whole House Blue For Lucia 😭 · Kai Cenat Is The Best Boyfriend In GTA 6 😭
+- **Description / caption:** Lucia called from prison: "They might be letting me out" 😳 so Kai went full Mr. Clean 🧽 painted the house blue ("blue is good for relationships") and picked a fit "Lucia would like" 😭💙 #KaiCenat #GTA6 #GTAVI #Shorts
+  Clip from Kai Cenat's GTA 6 marathon (twitch.tv/kaicenat)
+- **X:** Kai Cenat really painted the whole house blue for Lucia 😭 "She gonna like that" #KaiCenat #GTA6
