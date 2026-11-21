@@ -34,6 +34,10 @@ def mood(nm, t):
     if nm=='death':      # dying / WASTED: one last red pulse, then a black light swallows the card
         if t<0.35: return [(GLOW,(255,25,25),1.2)]
         k=min(1,(t-0.35)/1.2); return [(GLOW,(0,0,0),0.35+0.75*k)]
+    if nm=='romance':    # Jason & Lucia together: soft rose glow with a slow double heartbeat (lub-dub every ~1.4 s)
+        ph=(t%1.4)/1.4
+        beat=math.exp(-((ph-0.08)/0.05)**2)+0.6*math.exp(-((ph-0.30)/0.05)**2)
+        return [(GLOW,(255,int(95+40*beat),int(150+25*beat)),0.55+0.6*beat)]
     if nm=='relax':
         k=0.5+0.5*math.sin(t*2*math.pi*0.35); return [(GLOW,(255,int(150+40*k),int(150+20*(1-k))),0.65+0.35*k)]
     return []
