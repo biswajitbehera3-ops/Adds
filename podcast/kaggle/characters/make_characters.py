@@ -1,5 +1,6 @@
-# Generate original designs for the two podcast hosts with SDXL 1.0 (CreativeML OpenRAIL++-M: commercial use allowed).
-# Text-to-image only: the user's reference pictures guided the written description, they are not fed to the model.
+# 3D podcast-studio view with both hosts, plus 3D portraits of each host. SDXL 1.0 (OpenRAIL++-M, commercial use allowed).
+# Text-to-image only: the user's reference pictures guided the written description; they are not fed to the model.
+# SDXL reads at most 77 tokens per text encoder: subjects go in `prompt`, setting and look in `prompt_2`.
 import subprocess, time, os
 t0 = time.time()
 subprocess.run("nvidia-smi --query-gpu=name,memory.total --format=csv", shell=True)
@@ -14,32 +15,42 @@ pipe = StableDiffusionXLPipeline.from_pretrained(
     variant="fp16", use_safetensors=True).to("cuda")
 print(f"model loaded in {time.time()-t0:.0f}s", flush=True)
 
-# SDXL reads at most 77 tokens per text encoder: character details go in `prompt`, the art style in `prompt_2`.
-STYLE = ("2D illustrated character art, bold clean ink outlines, flat bright colors with soft cel shading, "
-         "exaggerated cartoon proportions, animation character design, half-body portrait, front view")
-NEG = ("photo, realistic, 3d render, sepia, monochrome, beige background, pencil sketch, logo, brand, text, "
-       "watermark, signature, deformed, extra fingers, blurry, multiple people")
-HOSTS = {
-  "genius": ("cartoon caricature of a nerdy Indian man, big round black glasses, messy curly black hair sticking up, "
-             "worried raised eyebrows, thin long face, pen behind ear, white shirt, maroon tie, brown suspenders, "
-             "flat teal background"),
-  "questioner": ("cartoon caricature of a chubby Indian man, beige baseball cap, smug half smile, half-closed eyes, "
-                 "short goatee, round face, red and black track jacket, arms crossed, flat red background"),
+NEG = ("text, letters, logo, watermark, signature, brand, 2d, flat illustration, sketch, photo, realistic skin, "
+       "deformed, extra limbs, extra fingers, extra people, blurry, lowres")
+LOOK = "Pixar-style 3D animated movie still, soft global illumination, subsurface skin, stylized proportions, high detail"
+JOBS = {
+  "studio": dict(w=1344, h=768, seeds=[1, 2, 3, 4, 5, 6],
+    prompt=("two cartoon Indian men sitting in blue armchairs facing each other across a small round wooden table "
+            "with two podcast microphones. Left: thin nerdy man, big round glasses, curly black hair, white shirt, "
+            "maroon tie, suspenders. Right: chubby man, beige cap, goatee, red and black track jacket, arms crossed"),
+    prompt_2=(LOOK + ", dark navy podcast studio, deep blue velvet curtains, two black pendant lamps with warm glow, "
+              "yellow cushions, headphones and a mug on the table, yellow LED strip along the stage floor, wide shot")),
+  "genius_3d": dict(w=832, h=1216, seeds=[7, 8],
+    prompt=("cartoon nerdy Indian man around 30, thin lanky, big round black glasses, messy curly black hair, "
+            "worried raised eyebrows, pen behind ear, white shirt, maroon tie, brown suspenders, khaki jacket"),
+    prompt_2=LOOK + ", half-body character portrait, front view, plain teal background"),
+  "questioner_3d": dict(w=832, h=1216, seeds=[7, 8],
+    prompt=("cartoon chubby Indian man around 30, round face, beige baseball cap, smug half smile, half-closed eyes, "
+            "short goatee, red and black track jacket with no logos, arms crossed"),
+    prompt_2=LOOK + ", half-body character portrait, front view, plain red background"),
 }
 os.makedirs("/kaggle/working", exist_ok=True)
-for name, desc in HOSTS.items():
+for name, j in JOBS.items():
     tiles = []
-    for seed in [11, 22, 33, 44]:
+    for seed in j["seeds"]:
         s = time.time()
-        img = pipe(prompt=desc, prompt_2=STYLE, negative_prompt=NEG, width=832, height=1216,
-                   num_inference_steps=30, guidance_scale=7.5,
+        img = pipe(prompt=j["prompt"], prompt_2=j["prompt_2"], negative_prompt=NEG, width=j["w"], height=j["h"],
+                   num_inference_steps=32, guidance_scale=7.0,
                    generator=torch.Generator("cuda").manual_seed(seed)).images[0]
-        img.save(f"/kaggle/working/{name}_seed{seed}.png")
-        tiles.append(img)
+        img.save(f"/kaggle/working/{name}_seed{seed}.png"); tiles.append((seed, img))
         print(f"{name} seed {seed}: {time.time()-s:.0f}s", flush=True)
-    sheet = Image.new("RGB", (832 * 4, 1216 + 60), "white")
-    d = ImageDraw.Draw(sheet)
-    for i, im in enumerate(tiles):
-        sheet.paste(im, (832 * i, 60)); d.text((832 * i + 20, 20), f"{name}  option {i+1} (seed {[11,22,33,44][i]})", fill="black")
+    cols = 3 if name == "studio" else 2
+    rows = (len(tiles) + cols - 1) // cols
+    W, H = j["w"] // 2, j["h"] // 2
+    sheet = Image.new("RGB", (W * cols, (H + 30) * rows), "white"); d = ImageDraw.Draw(sheet)
+    for i, (seed, im) in enumerate(tiles):
+        x, y = (i % cols) * W, (i // cols) * (H + 30)
+        d.text((x + 10, y + 8), f"{name} option {i+1} (seed {seed})", fill="black")
+        sheet.paste(im.resize((W, H)), (x, y + 30))
     sheet.save(f"/kaggle/working/{name}_options.jpg", quality=90)
 print(f"TOTAL {time.time()-t0:.0f}s")
