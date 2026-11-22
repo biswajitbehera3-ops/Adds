@@ -81,5 +81,14 @@ A second project in this repo: a Hinglish explainer/news video-podcast with two 
 | Shorts from an episode | `pod-shorts-export` (+ `yt-shorts`) |
 | Upload kit | `pod-package` (+ `yt-package`, `yt-seo`, `yt-chapters`) |
 | Shell helpers | `python3 -I podcast/tools/pod.py -h` (watch, audio, loudnorm, check, fx, overlay, clip, captions) |
+| Ready-made effects, titles, lower-thirds, tickers, transitions, charts, maps | `hyperframes:hyperframes-registry` (check it before hand-building any named visual) |
+| Any HyperFrames build or render | `hyperframes:hyperframes` (read first) + `hyperframes:hyperframes-cli` |
+| Copy the style of a reference video the user shows | `hyperframes:reverse-any-video` / `hyperframes:style-sampling` |
+| Footage/images look dull, need a look or a cut-out | `hyperframes:media-use` |
+| Channel/competitor questions | `yt-viral`, `yt-audit`; after publishing: `yt-retention`, `yt-comment` |
+
+**Use these skills on your own (user rule, 2026-11-22).** The user installed the `yt-*`, `pod-*` and `hyperframes:*` skills so they never have to name them. Whenever a podcast task matches a row above, load that skill and follow it without asking which one; chain them in pipeline order (script → characters → graphics → captions → sound → render → review → package) and say in one line which skills were used. The rules that still need a yes are unchanged: anything paid (Higgsfield), downloads from Epidemic Sound, and publishing anything.
+
+HyperFrames versions: the plugin skills are written for 0.9.x; `podcast/effects/` is pinned to 0.8.147 (tested). Upgrade the pin (and re-test a render) the first time a registry block needs 0.9.
 
 Free first: Kaggle GPU (weekly quota) and local tools; Higgsfield follows the generation & cost policy above.
