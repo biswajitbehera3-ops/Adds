@@ -16,41 +16,58 @@ pipe = StableDiffusionXLPipeline.from_pretrained("stabilityai/stable-diffusion-x
 pipe.load_ip_adapter("h94/IP-Adapter", subfolder="sdxl_models",
        weight_name=["ip-adapter-plus_sdxl_vit-h.safetensors", "ip-adapter-plus-face_sdxl_vit-h.safetensors"])
 ID = ("stylized 3D caricature of a nerdy young Indian man, oversized head, thin neck, big bulbous pink nose, big round eyes, "
-      "thick black rectangular-round glasses, thick dark eyebrows, big ears, clean shaven, fuzzy black curly hair, "
-      "cream knit cardigan, dark green knit vest, pink t-shirt")
+      "thick black glasses, big ears, clean shaven, fuzzy black curly hair, cream knit cardigan, dark green knit vest, pink t-shirt")
 LOOK = ("photoreal miniature puppet photo, matte clay skin, real hair strands, real knit fabric texture, "
-        "plain warm light grey seamless studio background, soft diffused light, 85mm, sharp focus, ultra detailed")
-NEG = ("beard, moustache, goatee, cup, mug, hands holding objects, text, logo, watermark, 2d, flat, drawing, "
-       "deformed, extra fingers, extra arms, multiple people, cropped head, lowres, ugly")
-SHOTS = [  # name, extra prompt, look scale, face scale, size
-  ("view_front", "front view, facing camera, upper body, neutral calm expression", 0.55, 0.6, (896, 1152)),
-  ("view_34", "three-quarter view, body and head turned to the left, upper body, neutral expression", 0.5, 0.5, (896, 1152)),
-  ("view_profile", "side profile view facing left, upper body, neutral expression", 0.45, 0.4, (896, 1152)),
-  ("view_back", "back view, seen from behind, back of curly head, upper body", 0.5, 0.0, (896, 1152)),
-  ("exp_laugh", "laughing out loud, eyes squeezed shut, mouth wide open, head tilted back, head and shoulders", 0.45, 0.5, (896, 1152)),
-  ("exp_cry", "crying, big tears streaming down cheeks, trembling lip, sad eyebrows, head and shoulders", 0.45, 0.5, (896, 1152)),
-  ("exp_angry", "angry, deep frown, eyebrows pulled down, gritted teeth, head and shoulders", 0.45, 0.5, (896, 1152)),
-  ("exp_shock", "shocked, eyes wide, eyebrows high, mouth open in an O, head and shoulders", 0.45, 0.5, (896, 1152)),
-  ("exp_think", "thinking, hand on chin, eyes looking up, head and shoulders", 0.45, 0.5, (896, 1152)),
-  ("exp_smug", "smug teasing smirk, one eyebrow raised, head and shoulders", 0.45, 0.5, (896, 1152)),
-  ("exp_scared", "nervous and scared, biting lip, eyebrows raised in the middle, head and shoulders", 0.45, 0.5, (896, 1152)),
-  ("exp_talk", "talking excitedly, mouth open mid-word, explaining, head and shoulders", 0.45, 0.5, (896, 1152)),
-]
-tiles = []
-for name, extra, sty, fac, (w, h) in SHOTS:
-    pipe.set_ip_adapter_scale([sty, fac])
-    for seed in [31, 32]:
-        img = pipe(prompt=ID + ", " + extra, prompt_2=LOOK, negative_prompt=NEG, ip_adapter_image=[HERO, FACE],
-                   width=w, height=h, num_inference_steps=36, guidance_scale=6.5,
-                   generator=torch.Generator("cuda").manual_seed(seed)).images[0]
-        img.save(f"/kaggle/working/{name}_seed{seed}.png"); tiles.append((f"{name} seed {seed}", img))
-        print(len(tiles), name, f"{time.time()-t0:.0f}s", flush=True)
-tw, th = 300, 386
+        "plain light grey seamless studio background, soft diffused light, 85mm, sharp focus, ultra detailed")
+NEG = ("beard, moustache, goatee, cup, mug, text, logo, watermark, 2d, flat, drawing, deformed, extra fingers, "
+       "extra arms, multiple people, cropped head, lowres, ugly, shelves, plants")
+EXPR = {
+  "laugh": "LAUGHING HARD, eyes squeezed shut, huge open-mouth laugh showing teeth, head tilted back",
+  "cry": "CRYING, big tears streaming down cheeks, mouth turned down and trembling, sad eyebrows",
+  "angry": "FURIOUS, deep frown, eyebrows pulled down hard, clenched teeth",
+  "shock": "SHOCKED, eyes wide open, eyebrows very high, mouth wide open in an O",
+  "think": "THINKING, looking up and to the side, lips pursed, one eyebrow raised",
+  "smug": "SMUG, teasing smirk on one side of the mouth, one eyebrow raised, half-closed eyes",
+  "scared": "SCARED, eyebrows raised in the middle, mouth pulled wide in a nervous grimace",
+  "talk": "TALKING, mouth open mid-word, eyebrows raised, explaining eagerly",
+}
+VIEWS = {
+  "front": "front view, facing camera, upper body, calm neutral expression",
+  "34": "three-quarter view, head and body turned to the left, upper body",
+  "profile": "side profile view, facing left, upper body, nose in profile",
+  "back": "back view, seen from behind, back of curly head, upper body, face not visible",
+}
+STYLE_ONLY = {"up": {"block_0": [0.0, 1.0, 0.0]}}   # InstantStyle: take the look, not the layout or pose
+results = []
+def run(name, prompt, scales, **kw):
+    pipe.set_ip_adapter_scale(scales)
+    img = pipe(prompt=prompt, prompt_2=LOOK, negative_prompt=NEG, ip_adapter_image=[HERO, FACE],
+               num_inference_steps=36, guidance_scale=7.0, generator=torch.Generator("cuda").manual_seed(41), **kw).images[0]
+    img.save(f"/kaggle/working/{name}.png"); results.append((name, img)); print(name, f"{time.time()-t0:.0f}s", flush=True)
+# A) text-to-image: views + expressions, look via style-only blocks, identity via a light face weight
+for k, v in VIEWS.items():
+    run(f"A_view_{k}", v + ", " + ID, [STYLE_ONLY, 0.0 if k == "back" else 0.3], width=896, height=1152)
+for k, v in EXPR.items():
+    run(f"A_exp_{k}", v + ", head and shoulders, " + ID, [STYLE_ONLY, 0.3], width=896, height=1152)
+# B) expressions by repainting only the face of the approved hero image
+from diffusers import AutoPipelineForInpainting
+from PIL import ImageFilter
+inp = AutoPipelineForInpainting.from_pipe(pipe)
+mask = Image.new("L", HERO.size, 0); ImageDraw.Draw(mask).ellipse([200, 500, 580, 900], fill=255)
+mask = mask.filter(ImageFilter.GaussianBlur(14))
+for k, v in EXPR.items():
+    inp.set_ip_adapter_scale([0.0, 0.25])
+    img = inp(prompt=v + ", " + ID, prompt_2=LOOK.replace("plain light grey seamless studio background", "cozy cafe background"),
+              negative_prompt=NEG, image=HERO, mask_image=mask, ip_adapter_image=[HERO, FACE], strength=0.8,
+              width=768, height=1344, num_inference_steps=40, guidance_scale=7.5,
+              generator=torch.Generator("cuda").manual_seed(41)).images[0]
+    img.save(f"/kaggle/working/B_exp_{k}.png"); results.append((f"B_exp_{k}", img)); print("B", k, f"{time.time()-t0:.0f}s", flush=True)
+tw, th = 300, 420
 cols = 6
-rows = (len(tiles) + cols - 1) // cols
+rows = (len(results) + cols - 1) // cols
 sheet = Image.new("RGB", (tw * cols, (th + 26) * rows), "white"); d = ImageDraw.Draw(sheet)
-for i, (lab, img) in enumerate(tiles):
+for i, (lab, img) in enumerate(results):
     x, y = (i % cols) * tw, (i // cols) * (th + 26)
     d.text((x + 6, y + 7), lab, fill="black"); sheet.paste(img.resize((tw, th)), (x, y + 26))
-sheet.save("/kaggle/working/genius_sheet_all.jpg", quality=90)
+sheet.save("/kaggle/working/genius_sheet_v2_all.jpg", quality=90)
 print(f"TOTAL {time.time()-t0:.0f}s")
