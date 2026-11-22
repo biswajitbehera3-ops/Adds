@@ -1,0 +1,13 @@
+{
+  "id": "biswajitbehera3/podcast-genius-sheet",
+  "title": "podcast genius sheet",
+  "code_file": "genius_sheet.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": []
+}
