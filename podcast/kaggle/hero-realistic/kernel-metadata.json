@@ -1,0 +1,13 @@
+{
+  "id": "biswajitbehera3/podcast-hero-realistic",
+  "title": "podcast hero realistic",
+  "code_file": "hero_realistic.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [],
+  "competition_sources": [],
+  "kernel_sources": []
+}
