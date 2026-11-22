@@ -1,0 +1,194 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#111;display:flex;gap:0}
+svg{display:block}
+</style></head><body>
+<!-- ============ GENIUS ============ -->
+<svg id="genius" width="900" height="1100" viewBox="0 0 900 1100" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="bgG" cx="35%" cy="30%" r="90%"><stop offset="0" stop-color="#6b4a2e"/><stop offset=".55" stop-color="#3a2618"/><stop offset="1" stop-color="#160e09"/></radialGradient>
+  <radialGradient id="skinG" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#d8996a"/><stop offset=".6" stop-color="#b0724a"/><stop offset="1" stop-color="#7c4a2c"/></radialGradient>
+  <linearGradient id="neckG" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#7a4628"/><stop offset="1" stop-color="#a0663f"/></linearGradient>
+  <linearGradient id="khakiG" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#c9ad74"/><stop offset="1" stop-color="#7e6538"/></linearGradient>
+  <radialGradient id="hairG" cx="40%" cy="30%" r="70%"><stop offset="0" stop-color="#3a2a22"/><stop offset="1" stop-color="#0d0907"/></radialGradient>
+  <radialGradient id="irisG" cx="40%" cy="35%" r="65%"><stop offset="0" stop-color="#7a4a26"/><stop offset="1" stop-color="#2a160a"/></radialGradient>
+  <radialGradient id="lensG" cx="35%" cy="30%" r="70%"><stop offset="0" stop-color="#ffffff" stop-opacity=".22"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+  <radialGradient id="rimG" cx="85%" cy="40%" r="60%"><stop offset="0" stop-color="#ffcf8a" stop-opacity=".45"/><stop offset="1" stop-color="#ffcf8a" stop-opacity="0"/></radialGradient>
+  <filter id="soft"><feGaussianBlur stdDeviation="10"/></filter>
+  <filter id="blur3"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="bokeh"><feGaussianBlur stdDeviation="14"/></filter>
+</defs>
+<rect width="900" height="1100" fill="url(#bgG)"/>
+<g filter="url(#bokeh)" fill="#ffb862" opacity=".55">
+  <circle cx="120" cy="180" r="36"/><circle cx="780" cy="140" r="44"/><circle cx="820" cy="420" r="28"/><circle cx="80" cy="520" r="30"/><circle cx="700" cy="60" r="22"/>
+</g>
+<!-- shadow behind body -->
+<ellipse cx="450" cy="1060" rx="360" ry="90" fill="#000" opacity=".45" filter="url(#soft)"/>
+<!-- jacket -->
+<path d="M160 1100 C175 880 300 820 450 820 C600 820 725 880 740 1100 Z" fill="url(#khakiG)"/>
+<path d="M330 832 L400 1100 L330 1100 L250 870 Z" fill="#6f5830" opacity=".55"/>
+<path d="M570 832 L500 1100 L570 1100 L650 870 Z" fill="#6f5830" opacity=".55"/>
+<!-- shirt -->
+<path d="M352 828 L450 1100 L548 828 Q450 800 352 828 Z" fill="#f3efe6"/>
+<path d="M372 822 L428 905 L450 850 Z" fill="#ffffff" stroke="#d9d3c6" stroke-width="3"/>
+<path d="M528 822 L472 905 L450 850 Z" fill="#ffffff" stroke="#d9d3c6" stroke-width="3"/>
+<!-- suspenders -->
+<path d="M372 850 L410 1100 L384 1100 L350 860 Z" fill="#6a3a1e"/>
+<path d="M528 850 L490 1100 L516 1100 L550 860 Z" fill="#6a3a1e"/>
+<!-- tie -->
+<path d="M434 854 L466 854 L472 882 L428 882 Z" fill="#6e1a24"/>
+<path d="M430 882 L470 882 L486 1030 L450 1070 L414 1030 Z" fill="#8a2230"/>
+<path d="M450 882 L470 882 L486 1030 L450 1070 Z" fill="#6e1a24" opacity=".6"/>
+<!-- neck -->
+<path d="M408 700 L492 700 L498 830 Q450 852 402 830 Z" fill="url(#neckG)"/>
+<!-- ears -->
+<ellipse cx="302" cy="545" rx="30" ry="48" fill="#a2663f"/><ellipse cx="306" cy="545" rx="15" ry="28" fill="#7c4a2c" opacity=".6"/>
+<ellipse cx="598" cy="545" rx="30" ry="48" fill="#a2663f"/><ellipse cx="594" cy="545" rx="15" ry="28" fill="#7c4a2c" opacity=".6"/>
+<!-- head: long narrow -->
+<path d="M450 300 C560 300 605 390 600 520 C596 640 545 745 450 755 C355 745 304 640 300 520 C295 390 340 300 450 300 Z" fill="url(#skinG)"/>
+<path d="M450 300 C560 300 605 390 600 520 C596 640 545 745 450 755 C355 745 304 640 300 520 C295 390 340 300 450 300 Z" fill="url(#rimG)"/>
+<!-- cheek blush -->
+<ellipse cx="350" cy="625" rx="34" ry="20" fill="#d4785a" opacity=".25" filter="url(#blur3)"/>
+<ellipse cx="550" cy="625" rx="34" ry="20" fill="#d4785a" opacity=".25" filter="url(#blur3)"/>
+<!-- messy curly hair -->
+<g fill="url(#hairG)">
+  <path d="M300 470 C280 360 330 270 450 262 C570 270 622 360 600 470 C585 410 560 380 540 372 C500 395 400 395 360 372 C340 380 315 410 300 470 Z"/>
+  <circle cx="340" cy="320" r="48"/><circle cx="400" cy="282" r="54"/><circle cx="470" cy="270" r="56"/><circle cx="540" cy="292" r="52"/><circle cx="586" cy="345" r="42"/><circle cx="312" cy="380" r="36"/>
+  <circle cx="370" cy="236" r="30"/><circle cx="440" cy="214" r="34"/><circle cx="515" cy="226" r="30"/><circle cx="575" cy="262" r="26"/>
+  <path d="M425 200 C415 160 440 135 460 150 C445 160 445 180 452 196 Z"/>
+  <path d="M520 214 C540 175 575 178 580 196 C560 194 545 205 535 222 Z"/>
+  <path d="M345 244 C315 215 320 190 340 188 C338 205 348 222 362 236 Z"/>
+</g>
+<g fill="none" stroke="#5a4236" stroke-width="5" stroke-linecap="round" opacity=".7">
+  <path d="M385 270 q15 -18 32 -4"/><path d="M455 250 q18 -20 36 -2"/><path d="M528 275 q16 -14 30 2"/><path d="M335 310 q12 -16 28 -6"/>
+</g>
+<!-- pen behind right ear -->
+<g transform="rotate(-28 600 470)">
+  <rect x="540" y="458" width="120" height="16" rx="7" fill="#f2c230"/>
+  <rect x="540" y="458" width="120" height="6" rx="3" fill="#ffe27a"/>
+  <path d="M660 458 L684 466 L660 474 Z" fill="#e8d2a8"/><path d="M676 463 L684 466 L676 469 Z" fill="#222"/>
+  <rect x="548" y="456" width="10" height="20" fill="#2c3e8a"/>
+</g>
+<!-- eyes -->
+<g>
+  <ellipse cx="388" cy="527" rx="42" ry="48" fill="#fbf7f0"/><ellipse cx="512" cy="527" rx="42" ry="48" fill="#fbf7f0"/>
+  <circle cx="397" cy="532" r="30" fill="url(#irisG)"/><circle cx="503" cy="532" r="30" fill="url(#irisG)"/>
+  <circle cx="397" cy="532" r="16" fill="#0a0604"/><circle cx="503" cy="532" r="16" fill="#0a0604"/>
+  <circle cx="387" cy="520" r="8" fill="#fff"/><circle cx="493" cy="520" r="8" fill="#fff"/>
+  <circle cx="406" cy="544" r="3.5" fill="#fff" opacity=".8"/><circle cx="512" cy="544" r="3.5" fill="#fff" opacity=".8"/>
+  <path d="M348 515 Q388 474 428 515" fill="none" stroke="#3a2016" stroke-width="5"/>
+  <path d="M472 515 Q512 474 552 515" fill="none" stroke="#3a2016" stroke-width="5"/>
+</g>
+<!-- worried eyebrows (inner ends raised) -->
+<path d="M332 452 Q372 440 428 414" fill="none" stroke="#120c09" stroke-width="15" stroke-linecap="round"/>
+<path d="M472 414 Q528 440 568 452" fill="none" stroke="#120c09" stroke-width="15" stroke-linecap="round"/>
+<!-- big round glasses -->
+<g fill="none" stroke="#0e0e10" stroke-width="12">
+  <circle cx="386" cy="528" r="62"/><circle cx="514" cy="528" r="62"/>
+  <path d="M446 516 Q450 506 454 516" stroke-width="10"/>
+  <path d="M324 516 L302 508"/><path d="M576 516 L598 508"/>
+</g>
+<circle cx="386" cy="528" r="57" fill="url(#lensG)"/><circle cx="514" cy="528" r="57" fill="url(#lensG)"/>
+<path d="M350 488 q14 -18 34 -22" fill="none" stroke="#fff" stroke-width="5" opacity=".45" stroke-linecap="round"/>
+<path d="M466 488 q14 -18 34 -22" fill="none" stroke="#fff" stroke-width="5" opacity=".45" stroke-linecap="round"/>
+<!-- nose -->
+<path d="M440 560 Q436 620 428 638 Q450 654 472 638 Q464 620 460 560" fill="#8e5534" opacity=".35"/>
+<ellipse cx="450" cy="636" rx="26" ry="18" fill="#a8683f"/><ellipse cx="444" cy="628" rx="9" ry="6" fill="#e6ad80" opacity=".7"/>
+<!-- nervous mouth -->
+<path d="M410 690 Q428 680 448 690 Q470 700 492 686" fill="none" stroke="#4a2414" stroke-width="7" stroke-linecap="round"/>
+<path d="M425 708 Q450 716 475 708" fill="none" stroke="#7c4a2c" stroke-width="4" opacity=".5" stroke-linecap="round"/>
+<!-- vignette -->
+<rect width="900" height="1100" fill="url(#vigG)"/>
+<radialGradient id="vigG" cx="50%" cy="45%" r="75%"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
+</svg>
+
+<!-- ============ QUESTIONER ============ -->
+<svg id="questioner" width="900" height="1100" viewBox="0 0 900 1100" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <radialGradient id="bgQ" cx="65%" cy="30%" r="90%"><stop offset="0" stop-color="#6b4a2e"/><stop offset=".55" stop-color="#3a2618"/><stop offset="1" stop-color="#160e09"/></radialGradient>
+  <radialGradient id="skinQ" cx="42%" cy="38%" r="68%"><stop offset="0" stop-color="#cf9064"/><stop offset=".6" stop-color="#a76a43"/><stop offset="1" stop-color="#734327"/></radialGradient>
+  <linearGradient id="capQ" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#e8d6ae"/><stop offset="1" stop-color="#b59d70"/></linearGradient>
+  <linearGradient id="redQ" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#d8333a"/><stop offset="1" stop-color="#8e161c"/></linearGradient>
+  <radialGradient id="irisQ" cx="40%" cy="35%" r="65%"><stop offset="0" stop-color="#6a3e1e"/><stop offset="1" stop-color="#22120a"/></radialGradient>
+  <radialGradient id="rimQ" cx="15%" cy="45%" r="60%"><stop offset="0" stop-color="#ffcf8a" stop-opacity=".4"/><stop offset="1" stop-color="#ffcf8a" stop-opacity="0"/></radialGradient>
+  <radialGradient id="vigQ" cx="50%" cy="45%" r="75%"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></radialGradient>
+  <filter id="softQ"><feGaussianBlur stdDeviation="10"/></filter>
+  <filter id="blurQ"><feGaussianBlur stdDeviation="3"/></filter>
+  <filter id="bokehQ"><feGaussianBlur stdDeviation="14"/></filter>
+</defs>
+<rect width="900" height="1100" fill="url(#bgQ)"/>
+<g filter="url(#bokehQ)" fill="#ffb862" opacity=".55">
+  <circle cx="790" cy="190" r="38"/><circle cx="110" cy="120" r="42"/><circle cx="70" cy="430" r="28"/><circle cx="830" cy="540" r="30"/><circle cx="210" cy="40" r="22"/>
+</g>
+<ellipse cx="450" cy="1060" rx="400" ry="90" fill="#000" opacity=".45" filter="url(#softQ)"/>
+<!-- track jacket, broad shoulders -->
+<path d="M90 1100 C100 880 270 820 450 820 C630 820 800 880 810 1100 Z" fill="url(#redQ)"/>
+<path d="M90 1100 C100 960 150 900 220 870 L250 1100 Z" fill="#141414"/>
+<path d="M810 1100 C800 960 750 900 680 870 L650 1100 Z" fill="#141414"/>
+<path d="M232 868 L262 1100" stroke="#f4f4f4" stroke-width="7"/><path d="M668 868 L638 1100" stroke="#f4f4f4" stroke-width="7"/>
+<!-- open collar + white tee -->
+<path d="M360 830 L450 960 L540 830 Q450 812 360 830 Z" fill="#f2f0ec"/>
+<path d="M340 826 Q450 800 560 826 L548 850 Q450 828 352 850 Z" fill="#141414"/>
+<path d="M352 850 L440 1100 L430 1100 L340 852 Z" fill="#141414"/><path d="M548 850 L460 1100 L470 1100 L560 852 Z" fill="#141414"/>
+<path d="M436 980 L436 1100 M464 980 L464 1100" stroke="#b8b8b8" stroke-width="3" stroke-dasharray="5 4"/>
+<!-- neck, short and thick -->
+<path d="M380 720 L520 720 L530 840 Q450 870 370 840 Z" fill="#7d4a2b"/>
+<!-- ears -->
+<ellipse cx="248" cy="580" rx="32" ry="46" fill="#9c6340"/><ellipse cx="252" cy="580" rx="16" ry="26" fill="#734327" opacity=".6"/>
+<ellipse cx="652" cy="580" rx="32" ry="46" fill="#9c6340"/><ellipse cx="648" cy="580" rx="16" ry="26" fill="#734327" opacity=".6"/>
+<!-- round chubby head -->
+<path d="M450 360 C580 360 660 450 658 575 C656 700 580 790 450 795 C320 790 244 700 242 575 C240 450 320 360 450 360 Z" fill="url(#skinQ)"/>
+<path d="M450 360 C580 360 660 450 658 575 C656 700 580 790 450 795 C320 790 244 700 242 575 C240 450 320 360 450 360 Z" fill="url(#rimQ)"/>
+<!-- chubby cheeks -->
+<ellipse cx="335" cy="660" rx="62" ry="48" fill="#c98558" opacity=".3" filter="url(#softQ)"/>
+<ellipse cx="565" cy="660" rx="62" ry="48" fill="#c98558" opacity=".3" filter="url(#softQ)"/>
+<ellipse cx="335" cy="655" rx="36" ry="20" fill="#d9775a" opacity=".22" filter="url(#blurQ)"/>
+<ellipse cx="565" cy="655" rx="36" ry="20" fill="#d9775a" opacity=".22" filter="url(#blurQ)"/>
+<!-- double chin hint -->
+<path d="M370 770 Q450 815 530 770" fill="none" stroke="#6a3c22" stroke-width="5" opacity=".35"/>
+<!-- side hair under cap -->
+<path d="M246 520 Q250 470 290 450 L296 560 Q270 545 250 560 Z" fill="#120c09"/>
+<path d="M654 520 Q650 470 610 450 L604 560 Q630 545 650 560 Z" fill="#120c09"/>
+<!-- beige baseball cap -->
+<path d="M240 512 C236 360 330 285 450 285 C570 285 664 360 660 512 Q450 470 240 512 Z" fill="url(#capQ)"/>
+<path d="M450 287 L450 490" stroke="#a48c60" stroke-width="4"/>
+<path d="M330 315 Q350 420 345 495" fill="none" stroke="#a48c60" stroke-width="4"/>
+<path d="M570 315 Q550 420 555 495" fill="none" stroke="#a48c60" stroke-width="4"/>
+<circle cx="450" cy="290" r="13" fill="#c9b38a"/>
+<!-- brim: curved bill sticking out toward camera, slight tilt -->
+<g transform="rotate(-5 450 520)">
+<path d="M262 556 Q450 590 638 556 L630 600 Q450 640 270 600 Z" fill="#000" opacity=".35" filter="url(#blurQ)"/>
+<path d="M226 512 Q450 470 674 512 Q712 540 690 572 Q450 604 210 572 Q188 540 226 512 Z" fill="#cdb488"/>
+<path d="M226 512 Q450 470 674 512 Q700 528 696 545 Q450 512 204 545 Q200 528 226 512 Z" fill="#e2cfa4"/>
+<path d="M210 572 Q450 604 690 572" fill="none" stroke="#8e7850" stroke-width="6"/>
+<path d="M240 560 Q450 588 660 560" fill="none" stroke="#a48c60" stroke-width="3" stroke-dasharray="7 6"/>
+</g>
+<!-- thick brows, one raised (smug) -->
+<path d="M322 592 Q365 576 418 588" fill="none" stroke="#120c09" stroke-width="22" stroke-linecap="round"/>
+<path d="M482 578 Q530 548 580 566" fill="none" stroke="#120c09" stroke-width="22" stroke-linecap="round"/>
+<!-- relaxed half-closed eyes -->
+<g>
+  <ellipse cx="372" cy="630" rx="40" ry="30" fill="#fbf7f0"/><ellipse cx="528" cy="626" rx="40" ry="32" fill="#fbf7f0"/>
+  <circle cx="378" cy="638" r="22" fill="url(#irisQ)"/><circle cx="534" cy="634" r="22" fill="url(#irisQ)"/>
+  <circle cx="378" cy="638" r="11" fill="#0a0604"/><circle cx="534" cy="634" r="11" fill="#0a0604"/>
+  <circle cx="371" cy="634" r="5" fill="#fff"/><circle cx="527" cy="630" r="5" fill="#fff"/>
+  <!-- heavy upper lids -->
+  <path d="M328 632 Q372 598 416 632 L416 610 Q372 584 328 610 Z" fill="#9c6340"/>
+  <path d="M484 626 Q528 596 572 626 L572 604 Q528 578 484 604 Z" fill="#9c6340"/>
+  <path d="M330 632 Q372 602 414 632" fill="none" stroke="#2a160c" stroke-width="6" stroke-linecap="round"/>
+  <path d="M486 626 Q528 598 570 626" fill="none" stroke="#2a160c" stroke-width="6" stroke-linecap="round"/>
+</g>
+<!-- broad round nose -->
+<path d="M436 650 Q430 700 418 712 Q450 732 482 712 Q470 700 464 650" fill="#734327" opacity=".3"/>
+<ellipse cx="450" cy="708" rx="36" ry="24" fill="#a26a44"/><ellipse cx="442" cy="700" rx="12" ry="7" fill="#e0a578" opacity=".7"/>
+<ellipse cx="432" cy="716" rx="7" ry="4" fill="#3a1e10" opacity=".6"/><ellipse cx="468" cy="716" rx="7" ry="4" fill="#3a1e10" opacity=".6"/>
+<!-- stubble -->
+<path d="M330 720 Q450 830 570 720 Q560 790 450 800 Q340 790 330 720 Z" fill="#3a2418" opacity=".12" filter="url(#blurQ)"/>
+<!-- smug half smile -->
+<path d="M398 752 Q455 770 512 742" fill="none" stroke="#4a2414" stroke-width="7" stroke-linecap="round"/>
+<path d="M512 742 Q522 736 526 728" fill="none" stroke="#4a2414" stroke-width="5" stroke-linecap="round"/>
+<!-- short goatee -->
+<path d="M422 772 Q450 766 478 772 Q482 805 450 818 Q418 805 422 772 Z" fill="#140d0a"/>
+<path d="M432 760 Q450 756 468 760 L466 766 Q450 762 434 766 Z" fill="#140d0a" opacity=".85"/>
+<rect width="900" height="1100" fill="url(#vigQ)"/>
+</svg>
+</body></html>
