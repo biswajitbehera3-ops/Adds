@@ -2,6 +2,7 @@ import React from 'react';
 import {Composition, Still, AbsoluteFill, interpolate, useCurrentFrame, spring, useVideoConfig} from 'remotion';
 import {StudioScene} from './studio/Studio';
 import {PlateShot, SETUPS, SetupsReel, StackedVertical} from './studio/CameraSetups';
+import {PodCaptions, calculatePodCaptionsMetadata} from './captions/PodCaptions';
 
 const TitleCard: React.FC<{title: string}> = ({title}) => {
   const f = useCurrentFrame();
@@ -41,5 +42,9 @@ export const Root: React.FC = () => (
         durationInFrames={150} fps={30} width={1080} height={1920} />
     ))}
     <Composition id="Cam-stackedVertical" component={StackedVertical} durationInFrames={150} fps={30} width={1080} height={1920} />
+
+    {/* Word-by-word Hinglish captions (transparent). Data: public/captions/<file>.json from `pod.py captions` */}
+    <Composition id="PodCaptions" component={PodCaptions} calculateMetadata={calculatePodCaptionsMetadata}
+      durationInFrames={300} fps={30} width={1920} height={1080} defaultProps={{file: 'demo'}} />
   </>
 );

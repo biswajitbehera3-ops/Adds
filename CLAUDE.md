@@ -63,3 +63,23 @@ Several of these skills cover similar ground on purpose (different levels of con
 - **Marketing/psychology/algorithm/outreach questions** stay in `ad-strategist` — none of the image/video/character skills invent the marketing angle themselves.
 
 If `story-bible-builder` has produced a canon skill for this project's brand/character, that installed skill becomes the identity/voice/world source and `cinema-director-v3` (or `banana-pro-director-30` for images) pulls from it — see each skill's own "bible handoff" notes.
+
+## Hinglish AI-host podcast channel (`podcast/`)
+
+A second project in this repo: a Hinglish explainer/news video-podcast with two 3D AI hosts (the Genius and the Questioner). Voice, audience and show rules: `podcast/youtube/voice.md`; colours/fonts/loudness: `podcast/brand/brand-kit.json`.
+
+| Job | Skill / tool |
+|---|---|
+| Ideas, scripts, hooks | `yt-viral`, `yt-script`, `yt-plan` |
+| Character faces, expressions, emotion test clips | `podcast/tools/emote/genius_emote.py` (LivePortrait, local CPU) |
+| See any video | `pod-watch` |
+| Motion graphics (Claude picks the style itself) | `pod-motion-library` → `pod-effects` (HyperFrames, `podcast/effects/`) or `pod-manim` (charts/diagrams) |
+| Captions | `pod-captions` (+ `pod-style-caption` for Shorts) — Remotion `PodCaptions` |
+| Sound | `pod-sound` |
+| Render | `pod-render` (Remotion `podcast/remotion`, always `--browser-executable=/opt/pw-browsers/chromium`) |
+| Review before anything ships | `pod-review-gate` |
+| Shorts from an episode | `pod-shorts-export` (+ `yt-shorts`) |
+| Upload kit | `pod-package` (+ `yt-package`, `yt-seo`, `yt-chapters`) |
+| Shell helpers | `python3 -I podcast/tools/pod.py -h` (watch, audio, loudnorm, check, fx, overlay, clip, captions) |
+
+Free first: Kaggle GPU (weekly quota) and local tools; Higgsfield follows the generation & cost policy above.

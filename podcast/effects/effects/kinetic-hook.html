@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=1920, height=1080" />
+<!-- TEMPLATE  Kinetic hook (3 s, transparent, 1920x1080): 2-4 words slam in one by one, top of frame.
+     Copy to effects/<name>.html and change the words inside #t (keep class="w ink"). Odd words take the accent colour. -->
+<script src="../assets/gsap.min.js"></script>
+<style>html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:transparent;font-family:"Inter Display Black","Inter",Arial Black,sans-serif}
+#root{position:relative;width:100%;height:100%;overflow:hidden}
+.ink{-webkit-text-stroke:12px #111418;paint-order:stroke fill;text-shadow:0 10px 0 #111418}
+.w{display:inline-block;margin:0 14px}</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="3" data-width="1920" data-height="1080">
+  <div id="t" style="position:absolute;top:50px;left:0;right:0;text-align:center;font-size:150px;color:#FFFFFF;white-space:nowrap;letter-spacing:2px">
+    <span class="w ink">YE</span><span class="w ink" style="color:#FFC83D">HUA</span><span class="w ink">KYA?</span>
+  </div></div>
+<script>const tl=gsap.timeline({paused:true});
+[...document.querySelectorAll(".w")].forEach((w,i)=>{tl.fromTo(w,{scale:2.6,opacity:0,y:-40},{scale:1,opacity:1,y:0,duration:.35,ease:"back.out(2.2)"},.1+i*.3);
+ tl.fromTo("#t",{x:0},{x:(i%2?-10:10),duration:.05,yoyo:true,repeat:1},.36+i*.3)});
+tl.to("#t",{y:-280,opacity:0,duration:.45,ease:"power2.in"},2.5);
+tl.to({},{duration:3},0);window.__timelines=window.__timelines||{};window.__timelines["main"]=tl;tl.seek(0);</script></body></html>

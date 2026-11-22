@@ -1,0 +1,24 @@
+{
+  "channel": "[TBD channel name]",
+  "status": "draft 2026-11-22 - colours taken from the studio plate and the Genius outfit; change freely",
+  "colors": {
+    "primary": "#FFC83D",
+    "news": "#FF4D4D",
+    "accent": "#2EC4B6",
+    "ink": "#111418",
+    "paper": "#F6F1E7",
+    "forest": "#1F3B2D"
+  },
+  "hosts": {
+    "genius": { "color": "#FFC83D", "label": "[TBD name]" },
+    "questioner": { "color": "#2EC4B6", "label": "[TBD name]" }
+  },
+  "fonts": {
+    "display": "Inter Display Black, Inter, Arial Black, sans-serif",
+    "body": "Inter, Arial, sans-serif"
+  },
+  "caption": { "size": 64, "sizeShort": 84, "outline": 10, "activeColor": "speaker", "idleColor": "#FFFFFF", "maxWords": 4 },
+  "loudness": { "lufs": -14, "truePeak": -1.5 },
+  "music": { "volume": 0.10 },
+  "endCard": { "title": "TOH MATLAB KYA?", "sub": "Next episode mein milte hain", "seconds": 3 }
+}

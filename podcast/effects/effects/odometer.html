@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=1920, height=1080" />
+<!-- TEMPLATE  Odometer stat (3 s, transparent, 1920x1080, top-right): digits roll into a number, a label slides in.
+     Change TARGET and LABEL below. Only use real, sourced numbers (voice.md). -->
+<script src="../assets/gsap.min.js"></script>
+<style>html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:transparent;font-family:"Inter Display Black","Inter",Arial Black,sans-serif}
+#root{position:relative;width:100%;height:100%;overflow:hidden}
+.d{width:120px;height:180px;overflow:hidden;border-radius:18px;background:#FFC83D;text-align:center;font-size:150px;color:#111418;display:inline-block;margin:0 4px}
+.d div{height:180px;line-height:180px}</style></head><body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="3" data-width="1920" data-height="1080">
+  <div id="p" style="position:absolute;right:70px;top:60px;display:flex;align-items:center;gap:28px;padding:20px 44px 20px 24px;border-radius:36px;background:#111418;border:6px solid #FFC83D;box-shadow:0 12px 0 rgba(0,0,0,.3)">
+    <div id="digits"></div><div id="w" style="font-size:96px;color:#fff"></div></div></div>
+<script>
+const TARGET = "4,000";          // e.g. "4,000" or "72%" - digits roll, other characters stay fixed
+const LABEL  = "FLIGHTS";
+const dg=document.getElementById("digits"); document.getElementById("w").textContent=LABEL;
+const tl=gsap.timeline({paused:true});
+tl.fromTo("#p",{scale:0,rotation:-6},{scale:1,rotation:0,duration:.45,ease:"back.out(2)"},0);
+[...TARGET].forEach((c,i)=>{
+  const box=document.createElement("div"); box.className="d";
+  if(/[0-9]/.test(c)){ const reel=document.createElement("div");
+    for(let k=0;k<=10+(+c);k++){const x=document.createElement("div");x.textContent=k%10;reel.appendChild(x);}
+    box.appendChild(reel); tl.fromTo(reel,{y:0},{y:-180*(10+(+c)),duration:1.1+i*.12,ease:"power3.out"},.3);
+  } else { box.style.background="transparent"; box.style.color="#FFC83D"; box.style.width="60px"; box.innerHTML="<div>"+c+"</div>"; }
+  dg.appendChild(box);
+});
+tl.fromTo("#w",{x:-60,opacity:0},{x:0,opacity:1,duration:.4,ease:"power3.out"},1.2);
+tl.to("#p",{scale:1.06,duration:.15,yoyo:true,repeat:1},1.6);
+tl.to("#p",{scale:0,opacity:0,duration:.35,ease:"back.in(2)"},2.65);
+tl.to({},{duration:3},0);window.__timelines=window.__timelines||{};window.__timelines["main"]=tl;tl.seek(0);</script></body></html>

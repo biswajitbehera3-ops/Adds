@@ -1,0 +1,42 @@
+<!doctype html>
+<!-- Three shooting stars streak across the top third (3.5 s). Transparent; for opening titles. -->
+<html lang="en" data-resolution="landscape">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="../assets/gsap.min.js"></script>
+    <style>
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: transparent; }
+      #root { position: relative; width: 100%; height: 100%; }
+      .star { position: absolute; left: 0; top: 0; width: 360px; height: 10px; transform-origin: 100% 50%; }
+      .tail { position: absolute; inset: 0; border-radius: 10px;
+              background: linear-gradient(90deg, rgba(255,200,61,0) 0%, rgba(255,200,61,0.55) 70%, #fff 100%); }
+      .head { position: absolute; right: -14px; top: -9px; width: 28px; height: 28px; border-radius: 50%;
+              background: radial-gradient(circle, #fff 0 35%, #FFC83D 60%, rgba(255,200,61,0) 72%);
+              box-shadow: 0 0 24px 8px rgba(255,200,61,0.8); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="3.5" data-width="1920" data-height="1080">
+      <div class="star" id="s1"><div class="tail"></div><div class="head"></div></div>
+      <div class="star" id="s2"><div class="tail"></div><div class="head"></div></div>
+      <div class="star" id="s3"><div class="tail"></div><div class="head"></div></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      // [start time, from x,y, to x,y, scale]
+      const paths = [[0.15, -420, 60, 2100, 420, 1], [1.0, -420, 220, 2100, 560, 0.75], [1.9, -420, 20, 2100, 300, 0.6]];
+      paths.forEach(([t, x0, y0, x1, y1, sc], i) => {
+        const el = "#s" + (i + 1);
+        const rot = Math.atan2(y1 - y0, x1 - x0) * 180 / Math.PI;
+        tl.set(el, { x: x0, y: y0, rotation: rot, scale: sc, opacity: 0 }, 0);
+        tl.to(el, { opacity: 1, duration: 0.12 }, t);
+        tl.to(el, { x: x1, y: y1, duration: 1.1, ease: "power1.in" }, t);
+        tl.to(el, { opacity: 0, duration: 0.3 }, t + 0.85);
+      });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

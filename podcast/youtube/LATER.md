@@ -1,9 +1,11 @@
-# Parked for later — from the gugu skills bundle (2026-11-14)
+# gugu skills bundle (2026-11-14) — what was done with it
 
-Not installed. Bundle zip: the user's upload `gugu-skills-bundle-2026-11-14.zip` (re-upload if needed).
+**Installed 2026-11-22 as `pod-*` skills** (renamed, rewritten for the podcast + Linux): pod-motion-library, pod-effects, pod-captions, pod-style-caption, pod-sound, pod-review-gate, pod-manim, pod-shorts-export, pod-watch, pod-render, pod-package. The table below is kept as the record of where each came from.
+
+Bundle zip: the user's upload `gugu-skills-bundle-2026-11-14.zip` (re-upload if needed).
 They were built for the kids' channel on a Mac, so each must be **rewritten for the podcast and for Linux** before use.
 
-## Worth porting (podcast-useful)
+## Ported (now pod-*)
 | Skill | Why it's useful here |
 |---|---|
 | `gugu-motion-library` | ~40 named motion-graphics styles (kinetic hook, title card dive, gravity drop, knockout/giant captions, mood curtain, intertitle, magazine cover, picture dive, odometer, icon strike, grease pencil…) for the explainer graphics |
