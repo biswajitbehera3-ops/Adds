@@ -70,3 +70,22 @@ Footage: official Rockstar Games trailers.
 
 **Runtime:** ~125 words ≈ 50 s at 150 wpm; ≈ 43 s at the Fenrir speed used in v1.
 **Pinned comment (the one ask):** "Which wreck are you diving first? 🦈"
+
+## FINAL (v2 rendered 24 Nov 2026) — this replaces v1's title, description and video
+**Video:** `production/v044-gta6-treasure.mp4` (41 s, 38.2 MB, app-ready) · built with `production/v044b_clips.py` → `v044b_mix.py` → `v044b_render.py`
+**Retention features:** "BROKE?" on frame 1 over the speedboat · store-robbery shot on "robbing stores" (Trailer 1 76.75–78.45) · 4-step progress bar · "BEST WRECK = SAVED FOR LAST" sticker until the payoff · Del Ocio payoff last · no fade, the last frame cuts back into the hook.
+
+**Title:** `Broke in GTA 6? The Easy Money Is Underwater 💰` (46)
+**Pinned comment:** `Which wreck are you diving first? 🦈`
+
+**Description:**
+```
+Broke in GTA 6? Don't risk 5 stars robbing stores. Here's how to get the sunken treasure: Kenton's dive shop in Key Lento, the boat autopilot + anchor trick, the metal detector, how to sell it, and the wreck with 10 gold doubloons. No spoilers.
+
+33 underwater spots · scuba gear + boat from Kenton's yellow dive shop (Key Lento) · double-tap Triangle/Y = autopilot · anchor from the vehicle menu · hold R1/RB to dive · detector glows green near treasure · sell one item at a time · Del Ocio wreck = 10 gold doubloons · golden chalice + golden llama
+
+Sources: Push Square, IGN's GTA 6 guide wiki, GTABoom. Shark sightings are from players' videos, not confirmed by Rockstar.
+Footage: official Rockstar Games trailers.
+
+#GTA6 #GTAVI #GTA6Money #GTA6Treasure #Shorts
+```
