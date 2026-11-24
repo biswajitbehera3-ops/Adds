@@ -46,3 +46,27 @@ Footage: official Rockstar Games trailers.
 
 #GTA6 #GTAVI #GTA6Treasure #Shorts
 ```
+
+---
+
+# v2 script: built for retention (24 Nov 2026, after the yt-retention read)
+
+**Why v2:** on the last 2 Shorts, 39–48% swiped away in the first seconds. People who stayed kept watching (64.5% were still there at 0:30 on the map Short). So v2 changes the opening and the order: action on frame 1, a hook that speaks to the viewer, an open loop ("one wreck I'm saving for last"), the best fact at the end, and a last line that loops back into the first for replays. No comment ask in the voice-over; it goes in the pinned comment.
+
+**Hook (winner, hookscore 84 STRONG, The Direct Address):** "If you're broke in GTA 6, don't risk five stars robbing stores until you see what's under the water. But watch the sharks."
+**Backup (75 STRONG, The Mistake):** "If you're broke in GTA 6, stop risking five stars. Don't rob another store until you see what's under the water."
+
+| Time | VO | ON SCREEN |
+|---|---|---|
+| 0:00–0:06 HOOK | If you're broke in GTA 6, don't risk five stars robbing stores until you see what's under the water. But watch the sharks. | **Frame 1 = Trailer 1 speedboat smashing a wave** (motion, no still). "BROKE?" slams in on frame 1 → "DON'T RISK ★★★★★" → on "under the water" cut to the Extended Look dock dive → on "sharks" a red "🦈" flash. |
+| 0:06–0:09 PROOF + LOOP | There are thirty-three underwater spots. And one wreck I'm saving for last. | Underwater cave diver. Counter 0→33. Sticker "BEST WRECK = LAST" stays in the corner until the payoff. Tag: Push Square. |
+| 0:09–0:14 STEP 1 | Go to Key Lento. Kenton's yellow dive shop gets you scuba gear and a boat. | "The Keys" sign → map with KEY LENTO pin → marina. Progress bar 1/4. Tag: IGN. |
+| 0:14–0:19 STEP 2 | On the boat, double-tap Triangle for autopilot. Drop the anchor from the vehicle menu. | Boat at sea → anchored boat. Pills "2× △ / Y = AUTOPILOT", "ANCHOR: VEHICLE MENU". Progress 2/4. Tag: Push Square. |
+| 0:19–0:24 STEP 3 | Hold R1 to dive. When your metal detector glows green, treasure is close. | Dock dive → underwater. Pills "HOLD R1 / RB", "GREEN = TREASURE". Progress 3/4. Tag: GTABoom. |
+| 0:24–0:27 RE-HOOK | Keep checking behind you. Sharks swim down there. | Jet ski escape shot, red pulse, "🦈 WATCH OUT". Tag: SEEN on players' videos. |
+| 0:27–0:32 STEP 4 | Sell to Kenton one item at a time. You don't need to clear the whole wreck. | Kayak / marina. Pills "SELL TO KENTON", "1 ITEM AT A TIME". Progress 4/4. Tag: GTABoom. |
+| 0:32–0:40 PAYOFF | Now the one I saved. The Del Ocio wreck hides ten gold doubloons. And there's a golden chalice and a golden llama down there too. | Gold flash, big "DEL OCIO = 10 GOLD DOUBLOONS", then item cards. The corner sticker pops off. Tag: IGN · GTABoom. |
+| 0:40–0:42 LOOP | So if you're broke… | Hard cut, no fade, so the replay starts straight into "If you're broke in GTA 6". |
+
+**Runtime:** ~125 words ≈ 50 s at 150 wpm; ≈ 43 s at the Fenrir speed used in v1.
+**Pinned comment (the one ask):** "Which wreck are you diving first? 🦈"
