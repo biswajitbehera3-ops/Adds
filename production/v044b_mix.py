@@ -1,8 +1,8 @@
-"""Short 044 v2 audio (loop ending, no fade-out): Fenrir VO over a synthesized tropical bed (no licensed music), whooshes on beat changes,
+"""Short 044 v2 audio (clean ending with a fade-out): Fenrir VO over a synthesized tropical bed (no licensed music), whooshes on beat changes,
 coin dings on the treasure items, an underwater rumble on the shark warning. Usage: python3 v044b_mix.py <workdir>"""
 import sys, json, numpy as np, soundfile as sf
 WD=sys.argv[1]; vo,SR=sf.read(f'{WD}/vo.wav'); meta=json.load(open(f'{WD}/vo.json'))
-N=int((json.load(open(f'{WD}/vo.json'))['beats'][-1]['end']+0.6)*SR)+1; t=np.arange(N)/SR; bed=np.zeros(N); rng=np.random.default_rng(4)
+N=int((json.load(open(f'{WD}/vo.json'))['beats'][-1]['end']+1.2)*SR)+1; t=np.arange(N)/SR; bed=np.zeros(N); rng=np.random.default_rng(4)
 BPM=104; beat=60/BPM
 def env(n,a,d): x=np.arange(n)/SR; return np.minimum(x/a,1)*np.exp(-x/d)
 def add(sig,at,g=1.0):
@@ -35,9 +35,10 @@ B={b['beat']:b for b in meta['beats']}
 for b in meta['beats'][1:]: whoosh(b['start'])
 P=B['payoff']['start']
 ding(P,0.3); ding(P+1.0,0.3); ding(P+1.6,0.35); ding(P+4.6); ding(P+5.6); ding(B['sell']['start']+0.2)
+T=B['track']['start']; ding(T+0.9,0.15); ding(T+1.9,0.15); ding(T+2.9,0.2)
 rumble(B['shark']['start']-0.1,2.6); rumble(5.9,1.3,0.35)
 v=np.zeros(N); v[:len(vo)]=vo
 act=np.convolve(np.abs(v)>0.02,np.ones(int(0.25*SR))/int(0.25*SR),'same')
 duck=1-0.55*np.clip(act*3,0,1)                        # bed sits under the voice
-m=bed*duck*0.8+v*1.0; m[-int(0.04*SR):]*=np.linspace(1,0,int(0.04*SR))   # tiny de-click only: the end loops
+m=bed*duck*0.8+v*1.0; m[-int(1.1*SR):]*=np.linspace(1,0,int(1.1*SR))   # music fades out with the picture
 m=m/np.abs(m).max()*0.92; sf.write(f'{WD}/mix.wav',m.astype(np.float32),SR); print('mix',round(N/SR,2))

@@ -1,4 +1,4 @@
-"""Short 044 v2 (retention cut): hook on frame 1, open loop, payoff last, loop ending. GTA 6 underwater treasure guide. Official Rockstar clips (Extended Look, Trailers 1 & 2, Launch Trailer), none used
+"""Short 044 v2 (retention cut): hook on frame 1, open loop, payoff last, a useful last tip and a clean fade-out. GTA 6 underwater treasure guide. Official Rockstar clips (Extended Look, Trailers 1 & 2, Launch Trailer), none used
 in earlier videos, matched to each line; official Leonida map for the Key Lento pin. Usage: python3 production/v044b_render.py <workdir> <out.mp4>"""
 import sys, json, math, subprocess, numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -9,7 +9,7 @@ ANTON = '/home/user/Adds/remotion-overlays/public/fonts/Anton-Regular.ttf'
 INTER = '/usr/share/fonts/opentype/inter/Inter-Bold.otf'
 F = lambda n: ImageFont.truetype(ANTON, n); FI = lambda n: ImageFont.truetype(INTER, n)
 meta = json.load(open(f'{WD}/vo.json')); BEATS = {b['beat']: b for b in meta['beats']}; LINES = meta['lines']
-DUR = meta['beats'][-1]['end'] + 0.6   # no fade: the last frame cuts straight back into the hook
+DUR = meta['beats'][-1]['end'] + 1.2   # last tip, then a 1 s fade to black
 GOLD, RED, WHITE, CYAN, GREEN = (255, 200, 60), (235, 40, 60), (255, 255, 255), (90, 220, 255), (40, 200, 110)
 SEGS = json.load(open(f'{WD}/segs.json'))
 
@@ -75,7 +75,7 @@ def pin(c, x, y, k, label=None):
 def star(d, cx, cy, r, fill):
     pts = [(cx + (r if i % 2 == 0 else r * 0.45) * math.sin(i * math.pi / 5), cy - (r if i % 2 == 0 else r * 0.45) * math.cos(i * math.pi / 5)) for i in range(10)]
     d.polygon(pts, fill=fill, outline=(10, 8, 25), width=5)
-STEP = {'shop': 1, 'boat': 2, 'dive': 3, 'shark': 3, 'sell': 4}
+STEP = {'shop': 1, 'boat': 2, 'dive': 3, 'shark': 3, 'sell': 4, 'payoff': 4, 'track': 4}
 def progress(c, beat, lt):
     if beat not in STEP: return
     d = ImageDraw.Draw(c); n = STEP[beat]; x0, y0, w, g = 140, 185, 185, 16
@@ -146,8 +146,13 @@ def overlay(c, beat, t):
         if lt > 4.6: pill(c, "+ GOLDEN CHALICE", 780, (150, 105, 20), 58, lt - 4.6, ang=3)
         if lt > 5.6: pill(c, "+ GOLDEN LLAMA", 910, (150, 105, 20), 58, lt - 5.6, ang=-3)
         tag(c, "IGN · GTABoom")
-    elif beat == 'loop':
-        text_c(c, "BROKE?", F(210), 240, GOLD)
+    elif beat == 'track':
+        text_c(c, "LAST TIP", F(130), 230, WHITE)
+        for i, (t0, txt) in enumerate([(0.9, "PROGRESS"), (1.9, "COLLECTIONS"), (2.9, "KENTON'S TREASURES")]):
+            if lt > t0:
+                pill(c, txt, 430 + i * 150, (20, 90, 160) if i < 2 else (150, 105, 20), 64, lt - t0, ang=0)
+                if i < 2: d.polygon([(W / 2 - 26, 545 + i * 150), (W / 2 + 26, 545 + i * 150), (W / 2, 575 + i * 150)], fill=WHITE)
+        if lt > 4.6: pill(c, "NEVER DIVE THE SAME WRECK TWICE", 900, (30, 140, 70), 48, lt - 4.6, ang=-2)
     progress(c, beat, lt); sticker(c, t)
 
 def captions(c, t):
@@ -184,5 +189,6 @@ for i in range(N):
     d = ImageDraw.Draw(c); f = FI(28); lab = "WANTED INTEL · GTA 6 TREASURE"; w = d.textlength(lab, font=f)
     d.rounded_rectangle(((W - w) / 2 - 24, 110, (W + w) / 2 + 24, 162), 26, fill=(235, 40, 60, 220)); d.text(((W - w) / 2, 118), lab, font=f, fill=WHITE)
     overlay(c, beat_at(t), t); captions(c, t)
+    if t > DUR - 1.0: c = Image.blend(c.convert('RGB'), Image.new('RGB', (W, H)), min(1, (t - (DUR - 1.0)) / 0.9)).convert('RGBA')
     ff.stdin.write(c.convert('RGB').tobytes())
 ff.stdin.close(); ff.wait(); print('done', OUT, N)

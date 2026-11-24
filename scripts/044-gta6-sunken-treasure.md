@@ -72,8 +72,10 @@ Footage: official Rockstar Games trailers.
 **Pinned comment (the one ask):** "Which wreck are you diving first? 🦈"
 
 ## FINAL (v2 rendered 24 Nov 2026) — this replaces v1's title, description and video
-**Video:** `production/v044-gta6-treasure.mp4` (41 s, 38.2 MB, app-ready) · built with `production/v044b_clips.py` → `v044b_mix.py` → `v044b_render.py`
-**Retention features:** "BROKE?" on frame 1 over the speedboat · store-robbery shot on "robbing stores" (Trailer 1 76.75–78.45) · 4-step progress bar · "BEST WRECK = SAVED FOR LAST" sticker until the payoff · Del Ocio payoff last · no fade, the last frame cuts back into the hook.
+**Video:** `production/v044-gta6-treasure.mp4` (49 s, 44 MB) + app copy `production/v044-gta6-treasure-app.mp4` (36 MB) · built with `production/v044b_clips.py` → `v044b_mix.py` → `v044b_render.py`
+**Retention features:** "BROKE?" on frame 1 over the speedboat · store-robbery shot on "robbing stores" (Trailer 1 76.75–78.45) · 4-step progress bar · "BEST WRECK = SAVED FOR LAST" sticker until the payoff · Del Ocio payoff last · then a useful last tip and a clean fade to black (the loop ending was dropped: it cut off mid-sentence).
+
+**New ending VO (replaces "So if you're broke…"):** "Last tip. Check Progress, then Collections, then Kenton's Treasures. It shows every treasure you've found, so you never dive the same wreck twice." On screen: PROGRESS → COLLECTIONS → KENTON'S TREASURES, "NEVER DIVE THE SAME WRECK TWICE". Footage: Launch Trailer 12.0–14.1, Trailer 1 19.5–21.6 (wetland, flamingos), Extended Look sunset skyline, 1 s fade.
 
 **Title:** `Broke in GTA 6? The Easy Money Is Underwater 💰` (46)
 **Pinned comment:** `Which wreck are you diving first? 🦈`
@@ -82,7 +84,7 @@ Footage: official Rockstar Games trailers.
 ```
 Broke in GTA 6? Don't risk 5 stars robbing stores. Here's how to get the sunken treasure: Kenton's dive shop in Key Lento, the boat autopilot + anchor trick, the metal detector, how to sell it, and the wreck with 10 gold doubloons. No spoilers.
 
-33 underwater spots · scuba gear + boat from Kenton's yellow dive shop (Key Lento) · double-tap Triangle/Y = autopilot · anchor from the vehicle menu · hold R1/RB to dive · detector glows green near treasure · sell one item at a time · Del Ocio wreck = 10 gold doubloons · golden chalice + golden llama
+33 underwater spots · scuba gear + boat from Kenton's yellow dive shop (Key Lento) · double-tap Triangle/Y = autopilot · anchor from the vehicle menu · hold R1/RB to dive · detector glows green near treasure · sell one item at a time · Del Ocio wreck = 10 gold doubloons · golden chalice + golden llama · track it all in Progress → Collections → Kenton's Treasures
 
 Sources: Push Square, IGN's GTA 6 guide wiki, GTABoom. Shark sightings are from players' videos, not confirmed by Rockstar.
 Footage: official Rockstar Games trailers.

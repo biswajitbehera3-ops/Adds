@@ -15,14 +15,14 @@ PLAN={'hook':[(T1,23.45,24.75,.58),(T1,76.75,78.45,.5),(EL,1036.1,1037.3,.4),(T2
  'shark':[(EL,1045.1,1046.7,.45),(T2,139.3,139.95,.55)],
  'sell':[(EL,1048.95,1050.9,.55),(LT,7.1,8.65,.55)],
  'payoff':[(T1,11.1,12.1,.45),(LT,14.3,14.9,.45),(T1,12.45,14.35,.5),(LT,10.05,11.6,.5)],
- 'loop':[(EL,1571.35,1572.4,.5)]}
+ 'track':[(LT,12.0,14.1,.6),(T1,19.5,20.6,.5),(T1,20.8,21.6,.5),(EL,1571.35,1572.4,.5)]}   # marina; wetland; flamingos; sunset skyline
 P=['-http_proxy',os.environ['HTTPS_PROXY'],'-ca_file','/root/.ccr/ca-bundle.crt']
 segs=[]
 for beat,cl in PLAN.items():
     real=[c for c in cl if c!='MAP']
     need=B[beat]['end']-B[beat]['start']-(MAP if 'MAP' in cl else 0)
     if beat=='hook': need+=B['hook']['start']          # hook clips start at frame 0
-    if beat=='loop': need+=0.6
+    if beat=='track': need+=1.2                      # hold the last shot under the fade-out
     src=sum(e-s for _,s,e,_ in real); k=need/src
     for i,c in enumerate(cl):
         if c=='MAP': segs.append(dict(beat=beat,map=MAP)); continue
