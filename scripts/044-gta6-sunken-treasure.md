@@ -91,3 +91,30 @@ Footage: official Rockstar Games trailers.
 
 #GTA6 #GTAVI #GTA6Money #GTA6Treasure #Shorts
 ```
+
+## SEO pack (yt-seo, 24 Nov 2026) — use this one when posting
+**Thumbnail:** `production/thumb-v044-treasure-9x16-1080.jpg` (built by `production/thumb_v044b.py`): official Trailer 1 speedboat (23.9 s), "SUNKEN / TREASURE", green "EASY MONEY" pill, official VI logo. Same look as the video's opening frame.
+**Queries this should win:** "gta 6 treasure hunting" · "gta 6 easy money" · "gta 6 shipwreck treasure locations"
+**Title:** `GTA 6 Treasure Hunting = Easy Money 💰 (Where To Dive)` (51)
+**Description:**
+```
+GTA 6 treasure hunting is easy money: where the shipwreck treasure is, how to dive for it, and how to sell it. Start at Kenton's dive shop in Key Lento. The Del Ocio wreck hides 10 gold doubloons.
+
+How to do it:
+• Get scuba gear + a boat at Kenton's yellow dive shop (Island Dreams, Key Lento)
+• Boat: double-tap Triangle / Y = autopilot · drop the anchor from the vehicle menu
+• Hold R1 / RB to dive · your metal detector glows green near treasure
+• Wrecks around Key Lento: golden chalice, golden llama, gold doubloons · Del Ocio = 10 gold doubloons
+• Sell to Kenton one item at a time (no need to clear the whole wreck)
+• Track it: Progress → Collections → Kenton's Treasures
+• Watch out for sharks
+
+33 underwater spots to discover in GTA 6. No story spoilers.
+
+Sources: Push Square, IGN's GTA 6 guide wiki, GTABoom. Shark sightings are from players' videos, not confirmed by Rockstar.
+Footage: official Rockstar Games trailers.
+
+#GTA6 #GTA6Treasure #Shorts
+```
+**Tags (disambiguation only):** GTA 6, GTA VI, GTA 6 treasure, GTA 6 treasure hunting, GTA 6 shipwreck, GTA 6 easy money, GTA 6 money, GTA 6 diving, GTA 6 scuba, Del Ocio, Kenton's Treasures, Key Lento, GTA 6 gold doubloons, Grand Theft Auto 6
+**Pinned comment:** `Which wreck are you diving first? 🦈`
