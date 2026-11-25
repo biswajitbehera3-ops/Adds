@@ -17,24 +17,22 @@ except Exception as e:
                                                      variant="fp16", use_safetensors=True)
     MODEL = "sdxl-base"
 pipe = pipe.to("cuda")
-FACE = ("young Indian woman, oval face, warm light-brown skin, big expressive warm brown eyes, soft arched brows, "
-        "small nose, full rosy lips, gentle confident closed smile, long wavy chestnut-brown hair, middle part, face-framing strands")
-LOOK = ("high-end 3D animated feature film character, realistic stylized proportions, slightly larger eyes, "
-        "subsurface scattering skin, individual hair strands, real fabric texture, soft studio key light, rim light, "
-        "plain light grey seamless background, octane render, ultra detailed, sharp focus")
-NEG = ("photo, photograph, real person, 2d, flat, anime, drawing, sketch, cartoonish chibi, deformed, extra fingers, extra arms, "
-       "bad hands, multiple people, text, logo, watermark, nsfw, cleavage, revealing, lowres, ugly, cropped head, sunglasses")
+# Each prompt must stay under CLIP's 77-token limit (v1 lost the outfits to truncation). Style + outfit come first.
+STYLE = "3d animated movie character, pixar disney style render, stylized realistic, soft studio light, plain light grey background"
+FACE = "young Indian woman, warm brown skin, big brown eyes, soft smile, long wavy chestnut hair"
+NEG = ("photo, photograph, real person, photorealistic skin pores, 2d, anime, sketch, deformed, extra fingers, bad hands, "
+       "multiple people, text, watermark, nsfw, cleavage, cropped head, cropped feet, close-up")
 SHOTS = {
-    "full_cargo": (FACE + ", full body, tall slim figure, standing confidently, hands in pockets, black sleeveless collared button shirt "
-                   "buttoned up, high-waisted khaki cargo trousers, white pointed heels", 832, 1216),
-    "full_blazer": (FACE + ", full body, tall slim figure, standing relaxed, beige oversized blazer, white top, wide-leg light blue jeans, "
-                    "white sneakers, thin gold necklace", 832, 1216),
-    "portrait": (FACE + ", head and shoulders portrait, facing camera, beige blazer, white top, thin gold necklace", 896, 1152),
+    "full_cargo": (f"{STYLE}, full body shot head to toe, {FACE}, black sleeveless collared shirt, khaki cargo trousers, white heels, "
+                   "hands in pockets, standing", 832, 1216),
+    "full_blazer": (f"{STYLE}, full body shot head to toe, {FACE}, beige oversized blazer, white top, light blue wide jeans, "
+                    "white sneakers, standing", 832, 1216),
+    "portrait": (f"{STYLE}, head and shoulders portrait, {FACE}, beige blazer, white top, thin gold necklace", 896, 1152),
 }
 tiles = []
 for name, (p, w, h) in SHOTS.items():
     for seed in [101, 102, 103, 104]:
-        img = pipe(prompt=p, prompt_2=LOOK, negative_prompt=NEG, width=w, height=h, num_inference_steps=36, guidance_scale=6.5,
+        img = pipe(prompt=p, negative_prompt=NEG, width=w, height=h, num_inference_steps=36, guidance_scale=6.5,
                    generator=torch.Generator("cuda").manual_seed(seed)).images[0]
         img.save(f"/kaggle/working/host_{name}_seed{seed}.png")
         tiles.append((f"{name} seed {seed}", img)); print(len(tiles), f"{time.time()-t0:.0f}s", flush=True)
