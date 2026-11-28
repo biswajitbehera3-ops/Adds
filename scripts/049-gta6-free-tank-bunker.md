@@ -85,3 +85,33 @@
 **Runtime:** ~132 words ≈ 53 s at 150 wpm; ≈ 48 s with the faster delivery and pauses planned (treasure was 49 s).
 **Pinned comment (the one ask):** "All codes: 010317 · 2975 · 085355 🔐 Which stop took you longest?"
 **Fact check (all from VGC unless noted):** memorial + old man (Downtown) · apartment in Little Cuba · island photo there · Sharktooth Island code 010317 (= President Russo's birthday, Beebom) · desk photo of the President meeting an alien on Mount Chiliad · safe 2975 → Russo's 1922 pistol + photo, "OBSESS" on the back · second bunker near Big Pine, keypad on a tree, 085355 (OBSESS in seven-segment digits) · red button opens the hangar: tank + Cold War 556 rifle · tank can't be registered; return for another.
+
+## RENDERED (28 Nov 2026)
+**Video:** `production/v049-gta6-free-tank.mp4` (53.6 s, 22.6 MB, app-ready) · built with `v049_vo.py` → `v049_clips.py` → `v049_mix.py` → `v049_render.py`
+**Thumbnail:** `production/thumb-v049-free-tank-9x16-1080.jpg` (`thumb_v049.py`): official shootout frame, gold tank, "FREE TANK", LED "010317".
+**Footage:** Extended Look 847.3–852.8 (shootout, police SUV flips), 1322.5–1327.5 (dark corridor), 1336–1342 (dark office), 1545.2–1548.3 (night skyline); official screenshots Vice_City_10, Vice_City_09, Leonida_Keys_01, Mount_Kalaga_National_Park_03. Tank, bunker and hangar are graphics (no official footage exists).
+
+**Title:** `GTA 6 FREE TANK 🪖 All 3 Secret Bunker Codes`
+**Description:**
+```
+How to get the FREE TANK in GTA 6: all 3 President's Bunker codes and the full route, step by step. You also get the President's 1922 pistol and the Cold War 556 rifle. No story spoilers.
+
+The route:
+1. Downtown Vice City: talk to the old man at the war memorial ("What really happened?")
+2. Little Cuba: his apartment (the building with Cuban flags) has a photo of the island
+3. Sharktooth Island, north shore: CODE 010317 (the President's birthday)
+   → Turn the power on, check the desk, open the safe with CODE 2975
+   → The photo inside has one word on the back: OBSESS
+4. Forest near Big Pine (North Mariana County): keypad on a tree, CODE 085355 (OBSESS on a calculator screen)
+   → Power on, crouch into the control room, press the big red button: the hangar opens
+
+All codes: 010317 · 2975 · 085355
+You can't register the tank, but if you lose it, the bunker gives you another one.
+
+Sources: VGC's President's Bunker walkthrough, GameRant, Polygon, Beebom.
+Footage: official Rockstar Games trailers and screenshots.
+
+#GTA6 #GTA6Tank #GTA6Secrets #Shorts
+```
+**Tags:** GTA 6, GTA VI, GTA 6 tank, GTA 6 free tank, GTA 6 bunker, GTA 6 president bunker, GTA 6 bunker code, 010317, GTA 6 secret codes, GTA 6 easter egg, Sharktooth Island, Big Pine, Cold War 556, Grand Theft Auto 6
+**Pinned comment:** `All codes: 010317 · 2975 · 085355 🔐 Which stop took you longest?`
