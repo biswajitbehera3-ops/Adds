@@ -218,8 +218,8 @@ def overlay(c, beat, t):
     for (s0, s1, st) in ROUTES:                                   # official-map route segments
         if s0 <= t < s1:
             if st == 0:
-                if t >= M['bunkers']: pill(c, '2 SECRET BUNKERS', 470, (20, 90, 160), 60, t - M['bunkers'], ang=-2)   # top of the map, clear of the pins
-                if t >= M['second']: pill(c, 'THE TANK = BUNKER 2', 590, RED, 56, t - M['second'], ang=3)
+                if M['bunkers'] <= t < M['second']: pill(c, '2 SECRET BUNKERS', 1448, (20, 90, 160), 44, t - M['bunkers'])   # strip under the map, clear of the pins
+                if t >= M['second']: pill(c, 'THE TANK IS IN BUNKER 2', 1448, RED, 44, t - M['second'])
             locks(c, t); return
     if beat == 'hook' and t >= HOOK_TANK:                     # after the tank intro: official shootout clip
         k = t - HOOK_TANK
