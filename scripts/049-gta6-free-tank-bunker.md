@@ -115,3 +115,10 @@ Footage: official Rockstar Games trailers and screenshots.
 ```
 **Tags:** GTA 6, GTA VI, GTA 6 tank, GTA 6 free tank, GTA 6 bunker, GTA 6 president bunker, GTA 6 bunker code, 010317, GTA 6 secret codes, GTA 6 easter egg, Sharktooth Island, Big Pine, Cold War 556, Grand Theft Auto 6
 **Pinned comment:** `All codes: 010317 · 2975 · 085355 🔐 Which stop took you longest?`
+
+## Update (28 Nov 2026): new tank + hangar
+- The cartoon tank is replaced by a detailed illustration (`production/tank_art.py`).
+- Every tank scene (hook, hangar reveal, ending) now takes place in our own military hangar (`production/hangar_bg.py`), not game footage: floodlights, haze, concrete floor and reflection.
+- Hook: the tank drives in and fires on "stop guessing" (recoil, muzzle flash, smoke, shake, cannon boom). Payoff: striped doors slide open and the tank rolls in with dust and a bounce. Ending: dimmed hangar, tank above the 3-codes card.
+- Audio: cannon shot + engine rumble added (`v049_mix.py`). Thumbnail rebuilt in the hangar (`thumb_v049.py`).
+- Video: `production/v049-gta6-free-tank.mp4` (53.6 s, app-ready).

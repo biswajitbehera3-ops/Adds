@@ -7,7 +7,7 @@ import math, random
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 W, H = 1080, 1920; FLOOR_Y = 1160; VP = (540, 900)
 ANTON = '/home/user/Adds/remotion-overlays/public/fonts/Anton-Regular.ttf'
-def base():
+def base(stencil=True):
     c = Image.new('RGB', (W, H), (18, 20, 17)); d = ImageDraw.Draw(c)
     for y in range(FLOOR_Y):                                         # back wall: vertical gradient
         k = y / FLOOR_Y; d.line([(0, y), (W, y)], fill=(int(30 + 22 * k), int(34 + 22 * k), int(28 + 16 * k)))
@@ -25,8 +25,9 @@ def base():
     for side in ((fx0 - 40, fy0, fx0, FLOOR_Y), (fx1, fy0, fx1 + 40, FLOOR_Y), (fx0 - 40, fy0 - 40, fx1 + 40, fy0)): md.rectangle(side, fill=255)
     c = Image.composite(stripe, c, m); d = ImageDraw.Draw(c)
     d.rectangle((fx0, fy0, fx1, FLOOR_Y), fill=(12, 13, 11))                        # dark opening behind the tank
-    f = ImageFont.truetype(ANTON, 40); t = 'HANGAR 02  ·  RESTRICTED AREA'; w = d.textlength(t, font=f)
-    d.text(((W - w) / 2, 328), t, font=f, fill=(190, 160, 60))        # stencil sits under the padlock bar
+    if stencil:
+        f = ImageFont.truetype(ANTON, 40); t = 'HANGAR 02  ·  RESTRICTED AREA'; w = d.textlength(t, font=f)
+        d.text(((W - w) / 2, 328), t, font=f, fill=(190, 160, 60))        # stencil sits under the padlock bar
     # concrete floor with perspective joints
     for y in range(FLOOR_Y, H):
         k = (y - FLOOR_Y) / (H - FLOOR_Y); d.line([(0, y), (W, y)], fill=(int(54 - 26 * k), int(56 - 26 * k), int(52 - 24 * k)))

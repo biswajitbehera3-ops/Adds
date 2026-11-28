@@ -1,8 +1,11 @@
 """Short 049: GTA 6 free tank (President's Bunker). 'Top Secret file' graphics over official Rockstar clips and
 screenshots: padlock bar, route-line map, amber LED codes synced to the spoken digits, OBSESS -> 085355 morph,
-tank silhouette, hangar reveal, codes recap. Usage: python3 production/v049_render.py <workdir> <out.mp4>"""
+and every tank scene (hook, hangar reveal, ending) set in our own military hangar with the detailed tank
+illustration (tank_art.py + hangar_bg.py): drive-in, cannon fire, sliding doors, roll-in, codes recap. Usage: python3 production/v049_render.py <workdir> <out.mp4>"""
 import sys, json, math, subprocess
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
+import random
+sys.path.insert(0, '/home/user/Adds/production'); import hangar_bg as hb
 
 WD, OUT = sys.argv[1], sys.argv[2]
 W, H, FPS = 1080, 1920, 30
@@ -32,6 +35,34 @@ DARK = Image.new('RGB', (W, H), (14, 16, 12)); dd = ImageDraw.Draw(DARK)
 for y in range(0, H, 6): dd.line([(0, y), (W, y)], fill=(18, 21, 15))       # faint scanlines
 for x in range(0, W, 90): dd.line([(x, 0), (x, H)], fill=(22, 26, 18))      # grid = classified-file texture
 DARK = DARK.filter(ImageFilter.GaussianBlur(0.6))
+HANGAR = hb.base(); HANGAR_DIM = Image.blend(HANGAR, Image.new('RGB', (W, H), (14, 16, 12)), 0.45)
+TANK = Image.open(f'{WD}/tank.png').convert('RGBA')
+def tank_w(w): return TANK.resize((int(w), int(w * TANK.height / TANK.width)), Image.LANCZOS)
+T_HOOK, T_PAY, T_END = tank_w(980), tank_w(1040), tank_w(720)
+def put_tank(c, img, x, y, glow=0.55):
+    lay = Image.new('RGBA', (W, H)); lay.alpha_composite(img, (int(x), int(y)))
+    g = lay.getchannel('A').filter(ImageFilter.GaussianBlur(24)).point(lambda v: int(v * glow))
+    c.alpha_composite(Image.merge('RGBA', (Image.new('L', (W, H), 255), Image.new('L', (W, H), 196), Image.new('L', (W, H), 60), g)))
+    c.alpha_composite(hb.reflection(img, x, y)); c.alpha_composite(lay)
+random.seed(3)
+DUST = [dict(x=random.uniform(-0.5, 0.5), vy=random.uniform(-60, -10), vx=random.uniform(-140, -40), r=random.uniform(14, 40), t0=random.uniform(0, 0.8)) for _ in range(40)]
+def dust_cloud(c, cx, cy, k, strength=1.0):
+    lay = Image.new('RGBA', (W, H)); d = ImageDraw.Draw(lay)
+    for p in DUST:
+        q = k - p['t0']
+        if 0 < q < 1.2:
+            x = cx + p['x'] * 400 + p['vx'] * q; y = cy + p['vy'] * q; r = p['r'] * (1 + q)
+            d.ellipse((x - r, y - r, x + r, y + r), fill=(150, 135, 105, int(110 * strength * (1 - q / 1.2))))
+    c.alpha_composite(lay.filter(ImageFilter.GaussianBlur(6)))
+def back_out(x): x = min(max(x, 0), 1); return 1 + 2.7 * (x - 1) ** 3 + 1.7 * (x - 1) ** 2
+def doors(c, open_k):
+    d = ImageDraw.Draw(c)
+    for side in (0, 1):
+        off = open_k * (W / 2 + 20); x0 = -off if side == 0 else W / 2 + off
+        d.rectangle((x0, 0, x0 + W / 2, H), fill=(52, 56, 46))
+        for yy in range(0, H, 70): d.line([(x0, yy), (x0 + W / 2, yy)], fill=(38, 41, 33), width=6)
+        ex0 = x0 + (W / 2 - 40 if side == 0 else 0); d.rectangle((ex0, 0, ex0 + 40, H), fill=(255, 196, 40))
+        for yy in range(0, H, 80): d.polygon([(ex0, yy), (ex0 + 40, yy + 40), (ex0 + 40, yy + 80), (ex0, yy + 40)], fill=(20, 20, 20))
 def clip_frames(path):
     p = subprocess.Popen(['ffmpeg', '-v', 'error', '-i', f'{WD}/{path}', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-'], stdout=subprocess.PIPE)
     while True:
@@ -55,6 +86,10 @@ def bg_stream():
         elif s['kind'] == 'route':
             ROUTE_T.append((t, t + s['dur'], s['stage']))
             for i in range(n): yield DARK
+        elif s['kind'] == 'hangar':
+            for i in range(n): yield HANGAR
+        elif s['kind'] == 'hangar_dim':
+            for i in range(n): yield HANGAR_DIM
         else:
             for i in range(n): yield DARK
         t += n / FPS
@@ -180,10 +215,24 @@ def overlay(c, beat, t):
                 if said: mk, txt, col = said[-1]; pill(c, txt, 1550, col, 80, t - M[mk])   # only the word being said
             locks(c, t); return
     if beat == 'hook':
-        k = ease(t / 0.35); tank(c, W / 2, 1000, 1.25 * (0.85 + 0.15 * k), GOLD, int(190 + 50 * k))   # visible from frame 1
+        c.alpha_composite(hb.lights(t)); FIRE = LINES[1]['s']
+        k = ease(0.35 + t / 0.9); x = (W - T_HOOK.width) / 2 - (1 - k) * (W + 200)          # already entering on frame 1
+        y = 930 + (3 * math.sin(t * 40) if t > 0.6 else 0)
+        rec = 26 * math.exp(-(t - FIRE) * 10) if t >= FIRE else 0
+        sh = (random.uniform(-14, 14), random.uniform(-10, 10)) if FIRE <= t < FIRE + 0.25 else (0, 0)
+        put_tank(c, T_HOOK, x - rec + sh[0], y + sh[1])
+        if t < 1.3: dust_cloud(c, x + T_HOOK.width * 0.15, y + T_HOOK.height * 0.9, t + 0.3)
+        if t >= FIRE:
+            k2 = t - FIRE; mx, my = x + T_HOOK.width * 0.995 - rec, y + T_HOOK.height * 0.43
+            lay = Image.new('RGBA', (W, H)); dl = ImageDraw.Draw(lay)
+            if k2 < 0.18:
+                r = 120 * (1 - k2 / 0.18) + 40; dl.ellipse((mx - r * .4, my - r * .6, mx + r * 1.6, my + r * .6), fill=(255, 230, 150, 240)); dl.ellipse((mx, my - r * .3, mx + r, my + r * .3), fill=(255, 255, 240, 255))
+            for j in range(10):
+                kk = k2 * (0.6 + j * 0.08); r = 30 + 160 * kk; sx = mx + 60 + 260 * kk * (0.5 + j / 12)
+                dl.ellipse((sx - r, my - r - 40 * kk * j / 5, sx + r, my + r - 40 * kk * j / 5), fill=(190, 185, 170, int(150 * max(0, 1 - k2 / 1.8))))
+            c.alpha_composite(lay.filter(ImageFilter.GaussianBlur(10)))
         pop(c, 'FREE TANK', 210, 420, GOLD, t + 1.0)
         if t >= LINES[2]['s']: pill(c, 'CODE 3 = ???', 690, RED, 66, t - LINES[2]['s'], ang=-3)
-        stamp(c, 'TOP SECRET', 1180, 6, RED, 64, t - 1.0)
     elif beat == 'steps':
         if t < M['island'] - 0.6 or lt < 3.4: pop(c, 'DOWNTOWN', 140, 400, WHITE, lt - 1.2); pill(c, 'WAR MEMORIAL · ASK THE OLD MAN', 590, (20, 90, 160), 44, lt - 1.4)
         if lt >= 3.5: pop(c, 'LITTLE CUBA', 140, 400, GOLD, lt - 3.5)
@@ -220,28 +269,37 @@ def overlay(c, beat, t):
         if t >= M['morph']: led(c, digits_shown('c3', 6, t), 6, 760, letters='OBSESS')
         tag(c, 'OBSESS on a calculator screen · VGC')
     elif beat == 'payoff':
-        if t < M['open']:
+        op = M['open']; ok = ease((t - op) / 0.8) if t >= op else 0
+        c.alpha_composite(hb.lights(t, 0.5 + 0.7 * ok))
+        if t >= op:
+            k = t - op; kr = back_out(k / 1.0); x = (W - T_PAY.width) / 2 - (1 - kr) * (W + 300)
+            bounce = 10 * math.sin((k - 1.0) * 18) * math.exp(-(k - 1.0) * 5) if k > 1.0 else 0
+            y = 1000 - T_PAY.height / 2 + bounce + (2 * math.sin(k * 40) if k < 1.0 else 0)
+            put_tank(c, T_PAY, x, y, 0.6); dust_cloud(c, x + T_PAY.width * 0.2, y + T_PAY.height * 0.9, k, 1.2)
+        doors(c, ok)
+        dh = ImageDraw.Draw(c); fh = I(28); lab = 'WANTED INTEL · GTA 6 SECRETS'; wh = dh.textlength(lab, font=fh)   # header stays above the doors
+        dh.rounded_rectangle(((W - wh) / 2 - 24, 70, (W + wh) / 2 + 24, 122), 26, fill=(220, 35, 45, 225)); dh.text(((W - wh) / 2, 78), lab, font=fh, fill=WHITE)
+        if t < op:
             k = t - M['button']; r = 150 * (1 - 0.12 * math.sin(math.pi * min(1, max(0, (k - 0.3) / 0.25))))
-            d.ellipse((W / 2 - r - 14, 820 - r - 14, W / 2 + r + 14, 820 + r + 14), fill=(40, 40, 40), outline=WHITE, width=6)
-            d.ellipse((W / 2 - r, 820 - r, W / 2 + r, 820 + r), fill=RED); text_c(c, 'BIG RED BUTTON', A(84), 400, WHITE)
+            d = ImageDraw.Draw(c); d.ellipse((W / 2 - r - 14, 900 - r - 14, W / 2 + r + 14, 900 + r + 14), fill=(40, 40, 40), outline=WHITE, width=6)
+            d.ellipse((W / 2 - r, 900 - r, W / 2 + r, 900 + r), fill=RED); text_c(c, 'BIG RED BUTTON', A(84), 400, WHITE)
         else:
-            k = t - M['open']
-            rays = Image.new('RGBA', (W, H)); rd = ImageDraw.Draw(rays)
-            for j in range(14):
-                a = j * math.pi / 7 + k * 0.4; rd.polygon([(W / 2, 960), (W / 2 + 1400 * math.cos(a - 0.08), 960 + 1400 * math.sin(a - 0.08)), (W / 2 + 1400 * math.cos(a + 0.08), 960 + 1400 * math.sin(a + 0.08))], fill=(255, 200, 80, 55))
-            c.alpha_composite(rays.filter(ImageFilter.GaussianBlur(8)))
-            if k < 0.35: c.alpha_composite(Image.new('RGBA', (W, H), (255, 215, 110, int(230 * (1 - k / 0.35)))))
-            tank(c, W / 2, 960, 1.4 * (0.7 + 0.3 * ease(k * 2)), GOLD, 255)
+            k = t - op
+            if k < 0.35: c.alpha_composite(Image.new('RGBA', (W, H), (255, 215, 110, int(220 * (1 - k / 0.35)))))
             pop(c, 'HANGAR OPEN', 150, 400, GOLD, k)
-            if k > 0.5: pill(c, 'TANK + COLD WAR 556 RIFLE', 1180, (30, 110, 50), 54, k - 0.5)
+            if k > 1.1: pill(c, 'TANK + COLD WAR 556 RIFLE', 1290, (30, 110, 50), 54, k - 1.1)
     elif beat == 'end':
-        if lt < 1.8: pop(c, 'LOST IT?', 170, 420, WHITE, lt); pill(c, 'THE BUNKER GIVES YOU ANOTHER', 640, (20, 90, 160), 46, lt - 0.4)
-        if t >= M['forever']:
+        c.alpha_composite(hb.lights(t, 0.5))
+        if t < M['forever']:
+            put_tank(c, T_PAY, (W - T_PAY.width) / 2, 1000 - T_PAY.height / 2, 0.45)
+            pop(c, 'LOST IT?', 170, 420, WHITE, lt); pill(c, 'THE BUNKER GIVES YOU ANOTHER', 640, (20, 90, 160), 46, lt - 0.4)
+        else:
             k = t - M['forever']; pop(c, 'FREE TANKS FOREVER', 120, 400, GOLD, k)
-            d.rounded_rectangle((90, 620, W - 90, 1010), 30, fill=(10, 10, 10, 215), outline=GOLD, width=6)
-            text_c(c, 'ALL 3 CODES', A(64), 650, GOLD, 6)
+            put_tank(c, T_END, (W - T_END.width) / 2, 600 - 40 * (1 - ease(k * 2)), 0.4)
+            d = ImageDraw.Draw(c); d.rounded_rectangle((90, 980, W - 90, 1370), 30, fill=(10, 10, 10, 225), outline=GOLD, width=6)
+            text_c(c, 'ALL 3 CODES', A(64), 1010, GOLD, 6)
             for i, code in enumerate(['010317', '2975', '085355']):
-                text_c(c, f'{i + 1}.  {code}', A(84), 735 + i * 88, (255, 225, 150), 6)
+                text_c(c, f'{i + 1}.  {code}', A(84), 1095 + i * 88, (255, 225, 150), 6)
     if beat not in ('promise',): locks(c, t)
 
 def captions(c, t):
