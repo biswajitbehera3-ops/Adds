@@ -8,17 +8,18 @@ def shot(n): return glob.glob(SH+'**/'+n,recursive=True)[0]
 B={b['beat']:b for b in json.load(open('vo.json'))['beats']}
 TAIL=1.2
 # per beat: list of items; durations: 'auto' items share what is left after the fixed ones
-PLAN={'hook':[('hangar',None,None,None,None,None,3.0),('clip',EL,847.3,851.8,.55,False,'auto')],   # 0-3 s tank in our hangar, then the official shootout
- 'promise':[('route',0,None,None,None,None,'auto')],
- 'steps':[('route',1,None,None,None,None,1.2),('still','Vice_City_10.jpg',.45,None,None,None,2.3),('still','Vice_City_09.jpg',.5,None,None,None,'auto')],
- 'code1':[('route',2,None,None,None,None,1.0),('still','Leonida_Keys_01.jpg',.5,None,None,None,'auto')],
- 'punch':[('still','Leonida_Keys_01.jpg',.62,None,None,None,'auto')],
- 'alien':[('clip',EL,1322.5,1327.5,.5,False,'auto')],                         # dark corridor
- 'code2':[('clip',EL,1336.0,1342.0,.5,False,'auto')],                         # dark office
+PLAN={'hook':[('hangar',None,None,None,None,None,3.0),('clip',EL,847.3,852.8,.55,False,'auto')],   # tank intro, then the official shootout
+ 'what':[('map',0,None,None,None,None,'auto')],                                  # official Leonida map: route overview
+ 'step1':[('map',1,None,None,None,None,2.6),('still','Vice_City_10.jpg',.45,None,None,None,'auto')],
+ 'step2':[('still','Vice_City_09.jpg',.5,None,None,None,'auto')],
+ 'code1':[('map',2,None,None,None,None,2.8),('still','Leonida_Keys_01.jpg',.5,None,None,None,'auto')],
+ 'joke':[('still','Leonida_Keys_01.jpg',.62,None,None,None,'auto')],
+ 'alien':[('clip',EL,1320.5,1327.5,.5,False,'auto')],                           # dark corridor
+ 'code2':[('clip',EL,1334.5,1342.5,.5,False,'auto')],                           # dark office
  'obsess':[('dark',None,None,None,None,None,'auto')],
- 'code3':[('route',3,None,None,None,None,1.0),('still','Mount_Kalaga_National_Park_03.jpg',.5,None,None,None,'auto')],
- 'payoff':[('hangar',None,None,None,None,None,'auto')],                       # hangar doors open, tank rolls in
- 'end':[('hangar_dim',None,None,None,None,None,'auto')]}                      # dimmed hangar + codes recap
+ 'code3':[('map',3,None,None,None,None,2.8),('still','Mount_Kalaga_National_Park_03.jpg',.5,None,None,None,'auto')],
+ 'payoff':[('hangar',None,None,None,None,None,'auto')],
+ 'end':[('hangar_dim',None,None,None,None,None,'auto')]}
 P=['-http_proxy',os.environ['HTTPS_PROXY'],'-ca_file','/root/.ccr/ca-bundle.crt']
 segs=[]
 for beat,items in PLAN.items():
@@ -33,6 +34,6 @@ for beat,items in PLAN.items():
             segs.append(dict(beat=beat,kind='clip',file=out,dur=round(dur,3)))
             print(beat,'clip',round(e-s,2),'->',round(dur,2),'speed',round(1/k,2))
         elif kind=='still': segs.append(dict(beat=beat,kind='still',path=shot(it[1]),cx=it[2],dur=round(dur,3)))
-        elif kind=='route': segs.append(dict(beat=beat,kind='route',stage=it[1],dur=round(dur,3)))
+        elif kind in ('route','map'): segs.append(dict(beat=beat,kind=kind,stage=it[1],dur=round(dur,3)))
         else: segs.append(dict(beat=beat,kind=kind,dur=round(dur,3)))
 json.dump(segs,open('segs.json','w'),indent=1)

@@ -41,8 +41,8 @@ for ln in meta['lines']:
     if ln['digit'] is not None: beep(ln['s']+0.02,1250+60*int(ln['digit']))
 for cid,last in [('c1',5),('c2',3),('c3',5)]: clunk(M[f'{cid}_{last}']+0.35)
 for i in range(6): click(M['obsess']+i*0.09)
-sting(M['alien']-0.05); impact(M['open']); clunk(M['tank1'],0.35)
-FIRE=meta['lines'][1]['s']; impact(FIRE,0.9)                        # cannon shot in the hook
+sting(M['alien']-0.05); impact(M['open']); clunk(M['second'],0.35)
+FIRE=meta['lines'][0]['e']+0.05; impact(FIRE,0.9)                        # cannon shot in the hook
 def rumble(at,dur,g):
     n=int(dur*SR); x=np.arange(n)/SR; w=np.convolve(rng.standard_normal(n),np.ones(300)/300,'same')
     add(sfx,g*(0.5*np.sin(2*np.pi*42*x)*(1+0.3*np.sin(2*np.pi*9*x))+0.6*w/np.abs(w).max())*np.minimum(x/0.15,1)*np.minimum((dur-x)/0.3,1),at)

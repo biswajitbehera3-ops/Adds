@@ -5,7 +5,7 @@ illustration (tank_art.py + hangar_bg.py): drive-in, cannon fire, sliding doors,
 import sys, json, math, subprocess
 from PIL import Image, ImageDraw, ImageFont, ImageEnhance, ImageFilter
 import random
-sys.path.insert(0, '/home/user/Adds/production'); import hangar_bg as hb
+sys.path.insert(0, '/home/user/Adds/production'); import hangar_bg as hb, map_route as mr
 
 WD, OUT = sys.argv[1], sys.argv[2]
 W, H, FPS = 1080, 1920, 30
@@ -86,6 +86,8 @@ def bg_stream():
         elif s['kind'] == 'route':
             ROUTE_T.append((t, t + s['dur'], s['stage']))
             for i in range(n): yield DARK
+        elif s['kind'] == 'map':                                  # route on Rockstar's official Leonida map
+            for i in range(n): yield mr.route_frame(s['stage'], i / max(n - 1, 1)).convert('RGB')
         elif s['kind'] == 'hangar':
             for i in range(n): yield HANGAR
         elif s['kind'] == 'hangar_dim':
@@ -98,7 +100,7 @@ def bg_stream():
 HOOK_TANK = SEGS[0]['dur'] if SEGS[0]['kind'] == 'hangar' else 0.0   # length of the tank intro
 _t = 0.0; ROUTES = []
 for s in SEGS:
-    if s['kind'] == 'route': ROUTES.append((_t, _t + round(s['dur'] * FPS) / FPS, s['stage']))
+    if s['kind'] in ('route', 'map'): ROUTES.append((_t, _t + round(s['dur'] * FPS) / FPS, s['stage']))
     _t += round(s['dur'] * FPS) / FPS
 SH = Image.new('L', (W, H)); d0 = ImageDraw.Draw(SH)
 for y in range(H):
@@ -206,24 +208,28 @@ def card(c, t, sub, y, k, ang=-4):
     ld.text((lay.width - 235 * s, lay.height - 78 * s), 'CLASSIFIED', font=A(40 * s), fill=RED + (230,))
     lay = lay.rotate(ang, expand=True, resample=Image.BICUBIC); c.alpha_composite(lay, (int(W / 2 - lay.width / 2), int(y)))
 
+def step(c, n, title, lt, col=WHITE):
+    pill(c, f'STEP {n}', 370, RED, 46, lt + 0.3); pop(c, title, 118, 470, col, lt)
+def cards3(c, t):
+    for i, (mk, txt) in enumerate([('blueprint', 'BLUEPRINT'), ('tape', 'TAPE RECORDING'), ('island', 'ISLAND PHOTO')]):
+        if t >= M[mk]: card(c, txt, 'clue ' + str(i + 1) + ' of 3', 700 + i * 240, t - M[mk], ang=(-4, 3, -2)[i])
 def overlay(c, beat, t):
     b = BEATS[beat]; lt = t - b['start']; d = ImageDraw.Draw(c)
-    for (s0, s1, st) in ROUTES:
+    for (s0, s1, st) in ROUTES:                                   # official-map route segments
         if s0 <= t < s1:
-            route(c, st, (t - s0) / max(s1 - s0, 0.01))
             if st == 0:
-                said = [(mk, txt, col) for mk, txt, col in [('stop4', '4 STOPS', (20, 90, 160)), ('codes3', '3 CODES', (150, 105, 20)), ('tank1', '1 TANK', RED)] if t >= M[mk]]
-                if said: mk, txt, col = said[-1]; pill(c, txt, 1550, col, 80, t - M[mk])   # only the word being said
+                if t >= M['bunkers']: pill(c, '2 SECRET BUNKERS', 470, (20, 90, 160), 60, t - M['bunkers'], ang=-2)   # top of the map, clear of the pins
+                if t >= M['second']: pill(c, 'THE TANK = BUNKER 2', 590, RED, 56, t - M['second'], ang=3)
             locks(c, t); return
     if beat == 'hook' and t >= HOOK_TANK:                     # after the tank intro: official shootout clip
         k = t - HOOK_TANK
-        if k < 0.18: c.alpha_composite(Image.new('RGBA', (W, H), (255, 240, 200, int(235 * (1 - k / 0.18)))))   # flash cut
+        if k < 0.18: c.alpha_composite(Image.new('RGBA', (W, H), (255, 240, 200, int(235 * (1 - k / 0.18)))))
         pop(c, 'FREE TANK', 210, 420, GOLD, 1)
-        if t >= LINES[2]['s']: pill(c, 'CODE 3 = ???', 690, RED, 66, t - LINES[2]['s'], ang=-3)
-        stamp(c, 'TOP SECRET', 1180, 6, RED, 64, k - 0.2)
+        if t >= M['stepby']: pill(c, 'STEP BY STEP', 690, (20, 90, 160), 64, t - M['stepby'], ang=-3)
+        stamp(c, 'SECRET SIDE QUEST', 1180, 5, RED, 58, k - 0.2)
     elif beat == 'hook':
-        c.alpha_composite(hb.lights(t)); FIRE = LINES[1]['s']
-        k = ease(0.35 + t / 0.9); x = (W - T_HOOK.width) / 2 - (1 - k) * (W + 200)          # already entering on frame 1
+        c.alpha_composite(hb.lights(t)); FIRE = LINES[0]['e'] + 0.05
+        k = ease(0.35 + t / 0.9); x = (W - T_HOOK.width) / 2 - (1 - k) * (W + 200)
         y = 930 + (3 * math.sin(t * 40) if t > 0.6 else 0)
         rec = 26 * math.exp(-(t - FIRE) * 10) if t >= FIRE else 0
         sh = (random.uniform(-14, 14), random.uniform(-10, 10)) if FIRE <= t < FIRE + 0.25 else (0, 0)
@@ -239,41 +245,48 @@ def overlay(c, beat, t):
                 dl.ellipse((sx - r, my - r - 40 * kk * j / 5, sx + r, my + r - 40 * kk * j / 5), fill=(190, 185, 170, int(150 * max(0, 1 - k2 / 1.8))))
             c.alpha_composite(lay.filter(ImageFilter.GaussianBlur(10)))
         pop(c, 'FREE TANK', 210, 420, GOLD, t + 1.0)
-        if t >= LINES[2]['s']: pill(c, 'CODE 3 = ???', 690, RED, 66, t - LINES[2]['s'], ang=-3)
-    elif beat == 'steps':
-        if t < M['island'] - 0.6 or lt < 3.4: pop(c, 'DOWNTOWN', 140, 400, WHITE, lt - 1.2); pill(c, 'WAR MEMORIAL · ASK THE OLD MAN', 590, (20, 90, 160), 44, lt - 1.4)
-        if lt >= 3.5: pop(c, 'LITTLE CUBA', 140, 400, GOLD, lt - 3.5)
-        card(c, 'ISLAND PHOTO', 'found in his apartment', 760, t - M['island'])
+    elif beat == 'step1':
+        step(c, 1, 'WAR MEMORIAL', t - M['s1']); pill(c, 'DOWNTOWN VICE CITY', 640, (20, 90, 160), 48, t - M['memorial'])
+        if t >= M['ask']: pill(c, 'ASK: "WHAT REALLY HAPPENED?"', 800, (150, 105, 20), 48, t - M['ask'], ang=-2)
         tag(c, 'REPORTED · VGC walkthrough')
+    elif beat == 'step2':
+        step(c, 2, 'LITTLE CUBA', t - M['s2'], GOLD)
+        if M['flags'] <= t < M['blueprint']: pill(c, 'BUILDING WITH CUBAN FLAGS', 640, (20, 90, 160), 48, t - M['flags'])
+        cards3(c, t); tag(c, 'REPORTED · VGC walkthrough')
     elif beat == 'code1':
-        pop(c, 'SHARKTOOTH ISLAND', 104, 400, WHITE, lt - 1.0); pill(c, 'NORTH SHORE', 560, (20, 90, 160), 44, lt - 1.2)
-        led(c, digits_shown('c1', 6, t), 6, 720)
-        if t > M['c1_5'] + 0.3: pill(c, 'SCREENSHOT THIS', 1030, (245, 245, 245), 44, t - M['c1_5'] - 0.3, tc=(15, 15, 15))
+        step(c, 3, 'SHARKTOOTH ISLAND', t - M['s3'])
+        if t >= M['door']: pill(c, 'BOAT → NORTH SHORE', 640, (20, 90, 160), 48, t - M['door'])
+        if t >= M['c1_0'] - 0.3: led(c, digits_shown('c1', 6, t), 6, 800)
+        if t > M['c1_5'] + 0.3: pill(c, 'SCREENSHOT THIS', 1110, (245, 245, 245), 44, t - M['c1_5'] - 0.3, tc=(15, 15, 15))
         tag(c, 'REPORTED · VGC · GameRant')
-    elif beat == 'punch':
-        pop(c, 'CODE 1', 120, 400, GREEN, 1); led(c, '010317', 6, 600)
+    elif beat == 'joke':
+        pop(c, 'CODE 1', 120, 420, GREEN, 1); led(c, '010317', 6, 600)
         stamp(c, "PRESIDENT'S BIRTHDAY", 930, -5, GOLD, 60, t - M['bday'])
-        if lt > 1.3: pill(c, 'GREAT SECURITY...', 1100, (90, 30, 120), 56, lt - 1.3, ang=4)
+        if lt > 1.6: pill(c, 'NOT EXACTLY TOP SECRET', 1110, (90, 30, 120), 52, lt - 1.6, ang=4)
         tag(c, 'REPORTED · Beebom')
     elif beat == 'alien':
-        if t >= M['alien']:
+        if t < M['alien']:
+            step(c, 4, 'INSIDE BUNKER 1', t - M['s4'])
+            if t >= M['power']: pill(c, 'TURN THE POWER ON FIRST', 640, (150, 105, 20), 48, t - M['power'])
+        else:
             pul = 0.5 + 0.5 * math.sin((t - M['alien']) * 7); c.alpha_composite(Image.new('RGBA', (W, H), (40, 255, 90, int(40 + 40 * pul))))
             pop(c, 'ALIEN?!', 210, 420, (140, 255, 150), t - M['alien'])
-        else: pop(c, "THE PRESIDENT'S DESK", 96, 420, WHITE, lt)
-        if t >= M['chiliad']: pill(c, 'MOUNT CHILIAD', 740, (30, 110, 50), 74, t - M['chiliad'], ang=-3)
+            if t >= M['chiliad']: pill(c, 'MOUNT CHILIAD', 740, (30, 110, 50), 74, t - M['chiliad'], ang=-3)
         tag(c, 'REPORTED · VGC walkthrough')
     elif beat == 'code2':
-        pop(c, 'THE SAFE', 150, 400, WHITE, lt); led(c, digits_shown('c2', 4, t), 4, 640)
-        if t >= M['photo']: card(c, '1 WORD ON THE BACK', '...', 980, t - M['photo'], ang=5)
+        pop(c, 'THE SAFE', 150, 420, WHITE, lt); led(c, digits_shown('c2', 4, t), 4, 640)
+        if t >= M['pistol']: pill(c, "+ THE PRESIDENT'S PISTOL", 960, (90, 60, 20), 48, t - M['pistol'])
+        if t >= M['photo']: card(c, '1 WORD ON THE BACK', '...', 1080, t - M['photo'], ang=5)
         tag(c, 'REPORTED · VGC walkthrough')
     elif beat == 'obsess':
         k = t - M['obsess']; word = 'OBSESS'[:max(0, min(6, int(k / 0.09) + 1))] if k >= 0 else ''
-        text_c(c, 'CODE 3 IS A WORD', A(80), 420, (200, 200, 205))
-        text_c(c, word, A(260), 700, (150, 215, 255))
-        if lt > 1.2: pill(c, 'TOLD YOU.', 1100, RED, 80, lt - 1.2, ang=-4)
+        text_c(c, 'THE LAST CODE IS A WORD', A(74), 430, (200, 200, 205)); text_c(c, word, A(260), 700, (150, 215, 255))
     elif beat == 'code3':
-        pop(c, 'BIG PINE FOREST', 120, 400, WHITE, lt - 1.0); pill(c, 'KEYPAD ON A TREE', 580, (30, 110, 50), 48, lt - 1.2)
-        if t >= M['morph']: led(c, digits_shown('c3', 6, t), 6, 760, letters='OBSESS')
+        step(c, 5, 'BIG PINE FOREST', t - M['s5'])
+        if M['forest'] <= t < M['morph']: pill(c, 'SMALL HATCH IN THE GROUND', 640, (30, 110, 50), 46, t - M['forest'])
+        if M['tree'] <= t < M['morph']: pill(c, 'KEYPAD ON A TREE', 780, (30, 110, 50), 46, t - M['tree'], ang=-2)
+        if t >= M['morph']: led(c, digits_shown('c3', 6, t), 6, 700, letters='OBSESS')
+        if t >= M['legend']: pill(c, 'O = 0   B = 8   S = 5   E = 3', 1020, (20, 90, 160), 56, t - M['legend'])
         tag(c, 'OBSESS on a calculator screen · VGC')
     elif beat == 'payoff':
         op = M['open']; ok = ease((t - op) / 0.8) if t >= op else 0
@@ -284,30 +297,35 @@ def overlay(c, beat, t):
             y = 1000 - T_PAY.height / 2 + bounce + (2 * math.sin(k * 40) if k < 1.0 else 0)
             put_tank(c, T_PAY, x, y, 0.6); dust_cloud(c, x + T_PAY.width * 0.2, y + T_PAY.height * 0.9, k, 1.2)
         doors(c, ok)
-        dh = ImageDraw.Draw(c); fh = I(28); lab = 'WANTED INTEL · GTA 6 SECRETS'; wh = dh.textlength(lab, font=fh)   # header stays above the doors
+        dh = ImageDraw.Draw(c); fh = I(28); lab = 'WANTED INTEL · GTA 6 SECRETS'; wh = dh.textlength(lab, font=fh)
         dh.rounded_rectangle(((W - wh) / 2 - 24, 70, (W + wh) / 2 + 24, 122), 26, fill=(220, 35, 45, 225)); dh.text(((W - wh) / 2, 78), lab, font=fh, fill=WHITE)
-        if t < op:
+        if t < M['button']:
+            step(c, 6, 'INTO BUNKER 2', t - M['s6'])
+            if t >= M['flash']: pill(c, 'BRING A FLASHLIGHT', 700, (150, 105, 20), 52, t - M['flash'])
+            if t >= M['crawl']: pill(c, 'POWER ON → CRAWL INTO CONTROL ROOM', 860, (20, 90, 160), 40, t - M['crawl'], ang=-2)
+        elif t < op:
             k = t - M['button']; r = 150 * (1 - 0.12 * math.sin(math.pi * min(1, max(0, (k - 0.3) / 0.25))))
             d = ImageDraw.Draw(c); d.ellipse((W / 2 - r - 14, 900 - r - 14, W / 2 + r + 14, 900 + r + 14), fill=(40, 40, 40), outline=WHITE, width=6)
-            d.ellipse((W / 2 - r, 900 - r, W / 2 + r, 900 + r), fill=RED); text_c(c, 'BIG RED BUTTON', A(84), 400, WHITE)
+            d.ellipse((W / 2 - r, 900 - r, W / 2 + r, 900 + r), fill=RED); text_c(c, 'BIG RED BUTTON', A(84), 420, WHITE)
         else:
             k = t - op
             if k < 0.35: c.alpha_composite(Image.new('RGBA', (W, H), (255, 215, 110, int(220 * (1 - k / 0.35)))))
-            pop(c, 'HANGAR OPEN', 150, 400, GOLD, k)
-            if k > 1.1: pill(c, 'TANK + COLD WAR 556 RIFLE', 1290, (30, 110, 50), 54, k - 1.1)
+            pop(c, 'HANGAR OPEN', 150, 420, GOLD, k)
+            if t >= M['yours']: pill(c, 'TANK + COLD WAR 556 RIFLE', 1290, (30, 110, 50), 54, t - M['yours'])
     elif beat == 'end':
         c.alpha_composite(hb.lights(t, 0.5))
         if t < M['forever']:
             put_tank(c, T_PAY, (W - T_PAY.width) / 2, 1000 - T_PAY.height / 2, 0.45)
-            pop(c, 'LOST IT?', 170, 420, WHITE, lt); pill(c, 'THE BUNKER GIVES YOU ANOTHER', 640, (20, 90, 160), 46, lt - 0.4)
+            if t >= M['noreg']: pill(c, "YOU CAN'T REGISTER IT", 470, RED, 64, t - M['noreg'], ang=-2)
+            if t >= M['noreg'] + 2.4: pill(c, 'LOST IT? COME BACK', 640, (20, 90, 160), 56, t - M['noreg'] - 2.4, ang=2)
         else:
-            k = t - M['forever']; pop(c, 'FREE TANKS FOREVER', 120, 400, GOLD, k)
+            k = t - M['forever']; pop(c, 'FREE TANKS FOREVER', 120, 420, GOLD, k)
             put_tank(c, T_END, (W - T_END.width) / 2, 600 - 40 * (1 - ease(k * 2)), 0.4)
             d = ImageDraw.Draw(c); d.rounded_rectangle((90, 980, W - 90, 1370), 30, fill=(10, 10, 10, 225), outline=GOLD, width=6)
             text_c(c, 'ALL 3 CODES', A(64), 1010, GOLD, 6)
             for i, code in enumerate(['010317', '2975', '085355']):
                 text_c(c, f'{i + 1}.  {code}', A(84), 1095 + i * 88, (255, 225, 150), 6)
-    if beat not in ('promise',): locks(c, t)
+    locks(c, t)
 
 def captions(c, t):
     for ln in LINES:
@@ -341,7 +359,7 @@ for i in range(N):
     d = ImageDraw.Draw(c); f = I(28); lab = 'WANTED INTEL · GTA 6 SECRETS'; w = d.textlength(lab, font=f)
     d.rounded_rectangle(((W - w) / 2 - 24, 70, (W + w) / 2 + 24, 122), 26, fill=(220, 35, 45, 225)); d.text(((W - w) / 2, 78), lab, font=f, fill=WHITE)
     overlay(c, beat_at(t), t)
-    if beat_at(t) != 'promise': captions(c, t)
+    captions(c, t)
     if t > DUR - 1.0: c = Image.blend(c.convert('RGB'), Image.new('RGB', (W, H)), min(1, (t - (DUR - 1.0)) / 0.9)).convert('RGBA')
     ff.stdin.write(c.convert('RGB').tobytes())
 ff.stdin.close(); ff.wait(); print('done', OUT, N)

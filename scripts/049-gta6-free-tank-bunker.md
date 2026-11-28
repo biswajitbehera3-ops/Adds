@@ -148,3 +148,10 @@ Footage: official Rockstar Games trailers and screenshots.
 | End | One last thing: you can't register the tank as your own car. But if you lose it, just come back… and the bunker gives you another one. | Ending card with all 3 codes, "SCREENSHOT THIS", fade |
 
 **Pinned comment:** "All codes: 010317 · 2975 · 085355 🔐 Which step took you longest?"
+
+## FINAL v3 RENDER (28 Nov 2026)
+- Script: v3 calm walkthrough (calm hook A). Voice: Fenrir, 1:56 (`v049_vo.py`, SPF 1.04 / GPF 0.9).
+- Route on **Rockstar's official Leonida map** (`map_route.py`, from the GTA VI artwork pack's Leonida_Map_Poster.jpg): overview in "what is this quest", then camera moves to Vice City (step 1), Sharktooth Island (step 3) and Big Pine (step 5).
+- On-screen "STEP 1–6" titles, 3 clue cards, LED codes digit by digit, O=0 B=8 S=5 E=3 legend, tank intro + hangar reveal + codes card.
+- Files: `production/v049-gta6-free-tank.mp4` (full quality) + `production/v049-gta6-free-tank-app.mp4` (≤40 MB).
+- Title/description/tags/pinned comment: unchanged from the SEO pack above (description already walks through the same steps).
