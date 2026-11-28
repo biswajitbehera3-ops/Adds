@@ -18,3 +18,37 @@
 | 0:50 | You can't register the tank. But if you lose it, the bunker gives you another one. Free tanks forever. Thanks, Mr. President. | Closing punchline | "♾️ FREE TANKS". Fade. |
 
 **Title:** `GTA 6 FREE TANK 🪖 All 3 Secret Bunker Codes` · **Thumbnail text:** `FREE TANK` + `010317` · **Pinned comment:** "All codes: 010317 · 2975 · 085355 🔐"
+
+---
+
+## Production plan v1 (28 Nov 2026), awaiting approval
+**Mockup:** `production/mockup-049-style.jpg` · **Voice samples:** `production/voice-sample-049-{fenrir,puck,michael}.m4a`
+
+### Graphic system: "Top Secret file"
+- **Theme:** classified military dossier. Colours: black/olive base, gold titles, red stamps, amber LED codes.
+- **Padlock bar (top, the whole video):** 3 padlocks CODE 1 · 2 · 3. Red and locked; each pops open and turns green with a "clunk" sound when its code is revealed. Viewers see how far they are from the tank.
+- **Titles:** Anton font, white + gold, thick black outline, punch-in scale animation (1.3× → 1.0× in 0.2 s).
+- **Code reveals:** amber LED panel with glow (calculator look). Digits appear one by one in time with the voice, then hold 2 s with a white "SCREENSHOT THIS" chip.
+- **Stamps:** "TOP SECRET" (hook), "PRESIDENT'S BIRTHDAY" (code 1), "CLASSIFIED" (clue cards). They slam in, rotated slightly.
+- **Clue cards:** manila-folder cards (Blueprint · Tape · Photo) that flip in one by one.
+- **OBSESS → 085355:** letters morph into seven-segment digits (O→0, B→8, S→5, E→3).
+- **Alien beat:** green glow pulse + "MOUNT CHILIAD" card with a sci-fi sting.
+- **Payoff:** a big red button graphic presses, a hangar-door wipe rises, gold flash, "TANK + COLD WAR 556".
+- **Captions:** bottom, 3–4 words at a time, numbers in gold. Source tag pill above the captions on every fact.
+- **Footage:** moving official clips behind every beat (frame 1 is motion, never a still). Official screenshots get a slow Ken Burns push so nothing is static. Backgrounds are representative official Leonida footage; the tank and bunkers themselves are shown only as graphics (no official footage exists).
+
+### Audio direction: human pacing
+- Each sentence is generated separately with its own speed and loudness, then joined with natural breaths:
+  - **Weight words slower** ("stop wasting time", "meeting an alien… On Mount Chiliad", "OBSESS").
+  - **Lists and steps a little faster** (energy).
+  - **Suspense pauses** of 0.6–0.9 s before reveals ("…and the hangar opens"), 0.2–0.4 s between normal sentences.
+  - **Ellipses** ("…") where the voice should hang.
+  - **Codes read digit by digit** with micro-pauses, so viewers can follow.
+- **Music bed:** our own synthesized tension/military pulse; it ducks under the voice, drops out for 0.5 s before each code reveal, then hits.
+- **Sound effects:** padlock clunk, typewriter clicks (OBSESS), keypad beeps on each digit, alien sting, big impact on the hangar.
+- **Ending:** the music resolves and fades with the picture (no cut-off).
+
+### Render deliverables
+1. `production/v049-gta6-free-tank.mp4` (full quality) + `-app.mp4` (≤40 MB).
+2. A speedboat-style thumbnail with "FREE TANK" + "010317".
+3. Title, description, tags (yt-seo), pinned comment.
