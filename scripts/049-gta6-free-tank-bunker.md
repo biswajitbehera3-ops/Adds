@@ -122,3 +122,5 @@ Footage: official Rockstar Games trailers and screenshots.
 - Hook: the tank drives in and fires on "stop guessing" (recoil, muzzle flash, smoke, shake, cannon boom). Payoff: striped doors slide open and the tank rolls in with dust and a bounce. Ending: dimmed hangar, tank above the 3-codes card.
 - Audio: cannon shot + engine rumble added (`v049_mix.py`). Thumbnail rebuilt in the hangar (`thumb_v049.py`).
 - Video: `production/v049-gta6-free-tank.mp4` (53.6 s, app-ready).
+
+## Update: hook = 3 s tank intro in the hangar (drive-in + cannon shot on "stop guessing" at 2.4 s), flash cut at 3.0 s to the official shootout clip (Extended Look 847.3–851.8, normal speed) for the rest of the hook.

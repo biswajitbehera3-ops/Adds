@@ -8,7 +8,7 @@ def shot(n): return glob.glob(SH+'**/'+n,recursive=True)[0]
 B={b['beat']:b for b in json.load(open('vo.json'))['beats']}
 TAIL=1.2
 # per beat: list of items; durations: 'auto' items share what is left after the fixed ones
-PLAN={'hook':[('hangar',None,None,None,None,None,'auto')],                     # our military hangar (tank scene)
+PLAN={'hook':[('hangar',None,None,None,None,None,3.0),('clip',EL,847.3,851.8,.55,False,'auto')],   # 0-3 s tank in our hangar, then the official shootout
  'promise':[('route',0,None,None,None,None,'auto')],
  'steps':[('route',1,None,None,None,None,1.2),('still','Vice_City_10.jpg',.45,None,None,None,2.3),('still','Vice_City_09.jpg',.5,None,None,None,'auto')],
  'code1':[('route',2,None,None,None,None,1.0),('still','Leonida_Keys_01.jpg',.5,None,None,None,'auto')],

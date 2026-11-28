@@ -46,7 +46,7 @@ FIRE=meta['lines'][1]['s']; impact(FIRE,0.9)                        # cannon sho
 def rumble(at,dur,g):
     n=int(dur*SR); x=np.arange(n)/SR; w=np.convolve(rng.standard_normal(n),np.ones(300)/300,'same')
     add(sfx,g*(0.5*np.sin(2*np.pi*42*x)*(1+0.3*np.sin(2*np.pi*9*x))+0.6*w/np.abs(w).max())*np.minimum(x/0.15,1)*np.minimum((dur-x)/0.3,1),at)
-rumble(0.0,1.1,0.35); rumble(M['open']+0.05,1.2,0.4)              # tank engine on drive-in and roll-in
+rumble(0.0,1.1,0.35); whoosh(3.0,0.3); rumble(M['open']+0.05,1.2,0.4)              # tank engine on drive-in and roll-in
 duck_music=np.ones(N)
 for key in ['c1_0','c2_0','c3_0','open']:                # half-second music dropout before reveals
     a=int((M[key]-0.5)*SR); b=int(M[key]*SR); duck_music[a:b]=np.minimum(duck_music[a:b],0.15)

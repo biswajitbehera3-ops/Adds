@@ -95,6 +95,7 @@ def bg_stream():
         t += n / FPS
     while True: yield DARK
 # route windows known up front
+HOOK_TANK = SEGS[0]['dur'] if SEGS[0]['kind'] == 'hangar' else 0.0   # length of the tank intro
 _t = 0.0; ROUTES = []
 for s in SEGS:
     if s['kind'] == 'route': ROUTES.append((_t, _t + round(s['dur'] * FPS) / FPS, s['stage']))
@@ -214,7 +215,13 @@ def overlay(c, beat, t):
                 said = [(mk, txt, col) for mk, txt, col in [('stop4', '4 STOPS', (20, 90, 160)), ('codes3', '3 CODES', (150, 105, 20)), ('tank1', '1 TANK', RED)] if t >= M[mk]]
                 if said: mk, txt, col = said[-1]; pill(c, txt, 1550, col, 80, t - M[mk])   # only the word being said
             locks(c, t); return
-    if beat == 'hook':
+    if beat == 'hook' and t >= HOOK_TANK:                     # after the tank intro: official shootout clip
+        k = t - HOOK_TANK
+        if k < 0.18: c.alpha_composite(Image.new('RGBA', (W, H), (255, 240, 200, int(235 * (1 - k / 0.18)))))   # flash cut
+        pop(c, 'FREE TANK', 210, 420, GOLD, 1)
+        if t >= LINES[2]['s']: pill(c, 'CODE 3 = ???', 690, RED, 66, t - LINES[2]['s'], ang=-3)
+        stamp(c, 'TOP SECRET', 1180, 6, RED, 64, k - 0.2)
+    elif beat == 'hook':
         c.alpha_composite(hb.lights(t)); FIRE = LINES[1]['s']
         k = ease(0.35 + t / 0.9); x = (W - T_HOOK.width) / 2 - (1 - k) * (W + 200)          # already entering on frame 1
         y = 930 + (3 * math.sin(t * 40) if t > 0.6 else 0)
