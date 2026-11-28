@@ -124,3 +124,27 @@ Footage: official Rockstar Games trailers and screenshots.
 - Video: `production/v049-gta6-free-tank.mp4` (53.6 s, app-ready).
 
 ## Update: hook = 3 s tank intro in the hangar (drive-in + cannon shot on "stop guessing" at 2.4 s), flash cut at 3.0 s to the official shootout clip (Extended Look 847.3–851.8, normal speed) for the rest of the hook.
+
+---
+
+# v3 SCRIPT: clear, calm walkthrough (28 Nov 2026), for review
+**Why v3:** the v2 script moved too fast to follow if you didn't already know the quest. v3 first explains what the quest is, then walks through each step in plain words, like telling a friend. Same verified facts (VGC walkthrough; Beebom for the birthday).
+**Runtime:** ~250 words ≈ 1:35–1:45 at a calm pace (v2 was 53 s). Still a Short (under 3 min). A tighter ~1:10 version is possible by cutting the "what is this quest" part and the safe/alien detail.
+
+**Hook option A (calm, clearer: 56, The Impossible Claim):** "You can get a free tank in GTA 6, but only if you follow the clues the game never tells you about. Let me walk you through it, step by step."
+**Hook option B (punchy, current: 71, The Mistake):** "If you want the free tank in GTA 6, stop guessing. The last code isn't even a number… but you'll have all three before this ends."
+
+| # | Voice-over (calm pace, … = pause) | On screen |
+|---|---|---|
+| Hook | You can get a free tank in GTA 6… but only if you follow the clues the game never tells you about. Let me walk you through it, step by step. | 3 s tank intro in the hangar, then the shootout clip; "FREE TANK" |
+| What is it | This is a hidden side quest. An old man in Vice City doesn't believe the official story about President Joe Russo's death… and his clues lead you to two secret bunkers. The tank is in the second one. | Route card: 4 stops, "2 BUNKERS → 1 TANK" |
+| Step 1 | Step one. Go to the war memorial in Downtown Vice City. Find the old man sitting by the wall… and ask him: "What really happened?" | Downtown shot, "STEP 1 · WAR MEMORIAL" |
+| Step 2 | He'll send you to his apartment in Little Cuba. It's the building with Cuban flags outside. Inside, look at three things: a bunker blueprint, a tape recording… and a photo of an island. | Little Cuba shot, 3 clue cards |
+| Step 3 | Step three. That island is Sharktooth Island. Take a boat to the north shore, and you'll find the bunker door. The code is… zero, one, zero, three, one, seven. | Island shot, padlock 1 + LED 010317 |
+| Joke | That's the President's birthday. Not exactly top secret. | "PRESIDENT'S BIRTHDAY" stamp |
+| Step 4 | Inside, turn the power on first. On the President's desk there's a photo of him… meeting an alien. Then open his safe with two, nine, seven, five. Inside is his old pistol, and a photo with one word written on the back: OBSESS. | Dark bunker clip, "ALIEN?!", LED 2975, photo card "OBSESS" |
+| Step 5 | That word is your last code. Go to the forest near Big Pine and look for a small hatch in the ground. The keypad is on a tree. Now type OBSESS the way a calculator shows letters: O is zero, B is eight, S is five, E is three. So: zero, eight, five, three, five, five. | Forest shot; each letter turns into its digit as it's said; padlock 3 |
+| Step 6 | Climb down and bring a flashlight, because it's dark. Turn the power on, crawl through the small gap into the control room, and press the big red button… The hangar opens, and the tank is yours, along with a Cold War rifle. | Red button → doors open → tank rolls in |
+| End | One last thing: you can't register the tank as your own car. But if you lose it, just come back… and the bunker gives you another one. | Ending card with all 3 codes, "SCREENSHOT THIS", fade |
+
+**Pinned comment:** "All codes: 010317 · 2975 · 085355 🔐 Which step took you longest?"
