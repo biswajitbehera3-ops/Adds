@@ -1,9 +1,10 @@
-"""Preview of the new tank's motion graphics for Short 049 (approval clip, ~10 s):
-A) hook: tank drives in over the official shootout clip, idles, fires (recoil, muzzle flash, smoke, screen shake)
+"""Preview of the new tank's motion graphics for Short 049 (approval clip, ~10 s), all set in our own military hangar:
+A) hook: tank drives into the hangar, idles, fires (recoil, muzzle flash, smoke, screen shake)
 B) hangar: doors slide open, light rays, tank rolls in with dust, stops with a bounce, gold flash
 C) end card: tank above the 3-codes card. Synth engine rumble + boom + impact.
 Usage: python3 v049_tank_preview.py <workdir with seg_hook_0.mp4 + tank.png> <out.mp4>"""
 import sys, math, random, subprocess, numpy as np, soundfile as sf
+sys.path.insert(0, '/home/user/Adds/production'); import hangar_bg as hb
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance
 WD, OUT = sys.argv[1], sys.argv[2]; W, H, FPS = 1080, 1920, 30
 A = lambda n: ImageFont.truetype('/home/user/Adds/remotion-overlays/public/fonts/Anton-Regular.ttf', int(n))
@@ -35,7 +36,7 @@ while len(clip) < 130:
     if len(b) < W * H * 3: break
     clip.append(Image.frombuffer('RGB', (W, H), b).copy())
 p.stdout.close(); p.wait()
-DARK = Image.new('RGB', (W, H), (14, 16, 12))
+DARK = Image.new('RGB', (W, H), (14, 16, 12)); HANGAR = hb.base(); HANGAR_DIM = Image.blend(HANGAR, DARK, 0.45)
 SH = Image.new('L', (W, H)); d0 = ImageDraw.Draw(SH)
 for y in range(H): d0.line([(0, y), (W, y)], fill=int(170 * (1 - y / 600)) if y < 600 else int(200 * min(1, max(0, (y - 1300) / 420))))
 TA_T, TB_T, TC_T = 4.0, 4.3, 1.8; DUR = TA_T + TB_T + TC_T
@@ -55,14 +56,14 @@ a[-int(0.6 * SR):] *= np.linspace(1, 0, int(0.6 * SR)); a = a / np.abs(a).max() 
 for i in range(int(DUR * FPS)):
     t = i / FPS
     if t < TA_T:                                     # ---- A: hook over the shootout clip ----
-        fr = clip[min(i, len(clip) - 1)]; shake = (random.uniform(-14, 14), random.uniform(-10, 10)) if FIRE <= t < FIRE + 0.25 else (0, 0)
-        c = Image.composite(Image.new('RGB', (W, H), (6, 8, 10)), fr, SH).convert('RGBA')
+        shake = (random.uniform(-14, 14), random.uniform(-10, 10)) if FIRE <= t < FIRE + 0.25 else (0, 0)
+        c = Image.composite(Image.new('RGB', (W, H), (6, 8, 10)), HANGAR, SH.point(lambda v: int(v * .6))).convert('RGBA'); c.alpha_composite(hb.lights(t))
         k = ease(t / 0.8); x = -TA.width + (W / 2 + TA.width / 2) * k - TA.width / 2 + W / 2 - W / 2
         x = (W - TA.width) / 2 - (1 - k) * (W + 200); y = 930 + 3 * math.sin(t * 40) * (1 if t > 0.8 else 0)
         rec = 26 * math.exp(-(t - FIRE) * 10) if t >= FIRE else 0
         glow = Image.new('RGBA', (W, H)); glow.alpha_composite(TA, (int(x - rec + shake[0]), int(y + shake[1])))
         c.alpha_composite(Image.merge('RGBA', (*[Image.new('L', (W, H), v) for v in (255, 196, 60)], glow.getchannel('A').filter(ImageFilter.GaussianBlur(22)).point(lambda v: int(v * .55)))))
-        c.alpha_composite(glow)
+        c.alpha_composite(hb.reflection(TA, x - rec + shake[0], y + shake[1])); c.alpha_composite(glow)
         if t < 1.2: dust_cloud(c, x + TA.width * 0.15, y + TA.height * 0.9, t)
         if t >= FIRE:                                # muzzle flash + smoke
             k2 = t - FIRE; mx, my = x + TA.width * 0.995 - rec, y + TA.height * 0.43
@@ -77,19 +78,19 @@ for i in range(int(DUR * FPS)):
         dd.text(((W - w_) / 2, 420 - 30 * (sc - 1)), 'FREE TANK', font=f, fill=GOLD, stroke_width=10, stroke_fill=(8, 8, 12))
         if t > 2.3: pill(c, 'CODE 3 = ???', 690, (220, 35, 45), 66)
     elif t < TA_T + TB_T:                            # ---- B: hangar reveal ----
-        t2 = t - TA_T; c = DARK.copy().convert('RGBA'); d = ImageDraw.Draw(c)
+        t2 = t - TA_T; c = HANGAR.copy().convert('RGBA'); c.alpha_composite(hb.lights(t2, 0.6 + 0.6 * ease((t2 - 0.3) / 0.9))); d = ImageDraw.Draw(c)
         open_k = ease((t2 - 0.3) / 0.9)
         rays = Image.new('RGBA', (W, H)); rd = ImageDraw.Draw(rays)
         for j in range(14):
-            an = j * math.pi / 7 + t2 * 0.35; rd.polygon([(W / 2, 960), (W / 2 + 1500 * math.cos(an - .08), 960 + 1500 * math.sin(an - .08)), (W / 2 + 1500 * math.cos(an + .08), 960 + 1500 * math.sin(an + .08))], fill=(255, 200, 80, int(70 * open_k)))
+            an = j * math.pi / 7 + t2 * 0.35; rd.polygon([(W / 2, 960), (W / 2 + 1500 * math.cos(an - .08), 960 + 1500 * math.sin(an - .08)), (W / 2 + 1500 * math.cos(an + .08), 960 + 1500 * math.sin(an + .08))], fill=(255, 200, 80, int(30 * open_k)))
         c.alpha_composite(rays.filter(ImageFilter.GaussianBlur(8)))
         k = back_out((t2 - 0.9) / 1.0) if t2 > 0.9 else 0; x = (W - TB.width) / 2 - (1 - k) * (W + 300)
         bounce = 10 * math.sin((t2 - STOP_B) * 18) * math.exp(-(t2 - STOP_B) * 5) if t2 > STOP_B else 0
-        y = 960 - TB.height / 2 + bounce + (2 * math.sin(t2 * 40) if 0.9 < t2 < STOP_B else 0)
+        y = 1000 - TB.height / 2 + bounce + (2 * math.sin(t2 * 40) if 0.9 < t2 < STOP_B else 0)
         if t2 > 0.9:
             glow = Image.new('RGBA', (W, H)); glow.alpha_composite(TB, (int(x), int(y)))
             c.alpha_composite(Image.merge('RGBA', (*[Image.new('L', (W, H), v) for v in (255, 196, 60)], glow.getchannel('A').filter(ImageFilter.GaussianBlur(26)).point(lambda v: int(v * .6)))))
-            c.alpha_composite(glow); dust_cloud(c, x + TB.width * 0.2, y + TB.height * 0.9, t2 - 0.9, 1.2)
+            c.alpha_composite(hb.reflection(TB, x, y)); c.alpha_composite(glow); dust_cloud(c, x + TB.width * 0.2, y + TB.height * 0.9, t2 - 0.9, 1.2)
         for side in (0, 1):                          # hangar doors sliding apart
             off = open_k * (W / 2 + 20); x0 = (-off if side == 0 else W / 2 + off)
             d = ImageDraw.Draw(c); d.rectangle((x0, 0, x0 + W / 2, H), fill=(52, 56, 46))
@@ -100,7 +101,7 @@ for i in range(int(DUR * FPS)):
         if t2 > STOP_B: text_c(c, 'HANGAR OPEN', 150, 400, GOLD)
         if t2 > STOP_B + 0.5: pill(c, 'TANK + COLD WAR 556 RIFLE', 1240, (30, 110, 50), 54)
     else:                                            # ---- C: end card ----
-        t3 = t - TA_T - TB_T; c = DARK.copy().convert('RGBA'); d = ImageDraw.Draw(c)
+        t3 = t - TA_T - TB_T; c = HANGAR_DIM.copy().convert('RGBA'); c.alpha_composite(hb.lights(t3, 0.5)); d = ImageDraw.Draw(c)
         text_c(c, 'FREE TANKS FOREVER', 120, 330, GOLD)
         k = ease(t3 / 0.5); c.alpha_composite(TC, (int((W - TC.width) / 2), int(560 - 40 * (1 - k))))
         d = ImageDraw.Draw(c); d.rounded_rectangle((90, 980, W - 90, 1370), 30, fill=(10, 10, 10, 230), outline=GOLD, width=6)
